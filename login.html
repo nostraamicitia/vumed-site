@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Inloggen – VUmed</title>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
+  <!-- theme bootstrap (zelfde snippet als de andere pagina's: geen witte laadflits in dark) -->
+  <script>(function(){try{var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';}catch(e){}})();</script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif; background: #fff; color: #1C1C1E;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 24px; -webkit-font-smoothing: antialiased;
+    }
+    html.dark body { background: #1C1C1E; color: #EBEBF0; }
+    .login-hero { opacity: 0.9; }
+    .wordmark { font-size: 44px; font-weight: 900; letter-spacing: -0.8px; color: #1CB0F6; line-height: 1; }
+    .login-tag { margin-top: 10px; font-size: 15px; font-weight: 700; color: #8E8E93; }
+    /* Kale inlogpagina: geen ontsnapping behalve inloggen. */
+    #auth-close { display: none !important; }
+  </style>
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="auth_gate.js?v=12"></script>
+</head>
+<body>
+  <div class="login-hero">
+    <div class="wordmark">vumed</div>
+    <div class="login-tag">Log in om verder te gaan</div>
+  </div>
+
+  <script>
+    function getSB() {
+      if (window._sbInstance) return window._sbInstance;
+      if (!window.SUPABASE_URL || !window.supabase) return null;
+      try { window._sbInstance = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); }
+      catch (e) { return null; }
+      return window._sbInstance;
+    }
+
+    (async function () {
+      var sb = getSB();
+      // Al ingelogd? (bv. OAuth-terugkeer) → meteen door naar het dashboard.
+      try {
+        if (sb) {
+          var r = await sb.auth.getSession();
+          if (r && r.data && r.data.session && r.data.session.user) { location.replace('dashboard.html'); return; }
+        }
+      } catch (e) {}
+      // Blokkerende inlog: geen hub eromheen, niet weg te klikken.
+      if (window.VumedAuthGate && VumedAuthGate.require) {
+        VumedAuthGate.require({
+          hardGate: true,   // truly inescapable: no Escape/back/backdrop bypass into a guest dashboard
+          subtitle: 'Log in met je account om verder te gaan.',
+          onLoggedIn: function () { location.replace('dashboard.html'); }
+        });
+      }
+      // OAuth (Google/Apple) keert terug via een redirect → sessie verschijnt async.
+      if (sb) {
+        sb.auth.onAuthStateChange(function (ev, s) {
+          if (ev === 'SIGNED_IN' && s && s.user) location.replace('dashboard.html');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

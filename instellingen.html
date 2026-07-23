@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<script src="pwa.js?v=10"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instellingen – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="navbar.js?v=44" data-active="instellingen"></script>
+  <script src="bg-decor.js?v=4"></script>
+
+  <!-- Apply saved theme before paint to avoid flash -->
+  <script>
+    (function(){
+      if (localStorage.getItem('vumed_theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    /* ── CSS variables: light mode ── */
+    :root {
+      --bg:               #f5f7f9;
+      --surface:          #ffffff;
+      --text:             #1C1C1E;
+      --text-sub:         #afafaf;
+      --text-section:     #b0b0b5;
+      --border:           #ececec;
+      --hover:            #f0f9ff;
+      --card-shadow:      0 2px 14px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04);
+      --toggle-off:       #D1D1D6;
+      --input-bg:         #f2f2f7;
+      --input-border:     #e0e0e5;
+      --mode-active-bg:   #ffffff;
+      --mode-active-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      --danger-bg:        #fff5f5;
+      --danger-border:    #ffd7d7;
+    }
+
+    /* ── CSS variables: dark mode ── */
+    html.dark {
+      --bg:               #1C1C1E;
+      --surface:          #2C2C2E;
+      --text:             #FFFFFF;
+      --text-sub:         #8E8E93;
+      --text-section:     #636366;
+      --border:           #3A3A3C;
+      --hover:            #3A3A3C;
+      --card-shadow:      0 2px 14px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.2);
+      --toggle-off:       #48484A;
+      --input-bg:         #3A3A3C;
+      --input-border:     #48484A;
+      --mode-active-bg:   #48484A;
+      --mode-active-shadow: 0 2px 8px rgba(0,0,0,0.35);
+      --danger-bg:        rgba(255,59,48,0.08);
+      --danger-border:    rgba(255,59,48,0.22);
+      --item-active-bg:   rgba(28,176,246,0.12);
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.28s ease, color 0.28s ease;
+    }
+
+    #page-root { flex: 1; overflow-y: auto; height: 100vh; }
+
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+    html.dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
+
+    /* ──────────────────────────────────────────────────────────
+       SETTINGS LAYOUT
+    ────────────────────────────────────────────────────────── */
+    .settings-wrap {
+      max-width: 940px;
+      margin: 0 auto;
+      padding: 44px 32px 100px;
+      display: grid;
+      grid-template-columns: 1fr 272px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    /* ── Content panels ── */
+    .settings-content { min-width: 0; }
+    .section-panel { display: none; }
+    .section-panel.active { display: block; animation: panelIn 0.32s cubic-bezier(0.2,0.78,0.28,1); }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .section-panel.active { animation: none; } }
+
+    .settings-title {
+      font-size: 28px; font-weight: 900; color: var(--text);
+      margin-bottom: 22px; letter-spacing: -0.3px;
+      transition: color 0.28s ease;
+    }
+    .settings-divider {
+      height: 1px; background: var(--border); margin-bottom: 24px;
+      transition: background 0.28s ease;
+    }
+    .section-header {
+      font-size: 11px; font-weight: 800; color: var(--text-section);
+      text-transform: uppercase; letter-spacing: 0.09em;
+      margin-bottom: 12px;
+      transition: color 0.28s ease;
+    }
+
+    /* Toggle rows */
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--border);
+      transition: border-color 0.28s ease;
+    }
+    .toggle-row:last-child { border-bottom: none; }
+    .toggle-label {
+      font-size: 16px; font-weight: 600; color: var(--text);
+      transition: color 0.28s ease;
+    }
+
+    /* iOS-style toggle switch */
+    .toggle-switch {
+      position: relative; width: 52px; height: 30px;
+      flex-shrink: 0; cursor: pointer;
+      display: inline-block;
+    }
+    .toggle-switch input {
+      position: absolute; opacity: 0; width: 0; height: 0;
+    }
+    .toggle-track {
+      position: absolute; inset: 0; border-radius: 30px;
+      background: var(--toggle-off);
+      transition: background 0.25s ease;
+    }
+    .toggle-switch input:checked + .toggle-track {
+      background: #1CB0F6;
+    }
+    .toggle-thumb {
+      position: absolute; top: 3px; left: 3px;
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+      transition: transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
+      pointer-events: none;
+    }
+    .toggle-switch input:checked ~ .toggle-thumb {
+      transform: translateX(22px);
+    }
+
+    /* Segmented mode selector (Licht / Donker) */
+    .mode-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 0;
+      transition: border-color 0.28s ease;
+    }
+    .mode-selector {
+      display: flex; background: var(--input-bg);
+      border: 1.5px solid var(--input-border);
+      border-radius: 12px; padding: 3px;
+      gap: 0;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    .mode-btn {
+      padding: 9px 20px; border: none; border-radius: 9px;
+      font-size: 14px; font-weight: 700; font-family: inherit;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-sub);
+      transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .mode-btn.active {
+      background: var(--mode-active-bg);
+      color: var(--text);
+      box-shadow: var(--mode-active-shadow);
+    }
+    /* Dagdoel selector — reuses .mode-selector/.mode-btn; 4 tiers need tighter
+       buttons than the 2-way light/dark switch. */
+    #goal-selector .mode-btn { padding: 9px 13px; min-width: 44px; }
+    .goal-hint { display: block; font-size: 12px; font-weight: 600; color: var(--text-sub); margin-top: 2px; }
+
+    /* Placeholder card */
+    .placeholder-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    /* Inline SVG only — never an emoji (CLAUDE.md §9) */
+    .placeholder-icon { margin-bottom: 14px; line-height: 0; }
+    .placeholder-icon svg { width: 44px; height: 44px; }
+    .placeholder-text {
+      font-size: 15px; font-weight: 600;
+      color: var(--text-sub); line-height: 1.6;
+    }
+
+    /* Danger card */
+    .danger-card {
+      background: var(--danger-bg);
+      border: 1.5px solid var(--danger-border);
+      border-radius: 16px; padding: 24px; margin-top: 18px;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    .danger-title {
+      font-size: 15px; font-weight: 800; color: #FF3B30; margin-bottom: 8px;
+    }
+    .danger-text {
+      font-size: 14px; color: var(--text-sub);
+      line-height: 1.65; margin-bottom: 18px;
+    }
+    .danger-btn {
+      background: #FF3B30; color: #fff; border: none;
+      border-bottom: 3px solid #c42e24;
+      border-radius: 12px; padding: 12px 24px;
+      font-size: 14px; font-weight: 800; font-family: inherit;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .danger-btn:hover { background: #e0342a; }
+    .danger-btn:disabled { opacity: .55; cursor: default; }
+
+    /* Account verwijderen — bevestigingsmodal */
+    .del-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5); padding: 20px;
+      opacity: 0; transition: opacity .2s ease;
+    }
+    .del-overlay.open { display: flex; opacity: 1; }
+    .del-modal {
+      background: var(--surface); color: var(--text);
+      width: 100%; max-width: 420px; border-radius: 20px;
+      padding: 28px 26px 24px; box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+      border: 1px solid var(--border);
+      transform: translateY(12px) scale(.97); transition: transform .22s cubic-bezier(.2,.9,.3,1.2);
+    }
+    .del-overlay.open .del-modal { transform: translateY(0) scale(1); }
+    .del-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,59,48,0.12); display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .del-heading { font-size: 19px; font-weight: 900; text-align: center; margin: 0 0 10px; }
+    .del-body { font-size: 14px; color: var(--text-sub); line-height: 1.6; text-align: center; margin: 0 0 20px; }
+    .del-label { display: block; font-size: 13px; color: var(--text-sub); margin-bottom: 8px; }
+    .del-input {
+      width: 100%; box-sizing: border-box; padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: 12px;
+      background: var(--bg); color: var(--text);
+      font-size: 15px; font-weight: 700; font-family: inherit; letter-spacing: .04em;
+      outline: none; transition: border-color .15s;
+    }
+    .del-input:focus { border-color: #FF3B30; }
+    .del-msg { min-height: 18px; font-size: 13px; color: #FF3B30; margin: 8px 2px 0; }
+    .del-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .del-btn-cancel, .del-btn-go {
+      flex: 1; padding: 13px 12px; border-radius: 12px;
+      font-size: 14px; font-weight: 800; font-family: inherit; cursor: pointer;
+      border: none; transition: background .15s, opacity .15s;
+    }
+    .del-btn-cancel { background: var(--bg); color: var(--text); border: 1.5px solid var(--border); }
+    .del-btn-cancel:hover { background: var(--border); }
+    .del-btn-go { background: #FF3B30; color: #fff; border-bottom: 3px solid #c42e24; }
+    .del-btn-go:hover:not(:disabled) { background: #e0342a; }
+    .del-btn-go:disabled { opacity: .5; cursor: default; }
+
+    /* Help / Privacy links */
+    .link-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      font-size: 15px; font-weight: 600;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.28s ease;
+    }
+    .link-row:hover { color: #1CB0F6; }
+    .link-arrow {
+      color: var(--text-sub); font-size: 20px; font-weight: 400;
+      transition: color 0.15s;
+    }
+    .link-row:hover .link-arrow { color: #1CB0F6; }
+
+    /* ── Right nav sidebar ── */
+    .settings-sidebar { position: sticky; top: 44px; }
+    .nav-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 8px 0 10px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 14px;
+      border: 1.5px solid var(--border);
+      overflow: hidden;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    .nav-card-header {
+      font-size: 11px; font-weight: 800; color: var(--text-section);
+      text-transform: uppercase; letter-spacing: 0.09em;
+      padding: 10px 20px 10px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+      transition: color 0.28s ease, border-color 0.28s ease;
+    }
+    .nav-card-btn {
+      display: block; width: 100%;
+      padding: 11px 20px;
+      font-size: 15px; font-weight: 600;
+      color: var(--text); background: none; border: none;
+      font-family: inherit; text-align: left;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .nav-card-btn:hover { background: var(--hover); }
+    .nav-card-btn.active {
+      color: #1CB0F6; font-weight: 800;
+    }
+
+    /* ── Profiel card ── */
+    .pcard {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--card-shadow);
+      display: flex; align-items: center; gap: 18px;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    .pcard-avatar {
+      width: 68px; height: 68px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, #1CB0F6, #0E85B5);
+      color: #fff; font-size: 28px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.16);
+    }
+    .pcard-avatar svg { width: 100%; height: 100%; display: block; }
+    .pcard-info { min-width: 0; }
+    .pcard-name {
+      font-size: 19px; font-weight: 900; letter-spacing: -0.2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .pcard-mail {
+      font-size: 13.5px; font-weight: 700; color: var(--text-sub);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .pcard-since { font-size: 12px; font-weight: 700; color: var(--text-sub); margin-top: 6px; opacity: 0.8; }
+    .btn-primary {
+      display: inline-block; text-align: center; text-decoration: none;
+      background: #1CB0F6; color: #fff;
+      border: none; border-radius: 13px;
+      padding: 12px 20px;
+      font-family: inherit; font-size: 14px; font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #0E85B5;
+      transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.08s ease;
+    }
+    .btn-primary:hover { background: #0A9EDC; }
+    .btn-primary:active { transform: translateY(4px); box-shadow: 0 0 0 #0E85B5; }
+
+    /* ── Account-formulieren (e-mail / wachtwoord wijzigen) ── */
+    .acc-form { margin-top: 28px; }
+    .acc-label {
+      display: block; font-size: 13px; font-weight: 800; color: var(--text-sub);
+      margin: 14px 0 6px;
+      transition: color 0.28s ease;
+    }
+    .acc-input {
+      width: 100%; max-width: 420px; display: block;
+      padding: 12px 14px; border-radius: 12px;
+      border: 1.5px solid var(--input-border); background: var(--input-bg);
+      color: var(--text); font-family: inherit; font-size: 15px; font-weight: 600;
+      outline: none;
+      transition: border-color 0.15s ease, background 0.28s ease, color 0.28s ease;
+    }
+    .acc-input:focus { border-color: #1CB0F6; }
+    .acc-input::placeholder { color: var(--text-sub); font-weight: 600; }
+    .acc-msg { display: none; font-size: 13.5px; font-weight: 700; margin-top: 10px; line-height: 1.5; max-width: 420px; }
+    .acc-msg.ok  { display: block; color: #58CC02; }
+    .acc-msg.err { display: block; color: #FF3B30; }
+    .acc-form .btn-primary { margin-top: 16px; }
+    .acc-form .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* ── Sociale accounts ── */
+    .acct-ico {
+      width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0;
+      background: var(--input-bg); border: 1.5px solid var(--input-border);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    .acct-left { display: flex; align-items: center; gap: 13px; min-width: 0; }
+    .acct-name { font-size: 15px; font-weight: 800; }
+    .acct-mail {
+      font-size: 12.5px; font-weight: 600; color: var(--text-sub);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px;
+    }
+    .acct-status {
+      font-size: 13px; font-weight: 800; color: var(--text-sub);
+      display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+    }
+    .acct-status.linked { color: #58CC02; }
+    .acct-note {
+      font-size: 13px; font-weight: 600; color: var(--text-sub);
+      line-height: 1.6; margin-top: 14px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 768px) {
+      body { height: auto; min-height: 100vh; overflow: auto; }
+      #page-root { height: auto; }
+      .settings-wrap {
+        display: flex; flex-direction: column;
+        align-items: stretch; /* desktop grid uses start — would shrink-wrap the chips row to 800px+ */
+        /* top 58px = clearance voor de fixed wallet-balk (vumed_stats, top:8 + ±40px) —
+           anders valt die over de chips-nav en de eerste kaarten */
+        padding: 58px 16px 140px; gap: 6px;
+      }
+      .settings-sidebar {
+        order: -1; position: static;
+        min-width: 0;
+        display: flex; gap: 8px;
+        overflow-x: auto; -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 12px; margin: 0 -16px; padding-left: 16px; padding-right: 16px;
+      }
+      .settings-sidebar::-webkit-scrollbar { display: none; }
+      .nav-card {
+        display: flex; gap: 8px; flex-shrink: 0;
+        margin: 0; padding: 0;
+        background: transparent; border: none; box-shadow: none;
+        border-radius: 0; overflow: visible;
+      }
+      .nav-card-header { display: none; }
+      .nav-card-btn {
+        display: inline-block; width: auto; white-space: nowrap;
+        padding: 9px 15px; border-radius: 999px;
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        font-size: 13.5px; font-weight: 700;
+      }
+      .nav-card-btn:hover { background: var(--surface); }
+      .nav-card-btn.active {
+        background: #1CB0F6; color: #fff; border-color: #1CB0F6;
+      }
+      .settings-title { font-size: 23px; }
+      .pcard { padding: 18px; gap: 14px; }
+      .pcard-avatar { width: 56px; height: 56px; font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ──────────────── MAIN CONTENT ──────────────── -->
+<div id="page-root" class="main-content">
+  <div class="settings-wrap">
+
+    <!-- Left: section panels -->
+    <div class="settings-content">
+
+      <!-- ── VOORKEUREN ── -->
+      <div class="section-panel active" id="panel-voorkeuren">
+        <div class="settings-title">Voorkeuren</div>
+        <div class="settings-divider"></div>
+
+        <div class="section-header">Leservaringen</div>
+        <div class="toggle-row">
+          <span class="toggle-label">Geluidseffecten</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-sound">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+
+        <div class="mode-row">
+          <span class="toggle-label">Dagdoel<span class="goal-hint" id="goal-hint">vragen per dag</span></span>
+          <div class="mode-selector" id="goal-selector"></div>
+        </div>
+
+        <div style="margin-top: 28px;">
+          <div class="section-header">Weergave</div>
+          <div class="mode-row">
+            <span class="toggle-label">Modus</span>
+            <div class="mode-selector">
+              <button class="mode-btn" id="mode-light" onclick="setMode('light')">Licht</button>
+              <button class="mode-btn" id="mode-dark"  onclick="setMode('dark')">Donker</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROFIEL ── -->
+      <div class="section-panel" id="panel-profiel">
+        <div class="settings-title">Profiel</div>
+        <div class="settings-divider"></div>
+
+        <!-- Logged in: identity card -->
+        <div id="pcard-wrap" style="display:none;">
+          <div class="pcard">
+            <div class="pcard-avatar" id="pcard-avatar"></div>
+            <div class="pcard-info">
+              <div class="pcard-name" id="pcard-name"></div>
+              <div class="pcard-mail" id="pcard-mail"></div>
+              <div class="pcard-since" id="pcard-since"></div>
+            </div>
+          </div>
+          <div class="acc-form">
+            <div class="section-header">E-mailadres wijzigen</div>
+            <form id="acc-email-form" novalidate>
+              <label class="acc-label" for="acc-new-email">Nieuw e-mailadres</label>
+              <input class="acc-input" type="email" id="acc-new-email" name="email" autocomplete="email" placeholder="naam@voorbeeld.nl">
+              <div class="acc-msg" id="acc-email-msg"></div>
+              <button type="submit" class="btn-primary" id="acc-email-btn">E-mail wijzigen</button>
+            </form>
+          </div>
+
+          <div class="acc-form">
+            <div class="section-header">Wachtwoord wijzigen</div>
+            <form id="acc-pw-form" novalidate>
+              <label class="acc-label" for="acc-new-pw">Nieuw wachtwoord</label>
+              <input class="acc-input" type="password" id="acc-new-pw" name="new-password" autocomplete="new-password" placeholder="Minstens 6 tekens">
+              <label class="acc-label" for="acc-new-pw2">Herhaal nieuw wachtwoord</label>
+              <input class="acc-input" type="password" id="acc-new-pw2" name="confirm-password" autocomplete="new-password" placeholder="Nogmaals je nieuwe wachtwoord">
+              <div class="acc-msg" id="acc-pw-msg"></div>
+              <button type="submit" class="btn-primary" id="acc-pw-btn">Wachtwoord wijzigen</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Logged out: placeholder -->
+        <div id="pcard-anon" class="placeholder-card">
+          <div class="placeholder-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="7.5" r="4.5" fill="#1CB0F6"/>
+              <path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1z" fill="#1CB0F6" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="placeholder-text">Log in om je profielinformatie te bekijken en te bewerken.</div>
+        </div>
+      </div>
+
+      <!-- ── SOCIALE ACCOUNTS ── -->
+      <div class="section-panel" id="panel-sociaal">
+        <div class="settings-title">Sociale accounts</div>
+        <div class="settings-divider"></div>
+
+        <div id="acct-list" style="display:none;">
+          <div class="section-header">Inlogmethoden</div>
+          <div class="link-row">
+            <span class="acct-left">
+              <span class="acct-ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="3" fill="#1CB0F6"/>
+                  <path d="M4.5 7L12 12.5L19.5 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span>
+                <span class="acct-name">E-mail</span>
+                <div class="acct-mail" id="acct-email-addr"></div>
+              </span>
+            </span>
+            <span class="acct-status" id="acct-email-status">Niet gekoppeld</span>
+          </div>
+          <div class="link-row" style="border-bottom: none;">
+            <span class="acct-left">
+              <span class="acct-ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M21.35 12.23C21.35 11.55 21.29 10.9 21.18 10.27H12.18V13.98H17.32C17.1 15.17 16.42 16.18 15.4 16.86V19.27H18.5C20.31 17.6 21.35 15.14 21.35 12.23Z" fill="#4285F4"/>
+                  <path d="M12.18 21.6C14.77 21.6 16.94 20.74 18.5 19.27L15.4 16.86C14.54 17.44 13.44 17.78 12.18 17.78C9.68 17.78 7.57 16.09 6.81 13.83H3.61V16.32C5.16 19.42 8.41 21.6 12.18 21.6Z" fill="#34A853"/>
+                  <path d="M6.81 13.83C6.62 13.25 6.51 12.64 6.51 12C6.51 11.36 6.62 10.75 6.81 10.17V7.68H3.61C2.95 8.98 2.58 10.45 2.58 12C2.58 13.55 2.95 15.02 3.61 16.32L6.81 13.83Z" fill="#FBBC05"/>
+                  <path d="M12.18 6.22C13.59 6.22 14.85 6.7 15.85 7.65L18.57 4.93C16.93 3.4 14.77 2.4 12.18 2.4C8.41 2.4 5.16 4.58 3.61 7.68L6.81 10.17C7.57 7.91 9.68 6.22 12.18 6.22Z" fill="#EA4335"/>
+                </svg>
+              </span>
+              <span>
+                <span class="acct-name">Google</span>
+                <div class="acct-mail" id="acct-google-mail"></div>
+              </span>
+            </span>
+            <span class="acct-status" id="acct-google-status">Niet gekoppeld</span>
+          </div>
+          <div class="acct-note">Log je in met Google op hetzelfde e-mailadres, dan hoort dat automatisch bij dit account.</div>
+        </div>
+
+        <div id="acct-anon" class="placeholder-card">
+          <div class="placeholder-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="5" y="10" width="14" height="10" rx="2.5" fill="#1CB0F6"/>
+              <path d="M8 10V7.5C8 5.3 9.8 3.5 12 3.5C14.2 3.5 16 5.3 16 7.5V10" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="14.5" r="1.6" fill="#fff"/>
+            </svg>
+          </div>
+          <div class="placeholder-text">Log in om je gekoppelde accounts te bekijken.</div>
+        </div>
+      </div>
+
+      <!-- ── PRIVACY ── -->
+      <div class="section-panel" id="panel-privacy">
+        <div class="settings-title">Privacy</div>
+        <div class="settings-divider"></div>
+        <a class="link-row" href="privacybeleid.html">
+          <span>Privacybeleid</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="privacybeleid.html#gegevens">
+          <span>Gegevensgebruik</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="privacybeleid.html#cookies" style="border-bottom: none;">
+          <span>Cookies &amp; lokale opslag</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <div class="danger-card">
+          <div class="danger-title">Account verwijderen</div>
+          <div class="danger-text">Verwijdert je account, voortgang, opgeslagen vragen en spelgegevens <strong>definitief</strong> — dit kan niet ongedaan worden gemaakt.</div>
+          <button class="danger-btn" onclick="openDeleteAccount()">Account verwijderen</button>
+        </div>
+      </div>
+
+      <!-- ── HELPCENTRUM ── -->
+      <div class="section-panel" id="panel-help">
+        <div class="settings-title">Helpcentrum</div>
+        <div class="settings-divider"></div>
+        <a class="link-row" href="helpcentrum.html">
+          <span>Veelgestelde vragen</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="helpcentrum.html#contact">
+          <span>Contact opnemen</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="helpcentrum.html#bug">
+          <span>Bug melden</span>
+          <span class="link-arrow">›</span>
+        </a>
+        <a class="link-row" href="over.html" style="border-bottom: none;">
+          <span>Over VUmed</span>
+          <span class="link-arrow">›</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Right: navigation cards -->
+    <div class="settings-sidebar">
+
+      <div class="nav-card">
+        <div class="nav-card-header">Account</div>
+        <button class="nav-card-btn active" onclick="switchSection('voorkeuren', this)">Voorkeuren</button>
+        <button class="nav-card-btn" onclick="switchSection('profiel', this)">Profiel</button>
+        <button class="nav-card-btn" onclick="switchSection('sociaal', this)">Sociale accounts</button>
+        <button class="nav-card-btn" onclick="switchSection('privacy', this)">Privacy</button>
+      </div>
+
+      <div class="nav-card">
+        <div class="nav-card-header">Ondersteuning</div>
+        <button class="nav-card-btn" onclick="switchSection('help', this)">Helpcentrum</button>
+        <a class="nav-card-btn" href="over.html" style="text-decoration:none;">Over VUmed</a>
+      </div>
+
+      <div class="nav-card">
+        <button class="nav-card-btn" id="settings-logout" onclick="settingsLogout()" style="color:#FF3B30;display:none;">Uitloggen</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── Account verwijderen: bevestigingsmodal ──────────────────────────── -->
+<div id="del-overlay" class="del-overlay" aria-hidden="true">
+  <div class="del-modal" role="dialog" aria-modal="true" aria-labelledby="del-heading">
+    <div class="del-icon" aria-hidden="true">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 9v4M12 16.5v.5M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.42 0Z"
+              stroke="#FF3B30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2 id="del-heading" class="del-heading">Account definitief verwijderen?</h2>
+    <p class="del-body">Dit verwijdert je account, voortgang, opgeslagen vragen, vrienden en spelgegevens <strong>permanent</strong>. Dit kan niet ongedaan worden gemaakt.</p>
+    <label class="del-label" for="del-confirm">Typ <strong>VERWIJDER</strong> om te bevestigen</label>
+    <input id="del-confirm" class="del-input" type="text" autocomplete="off" autocapitalize="characters"
+           spellcheck="false" placeholder="VERWIJDER" aria-describedby="del-heading">
+    <div id="del-msg" class="del-msg"></div>
+    <div class="del-actions">
+      <button id="del-cancel" class="del-btn-cancel" onclick="closeDeleteAccount()">Annuleren</button>
+      <button id="del-go" class="del-btn-go" disabled onclick="confirmDeleteAccount()">Verwijder mijn account</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Account: logout + admin reveal ────────────────────────────────────────
+function _settingsSB() {
+  if (window._sbInstance) return window._sbInstance;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { window._sbInstance = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); }
+  catch (e) { return null; }
+  return window._sbInstance;
+}
+async function settingsLogout() {
+  var sb = _settingsSB();
+  if (sb) { try { await sb.auth.signOut(); } catch (e) {} }
+  // Lokale spiegels (avatar/dagenreeks/voortgang) horen bij het account dat
+  // net uitlogde — anders erft het volgende account op dit toestel ze.
+  try { if (window.VumedScope) window.VumedScope.wipe(); } catch (e) {}
+  // In de app (native / geïnstalleerde PWA) altijd naar de kale inlogpagina.
+  var inApp = false;
+  try {
+    inApp = !!(window.VUMED_NATIVE ||
+      (window.matchMedia && matchMedia('(display-mode: standalone)').matches) ||
+      window.navigator.standalone === true);
+  } catch (e) {}
+  window.location.href = inApp ? 'login.html' : 'vumed.html';
+}
+
+// ── Account verwijderen (in-app, Apple Guideline 5.1.1(v)) ────────────────
+function openDeleteAccount() {
+  var ov = document.getElementById('del-overlay');
+  var inp = document.getElementById('del-confirm');
+  var go = document.getElementById('del-go');
+  document.getElementById('del-msg').textContent = '';
+  inp.value = ''; go.disabled = true;
+  ov.classList.add('open'); ov.setAttribute('aria-hidden', 'false');
+  setTimeout(function () { inp.focus(); }, 60);
+}
+function closeDeleteAccount() {
+  var ov = document.getElementById('del-overlay');
+  ov.classList.remove('open'); ov.setAttribute('aria-hidden', 'true');
+}
+(function initDeleteAccount() {
+  var inp = document.getElementById('del-confirm');
+  var go = document.getElementById('del-go');
+  var ov = document.getElementById('del-overlay');
+  if (!inp || !go || !ov) return;
+  inp.addEventListener('input', function () {
+    go.disabled = inp.value.trim().toUpperCase() !== 'VERWIJDER';
+  });
+  inp.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !go.disabled) confirmDeleteAccount();
+  });
+  // Klik op de backdrop (buiten de modal) sluit
+  ov.addEventListener('mousedown', function (e) { if (e.target === ov) closeDeleteAccount(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && ov.classList.contains('open')) closeDeleteAccount();
+  });
+})();
+async function confirmDeleteAccount() {
+  var go = document.getElementById('del-go');
+  var msg = document.getElementById('del-msg');
+  var sb = _settingsSB();
+  if (!sb) { msg.textContent = 'Er ging iets mis. Herlaad de pagina en probeer het opnieuw.'; return; }
+  // Zeker weten dat er een sessie is
+  var session = null;
+  try { var s = await sb.auth.getSession(); session = s.data && s.data.session; } catch (e) {}
+  if (!session) { msg.textContent = 'Je bent niet meer ingelogd. Log opnieuw in om je account te verwijderen.'; return; }
+  go.disabled = true; go.textContent = 'Verwijderen…'; msg.textContent = '';
+  try {
+    var res = await sb.rpc('delete_my_account');
+    if (res.error) throw res.error;
+    // Data + auth-user zijn weg; ruim de sessie/lokale sporen op.
+    try { await sb.auth.signOut(); } catch (e) {}
+    try {
+      var keep = { vumed_theme: localStorage.getItem('vumed_theme') };
+      localStorage.clear();
+      if (keep.vumed_theme) localStorage.setItem('vumed_theme', keep.vumed_theme);
+    } catch (e) {}
+    var inApp = false;
+    try {
+      inApp = !!(window.VUMED_NATIVE ||
+        (window.matchMedia && matchMedia('(display-mode: standalone)').matches) ||
+        window.navigator.standalone === true);
+    } catch (e) {}
+    window.location.href = inApp ? 'login.html' : 'vumed.html';
+  } catch (err) {
+    var m = (err && err.message) || '';
+    if (/not authenticated/i.test(m)) m = 'Je bent niet meer ingelogd. Log opnieuw in om je account te verwijderen.';
+    else m = 'Verwijderen mislukt. Probeer het later opnieuw of neem contact op.';
+    msg.textContent = m;
+    go.disabled = false; go.textContent = 'Verwijder mijn account';
+  }
+}
+// Fills the Profiel card + Sociale accounts rows with the live session.
+function _fillAccountPanels(session) {
+  var user = session && session.user;
+  var pcWrap = document.getElementById('pcard-wrap');
+  var pcAnon = document.getElementById('pcard-anon');
+  var acList = document.getElementById('acct-list');
+  var acAnon = document.getElementById('acct-anon');
+  if (!user) {
+    if (pcWrap) pcWrap.style.display = 'none';
+    if (pcAnon) pcAnon.style.display = '';
+    if (acList) acList.style.display = 'none';
+    if (acAnon) acAnon.style.display = '';
+    return;
+  }
+  if (pcAnon) pcAnon.style.display = 'none';
+  if (acAnon) acAnon.style.display = 'none';
+  if (pcWrap) pcWrap.style.display = '';
+  if (acList) acList.style.display = '';
+
+  var email = user.email || '';
+  var name = (user.user_metadata && user.user_metadata.full_name) || (email ? email.split('@')[0] : 'Student');
+
+  // Profiel card
+  var elName = document.getElementById('pcard-name');
+  var elMail = document.getElementById('pcard-mail');
+  var elSince = document.getElementById('pcard-since');
+  var elAv = document.getElementById('pcard-avatar');
+  if (elName) elName.textContent = name;
+  if (elMail) elMail.textContent = email;
+  if (elSince && user.created_at) {
+    try {
+      var d = new Date(user.created_at);
+      var mnd = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+      elSince.textContent = 'Lid sinds ' + mnd[d.getMonth()] + ' ' + d.getFullYear();
+    } catch (e) {}
+  }
+  if (elAv) {
+    var svg = null;
+    try { svg = localStorage.getItem('vumed_avatar_head_svg'); } catch (e) {}
+    if (svg && svg.indexOf('<svg') !== -1) { elAv.innerHTML = svg; }
+    else { elAv.textContent = (name.charAt(0) || 'S').toUpperCase(); }
+  }
+
+  // Sociale accounts — read the real linked identities
+  var providers = [];
+  try { providers = (user.identities || []).map(function (i) { return i.provider; }); } catch (e) {}
+  if (!providers.length && user.app_metadata && user.app_metadata.providers) providers = user.app_metadata.providers;
+  var checkSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+    '<circle cx="12" cy="12" r="10" fill="#58CC02"/>' +
+    '<path d="M7.5 12.5L10.5 15.5L16.5 9" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function setStatus(id, linked) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = linked ? checkSvg + 'Gekoppeld' : 'Niet gekoppeld';
+    el.classList.toggle('linked', linked);
+  }
+  setStatus('acct-email-status', providers.indexOf('email') !== -1);
+  setStatus('acct-google-status', providers.indexOf('google') !== -1);
+  var eAddr = document.getElementById('acct-email-addr');
+  if (eAddr && providers.indexOf('email') !== -1) eAddr.textContent = email;
+  var gMail = document.getElementById('acct-google-mail');
+  if (gMail && providers.indexOf('google') !== -1) {
+    var gid = null;
+    try { gid = (user.identities || []).filter(function (i) { return i.provider === 'google'; })[0]; } catch (e) {}
+    gMail.textContent = (gid && gid.identity_data && gid.identity_data.email) || email;
+  }
+}
+
+// ── E-mail / wachtwoord wijzigen ──────────────────────────────────────────
+function _accMsg(id, type, text) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'acc-msg' + (type ? ' ' + type : '');
+  el.textContent = text || '';
+}
+(function initAccountForms() {
+  var emailForm = document.getElementById('acc-email-form');
+  var pwForm = document.getElementById('acc-pw-form');
+  if (!emailForm || !pwForm) return;
+
+  emailForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var input = document.getElementById('acc-new-email');
+    var btn = document.getElementById('acc-email-btn');
+    var val = (input.value || '').trim();
+    _accMsg('acc-email-msg', '', '');
+    if (!val || val.indexOf('@') === -1 || val.indexOf('.') === -1) {
+      _accMsg('acc-email-msg', 'err', 'Vul een geldig e-mailadres in.'); return;
+    }
+    var sb = _settingsSB();
+    if (!sb) { _accMsg('acc-email-msg', 'err', 'Er ging iets mis. Herlaad de pagina en probeer het opnieuw.'); return; }
+    var cur = '';
+    try { var s = await sb.auth.getSession(); cur = (s.data.session && s.data.session.user.email) || ''; } catch (err) {}
+    if (cur && val.toLowerCase() === cur.toLowerCase()) {
+      _accMsg('acc-email-msg', 'err', 'Dit is al het e-mailadres van je account.'); return;
+    }
+    btn.disabled = true;
+    try {
+      var res = await sb.auth.updateUser({ email: val });
+      if (res.error) throw res.error;
+      input.value = '';
+      _accMsg('acc-email-msg', 'ok', 'Check je mailbox: bevestig de wijziging via de link die we zojuist hebben gestuurd (naar je oude én nieuwe adres).');
+    } catch (err) {
+      var m = (err && err.message) || '';
+      if (/already.*(registered|exists|been)/i.test(m)) m = 'Dit e-mailadres is al in gebruik.';
+      else if (/rate limit|too many/i.test(m)) m = 'Te veel pogingen — probeer het over een paar minuten opnieuw.';
+      else m = 'Wijzigen mislukt. ' + m;
+      _accMsg('acc-email-msg', 'err', m);
+    }
+    btn.disabled = false;
+  });
+
+  pwForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var pw1 = document.getElementById('acc-new-pw');
+    var pw2 = document.getElementById('acc-new-pw2');
+    var btn = document.getElementById('acc-pw-btn');
+    _accMsg('acc-pw-msg', '', '');
+    if (!pw1.value || pw1.value.length < 6) {
+      _accMsg('acc-pw-msg', 'err', 'Wachtwoord moet minstens 6 tekens zijn.'); return;
+    }
+    if (pw1.value !== pw2.value) {
+      _accMsg('acc-pw-msg', 'err', 'De wachtwoorden komen niet overeen.'); return;
+    }
+    var sb = _settingsSB();
+    if (!sb) { _accMsg('acc-pw-msg', 'err', 'Er ging iets mis. Herlaad de pagina en probeer het opnieuw.'); return; }
+    btn.disabled = true;
+    try {
+      var res = await sb.auth.updateUser({ password: pw1.value });
+      if (res.error) throw res.error;
+      pw1.value = ''; pw2.value = '';
+      _accMsg('acc-pw-msg', 'ok', 'Je wachtwoord is gewijzigd.');
+    } catch (err) {
+      var m = (err && err.message) || '';
+      if (/different from the old/i.test(m)) m = 'Het nieuwe wachtwoord moet verschillen van je huidige wachtwoord.';
+      else if (/rate limit|too many/i.test(m)) m = 'Te veel pogingen — probeer het over een paar minuten opnieuw.';
+      else m = 'Wijzigen mislukt. ' + m;
+      _accMsg('acc-pw-msg', 'err', m);
+    }
+    btn.disabled = false;
+  });
+})();
+
+(function initAccountCard() {
+  var sb = _settingsSB();
+  if (!sb) { setTimeout(initAccountCard, 500); return; }
+  sb.auth.getSession().then(function (res) {
+    var loggedIn = !!(res && res.data && res.data.session);
+    var lo = document.getElementById('settings-logout');
+    if (lo) lo.style.display = loggedIn ? '' : 'none';
+    _fillAccountPanels(loggedIn ? res.data.session : null);
+    // Geen admin-onthulling meer: het beheer is een los teamportaal (/admin.html)
+    // met een eigen staff-login. Gewone gebruikers zien nergens admin-elementen.
+  }).catch(function () {});
+})();
+
+// ── Section switching ─────────────────────────────────────────────────────
+function switchSection(id, btn) {
+  document.querySelectorAll('.section-panel').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-card-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  document.getElementById('page-root').scrollTop = 0;
+}
+
+// ── Dark / light mode ─────────────────────────────────────────────────────
+function setMode(mode) {
+  if (mode === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  localStorage.setItem('vumed_theme', mode);
+  document.getElementById('mode-light').classList.toggle('active', mode === 'light');
+  document.getElementById('mode-dark').classList.toggle('active', mode === 'dark');
+}
+
+// Init mode buttons to match current state (class already applied in <head>)
+(function() {
+  var saved = localStorage.getItem('vumed_theme') || 'light';
+  document.getElementById('mode-light').classList.toggle('active', saved === 'light');
+  document.getElementById('mode-dark').classList.toggle('active', saved === 'dark');
+})();
+
+// ── Sound effects toggle ──────────────────────────────────────────────────
+(function() {
+  var tog = document.getElementById('toggle-sound');
+  tog.checked = localStorage.getItem('vumed_sound') !== 'off';
+  tog.addEventListener('change', function() {
+    localStorage.setItem('vumed_sound', this.checked ? 'on' : 'off');
+  });
+})();
+
+// ── Dagdoel ───────────────────────────────────────────────────────────────
+// vumed_stats.js owns the goal (user_profiles.daily_goal + a localStorage
+// mirror) and the dagdoel-reeks. navbar.js injects it async, so paint now with
+// whatever is known and repaint on 'vumed-stats' once the profile lands.
+// Changing it here also counts today if the new (lower) goal is already met —
+// setGoal calls checkGoalDay.
+(function() {
+  var sel = document.getElementById('goal-selector');
+  var hint = document.getElementById('goal-hint');
+  if (!sel) return;
+  function VS() { return window.VumedStats || null; }
+  function paint() {
+    var vs = VS(), gi = null;
+    try { gi = (vs && vs.goalInfo) ? vs.goalInfo() : null; } catch (e) {}
+    var goals = (vs && vs.GOALS) || [10, 20, 30, 50];
+    var cur = gi ? gi.goal : (parseInt(localStorage.getItem('vumed_daygoal') || '20', 10) || 20);
+    sel.innerHTML = goals.map(function (n) {
+      return '<button class="mode-btn' + (n === cur ? ' active' : '') + '" data-goal="' + n + '">' + n + '</button>';
+    }).join('');
+    if (hint) {
+      hint.textContent = (gi && gi.streak > 0)
+        ? 'vragen per dag · reeks ' + gi.streak + (gi.streak === 1 ? ' dag' : ' dagen')
+        : 'vragen per dag';
+    }
+  }
+  sel.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-goal]'); if (!b) return;
+    var n = parseInt(b.getAttribute('data-goal'), 10), vs = VS();
+    if (vs && vs.setGoal) Promise.resolve(vs.setGoal(n)).then(paint);
+    else { try { localStorage.setItem('vumed_daygoal', String(n)); } catch (err) {} paint(); }
+  });
+  paint();
+  document.addEventListener('vumed-stats', paint);
+})();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
+  <title>Admin – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="avatar_render.js?v=26"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F2F2F7; --card: #fff; --ink: #1C1C1E; --muted: #8E8E93;
+      --line: #ECECEE; --blue: #1CB0F6; --blue-dark: #0E85B5;
+      --chart: #1CB0F6; --green: #58CC02; --soft-blue: #EBF7FF;
+    }
+    html.dark {
+      --bg: #1C1C1E; --card: #2C2C2E; --ink: #EBEBF0; --muted: #8E8E93;
+      --line: #3A3A3C; --chart: #0E9DE0; --soft-blue: rgba(28,176,246,0.12);
+    }
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: var(--bg); color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      display: flex; height: 100vh; overflow: hidden;
+    }
+    .main-content { flex: 1; overflow-y: auto; background: var(--bg); }
+    .page { max-width: 1080px; margin: 0 auto; padding: 28px 32px 90px; }
+
+    /* ── Header ── */
+    .adm-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+    .adm-head h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.01em; }
+    .adm-head .sub { color: var(--muted); font-size: 14px; font-weight: 700; margin-top: 2px; }
+    .adm-actions { display: flex; align-items: center; gap: 12px; }
+    .adm-refresh {
+      background: var(--blue); color: #fff; border: none; border-bottom: 4px solid var(--blue-dark);
+      border-radius: 14px; padding: 10px 20px; font-family: inherit; font-size: 13px;
+      font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em; cursor: pointer;
+      transition: filter .12s, transform .1s;
+    }
+    .adm-refresh:hover { filter: brightness(1.06); }
+    .adm-refresh:active { transform: translateY(2px); border-bottom-width: 2px; }
+    .adm-auto { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; user-select: none; }
+    .adm-auto input { accent-color: var(--blue); width: 16px; height: 16px; cursor: pointer; }
+    .adm-updated { font-size: 12px; font-weight: 700; color: var(--muted); }
+
+    /* ── Cards / tiles ── */
+    .card { background: var(--card); border-radius: 16px; padding: 20px 22px; box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 18px; }
+    html.dark .card { box-shadow: 0 2px 10px rgba(0,0,0,.35); }
+    .card h2 { font-size: 16px; font-weight: 900; margin-bottom: 4px; }
+    .card .card-sub { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 14px; }
+
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 18px; }
+    .tile { background: var(--card); border-radius: 16px; padding: 16px 18px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    html.dark .tile { box-shadow: 0 2px 10px rgba(0,0,0,.35); }
+    .tile .t-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: center; gap: 6px; }
+    .tile .t-value { font-size: 27px; font-weight: 900; margin-top: 4px; line-height: 1.1; }
+    .tile .t-sub { font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 3px; }
+
+    /* ── Chart ── */
+    .chart-wrap { position: relative; }
+    .chart-wrap svg { display: block; width: 100%; height: auto; }
+    .bar-hit { fill: transparent; cursor: pointer; }
+    .bar-hl { fill: rgba(28,176,246,0.10); opacity: 0; pointer-events: none; }
+    .adm-tip {
+      position: fixed; z-index: 50; pointer-events: none; display: none;
+      background: var(--card); color: var(--ink); border: 1.5px solid var(--line);
+      border-radius: 10px; padding: 9px 12px; font-size: 12.5px; font-weight: 700;
+      box-shadow: 0 6px 20px rgba(0,0,0,.14); min-width: 150px; line-height: 1.55;
+    }
+    .adm-tip .tt-date { font-weight: 900; margin-bottom: 2px; }
+    .adm-tip .tt-muted { color: var(--muted); }
+    .heat-row { display: flex; gap: 2px; margin-top: 10px; }
+    .heat-cell { flex: 1; height: 14px; border-radius: 3px; border: 1px solid var(--line); }
+    .heat-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-top: 12px; }
+    details.chart-table { margin-top: 12px; }
+    details.chart-table summary { font-size: 12px; font-weight: 800; color: var(--blue); cursor: pointer; text-transform: uppercase; letter-spacing: .05em; }
+    .note { font-size: 12.5px; font-weight: 600; color: var(--muted); background: var(--soft-blue); border-radius: 10px; padding: 8px 12px; margin-top: 12px; }
+
+    /* ── Tables ── */
+    .tbl-scroll { overflow-x: auto; }
+    table.adm { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    table.adm th {
+      text-align: left; font-size: 11px; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .05em; padding: 8px 10px;
+      border-bottom: 2px solid var(--line); white-space: nowrap; cursor: pointer; user-select: none;
+    }
+    table.adm th.no-sort { cursor: default; }
+    table.adm th .arrow { font-size: 10px; }
+    table.adm td { padding: 10px; border-bottom: 1px solid var(--line); font-weight: 700; vertical-align: middle; white-space: nowrap; }
+    table.adm tr:last-child td { border-bottom: none; }
+    .u-cell { display: flex; align-items: center; gap: 10px; }
+    .u-name { font-weight: 900; }
+    .u-mail { font-size: 12px; font-weight: 600; color: var(--muted); }
+    .mini-avatar {
+      width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 900; color: #fff;
+    }
+    .chip { display: inline-block; font-size: 11px; font-weight: 900; padding: 2px 9px; border-radius: 999px; color: #fff; vertical-align: middle; }
+    .chip.admin { background: var(--blue); }
+    .prog-mini { display: inline-block; width: 90px; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; vertical-align: middle; margin-right: 7px; }
+    .prog-mini > i { display: block; height: 100%; border-radius: 4px; background: var(--chart); }
+
+    .subj-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .subj-chip { background: var(--soft-blue); color: var(--blue); font-size: 12px; font-weight: 900; border-radius: 999px; padding: 5px 12px; }
+    .subj-chip b { color: inherit; }
+
+    /* ── Two-column ── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* ── Feed ── */
+    .feed-item { display: flex; align-items: center; gap: 11px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .feed-item:last-child { border-bottom: none; }
+    .feed-txt { font-size: 13px; font-weight: 700; line-height: 1.45; min-width: 0; }
+    .feed-txt .f-exam { color: var(--muted); font-weight: 700; }
+    .feed-txt .f-delta { color: var(--green); font-weight: 900; }
+    .feed-time { margin-left: auto; font-size: 12px; font-weight: 700; color: var(--muted); flex-shrink: 0; }
+
+    /* ── Health ── */
+    .health-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; font-weight: 700; }
+    .health-row:last-child { border-bottom: none; }
+    .badge { font-size: 11px; font-weight: 900; padding: 2px 10px; border-radius: 999px; color: #fff; }
+    .badge.high { background: #58CC02; } .badge.medium { background: #FF9500; } .badge.low { background: #FF3B30; }
+
+    /* ── Meldingen ── */
+    .rep-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .rep-item:last-child { border-bottom: none; }
+    .rep-item.resolved { opacity: .55; }
+    .rep-body { min-width: 0; flex: 1; }
+    .rep-head { font-size: 13px; font-weight: 700; }
+    .rep-head .r-exam { color: var(--blue); font-weight: 900; text-decoration: none; }
+    .rep-head .r-exam:hover { text-decoration: underline; }
+    .rep-head .r-user { color: var(--muted); }
+    .rep-msg { font-size: 13.5px; font-weight: 600; margin-top: 4px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+    .rep-side { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; flex-shrink: 0; }
+    .rep-time { font-size: 12px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+    .rep-btn {
+      background: var(--soft-blue); color: var(--blue); border: none; border-radius: 999px;
+      padding: 5px 13px; font-family: inherit; font-size: 11.5px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: .05em; cursor: pointer; white-space: nowrap;
+    }
+    .rep-btn:hover { filter: brightness(0.95); }
+    .badge.open { background: #FF9500; } .badge.resolved-b { background: #58CC02; }
+
+    /* ── Coverage ── */
+    details.cov { margin-top: 8px; }
+    details.cov summary { font-size: 13px; font-weight: 800; cursor: pointer; padding: 4px 0; }
+    .cov-list { font-size: 13px; font-weight: 600; color: var(--muted); padding: 6px 0 6px 18px; line-height: 1.8; }
+
+    /* ── Te reviewen vragen ── */
+    .rev-search { flex: 1; min-width: 160px; max-width: 280px; font: inherit; font-size: 13px; font-weight: 600;
+      padding: 7px 12px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--card); color: var(--ink); outline: none; }
+    .rev-search:focus { border-color: var(--blue); }
+    details.rev-grp { border: 1px solid var(--line); border-radius: 12px; margin-top: 10px; overflow: hidden; }
+    details.rev-grp > summary { display: flex; align-items: center; gap: 10px; cursor: pointer; list-style: none;
+      padding: 11px 14px; font-size: 13.5px; font-weight: 800; background: var(--soft-blue); }
+    details.rev-grp > summary::-webkit-details-marker { display: none; }
+    details.rev-grp[open] > summary { border-bottom: 1px solid var(--line); }
+    .rev-label { flex: 1; }
+    .rev-count { font-size: 12px; font-weight: 700; color: var(--muted); }
+    .rev-list { display: flex; flex-direction: column; }
+    a.rev-q { display: flex; align-items: flex-start; gap: 12px; padding: 11px 14px; text-decoration: none;
+      color: var(--ink); border-top: 1px solid var(--line); transition: background .12s; }
+    a.rev-q:first-child { border-top: none; }
+    a.rev-q:hover { background: var(--soft-blue); }
+    .rev-qn { font-weight: 800; font-size: 13px; color: var(--blue); white-space: nowrap; flex-shrink: 0; min-width: 78px; padding-top: 1px; }
+    .rev-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .rev-qtext { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.5; }
+    .rev-why { font-size: 12px; font-weight: 600; color: var(--muted); line-height: 1.5; }
+    .rev-why b { color: var(--blue); font-weight: 800; }
+    .rev-note { font-size: 11px; font-weight: 500; color: var(--muted); opacity: .7; line-height: 1.45; }
+    .rev-note-lbl { text-transform: uppercase; letter-spacing: .04em; font-weight: 700; font-size: 9.5px; opacity: .85; }
+    .rev-done .rev-note { text-decoration: line-through; }
+    .rev-arrow { font-weight: 900; color: var(--blue); opacity: 0; transition: opacity .12s; align-self: center; }
+    a.rev-q:hover .rev-arrow { opacity: 1; }
+    .rev-toggle { font-size: 12.5px; font-weight: 700; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
+    .rev-toggle input { accent-color: var(--blue); }
+    /* row = link + action button side by side */
+    .rev-row { display: flex; align-items: center; gap: 10px; padding: 0 8px 0 0; border-top: 1px solid var(--line); }
+    .rev-row:first-child { border-top: none; }
+    .rev-row a.rev-q { border-top: none; flex: 1; }
+    .rev-done { background: rgba(88,204,2,0.06); }
+    .rev-done .rev-qn { color: var(--muted); }
+    .rev-done .rev-qtext { opacity: 0.6; }
+    .rev-done .rev-why { text-decoration: line-through; opacity: 0.7; }
+    .rev-ok { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12px; font-weight: 800;
+      padding: 6px 12px; border: 1.5px solid var(--green); border-radius: 999px; background: transparent; color: var(--green); cursor: pointer; white-space: nowrap; }
+    .rev-ok:hover { background: var(--green); color: #fff; }
+    .rev-ok.done { border-color: var(--line); color: var(--muted); }
+    .rev-ok.done:hover { background: transparent; border-color: var(--muted); color: var(--ink); }
+    .rev-ok:disabled { opacity: 0.5; cursor: default; }
+    details.rev-grp.done > summary { background: rgba(88,204,2,0.08); }
+    .rev-grp-done { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; color: var(--green); }
+
+    /* ── Icons (inline SVG — never emoji) ── */
+    .t-ic { display: inline-flex; }
+    .t-ic svg { width: 15px; height: 15px; display: block; }
+    .h-ic { display: inline-flex; vertical-align: -3px; margin-right: 9px; }
+    .h-ic svg { width: 26px; height: 26px; display: block; }
+    .g-ic { display: flex; justify-content: center; margin-bottom: 14px; }
+    .g-ic svg { width: 44px; height: 44px; display: block; }
+    .tt-chip { display: inline-block; width: 9px; height: 9px; border-radius: 2.5px; background: var(--chart); margin-right: 5px; }
+
+    /* ── Gate ── */
+    .gate { max-width: 420px; margin: 12vh auto 0; text-align: center; background: var(--card); border-radius: 20px; padding: 42px 34px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+    .gate h2 { font-size: 20px; font-weight: 900; margin-bottom: 8px; }
+    .gate p { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 20px; }
+    .gate a.g-btn {
+      display: inline-block; text-decoration: none; background: var(--blue); color: #fff;
+      border-bottom: 4px solid var(--blue-dark); border-radius: 14px; padding: 11px 26px;
+      font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .07em;
+    }
+    .spin { width: 34px; height: 34px; border: 4px solid var(--line); border-top-color: var(--blue); border-radius: 50%; margin: 0 auto; animation: sp 0.8s linear infinite; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+    .sys-foot { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+    .sys-foot a { color: var(--blue); text-decoration: none; font-weight: 800; }
+
+    /* ═══════════ Colorful redesign (2026-07-15) ═══════════ */
+    /* Gradient hero header */
+    .adm-head {
+      background: linear-gradient(135deg, #1CB0F6 0%, #0E85B5 100%);
+      border-radius: 22px; padding: 24px 28px; align-items: center;
+      box-shadow: 0 10px 30px rgba(28,176,246,0.28); margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+    /* Trage lichtbaan over de hero (zelfde effect als de trofeeenpad-banner) */
+    .adm-head::after { content: ''; position: absolute; top: -30%; left: 0; width: 34%; height: 160%; background: linear-gradient(105deg, transparent, rgba(255,255,255,0.09) 42%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.09) 58%, transparent); transform: skewX(-16deg) translateX(-330%); animation: bnShine 7s ease-in-out infinite; pointer-events: none; }
+    @keyframes bnShine { 0% { transform: skewX(-16deg) translateX(-330%); } 27%, 100% { transform: skewX(-16deg) translateX(430%); } }
+    @media (prefers-reduced-motion: reduce) { .adm-head::after { display: none; } }
+    html.dark .adm-head { box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .adm-head h1, .adm-head .sub { color: #fff; }
+    .adm-head .sub { color: rgba(255,255,255,0.9); }
+    .adm-head .adm-updated { color: rgba(255,255,255,0.85); }
+    .adm-head .adm-auto { color: rgba(255,255,255,0.9); }
+    .adm-head .adm-auto input { accent-color: #fff; }
+    .adm-head .adm-refresh {
+      background: #fff; color: #0E85B5; border-bottom-color: #C8E6F6;
+    }
+    .adm-head .h-ic svg { filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18)); }
+
+    /* Colorful stat tiles */
+    .tile { position: relative; overflow: hidden; padding: 16px 18px 15px; }
+    .tile::before { content: ''; position: absolute; inset: 0; background: var(--a1, #1CB0F6); opacity: 0.06; pointer-events: none; }
+    html.dark .tile::before { opacity: 0.15; }
+    .tile::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--a1, #1CB0F6), var(--a2, #0E85B5)); }
+    .tile > * { position: relative; }
+    .t-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .t-ic {
+      width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--a1, #1CB0F6), var(--a2, #0E85B5));
+      box-shadow: 0 5px 14px color-mix(in srgb, var(--a1, #1CB0F6) 40%, transparent);
+    }
+    .t-ic svg { width: 21px; height: 21px; fill: #fff; }
+    .t-ic svg [stroke] { stroke: #fff; }
+    .tile .t-label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; line-height: 1.25; }
+    .tile .t-value { font-size: 26px; font-weight: 900; line-height: 1.05; }
+    .tile .t-sub { font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 3px; }
+
+    /* Card accent bar */
+    .card { position: relative; }
+    .card.accent { border-top: none; }
+    .card h2 .h2-dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 8px; vertical-align: 1px; background: var(--blue); }
+
+    /* User search + clickable rows */
+    .usr-search { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .usr-search input {
+      flex: 1; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--ink);
+      background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; padding: 10px 14px;
+    }
+    html.dark .usr-search input { background: #242426; }
+    .usr-search input:focus { outline: none; border-color: var(--blue); }
+    .usr-search .us-ic { color: var(--muted); }
+    table.adm tr.u-row { cursor: pointer; transition: background .12s; }
+    table.adm tr.u-row:hover td { background: var(--soft-blue); }
+    .u-open { font-size: 11px; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: .04em; }
+
+    /* ── Modal ── */
+    .mv-ov { display: none; position: fixed; inset: 0; z-index: 500; background: rgba(0,0,0,0.45); backdrop-filter: blur(2px); align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+    .mv-ov.on { display: flex; }
+    .mv {
+      background: var(--card); border-radius: 24px; width: 640px; max-width: 100%;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35); overflow: hidden; animation: mvIn .18s ease;
+    }
+    @keyframes mvIn { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+    .mv-hero { background: linear-gradient(135deg, var(--a1, #1CB0F6), var(--a2, #0E85B5)); padding: 22px 24px; color: #fff; display: flex; align-items: center; gap: 16px; position: relative; }
+    .mv-hero .mv-av { width: 62px; height: 62px; border-radius: 50%; background: rgba(255,255,255,0.22); flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; box-shadow: 0 0 0 3px rgba(255,255,255,0.5); }
+    .mv-av svg { width: 100%; height: 100%; }
+    .mv-htxt { min-width: 0; flex: 1; }
+    .mv-name { font-size: 21px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+    .mv-mail { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.9); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mv-chip { display: inline-block; font-size: 11px; font-weight: 900; padding: 2px 10px; border-radius: 999px; background: rgba(255,255,255,0.25); }
+    .mv-x { position: absolute; top: 14px; right: 16px; width: 32px; height: 32px; border: none; border-radius: 50%; background: rgba(255,255,255,0.2); color: #fff; font-size: 20px; font-weight: 900; cursor: pointer; line-height: 1; }
+    .mv-x:hover { background: rgba(255,255,255,0.35); }
+    .mv-body { padding: 20px 24px 24px; }
+    .mv-sec { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 6px 0 12px; }
+    .mv-sec:not(:first-child) { margin-top: 24px; }
+    .mv-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .mv-stat { background: var(--bg); border-radius: 13px; padding: 11px 13px; }
+    html.dark .mv-stat { background: #242426; }
+    .mv-stat .s-l { font-size: 10.5px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+    .mv-stat .s-v { font-size: 19px; font-weight: 900; margin-top: 2px; }
+
+    /* Balance editor rows */
+    .bal-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+    .bal-row:last-child { border-bottom: none; }
+    .bal-ic { width: 38px; height: 38px; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .bal-ic svg { width: 20px; height: 20px; }
+    .bal-info { flex: 1; min-width: 0; }
+    .bal-label { font-size: 13px; font-weight: 800; }
+    .bal-val { font-size: 20px; font-weight: 900; line-height: 1.1; }
+    .bal-ctl { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .bal-amt { width: 64px; font-family: inherit; font-size: 13px; font-weight: 800; text-align: center; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 9px; padding: 7px 4px; }
+    html.dark .bal-amt { background: #242426; }
+    .bal-btn { width: 34px; height: 34px; border: none; border-radius: 9px; font-family: inherit; font-size: 16px; font-weight: 900; cursor: pointer; transition: filter .12s; display: flex; align-items: center; justify-content: center; }
+    .bal-btn:hover { filter: brightness(0.94); }
+    .bal-btn.add { background: #58CC02; color: #fff; }
+    .bal-btn.sub { background: #FF4B4B; color: #fff; }
+    .bal-btn.set { background: var(--soft-blue); color: var(--blue); font-size: 15px; }
+    .bal-btn:disabled { opacity: .5; cursor: default; filter: none; }
+
+    /* Owned skins + grant */
+    .skin-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .skin-tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 800; background: var(--soft-blue); color: var(--blue); border-radius: 999px; padding: 5px 6px 5px 13px; }
+    .skin-tag button { border: none; background: rgba(0,0,0,0.08); color: inherit; width: 20px; height: 20px; border-radius: 50%; font-weight: 900; cursor: pointer; font-size: 13px; line-height: 1; }
+    .skin-tag button:hover { background: #FF4B4B; color: #fff; }
+    html.dark .skin-tag button { background: rgba(255,255,255,0.12); }
+    .skin-none { font-size: 13px; font-weight: 700; color: var(--muted); }
+    .grant-row { display: flex; gap: 10px; }
+    .grant-row select { flex: 1; font-family: inherit; font-size: 13.5px; font-weight: 700; color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 11px; padding: 10px 12px; }
+    html.dark .grant-row select { background: #242426; }
+    .grant-row button { border: none; border-radius: 11px; background: var(--green); color: #fff; font-family: inherit; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; padding: 0 20px; cursor: pointer; }
+    .grant-row button:hover { filter: brightness(0.95); }
+
+    /* Avatar-items grid */
+    .items-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .items-add {
+      display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+      background: #CE82FF; color: #fff; border-bottom: 3px solid #9345D4;
+      border-radius: 12px; padding: 9px 16px; font-size: 12px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .items-add:active { transform: translateY(2px); border-bottom-width: 1px; }
+    .item-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .item-card { border: 1.5px solid var(--line); border-radius: 15px; padding: 12px; background: var(--card); transition: border-color .12s, transform .12s; }
+    .item-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+    .item-thumb { height: 92px; border-radius: 11px; background: var(--bg); display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 10px; }
+    html.dark .item-thumb { background: #242426; }
+    .item-thumb svg { width: 78px; height: 78px; }
+    .item-nm { font-size: 13.5px; font-weight: 900; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-meta { display: flex; flex-wrap: wrap; gap: 6px; margin: 7px 0 10px; }
+    .item-badge { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .03em; padding: 2px 8px; border-radius: 999px; }
+    .item-badge.kind { color: var(--blue); background: var(--soft-blue); }
+    .item-badge.on { color: #2E7D00; background: rgba(88,204,2,0.16); }
+    .item-badge.off { color: #8A6D00; background: rgba(255,200,0,0.2); }
+    .item-badge.price { color: var(--muted); background: var(--line); }
+    .item-edit { display: block; text-align: center; text-decoration: none; background: var(--soft-blue); color: var(--blue); border-radius: 10px; padding: 8px; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
+    .item-edit:hover { filter: brightness(0.96); }
+    .item-actions { display: flex; gap: 6px; margin-top: 7px; }
+    .item-btn { flex: 1; border: none; border-radius: 10px; padding: 8px 6px; font-family: inherit; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .03em; cursor: pointer; transition: filter .12s; }
+    .item-btn:hover { filter: brightness(0.95); } .item-btn:disabled { opacity: .5; cursor: default; }
+    .item-btn.launch { background: rgba(88,204,2,0.16); color: #2E7D00; }
+    .item-btn.unlaunch { background: rgba(255,149,0,0.18); color: #8A6D00; }
+    .item-btn.del { flex: 0 0 auto; padding: 8px 11px; background: rgba(255,75,75,0.14); color: #E23B3B; }
+    html.dark .item-btn.launch { color: #7BD93E; } html.dark .item-btn.unlaunch { color: #FFC24D; } html.dark .item-btn.del { color: #FF6B6B; }
+    .subj-chip.click { cursor: pointer; user-select: none; transition: filter .12s; }
+    .subj-chip.click:hover { filter: brightness(0.95); }
+    .subj-chip.on { background: var(--blue); color: #fff; }
+
+    .toast {
+      position: fixed; bottom: 26px; left: 50%; transform: translateX(-50%) translateY(20px); z-index: 900;
+      padding: 12px 22px; border-radius: 14px; font-size: 14px; font-weight: 800; color: #fff;
+      background: var(--blue); box-shadow: 0 10px 30px rgba(0,0,0,0.22); opacity: 0; pointer-events: none;
+      transition: opacity .22s, transform .22s;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast.err { background: #FF3B30; }
+    .toast.ok { background: #58CC02; }
+    /* ── Mail versturen ── */
+    .m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .m-grid label { display: flex; flex-direction: column; gap: 5px; font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .m-grid .m-full { grid-column: 1 / -1; }
+    .m-grid input, .m-grid textarea { border: 2px solid rgba(140,160,180,.35); border-radius: 12px; padding: 10px 12px; font: 600 14px Nunito, sans-serif; color: inherit; background: var(--card); outline: none; resize: vertical; text-transform: none; letter-spacing: 0; }
+    .m-grid input:focus, .m-grid textarea:focus { border-color: #1CB0F6; }
+    .m-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .m-btn { border: 0; border-radius: 12px; padding: 10px 18px; font: 800 14px Nunito, sans-serif; cursor: pointer; }
+    .m-ghost { background: rgba(28,176,246,.12); color: #1CB0F6; }
+    .m-send { background: #58CC02; color: #fff; box-shadow: 0 3px 0 #46A302; }
+    .m-send:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+    .m-send.arm { background: #FF9600; box-shadow: 0 3px 0 #E08600; }
+    .m-status { margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--muted); white-space: pre-line; }
+    .m-prevwrap { margin-top: 14px; border: 2px solid rgba(140,160,180,.35); border-radius: 14px; overflow: hidden; }
+    .m-prevsub { padding: 8px 12px; font-size: 12.5px; font-weight: 800; background: rgba(28,176,246,.08); }
+    #ml-frame { display: block; width: 100%; height: 560px; border: 0; background: #EDF4FA; }
+    @media (max-width: 700px) { .m-grid { grid-template-columns: 1fr; } }
+
+    /* ═══════════ Staff console shell (2026-07-18) ═══════════ */
+    body { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Sidebar ── */
+    .admin-nav {
+      width: 244px; flex-shrink: 0; height: 100vh; display: flex; flex-direction: column;
+      background: var(--card); border-right: 1px solid var(--line); z-index: 20;
+    }
+    html.dark .admin-nav { background: #202022; }
+    .an-brand { display: flex; align-items: center; gap: 11px; padding: 20px 20px 16px; }
+    .an-logo { width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #1CB0F6, #0E85B5); box-shadow: 0 6px 16px rgba(28,176,246,.35); }
+    .an-logo svg { width: 22px; height: 22px; display: block; }
+    .login-brand .an-logo { display: flex; } /* .login-brand span zet display:block en wint anders van .an-logo */
+    .vle-pulse { animation: vlePulse 3.6s ease-in-out infinite; filter: drop-shadow(0 0 3px rgba(255,255,255,.85)); }
+    @keyframes vlePulse { 0% { stroke-dashoffset: 1.3; } 46%, 100% { stroke-dashoffset: -0.32; } }
+    @media (prefers-reduced-motion: reduce) { .vle-pulse { animation: none; opacity: 0; } }
+    .an-wordmark { line-height: 1.1; }
+    .an-wordmark b { font-size: 18px; font-weight: 900; letter-spacing: -.01em; display: block; }
+    .an-wordmark span { font-size: 10.5px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; }
+    .an-list { flex: 1; overflow-y: auto; padding: 8px 12px; display: flex; flex-direction: column; gap: 3px; }
+    .an-item {
+      display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px;
+      font-size: 14px; font-weight: 800; color: var(--muted); cursor: pointer; user-select: none;
+      border: none; background: none; width: 100%; text-align: left; font-family: inherit; transition: background .12s, color .12s;
+    }
+    .an-item svg { width: 19px; height: 19px; flex-shrink: 0; }
+    .an-item:hover { background: var(--soft-blue); color: var(--blue); }
+    .an-item.on { background: var(--blue); color: #fff; box-shadow: 0 5px 14px rgba(28,176,246,.34); }
+    .an-item.on svg [stroke] { stroke: #fff; } .an-item.on svg [fill]:not([fill="none"]) { fill: #fff; }
+    .an-badge { margin-left: auto; font-size: 11px; font-weight: 900; min-width: 20px; text-align: center;
+      padding: 1px 7px; border-radius: 999px; background: var(--soft-blue); color: var(--blue); }
+    .an-item.on .an-badge { background: rgba(255,255,255,.25); color: #fff; }
+    .an-badge.alert { background: #FF3B30; color: #fff; }
+    .an-foot { border-top: 1px solid var(--line); padding: 12px; }
+    .an-me { display: flex; align-items: center; gap: 10px; padding: 6px 8px 10px; min-width: 0; }
+    .an-me .an-av { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 900; color: #fff; background: linear-gradient(135deg,#1CB0F6,#0E85B5); }
+    .an-me .an-av svg { width: 100%; height: 100%; }
+    .an-me-txt { min-width: 0; line-height: 1.25; }
+    .an-me-txt b { font-size: 13px; font-weight: 900; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .an-me-txt span { font-size: 11px; font-weight: 700; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+    .an-logout {
+      display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+      padding: 9px; border-radius: 11px; border: 1.5px solid var(--line); background: none; cursor: pointer;
+      font-family: inherit; font-size: 12.5px; font-weight: 900; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; transition: all .12s;
+    }
+    .an-logout svg { width: 16px; height: 16px; }
+    .an-logout:hover { border-color: #FF3B30; color: #FF3B30; }
+
+    /* ── Main column ── */
+    .admin-main { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100vh; }
+    .admin-top {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      padding: 16px 30px; border-bottom: 1px solid var(--line); background: var(--card); flex-shrink: 0;
+    }
+    html.dark .admin-top { background: #202022; }
+    .admin-top .at-title { font-size: 21px; font-weight: 900; letter-spacing: -.01em; }
+    .admin-top .at-sub { font-size: 12.5px; font-weight: 700; color: var(--muted); margin-top: 1px; }
+    .admin-top .at-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; flex-wrap: wrap; }
+    .admin-scroll { flex: 1; overflow-y: auto; }
+    .admin-wrap { max-width: 1080px; margin: 0 auto; padding: 26px 30px 90px; }
+
+    .view { display: none; }
+    .view.on { display: block; animation: viewIn .22s ease; }
+    @keyframes viewIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .view > .card:first-child, .view > .tiles:first-child { margin-top: 0; }
+
+    /* ── Login screen ── */
+    .login-scr { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px;
+      background: radial-gradient(120% 120% at 50% 0%, #1CB0F6 0%, #0E85B5 46%, #0B6A93 100%); overflow-y: auto; }
+    .login-scr.on { display: flex; }
+    .login-scr::before { content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(60% 50% at 82% 12%, rgba(255,255,255,.16), transparent 60%); }
+    .login-card { position: relative; width: 400px; max-width: 100%; background: var(--card); border-radius: 24px;
+      padding: 34px 32px 30px; box-shadow: 0 30px 80px rgba(0,0,0,.35); animation: mvIn .25s ease; }
+    .login-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+    .login-brand .an-logo { width: 46px; height: 46px; border-radius: 14px; }
+    .login-brand .an-logo svg { width: 26px; height: 26px; }
+    .login-brand b { font-size: 22px; font-weight: 900; }
+    .login-brand span { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .09em; display: block; }
+    .login-card h2 { font-size: 19px; font-weight: 900; margin-bottom: 4px; }
+    .login-card .lc-sub { font-size: 13.5px; font-weight: 600; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .lc-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .lc-field label { font-size: 11px; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    .lc-field input {
+      font-family: inherit; font-size: 15px; font-weight: 600; color: var(--ink);
+      background: var(--bg); border: 2px solid var(--line); border-radius: 13px; padding: 12px 14px; outline: none; transition: border-color .12s;
+    }
+    html.dark .lc-field input { background: #242426; }
+    .lc-field input:focus { border-color: var(--blue); }
+    .lc-btn {
+      width: 100%; margin-top: 6px; padding: 13px; border: none; border-radius: 14px; cursor: pointer;
+      background: var(--blue); color: #fff; border-bottom: 4px solid var(--blue-dark);
+      font-family: inherit; font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; transition: filter .12s, transform .1s;
+    }
+    .lc-btn:hover { filter: brightness(1.05); } .lc-btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+    .lc-btn:disabled { opacity: .6; cursor: default; }
+    .lc-pw { position: relative; display: flex; }
+    .lc-pw input { flex: 1; padding-right: 46px; }
+    .lc-eye { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px;
+      border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--muted); border-radius: 9px; padding: 0; }
+    .lc-eye:hover { color: var(--blue); background: var(--soft-blue); }
+    .lc-eye svg { width: 20px; height: 20px; display: block; }
+    .lc-forgot { display: block; margin: -6px 2px 12px auto; background: none; border: none; cursor: pointer;
+      font-family: inherit; font-size: 12.5px; font-weight: 800; color: var(--blue); padding: 2px; }
+    .lc-forgot:hover { text-decoration: underline; }
+    .lc-err.ok { color: var(--green); }
+    .lc-err { font-size: 13px; font-weight: 700; color: #FF3B30; margin-top: 14px; min-height: 18px; text-align: center; }
+    .lc-foot { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); margin-top: 20px; }
+    .lc-foot a { color: var(--blue); text-decoration: none; }
+    .lc-lock { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 800; color: var(--muted);
+      background: var(--soft-blue); border-radius: 999px; padding: 4px 12px; margin-bottom: 18px; }
+    .lc-lock svg { width: 13px; height: 13px; }
+
+    /* ── Team section ── */
+    .team-add { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+    .team-add input { flex: 1; min-width: 200px; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--ink);
+      background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; padding: 11px 14px; outline: none; }
+    html.dark .team-add input { background: #242426; }
+    .team-add input:focus { border-color: var(--blue); }
+    .team-add button { border: none; border-radius: 12px; background: var(--green); color: #fff; cursor: pointer;
+      font-family: inherit; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; padding: 0 22px; }
+    .team-add button:hover { filter: brightness(.95); } .team-add button:disabled { opacity: .5; cursor: default; }
+    .team-row { display: flex; align-items: center; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .team-row:last-child { border-bottom: none; }
+    .team-av { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; overflow: hidden; display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #fff; background: linear-gradient(135deg,#1CB0F6,#0E85B5); }
+    .team-av svg { width: 100%; height: 100%; }
+    .team-info { flex: 1; min-width: 0; }
+    .team-name { font-size: 14.5px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+    .team-mail { font-size: 12.5px; font-weight: 600; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .team-rm { border: 1.5px solid var(--line); background: none; color: var(--muted); border-radius: 999px; cursor: pointer;
+      font-family: inherit; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; padding: 7px 15px; flex-shrink: 0; transition: all .12s; }
+    .team-rm:hover { border-color: #FF3B30; color: #FF3B30; }
+    .team-you { font-size: 11px; font-weight: 900; padding: 2px 9px; border-radius: 999px; background: var(--soft-blue); color: var(--blue); }
+
+    /* ── Mobile ── */
+    @media (max-width: 860px) {
+      body { flex-direction: column; overflow: auto; height: auto; min-height: 100vh; }
+      .admin-nav { width: 100%; height: auto; flex-direction: column; border-right: none; border-bottom: 1px solid var(--line);
+        position: sticky; top: 0; }
+      .an-brand { padding: 12px 16px; }
+      .an-list { flex-direction: row; overflow-x: auto; padding: 8px 12px; gap: 6px; -webkit-overflow-scrolling: touch; }
+      .an-item { width: auto; white-space: nowrap; flex-shrink: 0; padding: 9px 13px; }
+      .an-item .an-badge { margin-left: 6px; }
+      .an-foot { display: flex; align-items: center; gap: 12px; }
+      .an-me { flex: 1; padding: 0; } .an-logout { width: auto; padding: 9px 16px; }
+      .admin-main { height: auto; }
+      .admin-scroll { overflow: visible; }
+      .admin-top { padding: 14px 18px; position: sticky; top: 0; }
+      .admin-wrap { padding: 20px 16px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════ Staff login screen ══════════ -->
+  <div class="login-scr" id="login">
+    <form class="login-card" id="login-form" autocomplete="on">
+      <div class="login-brand">
+        <span class="an-logo"><svg viewBox="0 0 34 34" fill="none"><path d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" stroke="rgba(255,255,255,.6)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path class="vle-pulse" d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" pathLength="1" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray=".3 1" stroke-dashoffset="1.3"/></svg></span>
+        <div><b>VUmed</b><span>Teamportaal</span></div>
+      </div>
+      <div class="lc-lock"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10" width="15" height="11" rx="3" fill="currentColor"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" stroke="currentColor" stroke-width="2.4"/></svg> Alleen voor VUmed-medewerkers</div>
+      <h2>Inloggen op het beheer</h2>
+      <div class="lc-sub">Log in met je VUmed-teamaccount om het beheerpaneel te openen.</div>
+      <div class="lc-field"><label for="lg-email">E-mailadres</label><input id="lg-email" type="email" autocomplete="username" placeholder="jij@voorbeeld.nl" autofocus></div>
+      <div class="lc-field"><label for="lg-pw">Wachtwoord</label>
+        <div class="lc-pw"><input id="lg-pw" type="password" autocomplete="current-password" placeholder="••••••••">
+          <button type="button" class="lc-eye" id="lg-eye" aria-label="Wachtwoord tonen"></button></div>
+      </div>
+      <button type="button" class="lc-forgot" id="lg-forgot">Wachtwoord vergeten?</button>
+      <button class="lc-btn" id="lg-btn" type="submit">Inloggen</button>
+      <div class="lc-err" id="lg-err"></div>
+      <div class="lc-foot">Geen toegang? Vraag een beheerder om je toe te voegen aan het team.</div>
+    </form>
+
+    <form class="login-card" id="reset-form" style="display:none;">
+      <div class="login-brand">
+        <span class="an-logo"><svg viewBox="0 0 34 34" fill="none"><path d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" stroke="rgba(255,255,255,.6)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path class="vle-pulse" d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" pathLength="1" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray=".3 1" stroke-dashoffset="1.3"/></svg></span>
+        <div><b>VUmed</b><span>Teamportaal</span></div>
+      </div>
+      <h2>Nieuw wachtwoord instellen</h2>
+      <div class="lc-sub">Kies een nieuw wachtwoord voor je teamaccount.</div>
+      <div class="lc-field"><label for="rs-pw">Nieuw wachtwoord</label>
+        <div class="lc-pw"><input id="rs-pw" type="password" autocomplete="new-password" placeholder="Minstens 6 tekens">
+          <button type="button" class="lc-eye" id="rs-eye" aria-label="Wachtwoord tonen"></button></div>
+      </div>
+      <button class="lc-btn" id="rs-btn" type="submit">Opslaan &amp; inloggen</button>
+      <div class="lc-err" id="rs-err"></div>
+    </form>
+  </div>
+
+  <!-- ══════════ Sidebar ══════════ -->
+  <aside class="admin-nav" id="admin-nav" style="display:none;">
+    <div class="an-brand">
+      <span class="an-logo"><svg viewBox="0 0 34 34" fill="none"><path d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" stroke="rgba(255,255,255,.6)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path class="vle-pulse" d="M2 18.5 H10 l2.4,-2.4 1.8,4.4 2.6,-9.4 2.6,11 1.8,-3.6 H32" pathLength="1" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray=".3 1" stroke-dashoffset="1.3"/></svg></span>
+      <div class="an-wordmark"><b>VUmed</b><span>Beheer</span></div>
+    </div>
+    <nav class="an-list" id="an-list">
+      <button class="an-item on" data-view="overview"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7.5" height="7.5" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2" stroke="currentColor" stroke-width="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2" stroke="currentColor" stroke-width="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" stroke="currentColor" stroke-width="2"/></svg>Overzicht</button>
+      <button class="an-item" data-view="users"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2"/><path d="M3.5 20c0-3.3 2.5-5.5 5.5-5.5s5.5 2.2 5.5 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 5.2A3.2 3.2 0 0 1 16 11m2 8.6c0-2.4-1.1-4.2-2.8-5.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Gebruikers</button>
+      <button class="an-item" data-view="content"><svg viewBox="0 0 24 24" fill="none"><path d="M5 4h9l5 5v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 4v5h5M8 13h8M8 17h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Content<span class="an-badge alert" id="nav-reports" style="display:none;">0</span></button>
+      <button class="an-item" data-view="items"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Avatar-items</button>
+      <button class="an-item" data-view="team"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 2.6v5.2c0 4.4-3 8-7 9.4-4-1.4-7-5-7-9.4V4.6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.2 11.8l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Team</button>
+      <button class="an-item" data-view="mail"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Mail</button>
+      <button class="an-item" data-view="system"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h4l2.5 6 5-14L17 13h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Systeem</button>
+    </nav>
+    <div class="an-foot">
+      <div class="an-me"><span class="an-av" id="me-av"></span><div class="an-me-txt"><b id="me-name">—</b><span id="me-mail"></span></div></div>
+      <button class="an-logout" id="logout-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 8l-4 4 4 4M6 12h9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Uitloggen</button>
+    </div>
+  </aside>
+
+  <!-- ══════════ Main column ══════════ -->
+  <div class="admin-main" id="admin-main" style="display:none;">
+    <header class="admin-top">
+      <div><div class="at-title" id="at-title">Overzicht</div><div class="at-sub" id="at-sub">Wat er speelt in VUmed</div></div>
+      <div class="at-actions">
+        <span class="adm-updated" id="adm-updated"></span>
+        <label class="adm-auto"><input type="checkbox" id="adm-auto-cb"> Auto (60s)</label>
+        <button class="adm-refresh" id="adm-refresh-btn">Vernieuwen</button>
+      </div>
+    </header>
+    <div class="admin-scroll">
+      <div class="admin-wrap">
+
+        <!-- ── Overzicht ── -->
+        <section class="view on" id="view-overview">
+          <div class="tiles" id="tiles"></div>
+          <div class="card">
+            <h2>Activiteit — laatste 30 dagen</h2>
+            <div class="card-sub" id="chart-sub">Vragen beantwoord per dag</div>
+            <div class="chart-wrap" id="chart-wrap"></div>
+            <div class="heat-label">Actieve gebruikers per dag</div>
+            <div class="heat-row" id="heat-row"></div>
+            <div class="note" id="chart-note" style="display:none;"></div>
+            <details class="chart-table"><summary>Tabelweergave</summary>
+              <div class="tbl-scroll" style="margin-top:10px;"><table class="adm" id="chart-table"></table></div>
+            </details>
+          </div>
+        </section>
+
+        <!-- ── Gebruikers ── -->
+        <section class="view" id="view-users">
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#1CB0F6"></span>Gebruikers</h2>
+            <div class="card-sub" id="users-sub"></div>
+            <div class="usr-search">
+              <span class="us-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.2-3.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+              <input id="usr-q" type="text" placeholder="Zoek op naam of e-mail…" autocomplete="off">
+            </div>
+            <div class="tbl-scroll"><table class="adm" id="users-table"></table></div>
+            <div class="card-sub" id="users-empty" style="display:none;">Geen gebruikers gevonden.</div>
+          </div>
+        </section>
+
+        <!-- ── Content ── -->
+        <section class="view" id="view-content">
+          <div class="card">
+            <h2>Tentamen-populariteit</h2>
+            <div class="card-sub">Waar wordt geoefend? (alle gebruikers samen)</div>
+            <div class="subj-chips" id="subj-chips"></div>
+            <div class="tbl-scroll"><table class="adm" id="exams-table"></table></div>
+          </div>
+          <div class="card">
+            <h2>Dekking</h2>
+            <div class="card-sub" id="cov-sub"></div>
+            <div id="cov-body"></div>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <h2 style="margin:0;">Te reviewen vragen</h2>
+              <input id="review-q" class="rev-search" type="search" placeholder="Zoek tentamen…" autocomplete="off">
+              <label class="rev-toggle"><input type="checkbox" id="review-hide"> Verberg afgehandelde</label>
+            </div>
+            <div class="card-sub" id="review-sub">Vragen met een onzeker antwoord — spring naar de vraag om te fixen.</div>
+            <div id="review"><div class="card-sub">Laden…</div></div>
+          </div>
+          <div class="card">
+            <h2>Meldingen</h2>
+            <div class="card-sub" id="reports-sub">Door studenten gemelde vragen (vlag-knop in het tentamen)</div>
+            <div id="reports"></div>
+          </div>
+          <div class="card">
+            <h2>Gerapporteerde gebruikers</h2>
+            <div class="card-sub" id="ureports-sub">Meldingen over profielen (naam/avatar/gedrag) via de rapporteer-knop op een publiek profiel</div>
+            <div id="ureports"></div>
+          </div>
+        </section>
+
+        <!-- ── Avatar-items ── -->
+        <section class="view" id="view-items">
+          <div class="card">
+            <div class="items-head">
+              <div>
+                <h2><span class="h2-dot" style="background:#CE82FF"></span>Avatar-items</h2>
+                <div class="card-sub" id="items-sub" style="margin-bottom:0;">Alle avatar-onderdelen — bewerk of voeg toe</div>
+              </div>
+              <a class="items-add" href="admin_avatar.html">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>
+                Nieuw item
+              </a>
+            </div>
+            <div class="subj-chips" id="item-chips" style="margin-bottom:14px;"></div>
+            <div class="item-grid" id="item-grid"><div class="card-sub">Laden…</div></div>
+          </div>
+        </section>
+
+        <!-- ── Team ── -->
+        <section class="view" id="view-team">
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#00CD9C"></span>Teamleden</h2>
+            <div class="card-sub">Wie kan inloggen op dit beheerpaneel. Voeg een medewerker toe met het e-mailadres waarmee die een VUmed-account heeft.</div>
+            <div class="team-add">
+              <input id="team-email" type="email" placeholder="medewerker@voorbeeld.nl" autocomplete="off">
+              <button id="team-add-btn">Toevoegen</button>
+            </div>
+            <div id="team-list"><div class="card-sub">Laden…</div></div>
+            <div class="note" style="margin-top:14px;">Een teamlid heeft eerst een gewoon VUmed-account nodig. Daarna kun je het hier toevoegen. Je kunt jezelf niet verwijderen en er blijft altijd minstens één beheerder.</div>
+          </div>
+        </section>
+
+        <!-- ── Mail ── -->
+        <section class="view" id="view-mail">
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#58CC02"></span>Mail versturen</h2>
+            <div class="card-sub">Stuur een eigen mail (update, storing, aankondiging) naar alle aangemelde gebruikers. Eerst een proefronde, dan pas echt.</div>
+            <div class="m-grid">
+              <label>Onderwerp (in de inbox)<input id="ml-subject" type="text" placeholder="Bijv. Nieuwe functie: vrienden toevoegen" autocomplete="off"></label>
+              <label>Titel (grote kop in de mail)<input id="ml-title" type="text" placeholder="Bijv. Er is iets nieuws!" autocomplete="off"></label>
+              <label class="m-full">Bericht — lege regel = nieuwe alinea<textarea id="ml-msg" rows="6" placeholder="Typ hier je bericht…"></textarea></label>
+              <label>Knop-tekst (optioneel)<input id="ml-cta" type="text" placeholder="Bijv. Bekijk het nu" autocomplete="off"></label>
+              <label>Knop-link<input id="ml-cta-url" type="text" placeholder="https://vumed.nl/dashboard.html" autocomplete="off"></label>
+              <label class="m-full">Campagne-code (uniek per mail — dezelfde code gaat nooit twee keer naar iemand)<input id="ml-slug" type="text" autocomplete="off"></label>
+            </div>
+            <div class="m-actions">
+              <button class="m-btn m-ghost" id="ml-preview">Voorbeeld</button>
+              <button class="m-btn m-ghost" id="ml-dry">Proefronde</button>
+              <button class="m-btn m-send" id="ml-send" disabled>Versturen</button>
+            </div>
+            <div class="m-status" id="ml-status"></div>
+            <div class="m-prevwrap" id="ml-prevwrap" style="display:none;">
+              <div class="m-prevsub" id="ml-prevsub"></div>
+              <iframe id="ml-frame" title="Voorbeeld van de mail"></iframe>
+            </div>
+          </div>
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#1CB0F6"></span>Push versturen</h2>
+            <div class="card-sub">Stuur een pushmelding naar alle toestellen met de app geïnstalleerd. Eerst een proefronde, dan pas echt.</div>
+            <div class="m-grid">
+              <label>Titel<input id="pl-title" type="text" placeholder="Bijv. Nieuwe tentamens toegevoegd!" autocomplete="off"></label>
+              <label class="m-full">Bericht<textarea id="pl-body" rows="3" placeholder="Typ hier je pushbericht…"></textarea></label>
+            </div>
+            <div class="m-actions">
+              <button class="m-btn m-ghost" id="pl-dry">Proefronde</button>
+              <button class="m-btn m-send" id="pl-send" disabled>Versturen</button>
+            </div>
+            <div class="m-status" id="pl-status"></div>
+          </div>
+        </section>
+
+        <!-- ── Systeem ── -->
+        <section class="view" id="view-system">
+          <div class="grid-2">
+            <div class="card">
+              <h2>Live feed</h2>
+              <div class="card-sub">Laatste opgeslagen antwoorden</div>
+              <div id="feed"></div>
+            </div>
+            <div class="card">
+              <h2>Content-gezondheid</h2>
+              <div class="card-sub">Uit het overnight review-log</div>
+              <div id="health"></div>
+            </div>
+          </div>
+          <div class="card">
+            <h2>Snelkoppelingen</h2>
+            <div class="card-sub">Externe hulpmiddelen &amp; dashboards</div>
+            <div class="sys-foot" style="text-align:left;margin-top:0;">
+              <a href="https://supabase.com/dashboard/project/dxhawldqluihhvfeswlc" target="_blank" rel="noopener">Supabase dashboard</a>
+              &nbsp;·&nbsp; <a href="admin_avatar.html">Avatar-items beheren</a>
+              &nbsp;·&nbsp; <a href="overnight/review.html">Review-dashboard</a>
+              &nbsp;·&nbsp; <a href="vumed.html">Naar de app</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+  <div class="adm-tip" id="adm-tip"></div>
+
+  <!-- User detail / management modal -->
+  <div class="mv-ov" id="mv-ov">
+    <div class="mv" id="mv"></div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+<script>
+/* Recovery-intentie SYNCHROON uit de URL-hash lezen — vóór de Supabase-client
+   wordt aangemaakt (die strip de hash tijdens detectSessionInUrl). */
+let _recovery = false;
+try { _recovery = /type=recovery/.test(location.hash || ''); } catch (e) {}
+
+/* ══════════════ Supabase ══════════════
+   Eigen storageKey → een SEPARATE staff-sessie, losgekoppeld van de
+   student-app. Inloggen op admin.html logt je dus NIET in de app in en
+   omgekeerd — het is een echt apart teamportaal. */
+let _sbClient = null;
+function getSB() {
+  if (_sbClient) return _sbClient;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _sbClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, {
+          auth: { storageKey: 'vumed-admin-auth', persistSession: true, autoRefreshToken: true }
+        }); window._sbInstance = _sbClient; }
+  catch(e) { return null; }
+  return _sbClient;
+}
+
+/* ══════════════ Helpers ══════════════ */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf  = n => (n || 0).toLocaleString('nl-NL');
+
+function fmtRel(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso), s = (Date.now() - d.getTime()) / 1000;
+  if (s < 60) return 'zojuist';
+  if (s < 3600) return Math.floor(s/60) + ' min geleden';
+  if (s < 86400) return Math.floor(s/3600) + ' uur geleden';
+  const days = Math.floor(s/86400);
+  if (days === 1) return 'gisteren';
+  if (days < 14) return days + ' dagen geleden';
+  return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function fmtDay(dstr) {
+  const d = new Date(dstr + 'T12:00:00');
+  return d.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
+}
+
+const TIERS = [
+  { min: 50000, name: 'Hoogleraar',   color: '#FF4B6E' },
+  { min: 40000, name: 'Specialist',   color: '#FFB800' },
+  { min: 30000, name: 'AIOS',         color: '#B57BF6' },
+  { min: 20000, name: 'Basisarts',    color: '#1CB0F6' },
+  { min: 10000, name: 'Co-assistent', color: '#00CD9C' },
+  { min: 0,     name: 'Student',      color: '#58CC02' },
+];
+const tierOf = xp => TIERS.find(t => xp >= t.min);
+
+/* Mini avatar — same pattern as profile.html makeMiniAvatar() */
+function miniAvatarHTML(svgStr, name) {
+  if (svgStr) {
+    const inner = svgStr.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+    return '<div class="mini-avatar" style="background:#e8f7ff;">' +
+      '<svg viewBox="50 10 300 265" width="36" height="36" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg></div>';
+  }
+  const colors = ['#1CB0F6','#58CC02','#FF9600','#B57BF6','#FF4B4B'];
+  const c = colors[((name || '?').charCodeAt(0) || 0) % colors.length];
+  return '<div class="mini-avatar" style="background:' + c + ';">' + esc((name || '?')[0].toUpperCase()) + '</div>';
+}
+
+/* ══════════════ Catalog (parsed live from vumed.html — single source) ══════════════ */
+const CATALOG = { links: {}, qcount: {}, ready: false };   // links: filename -> {subject, moment, year}
+async function loadCatalog() {
+  try {
+    const txt = await (await fetch('vumed.html', { cache: 'no-store' })).text();
+    const lb = txt.match(/const EXAM_LINKS = \{([\s\S]*?)\n\};/);
+    if (lb) for (const m of lb[1].matchAll(/"([^"|]+)\|([^"|]+)\|([^"]+?)\*?"\s*:\s*"([^"]+)"/g))
+      CATALOG.links[m[4]] = { subject: m[1], moment: m[2], year: m[3] };
+    const qb = txt.match(/const EXAM_Q_COUNT = \{([\s\S]*?)\n\};/);
+    if (qb) for (const m of qb[1].matchAll(/"([^"]+\.html)"\s*:\s*(\d+)/g))
+      CATALOG.qcount[m[1]] = parseInt(m[2], 10);
+    CATALOG.ready = true;
+  } catch(e) { console.warn('catalogus laden mislukt', e); }
+}
+
+const ABBR = { ha: 'Huid en afweer', ho: 'Hematologie en Oncologie', mwo: 'MWO' };
+const MOMENT_MAP = { '1e_toetsmoment':'1e Toetsmoment','1e_kans':'1e Toetsmoment','1e':'1e Toetsmoment',
+                     '2e_toetsmoment':'2e Toetsmoment','2e_kans':'2e Toetsmoment','herkansing':'2e Toetsmoment','2e':'2e Toetsmoment' };
+function examMeta(examKey) {
+  const file = examKey + '.html';
+  if (CATALOG.links[file]) return { ...CATALOG.links[file], qTotal: CATALOG.qcount[file] || null };
+  const m = examKey.match(/^(.*?)_(\d{4})_(\d{4})_?(.*)$/);
+  if (m) {
+    let subj = ABBR[m[1]] || m[1].replace(/_/g, ' ');
+    subj = subj.charAt(0).toUpperCase() + subj.slice(1);
+    return { subject: subj, moment: MOMENT_MAP[m[4]] || m[4].replace(/_/g, ' '), year: m[2] + '-' + m[3], qTotal: CATALOG.qcount[file] || null };
+  }
+  return { subject: examKey.replace(/_/g, ' '), moment: '', year: '', qTotal: null };
+}
+const examLabel = k => { const e = examMeta(k); return [e.subject, e.year, e.moment].filter(Boolean).join(' · '); };
+
+/* ══════════════ Tooltip ══════════════ */
+const tip = $('adm-tip');
+function showTip(html, x, y) {
+  tip.innerHTML = html; tip.style.display = 'block';
+  const r = tip.getBoundingClientRect();
+  let left = x + 14, top = y - r.height - 10;
+  if (left + r.width > window.innerWidth - 8) left = x - r.width - 14;
+  if (top < 8) top = y + 16;
+  tip.style.left = left + 'px'; tip.style.top = top + 'px';
+}
+function hideTip() { tip.style.display = 'none'; }
+
+/* ══════════════ Renderers ══════════════ */
+/* Inline SVG icons, navbar.js-style (simple filled shapes, brand blue) — never emoji */
+const _svg = inner => '<svg viewBox="0 0 24 24" fill="#1CB0F6">' + inner + '</svg>';
+const ICON = {
+  users:  _svg('<circle cx="9" cy="8" r="3.6"/><path d="M2.8 18.6c0-3.1 2.8-5.1 6.2-5.1s6.2 2 6.2 5.1V20H2.8z"/><circle cx="16.8" cy="8.6" r="3" opacity=".55"/><path d="M16.6 13.6c2.8.3 4.9 2.1 4.9 4.8V20h-3.6v-1.4c0-1.9-.5-3.6-1.3-5z" opacity=".55"/>'),
+  bolt:   _svg('<path d="M13.2 2 4.5 13.6h5.4L8.8 22l8.7-11.6h-5.4z"/>'),
+  check:  _svg('<circle cx="12" cy="12" r="10" opacity=".16"/><path d="M7.4 12.4l3.1 3.1 6.1-6.6" fill="none" stroke="#1CB0F6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'),
+  trophy: _svg('<path d="M7 3h10v7.5a5 5 0 0 1-10 0z"/><path d="M5 5H2.8c0 3.1 1.6 4.8 4.2 5.3V8.2C5.9 7.9 5.2 6.8 5 5zm14 0h2.2c0 3.1-1.6 4.8-4.2 5.3V8.2c1.1-.3 1.8-1.4 2-3.2z" opacity=".55"/><rect x="10.6" y="14.5" width="2.8" height="3.2"/><rect x="7.8" y="18.2" width="8.4" height="2.6" rx="1.2"/>'),
+  book:   _svg('<path d="M4.5 4.5A2.5 2.5 0 0 1 7 2h12.5v15H7a2.5 2.5 0 0 0-2.5 2.5z"/><path d="M7 17.8h12.5V22H7a2.1 2.1 0 0 1 0-4.2z" opacity=".55"/>'),
+  target: _svg('<circle cx="12" cy="12" r="10" opacity=".16"/><circle cx="12" cy="12" r="6" opacity=".4"/><circle cx="12" cy="12" r="2.6"/>'),
+  puzzle: _svg('<rect x="3" y="3" width="8.2" height="8.2" rx="2"/><rect x="12.8" y="3" width="8.2" height="8.2" rx="2" opacity=".55"/><rect x="3" y="12.8" width="8.2" height="8.2" rx="2" opacity=".55"/><rect x="12.8" y="12.8" width="8.2" height="8.2" rx="2" opacity=".28"/>'),
+  gem:    _svg('<path d="M7 3.5h10l4.2 5.7L12 21 2.8 9.2z"/><path d="M2.8 9.2h18.4L12 12z" opacity=".35" fill="#fff"/>'),
+};
+
+function renderTiles(ov) {
+  const liveExams = Object.keys(CATALOG.links).length;
+  const qCatalog = Object.values(CATALOG.qcount).reduce((a, b) => a + b, 0);
+  const pctOK = ov.questions_answered ? Math.round(100 * ov.questions_correct / ov.questions_answered) : 0;
+  const tiles = [
+    { i: ICON.users,  c:['#1CB0F6','#0E85B5'], l:'Gebruikers',          v: nf(ov.total_users),        s: nf(ov.new_users_30d) + ' nieuw (30d)' },
+    { i: ICON.bolt,   c:['#58CC02','#3DA000'], l:'Actief (7 dagen)',     v: nf(ov.active_7d),          s: nf(ov.active_24h) + ' in de laatste 24 uur' },
+    { i: ICON.check,  c:['#00CD9C','#009B77'], l:'Vragen beantwoord',    v: nf(ov.questions_answered), s: nf(ov.questions_correct) + ' goed (' + pctOK + '%)' },
+    { i: ICON.trophy, c:['#CE82FF','#9345D4'], l:'Totale XP',            v: nf(ov.total_xp),           s: ov.total_users ? '~' + nf(Math.round(ov.total_xp / ov.total_users)) + ' per gebruiker' : '' },
+    { i: ICON.book,   c:['#FF9600','#E07B00'], l:'Tentamens aangeraakt', v: nf(ov.exams_touched),      s: 'van ' + nf(liveExams) + ' live' },
+    { i: ICON.target, c:['#FF4B6E','#D62F4F'], l:'Tentamens afgerond',   v: nf(ov.completions),        s: 'volledig ingeleverd' },
+    { i: ICON.puzzle, c:['#7C6FF0','#5849C7'], l:'Vragen in catalogus',  v: nf(qCatalog),              s: nf(liveExams) + ' tentamens live' },
+    { i: ICON.gem,    c:['#FFC800','#F0A500'], l:'Gems & munten',        v: nf(ov.total_gems),         s: nf(ov.total_coins) + ' munten in omloop' },
+  ];
+  $('tiles').innerHTML = tiles.map(t =>
+    '<div class="tile" style="--a1:' + t.c[0] + ';--a2:' + t.c[1] + '">' +
+    '<div class="t-top"><span class="t-ic">' + t.i + '</span><span class="t-label">' + esc(t.l) + '</span></div>' +
+    '<div class="t-value">' + t.v + '</div><div class="t-sub">' + esc(t.s) + '</div></div>').join('');
+}
+
+/* Bar with rounded top corners, anchored to the baseline */
+function topRoundedBar(x, y, w, h, r) {
+  r = Math.max(0, Math.min(r, w / 2, h));
+  return 'M' + x + ' ' + (y + h) + ' V' + (y + r) + ' Q' + x + ' ' + y + ' ' + (x + r) + ' ' + y +
+         ' H' + (x + w - r) + ' Q' + (x + w) + ' ' + y + ' ' + (x + w) + ' ' + (y + r) + ' V' + (y + h) + ' Z';
+}
+function niceCeil(v) {
+  if (v <= 4) return 4;
+  const p = Math.pow(10, Math.floor(Math.log10(v)));
+  for (const m of [1, 2, 5, 10]) if (m * p >= v) return m * p;
+  return 10 * p;
+}
+
+function renderChart(days) {
+  const W = 880, H = 230, padL = 40, padR = 8, padT = 20, padB = 24;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const n = days.length;
+  const yMax = niceCeil(Math.max(...days.map(d => d.questions_answered), 1));
+  const bw = plotW / n;
+  const barW = Math.max(2, bw - 2);            /* 2px surface gap between bars */
+  const y = v => padT + plotH * (1 - v / yMax);
+  const isDark = document.documentElement.classList.contains('dark');
+  const grid = isDark ? '#3A3A3C' : '#ECECEE';
+  const txt = isDark ? '#8E8E93' : '#8E8E93';
+  const barFill = isDark ? '#0E9DE0' : '#1CB0F6';
+
+  let maxIdx = 0;
+  days.forEach((d, i) => { if (d.questions_answered > days[maxIdx].questions_answered) maxIdx = i; });
+
+  let s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Vragen beantwoord per dag, laatste 30 dagen">';
+  /* grid: 3 recessive lines */
+  [0, 0.5, 1].forEach(f => {
+    const gy = y(yMax * f);
+    s += '<line x1="' + padL + '" y1="' + gy + '" x2="' + (W - padR) + '" y2="' + gy + '" stroke="' + grid + '" stroke-width="1"/>';
+    s += '<text x="' + (padL - 7) + '" y="' + (gy + 4) + '" text-anchor="end" font-size="11" font-weight="700" fill="' + txt + '">' + Math.round(yMax * f) + '</text>';
+  });
+  /* bars */
+  days.forEach((d, i) => {
+    const x = padL + i * bw + 1;
+    if (d.questions_answered > 0) {
+      const by = y(d.questions_answered), bh = padT + plotH - by;
+      s += '<path d="' + topRoundedBar(x, by, barW, bh, 3) + '" fill="' + barFill + '"/>';
+      /* selective direct labels: peak day + today (contrast relief) */
+      if (i === maxIdx || i === n - 1)
+        s += '<text x="' + (x + barW / 2) + '" y="' + (by - 5) + '" text-anchor="middle" font-size="11" font-weight="800" fill="' + txt + '">' + d.questions_answered + '</text>';
+    }
+    /* x labels every 5 days */
+    if (i % 5 === 0 || i === n - 1) {
+      const dd = new Date(d.day + 'T12:00:00');
+      s += '<text x="' + (x + barW / 2) + '" y="' + (H - 7) + '" text-anchor="middle" font-size="11" font-weight="700" fill="' + txt + '">' + dd.getDate() + '/' + (dd.getMonth() + 1) + '</text>';
+    }
+    /* hover: column highlight + full-height hit target */
+    s += '<rect class="bar-hl" data-hl="' + i + '" x="' + (padL + i * bw) + '" y="' + padT + '" width="' + bw + '" height="' + plotH + '" rx="3"/>';
+    s += '<rect class="bar-hit" data-i="' + i + '" x="' + (padL + i * bw) + '" y="' + padT + '" width="' + bw + '" height="' + plotH + '"/>';
+  });
+  s += '</svg>';
+  $('chart-wrap').innerHTML = s;
+
+  const svg = $('chart-wrap').querySelector('svg');
+  svg.addEventListener('mousemove', e => {
+    const t = e.target.closest('.bar-hit'); if (!t) { hideTip(); hl(-1); return; }
+    const i = +t.dataset.i, d = days[i];
+    hl(i);
+    showTip('<div class="tt-date">' + esc(fmtDay(d.day)) + '</div>' +
+      '<span class="tt-chip"></span>' + nf(d.questions_answered) + (d.questions_answered === 1 ? ' vraag' : ' vragen') + ' <span class="tt-muted">(' + nf(d.questions_correct) + ' goed)</span><br>' +
+      nf(d.active_users) + ' actieve gebruiker' + (d.active_users === 1 ? '' : 's') +
+      (d.signups ? '<br>' + nf(d.signups) + ' nieuwe aanmelding' + (d.signups > 1 ? 'en' : '') : '') +
+      (d.saves ? '<br><span class="tt-muted">' + nf(d.saves) + ' laatste-save' + (d.saves > 1 ? 's' : '') + ' op deze dag</span>' : ''),
+      e.clientX, e.clientY);
+  });
+  svg.addEventListener('mouseleave', () => { hideTip(); hl(-1); });
+  function hl(i) { svg.querySelectorAll('.bar-hl').forEach(r => r.style.opacity = (+r.dataset.hl === i) ? 1 : 0); }
+
+  /* heat strip: active users per day (sequential, one hue) */
+  const maxU = Math.max(...days.map(d => d.active_users), 1);
+  $('heat-row').innerHTML = days.map((d, i) => {
+    const a = d.active_users / maxU;
+    const bg = d.active_users === 0 ? 'transparent'
+      : 'rgba(' + (isDark ? '14,157,224' : '28,176,246') + ',' + (0.25 + 0.75 * a).toFixed(2) + ')';
+    return '<div class="heat-cell" data-i="' + i + '" style="background:' + bg + ';"></div>';
+  }).join('');
+  $('heat-row').addEventListener('mousemove', e => {
+    const c = e.target.closest('.heat-cell'); if (!c) return;
+    const d = days[+c.dataset.i];
+    showTip('<div class="tt-date">' + esc(fmtDay(d.day)) + '</div>' + nf(d.active_users) + ' actieve gebruiker' + (d.active_users === 1 ? '' : 's'), e.clientX, e.clientY);
+  });
+  $('heat-row').addEventListener('mouseleave', hideTip);
+
+  /* table view (accessibility / contrast relief) */
+  $('chart-table').innerHTML =
+    '<tr><th class="no-sort">Dag</th><th class="no-sort">Vragen</th><th class="no-sort">Goed</th><th class="no-sort">Actief</th><th class="no-sort">Aanmeldingen</th></tr>' +
+    days.map(d => '<tr><td>' + esc(fmtDay(d.day)) + '</td><td>' + nf(d.questions_answered) + '</td><td>' + nf(d.questions_correct) + '</td><td>' + nf(d.active_users) + '</td><td>' + nf(d.signups) + '</td></tr>').join('');
+}
+
+/* ── Users table (sortable + searchable) ── */
+let _users = [], _sortKey = 'total_xp', _sortDir = -1, _userQ = '';
+let _uid = null;
+const U_COLS = [
+  { k: '_name',              l: 'Gebruiker' },
+  { k: 'created_at',         l: 'Aangemeld' },
+  { k: 'last_seen',          l: 'Laatst gezien' },
+  { k: 'total_xp',           l: 'XP' },
+  { k: 'login_streak',       l: 'Streak' },
+  { k: 'exams_touched',      l: 'Tentamens' },
+  { k: 'questions_answered', l: 'Vragen' },
+  { k: '_pct',               l: '% goed' },
+  { k: '_open',              l: '' },
+];
+function renderUsers() {
+  const q = _userQ.trim().toLowerCase();
+  let rows = [..._users];
+  if (q) rows = rows.filter(u => (u._name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q));
+  rows.sort((a, b) => {
+    const va = a[_sortKey], vb = b[_sortKey];
+    if (typeof va === 'string' || typeof vb === 'string') return String(va).localeCompare(String(vb)) * _sortDir;
+    return ((va || 0) - (vb || 0)) * _sortDir;
+  });
+  $('users-empty').style.display = rows.length ? 'none' : '';
+  $('users-table').innerHTML =
+    '<tr>' + U_COLS.map(c => '<th data-k="' + c.k + '" class="' + (c.k === '_open' ? 'no-sort' : '') + '">' + c.l +
+      (c.k === _sortKey && c.k !== '_open' ? ' <span class="arrow">' + (_sortDir < 0 ? '▼' : '▲') + '</span>' : '') + '</th>').join('') + '</tr>' +
+    rows.map(u => {
+      const t = tierOf(u.total_xp);
+      return '<tr class="u-row" data-uid="' + esc(u.id) + '">' +
+        '<td><div class="u-cell">' + miniAvatarHTML(u.avatar_svg, u._name) +
+          '<div><div class="u-name">' + esc(u._name) + (u.is_admin ? ' <span class="chip admin">Admin</span>' : '') + '</div>' +
+          '<div class="u-mail">' + esc(u.email) + '</div></div></div></td>' +
+        '<td>' + new Date(u.created_at).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }) + '</td>' +
+        '<td>' + esc(fmtRel(u.last_seen)) + '</td>' +
+        '<td><b>' + nf(u.total_xp) + '</b> <span class="chip" style="background:' + t.color + ';">' + t.name + '</span></td>' +
+        '<td>' + (u.login_streak > 0 ? u.login_streak + ' dg' : '—') + '</td>' +
+        '<td>' + nf(u.exams_touched) + '</td>' +
+        '<td>' + nf(u.questions_answered) + '</td>' +
+        '<td>' + (u.questions_answered ? u._pct + '%' : '—') + '</td>' +
+        '<td><span class="u-open">Beheer →</span></td></tr>';
+    }).join('');
+  $('users-table').querySelectorAll('th').forEach(th => th.addEventListener('click', () => {
+    const k = th.dataset.k;
+    if (k === '_open') return;
+    if (_sortKey === k) _sortDir *= -1; else { _sortKey = k; _sortDir = -1; }
+    renderUsers();
+  }));
+  $('users-table').querySelectorAll('tr.u-row').forEach(tr => tr.addEventListener('click', () => openUser(tr.dataset.uid)));
+}
+
+function renderExams(stats) {
+  /* subject rollup chips */
+  const bySubj = {};
+  stats.forEach(s => { const subj = examMeta(s.exam_key).subject; bySubj[subj] = (bySubj[subj] || 0) + (s.questions_answered || 0); });
+  $('subj-chips').innerHTML = Object.entries(bySubj).sort((a, b) => b[1] - a[1])
+    .map(([s, q]) => '<span class="subj-chip">' + esc(s) + ' · <b>' + nf(q) + '</b></span>').join('');
+
+  $('exams-table').innerHTML =
+    '<tr><th class="no-sort">Tentamen</th><th class="no-sort">Gebruikers</th><th class="no-sort">Vragen</th><th class="no-sort">Beste voortgang</th><th class="no-sort">Laatst actief</th></tr>' +
+    stats.map(s => {
+      const meta = examMeta(s.exam_key);
+      const pct = meta.qTotal ? Math.min(100, Math.round(100 * s.max_answered / meta.qTotal)) : null;
+      return '<tr><td style="white-space:normal;">' + esc(examLabel(s.exam_key)) + '</td>' +
+        '<td>' + nf(s.users) + '</td>' +
+        '<td>' + nf(s.questions_answered) + ' <span class="u-mail">(' + nf(s.questions_correct) + ' goed)</span></td>' +
+        '<td>' + (pct !== null
+          ? '<span class="prog-mini"><i style="width:' + pct + '%;"></i></span>' + pct + '% <span class="u-mail">van ' + meta.qTotal + '</span>'
+          : nf(s.max_answered) + (s.max_answered === 1 ? ' vraag' : ' vragen')) + '</td>' +
+        '<td>' + esc(fmtRel(s.last_activity)) + '</td></tr>';
+    }).join('');
+}
+
+function renderCoverage(stats) {
+  const touched = new Set(stats.map(s => s.exam_key + '.html'));
+  const untouched = Object.entries(CATALOG.links).filter(([file]) => !touched.has(file));
+  const total = Object.keys(CATALOG.links).length;
+  $('cov-sub').textContent = untouched.length
+    ? (total - untouched.length) + ' van ' + total + ' tentamens ooit geopend — ' + untouched.length + ' nog onaangeraakt'
+    : 'Alle ' + total + ' tentamens zijn wel eens geopend.';
+  const bySubj = {};
+  untouched.forEach(([file, meta]) => { (bySubj[meta.subject] = bySubj[meta.subject] || []).push(meta); });
+  $('cov-body').innerHTML = Object.entries(bySubj).sort((a, b) => b[1].length - a[1].length)
+    .map(([subj, list]) =>
+      '<details class="cov"><summary>' + esc(subj) + ' — ' + list.length + ' onaangeraakt</summary>' +
+      '<div class="cov-list">' + list.map(m => esc(m.year + ' · ' + m.moment)).join('<br>') + '</div></details>').join('');
+}
+
+function renderFeed(events) {
+  $('feed').innerHTML = events.length ? events.map(e => {
+    const name = e.display_name || (e.email || '?').split('@')[0];
+    return '<div class="feed-item">' + miniAvatarHTML(e.avatar_svg, name) +
+      '<div class="feed-txt"><b>' + esc(name) + '</b> · <span class="f-exam">' + esc(examLabel(e.exam_key)) + '</span><br>' +
+      '<span class="f-delta">+' + e.answered_delta + ' ' + (e.answered_delta === 1 ? 'vraag' : 'vragen') + '</span>' +
+      ' <span class="u-mail">(' + e.correct_delta + ' goed · nu op ' + e.answered_total + ')</span></div>' +
+      '<span class="feed-time">' + esc(fmtRel(e.created_at)) + '</span></div>';
+  }).join('')
+  : '<div class="note">Nog geen events — het activiteiten-log vult zich vanaf nu bij elke opgeslagen vraag.</div>';
+}
+
+function renderReports(reports) {
+  const open = reports.filter(r => r.status === 'open').length;
+  const nb = $('nav-reports');
+  if (nb) { nb.style.display = open ? '' : 'none'; nb.textContent = open; }
+  $('reports-sub').textContent = reports.length
+    ? open + ' open van ' + reports.length + ' melding' + (reports.length === 1 ? '' : 'en') + ' — via de vlag-knop in het tentamen'
+    : 'Door studenten gemelde vragen (vlag-knop in het tentamen)';
+  if (!reports.length) {
+    $('reports').innerHTML = '<div class="note">Nog geen meldingen — studenten kunnen met de vlag-knop rechtsonder in een tentamen een vraag rapporteren.</div>';
+    return;
+  }
+  $('reports').innerHTML = reports.map(r => {
+    const who = r.email ? (r.display_name || r.email.split('@')[0]) : 'Anoniem';
+    const link = esc(r.exam_key) + '.html#qblock-' + (+r.qnum || 0);
+    return '<div class="rep-item' + (r.status === 'resolved' ? ' resolved' : '') + '">' +
+      '<span class="badge ' + (r.status === 'open' ? 'open' : 'resolved-b') + '">' + (r.status === 'open' ? 'Open' : 'Afgehandeld') + '</span>' +
+      '<div class="rep-body">' +
+        '<div class="rep-head"><a class="r-exam" href="' + link + '" target="_blank" rel="noopener">' +
+          esc(examLabel(r.exam_key)) + ' · Vraag ' + esc(r.qnum) + '</a>' +
+        ' <span class="r-user">— ' + esc(who) + (r.email ? ' (' + esc(r.email) + ')' : '') + '</span></div>' +
+        '<div class="rep-msg">' + esc(r.message) + '</div>' +
+      '</div>' +
+      '<div class="rep-side"><span class="rep-time">' + esc(fmtRel(r.created_at)) + '</span>' +
+        '<button class="rep-btn" data-id="' + esc(r.id) + '" data-to="' + (r.status === 'open' ? 'resolved' : 'open') + '">' +
+        (r.status === 'open' ? 'Afhandelen' : 'Heropenen') + '</button></div>' +
+      '</div>';
+  }).join('');
+  $('reports').querySelectorAll('.rep-btn').forEach(btn => btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    const { error } = await getSB().rpc('admin_report_set_status', { p_id: btn.dataset.id, p_status: btn.dataset.to });
+    if (error) { console.error(error); btn.disabled = false; return; }
+    const { data } = await getSB().rpc('admin_reports_list');
+    renderReports(data || []);
+  }));
+}
+
+const UREPORT_REASON = { name: 'Ongepaste naam', avatar: 'Ongepaste avatar', harassment: 'Intimidatie of pesten', spam: 'Spam', other: 'Anders' };
+function renderUserReports(reports) {
+  const open = reports.filter(r => r.status === 'open').length;
+  const nb = $('nav-ureports');
+  if (nb) { nb.style.display = open ? '' : 'none'; nb.textContent = open; }
+  $('ureports-sub').textContent = reports.length
+    ? open + ' open van ' + reports.length + ' melding' + (reports.length === 1 ? '' : 'en') + ' over profielen'
+    : 'Meldingen over profielen (naam/avatar/gedrag) via de rapporteer-knop op een publiek profiel';
+  if (!reports.length) {
+    $('ureports').innerHTML = '<div class="note">Nog geen gebruikersmeldingen — studenten kunnen via de ⋮-knop op een publiek profiel iemand rapporteren.</div>';
+    return;
+  }
+  $('ureports').innerHTML = reports.map(r => {
+    const reason = UREPORT_REASON[r.reason] || esc(r.reason || 'Anders');
+    const rptd = esc(r.reported_name || 'Onbekend') + (r.reported_email ? ' (' + esc(r.reported_email) + ')' : '');
+    const multi = (+r.reported_open_count > 1) ? ' <span class="badge open">' + (+r.reported_open_count) + '× gemeld</span>' : '';
+    return '<div class="rep-item' + (r.status === 'resolved' ? ' resolved' : '') + '">' +
+      '<span class="badge ' + (r.status === 'open' ? 'open' : 'resolved-b') + '">' + (r.status === 'open' ? 'Open' : 'Afgehandeld') + '</span>' +
+      '<div class="rep-body">' +
+        '<div class="rep-head"><a class="r-exam" href="gebruiker.html?u=' + encodeURIComponent(r.reported_id) + '" target="_blank" rel="noopener">' +
+          rptd + '</a> <span class="r-user">— ' + reason + multi + '</span></div>' +
+        (r.details ? '<div class="rep-msg">' + esc(r.details) + '</div>' : '') +
+        '<div class="rep-msg" style="opacity:.6;font-size:12px;">Gemeld door ' + esc(r.reporter_name || 'Onbekend') + '</div>' +
+      '</div>' +
+      '<div class="rep-side"><span class="rep-time">' + esc(fmtRel(r.created_at)) + '</span>' +
+        '<button class="rep-btn" data-id="' + esc(r.id) + '" data-to="' + (r.status === 'open' ? 'resolved' : 'open') + '">' +
+        (r.status === 'open' ? 'Afhandelen' : 'Heropenen') + '</button></div>' +
+      '</div>';
+  }).join('');
+  $('ureports').querySelectorAll('.rep-btn').forEach(btn => btn.addEventListener('click', async () => {
+    btn.disabled = true;
+    const { error } = await getSB().rpc('admin_user_report_set_status', { p_id: btn.dataset.id, p_status: btn.dataset.to });
+    if (error) { console.error(error); btn.disabled = false; return; }
+    const { data } = await getSB().rpc('admin_user_reports_list');
+    renderUserReports(data || []);
+  }));
+}
+
+/* ══════════════ Te reviewen vragen ══════════════ */
+let _reviewGroups = [];
+let _reviewDone = new Set();          // "exam_key#qnum" already approved
+let _reviewHideDone = false;
+const REVIEW_KEY = 'admin_review_resolved';   // pseudo exam_progress row (no migration)
+const REVIEW_LS = 'vumed_review_resolved';
+const CONF_RANK = { low: 0, medium: 1, high: 2 };
+const revRef = (key, q) => key + '#' + q;
+const ICON_CHECK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" style="vertical-align:-2px;margin-right:4px;"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+async function loadReviewDone() {
+  /* localStorage mirror first (instant), then merge cloud */
+  try { (JSON.parse(localStorage.getItem(REVIEW_LS) || '[]') || []).forEach(r => _reviewDone.add(r)); } catch(e) {}
+  try {
+    const sb = getSB();
+    if (sb && _uid) {
+      const { data } = await sb.from('exam_progress').select('progress').eq('user_id', _uid).eq('exam_key', REVIEW_KEY).maybeSingle();
+      const arr = data && data.progress && data.progress.resolved;
+      if (Array.isArray(arr)) arr.forEach(r => _reviewDone.add(r));
+    }
+  } catch(e) { console.warn('review-resolved laden mislukt', e); }
+}
+
+async function persistReviewDone() {
+  const arr = [..._reviewDone];
+  try { localStorage.setItem(REVIEW_LS, JSON.stringify(arr)); } catch(e) {}
+  try {
+    const sb = getSB();
+    if (sb && _uid)
+      await sb.from('exam_progress').upsert(
+        { user_id: _uid, exam_key: REVIEW_KEY, progress: { resolved: arr }, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id,exam_key' });
+  } catch(e) { console.warn('review-resolved opslaan mislukt', e); toast('Opslaan naar de cloud mislukt — lokaal bewaard', 'err'); }
+}
+
+async function toggleReviewDone(ref, btn) {
+  if (btn) btn.disabled = true;
+  if (_reviewDone.has(ref)) _reviewDone.delete(ref); else _reviewDone.add(ref);
+  await persistReviewDone();
+  paintReview($('review-q') ? $('review-q').value : '');
+}
+
+/* Data komt uit review_queue.json (gedeployd, GEEN antwoordsleutels). Lokaal is
+   er een fallback naar de rauwe overnight/review_log.jsonl. `_reviewData` bevat
+   {exams, summary} zodat renderReview én renderHealth dezelfde bron delen. */
+let _reviewData = null;
+async function fetchReviewData() {
+  if (_reviewData) return _reviewData;
+  try {
+    const r = await fetch('review_queue.json', { cache: 'no-store' });
+    if (r.ok) {
+      const j = await r.json();
+      if (j && Array.isArray(j.exams)) { _reviewData = j; return _reviewData; }
+    }
+  } catch(e) {}
+  /* dev-fallback: rauwe jsonl naast de overnight-rig */
+  try {
+    const r = await fetch('overnight/review_log.jsonl', { cache: 'no-store' });
+    if (!r.ok) throw 0;
+    const recs = (await r.text()).trim().split('\n').filter(Boolean)
+      .map(l => { try { return JSON.parse(l); } catch(e) { return null; } }).filter(Boolean);
+    const latest = {}; recs.forEach(rec => { latest[rec.exam_key] = rec; });
+    const all = Object.values(latest);
+    const conf = { high: 0, medium: 0, low: 0 }; let flagged_q = 0, star_q = 0, total_q = 0;
+    const top_flagged = [];
+    const countStars = ak => { let n = 0; const s = v => { if (typeof v === 'string' && v.includes('*')) n++; else if (Array.isArray(v)) v.forEach(s); }; Object.values(ak || {}).forEach(s); return n; };
+    const exams = all.map(rec => {
+      if (rec.confidence in conf) conf[rec.confidence]++;
+      total_q += rec.total_q || 0;
+      const stars = countStars(rec.answer_key); star_q += stars;
+      const fl = rec.flagged || []; flagged_q += fl.length;
+      if (stars) top_flagged.push({ key: rec.exam_key, f: stars });
+      return { key: rec.exam_key, html: rec.html || (rec.exam_key + '.html'), subject: rec.subject || '',
+        moment: rec.moment || '', year: rec.year || '', conf: rec.confidence || 'low', stars,
+        flagged: fl.map(f => ({ q: f.q, why: f.why || 'Gemarkeerd voor review' })) };
+    }).filter(e => e.flagged.length || e.conf !== 'high' || e.stars);
+    top_flagged.sort((a, b) => b.f - a.f);
+    _reviewData = { summary: { exams: all.length, high: conf.high, medium: conf.medium, low: conf.low,
+      total_q, flagged_q, star_q, to_review: exams.length, top_flagged: top_flagged.slice(0, 10) }, exams };
+    return _reviewData;
+  } catch(e) { _reviewData = { summary: null, exams: null }; return _reviewData; }
+}
+
+async function renderReview() {
+  const el = $('review');
+  const data = await fetchReviewData();
+  if (!data.exams) {
+    _reviewGroups = [];
+    el.innerHTML = '<div class="note">Geen <b>review_queue.json</b> gevonden. Genereer met <b>python3 build_review_queue.py</b> (draait ook mee in de deploy).</div>';
+    $('review-sub').textContent = 'Vragen met een onzeker antwoord — spring naar de vraag om te fixen.';
+    return;
+  }
+  _reviewGroups = data.exams.map(e => {
+    let flagged = (e.flagged || []).slice().sort((a, b) => (a.q || 0) - (b.q || 0));
+    /* Geen specifieke vraag gemarkeerd maar wél onzeker (confidence medium/low
+       of *-antwoorden) → één "hele tentamen"-rij zodat niets wegvalt. */
+    if (!flagged.length) {
+      const why = e.conf !== 'high'
+        ? 'Hele tentamen dubbelchecken — confidence ' + e.conf + (e.stars ? ' · ' + e.stars + ' onzekere (*) antwoorden' : '')
+        : e.stars + ' onzekere (*) antwoorden — controleer in het tentamen';
+      flagged = [{ q: 'all', why }];
+    }
+    return { key: e.key, html: e.html || (e.key + '.html'), label: examLabel(e.key), conf: e.conf || 'low', flagged };
+  }).sort((a, b) => (CONF_RANK[a.conf] - CONF_RANK[b.conf]) || (b.flagged.length - a.flagged.length));
+  await loadReviewDone();
+  paintReview($('review-q') ? $('review-q').value : '');
+}
+
+function paintReview(query) {
+  const el = $('review');
+  const q = (query || '').trim().toLowerCase();
+  let groups = q ? _reviewGroups.filter(g => g.label.toLowerCase().includes(q) || g.key.toLowerCase().includes(q)) : _reviewGroups.slice();
+
+  const totalQ = _reviewGroups.reduce((s, g) => s + g.flagged.length, 0);
+  const doneQ = _reviewGroups.reduce((s, g) => s + g.flagged.filter(f => _reviewDone.has(revRef(g.key, f.q))).length, 0);
+  const openQ = totalQ - doneQ;
+  $('review-sub').innerHTML = '<b>' + nf(openQ) + '</b> openstaand · <b>' + nf(doneQ) + '</b> afgehandeld' +
+    ' van ' + nf(totalQ) + ' gemarkeerde vragen in ' + nf(_reviewGroups.length) + ' tentamens — klik een vraag om er direct naartoe te springen en te fixen.';
+
+  if (!_reviewGroups.length) { el.innerHTML = '<div class="note">Alle antwoorden zijn nagekeken — geen gemarkeerde vragen.</div>'; return; }
+
+  /* fully-approved groups sink to the bottom */
+  const grpDone = g => g.flagged.every(f => _reviewDone.has(revRef(g.key, f.q)));
+  groups = groups.slice().sort((a, b) => (grpDone(a) ? 1 : 0) - (grpDone(b) ? 1 : 0));
+
+  if (_reviewHideDone) groups = groups.filter(g => !grpDone(g));
+  if (!groups.length) { el.innerHTML = '<div class="note">' + (q ? 'Geen tentamen gevonden voor “' + esc(query) + '”.' : 'Alles afgehandeld.') + '</div>'; return; }
+
+  /* Bewaar welke groepen open staan zodat een repaint (bv. na Afhandelen) ze
+     niet weer dichtklapt — anders sluit de div met al z'n vragen bij elke klik. */
+  const wasOpen = new Set();
+  el.querySelectorAll('details.rev-grp[open]').forEach(d => { if (d.dataset.key) wasOpen.add(d.dataset.key); });
+
+  el.innerHTML = groups.map(g => {
+    const allDone = grpDone(g);
+    const openN = g.flagged.filter(f => !_reviewDone.has(revRef(g.key, f.q))).length;
+    let rows = g.flagged.map(f => {
+      const ref = revRef(g.key, f.q);
+      const done = _reviewDone.has(ref);
+      if (done && _reviewHideDone) return '';
+      const whole = f.q === 'all';
+      const href = whole ? esc(g.html) : (esc(g.html) + '#qblock-' + esc(f.q));
+      const qtext = f.text ? '<span class="rev-qtext">' + esc(f.text) + '</span>' : '';
+      const why = '<span class="rev-why">' + (qtext ? '<b>Waarom geflagd:</b> ' : '') +
+        esc(f.why || 'Gemarkeerd voor review') + '</span>';
+      const note = f.why_raw ? '<span class="rev-note"><span class="rev-note-lbl">Bouw-notitie:</span> ' +
+        esc(f.why_raw) + '</span>' : '';
+      return '<div class="rev-row' + (done ? ' rev-done' : '') + '">' +
+        '<a class="rev-q" href="' + href + '" target="_blank" rel="noopener">' +
+          '<span class="rev-qn">' + (whole ? 'Hele tentamen' : 'Vraag ' + esc(f.q)) + '</span>' +
+          '<span class="rev-body">' + qtext + why + note + '</span>' +
+          '<span class="rev-arrow">→</span>' +
+        '</a>' +
+        '<button class="rev-ok' + (done ? ' done' : '') + '" data-ref="' + esc(ref) + '">' +
+          (done ? 'Ongedaan maken' : ICON_CHECK + 'Afhandelen') + '</button>' +
+      '</div>';
+    }).join('');
+    const summ = '<summary><span class="badge ' + esc(g.conf) + '">' + esc(g.conf) + '</span>' +
+      '<span class="rev-label">' + esc(g.label) + '</span>' +
+      (allDone
+        ? '<span class="rev-grp-done">' + ICON_CHECK + 'Afgehandeld</span>'
+        : '<span class="rev-count">' + openN + ' open van ' + g.flagged.length + '</span>') +
+      '</summary>';
+    const openAttr = (wasOpen.has(g.key) || (g.conf === 'low' && !allDone) || q) ? ' open' : '';
+    return '<details class="rev-grp' + (allDone ? ' done' : '') + '" data-key="' + esc(g.key) + '"' + openAttr + '>' +
+      summ + '<div class="rev-list">' + rows + '</div></details>';
+  }).join('');
+
+  el.querySelectorAll('.rev-ok').forEach(btn =>
+    btn.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); toggleReviewDone(btn.dataset.ref, btn); }));
+}
+
+async function renderHealth() {
+  const el = $('health');
+  const data = await fetchReviewData();
+  const s = data.summary;
+  if (!s) {
+    el.innerHTML = '<div class="note">Geen <b>review_queue.json</b> gevonden — genereer met <b>python3 build_review_queue.py</b>.</div>';
+    return;
+  }
+  const flaggedExams = s.top_flagged || [];
+  el.innerHTML =
+    '<div class="health-row"><span>Gebouwde tentamens in log</span><b>' + nf(s.exams) + ' <span class="u-mail">(' + nf(s.total_q || 0) + ' vragen)</span></b></div>' +
+    '<div class="health-row"><span>Te reviewen tentamens</span><b>' + nf(s.to_review || 0) + '</b></div>' +
+    '<div class="health-row"><span>Confidence</span><span>' +
+      '<span class="badge high">' + s.high + ' high</span> ' +
+      '<span class="badge medium">' + s.medium + ' medium</span> ' +
+      '<span class="badge low">' + s.low + ' low</span></span></div>' +
+    '<div class="health-row"><span>Gemarkeerde vragen</span><b>' + nf(s.flagged_q || 0) + '</b></div>' +
+    '<div class="health-row"><span>Onzekere (*) antwoorden</span><b>' + nf(s.star_q || 0) + '</b></div>' +
+    (flaggedExams.length ?
+      '<details class="cov"><summary>Top tentamens met *-antwoorden</summary><div class="cov-list">' +
+      flaggedExams.slice(0, 10).map(x => esc(examLabel(x.key)) + ' — ' + x.f + '×').join('<br>') + '</div></details>' : '') +
+    '<div style="margin-top:12px;"><a href="#" onclick="showView(\'content\');return false;" style="color:var(--blue);font-weight:800;font-size:13px;text-decoration:none;">Naar de reviewlijst →</a></div>';
+}
+
+/* ══════════════ Toast ══════════════ */
+let _toastT = null;
+function toast(msg, kind) {
+  const el = $('toast');
+  el.textContent = msg;
+  el.className = 'toast show' + (kind ? ' ' + kind : '');
+  clearTimeout(_toastT);
+  _toastT = setTimeout(() => { el.className = 'toast' + (kind ? ' ' + kind : ''); }, 2400);
+}
+
+/* ══════════════ Avatar-items grid ══════════════ */
+let _items = [];
+const CUR_LABEL = { coins: 'munten', gems: 'edelstenen' };
+const KIND_LABEL = { hair:'Kapsel', hoofddeksel:'Hoofddeksel', bril:'Bril', outfit:'Outfit',
+  accessory:'Accessoire', overig:'Overig', background:'Achtergrond' };
+async function loadItems() {
+  const sb = getSB();
+  const { data, error } = await sb.from('avatar_items').select('*').order('kind').order('sort').order('created_at');
+  if (error) { $('item-grid').innerHTML = '<div class="note">Items laden mislukt: ' + esc(error.message) + '</div>'; return; }
+  _items = data || [];
+  renderItemGrid();
+}
+let _itemKind = 'all';
+function renderItemGrid() {
+  const live = _items.filter(i => i.launched).length;
+  $('items-sub').textContent = _items.length
+    ? _items.length + ' item' + (_items.length === 1 ? '' : 's') + ' · ' + live + ' live in de shop'
+    : 'Nog geen avatar-items';
+
+  /* filterchips per soort (met tellingen) */
+  const chipEl = $('item-chips');
+  if (chipEl) {
+    const counts = {};
+    _items.forEach(i => { counts[i.kind] = (counts[i.kind] || 0) + 1; });
+    const kinds = Object.keys(counts).sort((a, b) => (KIND_LABEL[a] || a).localeCompare(KIND_LABEL[b] || b));
+    if (_itemKind !== 'all' && !counts[_itemKind]) _itemKind = 'all';
+    chipEl.innerHTML = ['all'].concat(kinds).map(k => {
+      const label = k === 'all' ? 'Alle' : (KIND_LABEL[k] || k);
+      const n = k === 'all' ? _items.length : counts[k];
+      return '<span class="subj-chip click' + (_itemKind === k ? ' on' : '') + '" data-kind="' + esc(k) + '">' + esc(label) + ' <b>' + n + '</b></span>';
+    }).join('');
+    chipEl.querySelectorAll('.subj-chip').forEach(c => c.addEventListener('click', () => { _itemKind = c.dataset.kind; renderItemGrid(); }));
+  }
+
+  if (!_items.length) {
+    $('item-grid').innerHTML = '<div class="note">Nog geen avatar-items — voeg er één toe met de knop hierboven.</div>';
+    return;
+  }
+  const list = _itemKind === 'all' ? _items : _items.filter(i => i.kind === _itemKind);
+  if (!list.length) { $('item-grid').innerHTML = '<div class="note">Geen items in deze categorie.</div>'; return; }
+
+  $('item-grid').innerHTML = list.map(it => {
+    const price = it.price > 0 ? (nf(it.price) + ' ' + (CUR_LABEL[it.currency] || 'munten')) : 'Gratis';
+    const vb = esc(it.view_box || '0 0 100 100');
+    return '<div class="item-card">' +
+      '<div class="item-thumb"><svg viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet">' + (it.svg || '') + '</svg></div>' +
+      '<div class="item-nm">' + esc(it.name || '(naamloos)') + '</div>' +
+      '<div class="item-meta">' +
+        '<span class="item-badge kind">' + esc(KIND_LABEL[it.kind] || it.kind) + '</span>' +
+        '<span class="item-badge ' + (it.launched ? 'on' : 'off') + '">' + (it.launched ? 'Live' : 'Concept') + '</span>' +
+        '<span class="item-badge price">' + esc(price) + '</span>' +
+      '</div>' +
+      '<a class="item-edit" href="admin_avatar.html?item=' + encodeURIComponent(it.id) + '">Bewerk</a>' +
+      '<div class="item-actions">' +
+        '<button class="item-btn ' + (it.launched ? 'unlaunch' : 'launch') + '" data-launch="' + esc(it.id) + '" data-to="' + (it.launched ? '0' : '1') + '">' +
+          (it.launched ? 'Offline halen' : 'Lanceren') + '</button>' +
+        '<button class="item-btn del" data-del="' + esc(it.id) + '" data-name="' + esc(it.name || '') + '" title="Verwijderen">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px;"><path d="M5 7h14M10 7V5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2M6 7l1 12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  $('item-grid').querySelectorAll('[data-launch]').forEach(b =>
+    b.addEventListener('click', () => toggleItemLaunch(b.dataset.launch, b.dataset.to === '1', b)));
+  $('item-grid').querySelectorAll('[data-del]').forEach(b =>
+    b.addEventListener('click', () => deleteItem(b.dataset.del, b.dataset.name)));
+}
+
+async function toggleItemLaunch(id, to, btn) {
+  if (btn) btn.disabled = true;
+  try {
+    const { error } = await getSB().from('avatar_items')
+      .update({ launched: to, updated_at: new Date().toISOString() }).eq('id', id);
+    if (error) throw error;
+    const it = _items.find(x => x.id === id); if (it) it.launched = to;
+    toast(to ? 'Gelanceerd naar de shop' : 'Offline gehaald', 'ok');
+    renderItemGrid();
+  } catch (e) { if (btn) btn.disabled = false; toast('Mislukt: ' + (e.message || e), 'err'); }
+}
+
+async function deleteItem(id, name) {
+  if (!confirmish('Item "' + (name || 'naamloos') + '" definitief verwijderen? Dit kan niet ongedaan worden gemaakt.')) return;
+  try {
+    const { error } = await getSB().from('avatar_items').delete().eq('id', id);
+    if (error) throw error;
+    _items = _items.filter(x => x.id !== id);
+    toast('Item verwijderd', 'ok');
+    renderItemGrid();
+  } catch (e) { toast('Verwijderen mislukt: ' + (e.message || e), 'err'); }
+}
+
+/* ══════════════ User management modal ══════════════ */
+const KNOWN_SKINS = {
+  stetho_gold:    'Gouden stethoscoop',
+  headlamp_gold:  'Gouden voorhoofdslamp',
+  outfit_doctor:  'Doktersjas',
+  outfit_surgeon: 'Chirurgenpak',
+  outfit_hoodie:  'Hoodie',
+};
+function skinLabel(id) {
+  if (KNOWN_SKINS[id]) return KNOWN_SKINS[id];
+  const it = _items.find(x => x.id === id);
+  return it ? it.name : id;
+}
+/* Balance rows — field, label, colored icon */
+const BAL_ROWS = [
+  { f:'total_gems',     l:'Edelstenen',       bg:'#00CD9C', ic:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M7 3.5h10l4.2 5.7L12 21 2.8 9.2z"/><path d="M2.8 9.2h18.4L12 12z" opacity=".35"/></svg>' },
+  { f:'total_coins',    l:'Munten',           bg:'#FFC800', ic:'<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="6" fill="#F0A500"/><path d="M12 8v8M9.5 10.5h3.2a1.5 1.5 0 0 1 0 3H9.5" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>' },
+  { f:'hearts',         l:'Levens',           bg:'#FF4B6E', ic:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.5-4.9-10-9.6C.3 8 2 4.5 5.4 4.5c2 0 3.4 1.1 4.6 2.6C11.2 5.6 12.6 4.5 14.6 4.5 18 4.5 19.7 8 22 11.4 19.5 16.1 12 21 12 21z"/></svg>' },
+  { f:'streak_freezes', l:'Streakbevriezers', bg:'#1CB0F6', ic:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M4 6l16 12M20 6L4 18"/></svg>' },
+  { f:'total_xp',       l:'XP',               bg:'#CE82FF', ic:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M13.2 2 4.5 13.6h5.4L8.8 22l8.7-11.6h-5.4z"/></svg>' },
+  { f:'login_streak',   l:'Dagenreeks',       bg:'#FF9600', ic:'<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2c1 3-1.5 4.5-1.5 7A3.5 3.5 0 0 0 14 12c1 0 1.8-.4 2.3-1 .7 1 1.2 2.3 1.2 3.7A5.5 5.5 0 0 1 12 20a5.5 5.5 0 0 1-5.5-5.5c0-4 3-5.5 5.5-12.5z"/></svg>' },
+];
+
+let _mvUid = null, _mvData = null, _mvBusy = false;
+
+function heroAvatar(svgStr, name) {
+  if (svgStr) {
+    const inner = svgStr.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+    const vb = (svgStr.match(/viewBox="([^"]+)"/) || [])[1] || '50 10 300 265';
+    return '<svg viewBox="' + vb + '" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+  }
+  return esc((name || '?')[0].toUpperCase());
+}
+
+function mvStat(label, value) {
+  return '<div class="mv-stat"><div class="s-l">' + esc(label) + '</div><div class="s-v">' + value + '</div></div>';
+}
+
+function renderModal(u) {
+  const name = u.display_name || (u.email || '?').split('@')[0];
+  const t = tierOf(u.total_xp || 0);
+  const pct = u.questions_answered ? Math.round(100 * u.questions_correct / u.questions_answered) : 0;
+  const skins = Array.isArray(u.avatar_skins) ? u.avatar_skins : [];
+
+  const grantOpts = [['', 'Kies een item om te geven…']]
+    .concat(Object.entries(KNOWN_SKINS).map(([id, nm]) => [id, nm]))
+    .concat(_items.map(it => [it.id, (it.name || '(naamloos)') + ' · ' + (KIND_LABEL[it.kind] || it.kind)]));
+
+  $('mv').style.setProperty('--a1', t.color);
+  $('mv').style.setProperty('--a2', t.color);
+  $('mv').innerHTML =
+    '<div class="mv-hero" style="--a1:' + t.color + ';--a2:' + t.color + '">' +
+      '<div class="mv-av">' + heroAvatar(u.avatar_svg, name) + '</div>' +
+      '<div class="mv-htxt">' +
+        '<div class="mv-name">' + esc(name) + (u.is_admin ? ' <span class="mv-chip">Admin</span>' : '') + '</div>' +
+        '<div class="mv-mail">' + esc(u.email || '') + '</div>' +
+        '<div style="margin-top:6px;"><span class="mv-chip">' + esc(t.name) + ' · ' + nf(u.total_xp || 0) + ' XP</span></div>' +
+      '</div>' +
+      '<button class="mv-x" id="mv-close">×</button>' +
+    '</div>' +
+    '<div class="mv-body">' +
+      '<div class="mv-sec">Statistieken</div>' +
+      '<div class="mv-stats">' +
+        mvStat('Vragen', nf(u.questions_answered || 0)) +
+        mvStat('% goed', (u.questions_answered ? pct + '%' : '—')) +
+        mvStat('Tentamens', nf(u.exams_touched || 0)) +
+        mvStat('Opgeslagen', nf(u.saved_questions || 0)) +
+        mvStat('Dagenreeks', (u.login_streak || 0) + ' dg') +
+        mvStat('Top 3', nf(u.top3_finishes || 0)) +
+      '</div>' +
+
+      '<div class="mv-sec">Saldo aanpassen</div>' +
+      '<div id="mv-balances">' +
+        BAL_ROWS.map(r =>
+          '<div class="bal-row" data-field="' + r.f + '">' +
+            '<span class="bal-ic" style="background:' + r.bg + '">' + r.ic + '</span>' +
+            '<div class="bal-info"><div class="bal-label">' + esc(r.l) + '</div>' +
+              '<div class="bal-val" id="bv-' + r.f + '">' + nf(u[r.f] || 0) + '</div></div>' +
+            '<div class="bal-ctl">' +
+              '<button class="bal-btn sub" data-op="sub" title="Aftrekken">−</button>' +
+              '<input class="bal-amt" type="number" value="10" min="0">' +
+              '<button class="bal-btn add" data-op="add" title="Optellen">+</button>' +
+              '<button class="bal-btn set" data-op="set" title="Op waarde zetten">=</button>' +
+            '</div>' +
+          '</div>').join('') +
+      '</div>' +
+
+      '<div class="mv-sec">Shop-items &amp; skins</div>' +
+      '<div class="skin-list" id="mv-skins">' +
+        (skins.length ? skins.map(id =>
+          '<span class="skin-tag">' + esc(skinLabel(id)) + '<button data-skin="' + esc(id) + '" title="Intrekken">×</button></span>').join('')
+          : '<span class="skin-none">Nog geen items in bezit.</span>') +
+      '</div>' +
+      '<div class="grant-row">' +
+        '<select id="mv-grant">' + grantOpts.map(([v, l]) => '<option value="' + esc(v) + '">' + esc(l) + '</option>').join('') + '</select>' +
+        '<button id="mv-grant-btn">Geef</button>' +
+      '</div>' +
+    '</div>';
+
+  $('mv-close').addEventListener('click', closeModal);
+  $('mv-balances').querySelectorAll('.bal-btn').forEach(btn =>
+    btn.addEventListener('click', () => doBalance(btn)));
+  $('mv-skins').querySelectorAll('button[data-skin]').forEach(btn =>
+    btn.addEventListener('click', () => doRevoke(btn.dataset.skin)));
+  $('mv-grant-btn').addEventListener('click', doGrant);
+}
+
+async function openUser(uid) {
+  _mvUid = uid; _mvData = null;
+  $('mv').innerHTML = '<div style="padding:60px;text-align:center;"><div class="spin"></div></div>';
+  $('mv-ov').classList.add('on');
+  try {
+    const { data, error } = await getSB().rpc('admin_get_user', { p_user_id: uid });
+    if (error) throw error;
+    if (!data) throw new Error('Gebruiker niet gevonden');
+    _mvData = data;
+    renderModal(data);
+  } catch (e) {
+    $('mv').innerHTML = '<div style="padding:40px;text-align:center;"><h2 style="margin-bottom:8px;">Laden mislukt</h2><p style="color:var(--muted);font-weight:600;margin-bottom:18px;">' + esc(e.message || e) + '</p><button class="adm-refresh" onclick="closeModal()">Sluiten</button></div>';
+  }
+}
+function closeModal() { $('mv-ov').classList.remove('on'); _mvUid = null; _mvData = null; }
+$('mv-ov').addEventListener('click', e => { if (e.target === $('mv-ov')) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('mv-ov').classList.contains('on')) closeModal(); });
+
+async function doBalance(btn) {
+  if (_mvBusy || !_mvUid) return;
+  const row = btn.closest('.bal-row');
+  const field = row.dataset.field;
+  const amt = parseInt(row.querySelector('.bal-amt').value, 10);
+  if (isNaN(amt)) { toast('Vul een getal in.', 'err'); return; }
+  const op = btn.dataset.op;
+  _mvBusy = true;
+  row.querySelectorAll('.bal-btn').forEach(b => b.disabled = true);
+  try {
+    let res;
+    if (op === 'set') res = await getSB().rpc('admin_set_balance', { p_user_id: _mvUid, p_field: field, p_value: amt });
+    else res = await getSB().rpc('admin_adjust_balance', { p_user_id: _mvUid, p_field: field, p_delta: op === 'sub' ? -amt : amt });
+    if (res.error) throw res.error;
+    const newval = res.data;
+    $('bv-' + field).textContent = nf(newval);
+    if (_mvData) _mvData[field] = newval;
+    patchUser(_mvUid, field, newval);
+    toast((BAL_ROWS.find(r => r.f === field) || {}).l + ' → ' + nf(newval), 'ok');
+  } catch (e) { toast('Mislukt: ' + (e.message || e), 'err'); }
+  _mvBusy = false;
+  row.querySelectorAll('.bal-btn').forEach(b => b.disabled = false);
+}
+
+async function doGrant() {
+  if (_mvBusy || !_mvUid) return;
+  const sel = $('mv-grant');
+  const id = sel.value;
+  if (!id) { toast('Kies eerst een item.', 'err'); return; }
+  _mvBusy = true; $('mv-grant-btn').disabled = true;
+  try {
+    const { data, error } = await getSB().rpc('admin_grant_skin', { p_user_id: _mvUid, p_skin: id });
+    if (error) throw error;
+    if (_mvData) { _mvData.avatar_skins = data || []; renderModal(_mvData); }
+    toast('"' + skinLabel(id) + '" gegeven', 'ok');
+  } catch (e) { toast('Mislukt: ' + (e.message || e), 'err'); }
+  _mvBusy = false; const b = $('mv-grant-btn'); if (b) b.disabled = false;
+}
+
+async function doRevoke(id) {
+  if (_mvBusy || !_mvUid) return;
+  _mvBusy = true;
+  try {
+    const { data, error } = await getSB().rpc('admin_revoke_skin', { p_user_id: _mvUid, p_skin: id });
+    if (error) throw error;
+    if (_mvData) { _mvData.avatar_skins = data || []; renderModal(_mvData); }
+    toast('"' + skinLabel(id) + '" ingetrokken', 'ok');
+  } catch (e) { toast('Mislukt: ' + (e.message || e), 'err'); }
+  _mvBusy = false;
+}
+
+/* keep the users table in sync with modal edits */
+function patchUser(uid, field, val) {
+  const u = _users.find(x => x.id === uid);
+  if (!u) return;
+  if (field in u) u[field] = val;
+  if (field === 'total_xp' || field === 'login_streak') renderUsers();
+}
+
+/* ══════════════ Load & gate ══════════════ */
+async function loadAll() {
+  const sb = getSB();
+  const [ov, users, exams, daily, recent, reports, ureports] = await Promise.all([
+    sb.rpc('admin_overview'),
+    sb.rpc('admin_users_list'),
+    sb.rpc('admin_exam_stats'),
+    sb.rpc('admin_daily_activity', { p_days: 30 }),
+    sb.rpc('admin_recent_activity', { p_limit: 25 }),
+    sb.rpc('admin_reports_list'),
+    sb.rpc('admin_user_reports_list'),
+  ]);
+  const err = [ov, users, exams, daily, recent, reports, ureports].find(r => r.error);
+  if (err) throw err.error;
+
+  renderTiles(ov.data || {});
+  renderChart(daily.data || []);
+
+  /* honest note while the event log is young */
+  if (ov.data && ov.data.events_since) {
+    const since = new Date(ov.data.events_since);
+    if (Date.now() - since < 30 * 86400e3) {
+      $('chart-note').style.display = '';
+      $('chart-note').innerHTML = 'Het activiteiten-log draait sinds <b>' + since.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' }) + '</b> — dagen daarvóór tonen alleen aanmeldingen en laatste-saves, geen vraag-aantallen.';
+    }
+  } else if (ov.data) {
+    $('chart-note').style.display = '';
+    $('chart-note').innerHTML = 'Het activiteiten-log is zojuist gestart — de grafiek vult zich vanaf de eerstvolgende beantwoorde vraag.';
+  }
+
+  _users = (users.data || []).map(u => ({
+    ...u,
+    _name: u.display_name || (u.email || '?').split('@')[0],
+    last_seen: [u.last_sign_in_at, u.last_activity].filter(Boolean).sort().pop() || null,
+    _pct: u.questions_answered ? Math.round(100 * u.questions_correct / u.questions_answered) : 0,
+  }));
+  $('users-sub').textContent = _users.length + ' geregistreerde gebruiker' + (_users.length === 1 ? '' : 's');
+  renderUsers();
+
+  renderExams(exams.data || []);
+  renderCoverage(exams.data || []);
+  renderFeed(recent.data || []);
+  renderReports(reports.data || []);
+  renderUserReports(ureports.data || []);
+  renderReview();
+  renderHealth();
+  loadItems().catch(console.error);
+
+  $('adm-updated').textContent = 'Ververst om ' + new Date().toLocaleTimeString('nl-NL');
+}
+
+/* ── Mail versturen (broadcast via edge function email-sender) ──
+   Flow: invullen → Voorbeeld (render zonder versturen) → Proefronde (dry-run,
+   toont aantal) → Versturen (pas actief na proefronde; 2× klikken; elke edit
+   disarmt). Auth = het eigen admin-JWT; de edge function checkt is_admin(). */
+const ML_FN = 'https://dxhawldqluihhvfeswlc.supabase.co/functions/v1/email-sender';
+let _mlOkPayload = '', _mlArmed = false;
+
+function mlPayload() {
+  const v = id => $(id).value.trim();
+  const p = { type: 'custom', slug: v('ml-slug'), subject: v('ml-subject'), title: v('ml-title'), message: $('ml-msg').value.trim() };
+  const cl = v('ml-cta'), cu = v('ml-cta-url');
+  if (cl && cu) { p.cta_label = cl; p.cta_url = cu; }
+  return p;
+}
+function mlStatus(t, bad) { const el = $('ml-status'); el.textContent = t; el.style.color = bad ? '#EA2B2B' : ''; }
+function mlDisarm() { _mlArmed = false; const b = $('ml-send'); b.classList.remove('arm'); b.textContent = 'Versturen'; }
+async function mlCall(extra) {
+  const { data: { session } } = await getSB().auth.getSession();
+  if (!session) throw new Error('Niet ingelogd');
+  const r = await fetch(ML_FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+    body: JSON.stringify(Object.assign(mlPayload(), extra || {}))
+  });
+  const out = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(out.error || ('HTTP ' + r.status));
+  return out;
+}
+$('ml-subject').addEventListener('input', () => {
+  if (!$('ml-slug').dataset.touched) {
+    const s = $('ml-subject').value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 28);
+    $('ml-slug').value = s ? s + '-' + new Date().toISOString().slice(2, 10).replace(/-/g, '') : '';
+  }
+  $('ml-send').disabled = true; mlDisarm();
+});
+$('ml-slug').addEventListener('input', () => { $('ml-slug').dataset.touched = '1'; $('ml-send').disabled = true; mlDisarm(); });
+['ml-title', 'ml-msg', 'ml-cta', 'ml-cta-url'].forEach(i =>
+  $(i).addEventListener('input', () => { $('ml-send').disabled = true; mlDisarm(); }));
+$('ml-preview').addEventListener('click', async () => {
+  try {
+    mlStatus('Voorbeeld maken…');
+    const out = await mlCall({ preview: true });
+    $('ml-prevwrap').style.display = '';
+    $('ml-prevsub').textContent = 'Onderwerp: ' + out.subject;
+    $('ml-frame').srcdoc = out.html;
+    mlStatus('');
+  } catch (e) { mlStatus('Fout: ' + (e.message || e), true); }
+});
+$('ml-dry').addEventListener('click', async () => {
+  try {
+    mlStatus('Proefronde draait (er wordt niets verstuurd)…');
+    const out = await mlCall({ live: false });
+    _mlOkPayload = JSON.stringify(mlPayload());
+    $('ml-send').disabled = out.candidates === 0;
+    mlStatus(out.candidates === 0
+      ? 'Proefronde: 0 ontvangers over. Al verstuurd met deze campagne-code? Kies een nieuwe code voor een nieuwe mail.'
+      : 'Proefronde: deze mail zou naar ' + out.candidates + ' gebruiker' + (out.candidates === 1 ? '' : 's') + ' gaan. Klik op Versturen om hem echt te versturen.');
+  } catch (e) { mlStatus('Fout: ' + (e.message || e), true); }
+});
+$('ml-send').addEventListener('click', async () => {
+  if (JSON.stringify(mlPayload()) !== _mlOkPayload) {
+    $('ml-send').disabled = true; mlDisarm();
+    mlStatus('De inhoud is gewijzigd na de proefronde — draai eerst opnieuw een proefronde.', true);
+    return;
+  }
+  if (!_mlArmed) {
+    _mlArmed = true;
+    const b = $('ml-send'); b.classList.add('arm'); b.textContent = 'Zeker weten? Klik nogmaals';
+    return;
+  }
+  try {
+    mlDisarm(); $('ml-send').disabled = true;
+    mlStatus('Versturen…');
+    const out = await mlCall({ live: true });
+    mlStatus('Verstuurd: ' + out.sent + ' van ' + out.candidates + ' mails. Afleverstatus: resend.com → Emails.');
+  } catch (e) { mlStatus('Fout: ' + (e.message || e), true); }
+});
+
+/* ── Push versturen (broadcast via edge function push-sender) ──
+   Zelfde 2-klik-flow: Proefronde (dry-run, telt toestellen) → Versturen (armt,
+   elke edit disarmt). Auth = eigen admin-JWT; push-sender checkt is_admin(). */
+const PL_FN = 'https://dxhawldqluihhvfeswlc.supabase.co/functions/v1/push-sender';
+let _plOk = '', _plArmed = false;
+function plPayload() { return { title: $('pl-title').value.trim(), body: $('pl-body').value.trim() }; }
+function plStatus(t, bad) { const el = $('pl-status'); el.textContent = t; el.style.color = bad ? '#EA2B2B' : ''; }
+function plDisarm() { _plArmed = false; const b = $('pl-send'); b.classList.remove('arm'); b.textContent = 'Versturen'; }
+async function plCall(extra) {
+  const { data: { session } } = await getSB().auth.getSession();
+  if (!session) throw new Error('Niet ingelogd');
+  const r = await fetch(PL_FN, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + session.access_token },
+    body: JSON.stringify(Object.assign(plPayload(), extra || {}))
+  });
+  const out = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(out.error || ('HTTP ' + r.status));
+  return out;
+}
+['pl-title', 'pl-body'].forEach(i =>
+  $(i).addEventListener('input', () => { $('pl-send').disabled = true; plDisarm(); }));
+$('pl-dry').addEventListener('click', async () => {
+  try {
+    if (!plPayload().body) { plStatus('Vul een bericht in.', true); return; }
+    plStatus('Proefronde draait (er wordt niets verstuurd)…');
+    const out = await plCall({ live: false });
+    _plOk = JSON.stringify(plPayload());
+    $('pl-send').disabled = out.recipients === 0;
+    plStatus(out.recipients === 0
+      ? 'Proefronde: 0 toestellen. Nog niemand heeft de app met push aan.'
+      : 'Proefronde: deze push zou naar ' + out.recipients + ' toestel' + (out.recipients === 1 ? '' : 'len') + ' gaan. Klik op Versturen om echt te versturen.');
+  } catch (e) { plStatus('Fout: ' + (e.message || e), true); }
+});
+$('pl-send').addEventListener('click', async () => {
+  if (JSON.stringify(plPayload()) !== _plOk) {
+    $('pl-send').disabled = true; plDisarm();
+    plStatus('De inhoud is gewijzigd na de proefronde — draai eerst opnieuw een proefronde.', true);
+    return;
+  }
+  if (!_plArmed) {
+    _plArmed = true;
+    const b = $('pl-send'); b.classList.add('arm'); b.textContent = 'Zeker weten? Klik nogmaals';
+    return;
+  }
+  try {
+    plDisarm(); $('pl-send').disabled = true;
+    plStatus('Versturen…');
+    const out = await plCall({ live: true });
+    plStatus('Verstuurd: ' + out.sent + ' van ' + out.recipients + ' toestellen (' + (out.failed || 0) + ' mislukt).');
+  } catch (e) { plStatus('Fout: ' + (e.message || e), true); }
+});
+
+/* ══════════════ Navigatie tussen secties ══════════════ */
+const NAV_META = {
+  overview: { title: 'Overzicht',    sub: 'Wat er speelt in VUmed' },
+  users:    { title: 'Gebruikers',   sub: 'Alle geregistreerde accounts' },
+  content:  { title: 'Content',      sub: 'Tentamens, dekking, reviews & meldingen' },
+  items:    { title: 'Avatar-items', sub: 'De onderdelen in de avatar-editor & shop' },
+  team:     { title: 'Team',         sub: 'Wie toegang heeft tot dit beheer' },
+  mail:     { title: 'Mail',         sub: 'Berichten naar gebruikers sturen' },
+  system:   { title: 'Systeem',      sub: 'Live activiteit & hulpmiddelen' },
+};
+function showView(name) {
+  if (!NAV_META[name]) name = 'overview';
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'view-' + name));
+  document.querySelectorAll('.an-item').forEach(b => b.classList.toggle('on', b.dataset.view === name));
+  $('at-title').textContent = NAV_META[name].title;
+  $('at-sub').textContent = NAV_META[name].sub;
+  try { localStorage.setItem('vumed_admin_view', name); } catch (e) {}
+  if (name === 'team') loadTeam().catch(console.error);
+  const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
+}
+
+/* ══════════════ Team-beheer ══════════════ */
+async function loadTeam() {
+  const sb = getSB(); if (!sb) return;
+  const { data, error } = await sb.rpc('admin_team_list');
+  const box = $('team-list');
+  if (error) { box.innerHTML = '<div class="note">Kon het team niet laden: ' + esc(error.message) + '</div>'; return; }
+  const rows = data || [];
+  box.innerHTML = rows.map(m => {
+    const name = m.display_name || (m.email || '?').split('@')[0];
+    return '<div class="team-row">' +
+      '<span class="team-av">' + miniAvatarHTML(m.avatar_svg, name) + '</span>' +
+      '<div class="team-info"><div class="team-name">' + esc(name) +
+        (m.is_self ? ' <span class="team-you">Jij</span>' : '') + '</div>' +
+        '<div class="team-mail">' + esc(m.email || '') + '</div></div>' +
+      (m.is_self ? '' : '<button class="team-rm" data-id="' + esc(m.id) + '" data-name="' + esc(name) + '">Verwijderen</button>') +
+    '</div>';
+  }).join('');
+  box.querySelectorAll('.team-rm').forEach(b => b.addEventListener('click', () => removeTeam(b.dataset.id, b.dataset.name)));
+}
+async function addTeam() {
+  const inp = $('team-email'), btn = $('team-add-btn');
+  const email = inp.value.trim();
+  if (!email) { inp.focus(); return; }
+  btn.disabled = true;
+  try {
+    const { data, error } = await getSB().rpc('admin_team_add_by_email', { p_email: email });
+    if (error) throw error;
+    if (data && data.ok) { toast('Toegevoegd aan het team', 'ok'); inp.value = ''; await loadTeam(); }
+    else if (data && data.reason === 'unknown') toast('Geen account met dat e-mailadres', 'err');
+    else if (data && data.reason === 'already') { toast('Dit account is al teamlid', 'err'); await loadTeam(); }
+    else toast('Vul een geldig e-mailadres in', 'err');
+  } catch (e) { toast('Fout: ' + (e.message || e), 'err'); }
+  btn.disabled = false;
+}
+async function removeTeam(id, name) {
+  if (!confirmish('Wil je ' + name + ' uit het team verwijderen? Deze persoon kan dan niet meer inloggen op het beheer.')) return;
+  try {
+    const { data, error } = await getSB().rpc('admin_team_remove', { p_user_id: id });
+    if (error) throw error;
+    if (data && data.ok) { toast(name + ' verwijderd', 'ok'); await loadTeam(); }
+    else if (data && data.reason === 'self') toast('Je kunt jezelf niet verwijderen', 'err');
+    else if (data && data.reason === 'last') toast('Er moet minstens één beheerder blijven', 'err');
+    else toast('Verwijderen mislukt', 'err');
+  } catch (e) { toast('Fout: ' + (e.message || e), 'err'); }
+}
+/* kleine bevestiging zonder blokkerende confirm()-dialoog waar mogelijk;
+   confirm() is prima voor de zeldzame verwijder-actie in de admin */
+function confirmish(msg) { return window.confirm(msg); }
+
+/* ══════════════ Login & toegang ══════════════ */
+function showLogin(msg) {
+  _recovery = false;
+  $('login').classList.add('on');
+  $('admin-nav').style.display = 'none';
+  $('admin-main').style.display = 'none';
+  $('reset-form').style.display = 'none';
+  $('login-form').style.display = '';
+  const err = $('lg-err'); err.textContent = msg || ''; err.classList.remove('ok');
+  $('lg-btn').disabled = false;
+  setTimeout(() => { try { $('lg-email').focus(); } catch (e) {} }, 60);
+}
+
+/* Oogje-toggle voor een wachtwoordveld */
+const EYE_OPEN = '<svg viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>';
+const EYE_OFF  = '<svg viewBox="0 0 24 24" fill="none"><path d="M3 3l18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10.6 6.2A9.7 9.7 0 0 1 12 6c6.5 0 10 6 10 6a17 17 0 0 1-3.3 3.8M6.2 6.3A17 17 0 0 0 2 12s3.5 7 10 7c1.6 0 3-.3 4.3-.9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function wireEye(btnId, inputId) {
+  const btn = $(btnId), inp = $(inputId); if (!btn || !inp) return;
+  btn.innerHTML = EYE_OPEN;
+  btn.addEventListener('click', () => {
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    btn.innerHTML = show ? EYE_OFF : EYE_OPEN;
+    btn.setAttribute('aria-label', show ? 'Wachtwoord verbergen' : 'Wachtwoord tonen');
+    inp.focus();
+  });
+}
+wireEye('lg-eye', 'lg-pw');
+wireEye('rs-eye', 'rs-pw');
+
+/* Wachtwoord vergeten → herstel-mail */
+$('lg-forgot').addEventListener('click', async () => {
+  const email = $('lg-email').value.trim();
+  const err = $('lg-err');
+  if (!email) { err.classList.remove('ok'); err.textContent = 'Vul eerst je e-mailadres in.'; $('lg-email').focus(); return; }
+  const btn = $('lg-forgot'); btn.disabled = true; const t = btn.textContent; btn.textContent = 'Versturen…';
+  try {
+    const redirectTo = location.origin + location.pathname;
+    const { error } = await getSB().auth.resetPasswordForEmail(email, { redirectTo });
+    if (error) throw error;
+    err.classList.add('ok');
+    err.textContent = 'Herstel-link verstuurd naar ' + email + '. Check je inbox (en spam).';
+  } catch (e) {
+    err.classList.remove('ok'); err.textContent = 'Versturen mislukt: ' + (e.message || e);
+  }
+  btn.disabled = false; btn.textContent = t;
+});
+
+/* Nieuw wachtwoord opslaan (na herstel-link) */
+$('reset-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const pw = $('rs-pw').value, err = $('rs-err');
+  if (pw.length < 6) { err.classList.remove('ok'); err.textContent = 'Kies een wachtwoord van minstens 6 tekens.'; return; }
+  const btn = $('rs-btn'); btn.disabled = true; const t = btn.textContent; btn.textContent = 'Bezig…'; err.textContent = '';
+  try {
+    const { error } = await getSB().auth.updateUser({ password: pw });
+    if (error) throw error;
+    _recovery = false;
+    try { history.replaceState(null, '', location.pathname); } catch (ex) {}
+    $('reset-form').style.display = 'none'; $('login-form').style.display = '';
+    await enter();
+  } catch (ex) {
+    btn.disabled = false; btn.textContent = t;
+    err.classList.remove('ok'); err.textContent = 'Opslaan mislukt: ' + (ex.message || ex);
+  }
+});
+
+/* Vangnet: als de recovery-sessie iets later binnenkomt via de auth-listener */
+try { getSB().auth.onAuthStateChange((ev) => { if (ev === 'PASSWORD_RECOVERY') showRecovery(); }); } catch (e) {}
+function showConsole() {
+  $('login').classList.remove('on');
+  $('admin-nav').style.display = '';
+  $('admin-main').style.display = '';
+}
+
+let _wired = false, _autoTimer = null;
+function wireOnce() {
+  if (_wired) return; _wired = true;
+  document.querySelectorAll('.an-item').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+  $('logout-btn').addEventListener('click', async () => {
+    try { await getSB().auth.signOut(); } catch (e) {}
+    showLogin('Je bent uitgelogd.');
+  });
+  $('adm-refresh-btn').addEventListener('click', () => loadAll().catch(console.error));
+  $('usr-q').addEventListener('input', e => { _userQ = e.target.value; renderUsers(); });
+  $('review-q').addEventListener('input', e => paintReview(e.target.value));
+  $('review-hide').addEventListener('change', e => { _reviewHideDone = e.target.checked; paintReview($('review-q').value); });
+  $('adm-auto-cb').addEventListener('change', ev => {
+    if (ev.target.checked) _autoTimer = setInterval(() => loadAll().catch(console.error), 60000);
+    else clearInterval(_autoTimer);
+  });
+  $('team-add-btn').addEventListener('click', addTeam);
+  $('team-email').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addTeam(); } });
+}
+
+async function setIdentity(session) {
+  $('me-mail').textContent = session.user.email || '';
+  let name = (session.user.email || '?').split('@')[0], svg = null;
+  try {
+    const { data } = await getSB().from('user_profiles').select('display_name, avatar_svg').eq('user_id', session.user.id).maybeSingle();
+    if (data) { name = data.display_name || name; svg = data.avatar_svg; }
+  } catch (e) {}
+  $('me-name').textContent = name;
+  $('me-av').innerHTML = miniAvatarHTML(svg, name);
+}
+
+async function boot(session) {
+  _uid = session.user.id;
+  await setIdentity(session);
+  await loadCatalog();
+  await loadAll();
+  wireOnce();
+  showConsole();
+  let last = 'overview';
+  try { last = localStorage.getItem('vumed_admin_view') || 'overview'; } catch (e) {}
+  showView(last);
+}
+
+/* Wachtwoord-herstel: Supabase stuurt een link terug naar deze pagina met
+   #type=recovery in de hash. `_recovery` is bovenaan het script al SYNCHROON
+   uit de hash gelezen (vóór de client 'm strip). Dan tonen we het "nieuw
+   wachtwoord"-formulier i.p.v. direct in te loggen. */
+function showRecovery() {
+  _recovery = true;
+  $('login').classList.add('on');
+  $('admin-nav').style.display = 'none';
+  $('admin-main').style.display = 'none';
+  $('login-form').style.display = 'none';
+  $('reset-form').style.display = '';
+  $('rs-err').textContent = '';
+  setTimeout(() => { try { $('rs-pw').focus(); } catch (e) {} }, 60);
+}
+
+async function enter() {
+  const sb = getSB();
+  if (!sb) { showLogin('Supabase kon niet laden — ververs de pagina.'); return; }
+  if (_recovery) { showRecovery(); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { showLogin(''); return; }
+  const { data: isAdm, error } = await sb.rpc('is_admin');
+  if (error || isAdm !== true) {
+    try { await sb.auth.signOut(); } catch (e) {}
+    showLogin('Dit account heeft geen beheer-toegang. Vraag een beheerder je toe te voegen.');
+    return;
+  }
+  try { await boot(session); }
+  catch (e) { console.error(e); showLogin('Laden mislukt: ' + (e.message || e)); }
+}
+
+$('login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = $('lg-email').value.trim(), pw = $('lg-pw').value;
+  if (!email || !pw) { $('lg-err').textContent = 'Vul je e-mailadres en wachtwoord in.'; return; }
+  const btn = $('lg-btn'); btn.disabled = true; btn.textContent = 'Bezig…'; $('lg-err').textContent = '';
+  try {
+    const { error } = await getSB().auth.signInWithPassword({ email, password: pw });
+    if (error) {
+      btn.disabled = false; btn.textContent = 'Inloggen';
+      $('lg-err').textContent = /invalid/i.test(error.message) ? 'E-mailadres of wachtwoord klopt niet.' : ('Inloggen mislukt: ' + error.message);
+      return;
+    }
+    $('lg-pw').value = '';
+    await enter();
+    btn.textContent = 'Inloggen';
+  } catch (err) {
+    btn.disabled = false; btn.textContent = 'Inloggen';
+    $('lg-err').textContent = 'Inloggen mislukt: ' + (err.message || err);
+  }
+});
+
+enter();
+</script>
+</body>
+</html>

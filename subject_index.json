@@ -1,0 +1,597 @@
+{
+ "Arts en Patiënt 1": {
+  "subj_slug": "arts_en_pati_nt_1",
+  "exam_keys": [
+   "arts_en_patient_1_2016_2017_1e_toetsmoment",
+   "arts_en_patient_1_2016_2017_2e_toetsmoment",
+   "arts_en_patient_1_2017_2018_1e_toetsmoment",
+   "arts_en_patient_1_2017_2018_2e_toetsmoment",
+   "arts_en_patient_1_2018_2019_1e_toetsmoment",
+   "arts_en_patient_1_2018_2019_2e_toetsmoment",
+   "arts_en_patient_1_2019_2020_1e_toetsmoment",
+   "arts_en_patient_1_2019_2020_2e_toetsmoment",
+   "arts_en_patient_1_2020_2021_1e_toetsmoment",
+   "arts_en_patient_1_2020_2021_2e_toetsmoment",
+   "arts_en_patient_1_2021_2022_1e_toetsmoment",
+   "arts_en_patient_1_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 398,
+  "topics": {
+   "Klinisch redeneren": 175,
+   "Overig": 90,
+   "Ethiek & Recht": 80,
+   "Diagnostiek & Onderzoek": 25,
+   "EBM & Methodologie": 17,
+   "Communicatie & Gespreksvoering": 11
+  }
+ },
+ "Arts en Patiënt 2": {
+  "subj_slug": "arts_en_pati_nt_2",
+  "exam_keys": [
+   "arts_en_patient_2_2016_2017_1e_toetsmoment",
+   "arts_en_patient_2_2016_2017_2e_toetsmoment",
+   "arts_en_patient_2_2017_2018_1e_toetsmoment",
+   "arts_en_patient_2_2017_2018_2e_toetsmoment",
+   "arts_en_patient_2_2018_2019_1e_toetsmoment",
+   "arts_en_patient_2_2018_2019_2e_toetsmoment",
+   "arts_en_patient_2_2019_2020_1e_toetsmoment",
+   "arts_en_patient_2_2019_2020_2e_toetsmoment",
+   "arts_en_patient_2_2020_2021_1e_toetsmoment",
+   "arts_en_patient_2_2020_2021_2e_toetsmoment",
+   "arts_en_patient_2_2021_2022_1e_toetsmoment",
+   "arts_en_patient_2_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 302,
+  "topics": {
+   "Klinisch redeneren": 124,
+   "Ethiek & Recht": 66,
+   "Overig": 59,
+   "Diagnostiek & Onderzoek": 37,
+   "Communicatie & Gespreksvoering": 16
+  }
+ },
+ "Arts en Patiënt 3": {
+  "subj_slug": "arts_en_pati_nt_3",
+  "exam_keys": [
+   "arts_en_patient_3_2018_2019_1e_toetsmoment",
+   "arts_en_patient_3_2018_2019_2e_toetsmoment",
+   "arts_en_patient_3_2019_2020_1e_toetsmoment",
+   "arts_en_patient_3_2019_2020_2e_toetsmoment",
+   "arts_en_patient_3_2020_2021_1e_toetsmoment",
+   "arts_en_patient_3_2020_2021_2e_toetsmoment",
+   "arts_en_patient_3_2021_2022_1e_toetsmoment",
+   "arts_en_patient_3_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 338,
+  "topics": {
+   "Klinisch redeneren": 162,
+   "Diagnostiek & Onderzoek": 58,
+   "Ethiek & Recht": 56,
+   "Overig": 46,
+   "Communicatie & Gespreksvoering": 12,
+   "EBM & Methodologie": 4
+  }
+ },
+ "Arts en Patiënt 4": {
+  "subj_slug": "arts_en_pati_nt_4",
+  "exam_keys": [
+   "arts_en_patient_4_2016_2017_1e_toetsmoment",
+   "arts_en_patient_4_2016_2017_2e_toetsmoment",
+   "arts_en_patient_4_2017_2018_1e_toetsmoment",
+   "arts_en_patient_4_2017_2018_2e_toetsmoment",
+   "arts_en_patient_4_2018_2019_1e_toetsmoment",
+   "arts_en_patient_4_2018_2019_2e_toetsmoment",
+   "arts_en_patient_4_2019_2020_1e_toetsmoment",
+   "arts_en_patient_4_2019_2020_2e_toetsmoment",
+   "arts_en_patient_4_2020_2021_1e_toetsmoment",
+   "arts_en_patient_4_2020_2021_2e_toetsmoment",
+   "arts_en_patient_4_2021_2022_1e_toetsmoment",
+   "arts_en_patient_4_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 480,
+  "topics": {
+   "Diagnostiek & Onderzoek": 156,
+   "Overig": 118,
+   "Klinisch redeneren": 117,
+   "Ethiek & Recht": 63,
+   "EBM & Methodologie": 26
+  }
+ },
+ "Arts en Patiënt 5": {
+  "subj_slug": "arts_en_pati_nt_5",
+  "exam_keys": [
+   "arts_en_patient_5_2016_2017_1e_toetsmoment",
+   "arts_en_patient_5_2016_2017_2e_toetsmoment",
+   "arts_en_patient_5_2017_2018_1e_toetsmoment",
+   "arts_en_patient_5_2017_2018_2e_toetsmoment",
+   "arts_en_patient_5_2018_2019_1e_toetsmoment",
+   "arts_en_patient_5_2018_2019_2e_toetsmoment",
+   "arts_en_patient_5_2019_2020_1e_toetsmoment",
+   "arts_en_patient_5_2019_2020_2e_toetsmoment",
+   "arts_en_patient_5_2020_2021_1e_toetsmoment",
+   "arts_en_patient_5_2020_2021_2e_toetsmoment",
+   "arts_en_patient_5_2021_2022_1e_toetsmoment",
+   "arts_en_patient_5_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 485,
+  "topics": {
+   "Klinisch redeneren": 269,
+   "Overig": 76,
+   "Diagnostiek & Onderzoek": 71,
+   "Ethiek & Recht": 33,
+   "Communicatie & Gespreksvoering": 20,
+   "EBM & Methodologie": 16
+  }
+ },
+ "Bouw en Bewegen": {
+  "subj_slug": "bouw_en_bewegen",
+  "exam_keys": [
+   "bouw_en_bewegen_2016_2017_1e_toetsmoment",
+   "bouw_en_bewegen_2016_2017_2e_toetsmoment",
+   "bouw_en_bewegen_2017_2018_1e_toetsmoment",
+   "bouw_en_bewegen_2017_2018_2e_toetsmoment",
+   "bouw_en_bewegen_2018_2019_1e_toetsmoment",
+   "bouw_en_bewegen_2018_2019_2e_toetsmoment",
+   "bouw_en_bewegen_2019_2020_1e_toetsmoment",
+   "bouw_en_bewegen_2019_2020_2e_toetsmoment",
+   "bouw_en_bewegen_2020_2021_1e_toetsmoment",
+   "bouw_en_bewegen_2020_2021_2e_toetsmoment",
+   "bouw_en_bewegen_2021_2022_1e_toetsmoment",
+   "bouw_en_bewegen_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 646,
+  "topics": {
+   "Anatomie": 288,
+   "Overig": 125,
+   "Pathologie & Trauma": 80,
+   "Spier- & Skeletfysiologie": 76,
+   "Bindweefsel & Bot": 59,
+   "Bewegingsleer": 18
+  }
+ },
+ "Circulatie en Vasculaire stoornissen": {
+  "subj_slug": "circulatie_en_vasculaire_stoornissen",
+  "exam_keys": [
+   "circulatie_en_vasculaire_stoornissen_2016_2017_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2016_2017_2e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2017_2018_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2017_2018_2e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2018_2019_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2018_2019_2e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2019_2020_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2019_2020_2e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2020_2021_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2020_2021_2e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2021_2022_1e_toetsmoment",
+   "circulatie_en_vasculaire_stoornissen_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 610,
+  "topics": {
+   "Cardiologie": 182,
+   "Overig": 114,
+   "Vaatpathologie": 100,
+   "Kliniek & Behandeling": 91,
+   "Farmacologie": 59,
+   "Diagnostiek & Beeldvorming": 47,
+   "Nefrologie": 17
+  }
+ },
+ "Circulatie en volumeregulatie": {
+  "subj_slug": "circulatie_en_volumeregulatie",
+  "exam_keys": [
+   "circulatie_en_volumeregulatie_2016_2017_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2016_2017_2e_toetsmoment",
+   "circulatie_en_volumeregulatie_2017_2018_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2017_2018_2e_toetsmoment",
+   "circulatie_en_volumeregulatie_2018_2019_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2018_2019_2e_toetsmoment",
+   "circulatie_en_volumeregulatie_2019_2020_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2019_2020_2e_toetsmoment",
+   "circulatie_en_volumeregulatie_2020_2021_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2020_2021_2e_toetsmoment",
+   "circulatie_en_volumeregulatie_2021_2022_1e_toetsmoment",
+   "circulatie_en_volumeregulatie_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 629,
+  "topics": {
+   "Hart & Circulatie": 161,
+   "Overig": 137,
+   "Bloeddruk & Vaten": 101,
+   "Nierfunctie": 86,
+   "Kliniek & Diagnostiek": 62,
+   "Anatomie & Histologie": 51,
+   "Farmacologie": 24,
+   "Vocht & Elektrolyten": 7
+  }
+ },
+ "Groei en ontwikkeling": {
+  "subj_slug": "groei_en_ontwikkeling",
+  "exam_keys": [
+   "groei_en_ontwikkeling_2016_2017_1e_toetsmoment",
+   "groei_en_ontwikkeling_2016_2017_2e_toetsmoment",
+   "groei_en_ontwikkeling_2017_2018_1e_toetsmoment",
+   "groei_en_ontwikkeling_2017_2018_2e_toetsmoment",
+   "groei_en_ontwikkeling_2018_2019_1e_toetsmoment",
+   "groei_en_ontwikkeling_2018_2019_2e_toetsmoment",
+   "groei_en_ontwikkeling_2019_2020_1e_toetsmoment",
+   "groei_en_ontwikkeling_2019_2020_2e_toetsmoment",
+   "groei_en_ontwikkeling_2020_2021_1e_toetsmoment",
+   "groei_en_ontwikkeling_2020_2021_2e_toetsmoment",
+   "groei_en_ontwikkeling_2021_2022_1e_toetsmoment",
+   "groei_en_ontwikkeling_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 768,
+  "topics": {
+   "Pediatrie & Kliniek": 338,
+   "Overig": 266,
+   "Groei & Ontwikkeling": 95,
+   "Fysiologie": 42,
+   "Genetica & Erfelijkheid": 20,
+   "Endocrinologie": 7
+  }
+ },
+ "Hematologie en Oncologie": {
+  "subj_slug": "hematologie_en_oncologie",
+  "exam_keys": [
+   "hematologie_en_oncologie_2016_2017_1e_toetsmoment",
+   "hematologie_en_oncologie_2016_2017_2e_toetsmoment",
+   "hematologie_en_oncologie_2017_2018_1e_toetsmoment",
+   "hematologie_en_oncologie_2017_2018_2e_toetsmoment",
+   "hematologie_en_oncologie_2018_2019_1e_toetsmoment",
+   "hematologie_en_oncologie_2018_2019_2e_toetsmoment",
+   "hematologie_en_oncologie_2019_2020_1e_toetsmoment",
+   "hematologie_en_oncologie_2019_2020_2e_toetsmoment",
+   "hematologie_en_oncologie_2020_2021_1e_toetsmoment",
+   "hematologie_en_oncologie_2020_2021_2e_toetsmoment",
+   "hematologie_en_oncologie_2021_2022_1e_toetsmoment",
+   "hematologie_en_oncologie_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 675,
+  "topics": {
+   "Oncologie & Tumorbiologie": 214,
+   "Overig": 127,
+   "Lymfoom & Leukemie": 94,
+   "Behandeling & Farmacologie": 88,
+   "Anemie & Erytrocyten": 75,
+   "Hemostase & Trombose": 50,
+   "Diagnostiek & Lab": 27
+  }
+ },
+ "Hersenen en zintuigen": {
+  "subj_slug": "hersenen_en_zintuigen",
+  "exam_keys": [
+   "hersenen_en_zintuigen_2016_2017_1e_toetsmoment",
+   "hersenen_en_zintuigen_2017_2018_1e_toetsmoment",
+   "hersenen_en_zintuigen_2017_2018_2e_toetsmoment",
+   "hersenen_en_zintuigen_2018_2019_1e_toetsmoment",
+   "hersenen_en_zintuigen_2018_2019_2e_toetsmoment",
+   "hersenen_en_zintuigen_2019_2020_2e_toetsmoment",
+   "hersenen_en_zintuigen_2020_2021_1e_toetsmoment",
+   "hersenen_en_zintuigen_2020_2021_2e_toetsmoment",
+   "hersenen_en_zintuigen_2021_2022_1e_toetsmoment",
+   "hersenen_en_zintuigen_2021_2022_2e_toetsmoment",
+   "hersenen_en_zintuigen_2019_2020_1e_toetsmoment"
+  ],
+  "total_q": 574,
+  "topics": {
+   "Neuroanatomie": 156,
+   "Overig": 143,
+   "Neurologie (kliniek)": 134,
+   "Zintuigen (oog & oor)": 124,
+   "Neurofysiologie": 14,
+   "Farmacologie": 3
+  }
+ },
+ "Homeostase": {
+  "subj_slug": "homeostase",
+  "exam_keys": [
+   "homeostase_2016_2017_1e_toetsmoment",
+   "homeostase_2016_2017_2e_toetsmoment",
+   "homeostase_2017_2018_1e_toetsmoment",
+   "homeostase_2017_2018_2e_toetsmoment",
+   "homeostase_2018_2019_1e_toetsmoment",
+   "homeostase_2018_2019_2e_toetsmoment",
+   "homeostase_2019_2020_1e_toetsmoment",
+   "homeostase_2019_2020_2e_toetsmoment",
+   "homeostase_2020_2021_1e_toetsmoment",
+   "homeostase_2020_2021_2e_toetsmoment",
+   "homeostase_2021_2022_1e_toetsmoment",
+   "homeostase_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 656,
+  "topics": {
+   "Endocrinologie": 225,
+   "Overig": 173,
+   "Farmacologie": 93,
+   "Autonoom zenuwstelsel": 84,
+   "Kliniek": 58,
+   "Fysiologie & Regulatie": 23
+  }
+ },
+ "Huid en afweer": {
+  "subj_slug": "huid_en_afweer",
+  "exam_keys": [
+   "ha_2016_2017_1e_kans",
+   "ha_2016_2017_herkansing",
+   "ha_2017_2018_1e_kans",
+   "ha_2017_2018_herkansing",
+   "ha_2018_2019_1e_kans",
+   "ha_2018_2019_herkansing",
+   "ha_2019_2020_1e_kans",
+   "ha_2019_2020_2e_kans",
+   "ha_2020_2021_1e_kans",
+   "ha_2020_2021_herkansing"
+  ],
+  "total_q": 472,
+  "topics": {
+   "Cel- & Moleculaire biologie": 219,
+   "Overig": 141,
+   "Dermatologie": 94,
+   "Immunologie & Afweer": 15,
+   "Microbiologie & Infectie": 3
+  }
+ },
+ "Infectie en inflammatie": {
+  "subj_slug": "infectie_en_inflammatie",
+  "exam_keys": [
+   "infectie_en_inflammatie_2016_2017_1e_toetsmoment",
+   "infectie_en_inflammatie_2016_2017_2e_toetsmoment",
+   "infectie_en_inflammatie_2017_2018_1e_toetsmoment",
+   "infectie_en_inflammatie_2017_2018_2e_toetsmoment",
+   "infectie_en_inflammatie_2018_2019_1e_toetsmoment",
+   "infectie_en_inflammatie_2018_2019_2e_toetsmoment",
+   "infectie_en_inflammatie_2019_2020_1e_toetsmoment",
+   "infectie_en_inflammatie_2019_2020_2e_toetsmoment",
+   "infectie_en_inflammatie_2020_2021_1e_toetsmoment",
+   "infectie_en_inflammatie_2020_2021_2e_toetsmoment",
+   "infectie_en_inflammatie_2021_2022_1e_toetsmoment",
+   "infectie_en_inflammatie_2021_2022_herkansing"
+  ],
+  "total_q": 668,
+  "topics": {
+   "Infectieziekten (kliniek)": 216,
+   "Microbiologie & Verwekkers": 179,
+   "Overig": 96,
+   "Antimicrobiële therapie": 68,
+   "Ontsteking & Pathologie": 62,
+   "Afweer & Immunologie": 47
+  }
+ },
+ "Leefstijl en Gezondheidszorg": {
+  "subj_slug": "leefstijl_en_gezondheidszorg",
+  "exam_keys": [
+   "leefstijl_en_gezondheidszorg_2016_2017_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2016_2017_2e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2017_2018_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2017_2018_2e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2018_2019_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2018_2019_2e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2019_2020_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2019_2020_2e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2020_2021_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2020_2021_2e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2021_2022_1e_toetsmoment",
+   "leefstijl_en_gezondheidszorg_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 660,
+  "topics": {
+   "Overig": 238,
+   "Bewegingsapparaat & Anatomie": 218,
+   "Public Health & Preventie": 96,
+   "Gezondheidszorg & Beleid": 90,
+   "Epidemiologie & Methodologie": 12,
+   "Voeding & Metabolisme": 6
+  }
+ },
+ "MWO 2": {
+  "subj_slug": "mwo_2",
+  "exam_keys": [
+   "mwo_2_2016_2017_1e_toetsmoment",
+   "mwo_2_2016_2017_2e_toetsmoment",
+   "mwo_2_2017_2018_1e_toetsmoment",
+   "mwo_2_2017_2018_2e_toetsmoment",
+   "mwo_2_2018_2019_1e_toetsmoment",
+   "mwo_2_2018_2019_2e_toetsmoment",
+   "mwo_2_2019_2020_1e_toetsmoment",
+   "mwo_2_2019_2020_2e_toetsmoment",
+   "mwo_2_2020_2021_1e_toetsmoment",
+   "mwo_2_2020_2021_2e_toetsmoment",
+   "mwo_2_2021_2022_1e_toetsmoment",
+   "mwo_2_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 341,
+  "topics": {
+   "Overig": 111,
+   "Klinisch redeneren": 103,
+   "Statistiek": 69,
+   "Epidemiologie": 26,
+   "Studieopzet & Methodologie": 22,
+   "Diagnostische tests": 10
+  }
+ },
+ "MWO1": {
+  "subj_slug": "mwo1",
+  "exam_keys": [
+   "mwo1_2016_2017_1e_toetsmoment",
+   "mwo1_2016_2017_2e_toetsmoment",
+   "mwo1_2017_2018_1e_toetsmoment",
+   "mwo1_2017_2018_2e_toetsmoment",
+   "mwo1_2018_2019_1e_toetsmoment",
+   "mwo1_2018_2019_2e_toetsmoment",
+   "mwo1_2019_2020_1e_toetsmoment",
+   "mwo1_2019_2020_2e_toetsmoment",
+   "mwo1_2020_2021_1e_toetsmoment",
+   "mwo1_2020_2021_2e_toetsmoment",
+   "mwo1_2021_2022_1e_toetsmoment",
+   "mwo1_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 397,
+  "topics": {
+   "Overig": 131,
+   "Klinisch redeneren": 103,
+   "Statistiek": 63,
+   "Epidemiologie": 62,
+   "Studieopzet & Methodologie": 28,
+   "Diagnostische tests": 10
+  }
+ },
+ "Metabole systemen": {
+  "subj_slug": "metabole_systemen",
+  "exam_keys": [
+   "metabole_systemen_2016_2017_1e_toetsmoment",
+   "metabole_systemen_2016_2017_2e_toetsmoment",
+   "metabole_systemen_2017_2018_1e_toetsmoment",
+   "metabole_systemen_2017_2018_2e_toetsmoment",
+   "metabole_systemen_2018_2019_1e_toetsmoment",
+   "metabole_systemen_2018_2019_2e_toetsmoment",
+   "metabole_systemen_2019_2020_1e_toetsmoment",
+   "metabole_systemen_2019_2020_2e_toetsmoment",
+   "metabole_systemen_2020_2021_1e_toetsmoment",
+   "metabole_systemen_2020_2021_2e_toetsmoment",
+   "metabole_systemen_2021_2022_1e_toetsmoment",
+   "metabole_systemen_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 623,
+  "topics": {
+   "Spijsvertering": 246,
+   "Respiratie": 150,
+   "Metabolisme": 68,
+   "Anatomie & Histologie": 63,
+   "Overig": 61,
+   "Kliniek": 30,
+   "Endocrinologie": 5
+  }
+ },
+ "Neurologie en Oogheelkunde": {
+  "subj_slug": "neurologie_en_oogheelkunde",
+  "exam_keys": [
+   "neurologie_en_oogheelkunde_2016_2017_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2016_2017_2e_toetsmoment",
+   "neurologie_en_oogheelkunde_2017_2018_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2017_2018_2e_toetsmoment",
+   "neurologie_en_oogheelkunde_2018_2019_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2018_2019_2e_toetsmoment",
+   "neurologie_en_oogheelkunde_2019_2020_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2019_2020_2e_toetsmoment",
+   "neurologie_en_oogheelkunde_2020_2021_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2020_2021_2e_toetsmoment",
+   "neurologie_en_oogheelkunde_2021_2022_1e_toetsmoment",
+   "neurologie_en_oogheelkunde_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 718,
+  "topics": {
+   "Neurologie (kliniek)": 392,
+   "Oogheelkunde": 149,
+   "Overig": 127,
+   "Neuroanatomie": 31,
+   "Diagnostiek & Beeldvorming": 16,
+   "Farmacologie": 3
+  }
+ },
+ "Psychisch functioneren en Cognitie": {
+  "subj_slug": "psychisch_functioneren_en_cognitie",
+  "exam_keys": [
+   "psychisch_functioneren_en_cognitie_2016_2017_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2016_2017_2e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2017_2018_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2017_2018_2e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2018_2019_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2018_2019_2e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2019_2020_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2019_2020_2e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2020_2021_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2020_2021_2e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2021_2022_1e_toetsmoment",
+   "psychisch_functioneren_en_cognitie_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 626,
+  "topics": {
+   "Psychiatrie": 331,
+   "Behandeling & Kliniek": 91,
+   "Overig": 72,
+   "Neurocognitie & Hersenen": 51,
+   "Psychofarmacologie": 51,
+   "Recht & Ethiek": 30
+  }
+ },
+ "Schade, Afweer en Herstel": {
+  "subj_slug": "schade_afweer_en_herstel",
+  "exam_keys": [
+   "schade_afweer_en_herstel_2016_2017_1e_toetsmoment",
+   "schade_afweer_en_herstel_2016_2017_2e_toetsmoment",
+   "schade_afweer_en_herstel_2017_2018_1e_toetsmoment",
+   "schade_afweer_en_herstel_2017_2018_2e_toetsmoment",
+   "schade_afweer_en_herstel_2018_2019_1e_toetsmoment",
+   "schade_afweer_en_herstel_2018_2019_2e_toetsmoment",
+   "schade_afweer_en_herstel_2019_2020_1e_toetsmoment",
+   "schade_afweer_en_herstel_2019_2020_2e_toetsmoment",
+   "schade_afweer_en_herstel_2020_2021_1e_toetsmoment",
+   "schade_afweer_en_herstel_2020_2021_2e_toetsmoment",
+   "schade_afweer_en_herstel_2021_2022_1e_toetsmoment",
+   "schade_afweer_en_herstel_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 789,
+  "topics": {
+   "Immunologie & Afweer": 363,
+   "Overig": 193,
+   "Ontsteking & Wondgenezing": 91,
+   "Microbiologie & Infectie": 55,
+   "Farmacologie": 40,
+   "Celschade & Pathologie": 29,
+   "Neoplasie": 18
+  }
+ },
+ "Spijsvertering en Stofwisseling": {
+  "subj_slug": "spijsvertering_en_stofwisseling",
+  "exam_keys": [
+   "spijsvertering_en_stofwisseling_2016_2017_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2016_2017_2e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2017_2018_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2017_2018_2e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2018_2019_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2018_2019_2e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2019_2020_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2019_2020_2e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2020_2021_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2020_2021_2e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2021_2022_1e_toetsmoment",
+   "spijsvertering_en_stofwisseling_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 662,
+  "topics": {
+   "Gastro-enterologie": 237,
+   "Kliniek & Diagnostiek": 155,
+   "Lever & Galwegen": 144,
+   "Overig": 79,
+   "Metabolisme & Voeding": 38,
+   "Endocrinologie": 7,
+   "Farmacologie": 2
+  }
+ },
+ "Start van het leven": {
+  "subj_slug": "start_van_het_leven",
+  "exam_keys": [
+   "start_van_het_leven_2016_2017_1e_toetsmoment",
+   "start_van_het_leven_2016_2017_2e_toetsmoment",
+   "start_van_het_leven_2017_2018_1e_toetsmoment",
+   "start_van_het_leven_2017_2018_2e_toetsmoment",
+   "start_van_het_leven_2018_2019_1e_toetsmoment",
+   "start_van_het_leven_2018_2019_2e_toetsmoment",
+   "start_van_het_leven_2019_2020_1e_toetsmoment",
+   "start_van_het_leven_2019_2020_2e_toetsmoment",
+   "start_van_het_leven_2020_2021_1e_toetsmoment",
+   "start_van_het_leven_2020_2021_2e_toetsmoment",
+   "start_van_het_leven_2021_2022_1e_toetsmoment",
+   "start_van_het_leven_2021_2022_2e_toetsmoment"
+  ],
+  "total_q": 739,
+  "topics": {
+   "Zwangerschap & Obstetrie": 303,
+   "Overig": 198,
+   "Gynaecologie": 110,
+   "Embryologie": 64,
+   "Neonatologie": 52,
+   "Genetica & Erfelijkheid": 12
+  }
+ }
+}

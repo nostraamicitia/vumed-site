@@ -1,0 +1,35 @@
+{
+ "_note": "VU Geneeskunde blokkalender. RECURRING: block_starts are MM-DD and resolve automatically to the current academic year (Aug-Dec → the year starting that September; Jan-Jul → next calendar year). Each block runs until the next block's start; the last runs to year_end. year1/2/3 list subjects IN BLOCK ORDER, index-aligned to block_starts; an empty string \"\" means no block-subject in that slot (skipped). Order taken from the vumed.html menu (Tijmen: 'the order is in my menu'). Year 3 = minor in the first half, so its 5 subjects occupy the 5 spring blocks (the last 5 slots). Dates + order confirmed by Tijmen 2026-07-11. Subject strings must match subjects_meta.json exactly.",
+ "block_starts": ["09-01", "10-27", "11-24", "01-06", "02-03", "03-03", "03-30", "05-05", "06-09"],
+ "year_end": "06-30",
+ "year1": [
+  "Huid en afweer",
+  "Bouw en Bewegen",
+  "Metabole systemen",
+  "MWO1",
+  "Arts en Patiënt 1",
+  "Homeostase",
+  "Circulatie en volumeregulatie",
+  "Hersenen en zintuigen",
+  "Arts en Patiënt 2"
+ ],
+ "year2": [
+  "Schade, Afweer en Herstel",
+  "Start van het leven",
+  "Groei en ontwikkeling",
+  "Leefstijl en Gezondheidszorg",
+  "Arts en Patiënt 3",
+  "Infectie en inflammatie",
+  "Hematologie en Oncologie",
+  "MWO 2",
+  "Arts en Patiënt 4"
+ ],
+ "year3": [
+  "", "", "", "",
+  "Spijsvertering en Stofwisseling",
+  "Circulatie en Vasculaire stoornissen",
+  "Neurologie en Oogheelkunde",
+  "Psychisch functioneren en Cognitie",
+  "Arts en Patiënt 5"
+ ]
+}

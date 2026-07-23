@@ -1,0 +1,259 @@
+{
+ "Arts en Patiënt 1": {
+  "topics": {
+   "Klinisch redeneren": 175,
+   "Overig": 90,
+   "Ethiek & Recht": 80,
+   "Diagnostiek & Onderzoek": 25,
+   "EBM & Methodologie": 17,
+   "Communicatie & Gespreksvoering": 11
+  },
+  "total": 398
+ },
+ "Arts en Patiënt 2": {
+  "topics": {
+   "Klinisch redeneren": 124,
+   "Ethiek & Recht": 66,
+   "Overig": 59,
+   "Diagnostiek & Onderzoek": 37,
+   "Communicatie & Gespreksvoering": 16
+  },
+  "total": 302
+ },
+ "Arts en Patiënt 3": {
+  "topics": {
+   "Klinisch redeneren": 162,
+   "Diagnostiek & Onderzoek": 58,
+   "Ethiek & Recht": 56,
+   "Overig": 46,
+   "Communicatie & Gespreksvoering": 12,
+   "EBM & Methodologie": 4
+  },
+  "total": 338
+ },
+ "Arts en Patiënt 4": {
+  "topics": {
+   "Diagnostiek & Onderzoek": 156,
+   "Overig": 118,
+   "Klinisch redeneren": 117,
+   "Ethiek & Recht": 63,
+   "EBM & Methodologie": 26
+  },
+  "total": 480
+ },
+ "Arts en Patiënt 5": {
+  "topics": {
+   "Klinisch redeneren": 269,
+   "Overig": 76,
+   "Diagnostiek & Onderzoek": 71,
+   "Ethiek & Recht": 33,
+   "Communicatie & Gespreksvoering": 20,
+   "EBM & Methodologie": 16
+  },
+  "total": 485
+ },
+ "Bouw en Bewegen": {
+  "topics": {
+   "Anatomie": 288,
+   "Overig": 125,
+   "Pathologie & Trauma": 80,
+   "Spier- & Skeletfysiologie": 76,
+   "Bindweefsel & Bot": 59,
+   "Bewegingsleer": 18
+  },
+  "total": 646
+ },
+ "Circulatie en Vasculaire stoornissen": {
+  "topics": {
+   "Cardiologie": 182,
+   "Overig": 114,
+   "Vaatpathologie": 100,
+   "Kliniek & Behandeling": 91,
+   "Farmacologie": 59,
+   "Diagnostiek & Beeldvorming": 47,
+   "Nefrologie": 17
+  },
+  "total": 610
+ },
+ "Circulatie en volumeregulatie": {
+  "topics": {
+   "Hart & Circulatie": 161,
+   "Overig": 137,
+   "Bloeddruk & Vaten": 101,
+   "Nierfunctie": 86,
+   "Kliniek & Diagnostiek": 62,
+   "Anatomie & Histologie": 51,
+   "Farmacologie": 24,
+   "Vocht & Elektrolyten": 7
+  },
+  "total": 629
+ },
+ "Groei en ontwikkeling": {
+  "topics": {
+   "Pediatrie & Kliniek": 338,
+   "Overig": 266,
+   "Groei & Ontwikkeling": 95,
+   "Fysiologie": 42,
+   "Genetica & Erfelijkheid": 20,
+   "Endocrinologie": 7
+  },
+  "total": 768
+ },
+ "Hematologie en Oncologie": {
+  "topics": {
+   "Oncologie & Tumorbiologie": 214,
+   "Overig": 127,
+   "Lymfoom & Leukemie": 94,
+   "Behandeling & Farmacologie": 88,
+   "Anemie & Erytrocyten": 75,
+   "Hemostase & Trombose": 50,
+   "Diagnostiek & Lab": 27
+  },
+  "total": 675
+ },
+ "Hersenen en zintuigen": {
+  "topics": {
+   "Neuroanatomie": 156,
+   "Overig": 143,
+   "Neurologie (kliniek)": 134,
+   "Zintuigen (oog & oor)": 124,
+   "Neurofysiologie": 14,
+   "Farmacologie": 3
+  },
+  "total": 574
+ },
+ "Homeostase": {
+  "topics": {
+   "Endocrinologie": 225,
+   "Overig": 173,
+   "Farmacologie": 93,
+   "Autonoom zenuwstelsel": 84,
+   "Kliniek": 58,
+   "Fysiologie & Regulatie": 23
+  },
+  "total": 656
+ },
+ "Huid en afweer": {
+  "topics": {
+   "Cel- & Moleculaire biologie": 219,
+   "Overig": 141,
+   "Dermatologie": 94,
+   "Immunologie & Afweer": 15,
+   "Microbiologie & Infectie": 3
+  },
+  "total": 472
+ },
+ "Infectie en inflammatie": {
+  "topics": {
+   "Infectieziekten (kliniek)": 216,
+   "Microbiologie & Verwekkers": 179,
+   "Overig": 96,
+   "Antimicrobiële therapie": 68,
+   "Ontsteking & Pathologie": 62,
+   "Afweer & Immunologie": 47
+  },
+  "total": 668
+ },
+ "Leefstijl en Gezondheidszorg": {
+  "topics": {
+   "Overig": 238,
+   "Bewegingsapparaat & Anatomie": 218,
+   "Public Health & Preventie": 96,
+   "Gezondheidszorg & Beleid": 90,
+   "Epidemiologie & Methodologie": 12,
+   "Voeding & Metabolisme": 6
+  },
+  "total": 660
+ },
+ "MWO 2": {
+  "topics": {
+   "Overig": 111,
+   "Klinisch redeneren": 103,
+   "Statistiek": 69,
+   "Epidemiologie": 26,
+   "Studieopzet & Methodologie": 22,
+   "Diagnostische tests": 10
+  },
+  "total": 341
+ },
+ "MWO1": {
+  "topics": {
+   "Overig": 131,
+   "Klinisch redeneren": 103,
+   "Statistiek": 63,
+   "Epidemiologie": 62,
+   "Studieopzet & Methodologie": 28,
+   "Diagnostische tests": 10
+  },
+  "total": 397
+ },
+ "Metabole systemen": {
+  "topics": {
+   "Spijsvertering": 246,
+   "Respiratie": 150,
+   "Metabolisme": 68,
+   "Anatomie & Histologie": 63,
+   "Overig": 61,
+   "Kliniek": 30,
+   "Endocrinologie": 5
+  },
+  "total": 623
+ },
+ "Neurologie en Oogheelkunde": {
+  "topics": {
+   "Neurologie (kliniek)": 392,
+   "Oogheelkunde": 149,
+   "Overig": 127,
+   "Neuroanatomie": 31,
+   "Diagnostiek & Beeldvorming": 16,
+   "Farmacologie": 3
+  },
+  "total": 718
+ },
+ "Psychisch functioneren en Cognitie": {
+  "topics": {
+   "Psychiatrie": 331,
+   "Behandeling & Kliniek": 91,
+   "Overig": 72,
+   "Neurocognitie & Hersenen": 51,
+   "Psychofarmacologie": 51,
+   "Recht & Ethiek": 30
+  },
+  "total": 626
+ },
+ "Schade, Afweer en Herstel": {
+  "topics": {
+   "Immunologie & Afweer": 363,
+   "Overig": 193,
+   "Ontsteking & Wondgenezing": 91,
+   "Microbiologie & Infectie": 55,
+   "Farmacologie": 40,
+   "Celschade & Pathologie": 29,
+   "Neoplasie": 18
+  },
+  "total": 789
+ },
+ "Spijsvertering en Stofwisseling": {
+  "topics": {
+   "Gastro-enterologie": 237,
+   "Kliniek & Diagnostiek": 155,
+   "Lever & Galwegen": 144,
+   "Overig": 79,
+   "Metabolisme & Voeding": 38,
+   "Endocrinologie": 7,
+   "Farmacologie": 2
+  },
+  "total": 662
+ },
+ "Start van het leven": {
+  "topics": {
+   "Zwangerschap & Obstetrie": 303,
+   "Overig": 198,
+   "Gynaecologie": 110,
+   "Embryologie": 64,
+   "Neonatologie": 52,
+   "Genetica & Erfelijkheid": 12
+  },
+  "total": 739
+ }
+}

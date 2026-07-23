@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>VUmed — Onboarding preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ──────────────────────────────────────────────────────────────────────────
+   ONBOARDING PREVIEW — een los, herspeelbaar doorloopje van de nieuwe-gebruiker
+   flow. NIETS wordt opgeslagen: geen Supabase, geen login, geen localStorage.
+   Bedoeld om te controleren of de inlog/onboarding-sequentie klopt en er mooi
+   uitziet — en later de plek om tutorials aan toe te voegen.
+
+   ⚠️ HOUD IN SYNC met de echte stappen (dit is een getrouwe KOPIE):
+     · Stap "Aanmelden"      ← vumed.html AuthModal  +  auth_gate.js .auth-* CSS
+     · Stap "Jaar" + "Dagdoel" ← dashboard.html yearStepHTML/goalStepHTML + .goal-* CSS
+                                  (tiers/kleuren ← vumed_stats.js GOAL_TIERS)
+   Verandert een van die stappen in de app → werk de kopie hieronder bij.
+   ────────────────────────────────────────────────────────────────────────── */
+
+*{box-sizing:border-box;}
+html,body{margin:0;height:100%;}
+body{
+  font-family:'Nunito',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  background:linear-gradient(135deg,#EAF6FF,#F3F0FF);
+  color:#1C1C1E;
+  overflow:hidden;
+}
+html.dark body{background:linear-gradient(135deg,#111214,#17171A);color:#EBEBF0;}
+
+/* Een vage app-achtergrond zodat de frosted overlays ergens op rusten. */
+.faux-bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:.5;}
+.faux-bg .blob{position:absolute;border-radius:50%;filter:blur(46px);}
+.faux-bg .b1{width:360px;height:360px;left:-80px;top:-70px;background:rgba(28,176,246,0.45);}
+.faux-bg .b2{width:320px;height:320px;right:-70px;top:20%;background:rgba(170,114,255,0.40);}
+.faux-bg .b3{width:300px;height:300px;left:30%;bottom:-90px;background:rgba(88,204,2,0.32);}
+
+/* ── Stage: draagt de backdrop van de huidige stap ── */
+#stage{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  padding:24px;overflow-y:auto;}
+#stage.bd-frost{background:rgba(255,255,255,0.60);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
+html.dark #stage.bd-frost{background:rgba(28,28,30,0.65);}
+#stage.bd-dim{background:rgba(0,0,0,0.45);}
+.step-anim{animation:stepIn .30s cubic-bezier(0.25,0.46,0.45,0.94) both;}
+@keyframes stepIn{from{opacity:0;transform:translateY(18px) scale(0.97)}to{opacity:1;transform:none}}
+
+/* ══════════════ 1&2 · AUTH-CARD (verbatim uit auth_gate.js) ══════════════ */
+.auth-card{position:relative;background:#fff;border-radius:24px;padding:40px 36px 32px;
+  width:420px;max-width:92vw;box-shadow:0 32px 80px rgba(0,0,0,0.18);
+  display:flex;flex-direction:column;gap:0;margin:auto;}
+.auth-card h2{font-size:26px;font-weight:900;color:#1C1C1E;text-align:center;margin:0 0 28px;}
+.auth-sub{font-size:14.5px;font-weight:600;color:#8E8E93;text-align:center;margin:-20px 0 24px;line-height:1.5;}
+.auth-input{box-sizing:border-box;border:2px solid #e8e8e8;border-radius:14px;padding:16px 18px;font-size:16px;
+  font-family:inherit;outline:none;width:100%;background:#f7f7f7;color:#1C1C1E;font-weight:500;
+  transition:border-color .2s,box-shadow .2s;margin-bottom:12px;display:block;}
+.auth-input:focus{border-color:#1CB0F6;box-shadow:0 0 0 3px rgba(28,176,246,0.18);}
+.auth-pw-wrap{position:relative;margin-bottom:20px;}
+.auth-pw-wrap .auth-input{margin-bottom:0;padding-right:52px;}
+.auth-pw-eye{position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;
+  border:none;cursor:pointer;padding:4px;color:#1CB0F6;display:flex;}
+.auth-forgot-row{text-align:right;margin:-10px 0 18px;}
+.auth-forgot{background:none;border:none;color:#1CB0F6;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;padding:0;}
+.auth-submit{background:#1CB0F6;color:#fff;border:none;border-bottom:4px solid #0e85b5;
+  border-radius:14px;padding:16px 0;font-size:15px;font-weight:900;letter-spacing:0.07em;
+  text-transform:uppercase;cursor:pointer;font-family:inherit;width:100%;margin-bottom:20px;transition:background .15s;}
+.auth-submit:hover{background:#22c3ff;}
+.auth-divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.auth-divider-line{flex:1;height:1.5px;background:#e8e8e8;border-radius:2px;}
+.auth-divider-text{font-size:13px;font-weight:700;color:#afafaf;letter-spacing:0.06em;}
+.auth-social{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px;}
+.auth-soc-btn{display:flex;align-items:center;justify-content:center;gap:8px;
+  border:2px solid #e8e8e8;border-radius:14px;padding:13px 0;background:#fff;cursor:pointer;
+  font-family:inherit;font-size:13px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;
+  color:#444;transition:background .15s,border-color .15s;}
+.auth-soc-btn:hover{background:#f7f7f7;}
+.auth-terms{font-size:12px;color:#afafaf;text-align:center;line-height:1.6;}
+.auth-terms strong{color:#777;}
+.auth-switch{text-align:center;margin-top:16px;font-size:14px;color:#afafaf;}
+.auth-switch button{background:none;border:none;color:#1CB0F6;cursor:pointer;font-family:inherit;font-size:14px;font-weight:700;padding:0;}
+.auth-msg{font-size:14px;margin-bottom:12px;font-weight:600;text-align:center;line-height:1.5;color:#FF3B30;}
+/* Dark base — in de app levert dark-theme.css dit; hier zelf, zodat de preview
+   los werkt. Palet = de app-donkerwaarden (#2C2C2E surface / #3A3A3C input …). */
+html.dark .auth-card{background:#2C2C2E;}
+html.dark .auth-card h2{color:#EBEBF0;}
+html.dark .auth-input{background:#3A3A3C;border-color:#48484A;color:#EBEBF0;}
+html.dark .auth-input::placeholder{color:#8E8E93;}
+html.dark .auth-divider-line{background:#48484A;}
+html.dark .auth-soc-btn{background:#3A3A3C;border-color:#48484A;color:#EBEBF0;}
+html.dark .auth-soc-btn:hover{background:#48484A;}
+html.dark .auth-terms strong{color:#AEAEB2;}
+@media (max-width:560px){.auth-card{padding:32px 22px 26px;}.auth-card h2{font-size:22px;}}
+
+/* ══════════════ 3&4 · ONBOARDING-KAARTEN (clean redesign, Tijmen 2026-07-18) ══════════════
+   Rustige witte kaart + compacte getinte icon-chip; de KLEUR van je keuze (jaar =
+   blauw/oranje/groen, dagdoel = kist-rariteit) is het enige verzadigde element. */
+.ob-card{background:#fff;border-radius:26px;padding:34px 30px 30px;width:432px;max-width:92vw;margin:auto;
+  text-align:center;box-shadow:0 26px 70px rgba(20,44,80,0.16);}
+html.dark .ob-card{background:#1F1F22;box-shadow:0 26px 70px rgba(0,0,0,0.55);}
+.ob-ic{width:56px;height:56px;margin:0 auto 15px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  color:#1CB0F6;background:linear-gradient(135deg,#E9F6FF,#DAEEFF);}
+html.dark .ob-ic{color:#5CC6FF;background:linear-gradient(135deg,#17303F,#132838);}
+.ob-ic svg{width:28px;height:28px;}
+.ob-title{font-size:22px;font-weight:900;letter-spacing:-0.015em;margin:0 0 6px;color:#132532;}
+html.dark .ob-title{color:#F2F5F8;}
+.ob-sub{font-size:14px;font-weight:600;color:#7C8A96;margin:0 auto 24px;line-height:1.45;max-width:320px;}
+html.dark .ob-sub{color:#9AA6B0;}
+/* Velden */
+.ob-field{text-align:left;margin-bottom:20px;}
+.ob-label{display:block;font-size:11.5px;font-weight:800;letter-spacing:0.05em;text-transform:uppercase;color:#93A0AB;margin:0 0 9px;}
+.ob-input{width:100%;box-sizing:border-box;border:2px solid #E7ECF1;border-radius:14px;padding:15px 16px;font-size:16px;
+  font-family:inherit;font-weight:600;color:#132532;background:#F7F9FB;outline:none;transition:border-color .18s,box-shadow .18s,background .18s;}
+.ob-input::placeholder{color:#AEB8C1;font-weight:600;}
+.ob-input:focus{border-color:#1CB0F6;background:#fff;box-shadow:0 0 0 4px rgba(28,176,246,0.14);}
+html.dark .ob-input{background:#2A2A2E;border-color:#3A3A40;color:#EDEFF2;}
+html.dark .ob-input::placeholder{color:#7C848C;}
+/* Jaar-selector: 3 compacte kaarten naast elkaar */
+.ob-years{display:flex;gap:10px;}
+.ob-year{flex:1;position:relative;border:2px solid #E7ECF1;background:#fff;border-radius:18px;padding:15px 6px 13px;cursor:pointer;
+  font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:9px;
+  transition:border-color .15s,transform .15s,box-shadow .15s,background .15s;}
+.ob-year:hover{transform:translateY(-3px);border-color:var(--yc);}
+html.dark .ob-year{background:#2A2A2E;border-color:#3A3A40;}
+.ob-year-n{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:19px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--yc),var(--yc2));
+  box-shadow:0 5px 12px color-mix(in srgb,var(--yc) 38%,transparent);}
+.ob-year-l{font-size:13.5px;font-weight:800;color:#3E4E5A;}
+html.dark .ob-year-l{color:#C5CCD3;}
+.ob-year.sel{border-color:var(--yc);background:color-mix(in srgb,var(--yc) 9%,#fff);
+  box-shadow:0 9px 22px color-mix(in srgb,var(--yc) 24%,transparent);}
+html.dark .ob-year.sel{background:color-mix(in srgb,var(--yc) 20%,#2A2A2E);}
+.ob-year.sel .ob-year-l{color:var(--yc);}
+.ob-year-tick{position:absolute;top:9px;right:9px;width:19px;height:19px;border-radius:50%;background:var(--yc);
+  display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;transform:scale(.5);transition:opacity .14s,transform .14s;}
+.ob-year.sel .ob-year-tick{opacity:1;transform:scale(1);}
+/* Dagdoel-rijen */
+.ob-goals{display:flex;flex-direction:column;gap:10px;text-align:left;}
+.ob-goal{display:flex;align-items:center;gap:14px;width:100%;border:2px solid #E7ECF1;background:#fff;border-radius:18px;
+  padding:12px 15px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .13s,transform .13s,box-shadow .13s;}
+.ob-goal:hover{transform:translateY(-2px);border-color:var(--rc);box-shadow:0 10px 24px color-mix(in srgb,var(--rc) 26%,transparent);}
+html.dark .ob-goal{background:#2A2A2E;border-color:#3A3A40;}
+.ob-goal-n{flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:17px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--rc),var(--rc2));
+  box-shadow:0 4px 11px color-mix(in srgb,var(--rc) 34%,transparent);}
+.ob-goal-txt{flex:1 1 auto;min-width:0;}
+.ob-goal-name{display:flex;align-items:center;gap:7px;font-size:15.5px;font-weight:800;color:#132532;}
+html.dark .ob-goal-name{color:#EDEFF2;}
+.ob-goal-sub{display:block;font-size:12.5px;font-weight:600;color:#8E9AA4;margin-top:2px;}
+.ob-rec{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#1CB0F6;
+  background:rgba(28,176,246,0.13);padding:2.5px 7px;border-radius:7px;}
+.ob-goal-tag{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:var(--rc);padding:6px 11px;border-radius:10px;white-space:nowrap;}
+/* Knop (3D-druk) + voetnoot */
+.ob-btn{width:100%;border:none;background:#1CB0F6;color:#fff;border-radius:16px;padding:16px 0;margin-top:24px;
+  font-family:inherit;font-size:15px;font-weight:900;letter-spacing:0.03em;cursor:pointer;
+  box-shadow:0 4px 0 #1391cf;transition:transform .08s,box-shadow .08s,background .15s;}
+.ob-btn:hover{background:#28b9ff;}
+.ob-btn:active{transform:translateY(3px);box-shadow:0 1px 0 #1391cf;}
+.ob-foot{font-size:12px;font-weight:600;color:#93A0AB;margin:18px 0 0;line-height:1.4;}
+html.dark .ob-foot{color:#7E8A94;}
+
+/* ── Klaar-kaart (na de laatste stap) ── */
+.done-card{background:#fff;border-radius:24px;padding:38px 34px;max-width:400px;width:100%;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,0.2);}
+html.dark .done-card{background:#2C2C2E;}
+.done-ic{width:66px;height:66px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#58CC02,#46A302);box-shadow:0 8px 20px rgba(88,204,2,0.4);}
+.done-card h2{font-size:23px;font-weight:900;margin:0 0 8px;}
+.done-card p{font-size:14.5px;color:#6E6E73;line-height:1.5;margin:0 0 22px;}
+html.dark .done-card p{color:#AEAEB2;}
+.done-btn{background:#1CB0F6;color:#fff;border:none;border-bottom:4px solid #0e85b5;border-radius:14px;
+  padding:15px 0;font-size:14px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit;width:100%;}
+.done-btn:hover{background:#22c3ff;}
+
+/* ══════════════ REGIE-BALK (preview-only chrome) ══════════════ */
+#ribbon{position:fixed;top:0;left:0;right:0;z-index:3000;display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:9px 14px;background:rgba(28,28,30,0.92);color:#fff;font-size:12.5px;font-weight:800;letter-spacing:.03em;
+  backdrop-filter:blur(6px);}
+#ribbon .dot{width:7px;height:7px;border-radius:50%;background:#FF9600;box-shadow:0 0 0 4px rgba(255,150,0,.25);}
+#ribbon span.muted{font-weight:600;color:#B9B9C0;}
+
+#director{position:fixed;bottom:0;left:0;right:0;z-index:3000;display:flex;align-items:center;gap:10px;
+  padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(28,28,30,0.94);backdrop-filter:blur(8px);
+  color:#fff;font-family:inherit;}
+#director .grow{flex:1;min-width:0;}
+.dr-step{display:flex;flex-direction:column;line-height:1.2;}
+.dr-step b{font-size:14px;font-weight:900;}
+.dr-step small{font-size:11px;color:#B9B9C0;font-weight:600;}
+.dr-btn{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:12px;padding:11px 16px;
+  font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;background:#3A3A3C;color:#fff;transition:background .13s,opacity .13s;white-space:nowrap;}
+.dr-btn:hover{background:#48484A;}
+.dr-btn.primary{background:#1CB0F6;}
+.dr-btn.primary:hover{background:#22c3ff;}
+.dr-btn:disabled{opacity:.4;cursor:default;}
+.dr-btn svg{width:16px;height:16px;}
+.dr-icon{width:42px;height:42px;padding:0;justify-content:center;border-radius:50%;}
+.dr-icon svg{width:19px;height:19px;}
+.dr-dots{display:flex;gap:6px;align-items:center;}
+.dr-dots i{width:8px;height:8px;border-radius:50%;background:#5A5A5E;transition:background .15s,transform .15s;cursor:pointer;}
+.dr-dots i.on{background:#1CB0F6;transform:scale(1.25);}
+.dr-dots i.done{background:#58CC02;}
+@media (max-width:640px){
+  .dr-step small{display:none;}
+  #director{gap:7px;padding:10px 10px calc(10px + env(safe-area-inset-bottom));}
+  .dr-btn{padding:10px 12px;font-size:12px;}
+  .dr-btn .lbl{display:none;}
+  .dr-dots{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="faux-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<div id="ribbon">
+  <span class="dot"></span>
+  PREVIEW · onboarding-flow
+  <span class="muted">— niets wordt opgeslagen</span>
+</div>
+
+<div id="stage"></div>
+
+<div id="director">
+  <button class="dr-btn dr-icon" id="btn-prev" title="Vorige stap" aria-label="Vorige stap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <div class="grow dr-step">
+    <b id="dr-title">Aanmelden</b>
+    <small id="dr-sub"></small>
+  </div>
+  <div class="dr-dots" id="dr-dots"></div>
+  <button class="dr-btn" id="btn-restart" title="Opnieuw beginnen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    <span class="lbl">Opnieuw</span>
+  </button>
+  <button class="dr-btn dr-icon" id="btn-theme" title="Licht / donker" aria-label="Licht of donker">
+    <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  </button>
+  <button class="dr-btn primary" id="btn-next">
+    <span class="lbl">Volgende</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Icons (verbatim uit de bronbestanden) ── */
+  var EYE     = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#1CB0F6" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#1CB0F6"/></svg>';
+  var EYE_OFF = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#1CB0F6" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#1CB0F6"/><line x1="3" y1="3" x2="21" y2="21" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/></svg>';
+  var G_ICON  = '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>';
+
+  /* ── Dagdoel-tiers (verbatim uit vumed_stats.js GOAL_TIERS) ── */
+  var GOALS        = [10, 20, 30, 50];
+  var DEFAULT_GOAL = 20;
+  var GOAL_TIERS = {
+    10: { rarity: 'gewoon',       mult: 1, label: 'Rustig'  },
+    20: { rarity: 'zeldzaam',     mult: 1, label: 'Normaal' },
+    30: { rarity: 'episch',       mult: 1, label: 'Serieus' },
+    50: { rarity: 'legendarisch', mult: 1, label: 'Intens'  }
+  };
+  var RAR_COL  = { gewoon: '#58CC02', zeldzaam: '#FF9600', episch: '#AA72FF', legendarisch: '#9FB6CC' };
+  var RAR_COL2 = { gewoon: '#46A302', zeldzaam: '#E07E00', episch: '#8B4DF0', legendarisch: '#7E99B3' };
+  // Rariteit → de kist die je ermee verdient (één heldere beloning-chip i.p.v.
+  // sterren + tag + badge door elkaar).
+  var RAR_CHEST = { gewoon: 'Gewone kist', zeldzaam: 'Zeldzame kist', episch: 'Epische kist', legendarisch: 'Legendarische kist' };
+
+  function goalOptHTML(n) {
+    var t = GOAL_TIERS[n] || {};
+    var rc  = RAR_COL[t.rarity]  || '#8E8E93';
+    var rc2 = RAR_COL2[t.rarity] || '#6E6E73';
+    var rec = (n === DEFAULT_GOAL) ? '<span class="ob-rec">Aanbevolen</span>' : '';
+    return '<button class="ob-goal" data-act="next" data-goal="' + n + '" style="--rc:' + rc + ';--rc2:' + rc2 + '">'
+      + '<span class="ob-goal-n">' + n + '</span>'
+      + '<span class="ob-goal-txt">'
+      +   '<span class="ob-goal-name">' + (t.label || '') + rec + '</span>'
+      +   '<span class="ob-goal-sub">' + n + ' vragen per dag</span>'
+      + '</span>'
+      + '<span class="ob-goal-tag">' + (RAR_CHEST[t.rarity] || '') + '</span>'
+      + '</button>';
+  }
+
+  var YEAR_OPTS = [
+    { y: 'year1', n: 1, rc: '#1CB0F6', rc2: '#0E85B5' },
+    { y: 'year2', n: 2, rc: '#FF9600', rc2: '#E07E00' },
+    { y: 'year3', n: 3, rc: '#58CC02', rc2: '#46A302' }
+  ];
+
+  /* ══════════════ STAP-HTML (getrouwe kopieën) ══════════════ */
+
+  // authMode: 'signup' | 'login'  ·  pwShown: bool
+  var authMode = 'signup';
+  var pwShown  = false;
+
+  function authHTML() {
+    var isSignup = authMode === 'signup';
+    return '<div class="auth-card step-anim">'
+      + '<h2>' + (isSignup ? 'Maak je profiel' : 'Inloggen') + '</h2>'
+      + '<form onsubmit="return false" style="display:flex;flex-direction:column;margin:0">'
+      +   (isSignup ? '<input class="auth-input" type="text" placeholder="Naam (optioneel)">' : '')
+      +   '<input class="auth-input" type="email" placeholder="E-mailadres">'
+      +   '<div class="auth-pw-wrap">'
+      +     '<input class="auth-input" type="' + (pwShown ? 'text' : 'password') + '" placeholder="Wachtwoord">'
+      +     '<button type="button" class="auth-pw-eye" data-act="eye">' + (pwShown ? EYE_OFF : EYE) + '</button>'
+      +   '</div>'
+      +   (isSignup ? '' : '<div class="auth-forgot-row"><button type="button" class="auth-forgot">Wachtwoord vergeten?</button></div>')
+      +   '<button type="submit" class="auth-submit" data-act="next">' + (isSignup ? 'Account aanmaken' : 'Inloggen') + '</button>'
+      + '</form>'
+      + '<div class="auth-divider"><div class="auth-divider-line"></div><span class="auth-divider-text">OF</span><div class="auth-divider-line"></div></div>'
+      + '<div class="auth-social"><button type="button" class="auth-soc-btn" data-act="next">' + G_ICON + 'Doorgaan met Google</button></div>'
+      + '<div class="auth-terms">Door in te loggen ga je akkoord met onze <strong>Gebruiksvoorwaarden</strong> en <strong>Privacybeleid</strong>.</div>'
+      + '<div class="auth-switch">'
+      +   (isSignup
+            ? 'Al een account?&nbsp;<button type="button" data-act="switch">Inloggen</button>'
+            : 'Geen account?&nbsp;<button type="button" data-act="switch">Aanmaken</button>')
+      + '</div>'
+      + '</div>';
+  }
+
+  // Jaarkeuze-stap. Jaarkaarten selecteren (togglen .sel); "Doorgaan" bevestigt.
+  function comboHTML() {
+    var years = YEAR_OPTS.map(function (o) {
+      return '<button class="ob-year" data-act="pickyear" data-year="' + o.y + '" style="--yc:' + o.rc + ';--yc2:' + o.rc2 + '">'
+        + '<span class="ob-year-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>'
+        + '<span class="ob-year-n">' + o.n + '</span>'
+        + '<span class="ob-year-l">Jaar ' + o.n + '</span>'
+        + '</button>';
+    }).join('');
+    return '<div class="ob-card step-anim">'
+      + '<div class="ob-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      +   '<path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></div>'
+      + '<h2 class="ob-title">In welk jaar zit je?</h2>'
+      + '<p class="ob-sub">Zo start je dashboard meteen op het juiste studiejaar.</p>'
+      + '<div class="ob-field">'
+      +   '<label class="ob-label">Studiejaar</label>'
+      +   '<div class="ob-years">' + years + '</div>'
+      + '</div>'
+      + '<button type="button" class="ob-btn" data-act="next">Doorgaan</button>'
+      + '</div>';
+  }
+
+  function goalHTML() {
+    return '<div class="ob-card step-anim">'
+      + '<div class="ob-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
+      +   '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/>'
+      +   '<circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/></svg></div>'
+      + '<h2 class="ob-title">Kies je dagdoel</h2>'
+      + '<p class="ob-sub">Haal je doel 7 dagen op rij en verdien een kist — hoe hoger je doel, hoe beter de kist.</p>'
+      + '<div class="ob-goals">' + GOALS.map(goalOptHTML).join('') + '</div>'
+      + '<p class="ob-foot">Je dagenreeks (10 vragen) staat hier los van. Aanpassen kan later bij Instellingen.</p>'
+      + '</div>';
+  }
+
+  function doneHTML() {
+    return '<div class="done-card step-anim">'
+      + '<div class="done-ic"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>'
+      + '<h2>Klaar!</h2>'
+      + '<p>Dit is het einde van de onboarding-flow. Een nieuwe gebruiker landt hierna op het dashboard. Speel opnieuw af om alles nog eens te bekijken.</p>'
+      + '<button type="button" class="done-btn" data-act="restart">Opnieuw afspelen</button>'
+      + '</div>';
+  }
+
+  /* ══════════════ STAPPEN-REGISTER ══════════════ */
+  var STEPS = [
+    { key: 'auth',  title: 'Aanmelden',       sub: 'Aanmaken/inloggen (vumed.html)',    backdrop: 'bd-frost', html: authHTML },
+    { key: 'combo', title: 'Studiejaar', sub: 'Kies je studiejaar', backdrop: 'bd-dim', html: comboHTML },
+    { key: 'goal',  title: 'Dagdoel kiezen',  sub: 'Laatste stap van de onboarding',    backdrop: 'bd-dim',   html: goalHTML },
+    { key: 'done',  title: 'Klaar',           sub: 'Landt op het dashboard',            backdrop: 'bd-dim',   html: doneHTML }
+  ];
+
+  var stage   = document.getElementById('stage');
+  var drTitle = document.getElementById('dr-title');
+  var drSub   = document.getElementById('dr-sub');
+  var drDots  = document.getElementById('dr-dots');
+  var btnPrev = document.getElementById('btn-prev');
+  var btnNext = document.getElementById('btn-next');
+  var idx = 0;
+
+  // Dots (klikbaar: spring naar een stap)
+  STEPS.forEach(function (s, i) {
+    var d = document.createElement('i');
+    d.addEventListener('click', function () { go(i); });
+    drDots.appendChild(d);
+  });
+
+  function render() {
+    var s = STEPS[idx];
+    stage.className = s.backdrop;
+    stage.innerHTML = s.html();
+    drTitle.textContent = s.title;
+    drSub.textContent = s.sub;
+    btnPrev.disabled = idx === 0;
+    btnNext.disabled = idx === STEPS.length - 1;
+    btnNext.querySelector('.lbl').textContent = idx === STEPS.length - 2 ? 'Afronden' : 'Volgende';
+    Array.prototype.forEach.call(drDots.children, function (d, i) {
+      d.className = i === idx ? 'on' : (i < idx ? 'done' : '');
+    });
+    stage.scrollTop = 0;
+  }
+
+  function go(i) {
+    idx = Math.max(0, Math.min(STEPS.length - 1, i));
+    render();
+  }
+  function next() { if (idx < STEPS.length - 1) go(idx + 1); }
+  function prev() { if (idx > 0) go(idx - 1); }
+  function restart() { authMode = 'signup'; pwShown = false; go(0); }
+
+  // Klikken BINNEN een stap = de echte flow nabootsen
+  stage.addEventListener('click', function (e) {
+    var act = e.target.closest('[data-act]');
+    if (!act) return;
+    var a = act.getAttribute('data-act');
+    if (a === 'next')    { next(); return; }
+    if (a === 'restart') { restart(); return; }
+    if (a === 'switch')  { authMode = authMode === 'signup' ? 'login' : 'signup'; render(); return; }
+    if (a === 'eye')     { pwShown = !pwShown; render(); return; }
+    if (a === 'pickyear') {
+      var opts = act.parentNode.querySelectorAll('.ob-year');
+      Array.prototype.forEach.call(opts, function (x) { x.classList.remove('sel'); });
+      act.classList.add('sel');
+      return;
+    }
+  });
+
+  btnPrev.addEventListener('click', prev);
+  btnNext.addEventListener('click', next);
+  document.getElementById('btn-restart').addEventListener('click', restart);
+
+  // Theme toggle (los van de app — puur voor de preview)
+  var SUN  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+  var MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  function paintTheme() {
+    document.getElementById('theme-icon').innerHTML =
+      document.documentElement.classList.contains('dark') ? SUN : MOON;
+  }
+  document.getElementById('btn-theme').addEventListener('click', function () {
+    document.documentElement.classList.toggle('dark');
+    paintTheme();
+  });
+
+  // Keyboard: ← → om te navigeren, R = opnieuw
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') next();
+    else if (e.key === 'ArrowLeft') prev();
+    else if (e.key === 'r' || e.key === 'R') restart();
+  });
+
+  paintTheme();
+  render();
+})();
+</script>
+</body>
+</html>

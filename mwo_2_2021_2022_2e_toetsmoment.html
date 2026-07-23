@@ -1,0 +1,2700 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>MWO 2 — 2e Toetsmoment 2021-2022</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dark-theme.css?v=3">
+<script src="supabase_config.js"></script>
+<script src="openai_config.js"></script>
+<script src="supabase-js.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #FFFFFF; color: #1C1C1E;
+  -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+}
+/* ── Navbar ── */
+.site-header {
+  background: rgba(255,255,255,0.90); backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+}
+.header-inner {
+  max-width: none; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 48px; gap: 8px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600;
+  color: #6E6E73; text-decoration: none; padding: 6px 10px 6px 6px;
+  border-radius: 8px; transition: background 0.15s; justify-self: start; grid-column: 1; white-space: nowrap;
+}
+.back-btn:hover { background: rgba(60,60,67,0.08); }
+.header-title { display: none; }
+.header-title .title-sub { font-size: 12px; font-weight: 600; color: #6E6E73; }
+.submit-btn {
+  display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600;
+  color: #6E6E73; background: none; border: none; cursor: pointer;
+  padding: 6px 6px 6px 10px; border-radius: 8px; transition: background 0.15s;
+  justify-self: end; grid-column: 3; white-space: nowrap; font-family: inherit;
+}
+.submit-btn:hover { background: rgba(60,60,67,0.08); }
+/* ── Modals ── */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.40); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 20px; padding: 28px 28px 22px;
+  max-width: 340px; width: calc(100% - 40px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18); animation: fadeInUp 0.22s ease;
+}
+.modal-box h2 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.modal-box p  { font-size: 15px; color: #3C3C43; line-height: 1.55; }
+.modal-actions { display: flex; gap: 12px; margin-top: 20px; justify-content: flex-end; }
+.btn-cancel  { padding: 10px 20px; border: 1.5px solid #D1D1D6; border-radius: 12px; background: #fff; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; color: #3C3C43; }
+.btn-confirm { padding: 10px 20px; border: none; border-radius: 12px; background: #1CB0F6; color: #fff; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; }
+.btn-danger  { padding: 10px 20px; border: none; border-radius: 12px; background: #FF3B30; color: #fff; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; }
+/* ── Progress bar ── */
+.progress-wrap { display: none; }
+.streak-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 51;
+  height: 48px; display: flex; align-items: center;
+  padding: 0 132px; pointer-events: none;
+}
+.streak-inner { max-width: 560px; width: 100%; margin: 0 auto; pointer-events: none; }
+.streak-bar-wrap { position: relative; }
+.streak-bar-bg {
+  width: 100%; height: 14px; background: #E5E5EA;
+  border-radius: 999px; overflow: hidden;
+  pointer-events: auto; cursor: pointer;
+}
+.streak-bar-fill {
+  height: 100%; width: 0%; border-radius: 999px;
+  background: #58CC02;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative; overflow: hidden;
+}
+.streak-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 15%; left: 6%; right: 6%;
+  height: 35%;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.30);
+  pointer-events: none;
+}
+.streak-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0%;
+  transform: translateX(-50%);
+  font-size: 11px; font-weight: 800; color: #58CC02;
+  letter-spacing: 0.05em; white-space: nowrap;
+  opacity: 0;
+  transition: left 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease;
+  pointer-events: none; user-select: none;
+}
+/* ── Main ── */
+.exam-main {
+  max-width: 820px; margin: 48px auto 60px; padding: 0 24px;
+  transition: margin-left 0.28s cubic-bezier(0.25,0.46,0.45,0.94), margin-right 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+body.g-open .exam-main { margin-right: 392px; }
+body.chat-open .exam-main { margin-left: 368px; }
+/* ── Casus blocks ── */
+.casus-block {
+  margin-bottom: 32px; border-radius: 20px;
+  border: 1.5px solid #E5E5EA; overflow: hidden;
+}
+.casus-header {
+  background: linear-gradient(135deg, #1CB0F6 0%, #0EA5D8 100%);
+  padding: 14px 22px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.casus-tag {
+  background: rgba(255,255,255,0.25); color: #fff; font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px; padding: 3px 8px; border-radius: 999px; text-transform: uppercase;
+}
+.casus-title { color: #fff; font-size: 16px; font-weight: 800; flex: 1; }
+.casus-count { color: rgba(255,255,255,0.80); font-size: 13px; font-weight: 600; }
+.casus-body { padding: 0 22px 16px; }
+/* ── Context text ── */
+.casus-context { padding: 14px 0; font-size: 15px; line-height: 1.65; color: #1C1C1E; }
+.casus-context p { margin-bottom: 10px; }
+.casus-context p:last-child { margin-bottom: 0; }
+/* ── Statistical output tables ── */
+.output-section { margin: 10px 0 14px; }
+.output-label {
+  font-size: 12px; font-weight: 700; color: #6E6E73; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 8px; padding: 0 4px;
+}
+.stat-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #E5E5EA; }
+.stat-table {
+  border-collapse: collapse; width: 100%; font-size: 13px;
+  font-family: 'Nunito', monospace;
+}
+.stat-table th {
+  background: #F2F2F7; padding: 8px 12px; text-align: right; font-weight: 700;
+  font-size: 11px; color: #3C3C43; border-bottom: 1px solid #E5E5EA; white-space: nowrap;
+}
+.stat-table th:first-child { text-align: left; }
+.stat-table td {
+  padding: 7px 12px; border-bottom: 1px solid #F2F2F7;
+  font-size: 13px; text-align: right; color: #1C1C1E;
+}
+.stat-table td.stat-label { text-align: left; font-weight: 600; color: #3C3C43; }
+.stat-table td.stat-val   { font-variant-numeric: tabular-nums; }
+.stat-table tr:last-child td { border-bottom: none; }
+.stat-table tr:hover td { background: #F8F8FB; }
+.output-unavailable { font-size: 13px; color: #8E8E93; font-style: italic; padding: 4px; }
+/* ── Vervolg banner ── */
+.vervolg-banner {
+  margin: 20px -22px 0; padding: 10px 22px; background: #F8F8FB;
+  border-top: 1px solid #E5E5EA; border-bottom: 1px solid #E5E5EA;
+  font-size: 12px; font-weight: 700; color: #8E8E93; text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+/* ── Question blocks ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.q-block {
+  padding: 26px 4px 28px; margin: 0;
+  border-bottom: 1px solid #E5E5EA;
+  animation: fadeInUp 0.3s ease both;
+}
+.q-block:last-child { border-bottom: none; }
+.q-num { font-size: 11px; font-weight: 800; color: #1CB0F6; text-transform: uppercase;
+         letter-spacing: 1px; margin-bottom: 10px; }
+.q-num-ai {
+  display: inline-flex; vertical-align: middle; align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; margin-left: 6px;
+  color: #8E8E93; cursor: pointer; line-height: 0; transition: color 0.15s;
+}
+.q-num-ai:hover { color: #1CB0F6; }
+.q-num-ai svg { display: block; }
+.q-text { font-size: 15px; line-height: 1.65; color: #1C1C1E; margin-bottom: 16px; }
+.q-context  { font-size: 15px; line-height: 1.65; color: #636366; margin-bottom: 8px; }
+.q-question { font-size: 15px; line-height: 1.65; color: #1C1C1E; margin-bottom: 16px; font-weight: 600; }
+/* ── Open question ── */
+.open-area { margin-top: 4px; }
+.open-input {
+  width: 100%; padding: 12px 14px; border: 1.5px solid #D1D1D6; border-radius: 12px;
+  font-size: 15px; font-family: 'Nunito', inherit; color: #1C1C1E; background: #fff;
+  resize: vertical; min-height: 90px; transition: border-color 0.15s;
+  line-height: 1.55;
+}
+.open-input:focus { outline: none; border-color: #1CB0F6; }
+.open-input:disabled { background: #fff; color: #8E8E93; cursor: default; }
+.open-xp-hint { font-size: 11px; color: #8E8E93; margin-top: 6px; font-weight: 600; }
+/* ── Open question result ── */
+.open-result { margin-top: 14px; text-align: center; animation: fadeInUp 0.25s ease; }
+.open-result-score { font-size: 16px; font-weight: 800; margin-bottom: 8px; }
+.open-result-score.full    { color: #58CC02; }
+.open-result-score.partial { color: #FF9500; }
+.open-result-score.zero    { color: #FF3B30; }
+.open-result-feedback { font-size: 14px; line-height: 1.6; color: #3C3C43; text-align: left; }
+.open-result-error { font-size: 14px; color: #FF3B30; font-style: italic; }
+.checking-msg { font-size: 14px; color: #8E8E93; font-style: italic; }
+/* ── Inline AI explanation ── */
+.inline-explain {
+  display: none; margin-top: 12px; padding: 12px 14px;
+  background: #fff; border: 1px solid #D1D1D6; border-radius: 10px;
+  font-size: 14px; line-height: 1.65; color: #1C1C1E; text-align: left;
+}
+.inline-explain strong { font-weight: 700; }
+.inline-explain em { font-style: italic; color: #3A3A3C; }
+/* ── Result area ── */
+.result { margin-top: 12px; display: none; }
+.result.show { display: block; }
+.result-badge { display: none; }
+/* ── MCQ options ── */
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.opt-btn {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  padding: 12px 16px; border: 1.5px solid #D1D1D6; border-radius: 12px;
+  background: #FFFFFF; cursor: pointer; text-align: left; font-family: inherit;
+  font-size: 15px; color: #1C1C1E; transition: border-color 0.15s, background 0.15s;
+  justify-self: start;
+}
+.opt-btn:hover:not(:disabled) { background: #EBF7FF; border-color: #1CB0F6; transform: translateY(-1px); }
+.opt-btn.selected  { border-color: #1CB0F6; background: #EBF7FF; }
+.opt-btn.correct   { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+.opt-btn.wrong     { border-color: #FF3B30; background: #FFF2F2; color: #C0392B; }
+.opt-btn:disabled  { cursor: default; }
+.opt-letter {
+  min-width: 28px; height: 28px; border-radius: 8px; background: #F2F2F7;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; color: #3C3C43; flex-shrink: 0;
+}
+.opt-btn.selected .opt-letter { background: #1CB0F6; color: #fff; }
+.opt-btn.correct  .opt-letter { background: #58CC02; color: #fff; }
+.opt-btn.wrong    .opt-letter { background: #FF3B30; color: #fff; }
+/* ── Buttons row ── */
+.q-btn-row { display: flex; justify-content: center; align-items: center; }
+.check-btn {
+  padding: 10px 22px; background: #E5E5EA; color: #3C3C43; border: none;
+  border-radius: 12px; font-size: 14px; font-weight: 700; font-family: inherit;
+  cursor: pointer; max-height: 80px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.14s ease,
+              opacity 0.32s ease, max-height 0.34s ease, padding 0.34s ease, margin 0.34s ease;
+}
+.check-btn:hover:not(:disabled) { background: #1CB0F6; color: #fff; }
+.check-btn:disabled { opacity: 0.4; background: #E5E5EA; color: #3C3C43; cursor: default; }
+.check-btn.cb-correct {
+  background: #58CC02; color: #fff; opacity: 1;
+  animation: cb-pop 0.34s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes cb-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.check-btn.cb-vanish {
+  opacity: 0 !important; transform: scale(0.7) translateY(-4px);
+  max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0;
+  overflow: hidden; pointer-events: none;
+}
+.q-ai-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: none; border: 1.5px solid #1CB0F6; border-radius: 20px; color: #1CB0F6;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 7px 18px; cursor: pointer; transition: background 0.18s, color 0.18s;
+}
+.q-ai-btn:hover { background: #1CB0F6; color: #fff; }
+/* ── Images ── */
+.q-figure { margin: 0 0 14px; text-align: center; }
+.q-img { max-width: 100%; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.q-img-placeholder {
+  background: #F2F2F7; border-radius: 12px; padding: 16px; margin-bottom: 14px;
+  text-align: center; border: 1.5px dashed #C7C7CC; color: #8E8E93; font-size: 13px;
+}
+/* ── Summary / results ── */
+.summary { display: none; }
+.progress-fill { display: none; }
+#results-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: #fff; overflow-y: auto;
+}
+#results-overlay.show { display: block; }
+.results-inner { max-width: 480px; margin: 0 auto; padding: 60px 24px 40px; text-align: center; }
+.results-title { font-size: 28px; font-weight: 800; color: #1C1C1E; margin-bottom: 6px; }
+.results-sub   { font-size: 14px; color: #6E6E73; margin-bottom: 40px; }
+.score-ring {
+  width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 32px;
+  background: conic-gradient(#58CC02 calc(var(--pct,0) * 1%), #F2F2F7 0);
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.score-ring-inner {
+  width: 130px; height: 130px; background: #fff; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.score-num { font-size: 36px; font-weight: 800; color: #1C1C1E; }
+.score-den { font-size: 14px; color: #8E8E93; font-weight: 700; }
+.results-stats { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 32px; }
+.stat-card { background: #F8F8FB; border-radius: 16px; padding: 16px 20px; min-width: 90px; text-align: center; }
+.stat-card .stat-n { font-size: 28px; font-weight: 800; color: #1C1C1E; }
+.stat-card .stat-label { font-size: 13px; color: #8E8E93; margin-top: 4px; }
+.stat-correct { border-top: 3px solid #58CC02; }
+.stat-partial  { border-top: 3px solid #FF9500; }
+.stat-wrong   { border-top: 3px solid #FF3B30; }
+.stat-open-na { border-top: 3px solid #C7C7CC; }
+.results-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-back   { padding: 12px 24px; border: 1.5px solid #1CB0F6; color: #1CB0F6; background: #fff; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; }
+.btn-restart { padding: 12px 24px; background: #1CB0F6; color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer; }
+/* ── Glossary panel ── */
+.g-panel {
+  position: fixed; top: 63px; right: 0; bottom: 0; width: 368px; z-index: 100;
+  background: #fff; border-left: 1px solid rgba(60,60,67,0.12);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.08); overflow-y: auto;
+  transform: translateX(100%); transition: transform 0.28s cubic-bezier(.22,.68,0,1.2);
+  display: flex; flex-direction: column;
+}
+.g-panel.open { transform: translateX(0); }
+.g-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px 12px; border-bottom: 1px solid #F2F2F7; flex-shrink: 0;
+}
+.g-title { font-size: 17px; font-weight: 800; color: #1C1C1E; }
+.g-close  { background: #F2F2F7; border: none; border-radius: 50%; width: 28px; height: 28px; font-size: 14px; cursor: pointer; color: #3C3C43; display: flex; align-items: center; justify-content: center; }
+.g-img    { width: 100%; max-height: 200px; object-fit: cover; border-radius: 0; }
+.g-img-nav { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 4px 0 10px; margin-top: -6px; }
+.g-img-btn { background: #f2f2f7; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 16px; cursor: pointer; color: #1C1C1E; line-height: 1; transition: background 0.15s; }
+.g-img-btn:hover { background: #e5e5ea; }
+.g-img-counter { font-size: 12px; color: #8E8E93; min-width: 36px; text-align: center; }
+.g-body   { padding: 16px 18px; flex: 1; }
+.g-def    { font-size: 14px; line-height: 1.65; color: #3C3C43; }
+.g-tip { position: fixed; z-index: 150; background: #fff; border: 1px solid #E5E5EA; border-radius: 10px; padding: 10px 13px; max-width: 260px; font-size: 13px; color: #1C1C1E; line-height: 1.5; box-shadow: 0 4px 16px rgba(0,0,0,.12); pointer-events: none; opacity: 0; transition: opacity 0.15s; }
+.g-tip.show { opacity: 1; }
+.gterm { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: #AEAEB2; cursor: pointer; }
+.gterm:hover { color: #B57BF6; }
+/* ── Fixed AI chat tab (left edge) ── */
+.chat-tab-fixed {
+  position: fixed; left: 0; top: 50%; transform: translateY(-50%);
+  z-index: 150; background: #1CB0F6; border-radius: 0 10px 10px 0;
+  padding: 14px 10px; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  box-shadow: 2px 2px 12px rgba(28,176,246,0.30);
+  border: none; transition: background 0.15s, padding-left 0.15s; color: #fff;
+}
+.chat-tab-fixed:hover { background: #0A9EDC; padding-left: 14px; }
+.chat-tab-fixed svg { display: block; flex-shrink: 0; }
+/* ── Chat panel ── */
+.chat-panel {
+  position: fixed; top: 97px; left: 0; bottom: 0; width: 360px; max-width: 45vw; z-index: 201;
+  background: #F2F2F7; border-right: 1px solid rgba(60,60,67,0.12);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.10); display: flex; flex-direction: column;
+  transform: translateX(-110%); transition: transform 0.28s cubic-bezier(.22,.68,0,1.2);
+}
+.chat-panel.open { transform: translateX(0); }
+.chat-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px; background: #fff;
+  border-bottom: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-panel-title { font-size: 15px; font-weight: 700; color: #1C1C1E; }
+.chat-close { background: #F2F2F7; border: none; border-radius: 50%; width: 30px; height: 30px; font-size: 15px; cursor: pointer; color: #636366; display: flex; align-items: center; justify-content: center; }
+.chat-context-pill {
+  margin: 10px 12px 0; padding: 7px 12px; background: #fff; border-radius: 10px;
+  font-size: 12px; color: #636366; font-style: italic;
+  border: 1px solid rgba(60,60,67,0.10); flex-shrink: 0; line-height: 1.4;
+}
+.chat-context-pill strong { color: #1C1C1E; font-style: normal; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.chat-msg { max-width: 88%; padding: 9px 13px; border-radius: 18px; font-size: 13.5px; line-height: 1.5; word-break: break-word; }
+.chat-msg.user { align-self: flex-end; background: #1CB0F6; color: #fff; border-bottom-right-radius: 5px; }
+.chat-msg.ai   { align-self: flex-start; background: #fff; color: #1C1C1E; border-bottom-left-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.chat-msg.ai strong { font-weight: 700; }
+.chat-msg.ai em { font-style: italic; color: #3A3A3C; }
+.chat-msg.streaming::after { content: '▍'; display: inline-block; color: #1CB0F6; animation: cur-blink 0.6s step-end infinite; margin-left: 1px; }
+@keyframes cur-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.chat-input-area { display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 14px; background: #fff; border-top: 1px solid rgba(60,60,67,0.10); flex-shrink: 0; }
+.chat-input { flex: 1; border: 1.5px solid #D1D1D6; border-radius: 20px; padding: 8px 14px; font-size: 13.5px; font-family: inherit; resize: none; outline: none; line-height: 1.4; max-height: 100px; overflow-y: auto; transition: border-color 0.15s; }
+.chat-input:focus { border-color: #1CB0F6; }
+.chat-send { width: 36px; height: 36px; border-radius: 50%; border: none; background: #1CB0F6; color: #fff; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s; }
+.chat-send:hover { background: #0A9EDC; }
+.chat-send:disabled { background: #D1D1D6; cursor: default; }
+/* ── Leg uit button ── */
+.leg-uit-btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin: 12px auto 0;
+  background: none; border: 1.5px solid #1CB0F6; border-radius: 20px;
+  color: #1CB0F6; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700;
+  padding: 6px 20px; cursor: pointer; transition: background 0.15s, color 0.15s;
+  width: fit-content;
+}
+.leg-uit-btn:hover { background: #1CB0F6; color: #fff; }
+/* ── Selection popup ── */
+.sel-popup {
+  position: fixed; z-index: 110; background: #1C1C1E; border-radius: 8px;
+  padding: 6px 12px; font-size: 13px; color: #fff; cursor: pointer; font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25); opacity: 0;
+  transform: translateY(4px); transition: opacity 0.15s, transform 0.15s; pointer-events: none;
+}
+.sel-popup.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+/* ── XP animation ── */
+.xp-pop { position: fixed; z-index: 250; font-size: 16px; font-weight: 800; color: #58CC02; pointer-events: none; animation: xp-float 1.2s ease forwards; }
+@keyframes xp-float { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-50px) scale(1.2); } }
+.fly-dot { position: fixed; width: 10px; height: 10px; border-radius: 50%; background: #58CC02; pointer-events: none; transition: left 0.6s ease, top 0.6s ease, opacity 0.6s ease, width 0.6s ease, height 0.6s ease; z-index: 200; }
+/* ── Sparkle ── */
+@keyframes sparkle-pop {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
+  60%  { transform: translate(var(--sx), var(--sy))  scale(1.2); opacity: 1; }
+  100% { transform: translate(calc(var(--sx)*1.6), calc(var(--sy)*1.6)) scale(0); opacity: 0; }
+}
+.bar-sparkle {
+  position: fixed;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 200;
+  animation: sparkle-pop 0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+@keyframes bar-pop { 0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.35)} }
+.bar-pop { animation: bar-pop 0.25s ease; }
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(60,60,67,0.20); border-radius: 999px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="vumed.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10.5L12 3L21 10.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V10.5Z" fill="#6E6E73"/>
+        <path d="M1 11L12 2L23 11" stroke="#6E6E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Menu
+    </a>
+    <span class="header-title">
+      <span>MWO 2</span>
+      <span class="title-sub">2e Toetsmoment 2021&#8209;2022</span>
+    </span>
+    <button class="submit-btn" onclick="openSubmitModal()">
+      Inleveren
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M6.5 4L11.5 9L6.5 14" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+<div class="streak-wrap" id="streak-wrap" onclick="openResetModal()" title="Klik om examen te resetten" style="cursor:pointer;">
+  <div class="streak-inner">
+    <div class="streak-bar-wrap">
+      <span id="streak-label" class="streak-label"></span>
+      <div class="streak-bar-bg"><div class="streak-bar-fill" id="streak-fill"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Submit modal -->
+<div id="submit-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen inleveren</h2>
+    <p>Weet je zeker dat je het examen afsluit?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubmitModal()">Nee</button>
+      <button class="btn-confirm" onclick="showResults()">Ja, inleveren</button>
+    </div>
+  </div>
+</div>
+<!-- Reset modal -->
+<div id="reset-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen resetten</h2>
+    <p>Al je antwoorden worden gewist. Weet je het zeker?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Annuleren</button>
+      <button class="btn-danger" onclick="resetExam()">Ja, resetten</button>
+    </div>
+  </div>
+</div>
+<!-- Results overlay -->
+<div id="results-overlay">
+  <div class="results-inner">
+    <div class="results-title">Jouw resultaten</div>
+    <div class="results-sub">MWO 2 &middot; 2e Toetsmoment 2021&#8209;2022</div>
+    <div class="score-ring" id="score-ring">
+      <div class="score-ring-inner">
+        <div class="score-num" id="score-num">—</div>
+        <div class="score-den" id="score-den">/ 0</div>
+      </div>
+    </div>
+    <div class="results-stats">
+      <div class="stat-card stat-correct"><div class="stat-n" id="res-correct">0</div><div class="stat-label">Goed</div></div>
+      <div class="stat-card stat-partial"><div class="stat-n" id="res-partial">0</div><div class="stat-label">Gedeeltelijk</div></div>
+      <div class="stat-card stat-wrong"><div class="stat-n" id="res-wrong">0</div><div class="stat-label">Fout</div></div>
+      <div class="stat-card stat-open-na"><div class="stat-n" id="res-open">0</div><div class="stat-label">Open</div></div>
+    </div>
+    <div class="results-actions">
+      <button class="btn-back" onclick="closeResults()">Terug naar examen</button>
+      <button class="btn-restart" onclick="resetExam()">Opnieuw beginnen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Glossary tip -->
+<div id="g-tip" class="g-tip"></div>
+<!-- Glossary panel -->
+<div id="g-panel" class="g-panel">
+  <div class="g-panel-header">
+    <div id="g-title" class="g-title"></div>
+    <button class="g-close" onclick="closeGlossary()">&#x2715;</button>
+  </div>
+  <img id="g-img" class="g-img" src="" alt="" style="display:none">
+  <div id="g-img-nav" class="g-img-nav" style="display:none">
+    <button class="g-img-btn" onclick="gImgPrev()">&#8592;</button>
+    <span id="g-img-counter" class="g-img-counter"></span>
+    <button class="g-img-btn" onclick="gImgNext()">&#8594;</button>
+  </div>
+  <div class="g-body"><div id="g-def" class="g-def"></div></div>
+</div>
+<!-- Fixed AI chat tab on left edge -->
+<button class="chat-tab-fixed" onclick="openChatForQuestion(null)" title="Vraag de AI">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="2,2 8,8 2,14"/>
+  </svg>
+</button>
+<!-- Chat panel -->
+<div id="chat-panel" class="chat-panel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-title">Chat</div>
+    <button class="chat-close" onclick="closeChat()">&#x2715;</button>
+  </div>
+  <div id="chat-context-pill" class="chat-context-pill" style="display:none"></div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chat-input" rows="1" placeholder="Stel een vraag..."
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChatMessage();}"></textarea>
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+<!-- Selection popup -->
+<div id="sel-popup" class="sel-popup" onclick="openChatWithSelection()">&#128172; Vraag chat</div>
+
+<main class="exam-main">
+<div class="summary" style="display:none">
+  <span id="sum-correct">0</span> goed &middot;
+  <span id="sum-wrong">0</span> fout &middot;
+  <span id="sum-done">0</span> beantwoord
+</div>
+
+<!-- ══ CASUS 1: Eenzaamheid ══ -->
+<div class="casus-block" id="casus-1">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">Eenzaamheid</span>
+    <span class="casus-count">3 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Bij jongeren met gedragsproblemen werd een interventie uitgevoerd om de  eenzaamheid van deze jongeren te verminderen. Eenzaamheid was hierbij een  continue variabele op een schaal van 0 tot 10 en de nieuw ontwikkelde interventie  (gecodeerd met 1) werd vergeleken met de reguliere zorg (gecodeerd met 0).</p></div>
+<div class="output-section">
+  <div class="output-label">Output 1.1</div>
+  <div class="stat-table-wrap">
+    <table class="stat-table">
+      <tr class="header-row">
+        <th></th>
+        <th>Unstandardized</th>
+        <th>Std.</th>
+        <th>Standardized</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td class="stat-label">Model</td>
+        <td class="stat-val">Coefficients</td>
+        <td class="stat-val">Error</td>
+        <td class="stat-val">Coefficients</td>
+        <td class="stat-val">Beta</td>
+        <td class="stat-val">t</td>
+        <td class="stat-val">Sia</td>
+      </tr>
+      <tr>
+        <td class="stat-label">(Constant)</td>
+        <td class="stat-val">2,283</td>
+        <td class="stat-val">,054</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">42,643</td>
+        <td class="stat-val">,000</td>
+      </tr>
+      <tr>
+        <td class="stat-label">interventie</td>
+        <td class="stat-val">-,294</td>
+        <td class="stat-val">,074</td>
+        <td class="stat-val">,057</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">3,974</td>
+        <td class="stat-val">&lt;,001</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="casus-context"><p>toont het resultaat van de lineaire regressie om het effect van de nieuwe interventie  te onderzoeken.</p></div>
+
+<div class="q-block open-q" id="qblock-1">
+  <div class="q-num">Vraag 1 <button class="q-num-ai" onclick="openChatForQuestion(1, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Wat is de betekenis van de constante in output 1.1 (c.q. 2.283)?</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-1"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-1').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-1" disabled
+              onclick="checkOpen(1)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-1"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-2">
+  <div class="q-num">Vraag 2 <button class="q-num-ai" onclick="openChatForQuestion(2, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Wat is de betekenis van de <span class="gterm" data-term="regressie_coefficient" onclick="openGlossary('regressie_coefficient')">regressie coëfficiënt</span> voor eenzaamheid in output 1.1 (c.q. -0.249)?</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-2"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-2').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-2" disabled
+              onclick="checkOpen(2)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-2"></div>
+</div>
+<div class="vervolg-banner">Vervolg van de casus</div>
+<div class="casus-context"><p>In een tweede analyse werd gecorrigeerd voor sekse. Sekse was hierbij 0 gecodeerd  voor mannen en 1 voor vrouwen.</p></div>
+<div class="output-section">
+  <div class="output-label">Output 1.2</div>
+  <div class="stat-table-wrap">
+    <table class="stat-table">
+      <tr class="header-row">
+        <th></th>
+        <th>Unstandardized</th>
+        <th></th>
+        <th>Std.</th>
+        <th>Standardized</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td class="stat-label">Model</td>
+        <td class="stat-val">Coefficients</td>
+        <td class="stat-val">B</td>
+        <td class="stat-val">Error</td>
+        <td class="stat-val">Coefficients</td>
+        <td class="stat-val">Beta</td>
+        <td class="stat-val">t</td>
+        <td class="stat-val">Sia</td>
+      </tr>
+      <tr>
+        <td class="stat-label">(Constant)</td>
+        <td class="stat-val">2,099</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,066</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">31,669</td>
+        <td class="stat-val">&lt;,001</td>
+      </tr>
+      <tr>
+        <td class="stat-label">interventie</td>
+        <td class="stat-val">-,280</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,074</td>
+        <td class="stat-val">-,053</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-3,784</td>
+        <td class="stat-val">&lt;,001</td>
+      </tr>
+      <tr>
+        <td class="stat-label">sekse</td>
+        <td class="stat-val">,346</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,074</td>
+        <td class="stat-val">,068</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">4,690</td>
+        <td class="stat-val">&lt;,001</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="casus-context"><p>Een collega geeft aan dat het zinvol is om voor sekse te corrigeren omdat de p-waarde van sekse heel erg significant is.</p></div>
+
+<div class="q-block open-q" id="qblock-3">
+  <div class="q-num">Vraag 3 <button class="q-num-ai" onclick="openChatForQuestion(3, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Is deze opmerking terecht? Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-3"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-3').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-3" disabled
+              onclick="checkOpen(3)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-3"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 2:  ══ -->
+<div class="casus-block" id="casus-2">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-count">3 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Onderzoekers bij de afdeling Orthopedie waren geïnteresseerd in het ontwikkelen van  een model om een fractuur van de heup  (uitkomstvariabele) te voorspellen. Ze gebruikten de volgende variabelen: sekse  (dichotoom), leeftijd (continu in jaren), mobiliteit (dichotoom),  sociaal economische status (ses: dichotoom) en comorbiditeit (categoriaal).</p></div>
+<div class="output-section">
+  <div class="output-label">Output 2.1</div>
+  <div class="stat-table-wrap">
+    <table class="stat-table">
+      <tr class="header-row">
+        <th>Variables</th>
+        <th></th>
+        <th>in the</th>
+        <th>Equation</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        <td class="stat-label">Step</td>
+        <td class="stat-val">1ª</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">B</td>
+        <td class="stat-val">S.E.</td>
+        <td class="stat-val">WXald</td>
+        <td class="stat-val">Sia.</td>
+        <td class="stat-val">Exp(B)</td>
+      </tr>
+      <tr>
+        <td class="stat-label">sekse</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,075</td>
+        <td class="stat-val">,253</td>
+        <td class="stat-val">,089</td>
+        <td class="stat-val">1 ,766</td>
+        <td class="stat-val">1,078</td>
+      </tr>
+      <tr>
+        <td class="stat-label">leeftijd</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,065</td>
+        <td class="stat-val">,013</td>
+        <td class="stat-val">24,423</td>
+        <td class="stat-val">1 &lt;,001</td>
+        <td class="stat-val">1,068</td>
+      </tr>
+      <tr>
+        <td class="stat-label">mobiliteit</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-1,282</td>
+        <td class="stat-val">,258</td>
+        <td class="stat-val">24,729</td>
+        <td class="stat-val">1 ≤,001</td>
+        <td class="stat-val">,277</td>
+      </tr>
+      <tr>
+        <td class="stat-label">ses</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,174</td>
+        <td class="stat-val">,254</td>
+        <td class="stat-val">,469</td>
+        <td class="stat-val">1 ,493</td>
+        <td class="stat-val">1,190</td>
+      </tr>
+      <tr>
+        <td class="stat-label">comorbiditeit.</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">6,673</td>
+        <td class="stat-val">4 ,154</td>
+        <td class="stat-val"></td>
+      </tr>
+      <tr>
+        <td class="stat-label">comorbiditeit(1)</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,373</td>
+        <td class="stat-val">,263</td>
+        <td class="stat-val">2,006</td>
+        <td class="stat-val">1 ,157</td>
+        <td class="stat-val">1,452</td>
+      </tr>
+      <tr>
+        <td class="stat-label">comorbiditeit(2)</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,058</td>
+        <td class="stat-val">,297</td>
+        <td class="stat-val">,038</td>
+        <td class="stat-val">1 ,346</td>
+        <td class="stat-val">1,060</td>
+      </tr>
+      <tr>
+        <td class="stat-label">comorbiditeit(3)</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-,578</td>
+        <td class="stat-val">448</td>
+        <td class="stat-val">1,663</td>
+        <td class="stat-val">1 ,197</td>
+        <td class="stat-val">,561</td>
+      </tr>
+      <tr>
+        <td class="stat-label">comarbiditeit(4)</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-,492</td>
+        <td class="stat-val">,647</td>
+        <td class="stat-val">,578</td>
+        <td class="stat-val">1 ,447</td>
+        <td class="stat-val">,611</td>
+      </tr>
+      <tr>
+        <td class="stat-label">Constant</td>
+        <td class="stat-val"></td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-4,113</td>
+        <td class="stat-val">,948</td>
+        <td class="stat-val">18,843</td>
+        <td class="stat-val">1 ≤,001</td>
+        <td class="stat-val">,016</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="q-block open-q" id="qblock-4">
+  <div class="q-num">Vraag 4 <button class="q-num-ai" onclick="openChatForQuestion(4, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Welke variabele komt als eerste in aanmerking om uit het model gehaald te worden? 
+Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-4"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-4').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-4" disabled
+              onclick="checkOpen(4)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-4"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-5">
+  <div class="q-num">Vraag 5 <button class="q-num-ai" onclick="openChatForQuestion(5, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Wat is de interpretatie van de Exp(B) voor leeftijd in output 2.1 (c.q. 1.068)?</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-5"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-5').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-5" disabled
+              onclick="checkOpen(5)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-5"></div>
+</div>
+<div class="vervolg-banner">Vervolg van de casus</div>
+<div class="casus-context"><p>Na een aantal stappen kwamen de onderzoekers tot een uiteindelijk prognostisch  model zoals weergegeven in</p></div>
+<div class="output-section">
+  <div class="output-label">Output 2.2</div>
+  <div class="stat-table-wrap">
+    <table class="stat-table">
+      <tr class="header-row">
+        <th>Step</th>
+        <th>1°</th>
+        <th>B</th>
+        <th>S.E.</th>
+        <th>Wal!</th>
+        <th>Sia.</th>
+        <th>Exp(B)</th>
+      </tr>
+      <tr>
+        <td class="stat-label">leeftijd</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">,066</td>
+        <td class="stat-val">,013</td>
+        <td class="stat-val">26,726</td>
+        <td class="stat-val">1 &lt;,001</td>
+        <td class="stat-val">1,068</td>
+      </tr>
+      <tr>
+        <td class="stat-label">mobiliteit</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-1,234</td>
+        <td class="stat-val">241,</td>
+        <td class="stat-val">26,171</td>
+        <td class="stat-val">1 &lt;,001</td>
+        <td class="stat-val">291,</td>
+      </tr>
+      <tr>
+        <td class="stat-label">Constant</td>
+        <td class="stat-val"></td>
+        <td class="stat-val">-3,874</td>
+        <td class="stat-val">,909</td>
+        <td class="stat-val">18,160</td>
+        <td class="stat-val">1 ≤,001</td>
+        <td class="stat-val">,021</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="q-block open-q" id="qblock-6">
+  <div class="q-num">Vraag 6 <button class="q-num-ai" onclick="openChatForQuestion(6, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Heeft de collega gelijk? Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-6"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-6').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-6" disabled
+              onclick="checkOpen(6)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-6"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 3: herstel na enkelblessure ══ -->
+<div class="casus-block" id="casus-3">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">herstel na enkelblessure</span>
+    <span class="casus-count">4 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Binnen de HVA werd een onderzoek gedaan naar het effect van fysiotherapie bij  enkelblessures. Hierbij werd een fysiotherapeutische  behandeling vergeleken met een afwachtend beleid. De uitkomstvariabele van het  onderzoek was herstel en de tijd tot herstel.</p></div>
+<div class="output-section"><div class="output-label">Output 3.1</div><p class="output-unavailable">(Tabel — zie PDF)</p></div>
+<div class="casus-context"><p>toont  de Kaplan Meier Curve die de onderzoekers als resultaat van het onderzoek  rapporteerden.</p></div>
+
+<div class="q-block open-q" id="qblock-7">
+  <div class="q-num">Vraag 7 <button class="q-num-ai" onclick="openChatForQuestion(7, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">De fysiotherapeutische interventie blijkt goed te werken. Welke van de twee lijnen (de 
+doorgetrokken curve of de gestippelde curve) geeft in 
+Output 3.1 de fysiotherapeutische interventie weer? Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-7"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-7').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-7" disabled
+              onclick="checkOpen(7)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-7"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-8">
+  <div class="q-num">Vraag 8 <button class="q-num-ai" onclick="openChatForQuestion(8, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">De onderzoekers vergeleken de twee curves met elkaar met behulp van de log rank 
+test. Hoeveel vrijheidsgraden heeft de chi-kwadraat verdeling 
+van de uitgevoerde test? Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-8"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-8').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-8" disabled
+              onclick="checkOpen(8)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-8"></div>
+</div>
+<div class="vervolg-banner">Vervolg van de casus</div>
+<div class="casus-context"><p>De onderzoekers voerden ook een Cox regressie analyse uit om het effect van de interventie te schatten.</p></div>
+<div class="output-section">
+  <div class="output-label">Output 3.2</div>
+  <div class="stat-table-wrap">
+    <table class="stat-table">
+      <tr class="header-row">
+        <th></th>
+        <th>B</th>
+        <th>SE</th>
+        <th>Wald</th>
+        <th>df</th>
+        <th>Sia.</th>
+        <th>Exp(B)</th>
+      </tr>
+      <tr>
+        <td class="stat-label">interventie</td>
+        <td class="stat-val">,917</td>
+        <td class="stat-val">,199</td>
+        <td class="stat-val">21,291</td>
+        <td class="stat-val">1</td>
+        <td class="stat-val">&lt;,001</td>
+        <td class="stat-val">2,502</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="casus-context"><p>toont het resultaat van  deze analyse. </p><p>    B  SE  Wald  df Sia.  Exp(B)  interventie ,917 ,199 21,291 1  <,001 2,502</p></div>
+
+<div class="q-block open-q" id="qblock-9">
+  <div class="q-num">Vraag 9 <button class="q-num-ai" onclick="openChatForQuestion(9, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Wat is de interpretatie van de Exp(B) voor de interventie in output 3.2 (c.q. 2.502)?</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-9"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-9').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-9" disabled
+              onclick="checkOpen(9)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-9"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-10">
+  <div class="q-num">Vraag 10 <button class="q-num-ai" onclick="openChatForQuestion(10, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Een collega onderzoeker geeft aan dat de analyse niet goed gegaan is, omdat er geen constante in de output wordt gegeven. Is deze opmerking 
+terecht? Verklaar het antwoord.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-10"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-10').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-10" disabled
+              onclick="checkOpen(10)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-10"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 4: fundamenteel onderzoek (1 vraag) ══ -->
+<div class="casus-block" id="casus-4">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">fundamenteel onderzoek (1 vraag)</span>
+  </div>
+  <div class="casus-body">
+
+<div class="q-block open-q" id="qblock-11">
+  <div class="q-num">Vraag 11 <button class="q-num-ai" onclick="openChatForQuestion(11, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Fundamenteel onderzoek is belangrijk voor het ontwikkelen van nieuwe behandelmethoden en diagnostiek voor bijvoorbeeld patiënten met 
+kanker. 
+ 
+Beschrijf waarom fundamenteel onderzoek hiervoor belangrijk is en benoem welk type onderzoek er verder nodig is voor de ontwikkeling van 
+nieuwe behandelmethoden en diagnostiek.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-11"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-11').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-11" disabled
+              onclick="checkOpen(11)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-11"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 5: wetgeving (1 vraag) ══ -->
+<div class="casus-block" id="casus-5">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">wetgeving (1 vraag)</span>
+  </div>
+  <div class="casus-body">
+
+<div class="q-block open-q" id="qblock-12">
+  <div class="q-num">Vraag 12 <button class="q-num-ai" onclick="openChatForQuestion(12, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Benoem twee criteria op basis waarvan een WMO-onderzoek wordt beoordeeld op aanvaardbaarheid. 
+ 
+U kunt hierbij gebruik maken van de principes van Emanuel et al (JAMA 2000) die in het college zijn besproken. 
+Leg bij elk</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-12"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-12').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-12" disabled
+              onclick="checkOpen(12)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-12"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 6: kwalitatief onderzoek ══ -->
+<div class="casus-block" id="casus-6">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">kwalitatief onderzoek</span>
+    <span class="casus-count">4 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Background    Intervention trials confirm that patients with advanced cancer receiving early palliative care experience a better quality of life and show  improved knowledge about and use of palliative care services. To involve patients in future healthcare decisions, health professionals should  understand patients’ perspectives. However, little is known about how patients experience such interventions. The aim of this study is to  explore advanced cancer patients’ experiences with a structured early palliative care intervention, its acceptability and impact on the patients’ </p><p>life.    Methods  In this qualitative study, we employed semi-structured, open-ended, face-to-face interviews. Participants were recruited via purposive  sampling. The interview guide was based on guides from prior studies. We initially interviewed and preliminary analyzed data from 10  participants but continued sampling until we reached data saturation (N = 20). We followed an inductive coding. The first author performed  the main analyses. The first and the second author coded and analyzed independently four interviews to later compare the coding approach  and make sure that the coding was intersubjectively comprehensible. After all interviews were coded, the first and second author through  repeated intensive discussions adapted and consolidated the final categories and subcategories.  Gebaseerd op: Fliedner, Monica, et al. "An early palliative care intervention can be confronting but reassuring: A qualitative study on the  experiences of patients with advanced cancer." Palliative medicine 33.7 (2019): 783-792.</p></div>
+
+<div class="q-block open-q" id="qblock-13">
+  <div class="q-num">Vraag 13 <button class="q-num-ai" onclick="openChatForQuestion(13, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">In bovenstaand stuk wordt gesproken over purposive sampling. Noem nog een andere vorm van kwalitatieve sampling.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-13"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-13').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-13" disabled
+              onclick="checkOpen(13)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-13"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-14">
+  <div class="q-num">Vraag 14 <button class="q-num-ai" onclick="openChatForQuestion(14, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">In bovenstaand fragment wordt gesproken over data-saturatie. Leg uit wat hiermee bedoeld wordt en hoe dit bereikt kan worden.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-14"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-14').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-14" disabled
+              onclick="checkOpen(14)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-14"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-15">
+  <div class="q-num">Vraag 15 <button class="q-num-ai" onclick="openChatForQuestion(15, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">In bovenstaand fragment wordt verwezen naar een inductieve vorm van analyseren. Leg uit wat hiermee bedoeld wordt en hoe dit verschilt van 
+een deductieve vorm van analyseren.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-15"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-15').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-15" disabled
+              onclick="checkOpen(15)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-15"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-16">
+  <div class="q-num">Vraag 16 <button class="q-num-ai" onclick="openChatForQuestion(16, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Onderzoekers triangulatie is een belangrijke procedure om de kwaliteit (onafhankelijkheid) van een onderzoek te borgen. Leg uit wat het 
+inhoudt, waarom het belangrijk is en hoe je het terugziet in bovenstaand fragment.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-16"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-16').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-16" disabled
+              onclick="checkOpen(16)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-16"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 7: klinisch redeneren (1 vraag) ══ -->
+<div class="casus-block" id="casus-7">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">klinisch redeneren (1 vraag)</span>
+  </div>
+  <div class="casus-body">
+
+<div class="q-block" id="qblock-17">
+  <div class="q-num">Vraag 17 <button class="q-num-ai" onclick="openChatForQuestion(17, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Een 25-jarige vrouw komt bij de huisarts omdat zij sinds een week veel moet hoesten en omdat ze zich ziek voelt. Ze hoest de hele dag en nacht. 
+Ze hoest sputum op. Een paar keer heeft ze daarbij een klein streepje bloed gezien. Daarbij is ze duidelijk sneller buiten adem bij inspanning. Ze 
+heeft deze week minder eetlust dan normaal. Ze heeft elke dag koorts tussen 38 en 39 graden. Ze rookt sinds haar 15e zo’n 15 sigaretten per 
+dag. Bij auscultatie van de longen hoort de huisarts links dorsobasaal op de longen wat crepitaties. 
+ 
+Wat is nu de beste actie?<br><em style="font-size:13px;color:#636366;">Selecteer alle juiste antwoorden.</em></div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="17" data-letter="a" onclick="toggleMulti(17,'a')">
+      <span class="opt-letter">A</span><span>antibioticum voorschrijven</span>
+    </button>
+    <button class="opt-btn" data-qnum="17" data-letter="b" onclick="toggleMulti(17,'b')">
+      <span class="opt-letter">B</span><span>X-thorax aanvragen</span>
+    </button>
+    <button class="opt-btn" data-qnum="17" data-letter="c" onclick="toggleMulti(17,'c')">
+      <span class="opt-letter">C</span><span>verwijzen naar de longarts</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+    <button class="check-btn" id="check-17" disabled
+            onclick='checkMulti(17,["a"])'>Controleer antwoord</button>
+  </div>
+  <div class="result" id="result-17">
+    <div class="result-badge" id="badge-17"></div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 8: maligne longziekten ══ -->
+<div class="casus-block" id="casus-8">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">maligne longziekten</span>
+    <span class="casus-count">3 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Bij een 60-jarige patiënte is er een plaveiselcelcarcinoom (squamous cell carcinoma) vastgesteld. Eén van de tumorkenmerken is een PD-L1  waarde van 60%. PD-L1 staat voor ‘programmed cell Death Ligand 1’. De diagnose werd gesteld op een leverbiopt.</p></div>
+
+<div class="q-block" id="qblock-18">
+  <div class="q-num">Vraag 18 <button class="q-num-ai" onclick="openChatForQuestion(18, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Welk stadium heeft deze patiënte nu?<br><em style="font-size:13px;color:#636366;">Selecteer alle juiste antwoorden.</em></div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="18" data-letter="a" onclick="toggleMulti(18,'a')">
+      <span class="opt-letter">A</span><span>stadium 3A</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="b" onclick="toggleMulti(18,'b')">
+      <span class="opt-letter">B</span><span>stadium 3B</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="c" onclick="toggleMulti(18,'c')">
+      <span class="opt-letter">C</span><span>stadium 3C</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="d" onclick="toggleMulti(18,'d')">
+      <span class="opt-letter">D</span><span>stadium 4</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+    <button class="check-btn" id="check-18" disabled
+            onclick='checkMulti(18,["d"])'>Controleer antwoord</button>
+  </div>
+  <div class="result" id="result-18">
+    <div class="result-badge" id="badge-18"></div>
+  </div>
+</div>
+
+<div class="q-block open-q" id="qblock-19">
+  <div class="q-num">Vraag 19 <button class="q-num-ai" onclick="openChatForQuestion(19, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">U kiest voor een behandeling met pembrolizumab, een monoclonaal antilichaam gericht tegen de PD-1 receptor. Wat zijn contra-indicaties bij 
+een patiënt om met deze behandeling te starten in de eerste lijn? Benoem er twee.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-19"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-19').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-19" disabled
+              onclick="checkOpen(19)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-19"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-20">
+  <div class="q-num">Vraag 20 <button class="q-num-ai" onclick="openChatForQuestion(20, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Bij de behandeling van patiënten door middel van immunotherapie kunnen er immuungerelateerde bijwerkingen ontstaan. 
+Geef vier voorbeelden hiervan. 
+ 
+Juiste</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-20"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-20').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-20" disabled
+              onclick="checkOpen(20)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-20"></div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 9: maligne longziekten ══ -->
+<div class="casus-block" id="casus-9">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">maligne longziekten</span>
+    <span class="casus-count">3 vragen</span>
+  </div>
+  <div class="casus-body">
+<div class="casus-context"><p>Bij een 67-jarige patiënt is er een vermoeden van stadium 3 longkanker niet-kleincellig longkanker (NSCLC). De longarts bespreekt de work-up.  De patiënt heeft een performance score van 1.</p></div>
+
+<div class="q-block open-q" id="qblock-21">
+  <div class="q-num">Vraag 21 <button class="q-num-ai" onclick="openChatForQuestion(21, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Welk aanvullend onderzoek dient er verricht te worden voor de stadiëring? Noem er twee. 
+ 
+Answers: 
+CT-thorax, FDG-PET scan, MRI hersenen voor de stadiëring.</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-21"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-21').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-21" disabled
+              onclick="checkOpen(21)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-21"></div>
+</div>
+
+<div class="q-block open-q" id="qblock-22">
+  <div class="q-num">Vraag 22 <button class="q-num-ai" onclick="openChatForQuestion(22, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">De diagnose en het stadium (niet-kleincellig longkanker stadium 3) worden uiteindelijk bevestigd. 
+Welke behandeling moet deze patiënt als eerste krijgen?</div>
+  <div class="open-area">
+    <textarea class="open-input" id="open-input-22"
+      placeholder="Typ hier je antwoord..." rows="4"
+      oninput="document.getElementById('check-22').disabled = !this.value.trim()"></textarea>
+    <div class="q-btn-row">
+      <button class="check-btn" id="check-22" disabled
+              onclick="checkOpen(22)">Controleer antwoord</button>
+    </div>
+  </div>
+  <div class="result" id="result-22"></div>
+</div>
+
+<div class="q-block" id="qblock-23">
+  <div class="q-num">Vraag 23 <button class="q-num-ai" onclick="openChatForQuestion(23, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">De patiënt maakt de volledige behandeling af. Helaas is er na 2 jaar sprake van een recidief in de vorm van levermetastasen. De longarts heeft 
+op basis van een biopt en moleculair onderzoek een eventuele onderliggende behandelbare mutatie uitgesloten, tevens bleek dat de PD-L1 40% 
+was. Welke therapie is nu geïndiceerd bij deze patiënt? 
+ 
+Kies de twee juiste opties.<br><em style="font-size:13px;color:#636366;">Selecteer alle juiste antwoorden.</em></div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="23" data-letter="a" onclick="toggleMulti(23,'a')">
+      <span class="opt-letter">A</span><span>chemotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="23" data-letter="b" onclick="toggleMulti(23,'b')">
+      <span class="opt-letter">B</span><span>immunotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="23" data-letter="c" onclick="toggleMulti(23,'c')">
+      <span class="opt-letter">C</span><span>radiotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="23" data-letter="d" onclick="toggleMulti(23,'d')">
+      <span class="opt-letter">D</span><span>targeted therapy</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+    <button class="check-btn" id="check-23" disabled
+            onclick='checkMulti(23,["a", "b"])'>Controleer antwoord</button>
+  </div>
+  <div class="result" id="result-23">
+    <div class="result-badge" id="badge-23"></div>
+  </div>
+</div>
+  </div>
+</div>
+
+<!-- ══ CASUS 10: maligne longziekten (1 vraag) ══ -->
+<div class="casus-block" id="casus-10">
+  <div class="casus-header">
+    <span class="casus-tag">CASUS</span>
+    <span class="casus-title">maligne longziekten (1 vraag)</span>
+  </div>
+  <div class="casus-body">
+
+<div class="q-block" id="qblock-24">
+  <div class="q-num">Vraag 24 <button class="q-num-ai" onclick="openChatForQuestion(24, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  
+  <div class="q-text">Vroeger kwam roken meer voor bij mannen. 
+ 
+Hoe is de verhouding tussen mannen en vrouwen anno 2021?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="24" data-letter="a" onclick="selectOption(24,'a')">
+      <span class="opt-letter">A</span><span>mannen krijgen vaker longkanker</span>
+    </button>
+    <button class="opt-btn" data-qnum="24" data-letter="b" onclick="selectOption(24,'b')">
+      <span class="opt-letter">B</span><span>mannen en vrouwen krijgen even vaak longkanker</span>
+    </button>
+    <button class="opt-btn" data-qnum="24" data-letter="c" onclick="selectOption(24,'c')">
+      <span class="opt-letter">C</span><span>vrouwen krijgen vaker longkanker</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+    <button class="check-btn" id="check-24" disabled
+            onclick="checkMCQ(24,'a')">Controleer antwoord</button>
+  </div>
+  <div class="result" id="result-24">
+    <div class="result-badge" id="badge-24"></div>
+  </div>
+</div>
+  </div>
+</div>
+<div style="max-width:820px;margin:8px auto 48px;padding:0 20px;text-align:center;">
+  <button id="end-submit-btn" onclick="openSubmitModal()" style="width:100%;max-width:420px;padding:15px 24px;background:#1CB0F6;color:#fff;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #0E85B5;">Examen inleveren</button>
+</div>
+</main>
+
+<script>
+const GLOSSARY = {
+  "regressie_coefficient": {
+    "title": "Regressie coëfficiënt",
+    "short": "Een regressiecoëfficiënt (β) geeft aan hoeveel de uitkomstvariabele gemiddeld verandert per eenheid toename van een voorspeller, terwijl alle andere voorspellers constant worden gehouden. Bij een ongecorrigeerde β is dit de ruwe associatie; de gecorrigeerde β houdt rekening met confounders.",
+    "definition": "<p>Een <strong>regressiecoëfficiënt</strong> (β of <em>b</em>) is de helling van een regressielijn en kwantificeert de relatie tussen een voorspeller (onafhankelijke variabele) en een uitkomst (afhankelijke variabele) in een regressiemodel.</p><p><strong>Interpretatie:</strong> β = 2,5 voor gewicht (kg) als voorspeller van bloeddruk (mmHg) betekent dat de bloeddruk gemiddeld 2,5 mmHg hoger is per kilogram extra gewicht, onder gelijkblijvende andere variabelen.</p><ul><li><strong>Ongecorrigeerde β (crude):</strong> de associatie zonder aanpassing voor andere factoren — kan door confounding vertekend zijn.</li><li><strong>Gecorrigeerde β (adjusted):</strong> de associatie na correctie voor confounders in het model — geeft de onafhankelijke bijdrage van de voorspeller weer.</li></ul><p><strong>Standaardfout en betrouwbaarheidsinterval:</strong> de nauwkeurigheid van β wordt uitgedrukt als een 95%-BI; een BI dat nul niet omvat, duidt op statistische significantie.</p><p><strong>Gestandaardiseerde β (β*):</strong> uitgedrukt in standaarddeviaties, waardoor de sterkte van verschillende voorspellers onderling vergelijkbaar is — onafhankelijk van de meetschaal.</p><p>In <em>logistische regressie</em> wordt niet β maar de <strong>odds ratio (OR = e<sup>β</sup>)</strong> gerapporteerd; in <em>Cox-regressie</em> de <strong>hazard ratio (HR = e<sup>β</sup>)</strong>.</p>",
+    "image_url": "",
+    "wiki_title": "Regression analysis"
+  }
+};
+</script>
+
+<script>
+// ── Open question data ──────────────────────────────────────────────────────
+const OPEN_ANSWERS = {
+  "1": {
+    "answer": "De gemiddelde waarde van eenzaamheid voor de reguliere zorg groep.",
+    "criterium": "(Aantal punten: 2) \nTotaal 2 punten: 1 punt voor gemiddelde waarde van eenzaamheid (0.5 punten voor 'de \nwaarde van eenzaamheid' (dus gemiddelde ontbreekt) en 0.5 punten voor 'de \ngemiddelde waarde' (dus eenzaamheid ontbreekt). 1 punt voor de reguliere zorg groep. \n(ook goed 'voor reguliere zorg').",
+    "punten": 2.0
+  },
+  "2": {
+    "answer": "Het verschil in eenzaamheid tussen de interventiegroep en de reguliere zorg groep.",
+    "criterium": "Totaal 2 punten: 1 punt voor ‘het verschil in eenzaamheid’. (0.5 punt als eenzaamheid \nontbreekt). 1 punt voor ‘tussen de interventiegroep \nen de reguliere zorg groep’.",
+    "punten": 2.0
+  },
+  "3": {
+    "answer": "Nee, bij mogelijke confounding gaat het niet om de significantie van de \nmogelijke confounder, maar om de invloed op (in dit geval) de \neffectschatting van de interventie.",
+    "criterium": "Totaal 1 punt: 1 punt voor ‘nee, je moet kijken naar de invloed op de effectschatting van \nde interventie’. Ook goed: ‘nee, je moet kijken naar \nde verandering in regressiecoefficient van de interventie in het model met interventie en \nsekse versus het model met alleen de \ninterventie’. Ook goed: ‘nee, bij mogelijke confounding kijk je niet naar de significantie \nvan de mogelijke confounder’. Als er alleen nee is \ngeantwoord, dan 0 punten.",
+    "punten": 1.0
+  },
+  "4": {
+    "answer": "Sekse moet als eerste uit het model gehaald worden, want die heeft de hoogste p-\nwaarde.",
+    "criterium": "Totaal 2 punten: 1 punt voor noemen van sekse als eerste eruit. 1 punt voor noemen \n‘want die heeft de hoogste p-waarde’. Stel dat er staat \n‘comorbiditeit (of comorbiditeit(2)) moet eruit want die heeft de hoogste p-waarde’, dan \nkrijgt de student voor deze vraag 1 punt",
+    "punten": 2.0
+  },
+  "5": {
+    "answer": "De OR op het hebben van een fractuur voor een stapje van 1 jaar in leeftijd.",
+    "criterium": "1  \nTotaal 2 punten: 1 punt voor de OR op het hebben van een fractuur (0 punten als OR \nontbreekt, 0.5 punt als de OR genoemd is maar \nfractuur ontbreekt). 1 punt voor de OR op het hebben van een fractuur (0 punten als OR \nontbreekt, 0.5 punt als de OR genoemd is maar \nfractuur ontbreekt).",
+    "punten": 2.0
+  },
+  "6": {
+    "answer": "Ja, de p-waarde is < 0.001 en de OR is kleiner dan 1, Ook goed: de bovengrens van het \n95% BI = e^(-1,234 + 1.96 * 0.241) = dus het BI rond de betreffende OR omvat 1 niet. \n0.467. De bovengrens van het 95% BI is dus inderdaad kleiner dan 1.",
+    "criterium": "Totaal 2 punten: 1 punt voor p-waarde is kleiner dan 0.001 (ook goed, p-waarde is \nkleiner als 0.05, of de p-waarde is significant). 1 punt \nvoor OR is kleiner dan 1. 0 punten als alleen ja is geantwoord. De volgende punten \nverdeling geldt als als antwoord is gegeven 'de \nbovengrens van het 95% BI = e^(-1.234+1.96*0.241)=0.467. De bovengrens van het \n95% BI is dus inderdaad kleiner als 1. \n1 punt voor juiste berekening. 1 punt voor juiste antwoord (0.467) plus conclusie. Als de \nstudent vergeten is terug te transformeren, dan \n0.5 punt voor berekening.",
+    "punten": 2.0
+  },
+  "7": {
+    "answer": "Op de y-as van de Kaplan Meier curve staat de kans op niet herstel. Als de kans op niet \nherstel laag is dan is dat gunstig. Kortom, de gestippelde \nlijn is de fysiotherapeutische interventie.",
+    "criterium": "Totaal 3 punten: 1 punt voor y-as geeft kans/percentage op niet-herstel weer (ook goed, \nde hoogte van de lijn/curve geeft het percentage \nmensen weer dat niet is hersteld). 1 punt voor de kans op herstel moet zo laag mogelijk \nliggen (ook goed, de lijn moet zo laag mogelijk \nliggen). 1 punt voor ‘de gestippelde lijn is de fysiotherapeutische interventie’. 0 punten \nals er alleen staat ‘de gestippelde lijn is de \nfysiotherapeutische interventie’",
+    "punten": 3.0
+  },
+  "8": {
+    "answer": "1, want er worden twee groepen met elkaar vergeleken en het aantal vrijheidsgraden is gelijk aan het aantal groepen – 1.",
+    "criterium": "Totaal 2 punten: 1 punt voor ‘1 (vrijheidsgraad)’. 1 punt voor ‘er worden twee groepen met elkaar vergeleken’. (ook goed, het aantal \nvrijheidsgraden is gelijk aan het aantal groepen -1)",
+    "punten": 2.0
+  },
+  "9": {
+    "answer": "De HR/RR voor de interventie tov afwachtend beleid om te herstellen gemiddeld over de tijd. Ook goed; op ieder tijdstip heeft de interventiegroep \n2.502 keer zoveel kans om te herstellen ten opzichte van afwachtend beleid.",
+    "criterium": "Totaal 2 punten: \nInstructie: 1 punt voor HR/RR op herstel gemiddeld over de tijd (0.5 punt als alleen HR wordt genoemd (dus op herstel wordt niet \ngenoemd), 0.5 punt als alleen RR gemiddeld over de tijd wordt genoemd (dus op herstel wordt niet genoemd). \nLet op; bij HR hoeft gemiddeld over de tijd NIET genoemd te worden (is niet fout als dat wel wordt vermeld). Bij RR moet gemiddeld over de \ntijd WEL genoemd worden (alleen RR is fout). 1 punt voor interventie tov afwachtend beleid.",
+    "punten": 2.0
+  },
+  "10": {
+    "answer": "Niet terecht, want de constante is een functie over de tijd en wordt dus niet als een getal in de output gegeven",
+    "criterium": "Totaal 2 punten: 1 punt voor ‘de constante is een functie over de tijd’ (ook goed, de constante verandert over de tijd). 1 punt voor ‘er hoort \ngeen constante in de output te staan’ (ook goed, er kan dus niet 1 getal in de output worden weergegeven). 0 punten als alleen ‘niet \nterecht’ wordt geantwoord.",
+    "punten": 2.0
+  },
+  "11": {
+    "answer": "Fundamenteel onderzoek levert belangrijke inzichten en kennis die verder ontwikkeld kunnen worden in translationeel onderzoek.",
+    "criterium": "Totaal 2 punten: 1 punt voor benoemen dat fundamenteel onderzoek belangrijke inzichten en/of kennis oplevert (of iets in soortgelijke \nbewoordingen). 1 punt voor benoemen translationeel onderzoek",
+    "punten": 2.0
+  },
+  "12": {
+    "answer": "Risk-benefit ratio: Weegt het belang op tegen de risico´s en bezwaren van de proefpersonen? \nSocial value: Leidt het tot nieuwe inzichten in de wetenschap? \nScientific validity: is het methodologisch deugdelijk? \nFair subject selection: worden de te werven proefpersonen niet geselecteerd op niet ter zake doende eigenschappen? \nIndependent review: Heeft een onafhankelijke commissie het onderzoek beoordeeld? \nSubsidiariteit: Is minder ingrijpend onderzoek uitgesloten? \nClinical equipoise: is de onderzoeker onzeker over welke arm het het beste gaat doen?",
+    "criterium": "in één zin uit wat ermee wordt bedoeld. \n \nAnswer: \nRisk-benefit ratio: Weegt het belang op tegen de risico´s en bezwaren van de proefpersonen? \nSocial value: Leidt het tot nieuwe inzichten in de wetenschap? \nScientific validity: is het methodologisch deugdelijk? \nFair subject selection: worden de te werven proefpersonen niet geselecteerd op niet ter zake doende eigenschappen? \nIndependent review: Heeft een onafhankelijke commissie het onderzoek beoordeeld? \nSubsidiariteit: Is minder ingrijpend onderzoek uitgesloten? \nClinical equipoise: is de onderzoeker onzeker over welke arm het het beste gaat doen? \n \nCriterium: \nTotaal 2 punten: 0.5 punt per correct criterium. 0.5 punt per correcte uitleg bij een criterium. Indien de student meer dan twee criteria heeft \ngenoemd, dan alleen de eerste twee nakijken.",
+    "punten": 2.0
+  },
+  "13": {
+    "answer": "Snowball sampling, Theoretische sampling, Maximum variatie sampling",
+    "criterium": "Totaal 1 punt: 1 punt voor een correct antwoord. Indien de student meer dan 1 antwoord heeft gegeven, dan alleen het eerste antwoord \nnakijken.",
+    "punten": 1.0
+  },
+  "14": {
+    "answer": "Bij saturatie gaat het om verzadiging van data. Dat wil zeggen dat er geen nieuwe codes meer toegevoegd worden op basis van nieuwe \ninterviews. Dit kan bereikt worden door vroeg te beginnen met data-analyse (al tijdens de dataverzameling).",
+    "criterium": "Totaal 2 punten: 1 punt voor verzadiging van data/geen nieuwe codes meer toevoegen obv nieuwe interviews. 1 punt voor vroeg beginnen \nmet data-analyse/tijdens dataverzameling al beginnen met data-analyse.",
+    "punten": 2.0
+  },
+  "15": {
+    "answer": "Inductief = theorievormend \nDeductief = theorie toetsend \nInductief werken wil dus zeggen dat er vanuit de data wordt gestart met het (open) analyseren. Bij een deductieve analyse wordt er juist vanuit \neen theorie naar de data \ngekeken en deze getoetst.",
+    "criterium": "Totaal 2 punten: 1 punt voor correcte uitleg van inductief analyseren. 1 punt voor benoemen verschil tussen inductief en deductief \nanalyseren. Het is toegestaan om 0.5 punt te geven als de uitleg net niet helemaal correct is.",
+    "punten": 2.0
+  },
+  "16": {
+    "answer": "Onderzoekerstriangulatie wil zeggen dat er in het onderzoek samen wordt gewerkt met meerdere onderzoekers. Dit is belangrijk om tunnelvisie \nvan de onderzoeker te voorkomen, door (zoals in dit geval) de analyse samen uit te voeren. In bovenstaand fragment is uitgelegd dat een viertal \ninterviews door twee mensen is gecodeerd. Ook zijn er discussies geweest na de analyse wat heeft geleid tot de uiteindelijke indeling van \ncategorieën en subcategorieën.",
+    "criterium": "Totaal 3 punten: 1 punt voor correct uitleggen wat onderzoekers triangulatie is. 1 punt voor correct uitleggen waarom onderzoekers \ntriangulatie belangrijk is. 1 punt voor correcte uitleg hoe je onderzoekers triangulatie terugziet in bovenstaand fragment.",
+    "punten": 3.0
+  },
+  "19": {
+    "answer": "Criterium: \nTotaal 1 punt: : 0.5 punt per correct antwoord. Indien de student meer dan 2 antwoorden heeft gegeven, dan alleen de eerste twee \nantwoorden nakijken.",
+    "criterium": "Totaal 1 punt: : 0.5 punt per correct antwoord. Indien de student meer dan 2 antwoorden heeft gegeven, dan alleen de eerste twee \nantwoorden nakijken.",
+    "punten": 1.0
+  },
+  "20": {
+    "answer": "thyroiditis, pneumonitis, enterocolitis, hepatitis, dermatologische reacties, hypofysitis, nefritis, myocarditis",
+    "criterium": "Totaal 2 punten: 0.5 punt per correct antwoord. Indien de student meer dan 4 antwoorden heeft gegeven, dan alleen de eerste 4 \nantwoorden nakijken.",
+    "punten": 2.0
+  },
+  "21": {
+    "answer": "",
+    "criterium": "Totaal 1 punt: 0.5 punt per correct antwoord. Indien de student meer dan 2 antwoorden heeft gegeven, dan alleen de eerste 2 antwoorden \nnakijken.",
+    "punten": 1.0
+  },
+  "22": {
+    "answer": "chemoradiotherapie.",
+    "criterium": "Totaal 1 punt: 1 punt voor chemoradiotherapie. Indien alleen chemotherapie wordt geantwoord, dan 0.5 punt. Indien alleen radiotherapie \nwordt geantwoord, dan 0.5 punt.",
+    "punten": 1.0
+  }
+};
+const OPENAI_API_KEY = window.OPENAI_API_KEY || '';
+const OPENAI_MODEL   = 'gpt-4o-mini';
+
+// ── State ───────────────────────────────────────────────────────────────────
+const state = {
+  answered: {}, selected: {}, multiSel: {}, streak: 0,
+  openInputs: {}, openScores: {}
+};
+let _restoring = false; try { window._restoring = false; } catch(e) {}
+
+// ── MCQ ─────────────────────────────────────────────────────────────────────
+function selectOption(qnum, letter) {
+  if (state.answered[qnum]) return;
+  state.selected[qnum] = letter;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn')
+    .forEach(b => b.classList.toggle('selected', b.dataset.letter === letter));
+  document.getElementById('check-'+qnum).disabled = false;
+}
+
+function toggleMulti(qnum, letter) {
+  if (state.answered[qnum]) return;
+  if (!state.multiSel[qnum]) state.multiSel[qnum] = {};
+  state.multiSel[qnum][letter] = !state.multiSel[qnum][letter];
+  const btn = document.querySelector('[data-qnum="'+qnum+'"][data-letter="'+letter+'"]');
+  if (btn) btn.classList.toggle('selected', !!state.multiSel[qnum][letter]);
+  const anySelected = Object.values(state.multiSel[qnum]).some(Boolean);
+  document.getElementById('check-'+qnum).disabled = !anySelected;
+}
+
+function resolveCheckBtn(qnum, ok) {
+  const btn = document.getElementById('check-' + qnum);
+  if (!btn) return;
+  btn.disabled = true;
+  if (_restoring) { btn.style.display = 'none'; return; }  // reload: hide instantly, no animation
+  if (ok) btn.classList.add('cb-correct');      // flash green + pop (correct only)
+  setTimeout(function() {
+    btn.classList.add('cb-vanish');             // collapse + fade out
+    let hidden = false;
+    const done = function() { if (hidden) return; hidden = true; btn.style.display = 'none'; };
+    btn.addEventListener('transitionend', done, { once: true });
+    setTimeout(done, 500);                       // fallback if transitionend doesn't fire
+  }, 420);
+}
+
+function checkMCQ(qnum, correct) {
+  const chosen = state.selected[qnum];
+  if (!chosen) return;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.letter === correct) b.classList.add('correct');
+    else if (b.dataset.letter === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  const ok = chosen === correct;
+  state.answered[qnum] = ok ? 'correct' : 'wrong';
+  document.getElementById('check-'+qnum).disabled = true;
+  if (!_restoring) {
+    if (ok) { state.streak++; playSoundCorrect(state.streak); fireCorrectAnimation(qnum); awardXP(xpForQuestion(qnum), qnum); }
+    else     { state.streak = 0; playSoundWrong(); updateStreakBar(); }
+  }
+}
+
+function checkMulti(qnum, correctLetters) {
+  const sel = state.multiSel[qnum] || {};
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    const l = b.dataset.letter;
+    if (correctLetters.includes(l)) b.classList.add('correct');
+    else if (sel[l] && !correctLetters.includes(l)) b.classList.add('wrong');
+  });
+  const allCorrect = correctLetters.every(l => !!sel[l]) &&
+    Object.keys(sel).filter(l => sel[l]).every(l => correctLetters.includes(l));
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  document.getElementById('check-'+qnum).disabled = true;
+  if (!_restoring) {
+    if (allCorrect) { state.streak++; playSoundCorrect(state.streak); fireCorrectAnimation(qnum); awardXP(xpForQuestion(qnum), qnum); }
+    else { state.streak = 0; playSoundWrong(); updateStreakBar(); }
+  }
+}
+
+// ── Open question grading ────────────────────────────────────────────────────
+async function checkOpen(qnum) {
+  if (state.answered[qnum]) return;
+  const input = document.getElementById('open-input-' + qnum);
+  const studentAnswer = (input ? input.value : '').trim();
+  if (!studentAnswer) return;
+  const q = OPEN_ANSWERS[qnum];
+  if (!q) return;
+
+  const checkBtn = document.getElementById('check-' + qnum);
+  if (checkBtn) { checkBtn.disabled = true; checkBtn.textContent = 'Bezig...'; }
+  if (input) input.disabled = true;
+
+  const resultDiv = document.getElementById('result-' + qnum);
+  if (resultDiv) {
+    resultDiv.innerHTML = '<div class="open-result"><span class="checking-msg">&#x23F3;</span></div>';
+    resultDiv.classList.add('show');
+  }
+
+  try {
+    const prompt = `Je beoordeelt een studentantwoord voor een medisch wetenschappelijk examen.
+
+Vraag {}: zie onderstaand context
+Correct antwoord: ${q.answer}
+Beoordelingscriterium: ${q.criterium}
+Maximum punten: ${q.punten}
+
+Studentantwoord: ${studentAnswer}
+
+Geef je beoordeling ALLEEN in dit JSON-formaat (geen andere tekst):
+{"score": <getal 0 tot ${q.punten} in stappen van 0.5>, "feedback": "<uitleg in het Nederlands, max 3 zinnen>"}`;
+
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + OPENAI_API_KEY },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        messages: [
+          { role: 'system', content: 'Je bent een strenge maar eerlijke medische examinator. Je beoordeelt studentantwoorden nauwkeurig op basis van het gegeven criterium. Antwoord uitsluitend in het gevraagde JSON formaat.' },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.2
+      })
+    });
+
+    const data = await resp.json();
+    const raw  = data.choices[0].message.content.trim();
+    // Extract JSON even if wrapped in markdown code block
+    const jsonStr = raw.replace(/^```(?:json)?\s*|```$/gm, '').trim();
+    const result  = JSON.parse(jsonStr);
+
+    const score    = Math.max(0, Math.min(Number(result.score), q.punten));
+    const xp       = Math.round(score * 10);
+    const pct      = q.punten > 0 ? score / q.punten : 0;
+    const scoreClass = pct >= 1 ? 'full' : pct > 0 ? 'partial' : 'zero';
+    const color      = pct >= 1 ? '#58CC02' : pct > 0 ? '#FF9500' : '#FF3B30';
+
+    state.answered[qnum]          = pct >= 1 ? 'correct' : pct > 0 ? 'partial' : 'wrong';
+    state.openScores[qnum]        = { score, maxPunten: q.punten, feedback: result.feedback, xp };
+    state.openInputs[qnum]        = studentAnswer;
+
+    if (resultDiv) {
+      resultDiv.innerHTML = `<div class="open-result">
+        <button class="leg-uit-btn" id="leg-uit-btn-${qnum}" onclick="toggleExplain(${qnum})">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="leg-uit-label">Leg uit</span>
+        </button>
+        <div class="inline-explain" id="explain-${qnum}"></div>
+      </div>`;
+    }
+
+    if (checkBtn) { checkBtn.textContent = score + '/' + q.punten + ' punten'; }
+
+    if (!_restoring) {
+      if (xp > 0) await awardXP(xp, qnum);
+      if (pct >= 1) playSoundCorrect(1); else playSoundWrong();
+      updateStreakBar();
+    }
+  } catch(e) {
+    console.error('checkOpen error:', e);
+    if (resultDiv) {
+      resultDiv.innerHTML = '<div class="open-result"><div class="open-result-error">Beoordeling mislukt. Controleer je internetverbinding en probeer opnieuw.</div></div>';
+    }
+    if (checkBtn) { checkBtn.disabled = false; checkBtn.textContent = 'Controleer antwoord'; }
+    if (input) input.disabled = false;
+  }
+}
+
+// ── Animations ───────────────────────────────────────────────────────────────
+function fireCorrectAnimation(qnum) {
+  try { saveProgress(); } catch(e) {}   /* MISSIONSAVEFIX: persist meteen, niet pas na de 600ms balk-animatie */
+  const correctBtn = document.querySelector('[data-qnum="'+qnum+'"].opt-btn.correct');
+  const fill = document.getElementById('streak-fill');
+  const wrap = document.getElementById('streak-wrap');
+  if (!correctBtn || !fill || !wrap) { updateStreakBar(); return; }
+  const src = correctBtn.getBoundingClientRect();
+  const dest = wrap.getBoundingClientRect();
+  const dot = document.createElement('div');
+  dot.className = 'fly-dot';
+  dot.style.left = (src.left + src.width/2) + 'px';
+  dot.style.top  = (src.top  + src.height/2) + 'px';
+  document.body.appendChild(dot);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dot.style.left = (dest.left + dest.width * 0.15) + 'px';
+    dot.style.top  = (dest.top  + dest.height / 2) + 'px';
+    dot.style.opacity = '0';
+  }));
+  setTimeout(() => { dot.remove(); updateStreakBar(); }, 600);
+}
+
+function fireBarSparkles(pct) {
+  const fill = document.getElementById('streak-fill');
+  if (!fill) return;
+  const rect = fill.getBoundingClientRect();
+  for (let i = 0; i < 10; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'bar-sparkle';
+    dot.style.left = rect.right + 'px';
+    dot.style.top  = rect.top + rect.height/2 + 'px';
+    const angle = Math.random() * Math.PI * 2;
+    const dist  = 30 + Math.random() * 40;
+    dot.style.setProperty('--sx', (Math.cos(angle)*dist).toFixed(1) + 'px');
+    dot.style.setProperty('--sy', (Math.sin(angle)*dist).toFixed(1) + 'px');
+    dot.style.background = `hsl(${Math.floor(Math.random()*60+100)},80%,50%)`;
+    document.body.appendChild(dot);
+    setTimeout(() => dot.remove(), 700);
+  }
+}
+
+// ── Progress bar ─────────────────────────────────────────────────────────────
+let _streakTimer = null;
+let _lastBarPct  = 0;
+
+function updateStreakBar() {
+  const fill  = document.getElementById('streak-fill');
+  const label = document.getElementById('streak-label');
+  if (!fill || !label) return;
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 24;
+  const pct           = Math.min(totalAnswered / totalQ * 100, 100);
+  if (pct > _lastBarPct && !_restoring) setTimeout(() => fireBarSparkles(pct), 480);
+  _lastBarPct = pct;
+  fill.style.width = pct + '%';
+  const s = state.streak;
+  label.style.left = (pct / 2) + '%';
+  if (_streakTimer) { clearTimeout(_streakTimer); _streakTimer = null; }
+  if (s >= 2) {
+    label.textContent = s + ' achter elkaar';
+    requestAnimationFrame(() => { label.style.opacity = '1'; });
+    _streakTimer = setTimeout(() => { label.style.opacity = '0'; }, 2000);
+  } else {
+    label.style.opacity = '0'; label.textContent = '';
+  }
+  saveProgress();
+}
+
+// ── Summary / Results ─────────────────────────────────────────────────────────
+function updateSummary() {
+  const vals    = Object.values(state.answered);
+  const correct = vals.filter(v => v === 'correct').length;
+  const partial = vals.filter(v => v === 'partial').length;
+  const wrong   = vals.filter(v => v === 'wrong').length;
+  document.getElementById('sum-correct').textContent = correct;
+  document.getElementById('sum-wrong').textContent   = wrong;
+  document.getElementById('sum-done').textContent    = vals.length;
+}
+
+async function showResults() {
+  closeSubmitModal();
+  const vals    = Object.values(state.answered);
+  const correct = vals.filter(v => v === 'correct').length;
+  const partial = vals.filter(v => v === 'partial').length;
+  const wrong   = vals.filter(v => v === 'wrong').length;
+  const open_na = 24 - vals.length;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-partial').textContent = partial;
+  document.getElementById('res-wrong').textContent   = wrong;
+  document.getElementById('res-open').textContent    = open_na;
+  let totalScore = correct;
+  Object.values(state.openScores).forEach(s => { totalScore += (s.score || 0) / (s.maxPunten || 1); });
+  const pct = Math.round(totalScore / 24 * 100);
+  document.getElementById('score-num').textContent = correct + partial;
+  document.getElementById('score-den').textContent = '/ 24';
+  document.getElementById('score-ring').style.setProperty('--pct', pct);
+  document.getElementById('results-overlay').classList.add('show');
+  /* MISSIONSAVEFIX-RESET: inleveren = reset voor de volgende keer (resultaten blijven uit geheugen) */
+  window.__examSubmitted = true;
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  try { sessionStorage.setItem(SAVE_KEY + '_reset', '1'); } catch(e) {}
+  try { var _rsb = getSB(); if (_rsb) _rsb.auth.getSession().then(function(r){ var u = r && r.data && r.data.session && r.data.session.user; if (u) _rsb.from('exam_progress').delete().eq('user_id', u.id).eq('exam_key', EXAM_KEY); }); } catch(e) {}
+
+  // Save completion to Supabase
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        await sb.from('exam_completions')
+          .upsert({ user_id: session.user.id, exam_key: EXAM_KEY, score_pct: pct },
+                  { onConflict: 'user_id,exam_key' });
+      }
+    } catch(e) {}
+  }
+}
+
+function closeResults() { document.getElementById('results-overlay').classList.remove('show'); }
+
+// ── Save / Restore ────────────────────────────────────────────────────────────
+const SAVE_KEY = 'vumed_progress_mwo_2_2021_2022_2e_toetsmoment';
+(function(){try{if(!localStorage.getItem(SAVE_KEY)){var _old=localStorage.getItem('medeace_progress_mwo_2_2021_2022_2e_toetsmoment');if(_old){localStorage.setItem(SAVE_KEY,_old);localStorage.removeItem('medeace_progress_mwo_2_2021_2022_2e_toetsmoment');}}}catch(e){}})();
+const EXAM_KEY = 'mwo_2_2021_2022_2e_toetsmoment';
+
+let _sbClient = null;
+function getSB() {
+  if (_sbClient) return _sbClient;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _sbClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); }
+  catch(e) { return null; }
+  return _sbClient;
+}
+
+async function saveProgress() {
+  if (window.__examSubmitted) return;   /* MISSIONSAVEFIX-GUARD */
+  const data = {
+    answered:   state.answered,
+    selected:   state.selected,
+    multiSel:   state.multiSel,
+    openInputs: state.openInputs,
+    openScores: state.openScores,
+    streak:     state.streak,
+  };
+  // Only persist progress for logged-in users; guests get nothing saved.
+  const sb = getSB(); if (!sb) return;
+  let session;
+  try { ({ data: { session } } = await sb.auth.getSession()); } catch(e) { return; }
+  if (!session?.user) return;
+  localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+  try {
+    await sb.from('exam_progress').upsert({
+      user_id:    session.user.id, exam_key: EXAM_KEY,
+      progress:   data, updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,exam_key' });
+  } catch(e) {}
+}
+
+function _applyProgress(saved) {
+  if (!saved || !saved.answered) return;
+  _restoring = true; try { window._restoring = true; } catch(e) {}
+
+  Object.keys(saved.answered).forEach(function(qnum) {
+    const n       = parseInt(qnum);
+    const checkBtn = document.getElementById('check-' + n);
+
+    // ── Open question ──
+    const inputEl = document.getElementById('open-input-' + n);
+    if (inputEl) {
+      const savedText  = (saved.openInputs || {})[n] || '';
+      const savedScore = (saved.openScores || {})[n];
+      state.answered[n]    = saved.answered[n];
+      state.openInputs[n]  = savedText;
+      if (savedText) {
+        inputEl.value    = savedText;
+        inputEl.disabled = true;
+      }
+      if (savedScore) {
+        state.openScores[n] = savedScore;
+        const pct      = savedScore.maxPunten > 0 ? savedScore.score / savedScore.maxPunten : 0;
+        const scoreClass = pct >= 1 ? 'full' : pct > 0 ? 'partial' : 'zero';
+        const resultDiv  = document.getElementById('result-' + n);
+        if (resultDiv) {
+          resultDiv.innerHTML = `<div class="open-result">
+            <button class="leg-uit-btn" id="leg-uit-btn-${n}" onclick="toggleExplain(${n})">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span class="leg-uit-label">Leg uit</span>
+            </button>
+            <div class="inline-explain" id="explain-${n}"></div>
+          </div>`;
+          resultDiv.classList.add('show');
+        }
+        if (checkBtn) { checkBtn.disabled = true; checkBtn.textContent = savedScore.score + '/' + savedScore.maxPunten + ' punten'; }
+      }
+      return;
+    }
+
+    // ── MCQ ──
+    const mcqMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMCQ\((\d+),'([a-z])'\)/)
+      : null;
+    if (mcqMatch) {
+      const correct = mcqMatch[2];
+      const sel     = (saved.selected || {})[n];
+      if (sel) {
+        state.selected[n] = sel;
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(b => b.classList.toggle('selected', b.dataset.letter === sel));
+        checkBtn.disabled = false;
+        checkMCQ(n, correct);
+      }
+      return;
+    }
+
+    // ── Multi ──
+    const multiMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMulti\((\d+),(\[.*?\])\)/)
+      : null;
+    if (multiMatch) {
+      let correctLetters;
+      try { correctLetters = JSON.parse(multiMatch[2]); } catch(e) { return; }
+      const ms = (saved.multiSel || {})[n] || {};
+      state.multiSel[n] = ms;
+      Object.keys(ms).forEach(l => {
+        if (ms[l]) {
+          const b = document.querySelector('[data-qnum="'+n+'"][data-letter="'+l+'"]');
+          if (b) b.classList.add('selected');
+        }
+      });
+      checkBtn.disabled = false;
+      checkMulti(n, correctLetters);
+      return;
+    }
+  });
+
+  _restoring = false; try { window._restoring = false; } catch(e) {}
+  state.streak = 0;
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 24;
+  const fill  = document.getElementById('streak-fill');
+  if (fill) fill.style.width = Math.min(totalAnswered / totalQ * 100, 100) + '%';
+  const lbl = document.getElementById('streak-label');
+  if (lbl) { lbl.style.opacity = '0'; lbl.textContent = ''; }
+}
+
+async function restoreProgress() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) {
+      sessionStorage.removeItem(SAVE_KEY + '_reset'); return;
+    }
+  } catch(e) {}
+  let saved = null; let fromSupabase = false; let loggedIn = false;
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        loggedIn = true;
+        const { data: row } = await sb.from('exam_progress')
+          .select('progress').eq('user_id', session.user.id).eq('exam_key', EXAM_KEY).maybeSingle();
+        if (row?.progress) { saved = row.progress; fromSupabase = true; }
+      }
+    } catch(e) {}
+  }
+  // Only fall back to localStorage when logged in; guests restore nothing.
+  if (!saved && loggedIn) {
+    try { saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e) {}
+  }
+  if (saved) {
+    _applyProgress(saved);
+    if (!fromSupabase) saveProgress();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', restoreProgress);
+(function() {
+  const sb = getSB(); if (!sb) return;
+  sb.auth.onAuthStateChange(function(event) {
+    if (event === 'SIGNED_OUT') { try { localStorage.removeItem(SAVE_KEY); } catch(e) {} window.location.reload(); }
+  });
+})();
+
+// ── Reset ─────────────────────────────────────────────────────────────────────
+async function resetExam() {
+  localStorage.removeItem(SAVE_KEY);
+  sessionStorage.setItem(SAVE_KEY + '_reset', '1');
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) await sb.from('exam_progress').delete()
+        .eq('user_id', session.user.id).eq('exam_key', EXAM_KEY);
+    } catch(e) {}
+  }
+  window.location.reload();
+}
+
+// ── XP ────────────────────────────────────────────────────────────────────────
+// XP is awarded per point: a question's point value (data-points on its
+// .q-points span) times 10. Closed questions carry no point value -> 1 point -> 10 XP.
+function qPoints(qnum) {
+  var b = document.getElementById('qblock-' + qnum);
+  var s = b && b.querySelector('.q-points');
+  var p = s && parseFloat(s.getAttribute('data-points'));
+  return (p && p > 0) ? p : 1;
+}
+function xpForQuestion(qnum) {
+  return Math.round(qPoints(qnum) * 10);
+}
+
+function xpForStreak(streak) { return Math.min(streak * 10, 50); }
+
+function fireXPAnimation(xp, qnum) {
+  const block = document.getElementById('qblock-' + qnum);
+  if (!block) return;
+  const rect = block.getBoundingClientRect();
+  const el   = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = '+' + xp + ' XP';
+  el.style.left = (rect.left + 20) + 'px';
+  el.style.top  = (rect.top + 10) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1200);
+}
+
+async function awardXP(xp, qnum) {
+  if (!xp || _restoring) return;
+  fireXPAnimation(xp, qnum);
+  const sb = getSB(); if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.user) return;
+    const uid = session.user.id;
+    await sb.rpc('add_xp', { p_user_id: uid, p_amount: xp });
+    sb.rpc('update_max_streak', { p_user_id: uid, p_streak: state.streak }).catch(()=>{});
+    var _h = parseInt(new Intl.DateTimeFormat('en-CA', {hour:'numeric',hour12:false,timeZone:'Europe/Amsterdam'}).format(new Date()));
+    if (_h < 5) sb.rpc('increment_night_question', { p_user_id: uid }).catch(()=>{});
+  } catch(e) {}
+}
+
+// ── Sound ─────────────────────────────────────────────────────────────────────
+function _snd(path) { try { new Audio(path).play(); } catch(e) {} }
+function playSoundChat()    { _snd(Math.random()<0.5?'sound5.mp3':'sound7.mp3'); }
+function playSoundCorrect(streak) {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_correct.mp3');
+}
+function playSoundWrong() {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_wrong.mp3');
+}
+
+// ── Chat ──────────────────────────────────────────────────────────────────────
+const CHAT_SYSTEM  = 'Je bent een medische studieassistent voor een tweedejaars student geneeskunde aan Amsterdam UMC/VUmc. De student studeert voor MWO 2. Beantwoord vragen kort, klinisch relevant en in het Nederlands.. Beantwoord vragen kort, klinisch relevant en in het Nederlands. Gebruik geen onnodige inleidingen.';
+let _chatHistory   = [];
+let _chatSelection = '';
+let _chatContext   = '';
+let _chatImages    = [];
+
+/* Convert an already-loaded (same-origin) <img> to a downscaled data URL so the
+   AI vision model can actually SEE the question figure. Returns null on failure. */
+function _imgElToDataUrl(img) {
+  try {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) return null;
+    const max = 1024, scale = Math.min(1, max / Math.max(w, h));
+    const cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+    const c = document.createElement('canvas');
+    c.width = cw; c.height = ch;
+    c.getContext('2d').drawImage(img, 0, 0, cw, ch);
+    return c.toDataURL('image/jpeg', 0.85);
+  } catch (e) { return null; }
+}
+function _collectChatImages() {
+  const out = [];
+  _chatImages.forEach(function(img) {
+    const u = _imgElToDataUrl(img);
+    if (u) out.push(u);
+  });
+  return out;
+}
+
+function openChatForQuestion(qnum, autoSend) {
+  closeGlossary();
+  _chatHistory = []; _chatSelection = ''; _chatContext = ''; _chatImages = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  const pill = document.getElementById('chat-context-pill');
+  if (qnum !== null) {
+    const block = document.getElementById('qblock-' + qnum);
+    const parts = [];
+    if (block) {
+      block.querySelectorAll('.q-context, .q-question, .q-text').forEach(el => {
+        const t = el.innerText.trim(); if (t) parts.push(t);
+      });
+      const opts = block.querySelectorAll('.opt-btn');
+      if (opts.length) {
+        parts.push('');
+        opts.forEach(btn => {
+          const letter = (btn.querySelector('.opt-letter')||{}).innerText||'';
+          const text   = Array.from(btn.querySelectorAll('span')).slice(1).map(s=>s.innerText.trim()).join(' ').trim();
+          if (text) parts.push((letter?letter+'. ':'')+text);
+        });
+      }
+      block.querySelectorAll('img').forEach(function(im) {
+        if (!im || (im.naturalWidth && im.naturalWidth < 32)) return;
+        if (_chatImages.indexOf(im) === -1) _chatImages.push(im);
+      });
+    }
+    _chatContext = parts.length ? 'Vraag '+qnum+':\n'+parts.join('\n') : 'Vraag '+qnum;
+    if (pill) { pill.style.display='block'; pill.innerHTML='Over: <strong>Vraag '+qnum+'</strong>'; }
+  } else {
+    if (pill) pill.style.display='none';
+  }
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+  if (autoSend && _chatContext) {
+    _sendMessage('Leg deze vraag volledig uit. Verklaar elke antwoordoptie of geef de modeluitwerking: waarom is het goede antwoord juist en wat zijn de kernpunten van het criterium?\n\n'+_chatContext);
+  }
+}
+
+function openChatWithSelection() {
+  closeGlossary();
+  _chatHistory = []; _chatContext = ''; _chatImages = [];
+  document.getElementById('chat-messages').innerHTML = '';
+  const pill = document.getElementById('chat-context-pill');
+  if (pill) pill.style.display = 'none';
+  _chatSelection = window.getSelection ? window.getSelection().toString().trim() : '';
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+  if (_chatSelection) _sendMessage('Leg dit uit: ' + _chatSelection);
+  hideSelPopup();
+}
+
+function closeChat() {
+  document.body.classList.remove('chat-open');
+  document.getElementById('chat-panel').classList.remove('open');
+}
+
+function sendChatMessage() {
+  const inp = document.getElementById('chat-input');
+  const txt = inp.value.trim(); if (!txt) return;
+  inp.value = '';
+  _sendMessage(txt);
+}
+
+const _explanations = {};
+
+async function toggleExplain(qnum) {
+  const btn = document.getElementById('leg-uit-btn-' + qnum);
+  const box = document.getElementById('explain-' + qnum);
+  const label = btn ? btn.querySelector('.leg-uit-label') : null;
+  if (!btn || !box || !label) return;
+
+  // Toggle if already generated
+  if (_explanations[qnum]) {
+    const visible = box.style.display === 'block';
+    box.style.display = visible ? 'none' : 'block';
+    label.textContent = visible ? 'Leg uit' : 'Verberg';
+    return;
+  }
+
+  // Generate explanation
+  const q = OPEN_ANSWERS[qnum];
+  if (!q) return;
+  const savedScore = state.openScores[qnum];
+  const studentAnswer = state.openInputs[qnum] || '';
+  const block = document.getElementById('qblock-' + qnum);
+  const parts = [];
+  if (block) {
+    block.querySelectorAll('.q-context, .q-question, .q-text').forEach(el => {
+      const t = el.innerText.trim(); if (t) parts.push(t);
+    });
+  }
+  const scoreText = savedScore ? savedScore.score + ' / ' + savedScore.maxPunten : '?';
+
+  btn.disabled = true;
+  label.textContent = 'Bezig...';
+  box.style.display = 'block';
+  box.innerHTML = '<em style="color:#8E8E93;font-size:13px;">⏳</em>';
+
+  const msg = 'Ik heb vraag ' + qnum + ' beantwoord en ' + scoreText + ' punten gekregen.\n\n' +
+    'Vraag:\n' + (parts.join('\n') || 'Vraag ' + qnum) + '\n\n' +
+    'Mijn antwoord:\n' + (studentAnswer || '(geen)') + '\n\n' +
+    'Modelantwoord:\n' + (q.answer || '(zie criterium)') + '\n\n' +
+    'Beoordelingscriterium:\n' + q.criterium + '\n\n' +
+    'Leg uit waarom ik deze score heb gekregen. Wat deed ik goed, wat miste ik, en hoe ziet het ideale antwoord eruit?';
+
+  let accumulated = '';
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + OPENAI_API_KEY },
+      body: JSON.stringify({
+        model: OPENAI_MODEL, stream: true,
+        messages: [
+          { role: 'system', content: 'Je bent een medische studieassistent. Geef een beknopte maar complete uitleg van de score in het Nederlands. Geen onnodige inleidingen.' },
+          { role: 'user', content: msg }
+        ]
+      })
+    });
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    box.innerHTML = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const d = line.slice(6).trim();
+        if (d === '[DONE]') break;
+        try { const tok = JSON.parse(d).choices[0].delta.content || ''; accumulated += tok; box.innerHTML = mdToHtml(accumulated); } catch(e) {}
+      }
+    }
+    _explanations[qnum] = accumulated;
+    label.textContent = 'Verberg';
+    btn.disabled = false;
+  } catch(e) {
+    box.innerHTML = '<span style="color:#FF3B30;font-size:13px;">⚠️ Kon uitleg niet laden. Probeer opnieuw.</span>';
+    label.textContent = 'Leg uit';
+    btn.disabled = false;
+  }
+}
+
+function openExplainChat(qnum) {
+  const q = OPEN_ANSWERS[qnum];
+  if (!q) return;
+  const savedScore = state.openScores[qnum];
+  const studentAnswer = state.openInputs[qnum] || '';
+  const block = document.getElementById('qblock-' + qnum);
+  const parts = [];
+  if (block) {
+    block.querySelectorAll('.q-context, .q-question, .q-text').forEach(el => {
+      const t = el.innerText.trim(); if (t) parts.push(t);
+    });
+  }
+  const questionText = parts.join('\n') || ('Vraag ' + qnum);
+  const scoreText = savedScore ? savedScore.score + ' / ' + savedScore.maxPunten : '?';
+
+  closeGlossary();
+  _chatHistory = []; _chatSelection = ''; _chatContext = ''; _chatImages = [];
+  if (block) {
+    block.querySelectorAll('img').forEach(function(im) {
+      if (!im || (im.naturalWidth && im.naturalWidth < 32)) return;
+      if (_chatImages.indexOf(im) === -1) _chatImages.push(im);
+    });
+  }
+  document.getElementById('chat-messages').innerHTML = '';
+  const pill = document.getElementById('chat-context-pill');
+  if (pill) { pill.style.display = 'block'; pill.innerHTML = 'Uitleg: <strong>Vraag ' + qnum + ' (' + scoreText + ' punten)</strong>'; }
+
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+
+  const msg = 'Ik heb vraag ' + qnum + ' beantwoord en ' + scoreText + ' punten gekregen.\n\n' +
+    'Vraag:\n' + questionText + '\n\n' +
+    'Mijn antwoord:\n' + (studentAnswer || '(geen)') + '\n\n' +
+    'Modelantwoord:\n' + (q.answer || '(zie criterium)') + '\n\n' +
+    'Beoordelingscriterium:\n' + q.criterium + '\n\n' +
+    'Leg uit waarom ik deze score heb gekregen. Geef aan wat ik goed deed, wat ik miste, ' +
+    'en hoe het ideale antwoord eruit had gezien volgens het criterium.';
+  _sendMessage(msg);
+}
+
+function _escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function _appendMsg(role, text) {
+  const el = document.createElement('div');
+  el.className = 'chat-msg ' + role;
+  el.innerHTML = role === 'ai' ? mdToHtml(text) : _escHtml(text);
+  document.getElementById('chat-messages').appendChild(el);
+  el.scrollIntoView({block:'end',behavior:'smooth'});
+  return el;
+}
+
+function mdToHtml(md) {
+  md = md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  md = md.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  md = md.replace(/\*(.+?)\*/g,'<em>$1</em>');
+  md = md.replace(/^#(1, 3)\s+(.+)$/gm,'<strong>$1</strong>');
+  md = md.replace(/^[-*]\s+(.+)$/gm,'• $1');
+  md = md.replace(/\n/g,'<br>').replace(/\r/g,'<br>');
+  return md;
+}
+
+async function _sendMessage(text) {
+  const sendBtn = document.getElementById('chat-send');
+  if (sendBtn) sendBtn.disabled = true;
+  _appendMsg('user', text);
+  const ctx = _chatContext ? '[Context]\n'+_chatContext+'\n\n' : '';
+  const sel = _chatSelection ? '[Geselecteerde tekst]: '+_chatSelection+'\n\n' : '';
+  const full = ctx + sel + text;
+  let _payload = full;
+  if (_chatHistory.length === 0 && _chatImages.length) {
+    const _imgs = _collectChatImages();
+    if (_imgs.length) {
+      _payload = [{ type: 'text', text: full }].concat(
+        _imgs.map(function(u) { return { type: 'image_url', image_url: { url: u, detail: 'auto' } }; })
+      );
+    }
+  }
+  _chatHistory.push({role:'user', content: _payload});
+
+  const streamEl = document.createElement('div');
+  streamEl.className = 'chat-msg ai streaming';
+  document.getElementById('chat-messages').appendChild(streamEl);
+  streamEl.scrollIntoView({block:'end'});
+
+  let accumulated = '';
+  try {
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+OPENAI_API_KEY},
+      body: JSON.stringify({
+        model: OPENAI_MODEL, stream: true,
+        messages: [{role:'system',content:CHAT_SYSTEM}, ..._chatHistory]
+      })
+    });
+    const reader = resp.body.getReader();
+    const decoder = new TextDecoder();
+    while (true) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value);
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const d = line.slice(6).trim();
+        if (d === '[DONE]') break;
+        try { const tok = JSON.parse(d).choices[0].delta.content || ''; accumulated += tok; streamEl.innerHTML = mdToHtml(accumulated); streamEl.scrollIntoView({block:'end'}); } catch(e) {}
+      }
+    }
+    streamEl.classList.remove('streaming');
+    _chatHistory.push({role:'assistant', content:accumulated});
+  } catch(e) { streamEl.classList.remove('streaming'); streamEl.innerHTML = '⚠️ Fout bij verbinding. Probeer opnieuw.'; }
+  if (sendBtn) sendBtn.disabled = false;
+}
+
+// ── Selection popup ───────────────────────────────────────────────────────────
+const _selPopup = document.getElementById('sel-popup');
+document.addEventListener('mouseup', function(e) {
+  setTimeout(function() {
+    const sel = window.getSelection ? window.getSelection() : null;
+    if (sel && sel.toString().trim().length > 3) {
+      const r = sel.getRangeAt(0).getBoundingClientRect();
+      _selPopup.style.left = (r.left + r.width/2 - 60) + 'px';
+      _selPopup.style.top  = (r.top - 44) + 'px';
+      _selPopup.classList.add('show');
+    } else { hideSelPopup(); }
+  }, 50);
+});
+function hideSelPopup() { _selPopup.classList.remove('show'); }
+document.addEventListener('mousedown', function(e) {
+  if (!e.target.closest('#sel-popup')) hideSelPopup();
+});
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('chat-open')) return;
+  if (document.getElementById('chat-panel').contains(e.target)) return;
+  if (e.target.closest('#sel-popup')) return;
+  if (e.target.closest('.q-ai-btn') || e.target.closest('.q-num-ai')) return;
+  if (e.target.closest('.chat-tab-fixed')) return;
+  if (e.target.closest('.leg-uit-btn')) return;
+  closeChat();
+});
+
+// ── Glossary ──────────────────────────────────────────────────────────────────
+document.addEventListener('mouseover', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  var entry = GLOSSARY[el.dataset.term];
+  if (!entry) return;
+  var tip = document.getElementById('g-tip');
+  var short = entry.short || (entry.definition || '').replace(/<[^>]+>/g, '').slice(0, 88) + '…';
+  tip.textContent = short;
+  var rect = el.getBoundingClientRect();
+  tip.style.left = Math.min(rect.left, window.innerWidth - 228) + 'px';
+  tip.style.top  = (rect.bottom + 8) + 'px';
+  tip.classList.add('show');
+});
+document.addEventListener('mouseout', function(e) {
+  if (e.target.closest && e.target.closest('.gterm'))
+    document.getElementById('g-tip').classList.remove('show');
+});
+var _gImgs = [], _gImgIdx = 0;
+function openGlossary(k) { const e=GLOSSARY[k]; if (!e) return; document.getElementById('g-title').textContent=e.title||k; document.getElementById('g-def').innerHTML=e.definition||''; _gImgs=[]; document.getElementById('g-img').style.display='none'; document.getElementById('g-img-nav').style.display='none'; const titles=e.wiki_titles||(e.wiki_title?[e.wiki_title]:[]);if(titles.length){Promise.all(titles.map(t=>fetch('https://'+(t.startsWith('nl:')?'nl':'en')+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(t.replace(/^nl:/,''))).then(r=>r.json()).then(d=>d.thumbnail&&d.thumbnail.source||null).catch(()=>null))).then(urls=>{_gImgs=urls.filter(Boolean);if(_gImgs.length)_gShowImg(0);});}closeChat();document.body.classList.add('g-open');document.getElementById('g-panel').classList.add('open'); }
+function _gShowImg(i){var img=document.getElementById('g-img'),nav=document.getElementById('g-img-nav'),ctr=document.getElementById('g-img-counter');_gImgIdx=i;if(!_gImgs.length){img.style.display='none';nav.style.display='none';return;}img.src=_gImgs[i];img.style.display='block';img.onerror=function(){img.style.display='none';};if(_gImgs.length>1){nav.style.display='flex';ctr.textContent=(i+1)+' / '+_gImgs.length;}else{nav.style.display='none';}}
+function gImgPrev(){if(_gImgs.length>1)_gShowImg((_gImgIdx-1+_gImgs.length)%_gImgs.length);}
+function gImgNext(){if(_gImgs.length>1)_gShowImg((_gImgIdx+1)%_gImgs.length);}
+function closeGlossary() { document.body.classList.remove('g-open'); document.getElementById('g-panel').classList.remove('open'); }
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('g-panel');
+  if (panel && panel.classList.contains('open') && !panel.contains(e.target) && !e.target.closest('.gterm')) closeGlossary();
+});
+
+// ── Modal helpers ─────────────────────────────────────────────────────────────
+function openSubmitModal()  { document.getElementById('submit-modal').classList.add('show'); }
+function closeSubmitModal() { document.getElementById('submit-modal').classList.remove('show'); }
+function openResetModal()   { document.getElementById('reset-modal').classList.add('show'); }
+function closeResetModal()  { document.getElementById('reset-modal').classList.remove('show'); }
+
+// ── Instant bar restore (sync, runs before async Supabase) ───────────────────
+;(function() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) return;
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (!saved || !saved.answered) return;
+    const n = Object.keys(saved.answered).length;
+    const t = 24;
+    const fill = document.getElementById('streak-fill');
+    if (fill) fill.style.width = Math.min(n/t*100, 100) + '%';
+  } catch(e) {}
+})();
+</script>
+<script src="answer_terms.js?v=1"></script>
+<script src="progressdots.js?v=67"></script>
+<script src="openreview.js?v=3"></script>
+<script>
+/* ── VUMED_IMG_ZOOM v1: klik een inhoud-afbeelding (histologie/x-ray) → smooth
+      vergroten met FLIP-animatie + verder in-/uitzoomen en pannen. DND-kaarten,
+      opties, glossary-thumb, avatar/navbar/wallet-iconen zijn uitgesloten. ───── */
+(function(){
+  if (window._imgZoomInstalled) return;
+  window._imgZoomInstalled = true;
+
+  function eligible(img){
+    if (!img || img.tagName !== 'IMG') return false;
+    if (img.closest('.vz-overlay')) return false;
+    if (img.classList.contains('g-img')) return false;
+    if (img.closest('.dnd-card,.opt-btn,.navbar,#vumed-stats,.g-panel,.g-img-nav,' +
+                    '[class*="avatar"],[id*="avatar"],.chest,.mascot,button')) return false;
+    if (img.parentElement && img.parentElement.querySelector('[data-dnd-zone]')) return false;
+    var src = img.getAttribute('src') || '';
+    if (!src) return false;
+    if (img.naturalWidth && img.naturalWidth < 42 && img.naturalHeight < 42) return false;
+    return true;
+  }
+
+  var css = document.createElement('style');
+  css.textContent = [
+    'img.vz-hot{cursor:zoom-in;transition:filter .15s ease,box-shadow .15s ease;}',
+    'img.vz-hot:hover{filter:brightness(.96);box-shadow:0 4px 16px rgba(0,0,0,.16);}',
+    '.vz-overlay{position:fixed;inset:0;z-index:999999;overflow:hidden;',
+      'background:rgba(255,255,255,0);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);',
+      'transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease;',
+      'touch-action:none;-webkit-user-select:none;user-select:none;}',
+    '.vz-overlay.vz-in{background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);}',
+    '.vz-overlay img.vz-big{position:absolute;top:0;left:0;margin:0;max-width:none;max-height:none;',
+      'border-radius:10px;box-shadow:0 24px 74px rgba(0,0,0,.22);transform-origin:top left;',
+      'will-change:transform;cursor:zoom-in;-webkit-user-drag:none;user-drag:none;}',
+    '.vz-overlay.vz-zoomed img.vz-big{cursor:grab;}',
+    '.vz-overlay.vz-drag img.vz-big{cursor:grabbing;}',
+    '.vz-close{position:fixed;top:14px;right:16px;z-index:1000000;width:44px;height:44px;padding:0;',
+      'border:none;border-radius:50%;background:rgba(0,0,0,.07);color:#3C3C43;font-size:24px;',
+      'line-height:44px;text-align:center;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'opacity:0;transform:scale(.7);transition:opacity .3s .08s ease,transform .3s .08s cubic-bezier(.34,1.56,.64,1),background .15s;}',
+    '.vz-close:hover{background:rgba(0,0,0,.14);}',
+    '.vz-overlay.vz-in .vz-close{opacity:1;transform:scale(1);}',
+    '.vz-hint{position:fixed;bottom:20px;left:50%;z-index:1000000;padding:8px 16px;border-radius:20px;',
+      'background:rgba(0,0,0,.07);color:#3C3C43;font-size:13px;font-weight:700;',
+      'font-family:Nunito,system-ui,-apple-system,sans-serif;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'pointer-events:none;white-space:nowrap;opacity:0;transform:translateX(-50%) translateY(10px);',
+      'transition:opacity .3s .12s ease,transform .3s .12s ease;}',
+    '.vz-overlay.vz-in .vz-hint{opacity:1;transform:translateX(-50%) translateY(0);}',
+    '.vz-overlay.vz-in.vz-zoomed .vz-hint{opacity:0;transform:translateX(-50%) translateY(10px);}',
+    'html.dark .vz-overlay{background:rgba(28,28,30,0);}',
+    'html.dark .vz-overlay.vz-in{background:rgba(28,28,30,.95);}',
+    'html.dark .vz-overlay img.vz-big{box-shadow:0 24px 74px rgba(0,0,0,.55);}',
+    'html.dark .vz-close{background:rgba(255,255,255,.15);color:#fff;}',
+    'html.dark .vz-close:hover{background:rgba(255,255,255,.28);}',
+    'html.dark .vz-hint{background:rgba(255,255,255,.15);color:#fff;}',
+    '@media (prefers-reduced-motion:reduce){.vz-overlay,.vz-overlay img.vz-big,.vz-close,.vz-hint{transition-duration:.01ms!important;}}'
+  ].join('');
+  (document.head || document.documentElement).appendChild(css);
+
+  function markAll(root){
+    var imgs = (root || document).querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++){
+      if (eligible(imgs[i])) imgs[i].classList.add('vz-hot');
+      else imgs[i].classList.remove('vz-hot');
+    }
+  }
+
+  var S = null;   // active session state
+
+  function clamp(){
+    var W = S.w * S.k, H = S.h * S.k;
+    if (W <= S.vw) S.px = (S.vw - W) / 2;
+    else S.px = Math.min(0, Math.max(S.vw - W, S.px));
+    if (H <= S.vh) S.py = (S.vh - H) / 2;
+    else S.py = Math.min(0, Math.max(S.vh - H, S.py));
+  }
+
+  function render(){
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(' + S.k + ')';
+    S.overlay.classList.toggle('vz-zoomed', S.k > 1.02);
+  }
+
+  function fit(){
+    S.vw = window.innerWidth; S.vh = window.innerHeight;
+    var nw = S.big.naturalWidth || S.rect.width || 300;
+    var nh = S.big.naturalHeight || S.rect.height || 300;
+    var s = Math.min((S.vw * 0.94) / nw, (S.vh * 0.90) / nh, 3);
+    S.w = nw * s; S.h = nh * s;
+    S.baseLeft = (S.vw - S.w) / 2; S.baseTop = (S.vh - S.h) / 2;
+    S.big.style.width = S.w + 'px'; S.big.style.height = S.h + 'px';
+    S.big.style.left = '0px'; S.big.style.top = '0px';
+  }
+
+  // zoom toward a viewport focal point, keeping it fixed under the finger/cursor
+  function zoomTo(nk, fx, fy){
+    nk = Math.min(5, Math.max(1, nk));
+    var lx = (fx - S.px) / S.k, ly = (fy - S.py) / S.k;
+    S.k = nk;
+    S.px = fx - nk * lx; S.py = fy - nk * ly;
+    clamp(); render();
+  }
+
+  function animateOpen(){
+    // FLIP: element is laid out at its final fit position; start it transformed
+    // back onto the thumbnail, then transition to identity.
+    var tx = S.rect.left, ty = S.rect.top;
+    var sc = S.rect.width / S.w;
+    S.big.style.transition = 'none';
+    S.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    void S.big.offsetWidth;                       // force reflow (no rAF; safe in bg tabs)
+    S.big.style.transition = 'transform .34s cubic-bezier(.22,.61,.36,1)';
+    S.px = 0; S.py = 0; S.k = 1; clamp();
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(1)';
+    S.overlay.classList.add('vz-in');
+  }
+
+  function close(){
+    if (!S) return;
+    var st = S; S = null;
+    var tx = st.rect.left, ty = st.rect.top;
+    var sc = st.rect.width / st.w;
+    st.big.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+    st.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    st.overlay.classList.remove('vz-in');
+    window.removeEventListener('resize', st.onResize);
+    window.removeEventListener('keydown', st.onKey, true);
+    var done = false;
+    var finish = function(){
+      if (done) return; done = true;
+      st.overlay.remove();
+      if (st.src) st.src.style.visibility = '';
+    };
+    st.big.addEventListener('transitionend', finish);
+    setTimeout(finish, 420);
+  }
+
+  function open(thumb){
+    if (S) return;
+    var rect = thumb.getBoundingClientRect();
+    var overlay = document.createElement('div'); overlay.className = 'vz-overlay';
+    var big = document.createElement('img'); big.className = 'vz-big';
+    big.alt = thumb.alt || '';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'vz-close'; closeBtn.setAttribute('aria-label', 'Sluiten'); closeBtn.innerHTML = '&times;';
+    var hint = document.createElement('div');
+    hint.className = 'vz-hint'; hint.textContent = 'Scroll of dubbeltik om verder in te zoomen';
+    overlay.appendChild(big); overlay.appendChild(closeBtn); overlay.appendChild(hint);
+    document.body.appendChild(overlay);
+
+    S = { overlay: overlay, big: big, src: thumb, rect: rect,
+          k: 1, px: 0, py: 0, w: 0, h: 0, vw: 0, vh: 0, baseLeft: 0, baseTop: 0,
+          pts: {}, npts: 0, pinch: null, moved: false, lastTap: 0, downX: 0, downY: 0 };
+
+    var start = function(){
+      thumb.style.visibility = 'hidden';   // hide source so the FLIP looks seamless
+      fit(); animateOpen();
+    };
+    if (thumb.complete && thumb.naturalWidth) { big.src = thumb.currentSrc || thumb.src; start(); }
+    else { big.onload = start; big.src = thumb.currentSrc || thumb.src; }
+
+    S.onResize = function(){ if (!S) return; fit(); S.k = 1; S.px = 0; S.py = 0; clamp(); render(); };
+    S.onKey = function(e){ if (e.key === 'Escape'){ e.preventDefault(); close(); } };
+    window.addEventListener('resize', S.onResize);
+    window.addEventListener('keydown', S.onKey, true);
+
+    closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+
+    // wheel = zoom toward cursor (desktop)
+    overlay.addEventListener('wheel', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX, e.clientY);
+    }, { passive: false });
+
+    // double-click = toggle zoom (desktop)
+    big.addEventListener('dblclick', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+    });
+
+    // pointer pan / pinch / tap (mouse + touch, unified)
+    overlay.addEventListener('pointerdown', function(e){
+      if (!S) return;
+      overlay.setPointerCapture && overlay.setPointerCapture(e.pointerId);
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      S.npts++;
+      S.moved = false; S.downX = e.clientX; S.downY = e.clientY;
+      if (S.npts === 2){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        S.pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), k: S.k,
+                    cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+      }
+    });
+    overlay.addEventListener('pointermove', function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      var prev = S.pts[e.pointerId];
+      var dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      if (Math.abs(e.clientX - S.downX) > 6 || Math.abs(e.clientY - S.downY) > 6) S.moved = true;
+      if (S.npts >= 2 && S.pinch){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        if (!a || !b) return;
+        var nd = Math.hypot(a.x - b.x, a.y - b.y);
+        zoomTo(S.pinch.k * (nd / S.pinch.d), S.pinch.cx, S.pinch.cy);
+      } else if (S.k > 1.02){
+        overlay.classList.add('vz-drag');
+        S.px += dx; S.py += dy; clamp(); render();
+      }
+    });
+    var up = function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      delete S.pts[e.pointerId]; S.npts = Math.max(0, S.npts - 1);
+      if (S.npts < 2) S.pinch = null;
+      if (S.npts === 0){
+        overlay.classList.remove('vz-drag');
+        if (!S.moved){
+          var onBig = (e.target === big);
+          var now = Date.now();
+          if (now - S.lastTap < 300){          // double-tap toggle zoom
+            S.lastTap = 0;
+            zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+          } else {
+            S.lastTap = now;
+            if (!onBig && S.k <= 1.02) close();  // tap backdrop = sluiten
+          }
+        }
+      }
+    };
+    overlay.addEventListener('pointerup', up);
+    overlay.addEventListener('pointercancel', up);
+  }
+
+  document.addEventListener('click', function(e){
+    if (S) return;
+    var img = (e.target && e.target.closest) ? e.target.closest('img') : null;
+    if (!img || !eligible(img)) return;
+    e.preventDefault();
+    open(img);
+  });
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', function(){ markAll(); });
+  else markAll();
+
+  try {
+    var mo = new MutationObserver(function(muts){
+      for (var i = 0; i < muts.length; i++){
+        var m = muts[i];
+        for (var j = 0; j < m.addedNodes.length; j++){
+          var n = m.addedNodes[j];
+          if (n.nodeType !== 1) continue;
+          if (n.tagName === 'IMG'){ if (eligible(n)) n.classList.add('vz-hot'); }
+          else if (n.querySelectorAll) markAll(n);
+        }
+      }
+    });
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e){}
+})();
+</script>
+</body>
+</html>

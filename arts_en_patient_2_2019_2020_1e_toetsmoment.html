@@ -1,0 +1,3545 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arts en Patiënt 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="supabase_config.js"></script>
+<script src="openai_config.js"></script>
+<script src="supabase-js.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #FFFFFF;
+  color: #1C1C1E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.site-header {
+  background: rgba(255,255,255,0.90);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+}
+.header-inner {
+  max-width: none; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 48px; gap: 8px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  text-decoration: none;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: start; grid-column: 1;
+  white-space: nowrap;
+}
+.back-btn:hover { background: rgba(60,60,67,0.08); }
+.back-btn svg { flex-shrink: 0; }
+.header-title { display: none; }
+.header-title .title-sub {
+  font-size: 12px; font-weight: 600; color: #6E6E73;
+}
+.header-right { justify-self: end; }
+.submit-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  background: none; border: none; cursor: pointer;
+  padding: 6px 6px 6px 10px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: end; grid-column: 3;
+  white-space: nowrap; font-family: inherit;
+}
+.submit-btn:hover { background: rgba(60,60,67,0.08); }
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.40); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 20px; padding: 28px 28px 22px;
+  max-width: 340px; width: calc(100% - 40px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  text-align: center; animation: modal-in 0.18s ease;
+}
+@keyframes modal-in { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-box h2 { font-size: 17px; font-weight: 800; color: #1C1C1E; margin: 0 0 8px; }
+.modal-box p  { font-size: 14px; color: #6E6E73; margin: 0 0 22px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions button {
+  flex: 1; padding: 12px; border-radius: 12px; font-size: 15px;
+  font-weight: 700; border: none; cursor: pointer; font-family: inherit;
+  transition: opacity 0.15s;
+}
+.modal-actions button:hover { opacity: 0.85; }
+.btn-cancel { background: #F2F2F7; color: #1C1C1E; }
+.btn-confirm { background: #58CC02; color: #fff; }
+.btn-danger  { background: #FF3B30; color: #fff; }
+#results-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: #fff; overflow-y: auto;
+  animation: modal-in 0.2s ease;
+}
+#results-overlay.show { display: block; }
+.results-inner {
+  max-width: 560px; margin: 0 auto; padding: 48px 24px 60px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.results-title { font-size: 24px; font-weight: 800; color: #1C1C1E; margin: 0 0 6px; }
+.results-sub   { font-size: 14px; color: #6E6E73; margin: 0 0 36px; }
+.score-ring {
+  width: 150px; height: 150px; border-radius: 50%;
+  background: conic-gradient(#58CC02 0%, #58CC02 var(--pct), #E5E5EA var(--pct), #E5E5EA 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 36px; position: relative;
+}
+.score-ring-inner {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: #fff; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-num { font-size: 30px; font-weight: 800; color: #1C1C1E; line-height: 1; }
+.score-den { font-size: 13px; color: #6E6E73; font-weight: 600; margin-top: 2px; }
+.results-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+  width: 100%; margin-bottom: 36px;
+}
+.stat-card {
+  background: #F2F2F7; border-radius: 14px; padding: 16px 12px;
+  text-align: center;
+}
+.stat-card .stat-n { font-size: 26px; font-weight: 800; }
+.stat-card .stat-lbl { font-size: 12px; font-weight: 600; color: #6E6E73; margin-top: 2px; }
+.stat-correct .stat-n { color: #58CC02; }
+.stat-wrong   .stat-n { color: #FF3B30; }
+.stat-open    .stat-n { color: #8E8E93; }
+.results-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.results-actions button {
+  padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 700;
+  border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+}
+.results-actions button:hover { opacity: 0.85; }
+.btn-back-exam { background: #F2F2F7; color: #1C1C1E; }
+.btn-new-exam  { background: #FF3B30; color: #fff; }
+.streak-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 51;
+  height: 48px; display: flex; align-items: center;
+  padding: 0 132px; pointer-events: none;
+}
+.streak-inner {
+  max-width: 560px; width: 100%; margin: 0 auto; pointer-events: none;
+}
+.streak-bar-wrap {
+  position: relative;
+}
+.streak-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0%;
+  transform: translateX(-50%);
+  font-size: 11px; font-weight: 800; color: #58CC02;
+  letter-spacing: 0.05em; white-space: nowrap;
+  opacity: 0;
+  transition: left 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease;
+  pointer-events: none; user-select: none;
+}
+.streak-bar-bg {
+  width: 100%; height: 14px; background: #E5E5EA;
+  border-radius: 999px; overflow: hidden;
+  pointer-events: auto; cursor: pointer;
+}
+.streak-bar-fill {
+  height: 100%; width: 0%; border-radius: 999px;
+  background: #58CC02;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative; overflow: hidden;
+}
+.streak-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 15%; left: 6%; right: 6%;
+  height: 35%;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.30);
+  pointer-events: none;
+}
+@keyframes sparkle-pop {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
+  60%  { transform: translate(var(--sx), var(--sy))  scale(1.2); opacity: 1; }
+  100% { transform: translate(calc(var(--sx)*1.6), calc(var(--sy)*1.6)) scale(0); opacity: 0; }
+}
+.bar-sparkle {
+  position: fixed;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 200;
+  animation: sparkle-pop 0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.progress-wrap { display: none; }
+.progress-fill { display: none; }
+.exam-main { max-width: 820px; margin: 0 auto; padding: 28px 20px 100px; margin-top: 48px; }
+.q-block {
+  padding: 26px 4px 28px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #E5E5EA;
+  animation: fadeInUp 0.3s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+.q-block:last-child { border-bottom: none; }
+.q-num  { font-size: 11px; font-weight: 700; color: #8E8E93; letter-spacing: 0.09em;
+  text-transform: uppercase; margin-bottom: 10px; }
+.q-num-ai {
+  display: inline-flex; vertical-align: middle; align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; margin-left: 6px;
+  color: #8E8E93; cursor: pointer; line-height: 0; transition: color 0.15s;
+}
+.q-num-ai:hover { color: #1CB0F6; }
+.q-num-ai svg { display: block; }
+.chat-tab {
+  position: fixed; left: 0; top: 50%; transform: translateY(-50%);
+  z-index: 150;
+  background: transparent;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  box-shadow: 2px 2px 12px rgba(0,0,0,0.10);
+  border: none;
+  transition: background 0.15s, padding-left 0.15s, box-shadow 0.15s, color 0.15s;
+  color: #8E8E93;
+}
+.chat-tab:hover { background: #1CB0F6; color: #fff; padding-left: 14px; box-shadow: 2px 2px 14px rgba(28,176,246,0.35); }
+.chat-tab svg { display: block; flex-shrink: 0; }
+.q-text { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-context { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 20px; }
+.q-question{ font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-image { max-width: 100%; max-height: 340px; border-radius: 12px; margin-bottom: 16px;
+  object-fit: contain; border: 1px solid rgba(60,60,67,0.1); display: block; }
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  border: 1.5px solid #D1D1D6; border-radius: 12px; background: #FFFFFF;
+  cursor: pointer; font-family: inherit; font-size: 14px;
+  text-align: left; line-height: 1.5;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+.opt-btn:hover:not(:disabled) { background: #EBF7FF; border-color: #1CB0F6; transform: translateY(-1px); }
+.opt-btn:active:not(:disabled) { transform: scale(0.99); }
+.opt-btn.selected  { border-color: #1CB0F6; background: #EBF7FF; }
+.opt-btn.correct   { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+.opt-btn.wrong     { border-color: #FF3B30; background: #FFF2F2; color: #C0392B; }
+.opt-btn:disabled  { cursor: default; }
+.opt-letter { min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  font-weight: 700; flex-shrink: 0; margin-top: 1px; transition: background 0.15s; }
+.opt-btn.selected .opt-letter { background: #1CB0F6; color: #fff; }
+.opt-btn.correct  .opt-letter { background: #58CC02; color: #fff; }
+.opt-btn.wrong    .opt-letter { background: #FF3B30; color: #fff; }
+.check-btn {
+  padding: 10px 22px; background: #E5E5EA; color: #3C3C43;
+  border: none; border-radius: 12px; font-size: 14px; font-weight: 700;
+  font-family: inherit; cursor: pointer; max-height: 80px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.14s ease,
+              opacity 0.32s ease, max-height 0.34s ease, padding 0.34s ease, margin 0.34s ease;
+}
+.check-btn:hover:not(:disabled) { background: #1CB0F6; color: #fff; }
+.check-btn:active:not(:disabled) { transform: scale(0.97); }
+.check-btn:disabled { opacity: 0.4; cursor: default; }
+.check-btn.cb-correct {
+  background: #58CC02; color: #fff; opacity: 1;
+  animation: cb-pop 0.34s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes cb-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.check-btn.cb-vanish {
+  opacity: 0 !important; transform: scale(0.7) translateY(-4px);
+  max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0;
+  overflow: hidden; pointer-events: none;
+}
+.q-btn-row {
+  display: flex; justify-content: center; align-items: center;
+}
+.q-ai-btn {
+  display: inline-flex; align-items: center;
+  gap: 7px;
+  background: none; border: 1.5px solid #1CB0F6;
+  border-radius: 20px; color: #1CB0F6;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 7px 18px; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.q-ai-btn:hover { background: #1CB0F6; color: #fff; }
+.q-ai-btn svg { flex-shrink: 0; }
+.result { margin-top: 12px; display: none; }
+.result.show { display: block; }
+.result-badge { display: none; }
+.result-badge.correct, .result-badge.wrong { display: none; }
+.fly-dot {
+  position: fixed;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #58CC02;
+  box-shadow: 0 2px 12px rgba(88,204,2,0.5);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    left   0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    top    0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width  0.2s  ease 0.38s,
+    height 0.2s  ease 0.38s,
+    opacity 0.18s ease 0.46s;
+}
+@keyframes barPop {
+  0%   { transform: scaleY(1); }
+  40%  { transform: scaleY(1.35); }
+  70%  { transform: scaleY(0.92); }
+  100% { transform: scaleY(1); }
+}
+.bar-pop { animation: barPop 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.xp-pop {
+  position: fixed; pointer-events: none; z-index: 9999;
+  font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 900;
+  color: #FFC800; text-shadow: 0 1px 6px rgba(0,0,0,0.18);
+  transform: translateX(-50%);
+  animation: xpFloat 1.3s ease-out forwards;
+}
+@keyframes xpFloat {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
+  30%  { opacity: 1; transform: translateX(-50%) translateY(-18px) scale(1.15); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-56px) scale(0.85); }
+}
+.result-note { font-size: 13px; color: #636366; margin-top: 8px; line-height: 1.55;
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border-left: 3px solid #D1D1D6; }
+/* Open-answer questions (casus exams, e.g. Arts en Patiënt 3) */
+.open-input { width: 100%; box-sizing: border-box; min-height: 96px; padding: 12px 14px;
+  border: 1.5px solid #D1D1D6; border-radius: 12px; font-family: inherit; font-size: 14px;
+  color: #1C1C1E; background: #fff; line-height: 1.5; resize: vertical; margin-bottom: 12px; }
+.open-input:focus { outline: none; border-color: #1CB0F6; }
+.open-input:disabled { background: #fff; color: #1C1C1E; -webkit-text-fill-color: #1C1C1E; opacity: 1; cursor: default; }
+.open-modelans-badge { display: inline-block; font-weight: 800; font-size: 12px; color: #58CC02;
+  text-transform: uppercase; letter-spacing: .02em; margin-bottom: 6px; }
+.open-modelans { background: #fff; border: 1.5px solid #D1D1D6; border-radius: 12px;
+  padding: 12px 14px; white-space: pre-wrap; font-size: 13.5px; line-height: 1.6; color: #1C1C1E; }
+.open-crit { margin-top: 10px; font-size: 12.5px; color: #8E8E93; white-space: pre-wrap;
+  border-top: 1px solid #EEEEEE; padding-top: 8px; }
+.q-points { color: #8E8E93; font-weight: 400; font-size: 14px; }
+.juiste-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.juiste-table th { background: #F2F2F7; color: #1C1C1E; font-weight: 700;
+  padding: 8px 12px; border: 1px solid #E5E5EA; text-align: left; }
+.juiste-table td { padding: 7px 12px; border: 1px solid #E5E5EA; }
+.juiste-table tr:nth-child(even) td { background: #FAFAFA; }
+.multi-hint { font-size: 13px; color: #636366; margin-bottom: 10px; }
+.dnd-pool {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px;
+  background: #F2F2F7; border-radius: 14px; margin-bottom: 14px;
+  min-height: 52px; border: 2px dashed transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-pool.dnd-over { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-card {
+  padding: 8px 14px; background: #fff; border-radius: 10px;
+  border: 1.5px solid #D1D1D6; font-size: 13px; cursor: grab;
+  user-select: none; line-height: 1.4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.15s, transform 0.12s, border-color 0.15s;
+}
+.dnd-card:hover   { box-shadow: 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+.dnd-card.dnd-sel { border-color: #1CB0F6; background: #EBF7FF;
+                     box-shadow: 0 0 0 3px rgba(28,176,246,0.2); }
+.dnd-card.dnd-ghost { opacity: 0.35; cursor: grabbing; }
+.dnd-card.correct { background: #F0FFF4; border-color: #58CC02; color: #1C6B2E; cursor: default; }
+.dnd-card.wrong   { background: #FFF2F2; border-color: #FF3B30; color: #C0392B; cursor: default; }
+.dnd-pairs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.dnd-pair  { display: flex; align-items: stretch; gap: 10px; }
+.dnd-label {
+  flex: 1; padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: center;
+}
+.dnd-label.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-label.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-zone {
+  flex: 1; min-height: 44px; padding: 8px 12px; border-radius: 10px;
+  border: 2px dashed #D1D1D6; display: flex; align-items: center;
+  background: #FAFAFA; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-zone.dnd-over    { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-zone.dnd-filled  { border-style: solid; border-color: #E5E5EA; background: #fff; }
+.dnd-zone.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-zone.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-hint { font-size: 12px; color: #AEAEB2; pointer-events: none; }
+.match-items { margin: 4px 0 18px; display: flex; flex-direction: column; gap: 7px; }
+.match-item {
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.match-letter {
+  min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.summary { display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid rgba(60,60,67,0.12);
+  padding: 12px 20px; display: flex; align-items: center;
+  justify-content: center; gap: 16px; font-size: 13px; z-index: 40;
+}
+.summary-stat { display: flex; align-items: center; gap: 6px; color: #636366; }
+.summary-stat .n { font-weight: 700; color: #1C1C1E; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-correct { background: #58CC02; }
+.dot-wrong   { background: #FF3B30; }
+.dot-pending { background: #D1D1D6; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+.gterm {
+  border-bottom: 1.5px dotted #A0A0A8;
+  cursor: pointer; color: inherit;
+  transition: opacity 0.15s;
+}
+.gterm:hover { opacity: 1; color: #B57BF6; border-bottom-color: #B57BF6; }
+.g-tip {
+  position: fixed; z-index: 400; pointer-events: none;
+  background: #fff; color: #1C1C1E;
+  font-size: 15px; line-height: 1.7; font-family: inherit;
+  padding: 10px 14px; border-radius: 10px; max-width: 300px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+  opacity: 0; transition: opacity 0.14s; white-space: normal;
+}
+.g-tip.show { opacity: 1; }
+.g-panel {
+  position: fixed; top: 97px; right: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #fff; overflow-y: auto;
+  border-left: 1px solid rgba(60,60,67,0.12);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.g-panel.open { transform: translateX(0); }
+.exam-main {
+  transition: margin-right 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+body.g-open .exam-main {
+  margin-right: 368px;
+}
+body.chat-open .exam-main {
+  margin-left: 368px;
+}
+.sel-popup {
+  position: fixed; z-index: 500;
+  background: #1C1C1E; color: #fff;
+  font-size: 13px; font-weight: 600; font-family: inherit;
+  padding: 7px 13px; border-radius: 20px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap; user-select: none;
+}
+.sel-popup.show { opacity: 1; transform: translateY(0); }
+.sel-popup svg { flex-shrink: 0; }
+.chat-panel {
+  position: fixed; top: 97px; left: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #F2F2F7;
+  border-right: 1px solid rgba(60,60,67,0.12);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(-110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.chat-panel.open { transform: translateX(0); }
+.chat-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px; background: #fff;
+  border-bottom: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-panel-title {
+  font-size: 15px; font-weight: 700; color: #1C1C1E;
+}
+.chat-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+}
+.chat-context-pill {
+  margin: 10px 12px 0; padding: 7px 12px;
+  background: #fff; border-radius: 10px;
+  font-size: 12px; color: #636366; font-style: italic;
+  border: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+  line-height: 1.4;
+}
+.chat-context-pill strong { color: #1C1C1E; font-style: normal; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chat-msg {
+  max-width: 88%; padding: 9px 13px;
+  border-radius: 18px; font-size: 13.5px; line-height: 1.5;
+  word-break: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: #1CB0F6; color: #fff;
+  border-bottom-right-radius: 5px;
+}
+.chat-msg.ai {
+  align-self: flex-start;
+  background: #fff; color: #1C1C1E;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.chat-msg.ai h3 { font-size: 13px; font-weight: 800; margin: 10px 0 3px; color: #1C1C1E; }
+.chat-msg.ai h4 { font-size: 12.5px; font-weight: 700; margin: 8px 0 2px; color: #3A3A3C; }
+.chat-msg.ai p  { margin: 0 0 7px; }
+.chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 4px 0 8px 16px; padding: 0; }
+.chat-msg.ai li { margin-bottom: 4px; line-height: 1.5; }
+.chat-msg.ai strong { font-weight: 700; }
+.chat-msg.ai em { font-style: italic; color: #3A3A3C; }
+.chat-msg.ai hr { border: none; border-top: 1px solid #E5E5EA; margin: 8px 0; }
+.chat-msg.typing { color: #8E8E93; font-style: italic; }
+.chat-msg.streaming::after {
+  content: '◍';
+  display: inline-block;
+  color: #1CB0F6;
+  animation: cur-blink 0.6s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes cur-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.chat-input-area {
+  display: flex; align-items: flex-end; gap: 8px;
+  padding: 10px 12px 14px; background: #fff;
+  border-top: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-input {
+  flex: 1; border: 1.5px solid #D1D1D6; border-radius: 20px;
+  padding: 8px 14px; font-size: 13.5px; font-family: inherit;
+  resize: none; outline: none; line-height: 1.4;
+  max-height: 100px; overflow-y: auto;
+  transition: border-color 0.15s;
+}
+.chat-input:focus { border-color: #1CB0F6; }
+.chat-send {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: #1CB0F6; color: #fff; font-size: 17px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.chat-send:hover { background: #0A9EDC; }
+.chat-send:disabled { background: #D1D1D6; cursor: default; }
+.g-panel-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 20px 0; gap: 12px;
+}
+.g-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.g-title {
+  font-size: 20px; font-weight: 700; color: #1C1C1E;
+  line-height: 1.25; padding-bottom: 14px;
+}
+.g-img {
+  width: 100%; max-height: 180px; object-fit: cover;
+  margin: 0 0 14px; border-bottom: 1px solid rgba(60,60,67,0.08);
+  display: block;
+}
+.g-img-nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; padding: 4px 0 10px; margin-top: -6px;
+}
+.g-img-btn {
+  background: #f2f2f7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 16px; cursor: pointer;
+  color: #1C1C1E; line-height: 1; transition: background 0.15s;
+}
+.g-img-btn:hover { background: #e5e5ea; }
+.g-img-counter { font-size: 12px; color: #8E8E93; min-width: 36px; text-align: center; font-family: 'Nunito', sans-serif; }
+.g-body { padding: 0 20px 40px; flex: 1; }
+.g-def {
+  font-size: 15px; line-height: 1.7; color: #3A3A3C;
+}
+.g-def h4 {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #8E8E93; margin: 16px 0 6px;
+}
+.g-def p  { margin: 0 0 10px; }
+.g-def ul { margin: 0 0 10px; padding-left: 18px; }
+.g-def li { margin-bottom: 4px; }
+/* ── Dropdown table (DDT) ──────────────────────────────────────────────────── */
+.ddt-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
+.ddt-table td { padding: 8px 12px; border: 1px solid #E5E5EA; vertical-align: middle; }
+.ddt-table tr:nth-child(even) td { background: #FAFAFA; }
+.ddt-label { font-weight: 600; color: #1C1C1E; background: #F2F2F7 !important; min-width: 160px; }
+.ddt-sel {
+  width: 100%; padding: 7px 10px; border: 1.5px solid #D1D1D6; border-radius: 8px;
+  font-family: inherit; font-size: 13.5px; background: #fff;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.ddt-sel:focus { border-color: #1CB0F6; outline: none; }
+
+/* Inline dropdown ("Kies de juiste alternatieven") */
+.q-dropdown-sentence { font-size: 16px; line-height: 2.1; color: #1C1C1E; margin-bottom: 8px; }
+.dd-select {
+  display: inline-block; margin: 0 2px; padding: 0 17px 1px 3px;
+  border: none; border-bottom: 1.5px solid #C7C7CC; border-radius: 0;
+  font-family: inherit; font-size: 14px; font-weight: 600; color: #3C3C43;
+  background: transparent; cursor: pointer; vertical-align: baseline;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%238E8E93' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat; background-position: right 1px center;
+  transition: border-color 0.15s;
+}
+.dd-select:hover { background-color: transparent; border-bottom-color: #8E8E93; }
+.dd-select:focus { outline: none; border-bottom-color: #8E8E93; }
+.dd-select:disabled { opacity: 1; cursor: default; }
+.dd-select.dd-correct { border-color: transparent; border-bottom-color: #58CC02; color: #3D8B00; background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%2358CC02' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
+.dd-select.dd-wrong { border-color: transparent; border-bottom-color: #FF3B30; color: #C4271D; background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%23FF3B30' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
+
+/* Categorization table (term -> category dropdown) */
+.cat-rows { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 14px; }
+.cat-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border: 1.5px solid #D1D1D6; border-radius: 12px; background: #fff;
+}
+.cat-term { font-size: 15px; color: #1C1C1E; }
+.cat-row .dd-select { flex: 0 0 auto; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="vumed.html" class="back-btn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5 14L6.5 9L11.5 4" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Menu
+    </a>
+    <span class="header-title">
+      <span>Arts en Patiënt 2</span>
+      <span class="title-sub">1e Toetsmoment 2019&#8209;2020</span>
+    </span>
+    <button class="submit-btn" onclick="openSubmitModal()">
+      Inleveren
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 4L11.5 9L6.5 14" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+<div class="streak-wrap" id="streak-wrap" onclick="openResetModal()" title="Klik om examen te resetten" style="cursor:pointer;">
+  <div class="streak-inner">
+    <div class="streak-bar-wrap">
+      <span id="streak-label" class="streak-label"></span>
+      <div class="streak-bar-bg">
+        <div class="streak-bar-fill" id="streak-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Submit confirmation modal -->
+<div id="submit-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen inleveren</h2>
+    <p>Weet je zeker dat je het examen afsluit?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubmitModal()">Nee</button>
+      <button class="btn-confirm" onclick="showResults()">Ja, inleveren</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset confirmation modal -->
+<div id="reset-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen resetten</h2>
+    <p>Al je antwoorden worden gewist en je begint opnieuw. Weet je het zeker?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Annuleren</button>
+      <button class="btn-danger" onclick="resetExam()">Ja, resetten</button>
+    </div>
+  </div>
+</div>
+
+<!-- Results overlay -->
+<div id="results-overlay">
+  <div class="results-inner">
+    <div class="results-title">Jouw resultaten</div>
+    <div class="results-sub">Arts en Patiënt 2 &middot; 1e Toetsmoment 2019&#8209;2020</div>
+    <div class="score-ring" id="score-ring">
+      <div class="score-ring-inner">
+        <div class="score-num" id="score-num">—</div>
+        <div class="score-den" id="score-den">/ 21</div>
+      </div>
+    </div>
+    <div class="results-stats">
+      <div class="stat-card stat-correct">
+        <div class="stat-n" id="res-correct">0</div>
+        <div class="stat-lbl">Goed</div>
+      </div>
+      <div class="stat-card stat-wrong">
+        <div class="stat-n" id="res-wrong">0</div>
+        <div class="stat-lbl">Fout</div>
+      </div>
+      <div class="stat-card stat-open">
+        <div class="stat-n" id="res-open">0</div>
+        <div class="stat-lbl">Niet beantwoord</div>
+      </div>
+    </div>
+    <div class="results-actions">
+      <button class="btn-back-exam" onclick="closeResults()">Terug naar examen</button>
+      <button class="btn-new-exam" onclick="resetExam()">Opnieuw beginnen</button>
+    </div>
+  </div>
+</div>
+
+<main class="exam-main">
+
+<div class="q-block" id="qblock-1">
+  <div class="q-num">Vraag 1 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(1, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Man 52 jaar</b> (3 vragen, totaal 7 punten).<br>Een man van 52 jaar komt met malaiseklachten naar de polikliniek interne geneeskunde. Bij laboratoriumonderzoek blijkt er sprake te zijn van nierinsufficiëntie (eGFR 25 ml/min*1,73m²). De uitslagen van het urinesediment kunnen passen bij glomerulonefritis als oorzaak van nierfalen.</div>
+  <div class="q-question">Welke twee afwijkingen zie je bij urineonderzoek?</div>
+  <textarea class="open-input" id="open-input-1" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-1" onclick="checkOpen(1)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-1">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Dysmorfe erytrocyten / erytrocytencilinders + eiwit (2 punten als beide genoemd worden).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-2">
+  <div class="q-num">Vraag 2 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(2, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 52 jaar.</b></div>
+  <div class="q-question">Welke vragen dienen gesteld te worden in de anamnese om een glomerulonefritis meer waarschijnlijk te maken? Noem er zes.</div>
+  <textarea class="open-input" id="open-input-2" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-2" onclick="checkOpen(2)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-2">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Vragen naar een systeemziekte: gewrichtsklachten / huidafwijkingen / haaruitval / koorts / bloedneus / bloed ophoesten, of een doorgemaakte infectie (2-3 weken geleden als het om een postinfectieuze glomerulonefritis gaat).</div>
+    <div class="open-crit">3 punten bij 6 goede antwoorden, 2 punten bij 5 goede antwoorden, 1 punt bij 4 goede antwoorden, 0 punten bij ≤3 goede antwoorden.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-3">
+  <div class="q-num">Vraag 3 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(3, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 52 jaar.</b></div>
+  <div class="q-question">Welk aanvullend onderzoek dient nu als eerste keuze te worden ingesteld om aannemelijk te maken dat het om acute nierinsufficiëntie gaat en niet een chronische/langer bestaande vorm? Noem één onderzoek dat het beste differentieert.</div>
+  <textarea class="open-input" id="open-input-3" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-3" onclick="checkOpen(3)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-3">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Echo nieren om de niergrootte te beoordelen (2 punten).
+Verhoogd fosfaat en/of verlaagd calcium in het bloed wordt ook goed gerekend (bron: COO nefrologie).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-4">
+  <div class="q-num">Vraag 4 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(4, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Vrouw 23 jaar</b> (5 vragen, totaal 11 punten).<br>Een vrouw van 23 jaar komt met oedeem aan de benen op de polikliniek.</div>
+  <div class="q-question">Welke twee criteria zijn nu nodig om de diagnose 'nefrotisch syndroom' te stellen?</div>
+  <textarea class="open-input" id="open-input-4" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-4" onclick="checkOpen(4)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-4">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Proteïnurie &gt;3-3,5 gram/24 uur; hypoalbuminemie (2 punten als beide genoemd worden).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-5">
+  <div class="q-num">Vraag 5 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(5, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 23 jaar.</b></div>
+  <div class="q-question">Welke oorzaken zijn op deze leeftijd het meest waarschijnlijk als er geen begeleidende symptomen zijn? Noem er twee.</div>
+  <textarea class="open-input" id="open-input-5" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-5" onclick="checkOpen(5)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-5">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">FSGS (1 punt) en minimal change nefropathie (1 punt).
+Membraneuze glomerulopathie wordt ook goed gerekend.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-6">
+  <div class="q-num">Vraag 6 <span class="q-points" data-points="1"></span> <button class="q-num-ai" onclick="openChatForQuestion(6, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 23 jaar.</b></div>
+  <div class="q-question">Een nefrotisch syndroom kan optreden in het kader van een reumatologische ziekte, welke ziekte is dat?</div>
+  <textarea class="open-input" id="open-input-6" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-6" onclick="checkOpen(6)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-6">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">SLE (dan is het een klasse V of membraneuze SLE nefritis) (1 punt als SLE wordt genoemd).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-7">
+  <div class="q-num">Vraag 7 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(7, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 23 jaar.</b></div>
+  <div class="q-question">Bij het nefrotisch syndroom zijn de podocyten ziek. Hoe vormen intacte podocyten in de normale fysiologie de barrière voor eiwitten? Leg het mechanisme uit.</div>
+  <textarea class="open-input" id="open-input-7" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-7" onclick="checkOpen(7)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-7">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">De interactie van de podocytenvoetjes die de slitpores vormen zorgt voor een ondoorlaatbare barrière voor eiwitten. De negatieve lading van de podocyten helpt daarnaast om negatief geladen eiwitten terug te kaatsen.
+3 punten als in ieder geval de slit-pores genoemd worden.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-8">
+  <div class="q-num">Vraag 8 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(8, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 23 jaar.</b></div>
+  <div class="q-question">Hoe ontstaat oedeem bij het nefrotisch syndroom? Beschrijf de geldende hypothese.</div>
+  <textarea class="open-input" id="open-input-8" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-8" onclick="checkOpen(8)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-8">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Activatie van ENaC door eiwit in de tubuli → zout- en vochtretentie (3 punten bij volledig goed antwoord).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-9">
+  <div class="q-num">Vraag 9 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(9, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Man 28 jaar</b> (4 vragen, totaal 8 punten).<br>Een man van 28 jaar wordt na een sportkeuring doorverwezen naar de nefroloog. Er is een verdenking op IgA-nefropathie. De nierfunctie is goed (eGFR >90 ml/min*1,73m²).</div>
+  <div class="q-question">Wat is er in deze casus meest waarschijnlijk vastgesteld bij de keuring waardoor deze man is doorverwezen naar de nefroloog? Noem twee afwijkingen bij laboratoriumonderzoek.</div>
+  <textarea class="open-input" id="open-input-9" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-9" onclick="checkOpen(9)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-9">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Eiwit en bloed in de urine (2 punten als beide genoemd worden).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-10">
+  <div class="q-num">Vraag 10 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(10, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 28 jaar.</b></div>
+  <div class="q-question">De bloeddruk is verhoogd. Hoe komt dat?</div>
+  <textarea class="open-input" id="open-input-10" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-10" onclick="checkOpen(10)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-10">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Bij elke nierziekte is er een verhoogde afgifte van renine (2 punten).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-11">
+  <div class="q-num">Vraag 11 <span class="q-points" data-points="1"></span> <button class="q-num-ai" onclick="openChatForQuestion(11, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 28 jaar.</b></div>
+  <div class="q-question">Welk antihypertensivum is nu de beste keuze voor de behandeling van hypertensie bij deze patiënt?</div>
+  <textarea class="open-input" id="open-input-11" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-11" onclick="checkOpen(11)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-11">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">ACE-remmer (of ARB).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-12">
+  <div class="q-num">Vraag 12 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(12, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 28 jaar.</b></div>
+  <div class="q-question">IgA-nefropathie zou je kunnen zien als een auto-immuunziekte. Leg zo precies mogelijk uit welk mechanisme hieraan ten grondslag ligt.</div>
+  <textarea class="open-input" id="open-input-12" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-12" onclick="checkOpen(12)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-12">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Bij IgA-nefropathie worden IgG-antistoffen gemaakt tegen het eigen (niet goed geglycosyleerde) IgA (3 punten als het hele mechanisme goed uitgelegd wordt).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-13">
+  <div class="q-num">Vraag 13 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(13, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Vrouw 19 jaar</b> (4 vragen, totaal 8 punten).<br>Een vrouw van 19 jaar heeft ernstige nierschade door recidiverende urineweginfecties bij refluxnefropathie. Ze wordt voorbereid voor een pre-emptieve niertransplantatie. Haar oom werd afgekeurd als nierdonor vanwege hypertensie. Nu wil haar beste vriendin van 17 jaar een nier afstaan. Er is een match.</div>
+  <div class="q-question">Mag de vrouw van 17 jaar één van haar nieren afstaan aan haar vriendin? Leg uit waarom wel of waarom niet en betrek in je antwoord om welke wetgeving het gaat.</div>
+  <textarea class="open-input" id="open-input-13" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-13" onclick="checkOpen(13)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-13">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Nee.
+Volgens de WGBO mag ze haar eigen beslissingen nemen, maar volgens de WOD (Wet op de Orgaandonatie) moet je 18 jaar of ouder zijn; er is geen maximumleeftijd.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-14">
+  <div class="q-num">Vraag 14 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(14, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 19 jaar.</b></div>
+  <div class="q-question">Leg uit wat een pre-emptieve niertransplantatie is en waarom daar in deze casus voor gekozen wordt.</div>
+  <textarea class="open-input" id="open-input-14" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-14" onclick="checkOpen(14)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-14">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Een pre-emptieve niertransplantatie is een transplantatie vóórdat dialyse nodig is.
+Het is comfortabeler voor de patiënt en levert minder gezondheidsschade op dan dialyse (minder schade moet genoemd worden).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-15">
+  <div class="q-num">Vraag 15 <button class="q-num-ai" onclick="openChatForQuestion(15, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 19 jaar.</b></div>
+  <div class="q-question">Wat moet er matchen voor een 'standaard' niertransplantatie?</div>
+  <div class="options">
+      <button class="opt-btn" data-qnum="15" data-letter="a" onclick="selectOption(15, 'a')">
+        <span class="opt-letter">A</span><span>de bloedgroep</span>
+      </button>
+      <button class="opt-btn" data-qnum="15" data-letter="b" onclick="selectOption(15, 'b')">
+        <span class="opt-letter">B</span><span>de HLA-antigenen</span>
+      </button>
+      <button class="opt-btn" data-qnum="15" data-letter="c" onclick="selectOption(15, 'c')">
+        <span class="opt-letter">C</span><span>de leeftijd van donor en ontvanger (met een marge van 10 jaar)</span>
+      </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-15" disabled
+          onclick="checkMCQ(15, 'a')">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-15">
+    <div class="result-badge" id="badge-15"></div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-16">
+  <div class="q-num">Vraag 16 <button class="q-num-ai" onclick="openChatForQuestion(16, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 19 jaar.</b></div>
+  <div class="q-question">Welke complicaties na niertransplantatie vrees je bij <b>deze</b> patiënte?</div>
+  <div class="options">
+      <button class="opt-btn" data-qnum="16" data-letter="a" onclick="selectOption(16, 'a')">
+        <span class="opt-letter">A</span><span>frequente urineweginfecties</span>
+      </button>
+      <button class="opt-btn" data-qnum="16" data-letter="b" onclick="selectOption(16, 'b')">
+        <span class="opt-letter">B</span><span>diabetes</span>
+      </button>
+      <button class="opt-btn" data-qnum="16" data-letter="c" onclick="selectOption(16, 'c')">
+        <span class="opt-letter">C</span><span>hypertensie</span>
+      </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-16" disabled
+          onclick="checkMCQ(16, 'a')">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-16">
+    <div class="result-badge" id="badge-16"></div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-17">
+  <div class="q-num">Vraag 17 <button class="q-num-ai" onclick="openChatForQuestion(17, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Vrouw 43 jaar</b> (3 vragen, totaal 6 punten).<br>Een vrouw van 43 jaar heeft een erfelijke vorm van cystenieren. Ze heeft inmiddels ernstige nierschade en komt elke 6 weken op de nierfalenpoli. Ze heeft een jongere broer. Vanwege het erfelijk karakter van de aandoening is er een kans dat haar broer ook cystenieren heeft.</div>
+  <div class="q-question">Hoe groot is de kans dat haar broer ook cystenieren heeft?</div>
+  <div class="options">
+      <button class="opt-btn" data-qnum="17" data-letter="a" onclick="selectOption(17, 'a')">
+        <span class="opt-letter">A</span><span>25%</span>
+      </button>
+      <button class="opt-btn" data-qnum="17" data-letter="b" onclick="selectOption(17, 'b')">
+        <span class="opt-letter">B</span><span>50%</span>
+      </button>
+      <button class="opt-btn" data-qnum="17" data-letter="c" onclick="selectOption(17, 'c')">
+        <span class="opt-letter">C</span><span>75%</span>
+      </button>
+      <button class="opt-btn" data-qnum="17" data-letter="d" onclick="selectOption(17, 'd')">
+        <span class="opt-letter">D</span><span>100%</span>
+      </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-17" disabled
+          onclick="checkMCQ(17, 'b')">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-17">
+    <div class="result-badge" id="badge-17"></div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-18">
+  <div class="q-num">Vraag 18 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(18, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 43 jaar.</b></div>
+  <div class="q-question">De progressie naar eindstadium nierfalen binnen een familie is niet gelijk. Leg uit hoe dat komt. Welke factoren spelen daarbij een rol, noem er drie.</div>
+  <textarea class="open-input" id="open-input-18" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-18" onclick="checkOpen(18)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-18">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Multiple-hit-hypothese. Er is een genetische aanleg (mutatie in het PKD1- of PKD2-gen) (1 punt voor genoemde gen en/of multiple-hit-hypothese).
+Er zijn &#x27;patiëntfactoren&#x27; (zoals geslacht, ras, roken, zoutintake, hypertensie, overgewicht, hypercholesterolemie, diabetes, infecties, medicatiegebruik) die vervolgens de progressie van nierfalen bepalen (1 punt voor 2 factoren; 2 punten voor 3 factoren).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-19">
+  <div class="q-num">Vraag 19 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(19, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Vrouw 43 jaar.</b></div>
+  <div class="q-question">De vrouw is nu bij een aantal poliklinische controles niet komen opdagen. Haar laatst bepaalde eGFR was 12 ml/min*1,73m². Welke twee complicaties van ernstig nierfalen kunnen nu direct levensbedreigend zijn?</div>
+  <textarea class="open-input" id="open-input-19" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-19" onclick="checkOpen(19)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-19">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Hyperkaliëmie (1 punt); longvaatovervulling (1 punt).</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-20">
+  <div class="q-num">Vraag 20 <button class="q-num-ai" onclick="openChatForQuestion(20, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus Man 55 jaar</b> (2 vragen, totaal 2 punten).<br>Een 55-jarige man is al 20 jaar bekend met ernstige chronische nierschade. Hij houdt zich goed aan de adviezen van de nefroloog en diëtist. Hij leeft gezond; rookt niet. Hij is slank en sport veel. Vanwege een afwijkend ECG zonder klachten wordt hij onderzocht bij de cardioloog. Er blijkt sprake van linkerventrikelhypertrofie en atherosclerose.</div>
+  <div class="q-question">Door welke oorzaak, naast hypertensie, is er bij deze man sprake van linkerventrikelhypertrofie?</div>
+  <div class="options">
+      <button class="opt-btn" data-qnum="20" data-letter="a" onclick="selectOption(20, 'a')">
+        <span class="opt-letter">A</span><span>hypercholesterolemie</span>
+      </button>
+      <button class="opt-btn" data-qnum="20" data-letter="b" onclick="selectOption(20, 'b')">
+        <span class="opt-letter">B</span><span>hyperkaliëmie</span>
+      </button>
+      <button class="opt-btn" data-qnum="20" data-letter="c" onclick="selectOption(20, 'c')">
+        <span class="opt-letter">C</span><span>een verhoogd FGF23</span>
+      </button>
+      <button class="opt-btn" data-qnum="20" data-letter="d" onclick="selectOption(20, 'd')">
+        <span class="opt-letter">D</span><span>hypofosfatemie</span>
+      </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-20" disabled
+          onclick="checkMCQ(20, 'c')">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-20">
+    <div class="result-badge" id="badge-20"></div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-21">
+  <div class="q-num">Vraag 21 <button class="q-num-ai" onclick="openChatForQuestion(21, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Vervolg casus Man 55 jaar.</b></div>
+  <div class="q-question">Waardoor wordt de atherosclerose bij deze patiënt onder andere veroorzaakt?</div>
+  <div class="options">
+      <button class="opt-btn" data-qnum="21" data-letter="a" onclick="selectOption(21, 'a')">
+        <span class="opt-letter">A</span><span>een tekort aan 1-alpha-hydroxylase</span>
+      </button>
+      <button class="opt-btn" data-qnum="21" data-letter="b" onclick="selectOption(21, 'b')">
+        <span class="opt-letter">B</span><span>een tekort aan PTH</span>
+      </button>
+      <button class="opt-btn" data-qnum="21" data-letter="c" onclick="selectOption(21, 'c')">
+        <span class="opt-letter">C</span><span>hypofosfatemie</span>
+      </button>
+      <button class="opt-btn" data-qnum="21" data-letter="d" onclick="selectOption(21, 'd')">
+        <span class="opt-letter">D</span><span>hypercholesterolemie</span>
+      </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-21" disabled
+          onclick="checkMCQ(21, 'a')">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-21">
+    <div class="result-badge" id="badge-21"></div>
+  </div>
+</div>
+<div style="max-width:820px;margin:8px auto 48px;padding:0 20px;text-align:center;">
+  <button id="end-submit-btn" onclick="openSubmitModal()" style="width:100%;max-width:420px;padding:15px 24px;background:#1CB0F6;color:#fff;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #0E85B5;">Examen inleveren</button>
+</div>
+</main>
+
+
+<!-- Glossary tooltip -->
+<div id="g-tip" class="g-tip"></div>
+<!-- Selection popup -->
+<div id="sel-popup" class="sel-popup" onclick="openChatWithSelection()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  Vraag chat
+</div>
+
+<!-- Fixed AI chat tab on left edge -->
+<button class="chat-tab" onclick="openChatForQuestion(null)" title="Vraag de AI">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="2,2 8,8 2,14"/>
+  </svg>
+</button>
+
+<!-- Chat panel -->
+<div id="chat-panel" class="chat-panel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-title">Chat</div>
+    <button class="chat-close" onclick="closeChat()">&#x2715;</button>
+  </div>
+  <div id="chat-context-pill" class="chat-context-pill" style="display:none"></div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chat-input" placeholder="Stel een vraag..." rows="1"></textarea>
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Glossary right panel -->
+<div id="g-panel" class="g-panel">
+  <div class="g-panel-header">
+    <div id="g-title" class="g-title"></div>
+    <button class="g-close" onclick="closeGlossary()">&#x2715;</button>
+  </div>
+  <img id="g-img" class="g-img" src="" alt="" style="display:none">
+  <div id="g-img-nav" class="g-img-nav" style="display:none">
+    <button class="g-img-btn" onclick="gImgPrev()">&#8592;</button>
+    <span id="g-img-counter" class="g-img-counter"></span>
+    <button class="g-img-btn" onclick="gImgNext()">&#8594;</button>
+  </div>
+  <div class="g-body">
+    <div id="g-def" class="g-def"></div>
+  </div>
+</div>
+<script>const GLOSSARY = {
+ "proteïnurie": {
+  "title": "Proteïnurie",
+  "short": "Verhoogde uitscheiding van eiwit in de urine; men spreekt van proteïnurie bij meer dan 300 mg albumine per 24 uur.",
+  "definition": "<p><b>Proteïnurie</b> is het verlies van eiwit via de urine door een gestoorde filtratiebarrière van de glomerulus. Van proteïnurie wordt gesproken bij meer dan 300 mg albumine in 24-uurs urine; bij het nefrotisch syndroom is het verlies groter dan 3,5 gram per 24 uur.</p>",
+  "image_url": "",
+  "wiki_title": "Proteinuria",
+  "match": "proteïnurie|proteinurie"
+ },
+ "nefrotisch syndroom": {
+  "title": "Nefrotisch syndroom",
+  "short": "Klinisch beeld met forse proteïnurie (> 3,5 g/24u), hypoalbuminemie en oedeem door beschadiging van de glomerulaire filtratiebarrière.",
+  "definition": "<p>Het <b>nefrotisch syndroom</b> ontstaat door beschadiging van de glomerulaire filtratiebarrière en kenmerkt zich door proteïnurie > 3,5 g/24u, hypoalbuminemie, oedeem en vaak hyperlipidemie. Oorzaken zijn onder andere minimal change nefropathie en FSGS.</p>",
+  "image_url": "",
+  "wiki_title": "Nephrotic syndrome",
+  "match": "nefrotisch syndroom|nefrotische syndroom"
+ },
+ "hypoalbuminemie": {
+  "title": "Hypoalbuminemie",
+  "short": "Te laag albuminegehalte in het bloed, bij het nefrotisch syndroom door verlies van albumine via de urine.",
+  "definition": "<p><b>Hypoalbuminemie</b> is een verlaagde concentratie albumine in het serum. Bij het nefrotisch syndroom ontstaat dit door de forse proteïnurie; de daling van de plasma-oncotische druk draagt bij aan het ontstaan van oedeem.</p>",
+  "image_url": "",
+  "wiki_title": "Hypoalbuminemia"
+ },
+ "oedeem": {
+  "title": "Oedeem",
+  "short": "Ophoping van vocht in de weefsels; bij het nefrotisch syndroom mede door zoutretentie na activatie van het ENaC-kanaal.",
+  "definition": "<p><b>Oedeem</b> is een abnormale ophoping van vocht in de interstitiële ruimte. Bij het nefrotisch syndroom speelt zoutretentie een centrale rol: de proteïnurie activeert het epitheliale natriumkanaal (ENaC), waardoor natrium en water worden vastgehouden.</p>",
+  "image_url": "",
+  "wiki_title": "Edema"
+ },
+ "urinesediment": {
+  "title": "Urinesediment",
+  "short": "Microscopisch onderzoek van het bezinksel van urine, waarmee cellen, cilinders en kristallen worden beoordeeld.",
+  "definition": "<p>Het <b>urinesediment</b> is het onder de microscoop beoordeelde bezinksel van gecentrifugeerde urine. Een <i>actief sediment</i> (dysmorfe erytrocyturie / erytrocytencilinders én proteïnurie) wijst op een glomerulaire ontsteking.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "actief sediment": {
+  "title": "Actief sediment",
+  "short": "Urinesediment met dysmorfe erytrocyten/erytrocytencilinders én proteïnurie, passend bij een glomerulaire ontsteking.",
+  "definition": "<p>Van een <b>actief sediment</b> wordt gesproken bij dysmorfe erytrocyturie of erytrocytencilinders in combinatie met proteïnurie. Het is een aanwijzing voor een glomerulonefritis.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "glomerulonefritis": {
+  "title": "Glomerulonefritis",
+  "short": "Ontsteking van de nierglomeruli, die zich uit in een actief sediment, proteïnurie en nierfunctieverlies.",
+  "definition": "<p><b>Glomerulonefritis</b> is een ontsteking van de glomeruli. Een acute (snel progressieve) vorm kan gepaard gaan met longbetrokkenheid, zoals bij ANCA-vasculitis en anti-GBM-nefritis. In het biopt zijn crescents en extracapillaire proliferatie zichtbaar.</p>",
+  "image_url": "",
+  "wiki_title": "Glomerulonephritis"
+ },
+ "crescents": {
+  "title": "Crescents",
+  "short": "Halvemaanvormige woekeringen in het kapsel van Bowman, kenmerkend voor een snel progressieve glomerulonefritis.",
+  "definition": "<p><b>Crescents</b> (halvemaantjes) zijn celproliferaties in de ruimte van Bowman die ontstaan bij ernstige glomerulaire schade. Samen met extracapillaire proliferatie zijn ze het histologische kenmerk van een acute/snel progressieve glomerulonefritis.</p>",
+  "image_url": "",
+  "wiki_title": "Crescentic glomerulonephritis",
+  "match": "crescents|crescent"
+ },
+ "extracapillaire proliferatie": {
+  "title": "Extracapillaire proliferatie",
+  "short": "Woekering van cellen buiten de capillairen in de ruimte van Bowman, kenmerkend voor acute glomerulonefritis.",
+  "definition": "<p><b>Extracapillaire proliferatie</b> is de toename van cellen in de ruimte van Bowman (buiten de glomerulaire capillairen), leidend tot crescentvorming. Het is samen met crescents het lichtmicroscopische beeld van een acute glomerulonefritis.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "anca-vasculitis": {
+  "title": "ANCA-vasculitis",
+  "short": "Vasculitis van de kleine bloedvaten geassocieerd met anti-neutrofiele cytoplasmatische antistoffen, met nier- en longbetrokkenheid.",
+  "definition": "<p><b>ANCA-vasculitis</b> is een ontsteking van de kleine bloedvaten waarbij anti-neutrofiele cytoplasmatische antistoffen (ANCA) een rol spelen. Het kan een glomerulonefritis met longbetrokkenheid (pulmonaal-renaal syndroom) veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-neutrophil cytoplasmic antibody",
+  "match": "anca-vasculitis|anca vasculitis|anca"
+ },
+ "anti-gbm-nefritis": {
+  "title": "Anti-GBM-nefritis",
+  "short": "Nierontsteking door antistoffen tegen het glomerulaire basaalmembraan; kan met longbloedingen gepaard gaan (Goodpasture).",
+  "definition": "<p><b>Anti-GBM-nefritis</b> wordt veroorzaakt door antistoffen tegen het glomerulaire basaalmembraan (GBM). Bij betrokkenheid van de longen spreekt men van het syndroom van Goodpasture; het geeft een glomerulonefritis met longbetrokkenheid.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-glomerular basement membrane disease",
+  "match": "anti-gbm-nefritis|anti gbm nefritis|anti-gbm"
+ },
+ "minimal change nefropathie": {
+  "title": "Minimal change nefropathie",
+  "short": "Vorm van nefrotisch syndroom met een vrijwel normaal lichtmicroscopisch biopt, maar podocytenfusie bij elektronenmicroscopie.",
+  "definition": "<p><b>Minimal change nefropathie</b> is een frequente oorzaak van het nefrotisch syndroom, vooral bij kinderen. Bij lichtmicroscopie zijn er geen/nauwelijks afwijkingen; bij elektronenmicroscopie ziet men fusie/schade van de podocyten. Meestal goed reagerend op corticosteroïden.</p>",
+  "image_url": "",
+  "wiki_title": "Minimal change disease"
+ },
+ "fsgs": {
+  "title": "FSGS (focale segmentale glomerulosclerose)",
+  "short": "Nefrotisch syndroom met focale (deel van glomeruli) en segmentale (deel van de glomerulus) verlittekening.",
+  "definition": "<p><b>FSGS</b> (focale segmentale glomerulosclerose) kenmerkt zich bij lichtmicroscopie door focale (in een deel van de glomeruli) en segmentale (in een deel van elke glomerulus) verlittekening. Het geeft vaak een steroïdresistent nefrotisch syndroom.</p>",
+  "image_url": "",
+  "wiki_title": "Focal segmental glomerulosclerosis",
+  "match": "fsgs"
+ },
+ "podocyt": {
+  "title": "Podocyt",
+  "short": "Epitheelcel met voetuitlopers rond de glomerulaire capillairen die een essentieel deel van de filtratiebarrière vormt.",
+  "definition": "<p><b>Podocyten</b> zijn gespecialiseerde epitheelcellen met voetuitlopers (pedicellen) die de glomerulaire capillairen omhullen en de filtratiespleten vormen. Bij minimal change nefropathie treedt fusie van deze voetuitlopers op.</p>",
+  "image_url": "",
+  "wiki_title": "Podocyte",
+  "match": "podocyt|podocyten|podocytenfusie"
+ },
+ "enac": {
+  "title": "ENaC",
+  "short": "Epitheliaal natriumkanaal in de distale nefron dat natrium reabsorbeert; activatie leidt tot zoutretentie en oedeem.",
+  "definition": "<p>Het <b>ENaC</b> (epitheliaal natriumkanaal) reabsorbeert natrium in het distale deel van het nefron. Bij het nefrotisch syndroom wordt ENaC geactiveerd, met zoutretentie en oedeemvorming tot gevolg.</p>",
+  "image_url": "",
+  "wiki_title": "Epithelial sodium channel",
+  "match": "enac|en-ac"
+ },
+ "dialyse": {
+  "title": "Dialyse",
+  "short": "Nierfunctievervangende behandeling die afvalstoffen en overtollig vocht uit het bloed verwijdert.",
+  "definition": "<p><b>Dialyse</b> vervangt (deels) de nierfunctie door afvalstoffen en overtollig vocht te verwijderen. Acute indicaties zijn onder andere hyperkaliëmie, therapieresistente overvulling, ernstige metabole acidose, uremische encefalopathie en uremische pericarditis. Er is toegang tot de bloedbaan (katheter) nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Dialysis"
+ },
+ "hyperkaliëmie": {
+  "title": "Hyperkaliëmie",
+  "short": "Te hoog kaliumgehalte in het bloed; een potentieel levensbedreigende acute indicatie voor dialyse.",
+  "definition": "<p><b>Hyperkaliëmie</b> is een verhoogde kaliumconcentratie in het serum. Ernstige hyperkaliëmie kan hartritmestoornissen veroorzaken en is een acute indicatie om met dialyse te starten.</p>",
+  "image_url": "",
+  "wiki_title": "Hyperkalemia",
+  "match": "hyperkaliëmie|hyperkaliemie"
+ },
+ "metabole acidose": {
+  "title": "Metabole acidose",
+  "short": "Verzuring van het bloed (lage pH) door een metabole oorzaak; ernstige vormen zijn een indicatie voor dialyse.",
+  "definition": "<p><b>Metabole acidose</b> is een verlaagde bloed-pH door ophoping van zuren of verlies van bicarbonaat. Bij nierfalen kan ernstige metabole acidose ontstaan, wat een acute indicatie voor dialyse is.</p>",
+  "image_url": "",
+  "wiki_title": "Metabolic acidosis"
+ },
+ "uremische encefalopathie": {
+  "title": "Uremische encefalopathie",
+  "short": "Hersenfunctiestoornis door ophoping van afvalstoffen bij nierfalen; acute indicatie voor dialyse.",
+  "definition": "<p><b>Uremische encefalopathie</b> is een neurologische aandoening door ophoping van uremische toxinen bij nierfalen, met verwardheid, sufheid en soms insulten. Het is een acute indicatie om met dialyse te starten.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "uremische encefalopathie|uremische encephalopathie"
+ },
+ "uremische pericarditis": {
+  "title": "Uremische pericarditis",
+  "short": "Ontsteking van het hartzakje door ophoping van afvalstoffen bij nierfalen; acute indicatie voor dialyse.",
+  "definition": "<p><b>Uremische pericarditis</b> is een ontsteking van het pericard (hartzakje) door ophoping van uremische toxinen bij ernstig nierfalen. Het is een acute indicatie voor dialyse.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "cystenieren": {
+  "title": "Cystenieren",
+  "short": "Erfelijke aandoening waarbij talrijke cysten in de nieren de nierfunctie geleidelijk aantasten (polycysteuze nierziekte).",
+  "definition": "<p><b>Cystenieren</b> (polycysteuze nierziekte) is een meestal erfelijke aandoening waarbij zich talrijke met vocht gevulde cysten in de nieren vormen, wat leidt tot geleidelijk nierfunctieverlies en hypertensie.</p>",
+  "image_url": "",
+  "wiki_title": "Polycystic kidney disease"
+ },
+ "ace-remmer": {
+  "title": "ACE-remmer",
+  "short": "Bloeddrukverlagend geneesmiddel dat ook nierbeschermend werkt door de druk in de glomerulus te verlagen.",
+  "definition": "<p>Een <b>ACE-remmer</b> remt het angiotensine-converting enzyme, waardoor de bloeddruk daalt. Bij nierpatiënten heeft het een nierbeschermend effect door verlaging van de intraglomerulaire druk en vermindering van de proteïnurie.</p>",
+  "image_url": "",
+  "wiki_title": "ACE inhibitor",
+  "match": "ace-remmer|ace remmer"
+ },
+ "rituximab": {
+  "title": "Rituximab",
+  "short": "Monoklonale antistof gericht tegen CD20 op B-cellen, gebruikt als immuunsuppressivum.",
+  "definition": "<p><b>Rituximab</b> is een monoklonale antistof gericht tegen het CD20-eiwit op B-cellen, waardoor deze worden afgebroken. Het wordt onder andere ingezet bij bepaalde vormen van het nefrotisch syndroom en auto-immuunziekten.</p>",
+  "image_url": "",
+  "wiki_title": "Rituximab"
+ },
+ "immuunsuppressie": {
+  "title": "Immuunsuppressie",
+  "short": "Onderdrukking van het afweersysteem door medicatie, met als bijwerking een verhoogde vatbaarheid voor infecties.",
+  "definition": "<p><b>Immuunsuppressie</b> is de onderdrukking van het immuunsysteem, bijvoorbeeld met prednison, ciclosporine of rituximab. Een belangrijke bijwerking is een verhoogde gevoeligheid voor infecties, zoals pneumonie.</p>",
+  "image_url": "",
+  "wiki_title": "Immunosuppression",
+  "match": "immuunsuppressie|immuunsuppressiva|immuunsuppressivum"
+ },
+ "egfr": {
+  "title": "eGFR",
+  "short": "Geschatte glomerulaire filtratiesnelheid; een maat voor de nierfunctie.",
+  "definition": "<p>De <b>eGFR</b> (estimated glomerular filtration rate) is een schatting van de glomerulaire filtratiesnelheid op basis van onder andere serumkreatinine. Het is de standaardmaat voor de nierfunctie; een dalende eGFR wijst op afnemende nierfunctie.</p>",
+  "image_url": "",
+  "wiki_title": "Renal function",
+  "match": "egfr|gfr"
+ },
+ "principebenadering": {
+  "title": "Principebenadering",
+  "short": "Ethisch model met vier principes: weldoen, niet-schaden, respect voor autonomie en rechtvaardigheid.",
+  "definition": "<p>De <b>principebenadering</b> (Beauchamp & Childress) beoordeelt medisch-ethische dilemma's aan de hand van vier principes: <b>weldoen</b> en <b>niet-schaden</b> (wortels in de hippocratische traditie) en <b>respect voor autonomie</b> en <b>rechtvaardigheid</b> (in de jaren '70 geformuleerd).</p>",
+  "image_url": "",
+  "wiki_title": "Principlism",
+  "match": "principebenadering|principe-benadering|principes"
+ },
+ "weldoen": {
+  "title": "Weldoen (beneficence)",
+  "short": "Ethisch principe dat de arts verplicht in het belang van de patiënt te handelen en het welzijn te bevorderen.",
+  "definition": "<p><b>Weldoen</b> (beneficence) is het ethische principe dat de arts moet handelen in het belang van de patiënt en diens welzijn moet bevorderen. Het heeft samen met niet-schaden zijn wortels in de hippocratische traditie.</p>",
+  "image_url": "",
+  "wiki_title": "Beneficence (ethics)"
+ },
+ "niet schaden": {
+  "title": "Niet-schaden (non-maleficence)",
+  "short": "Ethisch principe: de arts mag de patiënt geen (onnodige) schade toebrengen (‘primum non nocere’).",
+  "definition": "<p><b>Niet-schaden</b> (non-maleficence, ‘primum non nocere’) is het principe dat de arts de patiënt geen onnodige schade mag toebrengen. Samen met weldoen komt het voort uit de hippocratische traditie.</p>",
+  "image_url": "",
+  "wiki_title": "Primum non nocere",
+  "match": "niet schaden|niet-schaden|niet- schaden"
+ },
+ "autonomie": {
+  "title": "Autonomie",
+  "short": "Het recht van de patiënt om zelf, op basis van eigen waarden, beslissingen te nemen over de eigen behandeling.",
+  "definition": "<p><b>Respect voor autonomie</b> is het ethische principe dat de patiënt zelf beslissingen mag nemen over de eigen behandeling. Men onderscheidt <i>negatieve vrijheid</i> (vrijheid van inmenging) en <i>positieve vrijheid</i> (vrijheid tot zelfontplooiing), waarbij bij de laatste de inhoud van de keuze wel relevant is.</p>",
+  "image_url": "",
+  "wiki_title": "Autonomy"
+ },
+ "positieve vrijheid": {
+  "title": "Autonomie als positieve vrijheid",
+  "short": "Opvatting dat een beslissing alleen autonoom is als deze past bij de fundamentele waarden van de persoon (vrijheid tot zelfontplooiing).",
+  "definition": "<p><b>Autonomie als positieve vrijheid</b> (‘vrijheid tot’) houdt in dat een beslissing pas werkelijk autonoom is als deze in overeenstemming is met de fundamentele waarden van de persoon. Centraal staat zelfontplooiing; anders dan bij negatieve vrijheid is de inhoud van de keuze wél relevant.</p>",
+  "image_url": "",
+  "wiki_title": "Positive liberty",
+  "match": "positieve vrijheid|autonomie als positieve vrijheid"
+ },
+ "eerste-orde-preferentie": {
+  "title": "Eerste-orde-preferentie",
+  "short": "Een directe, concrete wens of voorkeur van een persoon (bijv. iets wel of niet willen doen).",
+  "definition": "<p>Een <b>eerste-orde-preferentie</b> is een directe, concrete wens (bijvoorbeeld ‘ik wil geen zoutbeperking’). Tweede-orde-preferenties zijn wensen over de eigen wensen en verwijzen naar dieperliggende, fundamentele waarden.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "eerste-orde-preferentie|eerste orde preferentie"
+ },
+ "tweede-orde-preferentie": {
+  "title": "Tweede-orde-preferentie",
+  "short": "Een wens over de eigen wensen, die verwijst naar de fundamentele waarden van een persoon.",
+  "definition": "<p>Een <b>tweede-orde-preferentie</b> is een voorkeur over de eigen voorkeuren en weerspiegelt fundamentele waarden (bijvoorbeeld gezond willen blijven om promotie te maken). Bij autonomie als positieve vrijheid vraagt de arts door naar deze waarden.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "tweede-orde-preferentie|tweede orde preferentie"
+ },
+ "rechtvaardigheid": {
+  "title": "Rechtvaardigheid",
+  "short": "Ethisch principe over de eerlijke verdeling van zorg, middelen en lasten.",
+  "definition": "<p><b>Rechtvaardigheid</b> (justice) is het ethische principe dat gaat over een eerlijke verdeling van zorg, middelen en behandellast. Het werd samen met respect voor autonomie in de jaren '70 aan de principebenadering toegevoegd.</p>",
+  "image_url": "",
+  "wiki_title": "Justice"
+ },
+ "wgbo": {
+  "title": "WGBO",
+  "short": "Wet op de Geneeskundige Behandelingsovereenkomst; regelt onder andere informed consent en het recht op weigering van behandeling.",
+  "definition": "<p>De <b>WGBO</b> (Wet op de Geneeskundige Behandelingsovereenkomst) regelt de rechten en plichten van patiënt en hulpverlener, waaronder de informatieplicht, het toestemmingsvereiste (informed consent) en het recht van een wilsbekwame patiënt om behandeling te weigeren.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "informed consent": {
+  "title": "Informed consent",
+  "short": "Toestemming voor een behandeling nadat de patiënt volledig is geïnformeerd over aard, doel, gevolgen, risico's en alternatieven.",
+  "definition": "<p><b>Informed consent</b> is de geïnformeerde toestemming van de patiënt. Volgens de WGBO moet de arts informeren over: (1) aard en doel van onderzoek/behandeling, (2) te verwachten gevolgen en risico's, (3) alternatieve methoden, en (4) de gezondheidstoestand en vooruitzichten.</p>",
+  "image_url": "",
+  "wiki_title": "Informed consent"
+ },
+ "wilsbekwaam": {
+  "title": "Wilsbekwaam",
+  "short": "In staat de informatie te begrijpen en de gevolgen van een beslissing te overzien; voorwaarde om zelf te mogen beslissen.",
+  "definition": "<p>Een patiënt is <b>wilsbekwaam ter zake</b> als hij de relevante informatie kan begrijpen, afwegen en de gevolgen van zijn beslissing kan overzien. Een wilsbekwame patiënt mag volgens de WGBO een behandeling weigeren, mits hij goed is geïnformeerd over de gevolgen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wilsbekwaam|wilsbekwaamheid|wilsonbekwaam"
+ },
+ "paternalistisch model": {
+  "title": "Paternalistisch model",
+  "short": "Arts-patiëntmodel (Emanuel & Emanuel) waarin de arts bepaalt wat het beste is; de waarden van de patiënt worden als objectief en gedeeld verondersteld.",
+  "definition": "<p>In het <b>paternalistisch model</b> (Emanuel & Emanuel) bepaalt de arts wat het beste is voor de patiënt. De waarden van de patiënt worden als objectief en gedeeld door arts en patiënt beschouwd; er is weinig ruimte voor gezamenlijke afweging.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "paternalistisch model|paternalistisch|paternalisme"
+ },
+ "interpretatieve model": {
+  "title": "Interpretatieve model",
+  "short": "Arts-patiëntmodel waarin de arts de (warrige, tegenstrijdige) waarden van de patiënt helpt verhelderen.",
+  "definition": "<p>In het <b>interpretatieve model</b> (Emanuel & Emanuel) worden de waarden van de patiënt als warrig en tegenstrijdig gezien en helpt de arts deze te verhelderen. De patiënt bepaalt uiteindelijk welke waarden het belangrijkst zijn.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "interpretatieve model|interpretatief model"
+ },
+ "deliberatieve model": {
+  "title": "Deliberatieve model",
+  "short": "Arts-patiëntmodel waarin de arts de waarden van de patiënt helpt verhelderen én zijn eigen morele mening inbrengt.",
+  "definition": "<p>In het <b>deliberatieve model</b> (Emanuel & Emanuel) zijn de waarden van de patiënt open voor ontwikkeling en revisie door morele discussie. De arts helpt de waarden te verhelderen én geeft zijn mening over welke waarden en behandeling het meest passend zijn.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "deliberatieve model|deliberatief model"
+ },
+ "informatief model": {
+  "title": "Informatief model",
+  "short": "Arts-patiëntmodel waarin de arts feitelijke informatie geeft en de patiënt zelfstandig kiest; de waarden zijn vast en bekend.",
+  "definition": "<p>In het <b>informatief model</b> (Emanuel & Emanuel) verstrekt de arts feitelijke informatie en maakt de patiënt zelf de keuze. De waarden van de patiënt worden als bepaald, vast en bekend aan de patiënt beschouwd.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "informatief model|informatieve model"
+ },
+ "moreel beraad": {
+  "title": "Moreel Beraad",
+  "short": "Gestructureerd, methodisch groepsgesprek om een concreet moreel dilemma in de zorg gezamenlijk te onderzoeken.",
+  "definition": "<p>Een <b>Moreel Beraad</b> is een gestructureerd groepsgesprek waarin een concreet ethisch dilemma methodisch wordt onderzocht. Tussen inleiding en afronding doorloopt men stappen als casuspresentatie, dilemmaformulering, verhelderingsvragen, benoemen van waarden en normen, alternatieven-brainstorm, morele afweging en dialoog over verschillen.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "dialoog": {
+  "title": "Dialoog",
+  "short": "Gespreksvorm gericht op gezamenlijk onderzoeken en luisteren, waarbij het opschorten van oordelen centraal staat (tegenover discussie).",
+  "definition": "<p>Een <b>dialoog</b> is een gespreksvorm gericht op (zelf)onderzoek en samen denken, waarbij oordelen worden opgeschort en vragen centraal staan. Dit in tegenstelling tot een <i>discussie</i>, die gericht is op beslissen, overtuigen en het bereiken van een resultaat.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "kwetsbaarheid": {
+  "title": "Kwetsbaarheid",
+  "short": "Verhoogde blootstelling aan gezondheidsrisico's en/of verminderde toegang tot zorg, in economische, sociale, medische of andere vorm.",
+  "definition": "<p><b>Kwetsbaarheid</b> verwijst naar een verhoogde blootstelling aan gezondheidsrisico's of verminderde toegang tot zorg. Men onderscheidt onder meer economische, epidemiologische, medische, sociale, politieke en absolute kwetsbaarheid.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "gender": {
+  "title": "Gender / normen van mannelijkheid",
+  "short": "Sociale rolverwachtingen die de gezondheid beïnvloeden; normen van mannelijkheid (winnaar, niet zeuren, zelfstandigheid) kunnen zorgmijding veroorzaken.",
+  "definition": "<p><b>Gender</b> verwijst naar sociaal bepaalde rolverwachtingen. <b>Normen van mannelijkheid</b> — zoals winnaar/competitief zijn, ‘niet zeuren’ en onafhankelijkheid — kunnen leiden tot het bagatelliseren van klachten en uitstel van zorg, en zo een bron van kwetsbaarheid vormen.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "winti": {
+  "title": "Winti",
+  "short": "Afro-Surinaamse religie en genezingstraditie waarin geesten (winti) een centrale rol spelen.",
+  "definition": "<p><b>Winti</b> is een Afro-Surinaamse religie en spirituele genezingstraditie waarin voorouder- en natuurgeesten (winti) centraal staan. Een winti-genezer kan door de patiënt worden geraadpleegd naast of in plaats van reguliere zorg.</p>",
+  "image_url": "",
+  "wiki_title": "Winti"
+ },
+ "diabetes mellitus type 2": {
+  "title": "Diabetes mellitus type 2",
+  "short": "Chronische stofwisselingsziekte met hoge bloedglucose door insulineresistentie; vaak bij ouderen en overgewicht.",
+  "definition": "<p><b>Diabetes mellitus type 2</b> ontstaat door insulineresistentie en een relatief tekort aan insuline. Risicofactoren zijn hogere leeftijd, overgewicht en een positieve familieanamnese. De diagnose wordt gesteld bij 2x nuchter glucose ≥ 7,0 mmol/l, of eenmalig ≥ 7,0 mmol/l (nuchter) dan wel ≥ 11,1 mmol/l met passende klachten.</p>",
+  "image_url": "",
+  "wiki_title": "Type 2 diabetes",
+  "match": "diabetes mellitus type 2|diabetes mellitus|dm2|type 2 diabetes"
+ },
+ "polyurie": {
+  "title": "Polyurie",
+  "short": "Sterk verhoogde urineproductie; bij diabetes door osmotische diurese als gevolg van glucosurie.",
+  "definition": "<p><b>Polyurie</b> is een abnormaal grote urineproductie. Bij diabetes mellitus ontstaat het doordat de glucoseconcentratie de terugresorptiecapaciteit overschrijdt (> ~10 mmol/l), waardoor glucosurie en osmotische diurese optreden, met dorst als gevolg.</p>",
+  "image_url": "",
+  "wiki_title": "Polyuria"
+ },
+ "osmotische diurese": {
+  "title": "Osmotische diurese",
+  "short": "Verhoogde urineproductie doordat osmotisch actieve stoffen (zoals glucose) water in de urine vasthouden.",
+  "definition": "<p><b>Osmotische diurese</b> is toegenomen urine-uitscheiding doordat opgeloste stoffen in het glomerulusfiltraat (zoals glucose bij glucosurie) water osmotisch vasthouden en de terugresorptie van water en natrium verminderen.</p>",
+  "image_url": "",
+  "wiki_title": "Osmotic diuresis"
+ },
+ "glucosurie": {
+  "title": "Glucosurie",
+  "short": "Glucose in de urine, optredend wanneer de bloedglucose de terugresorptiecapaciteit van de nier overschrijdt.",
+  "definition": "<p><b>Glucosurie</b> is de aanwezigheid van glucose in de urine. Dit treedt op wanneer de bloedglucose zo hoog is (vaak > 10 mmol/l) dat de nier de gefilterde glucose niet volledig kan terugresorberen; het veroorzaakt osmotische diurese.</p>",
+  "image_url": "",
+  "wiki_title": "Glycosuria",
+  "match": "glucosurie|glucose in urine"
+ },
+ "nierbiopt": {
+  "title": "Nierbiopt",
+  "short": "Weefselmonster van de nier voor microscopisch onderzoek om nierziekten te diagnosticeren.",
+  "definition": "<p>Een <b>nierbiopt</b> is een met een naald verkregen weefselmonster van de nier, dat met licht- en elektronenmicroscopie wordt onderzocht om aandoeningen als glomerulonefritis, minimal change nefropathie of FSGS te diagnosticeren.</p>",
+  "image_url": "",
+  "wiki_title": "Renal biopsy",
+  "match": "nierbiopt|nierbiopsie"
+ },
+ "jicht": {
+  "title": "Jicht",
+  "short": "Gewrichtsontsteking door neerslag van urinezuurkristallen; komt vaker voor bij nierschade door verminderde uitscheiding van urinezuur.",
+  "definition": "<p><b>Jicht</b> is een vorm van artritis die ontstaat door neerslag van urinezuurkristallen (uraat) in gewrichten. Bij chronische nierschade stapelt urinezuur op door onvoldoende renale excretie; thiazidediuretica verhogen het risico verder.</p>",
+  "image_url": "",
+  "wiki_title": "Gout"
+ },
+ "urinezuur": {
+  "title": "Urinezuur",
+  "short": "Eindproduct van de purinestofwisseling dat via de nieren wordt uitgescheiden; stapeling leidt tot hyperurikemie en jicht.",
+  "definition": "<p><b>Urinezuur</b> is het eindproduct van de afbraak van purines. Het wordt grotendeels renaal uitgescheiden. Bij nierschade of gebruik van thiaziden daalt de excretie, waardoor hyperurikemie en jicht ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Uric acid"
+ },
+ "thiazidediureticum": {
+  "title": "Thiazidediureticum",
+  "short": "Plasmiddel dat in de distale tubulus de natrium-chloride-cotransporter remt; kan urinezuurretentie en jicht verergeren.",
+  "definition": "<p>Een <b>thiazidediureticum</b> (bv. hydrochloorthiazide) remt de Na-Cl-cotransporter in de distale tubulus en wordt gebruikt bij hypertensie. Een bijwerking is retentie van urinezuur, wat jicht kan uitlokken of verergeren.</p>",
+  "image_url": "",
+  "wiki_title": "Thiazide",
+  "match": "thiazidediureticum|thiazide"
+ },
+ "diabetische nefropathie": {
+  "title": "Diabetische nefropathie",
+  "short": "Nierschade als gevolg van langdurige diabetes mellitus; een van de belangrijkste oorzaken van chronische nierschade.",
+  "definition": "<p><b>Diabetische nefropathie</b> is chronische nierschade veroorzaakt door langdurige hyperglykemie bij diabetes mellitus. Het kenmerkt zich door glomerulaire schade, proteïnurie en een geleidelijk dalende eGFR.</p>",
+  "image_url": "",
+  "wiki_title": "Diabetic nephropathy"
+ },
+ "hyperparathyreoïdie": {
+  "title": "Secundaire hyperparathyreoïdie",
+  "short": "Verhoogde PTH-productie als reactie op o.a. een laag calcium/actief vitamine D bij chronische nierschade.",
+  "definition": "<p><b>Secundaire hyperparathyreoïdie</b> ontstaat bij chronische nierschade doordat de zieke nier onvoldoende actief vitamine D (calcitriol) aanmaakt, met daling van het calcium en stijging van PTH. Suppletie van vitamine D remt de PTH-stijging.</p>",
+  "image_url": "",
+  "wiki_title": "Secondary hyperparathyroidism",
+  "match": "hyperparathyreoïdie|hyperparathyreoidie"
+ },
+ "sle": {
+  "title": "SLE (systemische lupus erythematodes)",
+  "short": "Auto-immuunziekte met vorming van auto-antistoffen (o.a. anti-dsDNA) die meerdere organen kan aantasten, waaronder de nieren.",
+  "definition": "<p><b>SLE</b> (systemische lupus erythematodes) is een systemische auto-immuunziekte met immuuncomplexvorming en aantasting van huid, gewrichten, sereuze vliezen, bloed en nieren (lupusnefritis). Anti-dubbelstrengs-DNA is een kenmerkende auto-antistof.</p>",
+  "image_url": "",
+  "wiki_title": "Systemic lupus erythematosus",
+  "match": "sle"
+ },
+ "lupusnefritis": {
+  "title": "Lupusnefritis",
+  "short": "Nierontsteking bij SLE door neerslag van immuuncomplexen; in de immunofluorescentie zichtbaar als een 'full-house' patroon.",
+  "definition": "<p><b>Lupusnefritis</b> is glomerulonefritis bij SLE, veroorzaakt door neerslag van immuuncomplexen. Kenmerkend is het 'full-house' patroon (zowel immuunglobulinen als complement) in de immunofluorescentie. Behandeling: prednison + cyclofosfamide of mycofenolaatmofetil (cellcept).</p>",
+  "image_url": "",
+  "wiki_title": "Lupus nephritis"
+ },
+ "full-house patroon": {
+  "title": "Full-house patroon",
+  "short": "Immunofluorescentiebeeld waarbij zowel alle immuunglobulinen (IgG, IgA, IgM) als complement neerslaan; typisch voor lupusnefritis.",
+  "definition": "<p>Het <b>full-house patroon</b> is een immunofluorescentiebevinding in het nierbiopt waarbij zowel immuunglobulinen (IgG, IgA, IgM) als complementfactoren (C3, C1q) neerslaan. Het is kenmerkend voor lupusnefritis.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "goodpasture": {
+  "title": "Ziekte van Goodpasture",
+  "short": "Auto-immuunziekte met anti-GBM-antistoffen die zowel de nier (glomerulonefritis) als de long (bloedingen) aantasten.",
+  "definition": "<p>De <b>ziekte van Goodpasture</b> (anti-GBM-ziekte) is een auto-immuunziekte met antistoffen tegen de glomerulaire basaalmembraan (en alveolaire membraan). Dit leidt tot een pulmonaal-renaal syndroom met hemoptoë en snel progressieve glomerulonefritis.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-glomerular basement membrane disease",
+  "match": "goodpasture|anti-gbm|anti gbm"
+ },
+ "hemoptoë": {
+  "title": "Hemoptoë",
+  "short": "Het ophoesten van bloed uit de lagere luchtwegen; kan een symptoom zijn van een pulmonaal-renaal syndroom.",
+  "definition": "<p><b>Hemoptoë</b> is het ophoesten van bloed afkomstig uit de longen of lagere luchtwegen. In combinatie met nierinsufficiëntie kan het wijzen op een pulmonaal-renaal syndroom (anti-GBM-ziekte of ANCA-vasculitis).</p>",
+  "image_url": "",
+  "wiki_title": "Hemoptysis",
+  "match": "hemoptoë|hemoptoe"
+ },
+ "refluxnefropathie": {
+  "title": "Refluxnefropathie",
+  "short": "Nierschade door terugstroom (reflux) van urine vanuit de blaas naar de nieren, vaak met littekenvorming.",
+  "definition": "<p><b>Refluxnefropathie</b> is nierschade veroorzaakt door vesico-ureterale reflux, waarbij urine terugstroomt naar de nieren. Chronische reflux (vaak met infecties) leidt tot littekenvorming en kan een secundaire FSGS veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Reflux nephropathy"
+ },
+ "prednison": {
+  "title": "Prednison",
+  "short": "Synthetisch glucocorticoïd met sterke ontstekingsremmende en immuunonderdrukkende werking; veel bijwerkingen bij langdurig gebruik.",
+  "definition": "<p><b>Prednison</b> is een synthetisch glucocorticoïd dat ontstekingsremmend en immuunsuppressief werkt. Korte-termijnbijwerkingen zijn o.a. hyperglykemie, hypertensie en gewichtstoename; op lange termijn osteoporose, staar en Cushingoïde verschijnselen.</p>",
+  "image_url": "",
+  "wiki_title": "Prednisone"
+ },
+ "wod": {
+  "title": "WOD (Wet op de orgaandonatie)",
+  "short": "Wet die orgaandonatie regelt; donatie tegen betaling (meer dan gemaakte kosten) is nietig/verboden.",
+  "definition": "<p>De <b>Wet op de orgaandonatie (WOD)</b> regelt de voorwaarden voor orgaandonatie in Nederland. Toestemming van een donor is nietig wanneer daar een financiële vergoeding tegenover staat die de gemaakte kosten (zoals gederfde inkomsten) overstijgt: handel in organen is verboden.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wod"
+ },
+ "therapeutische exceptie": {
+  "title": "Therapeutische exceptie",
+  "short": "WGBO-mogelijkheid om informatie voor een patiënt achter te houden als die informatie ernstig nadeel voor de patiënt zou opleveren.",
+  "definition": "<p>De <b>therapeutische exceptie</b> is de in de WGBO opgenomen mogelijkheid om bepaalde informatie (tijdelijk) voor een patiënt achter te houden, wanneer het verstrekken ervan kennelijk ernstig nadeel voor de patiënt zou opleveren. De arts moet hierover eerst een collega raadplegen.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "beroepsgeheim": {
+  "title": "Beroepsgeheim",
+  "short": "De plicht van de hulpverlener om gegevens over de patiënt geheim te houden; slechts in specifieke situaties te doorbreken.",
+  "definition": "<p>Het <b>beroepsgeheim</b> (medisch geheim/zwijgplicht) verplicht de hulpverlener alles wat hem in zijn beroep wordt toevertrouwd geheim te houden. Doorbreken mag alleen bij toestemming van de patiënt, een wettelijke plicht, of een conflict van plichten (noodsituatie).</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "conflict van plichten": {
+  "title": "Conflict van plichten",
+  "short": "Situatie waarin een arts zijn beroepsgeheim mag doorbreken omdat handhaving ervan tot ernstige schade zou leiden.",
+  "definition": "<p>Een <b>conflict van plichten</b> rechtvaardigt het doorbreken van het beroepsgeheim wanneer het handhaven van de zwijgplicht de arts in een gewetensnood/noodsituatie zou brengen, bijvoorbeeld ter voorkoming van ernstig gevaar voor een ander.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "cyclofosfamide": {
+  "title": "Cyclofosfamide",
+  "short": "Krachtig immuunsuppressief cytostaticum, o.a. gebruikt bij ernstige lupusnefritis en vasculitis.",
+  "definition": "<p><b>Cyclofosfamide</b> is een alkylerend cytostaticum met sterk immuunsuppressieve werking. Het wordt (samen met prednison) gebruikt bij ernstige auto-immuunziekten zoals ernstige lupusnefritis en ANCA-vasculitis.</p>",
+  "image_url": "",
+  "wiki_title": "Cyclophosphamide"
+ },
+ "waarde": {
+  "title": "Waarde",
+  "short": "Een ideaal of iets dat men belangrijk vindt en nastreeft; algemener dan een norm.",
+  "definition": "<p>Een <b>waarde</b> geeft antwoord op de vraag 'wat is belangrijk?'. Het is een ideaal, algemener dan een norm, en iets dat je kunt nastreven (bv. openheid, gezondheid). Een norm daarentegen is voorschrijvend en zegt wat je moet doen.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "norm": {
+  "title": "Norm",
+  "short": "Een richtlijn of gedragsregel die voorschrijft wat men moet doen; specifieker dan een waarde en na te leven.",
+  "definition": "<p>Een <b>norm</b> geeft antwoord op de vraag 'wat moet ik doen?'. Het is een richtlijn/gedragsregel, specifiek en voorschrijvend, en iets dat je kunt naleven. Normen zijn concreter dan waarden.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "nierinsufficiëntie": {
+  "title": "Nierinsufficiëntie",
+  "short": "Verminderde nierfunctie waarbij de nieren onvoldoende afvalstoffen en vocht kunnen uitscheiden.",
+  "definition": "<p>Nierinsufficiëntie is een verminderd vermogen van de nieren om bloed te filteren, uitgedrukt in een verlaagde eGFR. Kan acuut of chronisch zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Kidney failure",
+  "match": "nierinsufficiëntie|nierfalen|nierschade"
+ },
+ "dysmorfe erytrocyten": {
+  "title": "Dysmorfe erytrocyten",
+  "short": "Vervormde rode bloedcellen in de urine die wijzen op een glomerulaire oorzaak van hematurie.",
+  "definition": "<p>Dysmorfe (misvormde) erytrocyten in het urinesediment ontstaan doordat rode bloedcellen door het beschadigde glomerulaire filter worden geperst. Samen met erytrocytencilinders wijzen ze op glomerulonefritis.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "dysmorfe erytrocyten|erytrocytencilinders|erytrocytencylinders"
+ },
+ "iga-nefropathie": {
+  "title": "IgA-nefropathie",
+  "short": "De meest voorkomende glomerulonefritis, waarbij IgA-immuuncomplexen neerslaan in het mesangium.",
+  "definition": "<p>IgA-nefropathie (ziekte van Berger) wordt veroorzaakt doordat IgG-antistoffen worden gevormd tegen niet goed geglycosyleerd IgA; de gevormde immuuncomplexen slaan neer in het mesangium van de glomerulus. Presenteert vaak met hematurie en proteïnurie.</p>",
+  "image_url": "",
+  "wiki_title": "IgA nephropathy",
+  "match": "iga-nefropathie|iga nefropathie"
+ },
+ "renine": {
+  "title": "Renine",
+  "short": "Enzym uit de nier dat het RAAS-systeem activeert en zo de bloeddruk verhoogt.",
+  "definition": "<p>Renine wordt afgegeven door de juxtaglomerulaire cellen van de nier. Bij vrijwel elke nierziekte is de renineafgifte verhoogd, wat via angiotensine II en aldosteron de bloeddruk doet stijgen.</p>",
+  "image_url": "",
+  "wiki_title": "Renin",
+  "match": "renine"
+ },
+ "hla-antigenen": {
+  "title": "HLA-antigenen",
+  "short": "Humane weefselantigenen die bepalend zijn voor afstoting en matching bij transplantatie.",
+  "definition": "<p>HLA (Human Leukocyte Antigen)-antigenen zijn oppervlaktemoleculen die het immuunsysteem gebruikt om lichaamseigen van lichaamsvreemd te onderscheiden. Een betere HLA-match verkleint de kans op afstoting van een donornier.</p>",
+  "image_url": "",
+  "wiki_title": "Human leukocyte antigen",
+  "match": "hla-antigenen|hla antigenen|hla"
+ },
+ "pre-emptieve niertransplantatie": {
+  "title": "Pre-emptieve niertransplantatie",
+  "short": "Een niertransplantatie die plaatsvindt vóórdat dialyse nodig is.",
+  "definition": "<p>Bij een pre-emptieve niertransplantatie ontvangt de patiënt een donornier voordat dialyse gestart hoeft te worden. Dit is comfortabeler en geeft minder gezondheidsschade dan eerst dialyseren.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "pre-emptieve niertransplantatie|pre-emptieve|niertransplantatie|niertransplantie"
+ },
+ "multiple-hit-hypothese": {
+  "title": "Multiple-hit-hypothese",
+  "short": "Theorie dat naast de erfelijke aanleg extra factoren nodig zijn voor progressie van ziekte.",
+  "definition": "<p>Bij cystenieren (ADPKD) verklaart de multiple-hit-hypothese waarom de ziekte binnen een familie verschillend verloopt: naast de genetische mutatie (PKD1/PKD2) bepalen bijkomende 'hits' en patiëntfactoren de snelheid van achteruitgang.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "multiple-hit-hypothese|multiple hit|multipele hit"
+ },
+ "pkd1-gen": {
+  "title": "PKD1/PKD2-gen",
+  "short": "De genen waarvan mutaties autosomaal dominante cystenieren (ADPKD) veroorzaken.",
+  "definition": "<p>Mutaties in het PKD1- of PKD2-gen veroorzaken autosomaal dominante polycysteuze nierziekte. Autosomaal dominant betekent 50% overervingskans bij eerstegraads verwanten.</p>",
+  "image_url": "",
+  "wiki_title": "Polycystic kidney disease",
+  "match": "pkd1|pkd2|pkd1 of pkd2 gen|pkd"
+ },
+ "linkerventrikelhypertrofie": {
+  "title": "Linkerventrikelhypertrofie",
+  "short": "Verdikking van de wand van de linkerhartkamer, vaak door drukbelasting of CKD.",
+  "definition": "<p>Linkerventrikelhypertrofie (LVH) is een verdikking van het myocard van de linkerkamer. Bij chronische nierschade draagt naast hypertensie ook een verhoogd FGF23 direct bij aan LVH.</p>",
+  "image_url": "",
+  "wiki_title": "Left ventricular hypertrophy",
+  "match": "linkerventrikelhypertrofie|linker ventrikelhypertrofie"
+ },
+ "fgf23": {
+  "title": "FGF23",
+  "short": "Fosfaatregulerend hormoon dat bij nierschade sterk stijgt en linkerventrikelhypertrofie bevordert.",
+  "definition": "<p>Fibroblast Growth Factor 23 (FGF23) wordt door botcellen afgegeven en verlaagt het fosfaat. Bij chronische nierschade is FGF23 fors verhoogd; dit draagt rechtstreeks bij aan het ontstaan van linkerventrikelhypertrofie.</p>",
+  "image_url": "",
+  "wiki_title": "Fibroblast growth factor 23",
+  "match": "fgf23|verhoogd fgf23"
+ },
+ "1-alpha-hydroxylase": {
+  "title": "1-alpha-hydroxylase",
+  "short": "Nier-enzym dat vitamine D activeert; een tekort draagt bij aan vaatschade bij CKD.",
+  "definition": "<p>1-alpha-hydroxylase in de nier zet 25-OH-vitamine D om in de actieve vorm (calcitriol). Bij nierschade daalt de activiteit, wat via verstoorde mineraal- en botstofwisseling bijdraagt aan vaatverkalking en atherosclerose.</p>",
+  "image_url": "",
+  "wiki_title": "25-Hydroxyvitamin D3 1-alpha-hydroxylase",
+  "match": "1-alpha-hydroxylase|1-alpha hydroxylase"
+ },
+ "atherosclerose": {
+  "title": "Atherosclerose",
+  "short": "Verharding en vernauwing van slagaders door plaquevorming in de vaatwand.",
+  "definition": "<p>Atherosclerose is een chronische ontstekingsziekte van de arteriën waarbij lipiden en kalk zich ophopen in de vaatwand. Bij chronische nierschade wordt het proces versneld door mineraal- en botstoornissen, ook zonder klassieke risicofactoren.</p>",
+  "image_url": "",
+  "wiki_title": "Atherosclerosis",
+  "match": "atherosclerose"
+ },
+ "membraneuze glomerulopathie": {
+  "title": "Membraneuze glomerulopathie",
+  "short": "Glomerulaire aandoening met verdikte basaalmembraan, veroorzaakt nefrotisch syndroom.",
+  "definition": "<p>Membraneuze glomerulopathie is een oorzaak van het nefrotisch syndroom waarbij immuuncomplexen aan de buitenzijde van de glomerulaire basaalmembraan neerslaan. Kan idiopathisch zijn of in het kader van SLE (klasse V lupusnefritis).</p>",
+  "image_url": "",
+  "wiki_title": "Membranous glomerulonephritis",
+  "match": "membraneuze glomerulopathie|membraneuze"
+ },
+ "slitpores": {
+  "title": "Slitpores",
+  "short": "Nauwe spleten tussen podocytenvoetjes die de eiwitbarrière van het glomerulaire filter vormen.",
+  "definition": "<p>De slitpores (slit diaphragms) zijn de openingen tussen de voetjes (pedicellen) van naburige podocyten. Samen met de negatieve lading van de podocyten vormen ze een ondoorlaatbare barrière voor eiwitten.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "slitpores|slit-pores|slit pores"
+ },
+ "longvaatovervulling": {
+  "title": "Longvaatovervulling",
+  "short": "Overvulling van de longvaten door vochtretentie, kan leiden tot levensbedreigend longoedeem.",
+  "definition": "<p>Bij ernstig nierfalen kan vochtretentie leiden tot overvulling van de longvaten (longoedeem), wat direct levensbedreigend is door acute benauwdheid en verminderde gaswisseling.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "longvaatovervulling|longoedeem"
+ }
+};</script>
+<script>
+const state = { answered: {}, selected: {}, multiSel: {}, dropdownSel: {}, dndPlaced: {}, openText: {}, streak: 0 };
+let _restoring = false; try { window._restoring = false; } catch(e) {}
+
+function ddChanged(qnum) {
+  if (state.answered[qnum]) return;
+  const sels = document.querySelectorAll('.dd-select[data-qnum="'+qnum+'"]');
+  const vals = {};
+  let allFilled = true;
+  sels.forEach(function(s){ vals[s.dataset.idx] = s.value; if (!s.value) allFilled = false; });
+  state.dropdownSel[qnum] = vals;
+  const cb = document.getElementById('check-'+qnum);
+  if (cb) cb.disabled = !allFilled;
+}
+
+function checkDropdown(qnum, correctArr) {
+  const sels = document.querySelectorAll('.dd-select[data-qnum="'+qnum+'"]');
+  let allCorrect = true;
+  sels.forEach(function(s){
+    const idx = parseInt(s.dataset.idx);
+    s.disabled = true;
+    s.classList.remove('dd-correct','dd-wrong');
+    const ok = s.value === correctArr[idx];
+    s.classList.add(ok ? 'dd-correct' : 'dd-wrong');
+    if (!ok) allCorrect = false;
+  });
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, allCorrect);
+  if (!_restoring) {
+    if (allCorrect) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+function selectOption(qnum, letter) {
+  if (state.answered[qnum]) return;
+  state.selected[qnum] = letter;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn')
+    .forEach(b => b.classList.toggle('selected', b.dataset.letter === letter));
+  document.getElementById('check-'+qnum).disabled = false;
+}
+
+function toggleMulti(qnum, letter) {
+  if (state.answered[qnum]) return;
+  if (!state.multiSel[qnum]) state.multiSel[qnum] = {};
+  state.multiSel[qnum][letter] = !state.multiSel[qnum][letter];
+  const btn = document.querySelector('[data-qnum="'+qnum+'"][data-letter="'+letter+'"]');
+  if (btn) btn.classList.toggle('selected', !!state.multiSel[qnum][letter]);
+  const anySelected = Object.values(state.multiSel[qnum]).some(Boolean);
+  document.getElementById('check-'+qnum).disabled = !anySelected;
+}
+
+function fireCorrectAnimation(qnum) {
+  try { saveProgress(); } catch(e) {}   /* MISSIONSAVEFIX: persist meteen, niet pas na de 600ms balk-animatie */
+  const correctBtn = document.querySelector('[data-qnum="'+qnum+'"].opt-btn.correct');
+  const fill       = document.getElementById('streak-fill');
+  const wrap       = document.getElementById('streak-wrap');
+  if (!correctBtn || !fill || !wrap) { updateStreakBar(); return; }
+
+  const src  = correctBtn.getBoundingClientRect();
+  const dest = wrap.getBoundingClientRect();
+  const startX = src.left  + src.width  / 2;
+  const startY = src.top   + src.height / 2;
+  const endX   = dest.left + dest.width  * 0.15;
+  const endY   = dest.top  + dest.height / 2;
+
+  const dot = document.createElement('div');
+  dot.className = 'fly-dot';
+  dot.style.left = startX + 'px';
+  dot.style.top  = startY + 'px';
+  document.body.appendChild(dot);
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dot.style.left    = endX + 'px';
+    dot.style.top     = endY + 'px';
+    dot.style.width   = '8px';
+    dot.style.height  = '8px';
+    dot.style.opacity = '0';
+  }));
+
+  setTimeout(() => {
+    dot.remove();
+    updateStreakBar();
+    fill.classList.remove('bar-pop');
+    void fill.offsetWidth;
+    fill.classList.add('bar-pop');
+    fill.addEventListener('animationend', () => fill.classList.remove('bar-pop'), { once: true });
+  }, 600);
+}
+
+function resolveCheckBtn(qnum, ok) {
+  const btn = document.getElementById('check-' + qnum);
+  if (!btn) return;
+  btn.disabled = true;
+  if (_restoring) { btn.style.display = 'none'; return; }  // reload: hide instantly, no animation
+  if (ok) btn.classList.add('cb-correct');      // flash green + pop (correct only)
+  setTimeout(function() {
+    btn.classList.add('cb-vanish');             // collapse + fade out
+    let hidden = false;
+    const done = function() { if (hidden) return; hidden = true; btn.style.display = 'none'; };
+    btn.addEventListener('transitionend', done, { once: true });
+    setTimeout(done, 500);                       // fallback if transitionend doesn't fire
+  }, 420);
+}
+
+function checkMCQ(qnum, correct) {
+  const chosen = state.selected[qnum];
+  if (!chosen) return;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('selected');
+    if (b.dataset.letter === correct) b.classList.add('correct');
+    else if (b.dataset.letter === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  const ok = chosen === correct;
+  state.answered[qnum] = ok ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, ok);
+  if (!_restoring) {
+    if (ok) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+function checkMulti(qnum, correctLetters) {
+  const sel = state.multiSel[qnum] || {};
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('selected');
+    const l = b.dataset.letter;
+    const shouldBeSelected = correctLetters.includes(l);
+    const wasSelected = !!sel[l];
+    if (shouldBeSelected) b.classList.add('correct');
+    else if (wasSelected && !shouldBeSelected) b.classList.add('wrong');
+  });
+  const allCorrect = correctLetters.every(l => !!sel[l]) &&
+    Object.keys(sel).filter(l => sel[l]).every(l => correctLetters.includes(l));
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, allCorrect);
+  if (!_restoring) {
+    if (allCorrect) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+/* Open-answer questions are graded by openreview.js (window.checkOpen), which
+   sends the typed answer + model answer to OpenAI, maps the verdict onto
+   state.answered (affecting XP/streak/dots), then reveals the model answer.
+   Offline / no key -> reveal-only fallback. See openreview.js. */
+
+function updateSummary() {
+  const vals = Object.values(state.answered);
+  const correct = vals.filter(v => v === 'correct').length;
+  const wrong   = vals.filter(v => v === 'wrong').length;
+  const answered= vals.length;
+  const _sc = document.getElementById('sum-correct'); if (_sc) _sc.textContent = correct;
+  const _sw = document.getElementById('sum-wrong');   if (_sw) _sw.textContent   = wrong;
+  const _sd = document.getElementById('sum-done');    if (_sd) _sd.textContent    = answered;
+  const total = document.querySelectorAll('.q-block').length;
+  const _pf = document.querySelector('.progress-fill');
+  if (_pf) _pf.style.width = (answered / total * 100).toFixed(1) + '%';
+}
+
+/* ── Progress persistence (localStorage + Supabase) ─────────────────────── */
+const SAVE_KEY = 'vumed_progress_arts_en_patient_2_2019_2020_1e_toetsmoment';
+(function(){try{if(!localStorage.getItem(SAVE_KEY)){var _old=localStorage.getItem('medeace_progress_arts_en_patient_2_2019_2020_1e_toetsmoment');if(_old){localStorage.setItem(SAVE_KEY,_old);localStorage.removeItem('medeace_progress_arts_en_patient_2_2019_2020_1e_toetsmoment');}}}catch(e){}})();
+const EXAM_KEY = 'arts_en_patient_2_2019_2020_1e_toetsmoment';
+
+let _sbClient = null;
+function getSB() {
+  if (_sbClient) return _sbClient;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _sbClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); }
+  catch(e) { return null; }
+  return _sbClient;
+}
+
+async function saveProgress() {
+  if (window.__examSubmitted) return;   /* MISSIONSAVEFIX-GUARD */
+  const data = { answered: state.answered, selected: state.selected, multiSel: state.multiSel, dropdownSel: state.dropdownSel, dndPlaced: state.dndPlaced, openText: state.openText, streak: state.streak };
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch(e) {}
+
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.user) return;
+    await sb.from('exam_progress').upsert({
+      user_id:    session.user.id,
+      exam_key:   EXAM_KEY,
+      progress:   data,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,exam_key' });
+  } catch(e) {}
+}
+
+function _applyProgress(saved) {
+  if (!saved || !saved.answered) return;
+  _restoring = true; try { window._restoring = true; } catch(e) {}
+  state.openText = saved.openText || {};
+  state.dndPlaced = saved.dndPlaced || {};
+  Object.keys(saved.answered).forEach(function(qnum) {
+    const n = parseInt(qnum);
+    const checkBtn = document.getElementById('check-' + n);
+
+    const mcqMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMCQ\((\d+),\s*'([a-z])'\)/)
+      : null;
+    if (mcqMatch) {
+      const correct = mcqMatch[2];
+      const sel = (saved.selected || {})[n];
+      if (sel) {
+        state.selected[n] = sel;
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){ b.classList.remove('selected'); });
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){ b.classList.toggle('selected', b.dataset.letter === sel); });
+        checkBtn.disabled = false;
+        checkMCQ(n, correct);
+      } else {
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){
+            b.disabled = true;
+            if (b.dataset.letter === correct) b.classList.add('correct');
+          });
+        state.answered[n] = saved.answered[n];
+        checkBtn.disabled = true;
+        checkBtn.style.display = 'none';
+      }
+      return;
+    }
+
+    const multiMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMulti\((\d+),\s*(\[.*?\])\)/)
+      : null;
+    if (multiMatch) {
+      let correctLetters;
+      try { correctLetters = JSON.parse(multiMatch[2]); } catch(e) { return; }
+      const ms = (saved.multiSel || {})[n] || {};
+      state.multiSel[n] = ms;
+      Object.keys(ms).forEach(function(l) {
+        if (ms[l]) {
+          const b = document.querySelector('[data-qnum="'+n+'"][data-letter="'+l+'"]');
+          if (b) b.classList.add('selected');
+        }
+      });
+      checkBtn.disabled = false;
+      checkMulti(n, correctLetters);
+      return;
+    }
+
+    const ddMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkDropdown\((\d+),\s*(\[.*?\])\)/)
+      : null;
+    if (ddMatch) {
+      let correctArr;
+      try { correctArr = JSON.parse(ddMatch[2]); } catch(e) { return; }
+      const dd = (saved.dropdownSel || {})[n] || {};
+      state.dropdownSel[n] = dd;
+      document.querySelectorAll('.dd-select[data-qnum="'+n+'"]').forEach(function(s){
+        if (dd[s.dataset.idx] !== undefined) s.value = dd[s.dataset.idx];
+      });
+      checkBtn.disabled = false;
+      checkDropdown(n, correctArr);
+      return;
+    }
+
+    const dndMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMatchingDnD\((\d+),\s*(\{.*\})\)/)
+      : null;
+    if (dndMatch) {
+      let dndCorrect;
+      try { dndCorrect = JSON.parse(dndMatch[2]); } catch(e) { dndCorrect = null; }
+      const placed = (saved.dndPlaced || {})[n];
+      if (dndCorrect && placed && typeof _dnd !== 'undefined' && _dnd[n]) {
+        _dnd[n].placed = Object.assign({}, placed);
+        _dndRender(n);
+        checkBtn.disabled = false;
+        checkMatchingDnD(n, dndCorrect);
+        return;
+      }
+      // no saved placement -> fall through to generic 'answered' marking
+    }
+
+    state.answered[n] = saved.answered[n];
+    const badge = document.getElementById('badge-' + n);
+    if (badge) {
+      const v = saved.answered[n];
+      badge.className = 'result-badge ' + (v === 'correct' ? 'correct' : v === 'wrong' ? 'wrong' : '');
+      badge.textContent = '';
+    }
+    const resultDiv = document.getElementById('result-' + n);
+    if (resultDiv) resultDiv.classList.add('show');
+    if (checkBtn) { checkBtn.disabled = true; checkBtn.style.display = 'none'; }
+    const openTa = document.getElementById('open-input-' + n);
+    if (openTa) openTa.disabled = true;
+  });
+  _restoring = false; try { window._restoring = false; } catch(e) {}
+  state.streak = 0;
+  updateSummary();
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 21;
+  const fill  = document.getElementById('streak-fill');
+  if (fill) fill.style.width = Math.min(totalAnswered / totalQ * 100, 100) + '%';
+  const label = document.getElementById('streak-label');
+  if (label) { label.style.opacity = '0'; label.textContent = ''; }
+}
+
+async function restoreProgress() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) {
+      sessionStorage.removeItem(SAVE_KEY + '_reset');
+      return;
+    }
+  } catch(e) {}
+
+  let saved = null;
+  let fromSupabase = false;
+
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        const { data: row } = await sb
+          .from('exam_progress')
+          .select('progress')
+          .eq('user_id', session.user.id)
+          .eq('exam_key', EXAM_KEY)
+          .maybeSingle();
+        if (row?.progress) { saved = row.progress; fromSupabase = true; }
+      }
+    } catch(e) {}
+  }
+
+  if (!saved) {
+    try { saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e) {}
+  }
+
+  if (saved) {
+    _applyProgress(saved);
+    if (!fromSupabase) saveProgress();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', restoreProgress);
+
+(function() {
+  const sb = getSB();
+  if (!sb) return;
+  sb.auth.onAuthStateChange(function(event) {
+    if (event === 'SIGNED_OUT') {
+      try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+      window.location.reload();
+    }
+  });
+})();
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+let _streakTimer = null;
+let _lastBarPct = 0;
+
+function fireBarSparkles(pct) {
+  if (_restoring) return;
+  const wrap = document.getElementById('streak-wrap');
+  if (!wrap) return;
+  const bg = wrap.querySelector('.streak-bar-bg');
+  if (!bg) return;
+  const rect = bg.getBoundingClientRect();
+  const x = rect.left + (pct / 100) * rect.width;
+  const y = rect.top + rect.height / 2;
+
+  const colors = ['#58CC02','#7DE820','#A8F05A','#FFD700','#FFFFFF'];
+  const count  = 10;
+  for (let i = 0; i < count; i++) {
+    const el    = document.createElement('div');
+    el.className = 'bar-sparkle';
+    const angle  = (Math.random() * 360) * Math.PI / 180;
+    const dist   = 18 + Math.random() * 28;
+    const sx     = Math.round(Math.cos(angle) * dist) + 'px';
+    const sy     = Math.round(Math.sin(angle) * dist) + 'px';
+    el.style.setProperty('--sx', sx);
+    el.style.setProperty('--sy', sy);
+    el.style.left    = x + 'px';
+    el.style.top     = y + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = (Math.random() * 0.12) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 800);
+  }
+}
+
+function updateStreakBar() {
+  const fill  = document.getElementById('streak-fill');
+  const label = document.getElementById('streak-label');
+  if (!fill || !label) return;
+
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 21;
+  const pct           = Math.min(totalAnswered / totalQ * 100, 100);
+
+  if (pct > _lastBarPct && !_restoring) {
+    setTimeout(() => fireBarSparkles(pct), 480);
+  }
+  _lastBarPct = pct;
+
+  fill.style.width    = pct + '%';
+
+  const s = state.streak;
+  label.style.left = (pct / 2) + '%';
+
+  if (_streakTimer) { clearTimeout(_streakTimer); _streakTimer = null; }
+
+  if (s >= 2) {
+    label.textContent = s + ' achter elkaar';
+    requestAnimationFrame(() => { label.style.opacity = '1'; });
+    _streakTimer = setTimeout(() => { label.style.opacity = '0'; }, 2000);
+  } else {
+    label.style.opacity = '0';
+    label.textContent   = '';
+  }
+
+  saveProgress();
+}
+
+/* ── Drag-and-drop matching ─────────────────────────────────────────────── */
+const _dnd = {};
+
+function dndInit(qnum, opts) {
+  _dnd[qnum] = { opts: opts.slice(), placed: {}, selected: null, done: false };
+  _dndRender(qnum);
+}
+
+function _dndRender(qnum) {
+  const st = _dnd[qnum];
+  if (!st) return;
+
+  const placedVals = new Set(Object.values(st.placed));
+  const pool = document.getElementById('dnd-pool-'+qnum);
+  if (pool) {
+    pool.innerHTML = '';
+    st.opts.forEach(function(val) {
+      if (!placedVals.has(val)) {
+        pool.appendChild(_dndMakeCard(qnum, val, 'pool'));
+      }
+    });
+    if (pool.children.length === 0) {
+      const hint = document.createElement('span');
+      hint.className = 'dnd-hint';
+      hint.textContent = 'Alle opties zijn geplaatst';
+      pool.appendChild(hint);
+    }
+  }
+
+  const zones = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]');
+  zones.forEach(function(zone) {
+    const letter = zone.dataset.letter;
+    zone.innerHTML = '';
+    zone.classList.remove('dnd-over', 'dnd-filled', 'dnd-correct', 'dnd-wrong');
+    if (st.placed[letter]) {
+      zone.classList.add('dnd-filled');
+      zone.appendChild(_dndMakeCard(qnum, st.placed[letter], 'zone-'+letter));
+    } else {
+      const hint = document.createElement('span');
+      hint.className = 'dnd-hint';
+      hint.textContent = 'Sleep hier naartoe';
+      zone.appendChild(hint);
+    }
+  });
+
+  const zoneCount = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]').length;
+  const placedCount = Object.keys(st.placed).length;
+  const btn = document.getElementById('check-'+qnum);
+  if (btn && !st.done) btn.disabled = (placedCount < zoneCount);
+}
+
+function _dndMakeCard(qnum, value, src) {
+  const card = document.createElement('div');
+  card.className = 'dnd-card';
+  card.textContent = value;
+  card.draggable = true;
+  card.dataset.val = value;
+  card.dataset.src = src;
+
+  card.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', value);
+    e.dataTransfer.setData('application/dnd-src', src);
+    e.dataTransfer.setData('application/dnd-qnum', String(qnum));
+    setTimeout(function(){ card.classList.add('dnd-ghost'); }, 0);
+  });
+  card.addEventListener('dragend', function() {
+    card.classList.remove('dnd-ghost');
+  });
+
+  card.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const st = _dnd[qnum];
+    if (!st || st.done) return;
+    if (st.selected === value) {
+      st.selected = null;
+      _dndRender(qnum);
+    } else {
+      st.selected = value;
+      _dndRender(qnum);
+      document.querySelectorAll('[data-dnd-qnum="'+qnum+'"]').forEach(function(c){
+        if (c.dataset.val === value) c.classList.add('dnd-sel');
+      });
+    }
+  });
+
+  card.dataset.dndQnum = qnum;
+  return card;
+}
+
+function _dndOver(e)  { e.preventDefault(); e.currentTarget.classList.add('dnd-over'); }
+function _dndLeave(e) { e.currentTarget.classList.remove('dnd-over'); }
+
+function _dndZoneDrop(e, qnum, letter) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dnd-over');
+  const val  = e.dataTransfer.getData('text/plain');
+  const src  = e.dataTransfer.getData('application/dnd-src');
+  const st   = _dnd[qnum];
+  if (!st || !val || st.done) return;
+  if (src && src.startsWith('zone-')) {
+    const oldLetter = src.replace('zone-', '');
+    if (st.placed[oldLetter] === val) delete st.placed[oldLetter];
+  }
+  st.placed[letter] = val;
+  _dndRender(qnum);
+}
+
+function _dndZoneClick(e, qnum, letter) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  if (st.selected) {
+    const val = st.selected;
+    for (const l in st.placed) {
+      if (st.placed[l] === val) delete st.placed[l];
+    }
+    st.placed[letter] = val;
+    st.selected = null;
+    _dndRender(qnum);
+  } else if (st.placed[letter]) {
+    st.selected = st.placed[letter];
+    delete st.placed[letter];
+    _dndRender(qnum);
+    document.querySelectorAll('[data-dnd-qnum="'+qnum+'"]').forEach(function(c){
+      if (c.dataset.val === st.selected) c.classList.add('dnd-sel');
+    });
+  }
+}
+
+function _dndPoolDrop(e, qnum) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dnd-over');
+  const val  = e.dataTransfer.getData('text/plain');
+  const src  = e.dataTransfer.getData('application/dnd-src');
+  const st   = _dnd[qnum];
+  if (!st || st.done) return;
+  if (src && src.startsWith('zone-')) {
+    const oldLetter = src.replace('zone-', '');
+    if (st.placed[oldLetter] === val) delete st.placed[oldLetter];
+  }
+  _dndRender(qnum);
+}
+
+function _dndPoolClick(e, qnum) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  if (st.selected) {
+    st.selected = null;
+    _dndRender(qnum);
+  }
+}
+
+function checkMatchingDnD(qnum, correctMap) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  st.done = true;
+
+  let allCorrect = true;
+  const zones = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]');
+  zones.forEach(function(zone) {
+    const letter  = zone.dataset.letter;
+    const correct = correctMap[letter];
+    const placed  = st.placed[letter];
+    const ok      = placed && placed === correct;
+    const label   = document.getElementById('dnd-label-'+qnum+'-'+letter);
+    zone.classList.remove('dnd-over','dnd-filled');
+    if (ok) {
+      zone.classList.add('dnd-correct');
+      if (label) label.classList.add('dnd-correct');
+    } else {
+      zone.classList.add('dnd-wrong');
+      if (label) label.classList.add('dnd-wrong');
+      allCorrect = false;
+    }
+    const card = zone.querySelector('.dnd-card');
+    if (card) card.classList.add(ok ? 'correct' : 'wrong');
+  });
+
+  const pool = document.getElementById('dnd-pool-'+qnum);
+  if (pool) pool.style.opacity = '0.5';
+
+  state.dndPlaced[qnum] = Object.assign({}, st.placed);
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  const badge = document.getElementById('badge-'+qnum);
+  badge.className = 'result-badge ' + (allCorrect ? 'correct' : 'wrong');
+  badge.textContent = '';
+  document.getElementById('result-'+qnum).classList.add('show');
+
+  resolveCheckBtn(qnum, allCorrect);
+  if (allCorrect) {
+    state.streak++;
+    playSoundCorrect(state.streak);
+    awardXP(xpForQuestion(qnum), qnum);
+  } else {
+    state.streak = 0;
+    playSoundWrong();
+  }
+  updateSummary();
+  updateStreakBar();
+}
+
+/* ── Dropdown table check ────────────────────────────────────────────────── */
+function ddt_check_ready(n) {
+  const block = document.getElementById('qblock-' + n);
+  if (!block) return;
+  const all = block.querySelectorAll('.ddt-sel');
+  const ready = Array.from(all).every(function(s){ return s.value !== ''; });
+  const btn = document.getElementById('check-' + n);
+  if (btn) btn.disabled = !ready;
+}
+
+function ddt_check(n, correct) {
+  const block = document.getElementById('qblock-' + n);
+  if (!block) return;
+  const sels = block.querySelectorAll('.ddt-sel');
+  let allOk = true;
+  sels.forEach(function(sel) {
+    const key = sel.dataset.key;
+    const ok = correct[key] !== undefined && sel.value === correct[key];
+    if (!ok) allOk = false;
+    sel.disabled = true;
+    sel.style.borderColor = ok ? '#58CC02' : '#FF3B30';
+    sel.style.background  = ok ? '#F0FFF4' : '#FFF2F2';
+  });
+  state.answered[n] = allOk ? 'correct' : 'wrong';
+  const btn = document.getElementById('check-' + n);
+  if (btn) btn.disabled = true;
+  const badge = document.getElementById('badge-' + n);
+  if (badge) badge.className = 'result-badge ' + (allOk ? 'correct' : 'wrong');
+  const result = document.getElementById('result-' + n);
+  if (result) result.classList.add('show');
+  if (allOk) { state.streak++; playSoundCorrect(state.streak); awardXP(xpForQuestion(n), n); }
+  else { state.streak = 0; playSoundWrong(); }
+  updateSummary();
+  updateStreakBar();
+}
+
+/* ── Glossary popup ─────────────────────────────────────────────────────── */
+document.addEventListener('mouseover', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  var entry = GLOSSARY[el.dataset.term];
+  if (!entry) return;
+  var tip = document.getElementById('g-tip');
+  var short = entry.short || (entry.definition || '').replace(/<[^>]+>/g, '').slice(0, 88) + '…';
+  tip.textContent = short;
+  var rect = el.getBoundingClientRect();
+  tip.style.left = Math.min(rect.left, window.innerWidth - 228) + 'px';
+  tip.style.top  = (rect.bottom + 8) + 'px';
+  tip.classList.add('show');
+});
+document.addEventListener('mouseout', function(e) {
+  if (e.target.closest && e.target.closest('.gterm'))
+    document.getElementById('g-tip').classList.remove('show');
+});
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  e.stopPropagation();
+  openGlossary(el.dataset.term);
+});
+
+var _gImgs = [], _gImgIdx = 0;
+
+function _fetchWikiImg(title) {
+  var nl = /^nl:/.test(title);
+  var base = nl ? 'https://nl.wikipedia.org/api/rest_v1/page/summary/' : 'https://en.wikipedia.org/api/rest_v1/page/summary/';
+  var t = nl ? title.slice(3) : title;
+  return fetch(base + encodeURIComponent(t))
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return (d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null; })
+    .catch(function() { return null; });
+}
+
+function _gShowImg(idx) {
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  var ctr = document.getElementById('g-img-counter');
+  _gImgIdx = idx;
+  if (!_gImgs.length) { img.style.display='none'; nav.style.display='none'; return; }
+  img.src = _gImgs[idx];
+  img.style.display = 'block';
+  img.onerror = function(){ img.style.display='none'; };
+  if (_gImgs.length > 1) { nav.style.display='flex'; ctr.textContent=(idx+1)+' / '+_gImgs.length; }
+  else { nav.style.display='none'; }
+}
+
+function gImgPrev() { if (_gImgs.length>1) _gShowImg((_gImgIdx-1+_gImgs.length)%_gImgs.length); }
+function gImgNext() { if (_gImgs.length>1) _gShowImg((_gImgIdx+1)%_gImgs.length); }
+
+function openGlossary(termKey) {
+  var entry = GLOSSARY[termKey];
+  if (!entry) return;
+  document.getElementById('g-tip').classList.remove('show');
+  document.getElementById('g-title').textContent = entry.title || termKey;
+  var defEl = document.getElementById('g-def');
+  var defText = entry.definition || '(Geen definitie beschikbaar.)';
+  if (defText.indexOf('<') !== -1) { defEl.innerHTML = defText; } else { defEl.textContent = defText; }
+
+  _gImgs = []; _gImgIdx = 0;
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  img.style.display = 'none'; nav.style.display = 'none';
+
+  if (entry.image_url) {
+    _gImgs = [entry.image_url];
+    _gShowImg(0);
+  } else {
+    var titles = entry.wiki_titles || (entry.wiki_title ? [entry.wiki_title] : []);
+    if (titles.length) {
+      Promise.all(titles.map(_fetchWikiImg)).then(function(urls) {
+        _gImgs = urls.filter(function(u){ return !!u; });
+        if (_gImgs.length) _gShowImg(0);
+      });
+    }
+  }
+
+  if (typeof closeChat === 'function') closeChat();
+  document.body.classList.add('g-open');
+  document.getElementById('g-panel').classList.add('open');
+}
+
+function closeGlossary() {
+  document.body.classList.remove('g-open');
+  document.getElementById('g-panel').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('g-open')) return;
+  if (document.getElementById('g-panel').contains(e.target)) return;
+  if (e.target.closest && e.target.closest('.gterm')) return;
+  closeGlossary();
+});
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CHAT FEATURE
+   ══════════════════════════════════════════════════════════════════════════ */
+const OPENAI_API_KEY = window.OPENAI_API_KEY || '';
+const CHAT_MODEL     = 'gpt-4o-mini';
+
+function _snd(path) {
+  try { const a = new Audio(path); a.volume = 0.8; a.play().catch(()=>{}); } catch(_) {}
+}
+function playSoundAI()   { _snd(Math.random() < 0.5 ? 'sound1.mp3' : 'sound3.mp3'); }
+function playSoundChat() { _snd(Math.random() < 0.5 ? 'sound5.mp3' : 'sound7.mp3'); }
+function playSoundCorrect(streak) {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_correct.mp3');
+}
+function playSoundWrong() {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_wrong.mp3');
+}
+
+function xpForStreak(streak) {
+  return Math.min(streak * 10, 50);
+}
+
+// XP is awarded per point: a question's point value (data-points on its
+// .q-points span) times 10. Closed questions carry no point value -> 1 point -> 10 XP.
+function qPoints(qnum) {
+  var b = document.getElementById('qblock-' + qnum);
+  var s = b && b.querySelector('.q-points');
+  var p = s && parseFloat(s.getAttribute('data-points'));
+  return (p && p > 0) ? p : 1;
+}
+function xpForQuestion(qnum) {
+  return Math.round(qPoints(qnum) * 10);
+}
+
+function fireXPAnimation(xp, qnum) {
+  const btn = document.getElementById('check-' + qnum);
+  const el = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = '+' + xp + ' XP';
+  const rect = btn ? btn.getBoundingClientRect() : null;
+  el.style.left = rect ? (rect.left + rect.width / 2) + 'px' : '50%';
+  el.style.top  = rect ? (rect.top - 8) + 'px' : '120px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1400);
+}
+
+async function awardXP(xp, qnum) {
+  fireXPAnimation(xp, qnum);
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.user) return;
+    const uid = session.user.id;
+    await sb.rpc('add_xp', { p_user_id: uid, p_amount: xp });
+    sb.rpc('update_max_streak', { p_user_id: uid, p_streak: state.streak }).catch(()=>{});
+    var _h = parseInt(new Intl.DateTimeFormat('en-CA', {hour:'numeric',hour12:false,timeZone:'Europe/Amsterdam'}).format(new Date()));
+    if (_h < 5) sb.rpc('increment_night_question', { p_user_id: uid }).catch(()=>{});
+  } catch(e) {}
+}
+
+function mdToHtml(md) {
+  let s = md
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  s = s.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+  s = s.replace(/^## (.+)$/gm,  '<h3>$1</h3>');
+  s = s.replace(/^---$/gm, '<hr>');
+  s = s.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+  s = s.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  s = s.replace(/(<li>[\s\S]*?<\/li>)(\n(?!<li>)|$)/g, (m) => {
+    return '<ul>' + m.replace(/\n/g, '') + '</ul>';
+  });
+  s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  const blocks = s.split(/\n{2,}/);
+  s = blocks.map(block => {
+    block = block.trim();
+    if (!block) return '';
+    if (/^<(h[3-4]|ul|ol|hr|li)/.test(block)) return block;
+    return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
+  }).join('\n');
+
+  return s;
+}
+const CHAT_SYSTEM = 'Je bent een medische studieassistent voor een tweedejaars student geneeskunde aan Amsterdam UMC/VUmc. De student studeert voor arts en patiënt 2. Beantwoord vragen kort, klinisch relevant en in het Nederlands. Gebruik geen onnodige inleidingen.';
+
+let _chatHistory   = [];
+let _chatSelection = '';
+let _chatContext   = '';
+let _chatImages    = [];
+let _selRange      = null;
+
+/* Convert an already-loaded (same-origin) <img> to a downscaled data URL so the
+   AI vision model can actually SEE the question figure. Returns null on failure. */
+function _imgElToDataUrl(img) {
+  try {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) return null;
+    const max = 1024, scale = Math.min(1, max / Math.max(w, h));
+    const cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+    const c = document.createElement('canvas');
+    c.width = cw; c.height = ch;
+    c.getContext('2d').drawImage(img, 0, 0, cw, ch);
+    return c.toDataURL('image/jpeg', 0.85);
+  } catch (e) { return null; }
+}
+function _collectChatImages() {
+  const out = [];
+  _chatImages.forEach(function(img) {
+    const u = _imgElToDataUrl(img);
+    if (u) out.push(u);
+  });
+  return out;
+}
+
+const _selPopup = document.getElementById('sel-popup');
+
+document.addEventListener('mouseup', function(e) {
+  if (e.target.closest('#chat-panel') || e.target.closest('#g-panel') || e.target.closest('#sel-popup')) return;
+
+  setTimeout(function() {
+    const sel = window.getSelection();
+    const txt = sel ? sel.toString().trim() : '';
+    if (!txt || txt.length < 2) { hideSelPopup(); return; }
+
+    _selRange = sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+    _chatSelection = txt;
+
+    const rect = sel.getRangeAt(0).getBoundingClientRect();
+    _selPopup.style.left = Math.min(rect.left + rect.width / 2 - 56, window.innerWidth - 160) + 'px';
+    _selPopup.style.top  = (rect.top - 44) + 'px';
+    _selPopup.classList.add('show');
+  }, 10);
+});
+
+document.addEventListener('mousedown', function(e) {
+  if (!e.target.closest('#sel-popup')) hideSelPopup();
+});
+
+function hideSelPopup() {
+  _selPopup.classList.remove('show');
+}
+
+function openChatWithSelection() {
+  hideSelPopup();
+  if (window.getSelection) window.getSelection().removeAllRanges();
+
+  _chatContext = '';
+  _chatImages  = [];
+  closeGlossary();
+
+  _chatHistory = [];
+  document.getElementById('chat-messages').innerHTML = '';
+
+  const pill = document.getElementById('chat-context-pill');
+  if (_chatSelection) {
+    pill.style.display = 'block';
+    pill.innerHTML = 'Over: <strong>"' + _escHtml(_chatSelection) + '"</strong>';
+  } else {
+    pill.style.display = 'none';
+  }
+
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+
+  if (_chatSelection) {
+    _sendMessage('Leg uit: ' + _chatSelection);
+  }
+}
+
+function openChatForQuestion(qnum, autoSend) {
+  closeGlossary();
+  _chatHistory   = [];
+  _chatSelection = '';
+  _chatContext   = '';
+  _chatImages    = [];
+  document.getElementById('chat-messages').innerHTML = '';
+
+  const pill = document.getElementById('chat-context-pill');
+
+  if (qnum !== null) {
+    const block = document.getElementById('qblock-' + qnum);
+    const parts = [];
+    if (block) {
+      block.querySelectorAll('.q-context, .q-question, .q-text').forEach(function(el) {
+        const t = el.innerText.trim();
+        if (t) parts.push(t);
+      });
+      const opts = block.querySelectorAll('.opt-btn');
+      if (opts.length) {
+        parts.push('');
+        opts.forEach(function(btn) {
+          const letter = (btn.querySelector('.opt-letter') || {}).innerText || '';
+          const text   = Array.from(btn.querySelectorAll('span'))
+                              .slice(1).map(s => s.innerText.trim()).join(' ').trim();
+          if (text) parts.push((letter ? letter + '. ' : '') + text);
+        });
+      }
+      block.querySelectorAll('img').forEach(function(im) {
+        if (!im || (im.naturalWidth && im.naturalWidth < 32)) return;
+        if (_chatImages.indexOf(im) === -1) _chatImages.push(im);
+      });
+    }
+    _chatContext = parts.length ? 'Vraag ' + qnum + ':\n' + parts.join('\n') : 'Vraag ' + qnum;
+    if (pill) {
+      pill.style.display = 'block';
+      pill.innerHTML = 'Over: <strong>Vraag ' + qnum + '</strong>';
+    }
+  } else {
+    if (pill) pill.style.display = 'none';
+  }
+
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+
+  if (autoSend && _chatContext) {
+    _sendMessage(
+      'Leg deze vraag volledig uit. Verklaar elke antwoordoptie: ' +
+      'waarom is het goede antwoord juist, en waarom zijn de andere opties onjuist?\n\n' +
+      _chatContext
+    );
+  }
+}
+
+function closeChat() {
+  document.body.classList.remove('chat-open');
+  document.getElementById('chat-panel').classList.remove('open');
+  _chatContext = '';
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('chat-open')) return;
+  if (document.getElementById('chat-panel').contains(e.target)) return;
+  if (e.target.closest('#sel-popup')) return;
+  if (e.target.closest('.chat-tab')) return;
+  if (e.target.closest('.q-ai-btn') || e.target.closest('.q-num-ai')) return;
+  closeChat();
+});
+
+function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = '';
+  _sendMessage(text);
+}
+
+function _escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function _appendMsg(role, text) {
+  const box = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+async function _sendMessage(text) {
+  const sendBtn = document.getElementById('chat-send');
+  const box     = document.getElementById('chat-messages');
+  sendBtn.disabled = true;
+
+  _appendMsg('user', text);
+  const _isFirst = _chatHistory.length === 0;
+  const apiText = (_chatContext && _isFirst)
+    ? 'Vraagcontext:\n' + _chatContext + '\n\nMijn vraag: ' + text
+    : text;
+  let apiContent = apiText;
+  if (_isFirst && _chatImages.length) {
+    const _imgs = _collectChatImages();
+    if (_imgs.length) {
+      apiContent = [{ type: 'text', text: apiText }].concat(
+        _imgs.map(function(u) { return { type: 'image_url', image_url: { url: u, detail: 'auto' } }; })
+      );
+    }
+  }
+  _chatHistory.push({ role: 'user', content: apiContent });
+
+  const aiDiv = document.createElement('div');
+  aiDiv.className = 'chat-msg ai streaming';
+  box.appendChild(aiDiv);
+  box.scrollTop = box.scrollHeight;
+  playSoundAI();
+
+  let fullText = '';
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + OPENAI_API_KEY
+      },
+      body: JSON.stringify({
+        model: CHAT_MODEL,
+        messages: [
+          { role: 'system', content: CHAT_SYSTEM },
+          ..._chatHistory
+        ],
+        max_tokens: 500,
+        temperature: 0.4,
+        stream: true
+      })
+    });
+
+    if (!res.ok || !res.body) throw new Error('Stream niet beschikbaar');
+
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (raw === '[DONE]') break;
+        try {
+          const token = JSON.parse(raw).choices?.[0]?.delta?.content || '';
+          if (token) {
+            fullText += token;
+            aiDiv.innerHTML = mdToHtml(fullText);
+            box.scrollTop = box.scrollHeight;
+          }
+        } catch(_) {}
+      }
+    }
+
+    aiDiv.classList.remove('streaming');
+    if (fullText) {
+      _chatHistory.push({ role: 'assistant', content: fullText });
+    } else {
+      aiDiv.innerHTML = '<p>&#9888;&#65039; Geen antwoord ontvangen.</p>';
+    }
+
+  } catch(err) {
+    aiDiv.classList.remove('streaming');
+    aiDiv.innerHTML = '<p>&#9888;&#65039; Kan geen verbinding maken met de AI. Controleer je internetverbinding.</p>';
+  }
+
+  sendBtn.disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+document.getElementById('chat-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
+
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = '';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+document.getElementById('chat-send').addEventListener('click', sendChatMessage);
+
+document.addEventListener('dblclick', function(e) {
+  const btn = e.target.closest('.opt-btn');
+  if (!btn) return;
+  const textSpan = btn.querySelectorAll('span')[1];
+  const text = textSpan ? textSpan.textContent.trim() : btn.textContent.replace(/^[A-Z]\s*/, '').trim();
+  if (!text) return;
+  _chatSelection = text;
+  openChatWithSelection();
+});
+
+/* ── Term-wrapping ───────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof GLOSSARY === 'undefined' || !Object.keys(GLOSSARY).length) return;
+
+  var pairs = [];
+  Object.keys(GLOSSARY).forEach(function(k) {
+    var patterns = GLOSSARY[k].match ? GLOSSARY[k].match.split('|') : [k];
+    patterns.forEach(function(p) {
+      p = p.trim();
+      if (p) pairs.push({ key: k, pattern: p });
+    });
+  });
+
+  pairs.sort(function(a, b) { return b.pattern.length - a.pattern.length; });
+
+  var escaped = pairs.map(function(p) {
+    return p.pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  });
+  var termRe = new RegExp('(?<![\\w])(' + escaped.join('|') + ')(?![\\w])', 'gi');
+
+  var patToKey = {};
+  pairs.forEach(function(p) { patToKey[p.pattern.toLowerCase()] = p.key; });
+
+  function wrapTextNode(node) {
+    var anc = node.parentNode;
+    while (anc) {
+      if (anc.nodeName === 'SELECT' || anc.nodeName === 'OPTION') return;
+      if (anc.classList && anc.classList.contains('gterm')) return;
+      if (anc.classList && anc.classList.contains('q-text',
+          'q-context', 'q-question')) break;
+      anc = anc.parentNode;
+    }
+
+    var text = node.textContent;
+    termRe.lastIndex = 0;
+    if (!termRe.test(text)) return;
+    termRe.lastIndex = 0;
+
+    var frag = document.createDocumentFragment();
+    var last = 0, m;
+    while ((m = termRe.exec(text)) !== null) {
+      if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var span = document.createElement('span');
+      span.className = 'gterm';
+      var k = patToKey[m[1].toLowerCase()] || m[1].toLowerCase();
+      span.dataset.term = k;
+      span.textContent  = m[1];
+      (function(key) {
+        span.addEventListener('click', function(e) { e.stopPropagation(); openGlossary(key); });
+      })(k);
+      frag.appendChild(span);
+      last = termRe.lastIndex;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+
+  var root = document.querySelector('.exam-main');
+  if (!root) return;
+  root.querySelectorAll('.q-text, .q-context, .q-question, .q-dropdown-sentence').forEach(function(el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    var nodes  = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(wrapTextNode);
+  });
+});
+
+/* ── Submit / Results / Reset ────────────────────────────────────────────── */
+function openSubmitModal()  { document.getElementById('submit-modal').classList.add('show'); }
+function closeSubmitModal() { document.getElementById('submit-modal').classList.remove('show'); }
+function openResetModal()   { document.getElementById('reset-modal').classList.add('show'); }
+function closeResetModal()  { document.getElementById('reset-modal').classList.remove('show'); }
+
+function showResults() {
+  closeSubmitModal();
+  const vals      = Object.values(state.answered);
+  const correct   = vals.filter(v => v === 'correct').length;
+  const wrong     = vals.filter(v => v === 'wrong').length;
+  const answered  = vals.filter(v => v === 'answered').length;
+  const totalQ    = document.querySelectorAll('.q-block').length || 21;
+  const notDone   = totalQ - correct - wrong - answered;
+  const pct       = Math.round(correct / totalQ * 100);
+
+  document.getElementById('score-num').textContent  = correct;
+  document.getElementById('score-den').textContent  = '/ ' + totalQ;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent   = wrong + answered;
+  document.getElementById('res-open').textContent    = notDone;
+  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
+
+  document.getElementById('results-overlay').classList.add('show');
+  window.scrollTo(0, 0);
+  /* MISSIONSAVEFIX-RESET: inleveren = reset voor de volgende keer (resultaten blijven uit geheugen) */
+  window.__examSubmitted = true;
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  try { sessionStorage.setItem(SAVE_KEY + '_reset', '1'); } catch(e) {}
+  try { var _rsb = getSB(); if (_rsb) _rsb.auth.getSession().then(function(r){ var u = r && r.data && r.data.session && r.data.session.user; if (u) _rsb.from('exam_progress').delete().eq('user_id', u.id).eq('exam_key', EXAM_KEY); }); } catch(e) {}
+}
+
+function closeResults() {
+  document.getElementById('results-overlay').classList.remove('show');
+}
+
+async function resetExam() {
+  closeResetModal();
+  closeResults();
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  try { sessionStorage.setItem(SAVE_KEY + '_reset', '1'); } catch(e) {}
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        await sb.from('exam_progress')
+          .delete()
+          .eq('user_id', session.user.id)
+          .eq('exam_key', EXAM_KEY);
+      }
+    } catch(e) {}
+  }
+  window.location.reload();
+}
+
+document.getElementById('submit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSubmitModal();
+});
+document.getElementById('reset-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeResetModal();
+});
+
+(function instantBarRestore() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) return;
+    var saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+    if (!saved || !saved.answered) return;
+    var count  = Object.keys(saved.answered).length;
+    var totalQ = document.querySelectorAll('.q-block').length || 21;
+    var fill   = document.getElementById('streak-fill');
+    if (!fill || count === 0) return;
+    fill.style.transition = 'none';
+    fill.style.width = Math.min(count / totalQ * 100, 100) + '%';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { fill.style.transition = ''; });
+    });
+  } catch(e) {}
+})();
+
+</script>
+<script src="answer_terms.js?v=1"></script>
+<script src="progressdots.js?v=67"></script>
+<script src="openreview.js?v=3"></script>
+<script>
+/* ── VUMED_DND_TOUCH v1: echte touch-drag voor dnd/bucket kaarten ────────── */
+(function(){
+  if (window._dndTouchInstalled) return;
+  window._dndTouchInstalled = true;
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.dnd-card{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;}' +
+    '.dnd-touch-clone{position:fixed;z-index:99999;pointer-events:none;margin:0;box-shadow:0 10px 26px rgba(0,0,0,0.28);opacity:0.95;transition:none;}' +
+    '.dnd-card.dnd-lift{opacity:0.35;}';
+  document.head.appendChild(css);
+
+  var HOLD_MS = 130, SLOP = 8, EDGE = 110;
+  var drag = null;
+
+  function ctxFor(card){
+    var q, st;
+    if (card.dataset.bkQnum !== undefined && typeof _bucket !== 'undefined') {
+      q = card.dataset.bkQnum; st = _bucket[q];
+      if (st && !st.done) return { kind: 'bk', qnum: q, st: st };
+      return null;
+    }
+    if (card.dataset.dndQnum !== undefined && typeof _dnd !== 'undefined') {
+      q = card.dataset.dndQnum; st = _dnd[q];
+      if (st && !st.done) return { kind: 'dnd', qnum: q, st: st };
+    }
+    return null;
+  }
+
+  function touchById(list, id){
+    for (var i = 0; i < list.length; i++) if (list[i].identifier === id) return list[i];
+    return null;
+  }
+
+  function zoneUnder(c, x, y){
+    var el = document.elementFromPoint(x, y);
+    if (!el || !el.closest) return null;
+    var sel = (c.kind === 'bk')
+      ? '[data-bk-zone="' + c.qnum + '"], #bk-pool-' + c.qnum
+      : '[data-dnd-zone="' + c.qnum + '"], #dnd-pool-' + c.qnum;
+    return el.closest(sel);
+  }
+
+  function startLift(){
+    if (!drag || drag.lifted) return;
+    drag.lifted = true;
+    var r = drag.rect;
+    var clone = drag.card.cloneNode(true);
+    clone.className = 'dnd-card dnd-touch-clone';
+    clone.style.left = r.left + 'px';
+    clone.style.top = r.top + 'px';
+    clone.style.width = r.width + 'px';
+    clone.style.transform = 'translate(' + (drag.x - drag.x0) + 'px,' + (drag.y - drag.y0) + 'px) scale(1.05)';
+    document.body.appendChild(clone);
+    drag.clone = clone;
+    drag.card.classList.add('dnd-lift');
+    if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e){} }
+    if (!drag.raf) drag.raf = requestAnimationFrame(autoScroll);
+  }
+
+  function autoScroll(){
+    if (!drag || !drag.lifted) return;
+    var y = drag.y, h = window.innerHeight, dy = 0;
+    if (y < EDGE) dy = -Math.min(14, (EDGE - y) * 0.2);
+    else if (y > h - EDGE) dy = Math.min(14, (y - (h - EDGE)) * 0.2);
+    if (dy) window.scrollBy(0, dy);
+    drag.raf = requestAnimationFrame(autoScroll);
+  }
+
+  function highlight(z){
+    if (drag.over && drag.over !== z) drag.over.classList.remove('dnd-over');
+    if (z && z !== drag.over) z.classList.add('dnd-over');
+    drag.over = z;
+  }
+
+  function cleanup(){
+    if (!drag) return;
+    if (drag.timer) clearTimeout(drag.timer);
+    if (drag.raf) cancelAnimationFrame(drag.raf);
+    if (drag.over) drag.over.classList.remove('dnd-over');
+    if (drag.clone) drag.clone.remove();
+    drag.card.classList.remove('dnd-lift');
+    drag = null;
+  }
+
+  function doDrop(){
+    var c = drag.ctx, val = drag.card.dataset.val, src = drag.card.dataset.src || '';
+    var z = zoneUnder(c, drag.x, drag.y);
+    if (z) {
+      if (c.kind === 'bk') {
+        if (z.dataset.bucket !== undefined) c.st.placed[val] = z.dataset.bucket;
+        else delete c.st.placed[val];
+      } else {
+        if (z.dataset.letter !== undefined) {
+          for (var l in c.st.placed) if (c.st.placed[l] === val) delete c.st.placed[l];
+          c.st.placed[z.dataset.letter] = val;
+        } else if (src.indexOf('zone-') === 0) {
+          var old = src.slice(5);
+          if (c.st.placed[old] === val) delete c.st.placed[old];
+        }
+      }
+    }
+    c.st.selected = null;
+    if (c.kind === 'bk') { if (typeof _bucketRender === 'function') _bucketRender(c.qnum); }
+    else { if (typeof _dndRender === 'function') _dndRender(c.qnum); }
+  }
+
+  document.addEventListener('touchstart', function(e){
+    if (drag || e.touches.length !== 1) return;
+    var card = (e.target && e.target.closest) ? e.target.closest('.dnd-card') : null;
+    if (!card || card.classList.contains('correct') || card.classList.contains('wrong')) return;
+    var ctx = ctxFor(card);
+    if (!ctx) return;
+    var t = e.touches[0];
+    drag = { card: card, ctx: ctx, x0: t.clientX, y0: t.clientY, x: t.clientX, y: t.clientY,
+             id: t.identifier, rect: card.getBoundingClientRect(),
+             lifted: false, moved: false, over: null, clone: null, raf: 0,
+             timer: setTimeout(startLift, HOLD_MS) };
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchmove', function(e){
+    if (!drag) return;
+    var t = touchById(e.touches, drag.id);
+    if (!t) return;
+    drag.x = t.clientX; drag.y = t.clientY;
+    var dx = drag.x - drag.x0, dy = drag.y - drag.y0;
+    if (!drag.lifted) {
+      if (Math.abs(dx) <= SLOP && Math.abs(dy) <= SLOP) return;
+      if (Math.abs(dx) > Math.abs(dy)) { startLift(); }
+      else { cleanup(); return; }
+    }
+    drag.moved = true;
+    if (e.cancelable) e.preventDefault();
+    drag.clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.05)';
+    highlight(zoneUnder(drag.ctx, drag.x, drag.y));
+  }, { passive: false, capture: true });
+
+  document.addEventListener('touchend', function(e){
+    if (!drag) return;
+    if (!touchById(e.changedTouches, drag.id)) return;
+    if (drag.lifted && drag.moved) {
+      if (e.cancelable) e.preventDefault();
+      doDrop();
+    }
+    cleanup();
+  }, { passive: false, capture: true });
+
+  document.addEventListener('touchcancel', function(){ cleanup(); }, { passive: true, capture: true });
+
+  document.addEventListener('contextmenu', function(e){
+    if (drag && drag.lifted) e.preventDefault();
+  }, true);
+})();
+</script>
+<script>
+/* ── VUMED_IMG_ZOOM v1: klik een inhoud-afbeelding (histologie/x-ray) → smooth
+      vergroten met FLIP-animatie + verder in-/uitzoomen en pannen. DND-kaarten,
+      opties, glossary-thumb, avatar/navbar/wallet-iconen zijn uitgesloten. ───── */
+(function(){
+  if (window._imgZoomInstalled) return;
+  window._imgZoomInstalled = true;
+
+  function eligible(img){
+    if (!img || img.tagName !== 'IMG') return false;
+    if (img.closest('.vz-overlay')) return false;
+    if (img.classList.contains('g-img')) return false;
+    if (img.closest('.dnd-card,.opt-btn,.navbar,#vumed-stats,.g-panel,.g-img-nav,' +
+                    '[class*="avatar"],[id*="avatar"],.chest,.mascot,button')) return false;
+    if (img.parentElement && img.parentElement.querySelector('[data-dnd-zone]')) return false;
+    var src = img.getAttribute('src') || '';
+    if (!src) return false;
+    if (img.naturalWidth && img.naturalWidth < 42 && img.naturalHeight < 42) return false;
+    return true;
+  }
+
+  var css = document.createElement('style');
+  css.textContent = [
+    'img.vz-hot{cursor:zoom-in;transition:filter .15s ease,box-shadow .15s ease;}',
+    'img.vz-hot:hover{filter:brightness(.96);box-shadow:0 4px 16px rgba(0,0,0,.16);}',
+    '.vz-overlay{position:fixed;inset:0;z-index:999999;overflow:hidden;',
+      'background:rgba(255,255,255,0);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);',
+      'transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease;',
+      'touch-action:none;-webkit-user-select:none;user-select:none;}',
+    '.vz-overlay.vz-in{background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);}',
+    '.vz-overlay img.vz-big{position:absolute;top:0;left:0;margin:0;max-width:none;max-height:none;',
+      'border-radius:10px;box-shadow:0 24px 74px rgba(0,0,0,.22);transform-origin:top left;',
+      'will-change:transform;cursor:zoom-in;-webkit-user-drag:none;user-drag:none;}',
+    '.vz-overlay.vz-zoomed img.vz-big{cursor:grab;}',
+    '.vz-overlay.vz-drag img.vz-big{cursor:grabbing;}',
+    '.vz-close{position:fixed;top:14px;right:16px;z-index:1000000;width:44px;height:44px;padding:0;',
+      'border:none;border-radius:50%;background:rgba(0,0,0,.07);color:#3C3C43;font-size:24px;',
+      'line-height:44px;text-align:center;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'opacity:0;transform:scale(.7);transition:opacity .3s .08s ease,transform .3s .08s cubic-bezier(.34,1.56,.64,1),background .15s;}',
+    '.vz-close:hover{background:rgba(0,0,0,.14);}',
+    '.vz-overlay.vz-in .vz-close{opacity:1;transform:scale(1);}',
+    '.vz-hint{position:fixed;bottom:20px;left:50%;z-index:1000000;padding:8px 16px;border-radius:20px;',
+      'background:rgba(0,0,0,.07);color:#3C3C43;font-size:13px;font-weight:700;',
+      'font-family:Nunito,system-ui,-apple-system,sans-serif;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'pointer-events:none;white-space:nowrap;opacity:0;transform:translateX(-50%) translateY(10px);',
+      'transition:opacity .3s .12s ease,transform .3s .12s ease;}',
+    '.vz-overlay.vz-in .vz-hint{opacity:1;transform:translateX(-50%) translateY(0);}',
+    '.vz-overlay.vz-in.vz-zoomed .vz-hint{opacity:0;transform:translateX(-50%) translateY(10px);}',
+    'html.dark .vz-overlay{background:rgba(28,28,30,0);}',
+    'html.dark .vz-overlay.vz-in{background:rgba(28,28,30,.95);}',
+    'html.dark .vz-overlay img.vz-big{box-shadow:0 24px 74px rgba(0,0,0,.55);}',
+    'html.dark .vz-close{background:rgba(255,255,255,.15);color:#fff;}',
+    'html.dark .vz-close:hover{background:rgba(255,255,255,.28);}',
+    'html.dark .vz-hint{background:rgba(255,255,255,.15);color:#fff;}',
+    '@media (prefers-reduced-motion:reduce){.vz-overlay,.vz-overlay img.vz-big,.vz-close,.vz-hint{transition-duration:.01ms!important;}}'
+  ].join('');
+  (document.head || document.documentElement).appendChild(css);
+
+  function markAll(root){
+    var imgs = (root || document).querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++){
+      if (eligible(imgs[i])) imgs[i].classList.add('vz-hot');
+      else imgs[i].classList.remove('vz-hot');
+    }
+  }
+
+  var S = null;   // active session state
+
+  function clamp(){
+    var W = S.w * S.k, H = S.h * S.k;
+    if (W <= S.vw) S.px = (S.vw - W) / 2;
+    else S.px = Math.min(0, Math.max(S.vw - W, S.px));
+    if (H <= S.vh) S.py = (S.vh - H) / 2;
+    else S.py = Math.min(0, Math.max(S.vh - H, S.py));
+  }
+
+  function render(){
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(' + S.k + ')';
+    S.overlay.classList.toggle('vz-zoomed', S.k > 1.02);
+  }
+
+  function fit(){
+    S.vw = window.innerWidth; S.vh = window.innerHeight;
+    var nw = S.big.naturalWidth || S.rect.width || 300;
+    var nh = S.big.naturalHeight || S.rect.height || 300;
+    var s = Math.min((S.vw * 0.94) / nw, (S.vh * 0.90) / nh, 3);
+    S.w = nw * s; S.h = nh * s;
+    S.baseLeft = (S.vw - S.w) / 2; S.baseTop = (S.vh - S.h) / 2;
+    S.big.style.width = S.w + 'px'; S.big.style.height = S.h + 'px';
+    S.big.style.left = '0px'; S.big.style.top = '0px';
+  }
+
+  // zoom toward a viewport focal point, keeping it fixed under the finger/cursor
+  function zoomTo(nk, fx, fy){
+    nk = Math.min(5, Math.max(1, nk));
+    var lx = (fx - S.px) / S.k, ly = (fy - S.py) / S.k;
+    S.k = nk;
+    S.px = fx - nk * lx; S.py = fy - nk * ly;
+    clamp(); render();
+  }
+
+  function animateOpen(){
+    // FLIP: element is laid out at its final fit position; start it transformed
+    // back onto the thumbnail, then transition to identity.
+    var tx = S.rect.left, ty = S.rect.top;
+    var sc = S.rect.width / S.w;
+    S.big.style.transition = 'none';
+    S.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    void S.big.offsetWidth;                       // force reflow (no rAF; safe in bg tabs)
+    S.big.style.transition = 'transform .34s cubic-bezier(.22,.61,.36,1)';
+    S.px = 0; S.py = 0; S.k = 1; clamp();
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(1)';
+    S.overlay.classList.add('vz-in');
+  }
+
+  function close(){
+    if (!S) return;
+    var st = S; S = null;
+    var tx = st.rect.left, ty = st.rect.top;
+    var sc = st.rect.width / st.w;
+    st.big.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+    st.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    st.overlay.classList.remove('vz-in');
+    window.removeEventListener('resize', st.onResize);
+    window.removeEventListener('keydown', st.onKey, true);
+    var done = false;
+    var finish = function(){
+      if (done) return; done = true;
+      st.overlay.remove();
+      if (st.src) st.src.style.visibility = '';
+    };
+    st.big.addEventListener('transitionend', finish);
+    setTimeout(finish, 420);
+  }
+
+  function open(thumb){
+    if (S) return;
+    var rect = thumb.getBoundingClientRect();
+    var overlay = document.createElement('div'); overlay.className = 'vz-overlay';
+    var big = document.createElement('img'); big.className = 'vz-big';
+    big.alt = thumb.alt || '';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'vz-close'; closeBtn.setAttribute('aria-label', 'Sluiten'); closeBtn.innerHTML = '&times;';
+    var hint = document.createElement('div');
+    hint.className = 'vz-hint'; hint.textContent = 'Scroll of dubbeltik om verder in te zoomen';
+    overlay.appendChild(big); overlay.appendChild(closeBtn); overlay.appendChild(hint);
+    document.body.appendChild(overlay);
+
+    S = { overlay: overlay, big: big, src: thumb, rect: rect,
+          k: 1, px: 0, py: 0, w: 0, h: 0, vw: 0, vh: 0, baseLeft: 0, baseTop: 0,
+          pts: {}, npts: 0, pinch: null, moved: false, lastTap: 0, downX: 0, downY: 0 };
+
+    var start = function(){
+      thumb.style.visibility = 'hidden';   // hide source so the FLIP looks seamless
+      fit(); animateOpen();
+    };
+    if (thumb.complete && thumb.naturalWidth) { big.src = thumb.currentSrc || thumb.src; start(); }
+    else { big.onload = start; big.src = thumb.currentSrc || thumb.src; }
+
+    S.onResize = function(){ if (!S) return; fit(); S.k = 1; S.px = 0; S.py = 0; clamp(); render(); };
+    S.onKey = function(e){ if (e.key === 'Escape'){ e.preventDefault(); close(); } };
+    window.addEventListener('resize', S.onResize);
+    window.addEventListener('keydown', S.onKey, true);
+
+    closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+
+    // wheel = zoom toward cursor (desktop)
+    overlay.addEventListener('wheel', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX, e.clientY);
+    }, { passive: false });
+
+    // double-click = toggle zoom (desktop)
+    big.addEventListener('dblclick', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+    });
+
+    // pointer pan / pinch / tap (mouse + touch, unified)
+    overlay.addEventListener('pointerdown', function(e){
+      if (!S) return;
+      overlay.setPointerCapture && overlay.setPointerCapture(e.pointerId);
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      S.npts++;
+      S.moved = false; S.downX = e.clientX; S.downY = e.clientY;
+      if (S.npts === 2){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        S.pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), k: S.k,
+                    cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+      }
+    });
+    overlay.addEventListener('pointermove', function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      var prev = S.pts[e.pointerId];
+      var dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      if (Math.abs(e.clientX - S.downX) > 6 || Math.abs(e.clientY - S.downY) > 6) S.moved = true;
+      if (S.npts >= 2 && S.pinch){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        if (!a || !b) return;
+        var nd = Math.hypot(a.x - b.x, a.y - b.y);
+        zoomTo(S.pinch.k * (nd / S.pinch.d), S.pinch.cx, S.pinch.cy);
+      } else if (S.k > 1.02){
+        overlay.classList.add('vz-drag');
+        S.px += dx; S.py += dy; clamp(); render();
+      }
+    });
+    var up = function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      delete S.pts[e.pointerId]; S.npts = Math.max(0, S.npts - 1);
+      if (S.npts < 2) S.pinch = null;
+      if (S.npts === 0){
+        overlay.classList.remove('vz-drag');
+        if (!S.moved){
+          var onBig = (e.target === big);
+          var now = Date.now();
+          if (now - S.lastTap < 300){          // double-tap toggle zoom
+            S.lastTap = 0;
+            zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+          } else {
+            S.lastTap = now;
+            if (!onBig && S.k <= 1.02) close();  // tap backdrop = sluiten
+          }
+        }
+      }
+    };
+    overlay.addEventListener('pointerup', up);
+    overlay.addEventListener('pointercancel', up);
+  }
+
+  document.addEventListener('click', function(e){
+    if (S) return;
+    var img = (e.target && e.target.closest) ? e.target.closest('img') : null;
+    if (!img || !eligible(img)) return;
+    e.preventDefault();
+    open(img);
+  });
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', function(){ markAll(); });
+  else markAll();
+
+  try {
+    var mo = new MutationObserver(function(muts){
+      for (var i = 0; i < muts.length; i++){
+        var m = muts[i];
+        for (var j = 0; j < m.addedNodes.length; j++){
+          var n = m.addedNodes[j];
+          if (n.nodeType !== 1) continue;
+          if (n.tagName === 'IMG'){ if (eligible(n)) n.classList.add('vz-hot'); }
+          else if (n.querySelectorAll) markAll(n);
+        }
+      }
+    });
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e){}
+})();
+</script>
+</body>
+</html>

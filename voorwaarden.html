@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+  <script src="pwa.js?v=10"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gebruiksvoorwaarden – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="navbar.js?v=44" data-active="instellingen"></script>
+  <script src="bg-decor.js?v=4"></script>
+  <script>(function(){if(localStorage.getItem('vumed_theme')==='dark')document.documentElement.classList.add('dark');})();</script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    :root {
+      --bg: #f5f7f9; --surface: #ffffff; --text: #1C1C1E; --text-sub: #8E8E93;
+      --text-body: #5A5A60; --border: #E5E5EA;
+    }
+    html.dark {
+      --bg: #1C1C1E; --surface: #2C2C2E; --text: #FFFFFF; --text-sub: #8E8E93;
+      --text-body: #C7C7CC; --border: #3A3A3C;
+    }
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: var(--bg); color: var(--text);
+      -webkit-font-smoothing: antialiased; display: flex; height: 100vh; overflow: hidden;
+      transition: background 0.28s ease, color 0.28s ease;
+    }
+    #page-root { flex: 1; overflow-y: auto; height: 100vh; }
+    .doc-wrap { max-width: 780px; margin: 0 auto; padding: 44px 32px 120px; }
+    .crumb {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px;
+      font-weight: 800; color: var(--text-sub); text-decoration: none; margin-bottom: 18px;
+    }
+    .crumb:hover { color: #1CB0F6; }
+    .doc-title { font-size: 34px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .doc-meta { font-size: 13.5px; font-weight: 700; color: var(--text-sub); margin-bottom: 30px; }
+    .doc-section {
+      background: var(--surface); border: 1.5px solid var(--border); border-radius: 18px;
+      padding: 24px 26px; margin-bottom: 16px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.045), 0 1px 3px rgba(0,0,0,0.03);
+    }
+    html.dark .doc-section { box-shadow: none; }
+    .doc-section h2 {
+      font-size: 18px; font-weight: 900; margin-bottom: 12px;
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .doc-section h2 .num {
+      font-size: 13px; font-weight: 800; color: #1CB0F6;
+      background: rgba(28,176,246,0.12); border-radius: 8px; padding: 2px 8px; flex-shrink: 0;
+    }
+    .doc-section p, .doc-section li { font-size: 14.5px; font-weight: 600; color: var(--text-body); line-height: 1.7; }
+    .doc-section p + p { margin-top: 10px; }
+    .doc-section ul { margin: 10px 0 0 4px; padding-left: 20px; }
+    .doc-section li { margin-bottom: 6px; }
+    .doc-section strong { color: var(--text); font-weight: 800; }
+    .doc-section a { color: #1CB0F6; font-weight: 800; text-decoration: none; }
+    .doc-section a:hover { text-decoration: underline; }
+    .disc-highlight { border-color: #FF9600; }
+    .disc-highlight h2 .num { color: #E07B00; background: rgba(255,150,0,0.14); }
+    .doc-foot {
+      margin-top: 30px; padding-top: 20px; border-top: 1.5px solid var(--border);
+      font-size: 13px; font-weight: 700; color: var(--text-sub); text-align: center;
+    }
+    @media (max-width: 768px) {
+      body { height: auto; overflow: auto; }
+      #page-root { height: auto; overflow: visible; }
+      .doc-wrap { padding: 58px 18px 90px; }
+      .doc-title { font-size: 27px; }
+    }
+  </style>
+</head>
+<body>
+<div id="page-root">
+  <div class="doc-wrap">
+    <a class="crumb" href="instellingen.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Terug naar instellingen
+    </a>
+    <div class="doc-title">Gebruiksvoorwaarden</div>
+    <div class="doc-meta">Laatst bijgewerkt: 22 juli 2026</div>
+
+    <div class="doc-section">
+      <h2><span class="num">1</span>Wat VUmed is</h2>
+      <p>VUmed is een gratis, <strong>educatief oefenplatform</strong> voor geneeskundestudenten. Je oefent met tentamenvragen, uitleg en spelelementen (XP, badges, klassement). Door VUmed te gebruiken of een account aan te maken, ga je akkoord met deze voorwaarden.</p>
+    </div>
+
+    <div class="doc-section disc-highlight">
+      <h2><span class="num">2</span>Geen medisch advies</h2>
+      <p>De vragen, antwoorden, uitleg en AI-gegenereerde toelichtingen op VUmed zijn uitsluitend bedoeld om te <strong>oefenen voor tentamens</strong>. Ze vormen <strong>geen medisch advies, diagnose of behandelrichtlijn</strong> en zijn niet bedoeld om te gebruiken bij het diagnosticeren of behandelen van patiënten.</p>
+      <p>Antwoorden kunnen fouten bevatten en zijn niet altijd door een docent gecontroleerd. Raadpleeg bij twijfel altijd je officiële studiemateriaal, je docenten en de geldende medische richtlijnen.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">3</span>Je account</h2>
+      <p>Voor sommige functies maak je een account aan. Je bent verantwoordelijk voor je inloggegevens en voor wat er onder je account gebeurt. Geef één account niet aan meerdere personen.</p>
+      <p>Je kunt je account op elk moment zelf verwijderen via <strong>Instellingen → Privacy → Account verwijderen</strong>. Daarmee worden je gegevens definitief verwijderd, zoals beschreven in ons <a href="privacybeleid.html">Privacybeleid</a>.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">4</span>Gedrag &amp; gedeelde inhoud</h2>
+      <p>VUmed heeft sociale functies: je kiest een weergavenaam en avatar, kunt vrienden toevoegen en verschijnt in het klassement. Bij het gebruik van deze functies geldt:</p>
+      <ul>
+        <li>Kies geen aanstootgevende, misleidende of beledigende naam of avatar.</li>
+        <li>Val andere gebruikers niet lastig, bedreig of pest ze niet.</li>
+        <li>Gebruik VUmed niet voor spam, reclame of onrechtmatige doeleinden.</li>
+      </ul>
+      <p>Je kunt andere gebruikers <strong>blokkeren</strong> en <strong>rapporteren</strong> via het menu op hun profiel. We beoordelen meldingen en kunnen inhoud of accounts die deze regels schenden verwijderen of blokkeren.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">5</span>Inhoud &amp; auteursrecht</h2>
+      <p>Het lesmateriaal op VUmed is bedoeld voor jouw <strong>persoonlijke studie</strong>. Je mag de inhoud niet kopiëren, publiceren of doorverkopen buiten VUmed om. Rechten op onderliggend tentamen- en lesmateriaal blijven bij de oorspronkelijke rechthebbenden.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">6</span>Beschikbaarheid &amp; aansprakelijkheid</h2>
+      <p>VUmed wordt aangeboden "zoals het is". We doen ons best de app werkend en actueel te houden, maar kunnen niet garanderen dat alles altijd foutloos of beschikbaar is. Voor zover wettelijk toegestaan zijn wij niet aansprakelijk voor schade die voortvloeit uit het gebruik van VUmed of het vertrouwen op de inhoud.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">7</span>Wijzigingen</h2>
+      <p>We kunnen deze voorwaarden van tijd tot tijd aanpassen. Bij belangrijke wijzigingen laten we dat weten in de app. Blijf je VUmed gebruiken, dan ga je akkoord met de bijgewerkte voorwaarden.</p>
+    </div>
+
+    <div class="doc-section">
+      <h2><span class="num">8</span>Contact</h2>
+      <p>Vragen over deze voorwaarden? Mail ons via <a href="mailto:tijekorteweg@icloud.com">tijekorteweg@icloud.com</a> of kijk in het <a href="helpcentrum.html">Helpcentrum</a>.</p>
+    </div>
+
+    <div class="doc-foot">VUmed — een educatief project, gemaakt voor geneeskundestudenten.</div>
+  </div>
+</div>
+</body>
+</html>

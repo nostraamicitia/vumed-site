@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<script src="pwa.js?v=10"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Helpcentrum – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="navbar.js?v=44" data-active="instellingen"></script>
+  <script src="bg-decor.js?v=4"></script>
+
+  <!-- Apply saved theme before paint to avoid flash -->
+  <script>
+    (function(){
+      if (localStorage.getItem('vumed_theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+
+    :root {
+      --bg:            #f5f7f9;
+      --surface:       #ffffff;
+      --text:          #1C1C1E;
+      --text-sub:      #8E8E93;
+      --text-body:     #6E6E73;
+      --text-section:  #b0b0b5;
+      --border:        #ececec;
+      --hover:         #f0f9ff;
+      --card-shadow:   0 2px 14px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04);
+      --input-bg:      #ffffff;
+      --input-border:  #e0e0e5;
+    }
+    html.dark {
+      --bg:            #1C1C1E;
+      --surface:       #2C2C2E;
+      --text:          #FFFFFF;
+      --text-sub:      #8E8E93;
+      --text-body:     #C7C7CC;
+      --text-section:  #636366;
+      --border:        #3A3A3C;
+      --hover:         #3A3A3C;
+      --card-shadow:   0 2px 14px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.2);
+      --input-bg:      #3A3A3C;
+      --input-border:  #48484A;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      transition: background 0.28s ease, color 0.28s ease;
+    }
+    #page-root { flex: 1; overflow-y: auto; height: 100vh; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+    html.dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
+
+    .help-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 44px 32px 120px;
+    }
+
+    /* Crumb back-link */
+    .crumb {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13.5px; font-weight: 800; color: var(--text-sub);
+      text-decoration: none; margin-bottom: 16px;
+      transition: color 0.15s;
+    }
+    .crumb:hover { color: #1CB0F6; }
+    .crumb svg { transition: transform 0.15s; }
+    .crumb:hover svg { transform: translateX(-2px); }
+
+    /* ── Hero ── */
+    .help-hero {
+      background: linear-gradient(135deg, #1CB0F6 0%, #0E85B5 100%);
+      border-radius: 24px;
+      padding: 38px 34px 34px;
+      color: #fff;
+      box-shadow: inset 0 -3px 0 rgba(0,0,0,0.16);
+      position: relative;
+      overflow: hidden;
+      animation: heroIn 0.5s cubic-bezier(0.2,0.78,0.28,1) both;
+    }
+    html.dark .help-hero { background: linear-gradient(135deg, #0E7FB4 0%, #0A5378 100%); }
+    @keyframes heroIn { from { opacity: 0; transform: translateY(-14px); } to { opacity: 1; transform: none; } }
+    .help-hero::before, .help-hero::after {
+      content: ''; position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.08); pointer-events: none;
+    }
+    .help-hero::before { width: 220px; height: 220px; top: -110px; right: -60px; }
+    .help-hero::after  { width: 140px; height: 140px; bottom: -80px; left: 24px; }
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 800; letter-spacing: 0.09em;
+      text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 28px; font-weight: 900; letter-spacing: -0.5px;
+      line-height: 1.15; margin-bottom: 18px;
+    }
+    .hero-search {
+      position: relative; z-index: 1;
+    }
+    .hero-search svg {
+      position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+      pointer-events: none;
+    }
+    .hero-search input {
+      width: 100%; border: none; outline: none;
+      font-family: inherit; font-size: 15.5px; font-weight: 700;
+      color: #1C1C1E;
+      background: #fff;
+      border-radius: 16px;
+      padding: 15px 18px 15px 46px;
+      box-shadow: 0 4px 0 rgba(0,0,0,0.18);
+      transition: box-shadow 0.15s ease, transform 0.15s ease;
+    }
+    .hero-search input::placeholder { color: #8E8E93; font-weight: 600; }
+    .hero-search input:focus { box-shadow: 0 4px 0 rgba(0,0,0,0.18), 0 0 0 3px #FFC800; }
+    html.dark .hero-search input { background: #2C2C2E; color: #fff; }
+
+    /* ── FAQ categories ── */
+    .faq-cat { margin-top: 34px; }
+    .faq-cat-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .faq-cat-icon {
+      width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.16);
+    }
+    .faq-cat-icon.c-blue   { background: linear-gradient(135deg, #1CB0F6, #0E85B5); }
+    .faq-cat-icon.c-gold   { background: linear-gradient(135deg, #FFC800, #FF9600); }
+    .faq-cat-icon.c-pink   { background: linear-gradient(135deg, #FF6E8A, #E5245A); }
+    .faq-cat-icon.c-purple { background: linear-gradient(135deg, #CE82FF, #8B3FE0); }
+    .faq-cat-icon.c-cyan   { background: linear-gradient(135deg, #5AC8FF, #1CB0F6); }
+    .faq-cat-title { font-size: 18px; font-weight: 900; letter-spacing: -0.2px; }
+
+    /* ── FAQ accordion items ── */
+    .faq-item {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                  background 0.28s ease;
+    }
+    .faq-item.open {
+      border-color: rgba(28,176,246,0.45);
+      box-shadow: 0 6px 18px rgba(28,176,246,0.10);
+    }
+    .faq-q {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 16px 18px;
+      background: none; border: none;
+      font-family: inherit; font-size: 15px; font-weight: 800;
+      color: var(--text); text-align: left;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .faq-q:hover { color: #1CB0F6; }
+    .faq-chev {
+      flex-shrink: 0;
+      transition: transform 0.3s cubic-bezier(0.34,1.5,0.5,1);
+    }
+    .faq-item.open .faq-chev { transform: rotate(180deg); }
+    .faq-a-wrap {
+      display: grid; grid-template-rows: 0fr;
+      transition: grid-template-rows 0.32s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .faq-item.open .faq-a-wrap { grid-template-rows: 1fr; }
+    .faq-a { overflow: hidden; }
+    .faq-a-inner {
+      padding: 0 18px 16px;
+      font-size: 14.5px; font-weight: 600;
+      color: var(--text-body); line-height: 1.65;
+    }
+    .faq-a-inner a { color: #1CB0F6; font-weight: 800; text-decoration: none; }
+    .faq-a-inner a:hover { text-decoration: underline; }
+
+    /* Empty search state */
+    .faq-empty {
+      display: none;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 32px; margin-top: 34px;
+      text-align: center;
+      box-shadow: var(--card-shadow);
+    }
+    .faq-empty.show { display: block; animation: heroIn 0.35s ease both; }
+    .faq-empty-icon { margin-bottom: 12px; line-height: 0; }
+    .faq-empty-text { font-size: 15px; font-weight: 700; color: var(--text-sub); line-height: 1.6; }
+
+    /* ── Contact ── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin-top: 16px;
+    }
+    .contact-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--card-shadow);
+      display: flex; flex-direction: column; gap: 10px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease,
+                  border-color 0.12s ease, background 0.28s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.10);
+    }
+    .contact-card-title { font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 9px; }
+    .contact-card-text { font-size: 14px; font-weight: 600; color: var(--text-body); line-height: 1.6; flex: 1; }
+    .contact-btn {
+      display: inline-block; text-align: center; text-decoration: none;
+      background: #1CB0F6; color: #fff;
+      border: none; border-radius: 13px;
+      padding: 12px 18px;
+      font-family: inherit; font-size: 14px; font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #0E85B5;
+      transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.08s ease;
+    }
+    .contact-btn:hover { background: #0A9EDC; }
+    .contact-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #0E85B5; }
+    .contact-btn.ghost {
+      background: transparent; color: var(--text);
+      border: 2px solid var(--input-border);
+      box-shadow: none;
+    }
+    .contact-btn.ghost:hover { border-color: #1CB0F6; color: #1CB0F6; background: transparent; }
+    .contact-btn.ghost:active { transform: scale(0.98); }
+
+    /* ── Scroll reveal ── */
+    .rv { opacity: 0; transform: translateY(14px); will-change: opacity, transform; }
+    .rv.in {
+      opacity: 1; transform: none;
+      transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.2,0.78,0.28,1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .rv, .rv.in { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .help-hero { animation: none; }
+    }
+
+    @media (max-width: 768px) {
+      body { height: auto; min-height: 100vh; overflow: auto; }
+      #page-root { height: auto; }
+      .help-wrap { padding: 24px 16px 140px; }
+      .help-hero { padding: 28px 22px 26px; border-radius: 20px; }
+      .hero-title { font-size: 23px; }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="page-root" class="main-content">
+  <div class="help-wrap">
+
+    <a class="crumb" href="instellingen.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Instellingen
+    </a>
+
+    <!-- ── Hero + search ── -->
+    <div class="help-hero">
+      <div class="hero-eyebrow">Helpcentrum</div>
+      <div class="hero-title">Hoe kunnen we je helpen?</div>
+      <div class="hero-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="#8E8E93" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="#8E8E93" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <input type="search" id="faq-search" placeholder="Zoek in veelgestelde vragen…" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- ── AAN DE SLAG ── -->
+    <div class="faq-cat rv" data-cat>
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 4.8C6 4 6.9 3.5 7.6 3.9L19 11.1C19.7 11.5 19.7 12.5 19 12.9L7.6 20.1C6.9 20.5 6 20 6 19.2V4.8Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Aan de slag</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe begin ik met oefenen?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Kies op het <a href="dashboard.html">dashboard</a> een vak, of ga naar <a href="vumed.html">Tentamens</a> en kies je studiejaar en toetsmoment. Je antwoorden worden direct nagekeken en je voortgang wordt automatisch opgeslagen — je kunt altijd stoppen en later verdergaan.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Wordt mijn voortgang bewaard?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Ja. Je voortgang wordt op dit apparaat bewaard, en als je ingelogd bent ook in de cloud — zo kun je op je telefoon verdergaan waar je op je laptop was gebleven. Een tentamen opnieuw beginnen kan met de reset-knop bovenin.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Wat zijn missies?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Korte oefensets per onderwerp, één vraag tegelijk. Vragen die je fout beantwoordt komen terug tot je ze allemaal beheerst. Je vindt ze op het dashboard onder het pad van je vak.
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- ── STREAKS & DAGDOEL ── -->
+    <div class="faq-cat rv" data-cat>
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2C12 2 6 8.5 6 13.5C6 17.6 8.7 21 12 21C15.3 21 18 17.6 18 13.5C18 12 17.5 10.4 16.7 8.9C16.2 10 15.4 10.9 14.5 11.3C14.9 9 14 5 12 2Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Streaks &amp; dagdoel</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe werkt de dagenreeks?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Een dag telt mee zodra je 10 of meer vragen maakt, of een missie afrondt. Sla je een dag over, dan reset je reeks — tenzij je streak-freezes hebt, die vangen gemiste dagen automatisch op.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Wat is het dagdoel?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Je persoonlijke doel: 10, 20, 30 of 50 vragen per dag. Haal je het, dan ligt er een kist voor je klaar in het questpaneel — hoe hoger je doel, hoe zeldzamer de kist. Instellen doe je bij <a href="instellingen.html">Instellingen → Voorkeuren</a>.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Wat doen streak-freezes?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Een freeze vangt een gemiste dag op zodat je reeks doorloopt. Ze worden automatisch gebruikt zodra dat nodig is. Je koopt ze met gems in de <a href="shop.html">shop</a>.
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- ── HARTEN, GEMS & MUNTEN ── -->
+    <div class="faq-cat rv" data-cat>
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-pink">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 20.5C12 20.5 3.5 15.5 3.5 9.5C3.5 6.5 5.8 4.5 8.3 4.5C9.9 4.5 11.3 5.4 12 6.6C12.7 5.4 14.1 4.5 15.7 4.5C18.2 4.5 20.5 6.5 20.5 9.5C20.5 15.5 12 20.5 12 20.5Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Harten, gems &amp; munten</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe werken harten?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Je begint elke dag met 20 harten; een fout antwoord kost er één. Zijn ze op, dan kun je die dag niet verder oefenen — tenzij je harten bijkoopt met gems. De volgende dag zit je weer vol.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Waar zijn gems en munten voor?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Met gems koop je harten en streak-freezes; met munten koop je avatar-items zoals outfits en accessoires. Je verdient beide met kisten, quests en het <a href="trofeeenpad.html">trofeeënpad</a>.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe verdien ik XP en stijg ik in rang?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Elke goed beantwoorde vraag levert XP op. Daarmee klim je door de rangen: Student → Co-assistent → Basisarts → AIOS → Specialist. Je volledige route zie je op het <a href="trofeeenpad.html">trofeeënpad</a>, en je weekpositie in het <a href="voortgang.html">klassement</a>.
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- ── TIJDENS HET OEFENEN ── -->
+    <div class="faq-cat rv" data-cat>
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-purple">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6C4 4.9 4.9 4 6 4H18C19.1 4 20 4.9 20 6V14C20 15.1 19.1 16 18 16H9L5.7 19.3C5.1 19.9 4 19.5 4 18.6V6Z" fill="#fff"/>
+            <circle cx="9" cy="10" r="1.2" fill="#8B3FE0"/>
+            <circle cx="12.5" cy="10" r="1.2" fill="#8B3FE0"/>
+            <circle cx="16" cy="10" r="1.2" fill="#8B3FE0"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Tijdens het oefenen</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Wat doet de AI-uitleg?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Klik op het chat-icoon naast een vraag en je krijgt uitleg op maat: waarom het juiste antwoord klopt en waar de afleiders misleiden. Doorvragen mag — het is een gesprek, geen vast antwoord.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Kan ik vragen opslaan voor later?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Ja — klik op het lintje bij een vraag om hem te bewaren. Je vindt je opgeslagen vragen terug via het tabblad Opgeslagen op het dashboard, en kunt ze daar opnieuw oefenen als missie.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe oefen ik mijn fouten opnieuw?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Open het tabblad Fouten op het dashboard of bij een vak. Daar start je een foutenreview: je fout beantwoorde vragen komen terug, één voor één, tot je ze beheerst.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Ik denk dat een antwoord fout is — wat nu?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Meld het direct bij de vraag via de meld-knop — dat is de snelste route. Elke melding wordt bekeken en het antwoordmodel wordt waar nodig gecorrigeerd.
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- ── ACCOUNT & INSTELLINGEN ── -->
+    <div class="faq-cat rv" data-cat>
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-cyan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" fill="#fff"/>
+            <path d="M4.5 19.5C4.5 16 7.9 14 12 14C16.1 14 19.5 16 19.5 19.5C19.5 19.8 19.3 20 19 20H5C4.7 20 4.5 19.8 4.5 19.5Z" fill="#fff" opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Account &amp; instellingen</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe verander ik mijn naam of avatar?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Op je <a href="profile.html">profielpagina</a>: klik op het potlood naast je naam (wijzigen kan één keer per 24 uur) of op je avatar om hem aan te passen.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe zet ik de donkere modus aan?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Ga naar <a href="instellingen.html">Instellingen → Voorkeuren</a> en kies bij Weergave voor Donker. De hele site schakelt direct mee.
+        </div></div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q">Hoe verwijder ik mijn account?
+          <svg class="faq-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 9L12 16L19 9" stroke="#8E8E93" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-a-wrap"><div class="faq-a"><div class="faq-a-inner">
+          Via <a href="instellingen.html">Instellingen → Privacy → Account verwijderen</a>. Je account en alle bijbehorende gegevens worden dan definitief verwijderd. Meer weten? Lees het <a href="privacybeleid.html">privacybeleid</a>.
+        </div></div></div>
+      </div>
+    </div>
+
+    <!-- Empty search state -->
+    <div class="faq-empty" id="faq-empty">
+      <div class="faq-empty-icon">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" stroke="#1CB0F6" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8.5 11H13.5" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="faq-empty-text">Niets gevonden voor "<span id="faq-empty-q"></span>".<br>Probeer een ander woord, of neem hieronder contact op.</div>
+    </div>
+
+    <!-- ── CONTACT ── -->
+    <div class="faq-cat rv" id="contact">
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-blue">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="14" rx="3" fill="#fff"/>
+            <path d="M4.5 7L12 12.5L19.5 7" stroke="#0E85B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Kom je er niet uit?</div>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="5" width="18" height="14" rx="3" fill="#1CB0F6"/>
+              <path d="M4.5 7L12 12.5L19.5 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Contact opnemen
+          </div>
+          <div class="contact-card-text">Vragen, ideeën of feedback? Stuur een mailtje naar <strong>vumedteam@gmail.com</strong> — je krijgt zo snel mogelijk antwoord.</div>
+          <a class="contact-btn" href="mailto:vumedteam@gmail.com?subject=VUmed%20%E2%80%94%20vraag">Stuur een e-mail</a>
+        </div>
+
+        <div class="contact-card" id="bug">
+          <div class="contact-card-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="13" r="6" fill="#1CB0F6"/>
+              <path d="M9 5.5L10.5 7.5M15 5.5L13.5 7.5" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/>
+              <path d="M4 10L6.5 11.5M20 10L17.5 11.5M4 17H6.5M20 17H17.5" stroke="#1CB0F6" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 9V17" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Bug melden
+          </div>
+          <div class="contact-card-text">Klopt een antwoord niet? Meld het direct bij de vraag zelf. Voor andere bugs: beschrijf wat je deed en wat er misging. Mail naar <strong>vumedteam@gmail.com</strong>.</div>
+          <a class="contact-btn ghost" href="mailto:vumedteam@gmail.com?subject=VUmed%20%E2%80%94%20bug&body=Wat%20deed%20je%3F%0A%0AWat%20ging%20er%20mis%3F%0A%0AOp%20welke%20pagina%3F%0A">Meld een bug</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── FAQ accordion ──────────────────────────────────────────────────────────
+document.querySelectorAll('.faq-q').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    btn.closest('.faq-item').classList.toggle('open');
+  });
+});
+
+// ── Live search ────────────────────────────────────────────────────────────
+(function () {
+  var input = document.getElementById('faq-search');
+  var empty = document.getElementById('faq-empty');
+  var emptyQ = document.getElementById('faq-empty-q');
+  if (!input) return;
+  input.addEventListener('input', function () {
+    var q = input.value.trim().toLowerCase();
+    var anyVisible = false;
+    document.querySelectorAll('[data-cat]').forEach(function (cat) {
+      var catVisible = false;
+      cat.querySelectorAll('.faq-item').forEach(function (item) {
+        var hit = !q || item.textContent.toLowerCase().indexOf(q) !== -1;
+        item.style.display = hit ? '' : 'none';
+        if (hit) { catVisible = true; anyVisible = true; }
+        if (q && hit) item.classList.add('open');
+        if (!q) item.classList.remove('open');
+      });
+      cat.style.display = catVisible ? '' : 'none';
+    });
+    emptyQ.textContent = input.value.trim();
+    empty.classList.toggle('show', !!q && !anyVisible);
+  });
+})();
+
+// ── Scroll reveal (same pattern as dashboard) ──────────────────────────────
+(function () {
+  var els = document.querySelectorAll('.rv');
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var n = 0;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.style.transitionDelay = (Math.min(n++, 6) * 70) + 'ms';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+
+// ── Deep links (#contact / #bug) ───────────────────────────────────────────
+(function () {
+  var h = window.location.hash;
+  if (!h) return;
+  var el = document.querySelector(h);
+  if (el) setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 120);
+})();
+</script>
+
+</body>
+</html>

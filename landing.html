@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<script src="pwa.js?v=10"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VUmed — dé gratis manier om geneeskundetentamens te oefenen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="avatar_render.js?v=26"></script>
+
+  <!-- Apply saved theme before paint to avoid flash -->
+  <script>
+    (function(){
+      if (localStorage.getItem('vumed_theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    :root {
+      --bg:        #ffffff;
+      --surface:   #ffffff;
+      --text:      #4B4B4B;
+      --text-sub:  #777777;
+      --text-dim:  #AFAFAF;
+      --border:    #E5E5E5;
+      --blue:      #1CB0F6;
+      --blue-dark: #0E85B5;
+    }
+    html.dark {
+      --bg:        #1C1C1E;
+      --surface:   #2C2C2E;
+      --text:      #F2F2F7;
+      --text-sub:  #C7C7CC;
+      --text-dim:  #8E8E93;
+      --border:    #3A3A3C;
+    }
+
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.28s ease, color 0.28s ease;
+    }
+
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+    html.dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); }
+
+    .wrap { max-width: 988px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── Top bar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      transition: background 0.28s ease;
+    }
+    .topbar-in {
+      max-width: 988px; margin: 0 auto; padding: 0 24px;
+      height: 70px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo {
+      font-size: 30px; font-weight: 900; letter-spacing: -0.8px;
+      color: var(--blue); text-decoration: none; line-height: 1;
+      display: flex; align-items: center; gap: 9px;
+    }
+    .logo svg { display: block; }
+    .vle-pulse {
+      animation: vlePulse 3.6s ease-in-out infinite;
+      filter: drop-shadow(0 0 3px rgba(28,176,246,.75));
+    }
+    @keyframes vlePulse { 0% { stroke-dashoffset: 1.3; } 46%, 100% { stroke-dashoffset: -0.32; } }
+    @media (prefers-reduced-motion: reduce) { .vle-pulse { animation: none; opacity: 0; } }
+    .top-login {
+      font-size: 13px; font-weight: 900; letter-spacing: 0.8px;
+      text-transform: uppercase; text-decoration: none;
+      color: #fff; background: var(--blue);
+      padding: 11px 22px; border-radius: 12px;
+      box-shadow: 0 3px 0 var(--blue-dark);
+      transition: filter 0.12s ease, transform 0.06s ease, box-shadow 0.06s ease;
+    }
+    .top-login:hover { filter: brightness(1.07); }
+    .top-login:active { transform: translateY(3px); box-shadow: 0 0 0 var(--blue-dark); }
+
+    /* ── Buttons (Duolingo-style 3D) ── */
+    .btn {
+      display: block; width: 330px; max-width: 100%;
+      text-align: center; text-decoration: none; cursor: pointer;
+      border-radius: 16px; padding: 15px 16px;
+      font-family: inherit; font-size: 15px; font-weight: 800;
+      letter-spacing: 0.8px; text-transform: uppercase;
+      transition: filter 0.12s ease, transform 0.06s ease, box-shadow 0.06s ease, background 0.15s ease;
+      user-select: none;
+    }
+    .btn-primary {
+      background: var(--blue); color: #fff; border: none;
+      box-shadow: 0 4px 0 var(--blue-dark);
+    }
+    .btn-primary:hover { filter: brightness(1.07); }
+    .btn-primary:active { transform: translateY(4px); box-shadow: 0 0 0 var(--blue-dark); }
+    .btn-ghost {
+      background: var(--surface); color: var(--blue);
+      border: 2px solid var(--border);
+      box-shadow: 0 2px 0 var(--border);
+    }
+    .btn-ghost:hover { background: rgba(28,176,246,0.06); }
+    .btn-ghost:active { transform: translateY(2px); box-shadow: 0 0 0 var(--border); }
+
+    /* ── Hero ── */
+    .hero { min-height: calc(100vh - 70px); display: flex; align-items: center; }
+    .hero-in {
+      max-width: 988px; margin: 0 auto; padding: 40px 24px 56px;
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 24px; align-items: center; width: 100%;
+    }
+    .hero-art { display: flex; justify-content: center; }
+    .hero-art svg { width: 100%; max-width: 420px; height: auto; }
+    .hero-right { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .hero-title {
+      font-size: 32px; font-weight: 900; letter-spacing: -0.3px;
+      line-height: 1.35; text-align: center; color: var(--text);
+      max-width: 480px;
+    }
+    .hero-btns { display: flex; flex-direction: column; gap: 12px; align-items: center; }
+
+    /* ── Vakkenstrip (à la Duolingo's talenbalk): swipebaar, pijltjes op desktop ── */
+    .strip {
+      border-top: 2px solid var(--border);
+      border-bottom: 2px solid var(--border);
+    }
+    .strip-in {
+      max-width: 988px; margin: 0 auto; padding: 10px 12px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .strip-arrow {
+      flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+      border: 2px solid var(--border); background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; padding: 0; color: var(--text-dim);
+      transition: border-color 0.15s, color 0.15s, transform 0.1s;
+    }
+    .strip-arrow:hover { border-color: var(--blue); color: var(--blue); transform: scale(1.08); }
+    .strip-arrow:active { transform: scale(0.92); }
+    .strip-arrow svg { display: block; }
+    .subj-row {
+      display: flex; align-items: center; gap: 9px; min-width: 0; padding: 6px 0;
+      overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent);
+    }
+    .subj-row::-webkit-scrollbar { display: none; }
+    .subj-chip {
+      flex-shrink: 0; padding: 11px 15px; border-radius: 13px;
+      font-size: 13px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+      color: #fff; text-decoration: none; white-space: nowrap;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.14);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s;
+    }
+    /* kleurrijke pillen — palet cyclet over de vakken */
+    .subj-chip:nth-child(6n+1) { background: #1CB0F6; box-shadow: 0 3px 0 #0E85B5; }
+    .subj-chip:nth-child(6n+2) { background: #58CC02; box-shadow: 0 3px 0 #3d9200; }
+    .subj-chip:nth-child(6n+3) { background: #FF9600; box-shadow: 0 3px 0 #C97500; }
+    .subj-chip:nth-child(6n+4) { background: #B57BF6; box-shadow: 0 3px 0 #8A54C9; }
+    .subj-chip:nth-child(6n+5) { background: #FF4B4B; box-shadow: 0 3px 0 #C93030; }
+    .subj-chip:nth-child(6n+6) { background: #16C7B5; box-shadow: 0 3px 0 #0E9184; }
+    .subj-chip:hover { transform: translateY(-2px); filter: brightness(1.05); }
+    .subj-chip:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0,0,0,0.14); }
+
+    /* ── Feature rows ── */
+    .feats { padding: 40px 0 10px; }
+    .frow {
+      max-width: 988px; margin: 0 auto; padding: 60px 24px;
+      display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 60px; align-items: center;
+    }
+    .ftext h2 {
+      font-size: 30px; font-weight: 900; letter-spacing: -0.4px;
+      color: var(--blue); margin-bottom: 16px; line-height: 1.2;
+    }
+    .ftext p {
+      font-size: 17px; font-weight: 500; color: var(--text-sub);
+      line-height: 1.65; max-width: 420px;
+    }
+    .fart { display: flex; justify-content: center; align-items: center; }
+    .fart > svg { width: 100%; max-width: 340px; height: auto; }
+
+    /* ── CSS phones: the real app UI, miniaturised (values mirror gen_exams/vumed_stats) ── */
+    .phone-scene { position: relative; padding: 26px 40px; }
+    .mini-phone {
+      width: 272px; background: #ffffff;
+      border: 3px solid #E5E5E5; border-radius: 36px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.12);
+      padding: 16px 14px 18px;
+      position: relative;
+    }
+    html.dark .mini-phone { box-shadow: 0 24px 48px rgba(0,0,0,0.5); }
+    .tilt-l { transform: rotate(-4deg); }
+    .tilt-r { transform: rotate(3deg); }
+
+    /* exam header: hearts + streak bar (vumed_stats hearts, exam streak-bar) */
+    .mp-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .mp-hearts { display: flex; gap: 2.5px; flex-shrink: 0; }
+    .mp-bar { flex: 1; height: 11px; background: #E5E5EA; border-radius: 999px; overflow: hidden; }
+    .mp-fill {
+      height: 100%; width: 64%; border-radius: 999px; background: #58CC02;
+      position: relative; overflow: hidden;
+    }
+    .mp-fill::after {
+      content: ''; position: absolute; top: 15%; left: 6%; right: 6%; height: 35%;
+      border-radius: 999px; background: rgba(255,255,255,0.30);
+    }
+    /* progress dots (progressdots.js) */
+    .mp-dots { display: flex; gap: 5px; margin-bottom: 11px; }
+    .mp-dot { width: 9px; height: 9px; border-radius: 50%; background: #E5E5EA; }
+    .mp-dot.ok  { background: #58CC02; }
+    .mp-dot.bad { background: #FF3B30; }
+    .mp-dot.cur { background: #fff; border: 2.5px solid #1CB0F6; }
+    /* question + glossary term (purple, like the echte begrippenlijst) */
+    .mp-q { font-size: 13px; font-weight: 800; color: #1C1C1E; line-height: 1.45; margin-bottom: 10px; }
+    .mp-term { color: #B57BF6; font-weight: 800; }
+    /* options = .opt-btn verbatim, scaled down */
+    .mp-opts { display: flex; flex-direction: column; gap: 6px; margin-bottom: 11px; }
+    .mp-opt {
+      display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+      border: 1.5px solid #D1D1D6; border-radius: 12px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F4F6F9 100%);
+      font-size: 11.5px; font-weight: 600; color: #3C3C43; text-align: left; line-height: 1.35;
+    }
+    .mp-letter {
+      min-width: 19px; height: 19px; border-radius: 6px; background: #E5E5EA;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10.5px; font-weight: 700; color: #3C3C43; flex-shrink: 0;
+    }
+    .mp-opt.correct { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+    .mp-opt.correct .mp-letter { background: #58CC02; color: #fff; }
+    /* submit = de echte blauwe Controleren-knop */
+    .mp-check {
+      text-align: center; padding: 10px; border-radius: 12px;
+      background: #1CB0F6; color: #fff; font-size: 12.5px; font-weight: 800;
+      box-shadow: 0 3px 0 #0E85B5;
+    }
+    /* AI-chat = .chat-msg verbatim */
+    .mp-chat-head {
+      display: flex; align-items: center; gap: 7px; margin-bottom: 12px;
+      font-size: 12.5px; font-weight: 900; color: #1C1C1E;
+    }
+    .mp-chat-head .mp-live { width: 7px; height: 7px; border-radius: 50%; background: #58CC02; margin-left: auto; }
+    .mp-msgs { display: flex; flex-direction: column; gap: 8px; }
+    .mp-msg { max-width: 88%; padding: 9px 13px; border-radius: 18px; font-size: 11.5px; font-weight: 600; line-height: 1.5; }
+    .mp-msg.user { align-self: flex-end; background: #1CB0F6; color: #fff; border-bottom-right-radius: 5px; }
+    .mp-msg.ai   { align-self: flex-start; background: #fff; color: #1C1C1E; border: 1.5px solid #E5E5EA; border-bottom-left-radius: 5px; }
+    .mp-typing { align-self: flex-start; display: flex; gap: 4px; padding: 11px 13px;
+      background: #fff; border: 1.5px solid #E5E5EA; border-radius: 18px; border-bottom-left-radius: 5px; }
+    .mp-typing i { width: 6px; height: 6px; border-radius: 50%; background: #C7C7CC; animation: mpDot 1.2s ease-in-out infinite; }
+    .mp-typing i:nth-child(2) { animation-delay: 0.18s; }
+    .mp-typing i:nth-child(3) { animation-delay: 0.36s; }
+    @keyframes mpDot { 0%, 60%, 100% { transform: translateY(0); opacity: 0.55; } 30% { transform: translateY(-4px); opacity: 1; } }
+    /* floating reward chips around the phones */
+    .float-chip {
+      position: absolute; display: flex; align-items: center; gap: 6px;
+      background: #ffffff; border: 2px solid #E5E5E5; border-radius: 14px;
+      padding: 8px 12px; font-size: 13px; font-weight: 900;
+      box-shadow: 0 4px 0 #E5E5E5;
+      animation: mascotBob 3.6s ease-in-out infinite;
+      white-space: nowrap;
+    }
+    .float-chip svg { display: block; }
+    .fc-xp    { color: #FF9600; top: 6px; right: 6px; }
+    .fc-gem   { color: #1CB0F6; bottom: 46px; left: -6px; animation-delay: 0.9s; }
+    .fc-flame { color: #FF9600; top: 40px; left: -14px; animation-delay: 1.7s; }
+    .fc-good  { color: #58CC02; top: -2px; left: 26px; animation-delay: 0.5s; }
+    .fc-spark { color: #B57BF6; bottom: 30px; right: -10px; animation-delay: 1.3s; }
+    .frow.rev .ftext { order: 2; }
+    .frow.rev .fart  { order: 1; }
+
+    /* ── Mini-tentamenvenster (échte VU-tentamens): de exam-page in het klein,
+       met een sleepvraag die zichzelf demonstreert (7.5s loop) ── */
+    .mini-exam {
+      width: 330px; background: #fff;
+      border: 3px solid #E5E5E5; border-radius: 22px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.12);
+      padding: 12px 14px 16px;
+      position: relative; transform: rotate(-2deg);
+    }
+    html.dark .mini-exam { box-shadow: 0 24px 48px rgba(0,0,0,0.5); }
+    .mx-chrome { display: flex; align-items: center; gap: 5px; margin-bottom: 11px; }
+    .mx-tl { width: 9px; height: 9px; border-radius: 50%; }
+    .mx-tl.r { background: #FF5F57; } .mx-tl.y { background: #FEBC2E; } .mx-tl.g { background: #28C840; }
+    .mx-url {
+      flex: 1; margin-left: 6px; padding: 5px 11px; border-radius: 999px;
+      background: #F2F3F5; font-size: 10.5px; font-weight: 700; color: #8E8E93;
+      text-align: center; letter-spacing: 0.2px;
+    }
+    /* exam-header: Menu / streak-bar / Inleveren (echte header-indeling) */
+    .mx-head { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
+    .mx-pill {
+      padding: 5px 11px; border-radius: 999px; background: #F2F3F5;
+      font-size: 10.5px; font-weight: 800; color: #8E8E93; flex-shrink: 0;
+    }
+    /* casusblok zoals de context op de eerste casusvraag */
+    .mx-casus {
+      border-left: 3.5px solid #1CB0F6; background: #F0F9FF;
+      border-radius: 0 10px 10px 0; padding: 7px 10px;
+      font-size: 10.5px; font-weight: 600; color: #3C3C43; line-height: 1.45;
+      margin-bottom: 9px;
+    }
+    .mx-casus b { color: #1CB0F6; font-weight: 900; }
+    .mx-q { font-size: 12.5px; font-weight: 800; color: #1C1C1E; line-height: 1.4; margin-bottom: 10px; }
+    /* sleepvraag: zones + pool + vliegende kaart + cursor */
+    .mx-dnd { position: relative; }
+    .mx-zones { display: flex; gap: 8px; }
+    .mx-zone { flex: 1; min-width: 0; }
+    .mx-zlabel {
+      display: block; font-size: 9.5px; font-weight: 800; letter-spacing: 0.4px;
+      text-transform: uppercase; color: #8E8E93; margin-bottom: 4px;
+    }
+    .mx-slot {
+      height: 38px; border: 2px dashed #D1D1D6; border-radius: 11px;
+      position: relative; padding: 3px;
+    }
+    .mx-slot.target { animation: mxZone 7.5s ease-in-out infinite; }
+    @keyframes mxZone {
+      0%, 16%  { border-color: #D1D1D6; background: transparent; }
+      22%, 46% { border-color: #1CB0F6; background: #EBF7FF; }
+      52%, 74% { border-color: #58CC02; background: #F0FFF4; }
+      82%, 100% { border-color: #D1D1D6; background: transparent; }
+    }
+    .mx-card {
+      width: 104px; padding: 7px 9px; border-radius: 10px;
+      border: 1.5px solid #D1D1D6; background: #fff;
+      font-size: 11px; font-weight: 700; color: #3C3C43; text-align: center;
+      white-space: nowrap;
+    }
+    .mx-slot .mx-card { width: 100%; border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+    .mx-pool { display: flex; gap: 8px; margin-top: 10px; }
+    .mx-ghost { width: 104px; height: 32px; border: 2px dashed #E5E5EA; border-radius: 10px; flex-shrink: 0; }
+    /* de vliegende kaart: start op de ghost-plek, boogje naar zone 1 */
+    .mx-fly {
+      position: absolute; left: 0; top: 64px; z-index: 2;
+      animation: mxFly 7.5s ease-in-out infinite;
+    }
+    @keyframes mxFly {
+      0%, 12%  { transform: translate(0,0) scale(1); border-color: #D1D1D6; background: #fff; color: #3C3C43; box-shadow: none; opacity: 1; }
+      17%      { transform: translate(3px,-8px) scale(1.08); border-color: #1CB0F6; background: #fff; color: #3C3C43; box-shadow: 0 10px 18px rgba(0,0,0,0.16); }
+      33%      { transform: translate(30px,-62px) scale(1.08); border-color: #1CB0F6; background: #fff; color: #3C3C43; box-shadow: 0 10px 18px rgba(0,0,0,0.16); }
+      46%, 50% { transform: translate(6px,-44px) scale(1); border-color: #1CB0F6; background: #fff; color: #3C3C43; box-shadow: none; opacity: 1; }
+      54%, 74% { transform: translate(6px,-44px) scale(1); border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; box-shadow: none; opacity: 1; }
+      80%      { transform: translate(6px,-44px) scale(1); opacity: 0; }
+      84%      { transform: translate(0,0) scale(1); opacity: 0; border-color: #D1D1D6; background: #fff; color: #3C3C43; }
+      92%, 100% { transform: translate(0,0) scale(1); opacity: 1; border-color: #D1D1D6; background: #fff; color: #3C3C43; }
+    }
+    /* cursor die de kaart meeneemt */
+    .mx-cursor {
+      position: absolute; left: 78px; top: 84px; z-index: 3; opacity: 0;
+      animation: mxCursor 7.5s ease-in-out infinite;
+    }
+    @keyframes mxCursor {
+      0%, 8%   { transform: translate(0,0); opacity: 0; }
+      12%      { transform: translate(0,0); opacity: 1; }
+      17%      { transform: translate(3px,-8px); opacity: 1; }
+      33%      { transform: translate(30px,-62px); opacity: 1; }
+      46%, 56% { transform: translate(6px,-44px); opacity: 1; }
+      64%      { transform: translate(26px,-18px); opacity: 0; }
+      100%     { transform: translate(26px,-18px); opacity: 0; }
+    }
+    /* vinkje + sparkles bij het landen */
+    .mx-check {
+      position: absolute; top: -8px; right: -8px; width: 20px; height: 20px;
+      border-radius: 50%; background: #58CC02; z-index: 3;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; animation: mxCheck 7.5s ease-in-out infinite;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    }
+    @keyframes mxCheck {
+      0%, 50% { transform: scale(0); opacity: 0; }
+      55%     { transform: scale(1.25); opacity: 1; }
+      59%, 72% { transform: scale(1); opacity: 1; }
+      79%, 100% { transform: scale(0.6); opacity: 0; }
+    }
+    .mx-spark { position: absolute; opacity: 0; z-index: 3; animation: mxSpark 7.5s ease-out infinite; }
+    .mx-spark.s1 { top: -14px; left: 12px; }
+    .mx-spark.s2 { top: 4px; right: -14px; animation-delay: 0.12s; }
+    @keyframes mxSpark {
+      0%, 51% { transform: scale(0) rotate(0deg); opacity: 0; }
+      57%     { transform: scale(1.15) rotate(28deg); opacity: 1; }
+      66%, 100% { transform: scale(0.2) rotate(48deg); opacity: 0; }
+    }
+    /* vraagtype-chips rond het venster */
+    .fc-t1 { color: #1CB0F6; top: 2px; right: -4px; }
+    .fc-t2 { color: #B57BF6; top: 96px; left: -22px; animation-delay: 0.8s; }
+    .fc-t3 { color: #FF9600; bottom: -4px; right: 8px; animation-delay: 1.6s; }
+
+    /* ── Streak-scene ("blijf gemotiveerd"): levende dagenreeks-vlam,
+       week-rij en een +1-moment op één 7s-timeline ── */
+    .streak-scene { position: relative; width: 300px; padding: 10px 0 6px; text-align: center; }
+    .st-glow {
+      position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+      width: 240px; height: 240px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(255,150,0,0.18), transparent 65%);
+      animation: stGlow 3.2s ease-in-out infinite;
+    }
+    @keyframes stGlow {
+      0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.8; }
+      50%      { transform: translateX(-50%) scale(1.12); opacity: 1; }
+    }
+    .st-flame { position: relative; width: 132px; height: auto; display: block; margin: 0 auto; transform: scaleX(1.22); }
+    /* bodem-verankerde flicker (transform-box: fill-box — zelfde techniek als de
+       streak-celebratie); drie lagen, drie tempo's */
+    .st-flame path { transform-box: fill-box; transform-origin: 50% 100%; }
+    .stf-outer { animation: stFlick 1.9s ease-in-out infinite; }
+    .stf-mid   { animation: stFlick 1.4s ease-in-out infinite reverse; }
+    .stf-core  { animation: stFlick 1.1s ease-in-out infinite; }
+    @keyframes stFlick {
+      0%, 100% { transform: scaleY(1) scaleX(1) skewX(0); }
+      35%      { transform: scaleY(1.06) scaleX(0.97) skewX(1.4deg); }
+      70%      { transform: scaleY(0.96) scaleX(1.03) skewX(-1.6deg); }
+    }
+    /* de hele vlam doet een blije bump op het +1-moment */
+    .st-flame-wrap { display: inline-block; animation: stBump 7s ease-in-out infinite; }
+    @keyframes stBump {
+      0%, 43%  { transform: scale(1); }
+      46%      { transform: scale(1.12, 0.9); }
+      49%      { transform: scale(0.95, 1.08); }
+      52%, 100% { transform: scale(1); }
+    }
+    /* opstijgende vonkjes */
+    .st-ember {
+      position: absolute; width: 7px; height: 7px; border-radius: 50%;
+      background: #FFC800; opacity: 0; pointer-events: none;
+      animation: stEmber var(--d, 3.6s) ease-out infinite; animation-delay: var(--dl, 0s);
+    }
+    .st-ember.e1 { left: 34%; top: 60px; }
+    .st-ember.e2 { left: 62%; top: 44px; width: 5px; height: 5px; background: #FF9600; }
+    .st-ember.e3 { left: 50%; top: 70px; width: 5px; height: 5px; }
+    @keyframes stEmber {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      12%  { opacity: 0.9; }
+      60%  { transform: translateY(-64px) scale(0.5); opacity: 0; }
+      100% { transform: translateY(-64px) scale(0.5); opacity: 0; }
+    }
+    /* burst-sterren bij de bump */
+    .st-burst { position: absolute; opacity: 0; pointer-events: none; animation: stBurst 7s ease-out infinite; }
+    .st-burst.b1 { top: 26px; left: 22%; }
+    .st-burst.b2 { top: 12px; right: 20%; animation-delay: 0.1s; }
+    .st-burst.b3 { top: 90px; right: 12%; animation-delay: 0.18s; }
+    @keyframes stBurst {
+      0%, 44% { transform: scale(0) rotate(0); opacity: 0; }
+      50%     { transform: scale(1.2) rotate(26deg); opacity: 1; }
+      60%, 100% { transform: scale(0.15) rotate(50deg); opacity: 0; }
+    }
+    /* groot nummer: flipt 11 → 12 op het +1-moment (celebratie-gradient) */
+    .st-num { position: relative; height: 62px; margin-top: 2px; }
+    .st-num span {
+      position: absolute; left: 0; right: 0;
+      font-size: 56px; font-weight: 900; line-height: 62px; letter-spacing: -1px;
+      background: linear-gradient(180deg, #FFC800, #FF9600);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sn-old { animation: stOld 7s ease-in-out infinite; }
+    .sn-new { animation: stNew 7s ease-in-out infinite; }
+    @keyframes stOld {
+      0%, 52%  { transform: translateY(0); opacity: 1; }
+      57%, 92% { transform: translateY(-26px); opacity: 0; }
+      97%, 100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes stNew {
+      0%, 52%  { transform: translateY(26px); opacity: 0; }
+      57%, 92% { transform: translateY(0); opacity: 1; }
+      96%, 100% { transform: translateY(26px); opacity: 0; }
+    }
+    .st-label { font-size: 15px; font-weight: 800; color: var(--text-sub); margin-top: 2px; }
+    /* week-rij (celebratie/heatmap-taal): 6 gevuld, vandaag vult zich in de loop */
+    .st-week {
+      display: flex; justify-content: center; gap: 7px;
+      background: #fff; border: 2px solid #E5E5EA; border-radius: 16px;
+      padding: 11px 12px 9px; margin-top: 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      position: relative;
+    }
+    html.dark .st-week { box-shadow: 0 10px 24px rgba(0,0,0,0.45); }
+    .st-day { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .st-day i {
+      width: 26px; height: 26px; border-radius: 50%; background: #FF9600;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .st-day i svg { display: block; }
+    .st-day span { font-size: 9px; font-weight: 800; color: #AFAFAF; text-transform: uppercase; }
+    /* vandaag: lege ring die pulseert, vult op 40% van de timeline */
+    .st-day.today i {
+      background: #fff; border: 2.5px dashed #D1D1D6; position: relative;
+      animation: stTodayPulse 2s ease-in-out infinite, stTodayFill 7s ease-in-out infinite;
+    }
+    @keyframes stTodayPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(28,176,246,0.35); }
+      50%      { box-shadow: 0 0 0 5px rgba(28,176,246,0); }
+    }
+    @keyframes stTodayFill {
+      0%, 38%  { background: #fff; border-color: #D1D1D6; }
+      42%, 90% { background: #FF9600; border-color: #FF9600; }
+      96%, 100% { background: #fff; border-color: #D1D1D6; }
+    }
+    .st-day.today i svg { opacity: 0; animation: stTodayFlame 7s ease-in-out infinite; }
+    @keyframes stTodayFlame {
+      0%, 38%   { transform: scale(0); opacity: 0; }
+      43%       { transform: scale(1.25); opacity: 1; }
+      47%, 90%  { transform: scale(1); opacity: 1; }
+      95%, 100% { transform: scale(0); opacity: 0; }
+    }
+    /* "+1 dag"-chip popt mee met de bump */
+    .fc-plus {
+      color: #FF9600; top: 66px; right: -30px;
+      opacity: 0; animation: stPlus 7s ease-in-out infinite;
+    }
+    @keyframes stPlus {
+      0%, 44%  { transform: scale(0) translateY(6px); opacity: 0; }
+      50%      { transform: scale(1.12) translateY(0); opacity: 1; }
+      54%, 84% { transform: scale(1) translateY(0); opacity: 1; }
+      92%, 100% { transform: scale(0.6) translateY(4px); opacity: 0; }
+    }
+    /* streakbevriezer-chip: gewoon ambient bobbend */
+    .fc-freeze { color: #5AC8FF; top: 6px; left: -36px; animation-delay: 1.1s; }
+
+    /* ── App / anywhere section ── */
+    .anywhere { text-align: center; padding: 70px 24px 80px; }
+    .anywhere h2 {
+      font-size: 30px; font-weight: 900; letter-spacing: -0.4px;
+      color: var(--blue); margin-bottom: 14px;
+    }
+    .anywhere p {
+      font-size: 17px; font-weight: 500; color: var(--text-sub);
+      line-height: 1.65; max-width: 520px; margin: 0 auto 28px;
+    }
+    .badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .badge {
+      display: flex; align-items: center; gap: 12px;
+      background: #1C1C1E; color: #fff; text-decoration: none;
+      border-radius: 14px; padding: 12px 20px; min-width: 210px;
+      box-shadow: 0 3px 0 rgba(0,0,0,0.35);
+      transition: filter 0.12s;
+    }
+    html.dark .badge { background: #3A3A3C; }
+    .badge:hover { filter: brightness(1.15); }
+    .badge svg { flex-shrink: 0; }
+    .badge-txt { text-align: left; }
+    .badge-txt small { display: block; font-size: 11px; font-weight: 700; opacity: 0.75; letter-spacing: 0.4px; }
+    .badge-txt b { font-size: 16px; font-weight: 900; }
+
+    /* ── Product cards ── */
+    .cards {
+      max-width: 988px; margin: 0 auto; padding: 20px 24px 60px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .pcard {
+      background: var(--surface);
+      border: 2px solid var(--border); border-radius: 18px;
+      padding: 30px 26px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.28s ease;
+    }
+    .pcard:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(0,0,0,0.08); }
+    .pcard h3 { font-size: 21px; font-weight: 900; color: var(--blue); letter-spacing: -0.3px; }
+    .pcard p { font-size: 14.5px; font-weight: 500; color: var(--text-sub); line-height: 1.6; flex: 1; }
+    .pcard .btn { width: 100%; font-size: 13px; padding: 12px 10px; }
+
+    /* ── Final CTA: Duolingo-landschap dat doorloopt in de blauwe footer ── */
+    .endcta {
+      position: relative; overflow: hidden;
+      text-align: center; padding: 90px 24px 0;
+    }
+    .endcta h2 {
+      font-size: 58px; font-weight: 900; letter-spacing: -0.6px;
+      line-height: 1.15; color: var(--blue); margin-bottom: 32px;
+    }
+    .endcta .btn { margin: 0 auto; position: relative; z-index: 2; }
+    .end-hills {
+      position: absolute; left: 0; right: 0; bottom: -8px; height: 300px;
+      z-index: 0; pointer-events: none;
+    }
+    .end-hills svg { display: block; width: 100%; height: 100%; }
+    .lp-hill-back  { fill: #BEE9FF; }
+    .lp-hill-front { fill: #1CB0F6; }
+    html.dark .lp-hill-back  { fill: #0E5F86; }
+    html.dark .lp-hill-front { fill: #0F7CB0; }
+    .end-scene { position: relative; z-index: 1; max-width: 1100px; margin: 22px auto 0; height: 430px; }
+    .end-phone { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); }
+    /* zachte grond-schaduw (los van de tilt — een blur-shadow op het gekantelde
+       element tekent als rare rechthoek) */
+    .end-phone::after {
+      content: ''; position: absolute; left: 50%; bottom: -28px; transform: translateX(-50%);
+      width: 320px; height: 48px; border-radius: 50%; z-index: -1;
+      background: radial-gradient(ellipse, rgba(9,76,112,0.30), transparent 68%);
+    }
+    .end-bob { animation: mascotBob 3.8s ease-in-out infinite; }
+    /* schuin naar achteren gekanteld + slab-randen zoals de hero-telefoon
+       (licht frame #BEE9FF, donkerblauwe 3D-rand #0E85B5) — elke transform
+       op z'n eigen laag, ze kunnen niet op één element */
+    .end-tilt { transform: perspective(780px) rotateX(20deg); transform-origin: 50% 100%; }
+    .end-frame {
+      width: 276px; height: 338px; position: relative;
+      background: #BEE9FF; border-radius: 46px; padding: 13px;
+      box-shadow: 0 16px 0 #0E85B5;
+    }
+    .end-screen {
+      position: relative; width: 100%; height: 100%; overflow: hidden;
+      background: var(--surface); border-radius: 34px;
+      transition: background 0.28s ease;
+    }
+    .end-screen::before {
+      content: ''; position: absolute; top: 13px; left: 50%; transform: translateX(-50%);
+      width: 64px; height: 10px; border-radius: 6px; background: rgba(28,176,246,0.25);
+      z-index: 2;
+    }
+    /* trage glans die af en toe over het scherm veegt */
+    .end-screen::after {
+      content: ''; position: absolute; top: -35%; left: 0; width: 46%; height: 170%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,0.14) 45%, rgba(255,255,255,0.26) 50%, rgba(255,255,255,0.14) 55%, transparent);
+      transform: skewX(-14deg) translateX(-260%);
+      animation: endGlare 7s ease-in-out infinite; animation-delay: 1.2s;
+      pointer-events: none; z-index: 3;
+    }
+    @keyframes endGlare {
+      0% { transform: skewX(-14deg) translateX(-260%); }
+      34%, 100% { transform: skewX(-14deg) translateX(420%); }
+    }
+    .end-screen .mslot {
+      position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%);
+      width: 195px; height: 195px; display: block;
+    }
+    /* zwevende beloningen/medische iconen rond de telefoon */
+    .fl {
+      position: absolute; width: 64px; height: 64px; z-index: 1;
+      filter: drop-shadow(0 7px 12px rgba(0,0,0,0.12));
+      animation: flFloat var(--d, 3.8s) ease-in-out infinite;
+      animation-delay: var(--dl, 0s);
+      animation-fill-mode: backwards; /* basis-kanteling ook al tijdens de delay */
+    }
+    .fl svg { display: block; width: 100%; height: 100%; }
+    /* --r = eigen basis-kanteling per zwever (gescatterde look); de float
+       wiebelt er ±5deg omheen */
+    @keyframes flFloat {
+      0%, 100% { transform: translateY(0) rotate(calc(var(--r, 0deg) - 5deg)); }
+      50%      { transform: translateY(-15px) rotate(calc(var(--r, 0deg) + 5deg)); }
+    }
+    .fl-heart  { left: 18%; top: 8%;  --r: 9deg; }
+    .fl-heart2 { right: 16%; top: 7%; width: 46px; height: 46px; --r: -13deg; }
+    .fl-gem    { right: 28%; top: 42%; width: 56px; height: 56px; --r: -8deg; }
+    .fl-pill   { left: 8%;  top: 52%; width: 58px; height: 58px; --r: 15deg; }
+    .fl-pill3  { left: 26%; top: 46%; width: 54px; height: 54px; --r: -19deg; }
+    .fl-clock  { right: 6%; top: 55%; width: 60px; height: 60px; --r: 11deg; }
+    .fl-check2 { left: 28%; top: 62%; width: 40px; height: 40px; --r: 14deg; }
+    .fl-stetho { left: 4%;  top: 13%; width: 76px; height: 76px; --r: -11deg; }
+    .fl-syringe{ right: 4%; top: 20%; width: 72px; height: 72px; --r: 7deg; }
+    .fl-band   { right: 21%; top: 29%; width: 56px; height: 56px; --r: 18deg; }
+    .fl-pill2  { left: 33%; top: 13%; width: 46px; height: 46px; --r: -7deg; }
+    .fl-cross  { right: 33%; top: 58%; width: 46px; height: 46px; --r: -15deg; }
+    .fl-dot    { width: 18px; height: 18px; border-radius: 5px; background: #A8E4FF; }
+    .fl-dot.d1 { left: 40%; top: 24%; --r: 24deg; }
+    .fl-dot.d2 { right: 39%; top: 10%; --r: -18deg; }
+
+    /* ── Footer: één groot blauw blok (kleur loopt door vanaf de heuvels) ── */
+    footer {
+      position: relative; overflow: hidden;
+      background: #1CB0F6; color: #fff;
+      padding: 18px 24px 24px;
+      margin-top: -4px; /* dicht sub-pixel-naad met de heuvels (zelfde blauw) */
+    }
+    html.dark footer { background: #0F7CB0; }
+    /* trage lichtbaan over het hele blok (zelfde recept als de app-banners) */
+    footer::after {
+      content: ''; position: absolute; top: -30%; left: 0; width: 34%; height: 160%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.05) 58%, transparent);
+      transform: skewX(-16deg) translateX(-330%);
+      animation: lpShine 9s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes lpShine {
+      0% { transform: skewX(-16deg) translateX(-330%); }
+      30%, 100% { transform: skewX(-16deg) translateX(430%); }
+    }
+    .foot-ecg { display: block; max-width: 988px; width: 100%; height: 56px; margin: 0 auto 4px; }
+    .beat-base  { fill: none; stroke: rgba(255,255,255,0.32); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .beat-comet {
+      fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round;
+      stroke-dasharray: 0.06 1; stroke-dashoffset: 1.06;
+      animation: ecgComet 4.8s linear infinite;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.9));
+    }
+    @keyframes ecgComet { from { stroke-dashoffset: 1.06; } to { stroke-dashoffset: -0.06; } }
+    .foot-in {
+      max-width: 988px; margin: 30px auto 0; position: relative; z-index: 1;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px;
+      text-align: left;
+    }
+    .fcol h4 {
+      font-size: 13px; font-weight: 900; letter-spacing: 1px;
+      text-transform: uppercase; color: #fff; margin-bottom: 14px;
+    }
+    .fcol a {
+      display: block; width: fit-content;
+      font-size: 14.5px; font-weight: 700;
+      color: rgba(255,255,255,0.85); text-decoration: none;
+      padding: 5px 0; transition: color 0.15s, transform 0.15s;
+    }
+    .fcol a:hover { color: #fff; transform: translateX(3px); }
+    .foot-note {
+      max-width: 988px; margin: 40px auto 0; padding-top: 20px;
+      border-top: 2px solid rgba(255,255,255,0.25);
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.75);
+      text-align: center; position: relative; z-index: 1;
+    }
+    /* gigantisch woordmerk, half afgeknipt door de onderrand */
+    .foot-word {
+      font-size: clamp(76px, 15vw, 180px); font-weight: 900;
+      letter-spacing: -5px; line-height: 0.9; text-align: center;
+      color: #fff;
+      margin: 22px auto 0;
+      user-select: none; pointer-events: none;
+    }
+
+    /* ── Scroll reveal ── */
+    .rv { opacity: 0; transform: translateY(16px); will-change: opacity, transform; }
+    .rv.in {
+      opacity: 1; transform: none;
+      transition: opacity 0.45s ease, transform 0.6s cubic-bezier(0.2,0.78,0.28,1);
+    }
+    @keyframes heroPop {
+      0% { opacity: 0; transform: scale(0.92) translateY(10px); }
+      100% { opacity: 1; transform: none; }
+    }
+    .hero-art svg { animation: heroPop 0.55s cubic-bezier(0.2,0.9,0.3,1.15) both; }
+    @keyframes mascotBob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+    .hero-phone-float { animation: mascotBob 3.6s ease-in-out infinite; }
+    @media (prefers-reduced-motion: reduce) {
+      .rv, .rv.in { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .hero-art svg, .hero-phone-float { animation: none !important; }
+      .float-chip, .mp-typing i { animation: none !important; }
+      .fl, .end-bob { animation: none !important; }
+      .end-screen::after { display: none; }
+      .mx-fly, .mx-cursor, .mx-slot.target, .mx-check, .mx-spark { animation: none !important; }
+      .st-glow, .st-flame path, .st-flame-wrap, .st-ember, .st-burst,
+      .sn-old, .sn-new, .st-day.today i, .st-day.today i svg, .fc-plus { animation: none !important; }
+      .sn-new { opacity: 0; }
+      .beat-comet { animation: none !important; opacity: 0; }
+      footer::after { display: none; }
+    }
+
+    /* dark-mode fills inside the illustrations (class beats attribute) */
+    html.dark .d-screen { fill: #2C2C2E; }
+    html.dark .d-card   { fill: #3A3A3C; }
+    html.dark .d-line   { fill: #48484A; }
+    html.dark .d-paper  { fill: #2C2C2E; }
+    html.dark .d-frame  { stroke: #3A3A3C; }
+
+    @media (max-width: 768px) {
+      .topbar-in { height: 60px; padding: 0 16px; }
+      .logo { font-size: 25px; }
+      .hero { min-height: 0; }
+      .hero-in { grid-template-columns: 1fr; padding: 26px 20px 44px; gap: 8px; }
+      .hero-art svg { max-width: 250px; }
+      .hero-title { font-size: 24px; }
+      .hero-btns { width: 100%; }
+      .btn { width: 100%; max-width: 340px; }
+      .strip-in { padding: 8px 6px; gap: 0; }
+      .strip-arrow { display: none; }
+      .subj-chip { font-size: 12px; padding: 10px 11px; }
+      .frow { grid-template-columns: 1fr; gap: 26px; padding: 36px 20px; }
+      .frow .fart, .frow.rev .fart { order: -1; }
+      .fart > svg { max-width: 250px; }
+      .phone-scene { padding: 20px 30px; }
+      .mini-phone { width: 250px; }
+      .mini-exam { width: 282px; padding: 10px 12px 14px; }
+      .mx-casus { font-size: 10px; }
+      .mx-q { font-size: 11.5px; }
+      .mx-card { width: 96px; font-size: 10.5px; }
+      .mx-ghost { width: 96px; }
+      .float-chip { font-size: 12px; padding: 7px 10px; }
+      .ftext h2 { font-size: 24px; text-align: center; }
+      .ftext p { font-size: 15.5px; text-align: center; margin: 0 auto; }
+      .streak-scene { width: 272px; }
+      .st-flame { width: 116px; }
+      .fc-freeze { left: -14px; }
+      .fc-plus { right: -8px; }
+      .anywhere { padding: 40px 20px 50px; }
+      .anywhere h2 { font-size: 24px; }
+      .anywhere p { font-size: 15.5px; }
+      .cards { grid-template-columns: 1fr; padding-bottom: 30px; }
+      .endcta { padding: 52px 20px 0; }
+      .endcta h2 { font-size: 36px; }
+      .end-hills { height: 190px; }
+      .end-scene { height: 320px; margin-top: 16px; }
+      .end-frame { width: 200px; height: 252px; border-radius: 38px; padding: 9px; box-shadow: 0 11px 0 #0E85B5; }
+      .end-phone::after { width: 230px; height: 36px; bottom: -22px; }
+      .end-screen { border-radius: 30px; }
+      .end-screen .mslot { width: 146px; height: 146px; }
+      .fl { width: 44px; height: 44px; }
+      .fl-gem { width: 40px; height: 40px; }
+      .fl-stetho { width: 52px; height: 52px; }
+      .fl-heart2 { width: 36px; height: 36px; }
+      .fl-pill, .fl-clock, .fl-syringe, .fl-pill2, .fl-cross, .fl-band, .fl-check2, .fl-dot.d2 { display: none; }
+      .fl-dot { width: 13px; height: 13px; }
+      .fl-heart { left: 22%; top: 6%; }
+      .fl-stetho { left: 4%; top: 26%; }
+      .fl-heart2 { right: 8%; top: 8%; }
+      .fl-pill3 { left: 13%; top: 52%; }
+      .fl-gem { right: 13%; top: 46%; }
+      .foot-ecg { height: 44px; }
+      .foot-in { grid-template-columns: 1fr 1fr; gap: 26px 18px; }
+      .foot-word { letter-spacing: -2px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Top bar ── -->
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="dashboard.html" aria-label="VUmed">
+      vumed
+    </a>
+    <a class="top-login" id="top-login" href="dashboard.html">Begin nu</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-in">
+      <div class="hero-art">
+        <svg viewBox="0 0 360 450" aria-hidden="true">
+          <g class="hero-phone-float">
+            <g transform="rotate(-8 180 225)">
+              <!-- side extrusion (3D slab) -->
+              <rect x="42" y="48" width="248" height="386" rx="38" fill="#0E85B5"/>
+              <!-- light frame -->
+              <rect x="54" y="36" width="248" height="386" rx="38" fill="#BEE9FF"/>
+              <!-- screen -->
+              <rect class="d-screen" x="66" y="48" width="224" height="362" rx="28" fill="#ffffff"/>
+              <!-- app icon with mascot -->
+              <clipPath id="hero-ic"><rect x="112" y="152" width="132" height="132" rx="36"/></clipPath>
+              <g clip-path="url(#hero-ic)">
+                <rect x="112" y="152" width="132" height="132" fill="#1CB0F6"/>
+                <svg id="mascot-head" x="112" y="152" width="132" height="132" viewBox="-33 -116 472 472">
+                  <!-- fallback: medical cross (replaced by the avatar when avatar_render loads) -->
+                  <path d="M163 30 h80 v65 h65 v80 h-65 v65 h-80 v-65 h-65 v-80 h65 z" fill="#ffffff"/>
+                </svg>
+              </g>
+              <!-- little ECG under the icon -->
+              <path d="M112 322 h28 l7,-7 5,13 6,-24 6,30 5,-12 h28" stroke="#1CB0F6" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+              <path d="M129 356 h98" stroke="#E5E5E5" stroke-width="8" stroke-linecap="round"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div class="hero-right">
+        <h1 class="hero-title">De gratis, leuke en effectieve manier om je geneeskundetentamens te halen!</h1>
+        <div class="hero-btns">
+          <a class="btn btn-primary" id="cta-primary" href="dashboard.html">Aan de slag</a>
+          <a class="btn btn-ghost" id="cta-ghost" href="dashboard.html">Ik heb al een account</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Vakkenstrip ── -->
+  <div class="strip">
+    <div class="strip-in">
+      <button class="strip-arrow" type="button" aria-label="Scroll naar links"
+        onclick="document.getElementById('subj-row').scrollBy({left:-430,behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6 9 12l5.5 6"/></svg>
+      </button>
+      <div class="subj-row" id="subj-row">
+        <a class="subj-chip" href="vumed.html">Arts en Patiënt</a>
+        <a class="subj-chip" href="vumed.html">Start van het Leven</a>
+        <a class="subj-chip" href="vumed.html">Groei en Ontwikkeling</a>
+        <a class="subj-chip" href="vumed.html">Huid en Afweer</a>
+        <a class="subj-chip" href="vumed.html">Bouw en Bewegen</a>
+        <a class="subj-chip" href="vumed.html">Homeostase</a>
+        <a class="subj-chip" href="vumed.html">Metabole Systemen</a>
+        <a class="subj-chip" href="vumed.html">Circulatie en Volumeregulatie</a>
+        <a class="subj-chip" href="vumed.html">Circulatie en Vasculaire Stoornissen</a>
+        <a class="subj-chip" href="vumed.html">Spijsvertering en Stofwisseling</a>
+        <a class="subj-chip" href="vumed.html">Hematologie en Oncologie</a>
+        <a class="subj-chip" href="vumed.html">Infectie en Inflammatie</a>
+        <a class="subj-chip" href="vumed.html">Schade, Afweer en Herstel</a>
+        <a class="subj-chip" href="vumed.html">Hersenen en Zintuigen</a>
+        <a class="subj-chip" href="vumed.html">Neurologie en Oogheelkunde</a>
+        <a class="subj-chip" href="vumed.html">Psychisch Functioneren en Cognitie</a>
+        <a class="subj-chip" href="vumed.html">Leefstijl en Gezondheidszorg</a>
+        <a class="subj-chip" href="vumed.html">MWO</a>
+      </div>
+      <button class="strip-arrow" type="button" aria-label="Scroll naar rechts"
+        onclick="document.getElementById('subj-row').scrollBy({left:430,behavior:'smooth'})">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6 15 12l-5.5 6"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Feature rows ── -->
+  <div class="feats">
+
+    <div class="frow">
+      <div class="ftext rv">
+        <h2>gratis. leuk. effectief.</h2>
+        <p>Oefenen met VUmed is leuk — en het werkt. Met korte, interactieve vragen verdien je XP, houd je je reeks vast en ontgrendel je beloningen, terwijl de stof écht blijft hangen.</p>
+      </div>
+      <div class="fart rv">
+        <div class="phone-scene">
+          <div class="mini-phone tilt-l">
+            <div class="mp-top">
+              <div class="mp-hearts" aria-hidden="true">
+                <svg width="15" height="14" viewBox="0 0 24 22"><path d="M12 21 C12 21 1 14 1 7.2 C1 3.2 4.2 1 7.2 1 C9.2 1 11 2 12 3.7 C13 2 14.8 1 16.8 1 C19.8 1 23 3.2 23 7.2 C23 14 12 21 12 21 Z" fill="#FF4B4B"/></svg>
+                <svg width="15" height="14" viewBox="0 0 24 22"><path d="M12 21 C12 21 1 14 1 7.2 C1 3.2 4.2 1 7.2 1 C9.2 1 11 2 12 3.7 C13 2 14.8 1 16.8 1 C19.8 1 23 3.2 23 7.2 C23 14 12 21 12 21 Z" fill="#FF4B4B"/></svg>
+                <svg width="15" height="14" viewBox="0 0 24 22"><path d="M12 21 C12 21 1 14 1 7.2 C1 3.2 4.2 1 7.2 1 C9.2 1 11 2 12 3.7 C13 2 14.8 1 16.8 1 C19.8 1 23 3.2 23 7.2 C23 14 12 21 12 21 Z" fill="#FF4B4B"/></svg>
+                <svg width="15" height="14" viewBox="0 0 24 22"><path d="M12 21 C12 21 1 14 1 7.2 C1 3.2 4.2 1 7.2 1 C9.2 1 11 2 12 3.7 C13 2 14.8 1 16.8 1 C19.8 1 23 3.2 23 7.2 C23 14 12 21 12 21 Z" fill="#E5E5EA"/></svg>
+              </div>
+              <div class="mp-bar"><div class="mp-fill"></div></div>
+            </div>
+            <div class="mp-dots" aria-hidden="true">
+              <span class="mp-dot ok"></span><span class="mp-dot ok"></span><span class="mp-dot bad"></span>
+              <span class="mp-dot ok"></span><span class="mp-dot cur"></span><span class="mp-dot"></span>
+              <span class="mp-dot"></span><span class="mp-dot"></span>
+            </div>
+            <div class="mp-q">Welke bloedcellen bevatten <span class="mp-term">hemoglobine</span> en vervoeren zuurstof?</div>
+            <div class="mp-opts">
+              <div class="mp-opt"><span class="mp-letter">a</span>Leukocyten</div>
+              <div class="mp-opt correct"><span class="mp-letter">b</span>Erytrocyten</div>
+              <div class="mp-opt"><span class="mp-letter">c</span>Trombocyten</div>
+              <div class="mp-opt"><span class="mp-letter">d</span>Fibroblasten</div>
+            </div>
+            <div class="mp-check">Controleren</div>
+          </div>
+          <div class="float-chip fc-xp">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M13 2 L4 14 h6 l-1 8 9 -12 h-6 z" fill="#FFC800" stroke="#FF9600" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            +10 XP
+          </div>
+          <div class="float-chip fc-good">Goed!</div>
+          <div class="float-chip fc-gem">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 2 L21 9 L12 22 L3 9 Z" fill="#1CB0F6"/><path d="M12 2 L16.5 9 L12 22 L7.5 9 Z" fill="#5AC8FF"/></svg>
+            +5
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frow rev">
+      <div class="ftext rv">
+        <h2>échte VU-tentamens</h2>
+        <p>Geen losse flashcards, maar de oude toetsen zelf: meerkeuzevragen, sleepvragen, casussen en open vragen van jaar 1 tot en met 3 — precies zoals je ze op het tentamen krijgt.</p>
+      </div>
+      <div class="fart rv">
+        <div class="phone-scene">
+          <div class="mini-exam" aria-hidden="true">
+            <div class="mx-chrome">
+              <span class="mx-tl r"></span><span class="mx-tl y"></span><span class="mx-tl g"></span>
+              <div class="mx-url">vumed.nl/tentamen</div>
+            </div>
+            <div class="mx-head">
+              <span class="mx-pill">Menu</span>
+              <div class="mp-bar"><div class="mp-fill" style="width:38%"></div></div>
+              <span class="mx-pill">Inleveren</span>
+            </div>
+            <div class="mx-casus"><b>Casus</b> — Een 54-jarige man komt op het spreekuur met vermoeidheid en een bleke huid.</div>
+            <div class="mx-q">12. Sleep elk celtype naar zijn functie in het <span class="mp-term">bloed</span>.</div>
+            <div class="mx-dnd">
+              <div class="mx-zones">
+                <div class="mx-zone">
+                  <span class="mx-zlabel">Zuurstoftransport</span>
+                  <div class="mx-slot target">
+                    <div class="mx-check">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l5 5L19.5 8" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <svg class="mx-spark s1" width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="#FFC800"/></svg>
+                    <svg class="mx-spark s2" width="10" height="10" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="#58CC02"/></svg>
+                  </div>
+                </div>
+                <div class="mx-zone">
+                  <span class="mx-zlabel">Afweer</span>
+                  <div class="mx-slot"><div class="mx-card">Leukocyt</div></div>
+                </div>
+              </div>
+              <div class="mx-pool">
+                <div class="mx-ghost"></div>
+                <div class="mx-card">Trombocyt</div>
+              </div>
+              <div class="mx-card mx-fly">Erytrocyt</div>
+              <svg class="mx-cursor" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3l12 9.2-5.2 1 3 6.2-2.6 1.2-3-6.2L6 18.6z" fill="#fff" stroke="#1C1C1E" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="float-chip fc-t1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" fill="#1CB0F6"/><path d="M8 12.5l3 3 5.5-6.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Meerkeuze
+          </div>
+          <div class="float-chip fc-t2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="4" y="2.5" width="16" height="19" rx="3.5" fill="#B57BF6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/></svg>
+            Casus
+          </div>
+          <div class="float-chip fc-t3">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 20l1.2-4.6L16.4 4.2a2.3 2.3 0 0 1 3.3 0l.1.1a2.3 2.3 0 0 1 0 3.3L8.6 18.8z" fill="#FF9600"/><path d="M14.8 6l3.2 3.2" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/></svg>
+            Open vraag
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frow">
+      <div class="ftext rv">
+        <h2>blijf gemotiveerd</h2>
+        <p>We maken er samen een gewoonte van: dagelijkse reeksen, dagdoelen, missies, schatkisten en een trofeeënpad van student tot specialist. Elke dag een beetje — zo blijft kennis plakken.</p>
+      </div>
+      <div class="fart rv">
+        <div class="phone-scene">
+          <div class="streak-scene" aria-hidden="true">
+            <div class="st-glow"></div>
+            <i class="st-ember e1" style="--d:3.4s"></i>
+            <i class="st-ember e2" style="--d:4.1s;--dl:1.2s"></i>
+            <i class="st-ember e3" style="--d:3.7s;--dl:2.1s"></i>
+            <svg class="st-burst b1" width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="#FFC800"/></svg>
+            <svg class="st-burst b2" width="12" height="12" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="#FF9600"/></svg>
+            <svg class="st-burst b3" width="11" height="11" viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z" fill="#FFC800"/></svg>
+            <div class="st-flame-wrap">
+              <svg class="st-flame" viewBox="0 0 120 150">
+                <path class="stf-outer" d="M60 6 C60 6 22 46 22 84 C22 116 39 142 60 142 C81 142 98 116 98 84 C98 72 94 59 88 47 C84 56 78 63 71 66 C74 47 70 20 60 6 Z" fill="#FF9600"/>
+                <path class="stf-mid" d="M60 142 C48 142 39 129 39 114 C39 98 60 82 60 82 C60 82 81 98 81 114 C81 129 72 142 60 142 Z" fill="#FFC800"/>
+                <path class="stf-core" d="M60 142 C54 142 49 135 49 127 C49 118 60 110 60 110 C60 110 71 118 71 127 C71 135 66 142 60 142 Z" fill="#FFF4D6"/>
+              </svg>
+            </div>
+            <div class="st-num"><span class="sn-old">11</span><span class="sn-new">12</span></div>
+            <div class="st-label">dagen op rij!</div>
+            <div class="st-week">
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>m</span></div>
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>d</span></div>
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>w</span></div>
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>d</span></div>
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>v</span></div>
+              <div class="st-day"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>z</span></div>
+              <div class="st-day today"><i><svg width="12" height="14" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#fff"/></svg></i><span>z</span></div>
+            </div>
+            <div class="float-chip fc-plus">
+              <svg width="14" height="16" viewBox="0 0 24 28"><path d="M12 1c1 5 8 8 8 15 0 6-3.6 11-8 11S4 22 4 16C4 9 11 6 12 1Z" fill="#FF9600"/></svg>
+              +1 dag
+            </div>
+            <div class="float-chip fc-freeze">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5AC8FF" stroke-width="2.2" stroke-linecap="round"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/><path d="M12 5.5 10 3.5M12 5.5l2-2M12 18.5l-2 2M12 18.5l2 2"/></svg>
+              Streakbevriezer
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="frow rev">
+      <div class="ftext rv">
+        <h2>persoonlijke uitleg met AI</h2>
+        <p>Snap je een vraag niet? De AI-uitleg kijkt met je mee, legt stap voor stap uit waarom een antwoord goed of fout is, en denkt met je mee tot het kwartje valt.</p>
+      </div>
+      <div class="fart rv">
+        <div class="phone-scene">
+          <div class="mini-phone tilt-r">
+            <div class="mp-chat-head">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 6C4 4.9 4.9 4 6 4H18C19.1 4 20 4.9 20 6V14C20 15.1 19.1 16 18 16H9L5.7 19.3C5.1 19.9 4 19.5 4 18.6V6Z" fill="#1CB0F6"/>
+                <path d="M12 7 l1.1,2.6 2.6,1.1 -2.6,1.1 -1.1,2.6 -1.1,-2.6 -2.6,-1.1 2.6,-1.1 z" fill="#fff"/>
+              </svg>
+              AI-uitleg
+              <span class="mp-live"></span>
+            </div>
+            <div class="mp-msgs">
+              <div class="mp-msg user">Waarom is B goed?</div>
+              <div class="mp-msg ai">Goede vraag! <b>Erytrocyten</b> zitten vol hemoglobine — het eiwit dat zuurstof bindt in de longen en afgeeft in de weefsels.</div>
+              <div class="mp-msg user">En waarom A niet?</div>
+              <div class="mp-typing" aria-hidden="true"><i></i><i></i><i></i></div>
+            </div>
+          </div>
+          <div class="float-chip fc-spark">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 3 l2,5.5 5.5,2 -5.5,2 -2,5.5 -2,-5.5 -5.5,-2 5.5,-2 z" fill="#B57BF6"/></svg>
+            Uitleg op maat
+          </div>
+          <div class="float-chip fc-flame">
+            <svg width="14" height="16" viewBox="0 0 120 150"><path d="M60 6 C60 6 22 46 22 84 C22 116 39 142 60 142 C81 142 98 116 98 84 C98 72 94 59 88 47 C84 56 78 63 71 66 C74 47 70 20 60 6 Z" fill="#FF9600"/><path d="M60 142 C48 142 39 129 39 114 C39 98 60 82 60 82 C60 82 81 98 81 114 C81 129 72 142 60 142 Z" fill="#FFC800"/></svg>
+            7 dagen
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── Anywhere ── -->
+  <section class="anywhere rv">
+    <h2>oefen waar en wanneer je wilt</h2>
+    <p>VUmed werkt nu al direct in je browser — niets installeren, niets betalen. En binnenkort staat de app ook in de App Store en Google Play, zodat je voortgang overal met je meereist.</p>
+    <div class="badges">
+      <a class="badge" href="dashboard.html">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="6" y="2" width="12" height="20" rx="3" stroke="#fff" stroke-width="2"/>
+          <path d="M10 18.5 h4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="badge-txt"><small>Binnenkort</small><b>In de App Store &amp; Play</b></span>
+      </a>
+      <a class="badge" href="dashboard.html">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="13" rx="2.5" stroke="#fff" stroke-width="2"/>
+          <path d="M8 20.5 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span class="badge-txt"><small>Op je laptop</small><b>Direct in je browser</b></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Product cards ── -->
+  <div class="cards">
+    <div class="pcard rv">
+      <h3>tentamens</h3>
+      <p>Ruim 260 oude VU-tentamens van jaar 1 tot en met 3, per vak en toetsmoment, volledig interactief nagebouwd — met uitleg en begrippenlijst.</p>
+      <a class="btn btn-ghost" href="vumed.html">Bekijk de tentamens</a>
+    </div>
+    <div class="pcard rv">
+      <h3>missies</h3>
+      <p>Korte missies per onderwerp: één vraag tegelijk, en je fouten komen terug tot je álles beheerst. Perfect voor tussendoor.</p>
+      <a class="btn btn-ghost" href="dashboard.html">Start een missie</a>
+    </div>
+    <div class="pcard rv">
+      <h3>klassement</h3>
+      <p>Verdien XP, houd je reeks vast, verzamel badges en neem het wekelijks op tegen je jaargenoten in het klassement.</p>
+      <a class="btn btn-ghost" href="voortgang.html">Bekijk het klassement</a>
+    </div>
+  </div>
+
+  <!-- ── Final CTA: landschap à la Duolingo ── -->
+  <section class="endcta">
+    <h2 class="rv">oefen geneeskunde<br>met vumed.</h2>
+    <a class="btn btn-primary rv" id="cta-final" href="dashboard.html">Aan de slag</a>
+
+    <div class="end-hills" aria-hidden="true">
+      <svg viewBox="0 0 1440 300" preserveAspectRatio="none">
+        <path class="lp-hill-back" d="M0,150 C230,58 430,110 570,178 C650,215 790,215 870,178 C1010,110 1210,58 1440,150 L1440,300 L0,300 Z"/>
+        <path class="lp-hill-front" d="M0,205 C250,118 460,168 615,234 C680,262 760,262 825,234 C980,168 1190,118 1440,205 L1440,300 L0,300 Z"/>
+      </svg>
+    </div>
+
+    <div class="end-scene" aria-hidden="true">
+      <i class="fl fl-heart" style="--d:3.6s">
+        <svg viewBox="0 0 64 64" fill="none"><path d="M32 55C18 45 8 35.5 8 24.5 8 16 14.5 10 22 10c4.3 0 8 2 10 5.2C34 12 37.7 10 42 10c7.5 0 14 6 14 14.5C56 35.5 46 45 32 55Z" fill="#FF4B4B"/><ellipse cx="22.5" cy="21" rx="6" ry="4.6" transform="rotate(-24 22.5 21)" fill="#FF7B93"/></svg>
+      </i>
+      <i class="fl fl-heart2" style="--d:4.4s;--dl:.7s">
+        <svg viewBox="0 0 64 64" fill="none"><path d="M32 55C18 45 8 35.5 8 24.5 8 16 14.5 10 22 10c4.3 0 8 2 10 5.2C34 12 37.7 10 42 10c7.5 0 14 6 14 14.5C56 35.5 46 45 32 55Z" fill="#FF86A5"/><ellipse cx="22.5" cy="21" rx="6" ry="4.6" transform="rotate(-24 22.5 21)" fill="#FFB3C6"/></svg>
+      </i>
+      <i class="fl fl-gem" style="--d:3.9s;--dl:.3s">
+        <svg viewBox="0 0 64 64" fill="none"><path d="M32 4 58 24 32 60 6 24Z" fill="#59CBFF"/><path d="M32 4 42 24 32 60 22 24Z" fill="#A8E4FF"/><path d="M6 24h52L32 60Z" fill="#1CB0F6" opacity=".55"/></svg>
+      </i>
+      <i class="fl fl-pill3" style="--d:4.1s;--dl:1.1s">
+        <svg viewBox="0 0 64 64" fill="none"><g transform="rotate(-8 32 32)"><rect x="12" y="20" width="40" height="24" rx="12" fill="#fff" stroke="#DDE3EA" stroke-width="2"/><path d="M32 20h8a12 12 0 0 1 0 24h-8Z" fill="#FF9600"/><path d="M18 27c1.5-2.5 4-4 6-4.4" stroke="#EDF3F8" stroke-width="3.4" stroke-linecap="round"/></g></svg>
+      </i>
+      <i class="fl fl-band" style="--d:4.9s;--dl:.6s">
+        <svg viewBox="0 0 64 64" fill="none"><g transform="rotate(-42 32 32)"><rect x="6" y="23" width="52" height="18" rx="9" fill="#F5C26B"/><rect x="23.5" y="23" width="17" height="18" fill="#FFEFD2"/><g fill="#DDA24E"><circle cx="14" cy="29" r="1.7"/><circle cx="18" cy="34" r="1.7"/><circle cx="14" cy="38.5" r="1.7"/><circle cx="50" cy="29" r="1.7"/><circle cx="46" cy="34" r="1.7"/><circle cx="50" cy="38.5" r="1.7"/></g></g></svg>
+      </i>
+      <i class="fl fl-pill" style="--d:4.6s;--dl:.5s">
+        <svg viewBox="0 0 64 64" fill="none"><g transform="rotate(-38 32 32)"><rect x="12" y="20" width="40" height="24" rx="12" fill="#fff" stroke="#DDE3EA" stroke-width="2"/><path d="M32 20h8a12 12 0 0 1 0 24h-8Z" fill="#1CB0F6"/><path d="M18 27c1.5-2.5 4-4 6-4.4" stroke="#EDF3F8" stroke-width="3.4" stroke-linecap="round"/></g></svg>
+      </i>
+      <i class="fl fl-clock" style="--d:3.5s;--dl:1.4s">
+        <svg viewBox="0 0 64 64" fill="none"><ellipse cx="32" cy="35" rx="24" ry="21" fill="#1FA9A0"/><ellipse cx="32" cy="31" rx="24" ry="21" fill="#2EC4B6"/><path d="M22 31.5l7 6.5 13-13" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </i>
+      <i class="fl fl-stetho" style="--d:4.8s;--dl:.2s">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M16 8v14a14 14 0 0 0 28 0V8" stroke="#0E85B5" stroke-width="5.5" stroke-linecap="round"/>
+          <rect x="12.5" y="3" width="7" height="9" rx="3.5" fill="#0E85B5"/>
+          <rect x="40.5" y="3" width="7" height="9" rx="3.5" fill="#0E85B5"/>
+          <path d="M30 35.5v5c0 7 5 10.5 11 10.5 5 0 9-2.6 10.4-7" stroke="#0E85B5" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="52" cy="38" r="8.5" fill="#BEE9FF" stroke="#0E85B5" stroke-width="3.4"/>
+          <circle cx="52" cy="38" r="3.2" fill="#fff"/>
+        </svg>
+      </i>
+      <i class="fl fl-syringe" style="--d:4.3s;--dl:1.6s">
+        <svg viewBox="0 0 64 64" fill="none"><g transform="rotate(-34 32 32)">
+          <path d="M46 32.5h13" stroke="#9AA7B4" stroke-width="2.6" stroke-linecap="round"/>
+          <rect x="42" y="28.5" width="5" height="8" rx="1.5" fill="#BEE9FF"/>
+          <rect x="12" y="25.5" width="31" height="14" rx="4" fill="#fff" stroke="#DDE3EA" stroke-width="2"/>
+          <rect x="21" y="28.5" width="18" height="8" rx="2" fill="#A8E4FF"/>
+          <rect x="9" y="22.5" width="5" height="20" rx="2" fill="#1CB0F6"/>
+          <path d="M9.5 32.5H2" stroke="#1CB0F6" stroke-width="4" stroke-linecap="round"/>
+        </g></svg>
+      </i>
+      <i class="fl fl-pill2" style="--d:5.2s;--dl:.9s">
+        <svg viewBox="0 0 64 64" fill="none"><g transform="rotate(26 32 32)"><rect x="12" y="20" width="40" height="24" rx="12" fill="#fff" stroke="#DDE3EA" stroke-width="2"/><path d="M32 20h8a12 12 0 0 1 0 24h-8Z" fill="#FF4B4B"/><path d="M18 27c1.5-2.5 4-4 6-4.4" stroke="#EDF3F8" stroke-width="3.4" stroke-linecap="round"/></g></svg>
+      </i>
+      <i class="fl fl-cross" style="--d:3.7s;--dl:.4s">
+        <svg viewBox="0 0 64 64" fill="none"><rect x="6" y="10" width="52" height="52" rx="15" fill="#0E85B5"/><rect x="6" y="6" width="52" height="52" rx="15" fill="#1CB0F6"/><g fill="#fff"><rect x="26" y="16" width="12" height="32" rx="5"/><rect x="16" y="26" width="32" height="12" rx="5"/></g></svg>
+      </i>
+      <i class="fl fl-check2" style="--d:3.4s;--dl:1.3s">
+        <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="35" r="26" fill="#0E85B5"/><circle cx="32" cy="31" r="26" fill="#1CB0F6"/><path d="M20 31.5l8 7.5 16-15" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </i>
+      <i class="fl fl-dot d1" style="--d:5s"></i>
+      <i class="fl fl-dot d2" style="--d:4.2s;--dl:.9s"></i>
+
+      <div class="end-phone">
+        <div class="end-tilt">
+          <div class="end-bob">
+            <div class="end-frame">
+              <div class="end-screen">
+                <svg class="mslot" id="mascot-head2" viewBox="-33 -116 472 472">
+                  <!-- fallback tot de avatar geladen is: blauw kruis -->
+                  <circle cx="203" cy="120" r="130" fill="#E8F7FF"/>
+                  <g fill="#1CB0F6"><rect x="168" y="35" width="70" height="170" rx="20"/><rect x="118" y="85" width="170" height="70" rx="20"/></g>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── Footer: groot blauw blok, kleur loopt door vanaf het landschap ── -->
+<footer>
+  <svg class="foot-ecg" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path class="beat-base" d="M0,38 H396 l10,-9 8,15 10,-29 12,40 9,-28 7,11 H756 l9,-8 7,13 9,-24 11,32 8,-22 6,9 H1200"/>
+    <path class="beat-comet" pathLength="1" d="M0,38 H396 l10,-9 8,15 10,-29 12,40 9,-28 7,11 H756 l9,-8 7,13 9,-24 11,32 8,-22 6,9 H1200"/>
+  </svg>
+
+  <div class="foot-in">
+    <div class="fcol rv">
+      <h4>Over VUmed</h4>
+      <a href="over.html">Over ons</a>
+      <a href="helpcentrum.html">Helpcentrum</a>
+      <a href="mailto:vumedteam@gmail.com?subject=VUmed">Contact</a>
+      <a href="mailto:vumedteam@gmail.com?subject=VUmed%20bug">Bug melden</a>
+    </div>
+    <div class="fcol rv">
+      <h4>Studeren</h4>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="vumed.html">Tentamens</a>
+      <a href="voortgang.html">Klassement</a>
+      <a href="trofeeenpad.html">Trofeeënpad</a>
+      <a href="shop.html">Shop</a>
+    </div>
+    <div class="fcol rv">
+      <h4>Account</h4>
+      <a href="vumed.html">Inloggen</a>
+      <a href="profile.html">Profiel</a>
+      <a href="avatar_creator.html">Avatar aanpassen</a>
+      <a href="instellingen.html">Instellingen</a>
+    </div>
+    <div class="fcol rv">
+      <h4>Privacy en voorwaarden</h4>
+      <a href="privacybeleid.html">Privacybeleid</a>
+      <a href="privacybeleid.html#gegevens">Jouw gegevens</a>
+      <a href="privacybeleid.html#cookies">Cookies</a>
+      <a href="privacybeleid.html#verwijderen">Account verwijderen</a>
+    </div>
+  </div>
+
+  <div class="foot-note">© 2026 VUmed — een Tijmen Korteweg productie</div>
+  <div class="foot-word" aria-hidden="true">vumed</div>
+</footer>
+
+<script>
+// ── Session/PWA: returning users get "Verder leren" instead of signup CTA ──
+(function () {
+  function appMode() {
+    var p = document.getElementById('cta-primary'); if (p) p.textContent = 'Verder leren';
+    var f = document.getElementById('cta-final');   if (f) f.textContent = 'Verder leren';
+    var g = document.getElementById('cta-ghost');   if (g) g.style.display = 'none';
+    var l = document.getElementById('top-login');   if (l) l.textContent = 'Naar je dashboard';
+  }
+  var app = false;
+  try {
+    app = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+          || window.navigator.standalone === true;
+  } catch (e) {}
+  if (app) { appMode(); return; }
+  var sb = null;
+  try {
+    if (window.SUPABASE_URL && window.supabase) {
+      window._sbInstance = window._sbInstance
+        || window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+      sb = window._sbInstance;
+    }
+  } catch (e) {}
+  if (!sb) return;
+  sb.auth.getSession().then(function (r) {
+    if (r && r.data && r.data.session) appMode();
+  }).catch(function () {});
+})();
+
+// ── Mascot: render the VUmed doctor avatar (or the visitor's own avatar) ───
+(function () {
+  try {
+    if (!window.VumedAvatar) return;
+    /* Always in doctor's coat + stethoscope and the "Warrig" hair (style 5)
+       on the landing page — a visitor's own avatar keeps its face and hair
+       colour, but wears the mascot look here. */
+    var st = Object.assign(
+      {}, window.VumedAvatar.DEFAULTS,
+      window.VumedAvatar.hasCustom() ? window.VumedAvatar.getState() : null,
+      { outfit: 0, stethoscope: 1, hairStyle: 5 }
+    );
+    function inject(id, mode) {
+      var slot = document.getElementById(id);
+      if (!slot) return;
+      var svg = window.VumedAvatar.build(st, mode);
+      var inner = svg.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+      if (inner) slot.innerHTML = inner;
+    }
+    inject('mascot-head', 'head');
+    inject('mascot-head2', 'head');
+  } catch (e) { /* fallback art stays */ }
+})();
+
+// ── Scroll reveal ──────────────────────────────────────────────────────────
+(function () {
+  var els = document.querySelectorAll('.rv');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var n = 0;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.style.transitionDelay = (Math.min(n++, 6) * 70) + 'ms';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
+
+</body>
+</html>

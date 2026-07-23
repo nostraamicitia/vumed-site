@@ -1,0 +1,3447 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arts en Patiënt 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="supabase_config.js"></script>
+<script src="openai_config.js"></script>
+<script src="supabase-js.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #FFFFFF;
+  color: #1C1C1E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.site-header {
+  background: rgba(255,255,255,0.90);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+}
+.header-inner {
+  max-width: none; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 48px; gap: 8px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  text-decoration: none;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: start; grid-column: 1;
+  white-space: nowrap;
+}
+.back-btn:hover { background: rgba(60,60,67,0.08); }
+.back-btn svg { flex-shrink: 0; }
+.header-title { display: none; }
+.header-title .title-sub {
+  font-size: 12px; font-weight: 600; color: #6E6E73;
+}
+.header-right { justify-self: end; }
+.submit-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  background: none; border: none; cursor: pointer;
+  padding: 6px 6px 6px 10px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: end; grid-column: 3;
+  white-space: nowrap; font-family: inherit;
+}
+.submit-btn:hover { background: rgba(60,60,67,0.08); }
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.40); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 20px; padding: 28px 28px 22px;
+  max-width: 340px; width: calc(100% - 40px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  text-align: center; animation: modal-in 0.18s ease;
+}
+@keyframes modal-in { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-box h2 { font-size: 17px; font-weight: 800; color: #1C1C1E; margin: 0 0 8px; }
+.modal-box p  { font-size: 14px; color: #6E6E73; margin: 0 0 22px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions button {
+  flex: 1; padding: 12px; border-radius: 12px; font-size: 15px;
+  font-weight: 700; border: none; cursor: pointer; font-family: inherit;
+  transition: opacity 0.15s;
+}
+.modal-actions button:hover { opacity: 0.85; }
+.btn-cancel { background: #F2F2F7; color: #1C1C1E; }
+.btn-confirm { background: #58CC02; color: #fff; }
+.btn-danger  { background: #FF3B30; color: #fff; }
+#results-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: #fff; overflow-y: auto;
+  animation: modal-in 0.2s ease;
+}
+#results-overlay.show { display: block; }
+.results-inner {
+  max-width: 560px; margin: 0 auto; padding: 48px 24px 60px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.results-title { font-size: 24px; font-weight: 800; color: #1C1C1E; margin: 0 0 6px; }
+.results-sub   { font-size: 14px; color: #6E6E73; margin: 0 0 36px; }
+.score-ring {
+  width: 150px; height: 150px; border-radius: 50%;
+  background: conic-gradient(#58CC02 0%, #58CC02 var(--pct), #E5E5EA var(--pct), #E5E5EA 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 36px; position: relative;
+}
+.score-ring-inner {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: #fff; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-num { font-size: 30px; font-weight: 800; color: #1C1C1E; line-height: 1; }
+.score-den { font-size: 13px; color: #6E6E73; font-weight: 600; margin-top: 2px; }
+.results-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+  width: 100%; margin-bottom: 36px;
+}
+.stat-card {
+  background: #F2F2F7; border-radius: 14px; padding: 16px 12px;
+  text-align: center;
+}
+.stat-card .stat-n { font-size: 26px; font-weight: 800; }
+.stat-card .stat-lbl { font-size: 12px; font-weight: 600; color: #6E6E73; margin-top: 2px; }
+.stat-correct .stat-n { color: #58CC02; }
+.stat-wrong   .stat-n { color: #FF3B30; }
+.stat-open    .stat-n { color: #8E8E93; }
+.results-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.results-actions button {
+  padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 700;
+  border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+}
+.results-actions button:hover { opacity: 0.85; }
+.btn-back-exam { background: #F2F2F7; color: #1C1C1E; }
+.btn-new-exam  { background: #FF3B30; color: #fff; }
+.streak-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 51;
+  height: 48px; display: flex; align-items: center;
+  padding: 0 132px; pointer-events: none;
+}
+.streak-inner {
+  max-width: 560px; width: 100%; margin: 0 auto; pointer-events: none;
+}
+.streak-bar-wrap {
+  position: relative;
+}
+.streak-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0%;
+  transform: translateX(-50%);
+  font-size: 11px; font-weight: 800; color: #58CC02;
+  letter-spacing: 0.05em; white-space: nowrap;
+  opacity: 0;
+  transition: left 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease;
+  pointer-events: none; user-select: none;
+}
+.streak-bar-bg {
+  width: 100%; height: 14px; background: #E5E5EA;
+  border-radius: 999px; overflow: hidden;
+  pointer-events: auto; cursor: pointer;
+}
+.streak-bar-fill {
+  height: 100%; width: 0%; border-radius: 999px;
+  background: #58CC02;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative; overflow: hidden;
+}
+.streak-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 15%; left: 6%; right: 6%;
+  height: 35%;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.30);
+  pointer-events: none;
+}
+@keyframes sparkle-pop {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
+  60%  { transform: translate(var(--sx), var(--sy))  scale(1.2); opacity: 1; }
+  100% { transform: translate(calc(var(--sx)*1.6), calc(var(--sy)*1.6)) scale(0); opacity: 0; }
+}
+.bar-sparkle {
+  position: fixed;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 200;
+  animation: sparkle-pop 0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+.progress-wrap { display: none; }
+.progress-fill { display: none; }
+.exam-main { max-width: 820px; margin: 0 auto; padding: 28px 20px 100px; margin-top: 48px; }
+.q-block {
+  padding: 26px 4px 28px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #E5E5EA;
+  animation: fadeInUp 0.3s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+.q-block:last-child { border-bottom: none; }
+.q-num  { font-size: 11px; font-weight: 700; color: #8E8E93; letter-spacing: 0.09em;
+  text-transform: uppercase; margin-bottom: 10px; }
+.q-num-ai {
+  display: inline-flex; vertical-align: middle; align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; margin-left: 6px;
+  color: #8E8E93; cursor: pointer; line-height: 0; transition: color 0.15s;
+}
+.q-num-ai:hover { color: #1CB0F6; }
+.q-num-ai svg { display: block; }
+.chat-tab {
+  position: fixed; left: 0; top: 50%; transform: translateY(-50%);
+  z-index: 150;
+  background: transparent;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  box-shadow: 2px 2px 12px rgba(0,0,0,0.10);
+  border: none;
+  transition: background 0.15s, padding-left 0.15s, box-shadow 0.15s, color 0.15s;
+  color: #8E8E93;
+}
+.chat-tab:hover { background: #1CB0F6; color: #fff; padding-left: 14px; box-shadow: 2px 2px 14px rgba(28,176,246,0.35); }
+.chat-tab svg { display: block; flex-shrink: 0; }
+.q-text { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-context { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 20px; }
+.q-question{ font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-image { max-width: 100%; max-height: 340px; border-radius: 12px; margin-bottom: 16px;
+  object-fit: contain; border: 1px solid rgba(60,60,67,0.1); display: block; }
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  border: 1.5px solid #D1D1D6; border-radius: 12px; background: #FFFFFF;
+  cursor: pointer; font-family: inherit; font-size: 14px;
+  text-align: left; line-height: 1.5;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+.opt-btn:hover:not(:disabled) { background: #EBF7FF; border-color: #1CB0F6; transform: translateY(-1px); }
+.opt-btn:active:not(:disabled) { transform: scale(0.99); }
+.opt-btn.selected  { border-color: #1CB0F6; background: #EBF7FF; }
+.opt-btn.correct   { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+.opt-btn.wrong     { border-color: #FF3B30; background: #FFF2F2; color: #C0392B; }
+.opt-btn:disabled  { cursor: default; }
+.opt-letter { min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  font-weight: 700; flex-shrink: 0; margin-top: 1px; transition: background 0.15s; }
+.opt-btn.selected .opt-letter { background: #1CB0F6; color: #fff; }
+.opt-btn.correct  .opt-letter { background: #58CC02; color: #fff; }
+.opt-btn.wrong    .opt-letter { background: #FF3B30; color: #fff; }
+.check-btn {
+  padding: 10px 22px; background: #E5E5EA; color: #3C3C43;
+  border: none; border-radius: 12px; font-size: 14px; font-weight: 700;
+  font-family: inherit; cursor: pointer; max-height: 80px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.14s ease,
+              opacity 0.32s ease, max-height 0.34s ease, padding 0.34s ease, margin 0.34s ease;
+}
+.check-btn:hover:not(:disabled) { background: #1CB0F6; color: #fff; }
+.check-btn:active:not(:disabled) { transform: scale(0.97); }
+.check-btn:disabled { opacity: 0.4; cursor: default; }
+.check-btn.cb-correct {
+  background: #58CC02; color: #fff; opacity: 1;
+  animation: cb-pop 0.34s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes cb-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.check-btn.cb-vanish {
+  opacity: 0 !important; transform: scale(0.7) translateY(-4px);
+  max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0;
+  overflow: hidden; pointer-events: none;
+}
+.q-btn-row {
+  display: flex; justify-content: center; align-items: center;
+}
+.q-ai-btn {
+  display: inline-flex; align-items: center;
+  gap: 7px;
+  background: none; border: 1.5px solid #1CB0F6;
+  border-radius: 20px; color: #1CB0F6;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 7px 18px; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.q-ai-btn:hover { background: #1CB0F6; color: #fff; }
+.q-ai-btn svg { flex-shrink: 0; }
+.result { margin-top: 12px; display: none; }
+.result.show { display: block; }
+.result-badge { display: none; }
+.result-badge.correct, .result-badge.wrong { display: none; }
+.fly-dot {
+  position: fixed;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #58CC02;
+  box-shadow: 0 2px 12px rgba(88,204,2,0.5);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    left   0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    top    0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width  0.2s  ease 0.38s,
+    height 0.2s  ease 0.38s,
+    opacity 0.18s ease 0.46s;
+}
+@keyframes barPop {
+  0%   { transform: scaleY(1); }
+  40%  { transform: scaleY(1.35); }
+  70%  { transform: scaleY(0.92); }
+  100% { transform: scaleY(1); }
+}
+.bar-pop { animation: barPop 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.xp-pop {
+  position: fixed; pointer-events: none; z-index: 9999;
+  font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 900;
+  color: #FFC800; text-shadow: 0 1px 6px rgba(0,0,0,0.18);
+  transform: translateX(-50%);
+  animation: xpFloat 1.3s ease-out forwards;
+}
+@keyframes xpFloat {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
+  30%  { opacity: 1; transform: translateX(-50%) translateY(-18px) scale(1.15); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-56px) scale(0.85); }
+}
+.result-note { font-size: 13px; color: #636366; margin-top: 8px; line-height: 1.55;
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border-left: 3px solid #D1D1D6; }
+/* Open-answer questions (casus exams, e.g. Arts en Patiënt 3) */
+.open-input { width: 100%; box-sizing: border-box; min-height: 96px; padding: 12px 14px;
+  border: 1.5px solid #D1D1D6; border-radius: 12px; font-family: inherit; font-size: 14px;
+  color: #1C1C1E; background: #fff; line-height: 1.5; resize: vertical; margin-bottom: 12px; }
+.open-input:focus { outline: none; border-color: #1CB0F6; }
+.open-input:disabled { background: #fff; color: #1C1C1E; -webkit-text-fill-color: #1C1C1E; opacity: 1; cursor: default; }
+.open-modelans-badge { display: inline-block; font-weight: 800; font-size: 12px; color: #58CC02;
+  text-transform: uppercase; letter-spacing: .02em; margin-bottom: 6px; }
+.open-modelans { background: #fff; border: 1.5px solid #D1D1D6; border-radius: 12px;
+  padding: 12px 14px; white-space: pre-wrap; font-size: 13.5px; line-height: 1.6; color: #1C1C1E; }
+.open-crit { margin-top: 10px; font-size: 12.5px; color: #8E8E93; white-space: pre-wrap;
+  border-top: 1px solid #EEEEEE; padding-top: 8px; }
+.q-points { color: #8E8E93; font-weight: 400; font-size: 14px; }
+.juiste-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.juiste-table th { background: #F2F2F7; color: #1C1C1E; font-weight: 700;
+  padding: 8px 12px; border: 1px solid #E5E5EA; text-align: left; }
+.juiste-table td { padding: 7px 12px; border: 1px solid #E5E5EA; }
+.juiste-table tr:nth-child(even) td { background: #FAFAFA; }
+.multi-hint { font-size: 13px; color: #636366; margin-bottom: 10px; }
+.dnd-pool {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px;
+  background: #F2F2F7; border-radius: 14px; margin-bottom: 14px;
+  min-height: 52px; border: 2px dashed transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-pool.dnd-over { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-card {
+  padding: 8px 14px; background: #fff; border-radius: 10px;
+  border: 1.5px solid #D1D1D6; font-size: 13px; cursor: grab;
+  user-select: none; line-height: 1.4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.15s, transform 0.12s, border-color 0.15s;
+}
+.dnd-card:hover   { box-shadow: 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+.dnd-card.dnd-sel { border-color: #1CB0F6; background: #EBF7FF;
+                     box-shadow: 0 0 0 3px rgba(28,176,246,0.2); }
+.dnd-card.dnd-ghost { opacity: 0.35; cursor: grabbing; }
+.dnd-card.correct { background: #F0FFF4; border-color: #58CC02; color: #1C6B2E; cursor: default; }
+.dnd-card.wrong   { background: #FFF2F2; border-color: #FF3B30; color: #C0392B; cursor: default; }
+.dnd-pairs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.dnd-pair  { display: flex; align-items: stretch; gap: 10px; }
+.dnd-label {
+  flex: 1; padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: center;
+}
+.dnd-label.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-label.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-zone {
+  flex: 1; min-height: 44px; padding: 8px 12px; border-radius: 10px;
+  border: 2px dashed #D1D1D6; display: flex; align-items: center;
+  background: #FAFAFA; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-zone.dnd-over    { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-zone.dnd-filled  { border-style: solid; border-color: #E5E5EA; background: #fff; }
+.dnd-zone.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-zone.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-hint { font-size: 12px; color: #AEAEB2; pointer-events: none; }
+.match-items { margin: 4px 0 18px; display: flex; flex-direction: column; gap: 7px; }
+.match-item {
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.match-letter {
+  min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.summary { display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid rgba(60,60,67,0.12);
+  padding: 12px 20px; display: flex; align-items: center;
+  justify-content: center; gap: 16px; font-size: 13px; z-index: 40;
+}
+.summary-stat { display: flex; align-items: center; gap: 6px; color: #636366; }
+.summary-stat .n { font-weight: 700; color: #1C1C1E; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-correct { background: #58CC02; }
+.dot-wrong   { background: #FF3B30; }
+.dot-pending { background: #D1D1D6; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+.gterm {
+  border-bottom: 1.5px dotted #A0A0A8;
+  cursor: pointer; color: inherit;
+  transition: opacity 0.15s;
+}
+.gterm:hover { opacity: 1; color: #B57BF6; border-bottom-color: #B57BF6; }
+.g-tip {
+  position: fixed; z-index: 400; pointer-events: none;
+  background: #fff; color: #1C1C1E;
+  font-size: 15px; line-height: 1.7; font-family: inherit;
+  padding: 10px 14px; border-radius: 10px; max-width: 300px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+  opacity: 0; transition: opacity 0.14s; white-space: normal;
+}
+.g-tip.show { opacity: 1; }
+.g-panel {
+  position: fixed; top: 97px; right: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #fff; overflow-y: auto;
+  border-left: 1px solid rgba(60,60,67,0.12);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.g-panel.open { transform: translateX(0); }
+.exam-main {
+  transition: margin-right 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+body.g-open .exam-main {
+  margin-right: 368px;
+}
+body.chat-open .exam-main {
+  margin-left: 368px;
+}
+.sel-popup {
+  position: fixed; z-index: 500;
+  background: #1C1C1E; color: #fff;
+  font-size: 13px; font-weight: 600; font-family: inherit;
+  padding: 7px 13px; border-radius: 20px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap; user-select: none;
+}
+.sel-popup.show { opacity: 1; transform: translateY(0); }
+.sel-popup svg { flex-shrink: 0; }
+.chat-panel {
+  position: fixed; top: 97px; left: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #F2F2F7;
+  border-right: 1px solid rgba(60,60,67,0.12);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(-110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.chat-panel.open { transform: translateX(0); }
+.chat-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px; background: #fff;
+  border-bottom: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-panel-title {
+  font-size: 15px; font-weight: 700; color: #1C1C1E;
+}
+.chat-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+}
+.chat-context-pill {
+  margin: 10px 12px 0; padding: 7px 12px;
+  background: #fff; border-radius: 10px;
+  font-size: 12px; color: #636366; font-style: italic;
+  border: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+  line-height: 1.4;
+}
+.chat-context-pill strong { color: #1C1C1E; font-style: normal; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chat-msg {
+  max-width: 88%; padding: 9px 13px;
+  border-radius: 18px; font-size: 13.5px; line-height: 1.5;
+  word-break: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: #1CB0F6; color: #fff;
+  border-bottom-right-radius: 5px;
+}
+.chat-msg.ai {
+  align-self: flex-start;
+  background: #fff; color: #1C1C1E;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.chat-msg.ai h3 { font-size: 13px; font-weight: 800; margin: 10px 0 3px; color: #1C1C1E; }
+.chat-msg.ai h4 { font-size: 12.5px; font-weight: 700; margin: 8px 0 2px; color: #3A3A3C; }
+.chat-msg.ai p  { margin: 0 0 7px; }
+.chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 4px 0 8px 16px; padding: 0; }
+.chat-msg.ai li { margin-bottom: 4px; line-height: 1.5; }
+.chat-msg.ai strong { font-weight: 700; }
+.chat-msg.ai em { font-style: italic; color: #3A3A3C; }
+.chat-msg.ai hr { border: none; border-top: 1px solid #E5E5EA; margin: 8px 0; }
+.chat-msg.typing { color: #8E8E93; font-style: italic; }
+.chat-msg.streaming::after {
+  content: '◍';
+  display: inline-block;
+  color: #1CB0F6;
+  animation: cur-blink 0.6s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes cur-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.chat-input-area {
+  display: flex; align-items: flex-end; gap: 8px;
+  padding: 10px 12px 14px; background: #fff;
+  border-top: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-input {
+  flex: 1; border: 1.5px solid #D1D1D6; border-radius: 20px;
+  padding: 8px 14px; font-size: 13.5px; font-family: inherit;
+  resize: none; outline: none; line-height: 1.4;
+  max-height: 100px; overflow-y: auto;
+  transition: border-color 0.15s;
+}
+.chat-input:focus { border-color: #1CB0F6; }
+.chat-send {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: #1CB0F6; color: #fff; font-size: 17px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.chat-send:hover { background: #0A9EDC; }
+.chat-send:disabled { background: #D1D1D6; cursor: default; }
+.g-panel-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 20px 0; gap: 12px;
+}
+.g-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.g-title {
+  font-size: 20px; font-weight: 700; color: #1C1C1E;
+  line-height: 1.25; padding-bottom: 14px;
+}
+.g-img {
+  width: 100%; max-height: 180px; object-fit: cover;
+  margin: 0 0 14px; border-bottom: 1px solid rgba(60,60,67,0.08);
+  display: block;
+}
+.g-img-nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; padding: 4px 0 10px; margin-top: -6px;
+}
+.g-img-btn {
+  background: #f2f2f7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 16px; cursor: pointer;
+  color: #1C1C1E; line-height: 1; transition: background 0.15s;
+}
+.g-img-btn:hover { background: #e5e5ea; }
+.g-img-counter { font-size: 12px; color: #8E8E93; min-width: 36px; text-align: center; font-family: 'Nunito', sans-serif; }
+.g-body { padding: 0 20px 40px; flex: 1; }
+.g-def {
+  font-size: 15px; line-height: 1.7; color: #3A3A3C;
+}
+.g-def h4 {
+  font-size: 13px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #8E8E93; margin: 16px 0 6px;
+}
+.g-def p  { margin: 0 0 10px; }
+.g-def ul { margin: 0 0 10px; padding-left: 18px; }
+.g-def li { margin-bottom: 4px; }
+/* ── Dropdown table (DDT) ──────────────────────────────────────────────────── */
+.ddt-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
+.ddt-table td { padding: 8px 12px; border: 1px solid #E5E5EA; vertical-align: middle; }
+.ddt-table tr:nth-child(even) td { background: #FAFAFA; }
+.ddt-label { font-weight: 600; color: #1C1C1E; background: #F2F2F7 !important; min-width: 160px; }
+.ddt-sel {
+  width: 100%; padding: 7px 10px; border: 1.5px solid #D1D1D6; border-radius: 8px;
+  font-family: inherit; font-size: 13.5px; background: #fff;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.ddt-sel:focus { border-color: #1CB0F6; outline: none; }
+
+/* Inline dropdown ("Kies de juiste alternatieven") */
+.q-dropdown-sentence { font-size: 16px; line-height: 2.1; color: #1C1C1E; margin-bottom: 8px; }
+.dd-select {
+  display: inline-block; margin: 0 2px; padding: 0 17px 1px 3px;
+  border: none; border-bottom: 1.5px solid #C7C7CC; border-radius: 0;
+  font-family: inherit; font-size: 14px; font-weight: 600; color: #3C3C43;
+  background: transparent; cursor: pointer; vertical-align: baseline;
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%238E8E93' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat; background-position: right 1px center;
+  transition: border-color 0.15s;
+}
+.dd-select:hover { background-color: transparent; border-bottom-color: #8E8E93; }
+.dd-select:focus { outline: none; border-bottom-color: #8E8E93; }
+.dd-select:disabled { opacity: 1; cursor: default; }
+.dd-select.dd-correct { border-color: transparent; border-bottom-color: #58CC02; color: #3D8B00; background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%2358CC02' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
+.dd-select.dd-wrong { border-color: transparent; border-bottom-color: #FF3B30; color: #C4271D; background-color: transparent;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2.5 4.5L6 8L9.5 4.5' stroke='%23FF3B30' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>"); }
+
+/* Categorization table (term -> category dropdown) */
+.cat-rows { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 14px; }
+.cat-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 14px; border: 1.5px solid #D1D1D6; border-radius: 12px; background: #fff;
+}
+.cat-term { font-size: 15px; color: #1C1C1E; }
+.cat-row .dd-select { flex: 0 0 auto; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="vumed.html" class="back-btn">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.5 14L6.5 9L11.5 4" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Menu
+    </a>
+    <span class="header-title">
+      <span>Arts en Patiënt 1</span>
+      <span class="title-sub">2e Toetsmoment 2016&#8209;2017</span>
+    </span>
+    <button class="submit-btn" onclick="openSubmitModal()">
+      Inleveren
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 4L11.5 9L6.5 14" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+<div class="streak-wrap" id="streak-wrap" onclick="openResetModal()" title="Klik om examen te resetten" style="cursor:pointer;">
+  <div class="streak-inner">
+    <div class="streak-bar-wrap">
+      <span id="streak-label" class="streak-label"></span>
+      <div class="streak-bar-bg">
+        <div class="streak-bar-fill" id="streak-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Submit confirmation modal -->
+<div id="submit-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen inleveren</h2>
+    <p>Weet je zeker dat je het examen afsluit?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubmitModal()">Nee</button>
+      <button class="btn-confirm" onclick="showResults()">Ja, inleveren</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset confirmation modal -->
+<div id="reset-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen resetten</h2>
+    <p>Al je antwoorden worden gewist en je begint opnieuw. Weet je het zeker?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Annuleren</button>
+      <button class="btn-danger" onclick="resetExam()">Ja, resetten</button>
+    </div>
+  </div>
+</div>
+
+<!-- Results overlay -->
+<div id="results-overlay">
+  <div class="results-inner">
+    <div class="results-title">Jouw resultaten</div>
+    <div class="results-sub">Arts en Patiënt 1 &middot; 2e Toetsmoment 2016&#8209;2017</div>
+    <div class="score-ring" id="score-ring">
+      <div class="score-ring-inner">
+        <div class="score-num" id="score-num">—</div>
+        <div class="score-den" id="score-den">/ 24</div>
+      </div>
+    </div>
+    <div class="results-stats">
+      <div class="stat-card stat-correct">
+        <div class="stat-n" id="res-correct">0</div>
+        <div class="stat-lbl">Goed</div>
+      </div>
+      <div class="stat-card stat-wrong">
+        <div class="stat-n" id="res-wrong">0</div>
+        <div class="stat-lbl">Fout</div>
+      </div>
+      <div class="stat-card stat-open">
+        <div class="stat-n" id="res-open">0</div>
+        <div class="stat-lbl">Niet beantwoord</div>
+      </div>
+    </div>
+    <div class="results-actions">
+      <button class="btn-back-exam" onclick="closeResults()">Terug naar examen</button>
+      <button class="btn-new-exam" onclick="resetExam()">Opnieuw beginnen</button>
+    </div>
+  </div>
+</div>
+
+<main class="exam-main">
+
+<div class="q-block" id="qblock-1">
+  <div class="q-num">Vraag 1 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(1, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context">In de achttiende eeuw werd de humoraalpathologie van Hippocrates en Galenus vervangen door de orgaanpathologie.</div>
+  <div class="q-question">a. Noem twee verschillen tussen de humoraalpathologie en de orgaanpathologie. (2 pt)<br>b. Noem twee nieuwe technieken die in deze periode werden ontwikkeld om organen te onderzoeken. (2 pt)</div>
+  <textarea class="open-input" id="open-input-1" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-1" onclick="checkOpen(1)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-1">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a.
+1. Humoraalpathologie kijkt naar de klachten, orgaanpathologie naar waarneembare verschijnselen
+2. Humoraalpathologie richt zich op de hele mens, orgaanpathologie kijkt lokaal naar de organen. Hierbij worden termen als holistisch/reductionistisch ook goed gerekend.
+3. Alternatief antwoord dat ook goed is: Humoraalpathologie kijkt naar de &#x27;humoren&#x27;, dwz de vloeistoffen in de mens (zoals gal en bloed) om vast te stellen of iemand ziek is, terwijl orgaanpathologie naar het functioneren van een of meer organen.
+b. Bekloppen van de organen (of: percussie), palpatie (bevoelen), inspectie, auscultatie (luisteren naar de organen). Antwoord stethoscoop ook goed gerekend (auscultatie). Obductie wordt ook goed gerekend.
+
+Puntenverantwoording: Onder a: voor elk verschil 1 punt. Onder b: voor elke onderzoeksmethode 1 punt</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-2">
+  <div class="q-num">Vraag 2 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(2, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">a. Wat houdt de pathologisch-anatomische benadering in de psychiatrie van Schroeder van der Kolk (de tweede helft van de 19e eeuw) in? (2 pt)<br>b. Noem twee redenen waarom deze benadering reductionistisch is. (2 pt)</div>
+  <textarea class="open-input" id="open-input-2" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-2" onclick="checkOpen(2)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-2">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Schroeder van der Kolk zocht naar anatomische afwijkingen in de hersenen die verantwoordelijk zouden zijn voor psychiatrische aandoeningen; Voor het goede antwoord moet hersenpathologie of anatomische hersenafwijkingen genoemd worden, dan 2 punten. Dysfunctie/aantasting/stoornis/probleem/fout van de hersenen zijn te vage termen, niet goed gerekend. Afwijking in anatomie van het lichaam/orgaan in plaats van in hersenen 1 punt.
+b.
+1. Dit impliceert een reductie (herleiden) van psychische aandoeningen tot hersenfysiologie (of, ook goed, de anatomie van de hersenen). Geen punt hiervoor bij niet noemen hersenen.
+2. Andere mogelijke factoren (psychische processen, omgevingsfactoren (zoals opvoeding, trauma, sociale context, etc.) worden niet meegenomen.
+Opmerking: als iemand zoiets antwoordt als: &quot;Omdat psychiatrische aandoeningen volgens deze benadering alleen veroorzaakt werden door (anatomische) afwijkingen in de hersenen (of: afwijkingen in hersenfysiologie)&quot;, mogen 2 punten worden toegekend</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-3">
+  <div class="q-num">Vraag 3 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(3, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context">In de negentiende en twintigste eeuw is grote voortgang geboekt op het gebied van curatieve geneeskunde. Ontwikkelingen op het gebied van preventie blijven echter vaak onderbelicht.</div>
+  <div class="q-question">a. Noem drie preventieve maatregelen die effect hebben gehad op het gebied van hartinfarcten en beroertes. (2 punten)<br>b. Waarom trekken de effecten van dergelijke maatregelen minder aandacht dan die van de curatieve geneeskunde? (1 punt)</div>
+  <textarea class="open-input" id="open-input-3" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-3" onclick="checkOpen(3)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-3">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Bestrijden van roken, opsporing en behandeling hoge bloeddruk, verbetering voeding, verbetering medische zorg. Leefstijladvies (bewegen) wordt ook goed gerekend.
+b. De impact van preventieve maatregelen op de gezondheid van individuen is minder zichtbaar; evt: de preventieparadox). Ook 1 punt indien term preventieparadox niet specifiek benoemd wordt, maar uitleg wel goed wordt gegeven: preventie heeft pas op lange termijn effect, van curatieve geneeskunde zie je direct resultaat.
+
+Puntenverantwoording:
+a. 2 van de 4 goed: 1 punt; 3 van de 4: 2 punten
+b. 1 punt voor juiste antwoord</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-4">
+  <div class="q-num">Vraag 4 <span class="q-points" data-points="5"></span> <button class="q-num-ai" onclick="openChatForQuestion(4, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">a. Wanneer is iemand volgens Lennart Nordenfelt gezond? (2 punten)<br>b. Benoem hoe deze visie verschilt van een biostatistische benadering van gezondheid. (3 punten)</div>
+  <textarea class="open-input" id="open-input-4" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-4" onclick="checkOpen(4)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-4">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Lennard Nordenfelt stelt dat iemand gezond is wanneer hij of zij het vermogen heeft om onder normale omstandigheden (1 punt) de voor hem of haar belangrijke (vitale) levensdoelen te bereiken (1 punt)
+b. Het gezondheidsbegrip van Nordenfelt verwijst naar het vermogen vitale doelen te bereiken (1 punt) OF noemen van de gehele mens/holisme (1 punt) (eventueel kan beleving worden genoemnd, dit goedrekenen met een halve punt) en niet naar het statistisch gemiddeld functioneren van organen, processen of lichaamsdelen (1 punt): dit is namelijk een reductionistische benadering/objectivistische benadering (1 punt). Alternatieven die ook goed zijn: als wordt genoemd dat het bij biostatistische benadering gaat om overleven/voortplanten en bij Nordenfelt om vitale doelen bereiken/functioneren.
+
+Puntenverantwoording: zie zwartgedrukte onderdelen antwoordmodel</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-5">
+  <div class="q-num">Vraag 5 <span class="q-points" data-points="6"></span> <button class="q-num-ai" onclick="openChatForQuestion(5, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">a. Noem drie verschillen tussen het gezondheidsbegrip van de WHO en dat van Huber. (3 punten)<br>b. Noem drie redenen voor Huber om een nieuw gezondheidsbegrip voor te stellen. (3 punten)</div>
+  <textarea class="open-input" id="open-input-5" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-5" onclick="checkOpen(5)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-5">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. WHO – statisch begrip, Huber – dynamisch (1 punt). WHO – er mag geen gebrek aanwezig zijn: benoemen dat de WHO criteria voor ziekte te streng zijn is ook goed. Huber – je kan nog steeds gezond zijn als er sprake is van een gebrek, het gaat erom of je je eraan kunt aanpassen (1 punt). WHO – perfectionistisch/idealistisch (algeheel welbevinden, en niet slechts afwezigheid van gebrek), Huber – realistisch (uitdagingen horen bij het leven, het gaat om aanpassing) (1 punt).
+b. Mensen worden steeds ouder (vergrijzing), en leven langer door met klachten. Hen allemaal als ongezond bestempelen is onwenselijk (1 punt). Er is een steeds hogere prevalentie van chronische aandoeningen. Iedereen met een chronische aandoening als &#x27;ziek&#x27; bestempelen is niet wenselijk (1 punt). Het draagt bij aan patient empowerment om je op het stimuleren van aanpassingen aan uitdagingen in het leven te richten, in plaats van op gebreken (1 punt).
+
+Puntenverantwoording: in tekst aangegeven.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-6">
+  <div class="q-num">Vraag 6 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(6, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 1.</b> U bent huisarts. U ziet mevrouw Van Leeuwen, 53 jaar, die vertelt dat ze last heeft van overgangsklachten. Ze slaapt niet goed omdat ze 's nachts veel opvliegers heeft, en ze heeft last van stemmingsklachten. De regelmatige hoofdpijnen bestrijdt ze met paracetamol. Ze voelt zich futloos en eenzaam, en heeft een geringe eetlust. Nu haar drie kinderen studeren en het huis uit zijn, voelt ze zich nutteloos. Haar man overleed zes jaar geleden na een langdurig ziekbed. Als ze eraan terugdenkt hoe haar man, haar steun en toeverlaat, ziek werd en overleed wordt ze nog steeds verdrietig en boos. Gedurende zijn invaliditeit heeft ze met gemengde gevoelens voor hem gezorgd. Door zijn ziekte ging het inkomen van het gezin drastisch achteruit, en ook de lichamelijke intimiteit viel van de ene op de andere dag weg. Bij doorvragen vermoedt u dat mevrouw Van Leeuwen niet de gelegenheid heeft genomen om te rouwen: de zorg voor haar kinderen ging altijd voor. Haar onmacht vertaalde zich in somberheid. Ze voelt zich schuldig naar haar kinderen dat ze geen vrolijkere moeder voor ze kon zijn. Ze heeft weleens iets gehoord over hormoontherapie voor vrouwen in de overgang en vraagt aan u of dat iets voor haar zou zijn.</div>
+  <div class="q-question">a. Wat wordt bedoeld met gendersocialisatie? (2 punten)<br>b. Beschrijf twee voorbeelden van kenmerkende eigenschappen van de vrouwelijke genderrol en leg uit hoe deze in bovenstaande casus naar voren komen. (2 punten)</div>
+  <textarea class="open-input" id="open-input-6" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-6" onclick="checkOpen(6)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-6">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Gendersocialisatie houdt in dat verschillende rollen voor ieder individu tot een logisch, samenhangend mannelijk of vrouwelijk zelfbeeld worden geïntegreerd. In de puberteit worden genderrollen versterkt. Belangrijk dat de studenten niet alleen noemen dat er normen zijn (dat leverde een punt op), maar vooral dat die geïnternaliseerd moeten worden en in de identiteit geïntegreerd (zie ook HC Verdonk). Dan werd het pas twee punten.
+b. Socialisatie in de vrouwelijke rol door vrouwelijkheid te benadrukken, zoals nadruk op interpersoonlijke relaties, gevoeligheid, zorgzaamheid, expressiviteit, aanspreken op &#x27;zorgen voor&#x27; waardoor vrouwen vaker leren dat het welbevinden van anderen voorop komt te zijn (zelf-in-relatie). Vrouwen zijn gemiddeld genomen &#x27;gevoeliger voor anderen&#x27;, vanuit socialisatie begrepen. In de casus is dit terug te zien door zorg/opoffering van eigen activiteiten, gevoelens van nutteloosheid als kinderen hun eigen weg gaan, schuldig voelen en internalisatie. Een aantal studenten noemde wel op zich goede punten, maar richtte zich vooral op klachtpresentatie. Dat was hier niet de vraag: de vraag was om kenmerkende eigenschappen van de vrouwelijke genderrol te noemen (bijvoorbeeld zorgzaamheid en opoffering), en dus op deze casus toegepast zorgen dat eerst man en kinderen krijgen wat ze nodig hebben… Dat moest allebei goed genoeg zijn voor 2 punten.
+
+Puntenverantwoording: Antwoord is goed als
+a. de student gendersocialisatie goed beschrijft (2 punten) en
+b. twee elementen noemt, bv gevoeligheid voor anderen, zorgen voor, gevoelens van onmacht, schuldgevoel/tekortschieten in zorg, zich nutteloos voelen bij afwezigheid van zorgtaken, en verwijst naar een voorbeeld uit de casus. De casus biedt voldoende voorbeelden (Lagro-Janssen, hst 3 p. 31) (2 punten)</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-7">
+  <div class="q-num">Vraag 7 <span class="q-points" data-points="10"></span> <button class="q-num-ai" onclick="openChatForQuestion(7, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 2.</b> Dhr. Pieters, een 42 jarige buschauffeur van 75kg, is op het spreekuur van de huisarts in verband met sinds één week bestaande aspecifieke lage rugklachten. In zijn voorgeschiedenis heeft hij obstipatie waarvoor de huisarts hem eerder lactulosestroop heeft voorgeschreven, en ernstig astma waarvoor hij dagelijks zo nodig salbutamol en beclomethason gebruikt. Dhr. Pieters is allergisch voor naproxen en komt nu op het spreekuur omdat hij pijn blijft houden aan zijn rug. Bij zijn werkzaamheden als buschauffeur vallen de klachten nog mee, maar tijdens het lopen heeft hij veel pijn in zijn rug. Sinds enkele dagen gebruikt hij 5dd 500mg paracetamol. Hij vraagt of de huisarts sterkere pijnstilling kan voorschrijven omdat de paracetamol niet lijkt te werken en hij graag zijn werk wil blijven uitvoeren.</div>
+  <div class="q-question">a. Wat is de maximale dagdosering paracetamol die de huisarts nu veilig aan dhr. Pieters kan voorschrijven. (2 punten)<br>b. Beargumenteer of het toevoegen van diclofenac aan de maximale dosering paracetamol een veilige keuze is voor dhr. Pieters. Neem in je argumentatie eventuele patiënteigenschappen mee zoals contra-indicaties, interacties, waarschuwingen en het bijwerkingenprofiel. (5 punten)<br>c. Beargumenteer met welke drie veel voorkomende bijwerkingen u specifiek bij dhr. Pieters rekening moet houden bij het voorschrijven van een sterkwerkend oraal opiaat. Neem in je argumentatie eventuele patiënteigenschappen mee zoals contra-indicaties, interacties, waarschuwingen en het bijwerkingenprofiel. (3 punten)</div>
+  <textarea class="open-input" id="open-input-7" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-7" onclick="checkOpen(7)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-7">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. De maximale dosering paracetamol is: 4dd 1000mg (of 4g). Gezien het gewicht en het afwezig zijn van contra-indicaties is de maximale dosering van paracetamol bij gebruik &lt;1 maand maximaal 4dd 1000mg.
+b. Het toevoegen van een NSAID is geen veilige keuze voor dhr. Pieters (1 punt). Argumentatie:
+- Door de allergie voor Naproxen en het voorkomen van kruisovergevoeligheid is ook het gebruik van Diclofenac gecontra-indiceerd. (2 punten).
+- Het gebruik van NSAIDs kan een astma aanval uitlokken en moet indien mogelijk worden vermeden (2 punt).
+c. De drie bijwerkingen waarmee u rekening moet houden bij het voorschrijven van een sterkwerkend oraal opiaat bij dhr. Pieters: (1 punt per bijwerking, 3 punten bij benoemen van alle drie de bijwerkingen):
+1. Ademhalingsdepressie bij zijn voorgeschiedenis met ernstige astma.
+2. Sufheid en sedatie bij zijn beroep als buschauffeur (beïnvloeding rijvaardigheid).
+3. Obstipatie bij zijn voorgeschiedenis met obstipatie.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-8">
+  <div class="q-num">Vraag 8 <span class="q-points" data-points="8"></span> <button class="q-num-ai" onclick="openChatForQuestion(8, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 3.</b> De heer Sanders, 53 jaar, komt bij de huisarts op het spreekuur omdat hij zich vorige week ziek heeft gemeld op het werk. Hij heeft een heel aantal klachten: hij voelt een grote gespannenheid in zijn lichaam, hij heeft nekpijn en hoofdpijn, en hij komt 's ochtends zijn bed bijna niet uit. Hij is daardoor al meerdere malen te laat op het werk verschenen. Hij voelt zich zwak en slecht hierover. Hij heeft het idee dat hij bij lange na niet de kwaliteit werk levert, die zijn collega's leveren, maar voelt zich ook niet in staat dit anders te doen. Hij kan zich overdag niet concentreren, omdat hij steeds is afgeleid door schuldgevoelens over dat hij niet goed functioneert. In het weekend ligt hij de hele dag op bed. Hij heeft geen interesse en geen energie om iets te ondernemen. Hij kan zich niet herinneren wanneer hij voor het laatst eens echt gelachen heeft.</div>
+  <div class="q-question">Leg uit of deze patiënt aan de diagnose 'overspanning' voldoet volgens de LESA-richtlijn. Betrek hierbij de vier criteria uit die richtlijn.</div>
+  <textarea class="open-input" id="open-input-8" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-8" onclick="checkOpen(8)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-8">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Antwoord: (criterium + toepassing)
+a. Criterium A voldoet: er zijn meerdere stressgerelateerde symptomen (minimaal 3). hij voelt gespannenheid in het lichaam, hoofdpijn en nekpijn, hij heeft geen energie en kan zich niet concentreren. Termen als &#x27;psychosomatische klachten&#x27; danwel &#x27;stressgerelateerde symptomen&#x27; dienen in het antwoord voor te komen. &#x27;Somatische klachten&#x27; wordt niet goed gerekend, &#x27;psychische klachten&#x27; wel.
+b. Criterium B voldoet: hij heeft mogelijk gevoelens van controleverlies/machteloosheid: hij voelt zich zwak en slecht over zijn prestaties op het werk, en is niet in staat dit te verbeteren.
+c. Criterium C voldoet: er zijn significante beperkingen in beroepsmatig/sociaal functioneren: ziekmelding werk, komt thuis nergens meer aan toe.
+d. Criterium D voldoet niet: de symptomen zijn mogelijk toe te schrijven aan een psychiatrische stoornis: nagegaan moet worden of er een psychiatrische diagnose te stellen is (depressie, angststoornis).
+
+Puntenverantwoording: 1 punt per criterium, 1 punt per voorbeeld (toepassing casus). Het criterium wel kennen maar niet goed toepassen geeft dus slechts 1 punt.
+Extra toelichting:
+- Gezien niet expliciet naar de 4 criteria wordt gevraagd: student krijgt het volledige aantal punten als uit het antwoord kan worden opgemaakt dat de student de criteria kent (en dus toepast op de casus), en hier een conclusie aan verbindt.
+- Wanneer student geen conclusie geeft (overspannen ja/nee) wordt er 1 punt afgetrokken. Indien studenten een onjuiste conclusie trekken, echter dit in lijn is met hun voorgaande argumenten geen extra punt aftrek. (bijvoorbeeld als studenten bij criterium 4 tot de conclusie komen dat er géén depressie speelt waarna ze concluderen dat er dús sprake is van overspanning).
+- Criterium D: indien student bij criterium D weloverwogen de diagnose depressie uitsluiten wordt 1,5 punt toegekend</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-9">
+  <div class="q-num">Vraag 9 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(9, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 3 (vervolg).</b></div>
+  <div class="q-question">Stel dat er sprake is van overspanning. Aan welke twee extra voorwaarden uit de LESA-richtlijn moeten de klachten dan voldoen om te kunnen spreken van 'burn-out'?</div>
+  <textarea class="open-input" id="open-input-9" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-9" onclick="checkOpen(9)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-9">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. De klachten zijn meer dan 6 maanden geleden begonnen
+b. Gevoelens van moeheid en uitputting staan sterk op de voorgrond (energieverlies)
+
+Puntenverantwoording: per voorwaarde 1 punt</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-10">
+  <div class="q-num">Vraag 10 <span class="q-points" data-points="5"></span> <button class="q-num-ai" onclick="openChatForQuestion(10, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 3 (vervolg).</b></div>
+  <div class="q-question">Wat is de meest waarschijnlijke diagnose: 'depressie' of 'overspannenheid'? Leg uit. Maak ook gebruik van de criteria van depressie volgens DSM 5 in je antwoord.</div>
+  <textarea class="open-input" id="open-input-10" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-10" onclick="checkOpen(10)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-10">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Voor een depressie zijn er twee kernsymptomen, waarvan er minstens één aanwezig moet zijn: sombere stemming, of verlies van interesse/plezier. De man in deze casus heeft duidelijk verlies van interesse en plezier. Daarnaast zijn er gevoelens waardeloosheid/zwakte, overmatig slapen, schuldgevoelens, concentratieproblemen en vermoeidheid. Op basis van deze symptomen is het mogelijk de diagnose depressie te stellen. Een depressie is op basis hiervan waarschijnlijk. De diagnose &#x27;overspanning&#x27; is daardoor onwaarschijnlijk omdat hiermee niet meer aan criterium D voor overspanning voldaan wordt.
+
+Puntenverantwoording:
+- Depressie is het meest waarschijnlijke (1 punt), omdat:
+- De diagnose depressie te stellen is op basis van: 1 kernsymptoom plus minimaal 4 overige symptomen (3 punten). Indien aanwezigheid kern symptoom niet expliciet benoemd wordt, maar wel wordt gesteld dat er sprake is van 5 van de 9 symptomen: 2 punten in plaats van 3
+- Criterium D van overspanning voldoet niet door de aanwezigheid van de depressie (1 punt)
+Extra toelichting:
+- Depressie is het meest waarschijnlijke (1 punt)
+  o 0,5 punt in plaats van 1 punt als de student op basis van de onbekende duur concludeert dat er geen sprake van een depressie kan zijn
+- De diagnose depressie te stellen is op basis van: 1 kernsymptoom plus minimaal 4 overige symptomen (3 punten). Indien aanwezigheid kern symptoom niet expliciet benoemd wordt, maar wel wordt gesteld dat er sprake is van 5 van de 9 symptomen: 2 punten in plaats van 3. Opbouw:
+  o 1 punt voor benoemen dat kernsymptoom aanwezig moet zijn en beschrijft ook de juiste, 0.5 punt voor benoemen dat kernsymptoom aanwezig moet zijn maar past dit onjuist op de casus toe.
+  o 1 punt indien 4 overige symptomen als criterium voor depressie benoemd, of in totaal 5 van de 9 symptomen benoemd wordt als criterium
+  o 1 punt indien juiste symptomen uit de casus benoemd worden.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-11">
+  <div class="q-num">Vraag 11 <span class="q-points" data-points="7"></span> <button class="q-num-ai" onclick="openChatForQuestion(11, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 4.</b> Een 20-jarige vrouw meldt zich bij haar huisarts in verband met een acute aanval van benauwdheidsklachten. De vrouw is bekend met astma. Zij is al enige tijd niet meer op controle geweest. Wel kwam zij vorige maand op het spreekuur in verband met vermoeidheid en hoofdpijn. De huisarts vermoedde toen dat deze klachten gerelateerd waren aan haar sociale situatie: Afgelopen jaar was een veelbewogen jaar, waarin patiënte haar moeder is verloren aan longkanker, zij op zichzelf is gaan wonen, en haar relatie is uitgegaan.<br>Over huidige klachten vertelt patiënte dat deze een half uur geleden vrij plotseling zonder aanleiding zijn ontstaan, toen zij zat te leren voor een tentamen. Ze heeft het idee te stikken, wat erg beangstigend is. Zij zweet, heeft tintelingen rondom de mond en heeft hartkloppingen. Een puf Ventolin, wat haar in verleden goed hielp bij benauwdheid, had geen effect. De huisarts onderzoekt patiënte. Haar ademhaling is wat versneld en zij heeft een snelle regelmatige hartslag. Over de longen hoort hij normaal ademgeruis zonder bijgeluiden. De coassistente, die het consult heeft geobserveerd, twijfelt of patiënte een opvlamming heeft van de astma of dat er sprake is van een psychische oorzaak.</div>
+  <div class="q-question">Wat is, op basis van huidige klachten, de meest waarschijnlijke diagnose? Benoem de (specifieke) diagnose (3 punten) en geef vier afzonderlijke argumenten hiervoor (1 punt per argument).</div>
+  <textarea class="open-input" id="open-input-11" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-11" onclick="checkOpen(11)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-11">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Meest waarschijnlijke diagnose is paniekaanval (met hyperventilatie) wordt ook goed gerekend (3 punten). Slechts 1 punt bij alleen hyperventilatie danwel angststoornis.
+Mogelijke argumenten: (voor elk argument 1 punt, maximaal 4 argumenten)
+- De aard van de klachten: oa tintelingen rondom de mond, acuut ontstaan, bijkomende angst/gevoel te stikken
+- Geen afwijkingen bij auscultatie (astma: piepen, verlengd expirium)
+- Ventolin heeft geen effect, terwijl dit eerder wel het geval was
+- Het feit dat zij al eerder tekenen van somatisatie vertoonde als uiting van spanning
+- De sociale problemen in het leven van patiënt
+- Het plotselinge ontstaan (zonder enige somatische aanleiding)
+- Voor leren voor het tentamen als luxerende stressor wordt 0,5 punt toegekend
+
+Puntenverantwoording: Zie boven</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-12">
+  <div class="q-num">Vraag 12 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(12, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 5.</b> Een vrouw van 33 jaar, sinds 3 jaar bekend met de diagnose Multiple Sclerose (MS), vertelt in gesprek met de MS-verpleegkundige op de MS-poli dat zij zo moe is. Zij weet dat moeheid een veel voorkomende klacht is bij patiënten met MS, maar de moeheid bij haar is echt enorm, echt vreselijk! De verpleegkundige hoort aan wat patiënte zoal nog meer over de moeheid denkt: het blijkt dat patiënte denkt dat ze door inspanning het ziekteproces zal versnellen, daardoor rolstoelafhankelijk wordt en misschien zelfs eerder dood zal gaan. Ze is er ook echt van overtuigd dat ze zich niet meer minder moe zal kunnen voelen. Patiënte voelt zich totaal overgeleverd aan de vermoeidheid en ze is er van overtuigd dat ze er zelf niets aan kan veranderen.</div>
+  <div class="q-question">Hoe noemt men binnen het symptoomperceptiemodel deze negatieve gedachten die patiënte aan de moeheid koppelt?</div>
+  <textarea class="open-input" id="open-input-12" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-12" onclick="checkOpen(12)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-12">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Doemdenken, catastroferende cognities, doemdenken
+
+Puntenverantwoording: 2 punten</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-13">
+  <div class="q-num">Vraag 13 <span class="q-points" data-points="6"></span> <button class="q-num-ai" onclick="openChatForQuestion(13, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 5 (vervolg).</b> De vermoeidheid in het verhaal van deze vrouw is op te vatten als een stressor. Binnen het interactionele stress-copingmodel worden drie vormen van inschatting (appraisal) beschreven.</div>
+  <div class="q-question">a. Onder welke vorm van appraisal vallen de negatieve gedachten geassocieerd met de moeheid? Licht kort toe. (2 punten)<br>b. Onder welke vorm van appraisal valt de overtuiging dat zij er zelf niets aan kan veranderen? Licht kort toe. (2 punten)<br>c. Noem en beschrijf kort de derde vorm van appraisal binnen dit model. (2 punten)</div>
+  <textarea class="open-input" id="open-input-13" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-13" onclick="checkOpen(13)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-13">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Primary appraisal: inschatten van de aard van stressor (2 punten)
+b. Secondary appraisal: inschatting van de eigen mogelijkheden om er iets aan te veranderen;
+c. Reappraisal: op basis van de toegepaste coping een herevaluatie van de stressor. Enkel het heravalueren van de secondary appraisal is onvoldoende, genoemd moet worden dat de situatie/stressor opnieuw bekeken moet worden (hetgeen een resultaat is van de ingezette coping)
+
+Puntenverantwoording: 1 punt voor benoemen goede vorm van appraisal en 1 punt voor goede toelichting</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-14">
+  <div class="q-num">Vraag 14 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(14, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 5 (vervolg).</b> In gesprek met de verpleegkundige blijkt ook dat patiënte inmiddels vrijwel niets onderneemt. Ze vermijdt toenemend elke onnodige fysieke inspanning. Haar actieradius is inmiddels beperkt tot huis en haard. Haar man is zzp'er en is gelukkig veel thuis en neemt haar veel uit handen. Haar moeder komt eens per week de grote huishoudelijke klussen doen. Patiënte ervaart wat haar man en moeder voor haar doen echt als grote steun. En, zegt patiënte, aan huishouden had ik altijd al een hekel, dus dat is mooi meegenomen.<br>Hoewel social support kan bijdragen aan het hanteren van stress, draagt de steun van man en moeder mogelijk ook bij aan de inactiviteit van patiënte.</div>
+  <div class="q-question">Welk leerprincipe kan verklaren dat social support de inactiviteit (en wellicht de moeheid) in stand houdt? Licht kort toe.</div>
+  <textarea class="open-input" id="open-input-14" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-14" onclick="checkOpen(14)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-14">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Operante conditionering, de inactiviteit wordt beloond door aandacht en, ook door het ontheven worden van de vervelende huishoudelijke taken.
+
+Puntenverantwoording: 1 punt voor juiste leerprincipe, 1 punt voor de uitleg</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-15">
+  <div class="q-num">Vraag 15 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(15, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 5 (vervolg).</b> Moeder vertroetelt haar echt heel erg en zegt ook vaak dat het vast wel goed zal komen. Eigenlijk deed moeder dat altijd al; patiënte was van jongs af aan een wat kwetsbaar en gevoelig meisje. Ze was altijd snel gespannen en wat zorgelijk. Meestal vond zij het glas halfleeg. Haar zusje is het tegendeel, zij beziet het leven altijd vanuit een positief perspectief.</div>
+  <div class="q-question">a. Onder welke persoonlijkheidstrek van het OCEAN (Big-5) model vallen de beschreven eigenschappen van patiënte? (2 punten)<br>b. Hoe noemt men de emotionele dispositie/geneigdheid van het zusje om gebeurtenissen vanuit een positief perspectief te bekijken, die ook samenhangt met een beter psychisch welzijn? (2 punten)</div>
+  <textarea class="open-input" id="open-input-15" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-15" onclick="checkOpen(15)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-15">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Neuroticisme
+b. Optimisme
+Openess of een andere persoonlijkheidstrek is niet goed. In Ayers staat expliciet een kopje &#x27;emotionele dispositie&#x27; waarbij optimisme en positiviteit genoemd wordt. Blz. 39-40.
+
+Puntenverantwoording: 2 punten per goed antwoord</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-16">
+  <div class="q-num">Vraag 16 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(16, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 5 (vervolg).</b> De MS-verpleegkundige overweegt patiënte te verwijzen naar de afdeling medische psychologie voor het vermoeidheidsprogramma voor patiënten met MS. Het vermoeidheidsprogramma is erg gelijkend op evidence-based pijnprogramma's, waarbij gedachten en de inactiviteit en gevolgen daarvan focus van de interventie zijn.</div>
+  <div class="q-question">Welke psychotherapeutische interventie is uitgangspunt in deze programma's, de focus in aanmerking nemende?</div>
+  <textarea class="open-input" id="open-input-16" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-16" onclick="checkOpen(16)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-16">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Cognitieve gedragstherapie CGT.
+
+Puntenverantwoording: 2 punten. Indien alleen cognitieve therapie of gedragstherapie, 1 punt.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-17">
+  <div class="q-num">Vraag 17 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(17, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 6.</b> Een 60-jarige man komt samen met zijn vrouw op het spreekuur van de huisarts. Zij doet het woord, want hij zegt de laatste tijd erg weinig terwijl hij gewoonlijk een spraakzame man is. Ze maakt zich zorgen, hij eet nauwelijks, is afgevallen. Hij oogt erg somber en komt tot niets. Hij zit de hele dag maar wat voor zich uit te staren. Het is begonnen nadat hij enkele maanden geleden is ontslagen vanwege bezuinigingen in het bedrijf waar hij werkte. Ze vertelt dat hij soms erg angstig is en er van overtuigd is dat de bank het huis zal vorderen omdat zal blijken dat ze de hypotheek al die jaren op de verkeerde manier hebben afgelost. Hoewel het huis al een jaar hypotheekvrij is, lukt het haar niet om hem gerust te stellen. Hij weet zeker dat het hun financiële ondergang zal worden en ze op straat komen te staan. Hij is vooral in de vroege ochtend radeloos en onrustig. De vrouw vraagt of de huisarts niet een kalmerend medicijn kan voorschrijven.</div>
+  <div class="q-question">Veel mensen hebben emotionele klachten. Aan welke twee eisen moeten deze klachten voldoen om te kunnen spreken van een psychiatrische stoornis?</div>
+  <textarea class="open-input" id="open-input-17" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-17" onclick="checkOpen(17)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-17">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Je mag spreken van een psychiatrische stoornis (1) bij significante subjectieve lijdensdruk, en/of (2) bij beperkingen in het functioneren.
+
+Puntenverantwoording: 2 punten per juist argument. &#x27;Gevoelens die buiten de norm vallen&#x27;: 1 punt. 0,5 punten indien abnormale gevoelens benoemd worden zonder symptoom beschrijving.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-18">
+  <div class="q-num">Vraag 18 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(18, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 6 (vervolg).</b></div>
+  <div class="q-question">Noem vier psychiatrische symptomen op die deze man vertoont en benoem per symptoom binnen welke psychische functie deze valt (affectief, conatief of cognitief).</div>
+  <textarea class="open-input" id="open-input-18" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-18" onclick="checkOpen(18)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-18">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Vier van de onderstaande:
+waan (cognitief)
+somberheid (affectief)
+angst / radeloosheid (affectief)
+verminderde spraak (conatief)
+interesseverlies, anhedonie (affectief)
+inactiviteit (conatief)
+onrust (affectief)
+eetlustvermindering/gewichtsverlies (affectief)
+slaapstoornis (affectief)
+
+Puntenverantwoording: Alleen symptoom = ½ punt. Symptoom + psychische functie = 1 punt</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-19">
+  <div class="q-num">Vraag 19 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(19, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 6 (vervolg).</b></div>
+  <div class="q-question">Wat is de meest waarschijnlijke classificatie (stoornisdiagnose) in deze casus? Specificeer je antwoord zo veel mogelijk.</div>
+  <textarea class="open-input" id="open-input-19" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-19" onclick="checkOpen(19)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-19">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">De meest waarschijnlijke classificatie is een depressie met psychotische kenmerken.
+
+Puntenverantwoording: 3 punten voor het juiste antwoord (2 punten voor depressie en 1 punt voor psychotische kenmerken). Indien alleen psychose: 1 punt. Schizofrenie – 0.5 punt.</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-20">
+  <div class="q-num">Vraag 20 <span class="q-points" data-points="2"></span> <button class="q-num-ai" onclick="openChatForQuestion(20, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 6 (vervolg).</b></div>
+  <div class="q-question">Waarom zal het geduldig aanhoren van de problemen, bespreken dat het toch niet reëel is dat de bank hun huis zal vorderen, en hem geruststellen, zeer waarschijnlijk zijn angstige overtuiging niet kunnen wegnemen?</div>
+  <textarea class="open-input" id="open-input-20" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-20" onclick="checkOpen(20)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-20">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">De essentie van een waan (een psychotisch verschijnsel) is juist dat het realiteitsbesef gestoord is en (daardoor) niet beïnvloedbaar is door logisch te redeneren en argumenten. In het antwoord moet in elk geval het begrip &#x27;waan&#x27; of &#x27;waanidee&#x27; worden genoemd om 2 punten te behalen. Begrippen als &#x27;gestoorde realiteitstoetsing&#x27;, &#x27;gestoord realiteitsbesef&#x27;, &#x27;ziekelijke overtuiging&#x27;, &#x27;sterke overtuiging&#x27; of &#x27;psychose&#x27; zijn goed voor 1 punt.
+
+Puntenverantwoording: 2 punten voor het juiste antwoord</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-21">
+  <div class="q-num">Vraag 21 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(21, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 7.</b> Een 28-jarige vrouw heeft een groot probleem. Enkele maanden geleden is ze in een winkel onwel geworden, met duizeligheid, misselijkheid en het gevoel flauw te vallen. Haar hart ging heftig tekeer en het zweet brak haar uit. Nadat ze een paar dagen later voor de tweede keer, op straat, zo'n aanval kreeg, durft ze niet alleen de straat meer op, laat staan boodschappen doen. Het is allemaal begonnen nadat ze voor de tweede keer een miskraam heeft gehad. Nu moet er altijd iemand mee als ze het huis uit wil, haar man, of een buurvrouw of haar zus die elders in de stad woont. Als ze het huis uit gaat moet ze ook nog eens tien keer controleren of de deur wel afgesloten is. Het beperkt haar erg en ze vindt het bijzonder vervelend dat ze van anderen afhankelijk is. Ze voelt zich rot en down. Op een dag besluit ze dat het zo niet langer kan en gaat, samen met haar zus, naar de huisarts. De zus vertelt dat hun moeder ook altijd een nerveuze vrouw is geweest, die nog steeds last heeft van smetvrees en altijd loopt te poetsen. Een tante (zus van moeder) heeft ook dergelijke klachten.</div>
+  <div class="q-question">Noem drie somatische en drie psychische symptomen waar deze vrouw melding van maakt.</div>
+  <textarea class="open-input" id="open-input-21" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-21" onclick="checkOpen(21)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-21">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">2x3 symptomen van de onderstaande:
+• somatisch: duizeligheid, misselijkheid, flauwvallen, hartkloppingen, transpireren. Omschrijving van somatische symptomen is ook goed
+• psychisch: somberheid, angst, paniek, straatvrees/fobie, dwanghandelingen
+
+Puntenverantwoording: 0,5 punt per symptoom</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-22">
+  <div class="q-num">Vraag 22 <span class="q-points" data-points="4"></span> <button class="q-num-ai" onclick="openChatForQuestion(22, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Casus 7 (vervolg).</b></div>
+  <div class="q-question">Stel op basis van de casus een beschrijvende diagnose op waarin naast de classificatie ook de oorzakelijke of aanleidende factoren zijn verwerkt.</div>
+  <textarea class="open-input" id="open-input-22" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-22" onclick="checkOpen(22)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-22">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">Een 28-jarige vrouw die sinds enkele maanden lijdt aan een paniekstoornis met straatvrees / agorafobie naar aanleiding van een miskraam, met een familiaire belasting voor angststoornissen.
+
+Puntenverantwoording: 2 punten voor de juiste diagnose (paniekaanval in plaats van paniekstoornis wordt geaccepteerd), 1 per aanleidend/oorzakelijke factor (2 in totaal)</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-23">
+  <div class="q-num">Vraag 23 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(23, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Organisatie van de gezondheidszorg.</b> De voorzieningen binnen de gezondheidzorg zijn in Nederland onderverdeeld in drie echelons.</div>
+  <div class="q-question">a. Wat wordt verstaan onder een echelon? (2 punten)<br>b. En onder welk echelon valt de huisarts? (1 punt)</div>
+  <textarea class="open-input" id="open-input-23" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-23" onclick="checkOpen(23)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-23">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Een echelon is een sector in de gezondheidszorg (1 punt) waarbinnen de voorzieningen globaal dezelfde mate van specialiteit en intensiteit (1 punt) hebben. Voor een antwoord waarin de student het systeem wel uitlegt, maar niet precies de termen zoals hierboven gebruikt wordt 1,5 punt toegekend.
+b. Huisarts is eerste echelon (1 punt). Het antwoord &#x27;eerstelijnszorg&#x27; mag ook goed gerekend worden.
+
+Puntenverantwoording: zie boven</div>
+  </div>
+</div>
+
+<div class="q-block" id="qblock-24">
+  <div class="q-num">Vraag 24 <span class="q-points" data-points="3"></span> <button class="q-num-ai" onclick="openChatForQuestion(24, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-context"><b>Illness en disease, sickness.</b> Ziekte kan worden aangeduid met de termen 'illness' en 'disease'. Een derde aanverwant begrip, geïntroduceerd door Parsons, is de term 'sickness'.</div>
+  <div class="q-question">a. Wat wordt onder de term 'sickness' verstaan? (1 punt)<br>b. Geef twee karakteristieken van dit begrip. (2 punten)</div>
+  <textarea class="open-input" id="open-input-24" placeholder="Typ hier je antwoord..."></textarea>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-24" onclick="checkOpen(24)">Controleer antwoord</button>
+
+</div>
+  <div class="result" id="result-24">
+    <div class="open-modelans-badge">Modelantwoord</div>
+    <div class="open-modelans">a. Sickness is de ziekenrol/de status van &#x27;zieke&#x27;/patiënt-; Ontheft de pt tijdelijk van zijn sociaalmaatschappelijke verplichtingen/taken; of een goede uitleg van ziektegedrag hetgeen een uiting is van de ziekenrol.
+b.
+1. De pt wordt niet verantwoordelijk gehouden voor zijn ziekte. Hij is een slachtoffer dat hulp verdient.
+2. De pt is verplicht mee te werken aan het beter worden; hij moet meewerken met de arts.
+
+Puntenverantwoording: 1 punt per goede definitie, 1 punt per karakteristiek. Er wordt gevraagd naar karakteristieken en niet zozeer de normen die in bovenstaand antwoordmodel staan beschreven. Indien er duidelijke (gedrags-)karakteristieken zijn genoemd, zijn hier ook punten voor toegekend.</div>
+  </div>
+</div>
+<div style="max-width:820px;margin:8px auto 48px;padding:0 20px;text-align:center;">
+  <button id="end-submit-btn" onclick="openSubmitModal()" style="width:100%;max-width:420px;padding:15px 24px;background:#1CB0F6;color:#fff;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #0E85B5;">Examen inleveren</button>
+</div>
+</main>
+
+
+<!-- Glossary tooltip -->
+<div id="g-tip" class="g-tip"></div>
+<!-- Selection popup -->
+<div id="sel-popup" class="sel-popup" onclick="openChatWithSelection()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  Vraag chat
+</div>
+
+<!-- Fixed AI chat tab on left edge -->
+<button class="chat-tab" onclick="openChatForQuestion(null)" title="Vraag de AI">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="2,2 8,8 2,14"/>
+  </svg>
+</button>
+
+<!-- Chat panel -->
+<div id="chat-panel" class="chat-panel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-title">Chat</div>
+    <button class="chat-close" onclick="closeChat()">&#x2715;</button>
+  </div>
+  <div id="chat-context-pill" class="chat-context-pill" style="display:none"></div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chat-input" placeholder="Stel een vraag..." rows="1"></textarea>
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Glossary right panel -->
+<div id="g-panel" class="g-panel">
+  <div class="g-panel-header">
+    <div id="g-title" class="g-title"></div>
+    <button class="g-close" onclick="closeGlossary()">&#x2715;</button>
+  </div>
+  <img id="g-img" class="g-img" src="" alt="" style="display:none">
+  <div id="g-img-nav" class="g-img-nav" style="display:none">
+    <button class="g-img-btn" onclick="gImgPrev()">&#8592;</button>
+    <span id="g-img-counter" class="g-img-counter"></span>
+    <button class="g-img-btn" onclick="gImgNext()">&#8594;</button>
+  </div>
+  <div class="g-body">
+    <div id="g-def" class="g-def"></div>
+  </div>
+</div>
+<script>const GLOSSARY = {
+ "humoraalpathologie": {
+  "title": "Humoraalpathologie",
+  "short": "Klassieke ziekteleer van Hippocrates en Galenus waarin ziekte wordt verklaard uit een onevenwicht van de vier lichaamssappen (humoren).",
+  "definition": "<p>De humoraalpathologie verklaart ziekte uit een verstoord evenwicht van de vier lichaamssappen (bloed, slijm, gele gal en zwarte gal). Ze is holistisch: de hele mens staat centraal en de behandeling richt zich op het herstellen van de balans, niet op een lokaal orgaan.</p>",
+  "image_url": "",
+  "wiki_title": "Humorism"
+ },
+ "orgaanpathologie": {
+  "title": "Orgaanpathologie",
+  "short": "Ziekteopvatting waarin ziekte wordt gelokaliseerd in aantoonbare afwijkingen van organen en weefsels.",
+  "definition": "<p>De orgaanpathologie, die vanaf de achttiende eeuw de humoraalpathologie verving, koppelt klachten aan waarneembare (anatomische) afwijkingen in specifieke organen. Ze is lokaal en reductionistisch van aard.</p>",
+  "image_url": "",
+  "wiki_title": "Pathology"
+ },
+ "holistisch": {
+  "title": "Holistisch",
+  "short": "Benadering die de mens als geheel beschouwt, waarbij lichaam, geest en omgeving samenhangen.",
+  "definition": "<p>Een holistische benadering ziet gezondheid en ziekte als eigenschappen van de hele persoon in zijn context, in plaats van als geïsoleerde afwijkingen van een orgaan.</p>",
+  "image_url": "",
+  "wiki_title": "Holism in science"
+ },
+ "reductionistisch": {
+  "title": "Reductionistisch",
+  "short": "Benadering die complexe verschijnselen herleidt tot afzonderlijke, kleinere (bv. anatomische of fysiologische) onderdelen.",
+  "definition": "<p>Een reductionistische benadering verklaart ziekte door haar te herleiden tot losse onderliggende mechanismen, bijvoorbeeld psychiatrische aandoeningen tot hersenanatomie of -fysiologie, zonder psychische of sociale factoren mee te wegen.</p>",
+  "image_url": "",
+  "wiki_title": "Reductionism"
+ },
+ "percussie": {
+  "title": "Percussie (bekloppen)",
+  "short": "Lichamelijk onderzoek waarbij de arts op het lichaam klopt en uit de klank de toestand van onderliggende organen beoordeelt.",
+  "definition": "<p>Bij percussie tikt de onderzoeker op de lichaamswand; de resonantie geeft informatie over lucht-, vocht- of weefselinhoud van onderliggende organen (bijvoorbeeld gedempte klank bij vocht in de long).</p>",
+  "image_url": "",
+  "wiki_title": "Percussion (medicine)"
+ },
+ "palpatie": {
+  "title": "Palpatie (bevoelen)",
+  "short": "Onderzoeksmethode waarbij de arts met de handen het lichaam betast om afwijkingen te voelen.",
+  "definition": "<p>Bij palpatie beoordeelt de arts door aanraking onder meer grootte, vorm, consistentie en pijnlijkheid van organen of zwellingen.</p>",
+  "image_url": "",
+  "wiki_title": "Palpation"
+ },
+ "auscultatie": {
+  "title": "Auscultatie",
+  "short": "Beluisteren van lichaamsgeluiden, meestal met een stethoscoop, om organen zoals hart en longen te beoordelen.",
+  "definition": "<p>Bij auscultatie luistert de arts (met de stethoscoop) naar geluiden van hart, longen of darmen. Afwijkende geluiden zoals piepen of een verlengd expirium kunnen op longpathologie wijzen.</p>",
+  "image_url": "",
+  "wiki_title": "Auscultation"
+ },
+ "obductie": {
+  "title": "Obductie",
+  "short": "Onderzoek na overlijden (autopsie) waarbij organen worden onderzocht om de doodsoorzaak en ziekteprocessen vast te stellen.",
+  "definition": "<p>Bij een obductie (autopsie) wordt het lichaam na de dood geopend om organen macroscopisch en microscopisch te onderzoeken; dit droeg historisch sterk bij aan de opkomst van de orgaanpathologie.</p>",
+  "image_url": "",
+  "wiki_title": "Autopsy"
+ },
+ "preventieparadox": {
+  "title": "Preventieparadox",
+  "short": "Het gegeven dat een preventieve maatregel voor de bevolking veel gezondheidswinst oplevert, terwijl elk individu er nauwelijks merkbaar profijt van heeft.",
+  "definition": "<p>De preventieparadox (Geoffrey Rose) beschrijft dat maatregelen op bevolkingsniveau grote winst boeken, maar dat het effect voor het individu klein en onzichtbaar is. Daardoor trekken preventieve successen minder aandacht dan zichtbare curatieve behandelingen.</p>",
+  "image_url": "",
+  "wiki_title": "Prevention paradox"
+ },
+ "curatieve geneeskunde": {
+  "title": "Curatieve geneeskunde",
+  "short": "Geneeskunde gericht op het genezen of behandelen van bestaande ziekten, in tegenstelling tot preventie.",
+  "definition": "<p>Curatieve geneeskunde richt zich op het herstellen van gezondheid bij reeds bestaande ziekte. De resultaten zijn vaak direct en zichtbaar, waardoor ze meer aandacht krijgen dan preventieve maatregelen.</p>",
+  "image_url": "",
+  "wiki_title": "Therapy"
+ },
+ "biostatistische benadering": {
+  "title": "Biostatistische benadering",
+  "short": "Opvatting (Boorse) waarin gezondheid gelijkstaat aan het statistisch normale, gemiddelde functioneren van organen en processen.",
+  "definition": "<p>In de biostatistische (objectivistische) benadering is iemand gezond wanneer zijn organen en processen statistisch normaal functioneren, gericht op overleven en voortplanten. Deze visie is reductionistisch en staat tegenover het holistische begrip van Nordenfelt.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "nordenfelt": {
+  "title": "Lennart Nordenfelt",
+  "short": "Filosoof die gezondheid definieert als het vermogen om onder normale omstandigheden je vitale levensdoelen te bereiken.",
+  "definition": "<p>Volgens Nordenfelt is iemand gezond wanneer hij of zij het vermogen heeft om onder standaardomstandigheden de voor hem of haar belangrijke (vitale) levensdoelen te realiseren. Dit is een holistisch, doelgericht gezondheidsbegrip.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "who": {
+  "title": "WHO-gezondheidsdefinitie",
+  "short": "Definitie van de Wereldgezondheidsorganisatie: gezondheid als een toestand van volledig lichamelijk, geestelijk en sociaal welbevinden.",
+  "definition": "<p>De WHO omschrijft gezondheid als 'een toestand van volledig lichamelijk, geestelijk en sociaal welbevinden en niet slechts de afwezigheid van ziekte'. Dit statische, idealistische begrip wordt bekritiseerd omdat het te streng is: bijna niemand is dan 'gezond'.</p>",
+  "image_url": "",
+  "wiki_title": "World Health Organization"
+ },
+ "huber": {
+  "title": "Positieve gezondheid (Huber)",
+  "short": "Dynamisch gezondheidsbegrip van Machteld Huber: gezondheid als het vermogen je aan te passen en eigen regie te voeren bij uitdagingen van het leven.",
+  "definition": "<p>Machteld Huber stelt gezondheid voor als 'het vermogen zich aan te passen en eigen regie te voeren, in het licht van de sociale, fysieke en emotionele uitdagingen van het leven'. Anders dan de WHO is dit dynamisch en realistisch: ook met een gebrek kun je gezond zijn.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "patient empowerment": {
+  "title": "Patient empowerment",
+  "short": "Versterken van de eigen regie en zeggenschap van de patiënt over gezondheid en behandeling.",
+  "definition": "<p>Patient empowerment richt zich op het vergroten van kennis, vaardigheden en autonomie van de patiënt, zodat deze zelf keuzes kan maken en zich kan aanpassen aan uitdagingen in plaats van te focussen op gebreken.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "gendersocialisatie": {
+  "title": "Gendersocialisatie",
+  "short": "Proces waarbij maatschappelijke rolverwachtingen worden geïnternaliseerd tot een samenhangend mannelijk of vrouwelijk zelfbeeld.",
+  "definition": "<p>Gendersocialisatie houdt in dat verschillende rollen voor het individu worden geïntegreerd tot een logisch, samenhangend mannelijk of vrouwelijk zelfbeeld. De normen worden niet alleen aangeleerd maar geïnternaliseerd en in de identiteit opgenomen; in de puberteit worden genderrollen versterkt.</p>",
+  "image_url": "",
+  "wiki_title": "Gender role"
+ },
+ "genderrol": {
+  "title": "Genderrol",
+  "short": "Geheel van maatschappelijk verwachte eigenschappen en gedragingen die bij 'mannelijk' of 'vrouwelijk' horen.",
+  "definition": "<p>Een genderrol omvat de cultureel bepaalde verwachtingen over gedrag en eigenschappen van mannen en vrouwen. Kenmerken die aan de vrouwelijke rol worden toegeschreven zijn onder meer zorgzaamheid, gevoeligheid voor anderen en het vooropstellen van andermans welbevinden.</p>",
+  "image_url": "",
+  "wiki_title": "Gender role"
+ },
+ "overgangsklachten": {
+  "title": "Overgangsklachten",
+  "short": "Klachten in de menopauze door dalende oestrogeenspiegels, zoals opvliegers, nachtelijk zweten en stemmingswisselingen.",
+  "definition": "<p>Overgangsklachten treden op rond de menopauze door verminderde oestrogeenproductie. Veelvoorkomend zijn opvliegers, nachtzweten, slaapstoornissen en stemmingsklachten.</p>",
+  "image_url": "",
+  "wiki_title": "Menopause"
+ },
+ "hormoontherapie": {
+  "title": "Hormoontherapie",
+  "short": "Behandeling met (vrouwelijke) geslachtshormonen om overgangsklachten te verlichten.",
+  "definition": "<p>Bij hormoontherapie in de overgang worden oestrogenen (soms met progestageen) toegediend om klachten als opvliegers te verminderen. Er zijn afwegingen rond risico's en indicaties.</p>",
+  "image_url": "",
+  "wiki_title": "Hormone replacement therapy (menopause)"
+ },
+ "paracetamol": {
+  "title": "Paracetamol",
+  "short": "Pijnstiller en koortsverlager; eerste stap van de WHO-pijnladder, met een maximale dosering van 4dd 1000 mg bij volwassenen.",
+  "definition": "<p>Paracetamol werkt pijnstillend en koortsverlagend en heeft weinig contra-indicaties. Bij kortdurend gebruik (&lt;1 maand) is de maximale dosering voor volwassenen doorgaans 4dd 1000 mg (4 g/dag).</p>",
+  "image_url": "",
+  "wiki_title": "Paracetamol"
+ },
+ "nsaid": {
+  "title": "NSAID",
+  "short": "Ontstekingsremmende pijnstiller (bv. diclofenac, naproxen) die prostaglandinesynthese remt; kan astma uitlokken en geeft kruisovergevoeligheid.",
+  "definition": "<p>NSAID's (niet-steroïde anti-inflammatoire geneesmiddelen) remmen cyclo-oxygenase en daarmee prostaglandinesynthese. Ze kunnen bij gevoelige patiënten een astma-aanval uitlokken en er bestaat kruisovergevoeligheid tussen verschillende NSAID's.</p>",
+  "image_url": "",
+  "wiki_title": "Nonsteroidal anti-inflammatory drug"
+ },
+ "diclofenac": {
+  "title": "Diclofenac",
+  "short": "Veelgebruikte NSAID; bij naproxen-allergie gecontra-indiceerd door kruisovergevoeligheid.",
+  "definition": "<p>Diclofenac is een NSAID met pijnstillende en ontstekingsremmende werking. Bij een bekende allergie voor een ander NSAID (zoals naproxen) is diclofenac vanwege kruisovergevoeligheid gecontra-indiceerd.</p>",
+  "image_url": "",
+  "wiki_title": "Diclofenac"
+ },
+ "naproxen": {
+  "title": "Naproxen",
+  "short": "NSAID-pijnstiller; een allergie ervoor betekent risico op kruisreactie met andere NSAID's.",
+  "definition": "<p>Naproxen is een NSAID. Een allergische reactie erop wijst op een verhoogd risico op kruisovergevoeligheid met andere NSAID's zoals diclofenac.</p>",
+  "image_url": "",
+  "wiki_title": "Naproxen"
+ },
+ "kruisovergevoeligheid": {
+  "title": "Kruisovergevoeligheid",
+  "short": "Allergische reactie op een stof die optreedt doordat men al overgevoelig is voor een verwante stof.",
+  "definition": "<p>Bij kruisovergevoeligheid reageert het immuunsysteem ook op verwante stoffen; bij NSAID's betekent een allergie voor het ene middel (naproxen) een verhoogd risico op reactie op een ander (diclofenac).</p>",
+  "image_url": "",
+  "wiki_title": "Cross-reactivity"
+ },
+ "opiaat": {
+  "title": "Opiaat / opioïd",
+  "short": "Sterk werkende pijnstiller met bijwerkingen als ademhalingsdepressie, sedatie en obstipatie.",
+  "definition": "<p>Opiaten (opioïden) zijn krachtige pijnstillers die aangrijpen op opioïdreceptoren. Belangrijke bijwerkingen zijn ademhalingsdepressie (gevaarlijk bij astma), sufheid/sedatie (invloed op rijvaardigheid) en obstipatie.</p>",
+  "image_url": "",
+  "wiki_title": "Opioid"
+ },
+ "ademhalingsdepressie": {
+  "title": "Ademhalingsdepressie",
+  "short": "Verminderde ademhaling door onderdrukking van het ademcentrum, een gevreesde bijwerking van opioïden.",
+  "definition": "<p>Ademhalingsdepressie is een afgenomen ademfrequentie en -diepte door remming van het ademcentrum in de hersenstam. Bij opioïdgebruik is dit een ernstige bijwerking, zeker bij een voorgeschiedenis van ernstig astma.</p>",
+  "image_url": "",
+  "wiki_title": "Hypoventilation"
+ },
+ "obstipatie": {
+  "title": "Obstipatie",
+  "short": "Verstopping: moeizame, harde of infrequente stoelgang; een veelvoorkomende bijwerking van opioïden.",
+  "definition": "<p>Obstipatie is een vertraagde of bemoeilijkte darmpassage met harde ontlasting. Opioïden vertragen de darmmotiliteit en verergeren obstipatie, wat vooral speelt bij patiënten die er al last van hebben.</p>",
+  "image_url": "",
+  "wiki_title": "Constipation"
+ },
+ "overspanning": {
+  "title": "Overspanning",
+  "short": "Toestand van stressgerelateerde klachten met controleverlies en beperkt functioneren, omschreven in de LESA-richtlijn.",
+  "definition": "<p>Overspanning wordt in de LESA-richtlijn gedefinieerd aan de hand van vier criteria: (A) meerdere stressgerelateerde symptomen, (B) gevoelens van controleverlies/machteloosheid, (C) significante beperkingen in het functioneren, en (D) de klachten zijn niet toe te schrijven aan een psychiatrische stoornis.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "lesa-richtlijn": {
+  "title": "LESA-richtlijn",
+  "short": "Landelijke Eerstelijns Samenwerkings Afspraak; hier de richtlijn met criteria voor overspanning en burn-out.",
+  "definition": "<p>Een LESA (Landelijke Eerstelijns Samenwerkings Afspraak) geeft afspraken voor de eerstelijnszorg. De LESA Overspanning en burn-out beschrijft de criteria waaraan stressklachten moeten voldoen voor de diagnose overspanning of burn-out.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "burn-out": {
+  "title": "Burn-out",
+  "short": "Overspanning die langer dan zes maanden bestaat en waarbij moeheid en uitputting sterk op de voorgrond staan.",
+  "definition": "<p>Van burn-out spreekt men wanneer, naast de criteria voor overspanning, de klachten meer dan zes maanden geleden zijn begonnen en gevoelens van moeheid en uitputting (energieverlies) sterk overheersen.</p>",
+  "image_url": "",
+  "wiki_title": "Occupational burnout"
+ },
+ "depressie": {
+  "title": "Depressie (DSM-5)",
+  "short": "Stemmingsstoornis met als kernsymptomen sombere stemming en/of verlies van interesse/plezier, plus bijkomende symptomen.",
+  "definition": "<p>Voor een depressieve stoornis volgens DSM-5 moet minstens één kernsymptoom aanwezig zijn (sombere stemming of verlies van interesse/plezier), samen met in totaal minimaal vijf van de negen symptomen (o.a. slaapstoornis, schuldgevoel, concentratieproblemen, vermoeidheid) gedurende ten minste twee weken.</p>",
+  "image_url": "",
+  "wiki_title": "Major depressive disorder"
+ },
+ "anhedonie": {
+  "title": "Anhedonie",
+  "short": "Onvermogen om plezier of interesse te ervaren in activiteiten die normaal als prettig worden beleefd.",
+  "definition": "<p>Anhedonie is het verlies van het vermogen tot plezier en interesse. Het is een kernsymptoom van depressie en valt binnen de affectieve functie.</p>",
+  "image_url": "",
+  "wiki_title": "Anhedonia"
+ },
+ "paniekaanval": {
+  "title": "Paniekaanval",
+  "short": "Plotselinge episode van intense angst met lichamelijke symptomen zoals hartkloppingen, zweten, tintelingen en het gevoel te stikken.",
+  "definition": "<p>Een paniekaanval is een acuut opkomende golf van intense angst, vaak zonder duidelijke aanleiding, met symptomen als hartkloppingen, transpireren, tintelingen rond de mond, duizeligheid en het gevoel te stikken of dood te gaan. Vaak treedt hyperventilatie op.</p>",
+  "image_url": "",
+  "wiki_title": "Panic attack"
+ },
+ "hyperventilatie": {
+  "title": "Hyperventilatie",
+  "short": "Te snel en te diep ademen waardoor het CO2-gehalte daalt, met tintelingen, duizeligheid en benauwdheid tot gevolg.",
+  "definition": "<p>Bij hyperventilatie leidt versnelde ademhaling tot een verlaagd koolzuurgehalte in het bloed. Dit veroorzaakt symptomen als tintelingen rondom de mond en in de vingers, duizeligheid en een gevoel van benauwdheid, vaak in het kader van een paniekaanval.</p>",
+  "image_url": "",
+  "wiki_title": "Hyperventilation"
+ },
+ "somatisatie": {
+  "title": "Somatisatie",
+  "short": "Het uiten van psychische spanning in de vorm van lichamelijke klachten zonder afdoende lichamelijke oorzaak.",
+  "definition": "<p>Somatisatie is de neiging om psychische stress te vertalen in lichamelijke symptomen (zoals hoofdpijn of vermoeidheid) waarvoor geen toereikende somatische verklaring wordt gevonden.</p>",
+  "image_url": "",
+  "wiki_title": "Somatization"
+ },
+ "agorafobie": {
+  "title": "Agorafobie (straatvrees)",
+  "short": "Angst voor situaties waaruit ontsnappen moeilijk is, zoals de openbare ruimte, vaak samenhangend met paniekaanvallen.",
+  "definition": "<p>Agorafobie of straatvrees is de angst voor plaatsen of situaties waaruit ontsnappen lastig is of waar bij paniek geen hulp beschikbaar is. Vermijding leidt vaak tot beperking van de actieradius en afhankelijkheid van anderen.</p>",
+  "image_url": "",
+  "wiki_title": "Agoraphobia"
+ },
+ "angststoornis": {
+  "title": "Angststoornis",
+  "short": "Psychiatrische stoornis met buitensporige, aanhoudende angst die het functioneren beperkt; kan familiair belast zijn.",
+  "definition": "<p>Bij een angststoornis is er sprake van overmatige, hardnekkige angst die het dagelijks functioneren belemmert. Voorbeelden zijn de paniekstoornis en agorafobie; er is vaak een familiaire belasting.</p>",
+  "image_url": "",
+  "wiki_title": "Anxiety disorder"
+ },
+ "symptoomperceptiemodel": {
+  "title": "Symptoomperceptiemodel",
+  "short": "Model dat verklaart hoe iemand lichamelijke sensaties waarneemt, interpreteert en er betekenis (bv. doemdenken) aan geeft.",
+  "definition": "<p>Het symptoomperceptiemodel beschrijft hoe de waarneming en interpretatie van lichamelijke sensaties tot stand komt en hoe cognities daarbij een rol spelen. Negatieve, catastroferende interpretaties worden aangeduid als doemdenken.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "doemdenken": {
+  "title": "Doemdenken (catastroferen)",
+  "short": "Cognitieve neiging om de ergst mogelijke afloop te verwachten en klachten catastrofaal te interpreteren.",
+  "definition": "<p>Doemdenken of catastroferen is het systematisch verwachten van rampzalige uitkomsten. Bij vermoeidheid kan een patiënt bijvoorbeeld denken dat inspanning het ziekteproces onherroepelijk verergert.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "stress-copingmodel": {
+  "title": "Interactioneel stress-copingmodel",
+  "short": "Model (Lazarus & Folkman) waarin stress ontstaat uit de wisselwerking tussen inschatting (appraisal) van een stressor en de eigen copingmogelijkheden.",
+  "definition": "<p>In het interactionele stress-copingmodel van Lazarus en Folkman bepaalt de subjectieve inschatting van een stressor, samen met de ingeschatte copingmogelijkheden, of en hoeveel stress wordt ervaren. Het model onderscheidt primary appraisal, secondary appraisal en reappraisal.</p>",
+  "image_url": "",
+  "wiki_title": "Transactional model of stress and coping"
+ },
+ "primary appraisal": {
+  "title": "Primary appraisal",
+  "short": "Eerste inschatting van de aard en de bedreiging van een stressor.",
+  "definition": "<p>Primary appraisal is de eerste beoordeling van een gebeurtenis: is deze irrelevant, positief of bedreigend/schadelijk? Hierbij wordt de aard van de stressor ingeschat.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "secondary appraisal": {
+  "title": "Secondary appraisal",
+  "short": "Inschatting van de eigen mogelijkheden en middelen om met de stressor om te gaan.",
+  "definition": "<p>Secondary appraisal is de beoordeling van de eigen copingmogelijkheden: kan ik iets aan de situatie veranderen en welke hulpbronnen heb ik? De overtuiging er zelf niets aan te kunnen doen valt hieronder.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "reappraisal": {
+  "title": "Reappraisal",
+  "short": "Herevaluatie van de stressor op basis van de ingezette coping en nieuwe informatie.",
+  "definition": "<p>Reappraisal is het opnieuw beoordelen van de stressor nadat coping is toegepast; de situatie wordt in het licht van de resultaten opnieuw ingeschat.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "coping": {
+  "title": "Coping",
+  "short": "Manier waarop iemand omgaat met stressvolle situaties, gericht op het probleem of op de emoties.",
+  "definition": "<p>Coping omvat de cognitieve en gedragsmatige inspanningen om met een stressor om te gaan. Men onderscheidt onder meer probleemgerichte en emotiegerichte coping.</p>",
+  "image_url": "",
+  "wiki_title": "Coping"
+ },
+ "social support": {
+  "title": "Social support",
+  "short": "Steun van anderen die kan helpen bij het hanteren van stress, maar ook ongewenst gedrag in stand kan houden.",
+  "definition": "<p>Social support is de emotionele, praktische of informatieve steun uit iemands omgeving. Het buffert stress, maar kan via bekrachtiging (operante conditionering) ook inactiviteit of ziektegedrag in stand houden.</p>",
+  "image_url": "",
+  "wiki_title": "Social support"
+ },
+ "operante conditionering": {
+  "title": "Operante conditionering",
+  "short": "Leerprincipe waarbij gedrag toe- of afneemt door de gevolgen ervan (beloning of straf).",
+  "definition": "<p>Bij operante conditionering wordt gedrag gestuurd door de consequenties: gedrag dat wordt beloond (bekrachtigd) neemt toe. Zo kan inactiviteit worden versterkt doordat het aandacht oplevert en ontheffing van vervelende taken.</p>",
+  "image_url": "",
+  "wiki_title": "Operant conditioning"
+ },
+ "ocean": {
+  "title": "OCEAN (Big Five)",
+  "short": "Vijffactorenmodel van persoonlijkheid: Openheid, Consciëntieusheid, Extraversie, Altruïsme/vriendelijkheid en Neuroticisme.",
+  "definition": "<p>Het OCEAN- of Big Five-model beschrijft persoonlijkheid langs vijf dimensies: Openness, Conscientiousness, Extraversion, Agreeableness en Neuroticism. Snel gespannen, zorgelijk en emotioneel labiel gedrag valt onder neuroticisme.</p>",
+  "image_url": "",
+  "wiki_title": "Big Five personality traits"
+ },
+ "neuroticisme": {
+  "title": "Neuroticisme",
+  "short": "Persoonlijkheidstrek uit de Big Five die de neiging tot negatieve emoties, spanning en emotionele instabiliteit weergeeft.",
+  "definition": "<p>Neuroticisme is de mate waarin iemand geneigd is tot angst, spanning, somberheid en emotionele instabiliteit. Hoog neuroticisme uit zich in snel gespannen en zorgelijk zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Neuroticism"
+ },
+ "optimisme": {
+  "title": "Optimisme",
+  "short": "Emotionele dispositie om gebeurtenissen positief te bekijken, die samenhangt met beter psychisch welzijn.",
+  "definition": "<p>Optimisme is de geneigdheid om positieve verwachtingen te hebben en gebeurtenissen vanuit een positief perspectief te bezien. Het is een emotionele dispositie die is geassocieerd met beter psychisch welbevinden.</p>",
+  "image_url": "",
+  "wiki_title": "Optimism"
+ },
+ "cognitieve gedragstherapie": {
+  "title": "Cognitieve gedragstherapie (CGT)",
+  "short": "Psychotherapie die disfunctionele gedachten en gedragingen (zoals inactiviteit) aanpakt om klachten te verminderen.",
+  "definition": "<p>Cognitieve gedragstherapie combineert cognitieve therapie (veranderen van disfunctionele gedachten) en gedragstherapie (veranderen van gedrag zoals vermijding en inactiviteit). Het is uitgangspunt van veel evidence-based pijn- en vermoeidheidsprogramma's.</p>",
+  "image_url": "",
+  "wiki_title": "Cognitive behavioral therapy"
+ },
+ "psychiatrische stoornis": {
+  "title": "Psychiatrische stoornis",
+  "short": "Emotionele of gedragsklachten met significante lijdensdruk en/of beperkingen in het functioneren.",
+  "definition": "<p>Van een psychiatrische stoornis spreekt men bij significante subjectieve lijdensdruk en/of beperkingen in het (sociaal of beroepsmatig) functioneren. Enkel 'gevoelens buiten de norm' is onvoldoende.</p>",
+  "image_url": "",
+  "wiki_title": "Mental disorder"
+ },
+ "lijdensdruk": {
+  "title": "Lijdensdruk",
+  "short": "De mate van subjectief lijden die iemand door zijn klachten ervaart.",
+  "definition": "<p>Lijdensdruk is het subjectieve lijden dat klachten veroorzaken. Significante lijdensdruk is, samen met beperkingen in het functioneren, een voorwaarde om van een psychiatrische stoornis te spreken.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "affectief": {
+  "title": "Affectieve functie",
+  "short": "Psychische functie die betrekking heeft op stemming en emoties (bv. somberheid, angst, onrust).",
+  "definition": "<p>De affectieve functie betreft het gevoels- en stemmingsleven. Symptomen als somberheid, angst, anhedonie en onrust vallen hieronder.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "conatief": {
+  "title": "Conatieve functie",
+  "short": "Psychische functie van wil, motivatie en handelen (bv. verminderde spraak, inactiviteit).",
+  "definition": "<p>De conatieve functie heeft betrekking op wil, drift en handelen. Symptomen zoals verminderde spraak en inactiviteit (verminderd initiatief) vallen hieronder.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "cognitief": {
+  "title": "Cognitieve functie",
+  "short": "Psychische functie van denken en waarnemen (bv. wanen, concentratieproblemen).",
+  "definition": "<p>De cognitieve functie betreft het denken, waarnemen en verwerken van informatie. Een waan is een symptoom binnen de cognitieve functie.</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "waan": {
+  "title": "Waan",
+  "short": "Onwrikbare, oncorrigeerbare overtuiging die niet strookt met de werkelijkheid; een psychotisch verschijnsel.",
+  "definition": "<p>Een waan is een sterke, onwrikbare overtuiging die in strijd is met de realiteit en niet corrigeerbaar is met logica of argumenten. Het is een uiting van een gestoord realiteitsbesef (psychose).</p>",
+  "image_url": "",
+  "wiki_title": "Delusion"
+ },
+ "psychose": {
+  "title": "Psychose",
+  "short": "Toestand met verlies van realiteitsbesef, waaronder wanen en hallucinaties.",
+  "definition": "<p>Bij een psychose is het realiteitsbesef gestoord, met verschijnselen als wanen en hallucinaties. Een depressie met psychotische kenmerken gaat gepaard met bijvoorbeeld stemmingscongruente wanen.</p>",
+  "image_url": "",
+  "wiki_title": "Psychosis"
+ },
+ "echelon": {
+  "title": "Echelon",
+  "short": "Sector in de gezondheidszorg waarbinnen voorzieningen ongeveer dezelfde mate van specialiteit en intensiteit hebben.",
+  "definition": "<p>Een echelon is een niveau (sector) in de gezondheidszorg waarbinnen de voorzieningen globaal dezelfde mate van specialiteit en intensiteit hebben. De huisarts hoort bij het eerste echelon (eerstelijnszorg).</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "eerstelijnszorg": {
+  "title": "Eerstelijnszorg",
+  "short": "Direct toegankelijke, generalistische zorg zoals de huisarts; het eerste echelon.",
+  "definition": "<p>Eerstelijnszorg is de rechtstreeks toegankelijke, generalistische zorg zonder verwijzing, zoals de huisarts, fysiotherapeut en apotheek. Dit vormt het eerste echelon in de Nederlandse gezondheidszorg.</p>",
+  "image_url": "",
+  "wiki_title": "Primary care"
+ },
+ "illness": {
+  "title": "Illness",
+  "short": "De subjectieve, persoonlijke beleving van ziek-zijn door de patiënt.",
+  "definition": "<p>Illness verwijst naar de subjectieve ervaring van ziek-zijn: hoe de patiënt zijn klachten beleeft. Dit staat tegenover 'disease' (de objectieve, medisch vastgestelde afwijking).</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "disease": {
+  "title": "Disease",
+  "short": "De objectief vastgestelde, medisch-biologische ziekte of afwijking.",
+  "definition": "<p>Disease is de objectieve, door de arts vastgestelde stoornis of afwijking in structuur of functie van het lichaam, los van de subjectieve beleving (illness).</p>",
+  "image_url": "",
+  "wiki_title": ""
+ },
+ "sickness": {
+  "title": "Sickness (ziekenrol)",
+  "short": "De sociale dimensie van ziek-zijn: de door Parsons beschreven ziekenrol met bijbehorende rechten en plichten.",
+  "definition": "<p>Sickness verwijst naar de sociale betekenis van ziek-zijn, de door Talcott Parsons beschreven 'ziekenrol'. De zieke wordt tijdelijk ontheven van sociaalmaatschappelijke verplichtingen, wordt niet verantwoordelijk gehouden voor de ziekte, maar is wel verplicht mee te werken aan herstel.</p>",
+  "image_url": "",
+  "wiki_title": "Sick role"
+ },
+ "multiple sclerose": {
+  "title": "Multiple Sclerose (MS)",
+  "short": "Chronische auto-immuunziekte van het centrale zenuwstelsel met demyelinisatie; vermoeidheid is een veelvoorkomende klacht.",
+  "definition": "<p>Multiple Sclerose is een chronische auto-immuunziekte waarbij de myelineschede van zenuwbanen in het centrale zenuwstelsel wordt aangetast. Vermoeidheid is een van de meest voorkomende en invaliderende klachten.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis"
+ },
+ "parsons": {
+  "title": "Talcott Parsons",
+  "short": "Socioloog die het begrip 'ziekenrol' (sick role) introduceerde: de sociale rol met rechten en plichten van de zieke.",
+  "definition": "<p>Talcott Parsons introduceerde het concept van de ziekenrol (sick role): de zieke wordt vrijgesteld van normale verplichtingen en niet verantwoordelijk gehouden, maar heeft de plicht hulp te zoeken en mee te werken aan herstel.</p>",
+  "image_url": "",
+  "wiki_title": "Talcott Parsons"
+ }
+};</script>
+<script>
+const state = { answered: {}, selected: {}, multiSel: {}, dropdownSel: {}, dndPlaced: {}, openText: {}, streak: 0 };
+let _restoring = false; try { window._restoring = false; } catch(e) {}
+
+function ddChanged(qnum) {
+  if (state.answered[qnum]) return;
+  const sels = document.querySelectorAll('.dd-select[data-qnum="'+qnum+'"]');
+  const vals = {};
+  let allFilled = true;
+  sels.forEach(function(s){ vals[s.dataset.idx] = s.value; if (!s.value) allFilled = false; });
+  state.dropdownSel[qnum] = vals;
+  const cb = document.getElementById('check-'+qnum);
+  if (cb) cb.disabled = !allFilled;
+}
+
+function checkDropdown(qnum, correctArr) {
+  const sels = document.querySelectorAll('.dd-select[data-qnum="'+qnum+'"]');
+  let allCorrect = true;
+  sels.forEach(function(s){
+    const idx = parseInt(s.dataset.idx);
+    s.disabled = true;
+    s.classList.remove('dd-correct','dd-wrong');
+    const ok = s.value === correctArr[idx];
+    s.classList.add(ok ? 'dd-correct' : 'dd-wrong');
+    if (!ok) allCorrect = false;
+  });
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, allCorrect);
+  if (!_restoring) {
+    if (allCorrect) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+function selectOption(qnum, letter) {
+  if (state.answered[qnum]) return;
+  state.selected[qnum] = letter;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn')
+    .forEach(b => b.classList.toggle('selected', b.dataset.letter === letter));
+  document.getElementById('check-'+qnum).disabled = false;
+}
+
+function toggleMulti(qnum, letter) {
+  if (state.answered[qnum]) return;
+  if (!state.multiSel[qnum]) state.multiSel[qnum] = {};
+  state.multiSel[qnum][letter] = !state.multiSel[qnum][letter];
+  const btn = document.querySelector('[data-qnum="'+qnum+'"][data-letter="'+letter+'"]');
+  if (btn) btn.classList.toggle('selected', !!state.multiSel[qnum][letter]);
+  const anySelected = Object.values(state.multiSel[qnum]).some(Boolean);
+  document.getElementById('check-'+qnum).disabled = !anySelected;
+}
+
+function fireCorrectAnimation(qnum) {
+  try { saveProgress(); } catch(e) {}   /* MISSIONSAVEFIX: persist meteen, niet pas na de 600ms balk-animatie */
+  const correctBtn = document.querySelector('[data-qnum="'+qnum+'"].opt-btn.correct');
+  const fill       = document.getElementById('streak-fill');
+  const wrap       = document.getElementById('streak-wrap');
+  if (!correctBtn || !fill || !wrap) { updateStreakBar(); return; }
+
+  const src  = correctBtn.getBoundingClientRect();
+  const dest = wrap.getBoundingClientRect();
+  const startX = src.left  + src.width  / 2;
+  const startY = src.top   + src.height / 2;
+  const endX   = dest.left + dest.width  * 0.15;
+  const endY   = dest.top  + dest.height / 2;
+
+  const dot = document.createElement('div');
+  dot.className = 'fly-dot';
+  dot.style.left = startX + 'px';
+  dot.style.top  = startY + 'px';
+  document.body.appendChild(dot);
+
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dot.style.left    = endX + 'px';
+    dot.style.top     = endY + 'px';
+    dot.style.width   = '8px';
+    dot.style.height  = '8px';
+    dot.style.opacity = '0';
+  }));
+
+  setTimeout(() => {
+    dot.remove();
+    updateStreakBar();
+    fill.classList.remove('bar-pop');
+    void fill.offsetWidth;
+    fill.classList.add('bar-pop');
+    fill.addEventListener('animationend', () => fill.classList.remove('bar-pop'), { once: true });
+  }, 600);
+}
+
+function resolveCheckBtn(qnum, ok) {
+  const btn = document.getElementById('check-' + qnum);
+  if (!btn) return;
+  btn.disabled = true;
+  if (_restoring) { btn.style.display = 'none'; return; }  // reload: hide instantly, no animation
+  if (ok) btn.classList.add('cb-correct');      // flash green + pop (correct only)
+  setTimeout(function() {
+    btn.classList.add('cb-vanish');             // collapse + fade out
+    let hidden = false;
+    const done = function() { if (hidden) return; hidden = true; btn.style.display = 'none'; };
+    btn.addEventListener('transitionend', done, { once: true });
+    setTimeout(done, 500);                       // fallback if transitionend doesn't fire
+  }, 420);
+}
+
+function checkMCQ(qnum, correct) {
+  const chosen = state.selected[qnum];
+  if (!chosen) return;
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('selected');
+    if (b.dataset.letter === correct) b.classList.add('correct');
+    else if (b.dataset.letter === chosen && chosen !== correct) b.classList.add('wrong');
+  });
+  const ok = chosen === correct;
+  state.answered[qnum] = ok ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, ok);
+  if (!_restoring) {
+    if (ok) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+function checkMulti(qnum, correctLetters) {
+  const sel = state.multiSel[qnum] || {};
+  document.querySelectorAll('[data-qnum="'+qnum+'"].opt-btn').forEach(b => {
+    b.disabled = true;
+    b.classList.remove('selected');
+    const l = b.dataset.letter;
+    const shouldBeSelected = correctLetters.includes(l);
+    const wasSelected = !!sel[l];
+    if (shouldBeSelected) b.classList.add('correct');
+    else if (wasSelected && !shouldBeSelected) b.classList.add('wrong');
+  });
+  const allCorrect = correctLetters.every(l => !!sel[l]) &&
+    Object.keys(sel).filter(l => sel[l]).every(l => correctLetters.includes(l));
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  resolveCheckBtn(qnum, allCorrect);
+  if (!_restoring) {
+    if (allCorrect) {
+      state.streak++;
+      playSoundCorrect(state.streak);
+      fireCorrectAnimation(qnum);
+      awardXP(xpForQuestion(qnum), qnum);
+    } else {
+      state.streak = 0;
+      playSoundWrong();
+      updateSummary();
+      updateStreakBar();
+    }
+  }
+}
+
+/* Open-answer questions are graded by openreview.js (window.checkOpen), which
+   sends the typed answer + model answer to OpenAI, maps the verdict onto
+   state.answered (affecting XP/streak/dots), then reveals the model answer.
+   Offline / no key -> reveal-only fallback. See openreview.js. */
+
+function updateSummary() {
+  const vals = Object.values(state.answered);
+  const correct = vals.filter(v => v === 'correct').length;
+  const wrong   = vals.filter(v => v === 'wrong').length;
+  const answered= vals.length;
+  const _sc = document.getElementById('sum-correct'); if (_sc) _sc.textContent = correct;
+  const _sw = document.getElementById('sum-wrong');   if (_sw) _sw.textContent   = wrong;
+  const _sd = document.getElementById('sum-done');    if (_sd) _sd.textContent    = answered;
+  const total = document.querySelectorAll('.q-block').length;
+  const _pf = document.querySelector('.progress-fill');
+  if (_pf) _pf.style.width = (answered / total * 100).toFixed(1) + '%';
+}
+
+/* ── Progress persistence (localStorage + Supabase) ─────────────────────── */
+const SAVE_KEY = 'vumed_progress_arts_en_patient_1_2016_2017_2e_toetsmoment';
+(function(){try{if(!localStorage.getItem(SAVE_KEY)){var _old=localStorage.getItem('medeace_progress_arts_en_patient_1_2016_2017_2e_toetsmoment');if(_old){localStorage.setItem(SAVE_KEY,_old);localStorage.removeItem('medeace_progress_arts_en_patient_1_2016_2017_2e_toetsmoment');}}}catch(e){}})();
+const EXAM_KEY = 'arts_en_patient_1_2016_2017_2e_toetsmoment';
+
+let _sbClient = null;
+function getSB() {
+  if (_sbClient) return _sbClient;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _sbClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); }
+  catch(e) { return null; }
+  return _sbClient;
+}
+
+async function saveProgress() {
+  if (window.__examSubmitted) return;   /* MISSIONSAVEFIX-GUARD */
+  const data = { answered: state.answered, selected: state.selected, multiSel: state.multiSel, dropdownSel: state.dropdownSel, dndPlaced: state.dndPlaced, openText: state.openText, streak: state.streak };
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(data)); } catch(e) {}
+
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.user) return;
+    await sb.from('exam_progress').upsert({
+      user_id:    session.user.id,
+      exam_key:   EXAM_KEY,
+      progress:   data,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'user_id,exam_key' });
+  } catch(e) {}
+}
+
+function _applyProgress(saved) {
+  if (!saved || !saved.answered) return;
+  _restoring = true; try { window._restoring = true; } catch(e) {}
+  state.openText = saved.openText || {};
+  state.dndPlaced = saved.dndPlaced || {};
+  Object.keys(saved.answered).forEach(function(qnum) {
+    const n = parseInt(qnum);
+    const checkBtn = document.getElementById('check-' + n);
+
+    const mcqMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMCQ\((\d+),\s*'([a-z])'\)/)
+      : null;
+    if (mcqMatch) {
+      const correct = mcqMatch[2];
+      const sel = (saved.selected || {})[n];
+      if (sel) {
+        state.selected[n] = sel;
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){ b.classList.remove('selected'); });
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){ b.classList.toggle('selected', b.dataset.letter === sel); });
+        checkBtn.disabled = false;
+        checkMCQ(n, correct);
+      } else {
+        document.querySelectorAll('[data-qnum="'+n+'"].opt-btn')
+          .forEach(function(b){
+            b.disabled = true;
+            if (b.dataset.letter === correct) b.classList.add('correct');
+          });
+        state.answered[n] = saved.answered[n];
+        checkBtn.disabled = true;
+        checkBtn.style.display = 'none';
+      }
+      return;
+    }
+
+    const multiMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMulti\((\d+),\s*(\[.*?\])\)/)
+      : null;
+    if (multiMatch) {
+      let correctLetters;
+      try { correctLetters = JSON.parse(multiMatch[2]); } catch(e) { return; }
+      const ms = (saved.multiSel || {})[n] || {};
+      state.multiSel[n] = ms;
+      Object.keys(ms).forEach(function(l) {
+        if (ms[l]) {
+          const b = document.querySelector('[data-qnum="'+n+'"][data-letter="'+l+'"]');
+          if (b) b.classList.add('selected');
+        }
+      });
+      checkBtn.disabled = false;
+      checkMulti(n, correctLetters);
+      return;
+    }
+
+    const ddMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkDropdown\((\d+),\s*(\[.*?\])\)/)
+      : null;
+    if (ddMatch) {
+      let correctArr;
+      try { correctArr = JSON.parse(ddMatch[2]); } catch(e) { return; }
+      const dd = (saved.dropdownSel || {})[n] || {};
+      state.dropdownSel[n] = dd;
+      document.querySelectorAll('.dd-select[data-qnum="'+n+'"]').forEach(function(s){
+        if (dd[s.dataset.idx] !== undefined) s.value = dd[s.dataset.idx];
+      });
+      checkBtn.disabled = false;
+      checkDropdown(n, correctArr);
+      return;
+    }
+
+    const dndMatch = checkBtn && checkBtn.getAttribute('onclick')
+      ? checkBtn.getAttribute('onclick').match(/checkMatchingDnD\((\d+),\s*(\{.*\})\)/)
+      : null;
+    if (dndMatch) {
+      let dndCorrect;
+      try { dndCorrect = JSON.parse(dndMatch[2]); } catch(e) { dndCorrect = null; }
+      const placed = (saved.dndPlaced || {})[n];
+      if (dndCorrect && placed && typeof _dnd !== 'undefined' && _dnd[n]) {
+        _dnd[n].placed = Object.assign({}, placed);
+        _dndRender(n);
+        checkBtn.disabled = false;
+        checkMatchingDnD(n, dndCorrect);
+        return;
+      }
+      // no saved placement -> fall through to generic 'answered' marking
+    }
+
+    state.answered[n] = saved.answered[n];
+    const badge = document.getElementById('badge-' + n);
+    if (badge) {
+      const v = saved.answered[n];
+      badge.className = 'result-badge ' + (v === 'correct' ? 'correct' : v === 'wrong' ? 'wrong' : '');
+      badge.textContent = '';
+    }
+    const resultDiv = document.getElementById('result-' + n);
+    if (resultDiv) resultDiv.classList.add('show');
+    if (checkBtn) { checkBtn.disabled = true; checkBtn.style.display = 'none'; }
+    const openTa = document.getElementById('open-input-' + n);
+    if (openTa) openTa.disabled = true;
+  });
+  _restoring = false; try { window._restoring = false; } catch(e) {}
+  state.streak = 0;
+  updateSummary();
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 24;
+  const fill  = document.getElementById('streak-fill');
+  if (fill) fill.style.width = Math.min(totalAnswered / totalQ * 100, 100) + '%';
+  const label = document.getElementById('streak-label');
+  if (label) { label.style.opacity = '0'; label.textContent = ''; }
+}
+
+async function restoreProgress() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) {
+      sessionStorage.removeItem(SAVE_KEY + '_reset');
+      return;
+    }
+  } catch(e) {}
+
+  let saved = null;
+  let fromSupabase = false;
+
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        const { data: row } = await sb
+          .from('exam_progress')
+          .select('progress')
+          .eq('user_id', session.user.id)
+          .eq('exam_key', EXAM_KEY)
+          .maybeSingle();
+        if (row?.progress) { saved = row.progress; fromSupabase = true; }
+      }
+    } catch(e) {}
+  }
+
+  if (!saved) {
+    try { saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); } catch(e) {}
+  }
+
+  if (saved) {
+    _applyProgress(saved);
+    if (!fromSupabase) saveProgress();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', restoreProgress);
+
+(function() {
+  const sb = getSB();
+  if (!sb) return;
+  sb.auth.onAuthStateChange(function(event) {
+    if (event === 'SIGNED_OUT') {
+      try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+      window.location.reload();
+    }
+  });
+})();
+
+/* ── Progress bar ────────────────────────────────────────────────────────── */
+let _streakTimer = null;
+let _lastBarPct = 0;
+
+function fireBarSparkles(pct) {
+  if (_restoring) return;
+  const wrap = document.getElementById('streak-wrap');
+  if (!wrap) return;
+  const bg = wrap.querySelector('.streak-bar-bg');
+  if (!bg) return;
+  const rect = bg.getBoundingClientRect();
+  const x = rect.left + (pct / 100) * rect.width;
+  const y = rect.top + rect.height / 2;
+
+  const colors = ['#58CC02','#7DE820','#A8F05A','#FFD700','#FFFFFF'];
+  const count  = 10;
+  for (let i = 0; i < count; i++) {
+    const el    = document.createElement('div');
+    el.className = 'bar-sparkle';
+    const angle  = (Math.random() * 360) * Math.PI / 180;
+    const dist   = 18 + Math.random() * 28;
+    const sx     = Math.round(Math.cos(angle) * dist) + 'px';
+    const sy     = Math.round(Math.sin(angle) * dist) + 'px';
+    el.style.setProperty('--sx', sx);
+    el.style.setProperty('--sy', sy);
+    el.style.left    = x + 'px';
+    el.style.top     = y + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = (Math.random() * 0.12) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 800);
+  }
+}
+
+function updateStreakBar() {
+  const fill  = document.getElementById('streak-fill');
+  const label = document.getElementById('streak-label');
+  if (!fill || !label) return;
+
+  const totalAnswered = Object.keys(state.answered).length;
+  const totalQ        = document.querySelectorAll('.q-block').length || 24;
+  const pct           = Math.min(totalAnswered / totalQ * 100, 100);
+
+  if (pct > _lastBarPct && !_restoring) {
+    setTimeout(() => fireBarSparkles(pct), 480);
+  }
+  _lastBarPct = pct;
+
+  fill.style.width    = pct + '%';
+
+  const s = state.streak;
+  label.style.left = (pct / 2) + '%';
+
+  if (_streakTimer) { clearTimeout(_streakTimer); _streakTimer = null; }
+
+  if (s >= 2) {
+    label.textContent = s + ' achter elkaar';
+    requestAnimationFrame(() => { label.style.opacity = '1'; });
+    _streakTimer = setTimeout(() => { label.style.opacity = '0'; }, 2000);
+  } else {
+    label.style.opacity = '0';
+    label.textContent   = '';
+  }
+
+  saveProgress();
+}
+
+/* ── Drag-and-drop matching ─────────────────────────────────────────────── */
+const _dnd = {};
+
+function dndInit(qnum, opts) {
+  _dnd[qnum] = { opts: opts.slice(), placed: {}, selected: null, done: false };
+  _dndRender(qnum);
+}
+
+function _dndRender(qnum) {
+  const st = _dnd[qnum];
+  if (!st) return;
+
+  const placedVals = new Set(Object.values(st.placed));
+  const pool = document.getElementById('dnd-pool-'+qnum);
+  if (pool) {
+    pool.innerHTML = '';
+    st.opts.forEach(function(val) {
+      if (!placedVals.has(val)) {
+        pool.appendChild(_dndMakeCard(qnum, val, 'pool'));
+      }
+    });
+    if (pool.children.length === 0) {
+      const hint = document.createElement('span');
+      hint.className = 'dnd-hint';
+      hint.textContent = 'Alle opties zijn geplaatst';
+      pool.appendChild(hint);
+    }
+  }
+
+  const zones = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]');
+  zones.forEach(function(zone) {
+    const letter = zone.dataset.letter;
+    zone.innerHTML = '';
+    zone.classList.remove('dnd-over', 'dnd-filled', 'dnd-correct', 'dnd-wrong');
+    if (st.placed[letter]) {
+      zone.classList.add('dnd-filled');
+      zone.appendChild(_dndMakeCard(qnum, st.placed[letter], 'zone-'+letter));
+    } else {
+      const hint = document.createElement('span');
+      hint.className = 'dnd-hint';
+      hint.textContent = 'Sleep hier naartoe';
+      zone.appendChild(hint);
+    }
+  });
+
+  const zoneCount = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]').length;
+  const placedCount = Object.keys(st.placed).length;
+  const btn = document.getElementById('check-'+qnum);
+  if (btn && !st.done) btn.disabled = (placedCount < zoneCount);
+}
+
+function _dndMakeCard(qnum, value, src) {
+  const card = document.createElement('div');
+  card.className = 'dnd-card';
+  card.textContent = value;
+  card.draggable = true;
+  card.dataset.val = value;
+  card.dataset.src = src;
+
+  card.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', value);
+    e.dataTransfer.setData('application/dnd-src', src);
+    e.dataTransfer.setData('application/dnd-qnum', String(qnum));
+    setTimeout(function(){ card.classList.add('dnd-ghost'); }, 0);
+  });
+  card.addEventListener('dragend', function() {
+    card.classList.remove('dnd-ghost');
+  });
+
+  card.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const st = _dnd[qnum];
+    if (!st || st.done) return;
+    if (st.selected === value) {
+      st.selected = null;
+      _dndRender(qnum);
+    } else {
+      st.selected = value;
+      _dndRender(qnum);
+      document.querySelectorAll('[data-dnd-qnum="'+qnum+'"]').forEach(function(c){
+        if (c.dataset.val === value) c.classList.add('dnd-sel');
+      });
+    }
+  });
+
+  card.dataset.dndQnum = qnum;
+  return card;
+}
+
+function _dndOver(e)  { e.preventDefault(); e.currentTarget.classList.add('dnd-over'); }
+function _dndLeave(e) { e.currentTarget.classList.remove('dnd-over'); }
+
+function _dndZoneDrop(e, qnum, letter) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dnd-over');
+  const val  = e.dataTransfer.getData('text/plain');
+  const src  = e.dataTransfer.getData('application/dnd-src');
+  const st   = _dnd[qnum];
+  if (!st || !val || st.done) return;
+  if (src && src.startsWith('zone-')) {
+    const oldLetter = src.replace('zone-', '');
+    if (st.placed[oldLetter] === val) delete st.placed[oldLetter];
+  }
+  st.placed[letter] = val;
+  _dndRender(qnum);
+}
+
+function _dndZoneClick(e, qnum, letter) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  if (st.selected) {
+    const val = st.selected;
+    for (const l in st.placed) {
+      if (st.placed[l] === val) delete st.placed[l];
+    }
+    st.placed[letter] = val;
+    st.selected = null;
+    _dndRender(qnum);
+  } else if (st.placed[letter]) {
+    st.selected = st.placed[letter];
+    delete st.placed[letter];
+    _dndRender(qnum);
+    document.querySelectorAll('[data-dnd-qnum="'+qnum+'"]').forEach(function(c){
+      if (c.dataset.val === st.selected) c.classList.add('dnd-sel');
+    });
+  }
+}
+
+function _dndPoolDrop(e, qnum) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('dnd-over');
+  const val  = e.dataTransfer.getData('text/plain');
+  const src  = e.dataTransfer.getData('application/dnd-src');
+  const st   = _dnd[qnum];
+  if (!st || st.done) return;
+  if (src && src.startsWith('zone-')) {
+    const oldLetter = src.replace('zone-', '');
+    if (st.placed[oldLetter] === val) delete st.placed[oldLetter];
+  }
+  _dndRender(qnum);
+}
+
+function _dndPoolClick(e, qnum) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  if (st.selected) {
+    st.selected = null;
+    _dndRender(qnum);
+  }
+}
+
+function checkMatchingDnD(qnum, correctMap) {
+  const st = _dnd[qnum];
+  if (!st || st.done) return;
+  st.done = true;
+
+  let allCorrect = true;
+  const zones = document.querySelectorAll('[data-dnd-zone="'+qnum+'"]');
+  zones.forEach(function(zone) {
+    const letter  = zone.dataset.letter;
+    const correct = correctMap[letter];
+    const placed  = st.placed[letter];
+    const ok      = placed && placed === correct;
+    const label   = document.getElementById('dnd-label-'+qnum+'-'+letter);
+    zone.classList.remove('dnd-over','dnd-filled');
+    if (ok) {
+      zone.classList.add('dnd-correct');
+      if (label) label.classList.add('dnd-correct');
+    } else {
+      zone.classList.add('dnd-wrong');
+      if (label) label.classList.add('dnd-wrong');
+      allCorrect = false;
+    }
+    const card = zone.querySelector('.dnd-card');
+    if (card) card.classList.add(ok ? 'correct' : 'wrong');
+  });
+
+  const pool = document.getElementById('dnd-pool-'+qnum);
+  if (pool) pool.style.opacity = '0.5';
+
+  state.dndPlaced[qnum] = Object.assign({}, st.placed);
+  state.answered[qnum] = allCorrect ? 'correct' : 'wrong';
+  const badge = document.getElementById('badge-'+qnum);
+  badge.className = 'result-badge ' + (allCorrect ? 'correct' : 'wrong');
+  badge.textContent = '';
+  document.getElementById('result-'+qnum).classList.add('show');
+
+  resolveCheckBtn(qnum, allCorrect);
+  if (allCorrect) {
+    state.streak++;
+    playSoundCorrect(state.streak);
+    awardXP(xpForQuestion(qnum), qnum);
+  } else {
+    state.streak = 0;
+    playSoundWrong();
+  }
+  updateSummary();
+  updateStreakBar();
+}
+
+/* ── Dropdown table check ────────────────────────────────────────────────── */
+function ddt_check_ready(n) {
+  const block = document.getElementById('qblock-' + n);
+  if (!block) return;
+  const all = block.querySelectorAll('.ddt-sel');
+  const ready = Array.from(all).every(function(s){ return s.value !== ''; });
+  const btn = document.getElementById('check-' + n);
+  if (btn) btn.disabled = !ready;
+}
+
+function ddt_check(n, correct) {
+  const block = document.getElementById('qblock-' + n);
+  if (!block) return;
+  const sels = block.querySelectorAll('.ddt-sel');
+  let allOk = true;
+  sels.forEach(function(sel) {
+    const key = sel.dataset.key;
+    const ok = correct[key] !== undefined && sel.value === correct[key];
+    if (!ok) allOk = false;
+    sel.disabled = true;
+    sel.style.borderColor = ok ? '#58CC02' : '#FF3B30';
+    sel.style.background  = ok ? '#F0FFF4' : '#FFF2F2';
+  });
+  state.answered[n] = allOk ? 'correct' : 'wrong';
+  const btn = document.getElementById('check-' + n);
+  if (btn) btn.disabled = true;
+  const badge = document.getElementById('badge-' + n);
+  if (badge) badge.className = 'result-badge ' + (allOk ? 'correct' : 'wrong');
+  const result = document.getElementById('result-' + n);
+  if (result) result.classList.add('show');
+  if (allOk) { state.streak++; playSoundCorrect(state.streak); awardXP(xpForQuestion(n), n); }
+  else { state.streak = 0; playSoundWrong(); }
+  updateSummary();
+  updateStreakBar();
+}
+
+/* ── Glossary popup ─────────────────────────────────────────────────────── */
+document.addEventListener('mouseover', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  var entry = GLOSSARY[el.dataset.term];
+  if (!entry) return;
+  var tip = document.getElementById('g-tip');
+  var short = entry.short || (entry.definition || '').replace(/<[^>]+>/g, '').slice(0, 88) + '…';
+  tip.textContent = short;
+  var rect = el.getBoundingClientRect();
+  tip.style.left = Math.min(rect.left, window.innerWidth - 228) + 'px';
+  tip.style.top  = (rect.bottom + 8) + 'px';
+  tip.classList.add('show');
+});
+document.addEventListener('mouseout', function(e) {
+  if (e.target.closest && e.target.closest('.gterm'))
+    document.getElementById('g-tip').classList.remove('show');
+});
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  e.stopPropagation();
+  openGlossary(el.dataset.term);
+});
+
+var _gImgs = [], _gImgIdx = 0;
+
+function _fetchWikiImg(title) {
+  var nl = /^nl:/.test(title);
+  var base = nl ? 'https://nl.wikipedia.org/api/rest_v1/page/summary/' : 'https://en.wikipedia.org/api/rest_v1/page/summary/';
+  var t = nl ? title.slice(3) : title;
+  return fetch(base + encodeURIComponent(t))
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return (d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null; })
+    .catch(function() { return null; });
+}
+
+function _gShowImg(idx) {
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  var ctr = document.getElementById('g-img-counter');
+  _gImgIdx = idx;
+  if (!_gImgs.length) { img.style.display='none'; nav.style.display='none'; return; }
+  img.src = _gImgs[idx];
+  img.style.display = 'block';
+  img.onerror = function(){ img.style.display='none'; };
+  if (_gImgs.length > 1) { nav.style.display='flex'; ctr.textContent=(idx+1)+' / '+_gImgs.length; }
+  else { nav.style.display='none'; }
+}
+
+function gImgPrev() { if (_gImgs.length>1) _gShowImg((_gImgIdx-1+_gImgs.length)%_gImgs.length); }
+function gImgNext() { if (_gImgs.length>1) _gShowImg((_gImgIdx+1)%_gImgs.length); }
+
+function openGlossary(termKey) {
+  var entry = GLOSSARY[termKey];
+  if (!entry) return;
+  document.getElementById('g-tip').classList.remove('show');
+  document.getElementById('g-title').textContent = entry.title || termKey;
+  var defEl = document.getElementById('g-def');
+  var defText = entry.definition || '(Geen definitie beschikbaar.)';
+  if (defText.indexOf('<') !== -1) { defEl.innerHTML = defText; } else { defEl.textContent = defText; }
+
+  _gImgs = []; _gImgIdx = 0;
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  img.style.display = 'none'; nav.style.display = 'none';
+
+  if (entry.image_url) {
+    _gImgs = [entry.image_url];
+    _gShowImg(0);
+  } else {
+    var titles = entry.wiki_titles || (entry.wiki_title ? [entry.wiki_title] : []);
+    if (titles.length) {
+      Promise.all(titles.map(_fetchWikiImg)).then(function(urls) {
+        _gImgs = urls.filter(function(u){ return !!u; });
+        if (_gImgs.length) _gShowImg(0);
+      });
+    }
+  }
+
+  if (typeof closeChat === 'function') closeChat();
+  document.body.classList.add('g-open');
+  document.getElementById('g-panel').classList.add('open');
+}
+
+function closeGlossary() {
+  document.body.classList.remove('g-open');
+  document.getElementById('g-panel').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('g-open')) return;
+  if (document.getElementById('g-panel').contains(e.target)) return;
+  if (e.target.closest && e.target.closest('.gterm')) return;
+  closeGlossary();
+});
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CHAT FEATURE
+   ══════════════════════════════════════════════════════════════════════════ */
+const OPENAI_API_KEY = window.OPENAI_API_KEY || '';
+const CHAT_MODEL     = 'gpt-4o-mini';
+
+function _snd(path) {
+  try { const a = new Audio(path); a.volume = 0.8; a.play().catch(()=>{}); } catch(_) {}
+}
+function playSoundAI()   { _snd(Math.random() < 0.5 ? 'sound1.mp3' : 'sound3.mp3'); }
+function playSoundChat() { _snd(Math.random() < 0.5 ? 'sound5.mp3' : 'sound7.mp3'); }
+function playSoundCorrect(streak) {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_correct.mp3');
+}
+function playSoundWrong() {
+  if (typeof _restoring !== 'undefined' && _restoring) return;
+  _snd('sound_wrong.mp3');
+}
+
+function xpForStreak(streak) {
+  return Math.min(streak * 10, 50);
+}
+
+// XP is awarded per point: a question's point value (data-points on its
+// .q-points span) times 10. Closed questions carry no point value -> 1 point -> 10 XP.
+function qPoints(qnum) {
+  var b = document.getElementById('qblock-' + qnum);
+  var s = b && b.querySelector('.q-points');
+  var p = s && parseFloat(s.getAttribute('data-points'));
+  return (p && p > 0) ? p : 1;
+}
+function xpForQuestion(qnum) {
+  return Math.round(qPoints(qnum) * 10);
+}
+
+function fireXPAnimation(xp, qnum) {
+  const btn = document.getElementById('check-' + qnum);
+  const el = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = '+' + xp + ' XP';
+  const rect = btn ? btn.getBoundingClientRect() : null;
+  el.style.left = rect ? (rect.left + rect.width / 2) + 'px' : '50%';
+  el.style.top  = rect ? (rect.top - 8) + 'px' : '120px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1400);
+}
+
+async function awardXP(xp, qnum) {
+  fireXPAnimation(xp, qnum);
+  const sb = getSB();
+  if (!sb) return;
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session?.user) return;
+    const uid = session.user.id;
+    await sb.rpc('add_xp', { p_user_id: uid, p_amount: xp });
+    sb.rpc('update_max_streak', { p_user_id: uid, p_streak: state.streak }).catch(()=>{});
+    var _h = parseInt(new Intl.DateTimeFormat('en-CA', {hour:'numeric',hour12:false,timeZone:'Europe/Amsterdam'}).format(new Date()));
+    if (_h < 5) sb.rpc('increment_night_question', { p_user_id: uid }).catch(()=>{});
+  } catch(e) {}
+}
+
+function mdToHtml(md) {
+  let s = md
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+  s = s.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+  s = s.replace(/^## (.+)$/gm,  '<h3>$1</h3>');
+  s = s.replace(/^---$/gm, '<hr>');
+  s = s.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>');
+  s = s.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  s = s.replace(/(<li>[\s\S]*?<\/li>)(\n(?!<li>)|$)/g, (m) => {
+    return '<ul>' + m.replace(/\n/g, '') + '</ul>';
+  });
+  s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+  const blocks = s.split(/\n{2,}/);
+  s = blocks.map(block => {
+    block = block.trim();
+    if (!block) return '';
+    if (/^<(h[3-4]|ul|ol|hr|li)/.test(block)) return block;
+    return '<p>' + block.replace(/\n/g, '<br>') + '</p>';
+  }).join('\n');
+
+  return s;
+}
+const CHAT_SYSTEM = 'Je bent een medische studieassistent voor een tweedejaars student geneeskunde aan Amsterdam UMC/VUmc. De student studeert voor arts en patiënt 1. Beantwoord vragen kort, klinisch relevant en in het Nederlands. Gebruik geen onnodige inleidingen.';
+
+let _chatHistory   = [];
+let _chatSelection = '';
+let _chatContext   = '';
+let _chatImages    = [];
+let _selRange      = null;
+
+/* Convert an already-loaded (same-origin) <img> to a downscaled data URL so the
+   AI vision model can actually SEE the question figure. Returns null on failure. */
+function _imgElToDataUrl(img) {
+  try {
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) return null;
+    const max = 1024, scale = Math.min(1, max / Math.max(w, h));
+    const cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+    const c = document.createElement('canvas');
+    c.width = cw; c.height = ch;
+    c.getContext('2d').drawImage(img, 0, 0, cw, ch);
+    return c.toDataURL('image/jpeg', 0.85);
+  } catch (e) { return null; }
+}
+function _collectChatImages() {
+  const out = [];
+  _chatImages.forEach(function(img) {
+    const u = _imgElToDataUrl(img);
+    if (u) out.push(u);
+  });
+  return out;
+}
+
+const _selPopup = document.getElementById('sel-popup');
+
+document.addEventListener('mouseup', function(e) {
+  if (e.target.closest('#chat-panel') || e.target.closest('#g-panel') || e.target.closest('#sel-popup')) return;
+
+  setTimeout(function() {
+    const sel = window.getSelection();
+    const txt = sel ? sel.toString().trim() : '';
+    if (!txt || txt.length < 2) { hideSelPopup(); return; }
+
+    _selRange = sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+    _chatSelection = txt;
+
+    const rect = sel.getRangeAt(0).getBoundingClientRect();
+    _selPopup.style.left = Math.min(rect.left + rect.width / 2 - 56, window.innerWidth - 160) + 'px';
+    _selPopup.style.top  = (rect.top - 44) + 'px';
+    _selPopup.classList.add('show');
+  }, 10);
+});
+
+document.addEventListener('mousedown', function(e) {
+  if (!e.target.closest('#sel-popup')) hideSelPopup();
+});
+
+function hideSelPopup() {
+  _selPopup.classList.remove('show');
+}
+
+function openChatWithSelection() {
+  hideSelPopup();
+  if (window.getSelection) window.getSelection().removeAllRanges();
+
+  _chatContext = '';
+  _chatImages  = [];
+  closeGlossary();
+
+  _chatHistory = [];
+  document.getElementById('chat-messages').innerHTML = '';
+
+  const pill = document.getElementById('chat-context-pill');
+  if (_chatSelection) {
+    pill.style.display = 'block';
+    pill.innerHTML = 'Over: <strong>"' + _escHtml(_chatSelection) + '"</strong>';
+  } else {
+    pill.style.display = 'none';
+  }
+
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+
+  if (_chatSelection) {
+    _sendMessage('Leg uit: ' + _chatSelection);
+  }
+}
+
+function openChatForQuestion(qnum, autoSend) {
+  closeGlossary();
+  _chatHistory   = [];
+  _chatSelection = '';
+  _chatContext   = '';
+  _chatImages    = [];
+  document.getElementById('chat-messages').innerHTML = '';
+
+  const pill = document.getElementById('chat-context-pill');
+
+  if (qnum !== null) {
+    const block = document.getElementById('qblock-' + qnum);
+    const parts = [];
+    if (block) {
+      block.querySelectorAll('.q-context, .q-question, .q-text').forEach(function(el) {
+        const t = el.innerText.trim();
+        if (t) parts.push(t);
+      });
+      const opts = block.querySelectorAll('.opt-btn');
+      if (opts.length) {
+        parts.push('');
+        opts.forEach(function(btn) {
+          const letter = (btn.querySelector('.opt-letter') || {}).innerText || '';
+          const text   = Array.from(btn.querySelectorAll('span'))
+                              .slice(1).map(s => s.innerText.trim()).join(' ').trim();
+          if (text) parts.push((letter ? letter + '. ' : '') + text);
+        });
+      }
+      block.querySelectorAll('img').forEach(function(im) {
+        if (!im || (im.naturalWidth && im.naturalWidth < 32)) return;
+        if (_chatImages.indexOf(im) === -1) _chatImages.push(im);
+      });
+    }
+    _chatContext = parts.length ? 'Vraag ' + qnum + ':\n' + parts.join('\n') : 'Vraag ' + qnum;
+    if (pill) {
+      pill.style.display = 'block';
+      pill.innerHTML = 'Over: <strong>Vraag ' + qnum + '</strong>';
+    }
+  } else {
+    if (pill) pill.style.display = 'none';
+  }
+
+  playSoundChat();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+
+  if (autoSend && _chatContext) {
+    _sendMessage(
+      'Leg deze vraag volledig uit. Verklaar elke antwoordoptie: ' +
+      'waarom is het goede antwoord juist, en waarom zijn de andere opties onjuist?\n\n' +
+      _chatContext
+    );
+  }
+}
+
+function closeChat() {
+  document.body.classList.remove('chat-open');
+  document.getElementById('chat-panel').classList.remove('open');
+  _chatContext = '';
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('chat-open')) return;
+  if (document.getElementById('chat-panel').contains(e.target)) return;
+  if (e.target.closest('#sel-popup')) return;
+  if (e.target.closest('.chat-tab')) return;
+  if (e.target.closest('.q-ai-btn') || e.target.closest('.q-num-ai')) return;
+  closeChat();
+});
+
+function sendChatMessage() {
+  const input = document.getElementById('chat-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = '';
+  _sendMessage(text);
+}
+
+function _escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function _appendMsg(role, text) {
+  const box = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.textContent = text;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+  return div;
+}
+
+async function _sendMessage(text) {
+  const sendBtn = document.getElementById('chat-send');
+  const box     = document.getElementById('chat-messages');
+  sendBtn.disabled = true;
+
+  _appendMsg('user', text);
+  const _isFirst = _chatHistory.length === 0;
+  const apiText = (_chatContext && _isFirst)
+    ? 'Vraagcontext:\n' + _chatContext + '\n\nMijn vraag: ' + text
+    : text;
+  let apiContent = apiText;
+  if (_isFirst && _chatImages.length) {
+    const _imgs = _collectChatImages();
+    if (_imgs.length) {
+      apiContent = [{ type: 'text', text: apiText }].concat(
+        _imgs.map(function(u) { return { type: 'image_url', image_url: { url: u, detail: 'auto' } }; })
+      );
+    }
+  }
+  _chatHistory.push({ role: 'user', content: apiContent });
+
+  const aiDiv = document.createElement('div');
+  aiDiv.className = 'chat-msg ai streaming';
+  box.appendChild(aiDiv);
+  box.scrollTop = box.scrollHeight;
+  playSoundAI();
+
+  let fullText = '';
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': 'Bearer ' + OPENAI_API_KEY
+      },
+      body: JSON.stringify({
+        model: CHAT_MODEL,
+        messages: [
+          { role: 'system', content: CHAT_SYSTEM },
+          ..._chatHistory
+        ],
+        max_tokens: 500,
+        temperature: 0.4,
+        stream: true
+      })
+    });
+
+    if (!res.ok || !res.body) throw new Error('Stream niet beschikbaar');
+
+    const reader  = res.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      for (const line of chunk.split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (raw === '[DONE]') break;
+        try {
+          const token = JSON.parse(raw).choices?.[0]?.delta?.content || '';
+          if (token) {
+            fullText += token;
+            aiDiv.innerHTML = mdToHtml(fullText);
+            box.scrollTop = box.scrollHeight;
+          }
+        } catch(_) {}
+      }
+    }
+
+    aiDiv.classList.remove('streaming');
+    if (fullText) {
+      _chatHistory.push({ role: 'assistant', content: fullText });
+    } else {
+      aiDiv.innerHTML = '<p>&#9888;&#65039; Geen antwoord ontvangen.</p>';
+    }
+
+  } catch(err) {
+    aiDiv.classList.remove('streaming');
+    aiDiv.innerHTML = '<p>&#9888;&#65039; Kan geen verbinding maken met de AI. Controleer je internetverbinding.</p>';
+  }
+
+  sendBtn.disabled = false;
+  document.getElementById('chat-input').focus();
+}
+
+document.getElementById('chat-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChatMessage();
+  }
+});
+
+document.getElementById('chat-input').addEventListener('input', function() {
+  this.style.height = '';
+  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+});
+
+document.getElementById('chat-send').addEventListener('click', sendChatMessage);
+
+document.addEventListener('dblclick', function(e) {
+  const btn = e.target.closest('.opt-btn');
+  if (!btn) return;
+  const textSpan = btn.querySelectorAll('span')[1];
+  const text = textSpan ? textSpan.textContent.trim() : btn.textContent.replace(/^[A-Z]\s*/, '').trim();
+  if (!text) return;
+  _chatSelection = text;
+  openChatWithSelection();
+});
+
+/* ── Term-wrapping ───────────────────────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof GLOSSARY === 'undefined' || !Object.keys(GLOSSARY).length) return;
+
+  var pairs = [];
+  Object.keys(GLOSSARY).forEach(function(k) {
+    var patterns = GLOSSARY[k].match ? GLOSSARY[k].match.split('|') : [k];
+    patterns.forEach(function(p) {
+      p = p.trim();
+      if (p) pairs.push({ key: k, pattern: p });
+    });
+  });
+
+  pairs.sort(function(a, b) { return b.pattern.length - a.pattern.length; });
+
+  var escaped = pairs.map(function(p) {
+    return p.pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  });
+  var termRe = new RegExp('(?<![\\w])(' + escaped.join('|') + ')(?![\\w])', 'gi');
+
+  var patToKey = {};
+  pairs.forEach(function(p) { patToKey[p.pattern.toLowerCase()] = p.key; });
+
+  function wrapTextNode(node) {
+    var anc = node.parentNode;
+    while (anc) {
+      if (anc.nodeName === 'SELECT' || anc.nodeName === 'OPTION') return;
+      if (anc.classList && anc.classList.contains('gterm')) return;
+      if (anc.classList && anc.classList.contains('q-text',
+          'q-context', 'q-question')) break;
+      anc = anc.parentNode;
+    }
+
+    var text = node.textContent;
+    termRe.lastIndex = 0;
+    if (!termRe.test(text)) return;
+    termRe.lastIndex = 0;
+
+    var frag = document.createDocumentFragment();
+    var last = 0, m;
+    while ((m = termRe.exec(text)) !== null) {
+      if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+      var span = document.createElement('span');
+      span.className = 'gterm';
+      var k = patToKey[m[1].toLowerCase()] || m[1].toLowerCase();
+      span.dataset.term = k;
+      span.textContent  = m[1];
+      (function(key) {
+        span.addEventListener('click', function(e) { e.stopPropagation(); openGlossary(key); });
+      })(k);
+      frag.appendChild(span);
+      last = termRe.lastIndex;
+    }
+    if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  }
+
+  var root = document.querySelector('.exam-main');
+  if (!root) return;
+  root.querySelectorAll('.q-text, .q-context, .q-question, .q-dropdown-sentence').forEach(function(el) {
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    var nodes  = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(wrapTextNode);
+  });
+});
+
+/* ── Submit / Results / Reset ────────────────────────────────────────────── */
+function openSubmitModal()  { document.getElementById('submit-modal').classList.add('show'); }
+function closeSubmitModal() { document.getElementById('submit-modal').classList.remove('show'); }
+function openResetModal()   { document.getElementById('reset-modal').classList.add('show'); }
+function closeResetModal()  { document.getElementById('reset-modal').classList.remove('show'); }
+
+function showResults() {
+  closeSubmitModal();
+  const vals      = Object.values(state.answered);
+  const correct   = vals.filter(v => v === 'correct').length;
+  const wrong     = vals.filter(v => v === 'wrong').length;
+  const answered  = vals.filter(v => v === 'answered').length;
+  const totalQ    = document.querySelectorAll('.q-block').length || 24;
+  const notDone   = totalQ - correct - wrong - answered;
+  const pct       = Math.round(correct / totalQ * 100);
+
+  document.getElementById('score-num').textContent  = correct;
+  document.getElementById('score-den').textContent  = '/ ' + totalQ;
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent   = wrong + answered;
+  document.getElementById('res-open').textContent    = notDone;
+  document.getElementById('score-ring').style.setProperty('--pct', pct + '%');
+
+  document.getElementById('results-overlay').classList.add('show');
+  window.scrollTo(0, 0);
+  /* MISSIONSAVEFIX-RESET: inleveren = reset voor de volgende keer (resultaten blijven uit geheugen) */
+  window.__examSubmitted = true;
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  try { sessionStorage.setItem(SAVE_KEY + '_reset', '1'); } catch(e) {}
+  try { var _rsb = getSB(); if (_rsb) _rsb.auth.getSession().then(function(r){ var u = r && r.data && r.data.session && r.data.session.user; if (u) _rsb.from('exam_progress').delete().eq('user_id', u.id).eq('exam_key', EXAM_KEY); }); } catch(e) {}
+}
+
+function closeResults() {
+  document.getElementById('results-overlay').classList.remove('show');
+}
+
+async function resetExam() {
+  closeResetModal();
+  closeResults();
+  try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  try { sessionStorage.setItem(SAVE_KEY + '_reset', '1'); } catch(e) {}
+  const sb = getSB();
+  if (sb) {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session?.user) {
+        await sb.from('exam_progress')
+          .delete()
+          .eq('user_id', session.user.id)
+          .eq('exam_key', EXAM_KEY);
+      }
+    } catch(e) {}
+  }
+  window.location.reload();
+}
+
+document.getElementById('submit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSubmitModal();
+});
+document.getElementById('reset-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeResetModal();
+});
+
+(function instantBarRestore() {
+  try {
+    if (sessionStorage.getItem(SAVE_KEY + '_reset')) return;
+    var saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+    if (!saved || !saved.answered) return;
+    var count  = Object.keys(saved.answered).length;
+    var totalQ = document.querySelectorAll('.q-block').length || 24;
+    var fill   = document.getElementById('streak-fill');
+    if (!fill || count === 0) return;
+    fill.style.transition = 'none';
+    fill.style.width = Math.min(count / totalQ * 100, 100) + '%';
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { fill.style.transition = ''; });
+    });
+  } catch(e) {}
+})();
+
+</script>
+<script src="answer_terms.js?v=1"></script>
+<script src="progressdots.js?v=67"></script>
+<script src="openreview.js?v=3"></script>
+<script>
+/* ── VUMED_DND_TOUCH v1: echte touch-drag voor dnd/bucket kaarten ────────── */
+(function(){
+  if (window._dndTouchInstalled) return;
+  window._dndTouchInstalled = true;
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.dnd-card{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation;}' +
+    '.dnd-touch-clone{position:fixed;z-index:99999;pointer-events:none;margin:0;box-shadow:0 10px 26px rgba(0,0,0,0.28);opacity:0.95;transition:none;}' +
+    '.dnd-card.dnd-lift{opacity:0.35;}';
+  document.head.appendChild(css);
+
+  var HOLD_MS = 130, SLOP = 8, EDGE = 110;
+  var drag = null;
+
+  function ctxFor(card){
+    var q, st;
+    if (card.dataset.bkQnum !== undefined && typeof _bucket !== 'undefined') {
+      q = card.dataset.bkQnum; st = _bucket[q];
+      if (st && !st.done) return { kind: 'bk', qnum: q, st: st };
+      return null;
+    }
+    if (card.dataset.dndQnum !== undefined && typeof _dnd !== 'undefined') {
+      q = card.dataset.dndQnum; st = _dnd[q];
+      if (st && !st.done) return { kind: 'dnd', qnum: q, st: st };
+    }
+    return null;
+  }
+
+  function touchById(list, id){
+    for (var i = 0; i < list.length; i++) if (list[i].identifier === id) return list[i];
+    return null;
+  }
+
+  function zoneUnder(c, x, y){
+    var el = document.elementFromPoint(x, y);
+    if (!el || !el.closest) return null;
+    var sel = (c.kind === 'bk')
+      ? '[data-bk-zone="' + c.qnum + '"], #bk-pool-' + c.qnum
+      : '[data-dnd-zone="' + c.qnum + '"], #dnd-pool-' + c.qnum;
+    return el.closest(sel);
+  }
+
+  function startLift(){
+    if (!drag || drag.lifted) return;
+    drag.lifted = true;
+    var r = drag.rect;
+    var clone = drag.card.cloneNode(true);
+    clone.className = 'dnd-card dnd-touch-clone';
+    clone.style.left = r.left + 'px';
+    clone.style.top = r.top + 'px';
+    clone.style.width = r.width + 'px';
+    clone.style.transform = 'translate(' + (drag.x - drag.x0) + 'px,' + (drag.y - drag.y0) + 'px) scale(1.05)';
+    document.body.appendChild(clone);
+    drag.clone = clone;
+    drag.card.classList.add('dnd-lift');
+    if (navigator.vibrate) { try { navigator.vibrate(8); } catch(e){} }
+    if (!drag.raf) drag.raf = requestAnimationFrame(autoScroll);
+  }
+
+  function autoScroll(){
+    if (!drag || !drag.lifted) return;
+    var y = drag.y, h = window.innerHeight, dy = 0;
+    if (y < EDGE) dy = -Math.min(14, (EDGE - y) * 0.2);
+    else if (y > h - EDGE) dy = Math.min(14, (y - (h - EDGE)) * 0.2);
+    if (dy) window.scrollBy(0, dy);
+    drag.raf = requestAnimationFrame(autoScroll);
+  }
+
+  function highlight(z){
+    if (drag.over && drag.over !== z) drag.over.classList.remove('dnd-over');
+    if (z && z !== drag.over) z.classList.add('dnd-over');
+    drag.over = z;
+  }
+
+  function cleanup(){
+    if (!drag) return;
+    if (drag.timer) clearTimeout(drag.timer);
+    if (drag.raf) cancelAnimationFrame(drag.raf);
+    if (drag.over) drag.over.classList.remove('dnd-over');
+    if (drag.clone) drag.clone.remove();
+    drag.card.classList.remove('dnd-lift');
+    drag = null;
+  }
+
+  function doDrop(){
+    var c = drag.ctx, val = drag.card.dataset.val, src = drag.card.dataset.src || '';
+    var z = zoneUnder(c, drag.x, drag.y);
+    if (z) {
+      if (c.kind === 'bk') {
+        if (z.dataset.bucket !== undefined) c.st.placed[val] = z.dataset.bucket;
+        else delete c.st.placed[val];
+      } else {
+        if (z.dataset.letter !== undefined) {
+          for (var l in c.st.placed) if (c.st.placed[l] === val) delete c.st.placed[l];
+          c.st.placed[z.dataset.letter] = val;
+        } else if (src.indexOf('zone-') === 0) {
+          var old = src.slice(5);
+          if (c.st.placed[old] === val) delete c.st.placed[old];
+        }
+      }
+    }
+    c.st.selected = null;
+    if (c.kind === 'bk') { if (typeof _bucketRender === 'function') _bucketRender(c.qnum); }
+    else { if (typeof _dndRender === 'function') _dndRender(c.qnum); }
+  }
+
+  document.addEventListener('touchstart', function(e){
+    if (drag || e.touches.length !== 1) return;
+    var card = (e.target && e.target.closest) ? e.target.closest('.dnd-card') : null;
+    if (!card || card.classList.contains('correct') || card.classList.contains('wrong')) return;
+    var ctx = ctxFor(card);
+    if (!ctx) return;
+    var t = e.touches[0];
+    drag = { card: card, ctx: ctx, x0: t.clientX, y0: t.clientY, x: t.clientX, y: t.clientY,
+             id: t.identifier, rect: card.getBoundingClientRect(),
+             lifted: false, moved: false, over: null, clone: null, raf: 0,
+             timer: setTimeout(startLift, HOLD_MS) };
+  }, { passive: true, capture: true });
+
+  document.addEventListener('touchmove', function(e){
+    if (!drag) return;
+    var t = touchById(e.touches, drag.id);
+    if (!t) return;
+    drag.x = t.clientX; drag.y = t.clientY;
+    var dx = drag.x - drag.x0, dy = drag.y - drag.y0;
+    if (!drag.lifted) {
+      if (Math.abs(dx) <= SLOP && Math.abs(dy) <= SLOP) return;
+      if (Math.abs(dx) > Math.abs(dy)) { startLift(); }
+      else { cleanup(); return; }
+    }
+    drag.moved = true;
+    if (e.cancelable) e.preventDefault();
+    drag.clone.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(1.05)';
+    highlight(zoneUnder(drag.ctx, drag.x, drag.y));
+  }, { passive: false, capture: true });
+
+  document.addEventListener('touchend', function(e){
+    if (!drag) return;
+    if (!touchById(e.changedTouches, drag.id)) return;
+    if (drag.lifted && drag.moved) {
+      if (e.cancelable) e.preventDefault();
+      doDrop();
+    }
+    cleanup();
+  }, { passive: false, capture: true });
+
+  document.addEventListener('touchcancel', function(){ cleanup(); }, { passive: true, capture: true });
+
+  document.addEventListener('contextmenu', function(e){
+    if (drag && drag.lifted) e.preventDefault();
+  }, true);
+})();
+</script>
+<script>
+/* ── VUMED_IMG_ZOOM v1: klik een inhoud-afbeelding (histologie/x-ray) → smooth
+      vergroten met FLIP-animatie + verder in-/uitzoomen en pannen. DND-kaarten,
+      opties, glossary-thumb, avatar/navbar/wallet-iconen zijn uitgesloten. ───── */
+(function(){
+  if (window._imgZoomInstalled) return;
+  window._imgZoomInstalled = true;
+
+  function eligible(img){
+    if (!img || img.tagName !== 'IMG') return false;
+    if (img.closest('.vz-overlay')) return false;
+    if (img.classList.contains('g-img')) return false;
+    if (img.closest('.dnd-card,.opt-btn,.navbar,#vumed-stats,.g-panel,.g-img-nav,' +
+                    '[class*="avatar"],[id*="avatar"],.chest,.mascot,button')) return false;
+    if (img.parentElement && img.parentElement.querySelector('[data-dnd-zone]')) return false;
+    var src = img.getAttribute('src') || '';
+    if (!src) return false;
+    if (img.naturalWidth && img.naturalWidth < 42 && img.naturalHeight < 42) return false;
+    return true;
+  }
+
+  var css = document.createElement('style');
+  css.textContent = [
+    'img.vz-hot{cursor:zoom-in;transition:filter .15s ease,box-shadow .15s ease;}',
+    'img.vz-hot:hover{filter:brightness(.96);box-shadow:0 4px 16px rgba(0,0,0,.16);}',
+    '.vz-overlay{position:fixed;inset:0;z-index:999999;overflow:hidden;',
+      'background:rgba(255,255,255,0);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);',
+      'transition:background .3s ease,backdrop-filter .3s ease,-webkit-backdrop-filter .3s ease;',
+      'touch-action:none;-webkit-user-select:none;user-select:none;}',
+    '.vz-overlay.vz-in{background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);}',
+    '.vz-overlay img.vz-big{position:absolute;top:0;left:0;margin:0;max-width:none;max-height:none;',
+      'border-radius:10px;box-shadow:0 24px 74px rgba(0,0,0,.22);transform-origin:top left;',
+      'will-change:transform;cursor:zoom-in;-webkit-user-drag:none;user-drag:none;}',
+    '.vz-overlay.vz-zoomed img.vz-big{cursor:grab;}',
+    '.vz-overlay.vz-drag img.vz-big{cursor:grabbing;}',
+    '.vz-close{position:fixed;top:14px;right:16px;z-index:1000000;width:44px;height:44px;padding:0;',
+      'border:none;border-radius:50%;background:rgba(0,0,0,.07);color:#3C3C43;font-size:24px;',
+      'line-height:44px;text-align:center;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'opacity:0;transform:scale(.7);transition:opacity .3s .08s ease,transform .3s .08s cubic-bezier(.34,1.56,.64,1),background .15s;}',
+    '.vz-close:hover{background:rgba(0,0,0,.14);}',
+    '.vz-overlay.vz-in .vz-close{opacity:1;transform:scale(1);}',
+    '.vz-hint{position:fixed;bottom:20px;left:50%;z-index:1000000;padding:8px 16px;border-radius:20px;',
+      'background:rgba(0,0,0,.07);color:#3C3C43;font-size:13px;font-weight:700;',
+      'font-family:Nunito,system-ui,-apple-system,sans-serif;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);',
+      'pointer-events:none;white-space:nowrap;opacity:0;transform:translateX(-50%) translateY(10px);',
+      'transition:opacity .3s .12s ease,transform .3s .12s ease;}',
+    '.vz-overlay.vz-in .vz-hint{opacity:1;transform:translateX(-50%) translateY(0);}',
+    '.vz-overlay.vz-in.vz-zoomed .vz-hint{opacity:0;transform:translateX(-50%) translateY(10px);}',
+    'html.dark .vz-overlay{background:rgba(28,28,30,0);}',
+    'html.dark .vz-overlay.vz-in{background:rgba(28,28,30,.95);}',
+    'html.dark .vz-overlay img.vz-big{box-shadow:0 24px 74px rgba(0,0,0,.55);}',
+    'html.dark .vz-close{background:rgba(255,255,255,.15);color:#fff;}',
+    'html.dark .vz-close:hover{background:rgba(255,255,255,.28);}',
+    'html.dark .vz-hint{background:rgba(255,255,255,.15);color:#fff;}',
+    '@media (prefers-reduced-motion:reduce){.vz-overlay,.vz-overlay img.vz-big,.vz-close,.vz-hint{transition-duration:.01ms!important;}}'
+  ].join('');
+  (document.head || document.documentElement).appendChild(css);
+
+  function markAll(root){
+    var imgs = (root || document).querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++){
+      if (eligible(imgs[i])) imgs[i].classList.add('vz-hot');
+      else imgs[i].classList.remove('vz-hot');
+    }
+  }
+
+  var S = null;   // active session state
+
+  function clamp(){
+    var W = S.w * S.k, H = S.h * S.k;
+    if (W <= S.vw) S.px = (S.vw - W) / 2;
+    else S.px = Math.min(0, Math.max(S.vw - W, S.px));
+    if (H <= S.vh) S.py = (S.vh - H) / 2;
+    else S.py = Math.min(0, Math.max(S.vh - H, S.py));
+  }
+
+  function render(){
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(' + S.k + ')';
+    S.overlay.classList.toggle('vz-zoomed', S.k > 1.02);
+  }
+
+  function fit(){
+    S.vw = window.innerWidth; S.vh = window.innerHeight;
+    var nw = S.big.naturalWidth || S.rect.width || 300;
+    var nh = S.big.naturalHeight || S.rect.height || 300;
+    var s = Math.min((S.vw * 0.94) / nw, (S.vh * 0.90) / nh, 3);
+    S.w = nw * s; S.h = nh * s;
+    S.baseLeft = (S.vw - S.w) / 2; S.baseTop = (S.vh - S.h) / 2;
+    S.big.style.width = S.w + 'px'; S.big.style.height = S.h + 'px';
+    S.big.style.left = '0px'; S.big.style.top = '0px';
+  }
+
+  // zoom toward a viewport focal point, keeping it fixed under the finger/cursor
+  function zoomTo(nk, fx, fy){
+    nk = Math.min(5, Math.max(1, nk));
+    var lx = (fx - S.px) / S.k, ly = (fy - S.py) / S.k;
+    S.k = nk;
+    S.px = fx - nk * lx; S.py = fy - nk * ly;
+    clamp(); render();
+  }
+
+  function animateOpen(){
+    // FLIP: element is laid out at its final fit position; start it transformed
+    // back onto the thumbnail, then transition to identity.
+    var tx = S.rect.left, ty = S.rect.top;
+    var sc = S.rect.width / S.w;
+    S.big.style.transition = 'none';
+    S.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    void S.big.offsetWidth;                       // force reflow (no rAF; safe in bg tabs)
+    S.big.style.transition = 'transform .34s cubic-bezier(.22,.61,.36,1)';
+    S.px = 0; S.py = 0; S.k = 1; clamp();
+    S.big.style.transform = 'translate(' + S.px + 'px,' + S.py + 'px) scale(1)';
+    S.overlay.classList.add('vz-in');
+  }
+
+  function close(){
+    if (!S) return;
+    var st = S; S = null;
+    var tx = st.rect.left, ty = st.rect.top;
+    var sc = st.rect.width / st.w;
+    st.big.style.transition = 'transform .3s cubic-bezier(.4,0,.2,1)';
+    st.big.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sc + ')';
+    st.overlay.classList.remove('vz-in');
+    window.removeEventListener('resize', st.onResize);
+    window.removeEventListener('keydown', st.onKey, true);
+    var done = false;
+    var finish = function(){
+      if (done) return; done = true;
+      st.overlay.remove();
+      if (st.src) st.src.style.visibility = '';
+    };
+    st.big.addEventListener('transitionend', finish);
+    setTimeout(finish, 420);
+  }
+
+  function open(thumb){
+    if (S) return;
+    var rect = thumb.getBoundingClientRect();
+    var overlay = document.createElement('div'); overlay.className = 'vz-overlay';
+    var big = document.createElement('img'); big.className = 'vz-big';
+    big.alt = thumb.alt || '';
+    var closeBtn = document.createElement('button');
+    closeBtn.className = 'vz-close'; closeBtn.setAttribute('aria-label', 'Sluiten'); closeBtn.innerHTML = '&times;';
+    var hint = document.createElement('div');
+    hint.className = 'vz-hint'; hint.textContent = 'Scroll of dubbeltik om verder in te zoomen';
+    overlay.appendChild(big); overlay.appendChild(closeBtn); overlay.appendChild(hint);
+    document.body.appendChild(overlay);
+
+    S = { overlay: overlay, big: big, src: thumb, rect: rect,
+          k: 1, px: 0, py: 0, w: 0, h: 0, vw: 0, vh: 0, baseLeft: 0, baseTop: 0,
+          pts: {}, npts: 0, pinch: null, moved: false, lastTap: 0, downX: 0, downY: 0 };
+
+    var start = function(){
+      thumb.style.visibility = 'hidden';   // hide source so the FLIP looks seamless
+      fit(); animateOpen();
+    };
+    if (thumb.complete && thumb.naturalWidth) { big.src = thumb.currentSrc || thumb.src; start(); }
+    else { big.onload = start; big.src = thumb.currentSrc || thumb.src; }
+
+    S.onResize = function(){ if (!S) return; fit(); S.k = 1; S.px = 0; S.py = 0; clamp(); render(); };
+    S.onKey = function(e){ if (e.key === 'Escape'){ e.preventDefault(); close(); } };
+    window.addEventListener('resize', S.onResize);
+    window.addEventListener('keydown', S.onKey, true);
+
+    closeBtn.addEventListener('click', function(e){ e.stopPropagation(); close(); });
+
+    // wheel = zoom toward cursor (desktop)
+    overlay.addEventListener('wheel', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k * (e.deltaY < 0 ? 1.18 : 1 / 1.18), e.clientX, e.clientY);
+    }, { passive: false });
+
+    // double-click = toggle zoom (desktop)
+    big.addEventListener('dblclick', function(e){
+      if (!S) return; e.preventDefault();
+      zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+    });
+
+    // pointer pan / pinch / tap (mouse + touch, unified)
+    overlay.addEventListener('pointerdown', function(e){
+      if (!S) return;
+      overlay.setPointerCapture && overlay.setPointerCapture(e.pointerId);
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      S.npts++;
+      S.moved = false; S.downX = e.clientX; S.downY = e.clientY;
+      if (S.npts === 2){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        S.pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), k: S.k,
+                    cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+      }
+    });
+    overlay.addEventListener('pointermove', function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      var prev = S.pts[e.pointerId];
+      var dx = e.clientX - prev.x, dy = e.clientY - prev.y;
+      S.pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      if (Math.abs(e.clientX - S.downX) > 6 || Math.abs(e.clientY - S.downY) > 6) S.moved = true;
+      if (S.npts >= 2 && S.pinch){
+        var ids = Object.keys(S.pts), a = S.pts[ids[0]], b = S.pts[ids[1]];
+        if (!a || !b) return;
+        var nd = Math.hypot(a.x - b.x, a.y - b.y);
+        zoomTo(S.pinch.k * (nd / S.pinch.d), S.pinch.cx, S.pinch.cy);
+      } else if (S.k > 1.02){
+        overlay.classList.add('vz-drag');
+        S.px += dx; S.py += dy; clamp(); render();
+      }
+    });
+    var up = function(e){
+      if (!S || !S.pts[e.pointerId]) return;
+      delete S.pts[e.pointerId]; S.npts = Math.max(0, S.npts - 1);
+      if (S.npts < 2) S.pinch = null;
+      if (S.npts === 0){
+        overlay.classList.remove('vz-drag');
+        if (!S.moved){
+          var onBig = (e.target === big);
+          var now = Date.now();
+          if (now - S.lastTap < 300){          // double-tap toggle zoom
+            S.lastTap = 0;
+            zoomTo(S.k > 1.02 ? 1 : 2.6, e.clientX, e.clientY);
+          } else {
+            S.lastTap = now;
+            if (!onBig && S.k <= 1.02) close();  // tap backdrop = sluiten
+          }
+        }
+      }
+    };
+    overlay.addEventListener('pointerup', up);
+    overlay.addEventListener('pointercancel', up);
+  }
+
+  document.addEventListener('click', function(e){
+    if (S) return;
+    var img = (e.target && e.target.closest) ? e.target.closest('img') : null;
+    if (!img || !eligible(img)) return;
+    e.preventDefault();
+    open(img);
+  });
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', function(){ markAll(); });
+  else markAll();
+
+  try {
+    var mo = new MutationObserver(function(muts){
+      for (var i = 0; i < muts.length; i++){
+        var m = muts[i];
+        for (var j = 0; j < m.addedNodes.length; j++){
+          var n = m.addedNodes[j];
+          if (n.nodeType !== 1) continue;
+          if (n.tagName === 'IMG'){ if (eligible(n)) n.classList.add('vz-hot'); }
+          else if (n.querySelectorAll) markAll(n);
+        }
+      }
+    });
+    mo.observe(document.documentElement, { childList: true, subtree: true });
+  } catch (e){}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
+  <title>Avatar-items – Admin – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="navbar.js?v=44" data-active="admin"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#F2F2F7; --card:#fff; --ink:#1C1C1E; --muted:#8E8E93; --line:#ECECEE;
+      --blue:#1CB0F6; --blue-dark:#0E85B5; --green:#58CC02; --soft-blue:#EBF7FF; --field:#F7F8FA; }
+    html.dark { --bg:#1C1C1E; --card:#2C2C2E; --ink:#EBEBF0; --muted:#8E8E93; --line:#3A3A3C;
+      --soft-blue:rgba(28,176,246,0.12); --field:#242426; }
+    body { font-family:'Nunito',-apple-system,BlinkMacSystemFont,Arial,sans-serif; background:var(--bg);
+      color:var(--ink); -webkit-font-smoothing:antialiased; display:flex; height:100vh; overflow:hidden; }
+    .main-content { flex:1; overflow-y:auto; background:var(--bg); }
+    .page { max-width:1180px; margin:0 auto; padding:26px 30px 90px; }
+    h1 { font-size:26px; font-weight:900; letter-spacing:-0.01em; }
+    .sub { color:var(--muted); font-size:14px; font-weight:700; margin-top:2px; margin-bottom:20px; }
+    .sub a { color:var(--blue); text-decoration:none; }
+
+    /* Gate */
+    #gate { max-width:520px; margin:16vh auto 0; text-align:center; background:var(--card);
+      border:1px solid var(--line); border-radius:20px; padding:44px 34px; box-shadow:0 6px 30px rgba(0,0,0,0.06); }
+    #gate h2 { font-size:22px; font-weight:900; margin-bottom:8px; }
+    #gate p { color:var(--muted); font-weight:600; margin-bottom:20px; }
+    .g-ic { width:64px; height:64px; margin:0 auto 16px; }
+    .g-btn { display:inline-block; background:var(--blue); color:#fff; text-decoration:none; font-weight:800;
+      padding:12px 22px; border-radius:13px; border-bottom:4px solid var(--blue-dark); }
+
+    .cols { display:grid; grid-template-columns: 420px 1fr; gap:22px; align-items:start; }
+    @media (max-width:940px){ .cols { grid-template-columns:1fr; } }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px 18px 20px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.05); margin-bottom:20px; }
+    .card h3 { font-size:15px; font-weight:900; margin-bottom:14px; }
+
+    /* Preview */
+    .preview { height:360px; border-radius:14px; display:flex; align-items:flex-end; justify-content:center;
+      overflow:hidden; transition:background .3s; }
+    #avatar-big { height:100%; display:flex; align-items:flex-end; }
+    #avatar-big svg { display:block; height:344px; width:auto; }
+    .ed-hint { font-size:11.5px; font-weight:600; color:var(--muted); line-height:1.45; margin:12px 2px 8px; }
+    .ed-rot { display:flex; align-items:center; gap:9px; margin:10px 2px; }
+    .ed-rot label { font-size:10.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; }
+    .ed-rot input[type=range] { flex:1; accent-color:var(--blue); }
+    .ed-rot span { font-size:11px; font-weight:800; color:var(--blue); min-width:34px; text-align:right; }
+
+    /* Fields */
+    label.fl { display:block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.04em;
+      color:var(--muted); margin:12px 0 5px; }
+    input[type=text], input[type=number], select, textarea {
+      width:100%; font-family:inherit; font-size:14px; font-weight:600; color:var(--ink);
+      background:var(--field); border:1.5px solid var(--line); border-radius:11px; padding:10px 12px; }
+    textarea { min-height:96px; resize:vertical; font-family:ui-monospace,Menlo,monospace; font-size:11px; }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+    .filebtn { display:inline-block; margin-top:8px; font-size:12px; font-weight:800; color:var(--blue);
+      cursor:pointer; }
+    .filebtn input { display:none; }
+    .chkline { display:flex; align-items:center; gap:9px; margin-top:14px; font-size:14px; font-weight:700; }
+    .chkline input { width:18px; height:18px; accent-color:var(--green); }
+    .btns { display:flex; gap:10px; margin-top:16px; }
+    .btn { flex:1; padding:12px; border:none; border-radius:12px; font-family:inherit; font-size:13px;
+      font-weight:900; text-transform:uppercase; letter-spacing:0.04em; cursor:pointer; transition:filter .12s; }
+    .btn:hover { filter:brightness(0.96); }
+    .btn.primary { color:#fff; background:var(--blue); border-bottom:3px solid var(--blue-dark); }
+    .btn.ghost { color:var(--muted); background:var(--field); border:1.5px solid var(--line); }
+    .btn:disabled { opacity:0.5; cursor:default; filter:none; }
+
+    /* List */
+    .item-list { display:flex; flex-direction:column; gap:10px; }
+    .il-row { display:flex; align-items:center; gap:12px; padding:10px; border:1px solid var(--line);
+      border-radius:13px; background:var(--field); }
+    .il-thumb { width:52px; height:52px; flex-shrink:0; border-radius:10px; background:var(--card);
+      border:1px solid var(--line); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .il-thumb svg { width:46px; height:46px; }
+    .il-main { flex:1; min-width:0; }
+    .il-name { font-size:14px; font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .il-meta { font-size:11.5px; font-weight:700; color:var(--muted); margin-top:2px; display:flex; gap:8px; flex-wrap:wrap; }
+    .badge { font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.04em; padding:2px 7px; border-radius:20px; }
+    .badge.on { color:#2E7D00; background:rgba(88,204,2,0.16); }
+    .badge.off { color:#8A6D00; background:rgba(255,200,0,0.18); }
+    .badge.kind { color:var(--blue); background:var(--soft-blue); }
+    .il-acts { display:flex; gap:6px; flex-shrink:0; }
+    .ib { border:none; border-radius:9px; padding:7px 10px; font-family:inherit; font-size:11px; font-weight:800;
+      cursor:pointer; background:var(--card); border:1px solid var(--line); color:var(--ink); }
+    .ib.launch { color:#fff; background:var(--green); border-color:transparent; }
+    .ib.unlaunch { color:#8A6D00; background:rgba(255,200,0,0.18); border-color:transparent; }
+    .ib.del { color:#FF3B30; }
+    .empty { color:var(--muted); font-weight:700; font-size:13px; padding:8px 2px; }
+
+    /* Built-in catalog */
+    #builtin-card { margin-top:20px; }
+    .bi-intro { color:var(--muted); font-size:13px; font-weight:600; line-height:1.5; margin:-6px 0 18px; }
+    .bi-intro b { color:var(--ink); }
+    .bi-group { margin-bottom:22px; }
+    .bi-group:last-child { margin-bottom:2px; }
+    .bi-gtitle { font-size:12px; font-weight:900; text-transform:uppercase; letter-spacing:0.05em;
+      color:var(--muted); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .bi-gcount { font-size:11px; font-weight:800; color:var(--blue); background:var(--soft-blue);
+      padding:2px 8px; border-radius:20px; }
+    .bi-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(116px, 1fr)); gap:12px; }
+    .bi-cell { border:1.5px solid var(--line); border-radius:14px; background:var(--field);
+      padding:10px 10px 12px; display:flex; flex-direction:column; align-items:center; gap:8px;
+      transition:opacity .18s, border-color .18s; }
+    .bi-cell.hidden { opacity:0.5; border-style:dashed; }
+    .bi-thumb { width:100%; height:96px; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; }
+    .bi-thumb svg { height:96px; width:auto; display:block; }
+    .bi-name { font-size:12.5px; font-weight:800; text-align:center; color:var(--ink); line-height:1.2;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%; }
+    .bi-tog { width:100%; border:none; border-radius:10px; padding:7px; font-family:inherit; font-size:11px;
+      font-weight:900; text-transform:uppercase; letter-spacing:0.03em; cursor:pointer; transition:filter .12s; }
+    .bi-tog:hover { filter:brightness(0.96); }
+    .bi-tog.on  { color:var(--muted); background:var(--card); border:1.5px solid var(--line); }
+    .bi-tog.off { color:#fff; background:var(--green); }
+    .bi-tog:disabled { opacity:0.55; cursor:default; filter:none; }
+
+    /* Editor overlay (fixed, over the preview via screen-coord math) */
+    #item-editor { position:fixed; inset:0; z-index:150; pointer-events:none; display:none; }
+    #item-editor.on { display:block; }
+    .ie-box { position:absolute; pointer-events:none; }
+    .ie-frame { position:absolute; inset:0; border:2px dashed var(--blue);
+      box-shadow:0 0 0 1px rgba(255,255,255,0.5), inset 0 0 0 1px rgba(255,255,255,0.5); }
+    .ie-move { position:absolute; inset:0; cursor:move; pointer-events:auto; touch-action:none; }
+    .ie-nw{left:0;top:0}.ie-n{left:50%;top:0}.ie-ne{left:100%;top:0}.ie-e{left:100%;top:50%}
+    .ie-se{left:100%;top:100%}.ie-s{left:50%;top:100%}.ie-sw{left:0;top:100%}.ie-w{left:0;top:50%}
+    .ie-h { position:absolute; width:15px; height:15px; margin:-8px 0 0 -8px; background:#fff;
+      border:2.5px solid var(--blue); border-radius:4px; pointer-events:auto; box-shadow:0 1px 5px rgba(0,0,0,0.28); touch-action:none; }
+    .ie-nw,.ie-se{cursor:nwse-resize}.ie-ne,.ie-sw{cursor:nesw-resize}.ie-n,.ie-s{cursor:ns-resize}.ie-e,.ie-w{cursor:ew-resize}
+
+    .toast { position:fixed; top:24px; left:50%; transform:translateX(-50%); z-index:900; padding:12px 22px;
+      border-radius:14px; font-size:14px; font-weight:800; box-shadow:0 8px 26px rgba(0,0,0,0.16);
+      opacity:0; transition:opacity .25s; pointer-events:none; white-space:nowrap; background:var(--blue); color:#fff; }
+    .toast.err { background:#FF3B30; }
+    /* Confirm modal */
+    .modal-ov { display:none; position:fixed; inset:0; z-index:400; background:rgba(0,0,0,0.4);
+      align-items:center; justify-content:center; }
+    .modal-ov.on { display:flex; }
+    .modal { background:var(--card); border-radius:20px; padding:28px 26px 22px; width:380px; max-width:90vw; text-align:center; }
+    .modal h4 { font-size:18px; font-weight:900; margin-bottom:8px; }
+    .modal p { color:var(--muted); font-weight:600; font-size:14px; margin-bottom:20px; }
+    .modal .mb { display:flex; gap:10px; }
+  </style>
+</head>
+<body>
+  <div class="main-content">
+    <div class="page">
+      <div id="gate" style="display:none"></div>
+      <div id="app" style="display:none">
+        <h1>Avatar-items</h1>
+        <div class="sub">Voeg SVG-onderdelen toe, plaats en schaal ze op de avatar, zet een prijs en lanceer ze naar de shop. · <a href="admin.html">← Terug naar admin</a></div>
+        <div class="cols">
+          <!-- LEFT: preview + editor -->
+          <div>
+            <div class="card">
+              <h3>Voorbeeld</h3>
+              <div class="preview" id="preview"><div id="avatar-big"></div></div>
+              <div class="ed-hint" id="ed-hint">Plak of upload een SVG om te beginnen. Sleep het onderdeel om te verplaatsen, sleep de blokjes om te schalen (Shift = verhoudingen vast).</div>
+              <div class="ed-rot">
+                <label>Draai</label>
+                <input type="range" id="ed-rot" min="-180" max="180" step="1" value="0" disabled>
+                <span id="ed-rotval">0°</span>
+              </div>
+            </div>
+          </div>
+          <!-- RIGHT: form + list -->
+          <div>
+            <div class="card">
+              <h3 id="form-title">Nieuw item</h3>
+              <label class="fl">SVG-code</label>
+              <textarea id="f-svg" placeholder="Plak hier de volledige &lt;svg&gt;…&lt;/svg&gt;"></textarea>
+              <label class="filebtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px;margin-right:5px;"><path d="M4 7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>…of upload een .svg-bestand<input type="file" id="f-file" accept=".svg,image/svg+xml"></label>
+              <label class="fl">Naam</label>
+              <input type="text" id="f-name" placeholder="bijv. Krullen">
+              <div class="row2">
+                <div><label class="fl">Soort</label>
+                  <select id="f-kind">
+                    <option value="hair">Kapsel</option>
+                    <option value="hoofddeksel">Hoofddeksel</option>
+                    <option value="bril">Bril</option>
+                    <option value="outfit">Outfit</option>
+                    <option value="accessory">Accessoire</option>
+                    <option value="overig">Overig</option>
+                    <option value="background">Achtergrond</option>
+                  </select></div>
+                <div><label class="fl">Herkleuren</label>
+                  <select id="f-recolor">
+                    <option value="none">Eigen kleuren</option>
+                    <option value="hair">Volgt haarkleur</option>
+                    <option value="clothing">Volgt kledingkleur</option>
+                    <option value="accent">Instelbare kleur (accent)</option>
+                  </select></div>
+              </div>
+              <div class="row3">
+                <div><label class="fl">Valuta</label>
+                  <select id="f-currency">
+                    <option value="coins">Munten</option>
+                    <option value="gems">Edelstenen</option>
+                  </select></div>
+                <div><label class="fl">Prijs</label>
+                  <input type="number" id="f-price" min="0" step="10" value="0"></div>
+                <div><label class="fl">&nbsp;</label>
+                  <div class="chkline"><input type="checkbox" id="f-launched"><span>Gelanceerd</span></div></div>
+              </div>
+              <div class="row3">
+                <div><label class="fl">&nbsp;</label>
+                  <div class="chkline"><input type="checkbox" id="f-hideears"><span>Verbergt oren (hoofddoek)</span></div></div>
+              </div>
+              <div class="btns">
+                <button class="btn ghost" id="btn-clear" type="button">Leegmaken</button>
+                <button class="btn primary" id="btn-save" type="button" disabled>Opslaan</button>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Eigen items</h3>
+              <div class="item-list" id="item-list"><div class="empty">Laden…</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="builtin-card">
+          <h3>Ingebouwde onderdelen</h3>
+          <p class="bi-intro">Alle kapsels, outfits en accessoires die vast in de app zitten. Ze kunnen niet worden verwijderd (dat zou opgeslagen avatars breken), maar je kunt ze hier <b>aan- of uitzetten</b> — een uitgezet onderdeel verdwijnt voor iedereen uit de avatar-editor.</p>
+          <div id="builtin-groups"><div class="empty">Laden…</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editor overlay -->
+  <div id="item-editor">
+    <div class="ie-box" id="ie-box">
+      <div class="ie-frame"></div>
+      <div class="ie-move" data-role="move"></div>
+      <div class="ie-h ie-nw" data-role="nw"></div><div class="ie-h ie-n" data-role="n"></div>
+      <div class="ie-h ie-ne" data-role="ne"></div><div class="ie-h ie-e" data-role="e"></div>
+      <div class="ie-h ie-se" data-role="se"></div><div class="ie-h ie-s" data-role="s"></div>
+      <div class="ie-h ie-sw" data-role="sw"></div><div class="ie-h ie-w" data-role="w"></div>
+    </div>
+  </div>
+
+  <!-- Confirm modal -->
+  <div class="modal-ov" id="confirm-ov">
+    <div class="modal">
+      <h4 id="confirm-title">Verwijderen?</h4>
+      <p id="confirm-text"></p>
+      <div class="mb">
+        <button class="btn ghost" onclick="closeConfirm()">Annuleren</button>
+        <button class="btn primary" id="confirm-ok" style="background:#FF3B30;border-bottom-color:#C1281F">Verwijder</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="avatar_render.js?v=26"></script>
+  <script>
+  var PROJECT = null;
+  var _sb = null;
+  /* Zelfde storageKey als het beheerpaneel (admin.html) → de staff-login draagt
+     over naar deze editor; anders zou je hier "niet ingelogd" krijgen. */
+  function getSB(){ if(_sb) return _sb; if(!window.SUPABASE_URL||!window.supabase) return null;
+    try{ _sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY, { auth: { storageKey: 'vumed-admin-auth', persistSession: true, autoRefreshToken: true } }); window._sbInstance = _sb; }catch(e){ return null; } return _sb; }
+  function $(id){ return document.getElementById(id); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  var VB = { x:-30, y:-90, w:460, h:650 };
+  var SLOT = { hair:'hairItem', hoofddeksel:'headwearItem', bril:'glassesItem',
+    outfit:'outfitItem', accessory:'accItem', overig:'miscItem', background:'bgItem' };
+  var KIND_LABEL = { hair:'Kapsel', hoofddeksel:'Hoofddeksel', bril:'Bril', outfit:'Outfit',
+    accessory:'Accessoire', overig:'Overig', background:'Achtergrond' };
+  var CUR_LABEL = { coins:'munten', gems:'edelstenen' };
+
+  var state = Object.assign({}, DEFAULTS, { skin:'#F5C7B9', hairColor:'#6E3D28', clothingColor:'#80bbda', bgColor:'#e4e4e4' });
+  var cur = null;    // { id?, kind, name, svg, viewBox, recolor, currency, price, launched, rect, _rawBox }
+  var items = [];
+
+  /* ── SVG parsing: resolve <style> class fills to inline attrs, strip wrappers ── */
+  function parseSvg(text){
+    text = String(text||'').trim();
+    if (!text) return null;
+    var fillMap = {}, strokeMap = {};
+    var styleM = text.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
+    if (styleM){
+      var css = styleM[1], re = /\.([A-Za-z0-9_-]+)\s*\{([^}]*)\}/g, m;
+      while ((m = re.exec(css))){
+        var f = m[2].match(/fill:\s*([^;]+)/i);   if (f)  fillMap[m[1]] = f[1].trim();
+        var st = m[2].match(/stroke:\s*([^;]+)/i); if (st) strokeMap[m[1]] = st[1].trim();
+      }
+    }
+    var inner = text.replace(/<\?xml[\s\S]*?\?>/gi,'')
+                    .replace(/<defs[\s\S]*?<\/defs>/gi,'')
+                    .replace(/<style[\s\S]*?<\/style>/gi,'')
+                    .replace(/<svg[^>]*>/i,'')
+                    .replace(/<\/svg>/i,'');
+    inner = inner.replace(/\sclass="([^"]+)"/g, function(_, cls){
+      var fill=null, stroke=null;
+      cls.split(/\s+/).forEach(function(c){ if(fillMap[c]!=null) fill=fillMap[c]; if(strokeMap[c]!=null) stroke=strokeMap[c]; });
+      var a='';
+      if (fill!=null)  a += ' fill="'+fill+'"';
+      if (stroke!=null) a += ' stroke="'+stroke+'"';
+      return a;
+    });
+    var vbM = text.match(/viewBox="([^"]+)"/i);
+    inner = inner.trim();
+    if (!inner) return null;
+    return { inner: inner, viewBox: vbM ? vbM[1] : '' };
+  }
+
+  /* ── Editor math (target rect in avatar coords → transform) ── */
+  function rnd(v,d){ var f=Math.pow(10,d==null?2:d); return Math.round(v*f)/f; }
+  function rawBoxOf(inner){
+    var NS='http://www.w3.org/2000/svg';
+    var svg=document.createElementNS(NS,'svg'); svg.setAttribute('viewBox','0 0 1000 1000');
+    svg.style.cssText='position:absolute;left:-9999px;top:-9999px;width:100px;height:100px';
+    var g=document.createElementNS(NS,'g'); g.innerHTML=inner; svg.appendChild(g); document.body.appendChild(svg);
+    var bb; try { bb=g.getBBox(); } catch(e){ bb={x:0,y:0,width:100,height:100}; }
+    document.body.removeChild(svg);
+    return { x:bb.x, y:bb.y, w:bb.width||1, h:bb.height||1 };
+  }
+  function parseTf(tf){
+    var tx=0,ty=0,sx=1,sy=1,rot=0,m;
+    if((m=/translate\(\s*(-?[\d.]+)(?:[ ,]+(-?[\d.]+))?/.exec(tf))){ tx=+m[1]; ty=m[2]!=null?+m[2]:0; }
+    if((m=/scale\(\s*(-?[\d.]+)(?:[ ,]+(-?[\d.]+))?/.exec(tf))){ sx=+m[1]; sy=m[2]!=null?+m[2]:sx; }
+    if((m=/rotate\(\s*(-?[\d.]+)/.exec(tf))){ rot=+m[1]; }
+    return { tx:tx,ty:ty,sx:sx,sy:sy,rot:rot };
+  }
+  function rectFromTf(rb, tf){
+    var p = parseTf(tf||'');
+    return { x:p.tx+p.sx*rb.x, y:p.ty+p.sy*rb.y, w:p.sx*rb.w, h:p.sy*rb.h, rot:p.rot };
+  }
+  function defaultRect(rb){
+    // Center the art on the head, width ~260 avatar units.
+    var w = 260, h = 260*rb.h/rb.w;
+    return { x:200 - w/2, y:135 - h/2, w:w, h:h, rot:0 };
+  }
+  function tfFromRect(rb, e){
+    var sx=e.w/rb.w, sy=e.h/rb.h, tx=e.x-sx*rb.x, ty=e.y-sy*rb.y, cx=e.x+e.w/2, cy=e.y+e.h/2;
+    var sc = Math.abs(sx-sy)<1e-4 ? 'scale('+rnd(sx,4)+')' : 'scale('+rnd(sx,4)+','+rnd(sy,4)+')';
+    var base = 'translate('+rnd(tx)+','+rnd(ty)+') '+sc;
+    return e.rot ? 'rotate('+rnd(e.rot,2)+' '+rnd(cx)+' '+rnd(cy)+') '+base : base;
+  }
+  function curTf(){ return cur ? tfFromRect(cur._rawBox, cur.rect) : ''; }
+
+  /* ── Preview ── */
+  function applyPreview(){
+    delete state.hairItem; delete state.outfitItem; delete state.accItem; delete state.bgItem;
+    delete state.headwearItem; delete state.glassesItem; delete state.miscItem;
+    if (cur) state[SLOT[cur.kind]] = { svg:cur.svg, tf:curTf(), recolor:cur.recolor, hideEars:!!cur.hideEars };
+    $('avatar-big').innerHTML = buildSVG(state, 'full');
+    if (editOn) positionEditor();
+  }
+
+  /* ── Editor overlay ── */
+  var editOn = false;
+  function openEditor(){
+    editOn = true; $('item-editor').classList.add('on');
+    $('ed-rot').disabled = false; $('ed-rot').value = cur.rect.rot||0; $('ed-rotval').textContent = Math.round(cur.rect.rot||0)+'°';
+    applyPreview();
+  }
+  function closeEditor(){ editOn=false; $('item-editor').classList.remove('on'); $('ed-rot').disabled=true; }
+  function positionEditor(){
+    var svg = document.querySelector('#avatar-big svg'); if(!svg||!cur) return;
+    var r = svg.getBoundingClientRect(); var sc = r.width/VB.w; var e = cur.rect;
+    var b = $('ie-box');
+    b.style.left = (r.left + (e.x-VB.x)*sc)+'px';
+    b.style.top  = (r.top  + (e.y-VB.y)*sc)+'px';
+    b.style.width = (e.w*sc)+'px'; b.style.height = (e.h*sc)+'px';
+  }
+  function screenToAvatar(px,py){
+    var svg = document.querySelector('#avatar-big svg'); var r = svg.getBoundingClientRect(); var sc = r.width/VB.w;
+    return [ (px-r.left)/sc + VB.x, (py-r.top)/sc + VB.y ];
+  }
+  (function(){
+    var editor = $('item-editor'); var drag = null;
+    editor.addEventListener('pointerdown', function(ev){
+      var h = ev.target.closest('[data-role]'); if(!h||!cur) return;
+      var a = screenToAvatar(ev.clientX, ev.clientY);
+      drag = { role:h.dataset.role, ax:a[0], ay:a[1], rect:Object.assign({}, cur.rect) };
+      try{ h.setPointerCapture(ev.pointerId); }catch(e){} ev.preventDefault();
+    });
+    editor.addEventListener('pointermove', function(ev){
+      if(!drag||!cur) return;
+      var a = screenToAvatar(ev.clientX, ev.clientY);
+      var dx=a[0]-drag.ax, dy=a[1]-drag.ay, s=drag.rect, MIN=8, R=drag.role, e=cur.rect;
+      if(R==='move'){ e.x=s.x+dx; e.y=s.y+dy; }
+      else {
+        var x=s.x,y=s.y,w=s.w,h=s.h;
+        if(R.indexOf('e')>=0) w=s.w+dx;
+        if(R.indexOf('s')>=0) h=s.h+dy;
+        if(R.indexOf('w')>=0){ w=s.w-dx; x=s.x+dx; }
+        if(R.indexOf('n')>=0){ h=s.h-dy; y=s.y+dy; }
+        if(ev.shiftKey && R.length===2){ var k=Math.max(w/s.w,h/s.h); w=s.w*k; h=s.h*k;
+          if(R.indexOf('w')>=0) x=s.x+s.w-w; if(R.indexOf('n')>=0) y=s.y+s.h-h; }
+        if(w<MIN){ if(R.indexOf('w')>=0) x=s.x+s.w-MIN; w=MIN; }
+        if(h<MIN){ if(R.indexOf('n')>=0) y=s.y+s.h-MIN; h=MIN; }
+        e.x=x; e.y=y; e.w=w; e.h=h;
+      }
+      applyPreview();
+    });
+    function end(){ drag=null; }
+    editor.addEventListener('pointerup', end); editor.addEventListener('pointercancel', end);
+    $('ed-rot').addEventListener('input', function(){ if(!cur) return; cur.rect.rot=+this.value;
+      $('ed-rotval').textContent=Math.round(cur.rect.rot)+'°'; applyPreview(); });
+    window.addEventListener('resize', function(){ if(editOn) positionEditor(); });
+    window.addEventListener('scroll', function(){ if(editOn) positionEditor(); }, true);
+  })();
+
+  /* ── Form ── */
+  function readSvgIntoCur(){
+    var parsed = parseSvg($('f-svg').value);
+    if (!parsed){ cur=null; closeEditor(); $('btn-save').disabled=true; applyPreview(); return false; }
+    var kind = $('f-kind').value;
+    var rb = rawBoxOf(parsed.inner);
+    if (!cur) cur = {};
+    var keepRect = cur.svg === parsed.inner && cur.rect;   // same art → keep placement
+    cur.kind = kind; cur.svg = parsed.inner; cur.viewBox = parsed.viewBox; cur._rawBox = rb;
+    cur.recolor = $('f-recolor').value; cur.currency = $('f-currency').value;
+    cur.price = parseInt($('f-price').value,10)||0; cur.launched = $('f-launched').checked;
+    cur.hideEars = $('f-hideears').checked;
+    cur.name = $('f-name').value.trim();
+    if (!keepRect) cur.rect = defaultRect(rb);
+    $('btn-save').disabled = false;
+    openEditor();
+    return true;
+  }
+  function syncCurMeta(){
+    if (!cur) return;
+    cur.kind = $('f-kind').value; cur.recolor = $('f-recolor').value; cur.currency = $('f-currency').value;
+    cur.price = parseInt($('f-price').value,10)||0; cur.launched = $('f-launched').checked; cur.name = $('f-name').value.trim();
+    cur.hideEars = $('f-hideears').checked;
+    applyPreview();
+  }
+  function clearForm(){
+    cur = null; closeEditor();
+    $('f-svg').value=''; $('f-name').value=''; $('f-kind').value='hair'; $('f-recolor').value='none';
+    $('f-currency').value='coins'; $('f-price').value='0'; $('f-launched').checked=false; $('f-hideears').checked=false;
+    $('form-title').textContent='Nieuw item'; $('btn-save').disabled=true; $('btn-save').textContent='Opslaan';
+    applyPreview();
+  }
+
+  $('f-svg').addEventListener('input', readSvgIntoCur);
+  $('f-kind').addEventListener('change', function(){ if(cur){ readSvgIntoCur(); } });
+  ['f-recolor','f-currency','f-price','f-launched','f-name','f-hideears'].forEach(function(id){
+    $(id).addEventListener('input', syncCurMeta);
+  });
+  $('f-hideears').addEventListener('change', syncCurMeta);
+  $('f-file').addEventListener('change', function(ev){
+    var file = ev.target.files && ev.target.files[0]; if(!file) return;
+    var rd = new FileReader();
+    rd.onload = function(){ $('f-svg').value = rd.result; readSvgIntoCur(); };
+    rd.readAsText(file);
+    ev.target.value='';
+  });
+  $('btn-clear').addEventListener('click', clearForm);
+  $('btn-save').addEventListener('click', saveItem);
+
+  /* ── Persistence ── */
+  var _busy = false;
+  async function saveItem(){
+    if (_busy || !cur) return;
+    if (!cur.name){ toast('Geef het item een naam.', true); return; }
+    var sb = getSB(); if(!sb){ toast('Supabase niet geladen.', true); return; }
+    _busy = true; $('btn-save').disabled = true;
+    var row = { kind:cur.kind, name:cur.name, svg:cur.svg, view_box:cur.viewBox||'',
+      transform:curTf(), recolor:cur.recolor, currency:cur.currency, price:cur.price,
+      launched:cur.launched, hides_ears:!!cur.hideEars, updated_at:new Date().toISOString() };
+    try {
+      var res;
+      if (cur.id){ res = await sb.from('avatar_items').update(row).eq('id', cur.id); }
+      else { res = await sb.from('avatar_items').insert(row); }
+      if (res.error) throw res.error;
+      toast(cur.id ? 'Opgeslagen.' : 'Item toegevoegd.');
+      clearForm();
+      await loadItems();
+    } catch(e){ console.error(e); toast('Opslaan mislukt: '+(e.message||e), true); }
+    _busy = false; $('btn-save').disabled = false;
+  }
+
+  function editItem(id){
+    var it = items.filter(function(x){ return x.id===id; })[0]; if(!it) return;
+    $('f-svg').value = '<svg viewBox="'+(it.view_box||'0 0 100 100')+'">'+it.svg+'</svg>';
+    $('f-name').value = it.name||''; $('f-kind').value = it.kind; $('f-recolor').value = it.recolor||'none';
+    $('f-currency').value = it.currency||'coins'; $('f-price').value = it.price||0; $('f-launched').checked = !!it.launched;
+    $('f-hideears').checked = !!it.hides_ears;
+    var rb = rawBoxOf(it.svg);
+    cur = { id:it.id, kind:it.kind, name:it.name, svg:it.svg, viewBox:it.view_box, recolor:it.recolor||'none',
+      currency:it.currency||'coins', price:it.price||0, launched:!!it.launched, hideEars:!!it.hides_ears, _rawBox:rb,
+      rect: it.transform ? rectFromTf(rb, it.transform) : defaultRect(rb) };
+    $('form-title').textContent = 'Item bewerken'; $('btn-save').disabled=false; $('btn-save').textContent='Bijwerken';
+    openEditor();
+    document.querySelector('.main-content').scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  async function toggleLaunch(id, to){
+    var sb = getSB(); if(!sb) return;
+    try {
+      var res = await sb.from('avatar_items').update({ launched:to, updated_at:new Date().toISOString() }).eq('id', id);
+      if (res.error) throw res.error;
+      toast(to ? 'Gelanceerd.' : 'Offline gehaald.');
+      await loadItems();
+    } catch(e){ toast('Mislukt: '+(e.message||e), true); }
+  }
+
+  var _delId = null;
+  function askDelete(id){
+    var it = items.filter(function(x){ return x.id===id; })[0]; if(!it) return;
+    _delId = id; $('confirm-text').textContent = '"'+it.name+'" wordt definitief verwijderd.';
+    $('confirm-ov').classList.add('on');
+  }
+  function closeConfirm(){ $('confirm-ov').classList.remove('on'); _delId=null; }
+  $('confirm-ok').addEventListener('click', async function(){
+    if(!_delId) return; var id=_delId; closeConfirm();
+    var sb = getSB(); if(!sb) return;
+    try { var res = await sb.from('avatar_items').delete().eq('id', id); if(res.error) throw res.error;
+      toast('Verwijderd.'); if(cur&&cur.id===id) clearForm(); await loadItems();
+    } catch(e){ toast('Verwijderen mislukt: '+(e.message||e), true); }
+  });
+  $('confirm-ov').addEventListener('click', function(e){ if(e.target===this) closeConfirm(); });
+
+  /* ── List ── */
+  function itemThumb(it){
+    var vb = it.view_box || '0 0 100 100';
+    return '<svg viewBox="'+esc(vb)+'" preserveAspectRatio="xMidYMid meet">'+it.svg+'</svg>';
+  }
+  function renderList(){
+    var el = $('item-list');
+    if (!items.length){ el.innerHTML = '<div class="empty">Nog geen items. Voeg er hierboven één toe.</div>'; return; }
+    el.innerHTML = items.map(function(it){
+      var price = it.price>0 ? (it.price+' '+CUR_LABEL[it.currency||'coins']) : 'Gratis';
+      return '<div class="il-row">'
+        + '<div class="il-thumb">'+itemThumb(it)+'</div>'
+        + '<div class="il-main"><div class="il-name">'+esc(it.name||'(naamloos)')+'</div>'
+        + '<div class="il-meta"><span class="badge kind">'+esc(KIND_LABEL[it.kind]||it.kind)+'</span>'
+        + '<span class="badge '+(it.launched?'on':'off')+'">'+(it.launched?'Live':'Concept')+'</span>'
+        + '<span>'+esc(price)+'</span></div></div>'
+        + '<div class="il-acts">'
+        + '<button class="ib '+(it.launched?'unlaunch':'launch')+'" onclick="toggleLaunch(\''+it.id+'\','+(!it.launched)+')">'+(it.launched?'Offline':'Lanceer')+'</button>'
+        + '<button class="ib" onclick="editItem(\''+it.id+'\')">Bewerk</button>'
+        + '<button class="ib del" onclick="askDelete(\''+it.id+'\')">×</button>'
+        + '</div></div>';
+    }).join('');
+  }
+  async function loadItems(){
+    var sb = getSB(); if(!sb) return;
+    var res = await sb.from('avatar_items').select('*').order('kind').order('sort').order('created_at');
+    if (res.error) throw res.error;
+    items = res.data || [];
+    renderList();
+  }
+
+  /* ── Ingebouwde catalogus (baked HAIR_STYLES / OUTFITS / stetho / voorhoofdslamp) ──
+     Deze onderdelen leven in avatar_render.js en worden via hun index aangeroepen,
+     dus verwijderen kan niet. In plaats daarvan verbergen we ze: een rij in
+     avatar_builtin_hidden laat de avatar-editor die thumbnail overslaan. */
+  var BUILTIN_GROUPS = [
+    { part:'hairStyle',   title:'Kapsels',        labels:HAIR_STYLE_LABELS, mode:'head', outfit:null },
+    { part:'outfit',      title:'Outfits',        labels:OUTFIT_LABELS,     mode:'full', outfit:null },
+    { part:'stethoscope', title:'Stethoscopen',   labels:STETHO_LABELS,     mode:'full', outfit:0 },
+    { part:'accOverig',   title:'Voorhoofdslamp', labels:ACC_OVERIG_LABELS, mode:'head', outfit:null },
+  ];
+  var HIDDEN = {};   // "part:idx" -> true
+  var _biBusy = false;
+
+  function builtinThumb(g, i){
+    var base = Object.assign({}, state);
+    ['hairItem','outfitItem','headwearItem','glassesItem','accItem','miscItem','bgItem'].forEach(function(k){ delete base[k]; });
+    if (g.outfit != null) base.outfit = g.outfit;
+    base[g.part] = i;
+    return buildSVG(base, g.mode);
+  }
+  async function loadHidden(){
+    var sb = getSB(); if(!sb) return;
+    var res = await sb.from('avatar_builtin_hidden').select('part,idx');
+    if (res.error) throw res.error;
+    HIDDEN = {};
+    (res.data||[]).forEach(function(r){ HIDDEN[r.part+':'+r.idx] = true; });
+  }
+  function renderBuiltin(){
+    var host = $('builtin-groups');
+    host.innerHTML = BUILTIN_GROUPS.map(function(g){
+      var hiddenN = 0;
+      var cells = g.labels.map(function(lbl, i){
+        var isHidden = !!HIDDEN[g.part+':'+i]; if(isHidden) hiddenN++;
+        return '<div class="bi-cell'+(isHidden?' hidden':'')+'">'
+          + '<div class="bi-thumb">'+builtinThumb(g, i)+'</div>'
+          + '<div class="bi-name">'+esc(lbl)+'</div>'
+          + '<button class="bi-tog '+(isHidden?'off':'on')+'" onclick="toggleHidden(\''+g.part+'\','+i+','+(!isHidden)+')">'
+          + (isHidden?'Aanzetten':'Uitzetten')+'</button>'
+          + '</div>';
+      }).join('');
+      var badge = hiddenN ? '<span class="bi-gcount">'+hiddenN+' uit</span>' : '';
+      return '<div class="bi-group"><div class="bi-gtitle">'+esc(g.title)+badge+'</div>'
+        + '<div class="bi-grid">'+cells+'</div></div>';
+    }).join('');
+  }
+  async function toggleHidden(part, idx, to){
+    if(_biBusy) return; _biBusy = true;
+    var sb = getSB(); if(!sb){ _biBusy=false; return; }
+    if(to) HIDDEN[part+':'+idx]=true; else delete HIDDEN[part+':'+idx];   // optimistic
+    renderBuiltin();
+    try {
+      var res = to
+        ? await sb.from('avatar_builtin_hidden').upsert({ part:part, idx:idx }, { onConflict:'part,idx' })
+        : await sb.from('avatar_builtin_hidden').delete().eq('part',part).eq('idx',idx);
+      if (res.error) throw res.error;
+      toast(to ? 'Uitgezet — verdwijnt uit de editor.' : 'Weer aangezet.');
+    } catch(e){
+      if(to) delete HIDDEN[part+':'+idx]; else HIDDEN[part+':'+idx]=true;   // revert
+      renderBuiltin();
+      toast('Mislukt: '+(e.message||e), true);
+    }
+    _biBusy = false;
+  }
+
+  /* ── Toast ── */
+  var _tt=null;
+  function toast(msg, err){ var el=$('toast'); el.textContent=msg; el.classList.toggle('err',!!err);
+    el.style.opacity='1'; clearTimeout(_tt); _tt=setTimeout(function(){ el.style.opacity='0'; }, 2200); }
+
+  /* ── Gate + init ── */
+  var GATE_LOCK = '<div class="g-ic"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="10" width="15" height="11" rx="3" fill="#1CB0F6"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10" stroke="#1CB0F6" stroke-width="2.4"/><circle cx="12" cy="15" r="1.7" fill="#fff"/><rect x="11.2" y="15.5" width="1.6" height="2.6" rx="0.8" fill="#fff"/></svg></div>';
+  function gate(html){ $('gate').innerHTML=html; $('gate').style.display=''; $('app').style.display='none'; }
+
+  async function init(){
+    var sb = getSB();
+    if (!sb) return gate('<h2>Supabase niet geladen</h2><p>Controleer supabase_config.js.</p>');
+    var sess = await sb.auth.getSession();
+    if (!sess.data.session) return gate(GATE_LOCK+'<h2>Niet ingelogd op het beheer</h2><p>Log in op het teamportaal en open dit vanuit het beheerpaneel.</p><a class="g-btn" href="admin.html">Naar het beheer</a>');
+    var adm = await sb.rpc('is_admin');
+    if (adm.error || adm.data !== true) return gate(GATE_LOCK+'<h2>Geen toegang</h2><p>Deze pagina is alleen voor beheerders.</p><a class="g-btn" href="admin.html">Naar het beheer</a>');
+    $('gate').style.display='none'; $('app').style.display='';
+    applyPreview();
+    try { await loadItems(); }
+    catch(e){ console.error(e); $('item-list').innerHTML='<div class="empty">Laden mislukt: '+esc(e.message||e)+'</div>'; }
+    try { await loadHidden(); renderBuiltin(); }
+    catch(e){ console.error(e); $('builtin-groups').innerHTML='<div class="empty">Laden mislukt: '+esc(e.message||e)+'</div>'; }
+    // Deep-link: admin_avatar.html?item=<id> opens that item straight into the editor
+    try {
+      var wantId = new URLSearchParams(location.search).get('item');
+      if (wantId && items.some(function(x){ return x.id===wantId; })) editItem(wantId);
+    } catch(e){}
+  }
+  init();
+  </script>
+</body>
+</html>

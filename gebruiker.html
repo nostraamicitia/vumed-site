@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
+  <script>
+    /* Popup-modus (user_popup.js embedt deze pagina in een modal-iframe):
+       geen navbar/tabbar/wallet/terugknop — moet VÓÓR navbar.js draaien. */
+    (function(){
+      if (/[?&]popup=1/.test(location.search)) {
+        document.documentElement.classList.add('pop-mode');
+        window.VUMED_STATS_OFF = true;
+      }
+    })();
+  </script>
+  <title>Profiel bekijken – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="auth_gate.js?v=12"></script>
+  <script src="navbar.js?v=44" data-active="profiel"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Nunito', Arial, sans-serif;
+      background: #fff; color: #1C1C1E;
+      -webkit-font-smoothing: antialiased;
+      display: flex; height: 100vh; overflow: hidden;
+    }
+    .main-content { flex: 1; overflow-y: auto; }
+    .page { max-width: 900px; margin: 0 auto; padding: 28px 32px 110px; }
+
+    /* ═══ HERO (zelfde taal als profile.html) ═══ */
+    .hero-card {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, #1CB0F6 0%, #0E85B5 100%);
+      border-radius: 24px; padding: 30px 34px; color: #fff; margin-bottom: 26px;
+    }
+    /* Trage lichtbaan over de hero (zelfde effect als de trofeeenpad-banner) */
+    .hero-card::after { content: ''; position: absolute; top: -30%; left: 0; width: 34%; height: 160%; background: linear-gradient(105deg, transparent, rgba(255,255,255,0.09) 42%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.09) 58%, transparent); transform: skewX(-16deg) translateX(-330%); animation: bnShine 7s ease-in-out infinite; pointer-events: none; }
+    @keyframes bnShine { 0% { transform: skewX(-16deg) translateX(-330%); } 27%, 100% { transform: skewX(-16deg) translateX(430%); } }
+    @media (prefers-reduced-motion: reduce) { .hero-card::after { display: none; } }
+    .hero-deco { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.09); pointer-events: none; }
+    .hero-deco.hd1 { width: 340px; height: 340px; right: -110px; top: -170px; }
+    .hero-deco.hd2 { width: 200px; height: 200px; right: 140px; bottom: -130px; background: rgba(255,255,255,0.06); }
+    .hero-main { position: relative; display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+    .hero-avatar {
+      width: 120px; height: 120px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+      background: #d8eeff; display: flex; align-items: flex-end; justify-content: center;
+      box-shadow: inset 0 0 0 3px rgba(255,255,255,0.85);
+      font-size: 46px; font-weight: 900; color: #fff;
+    }
+    .hero-avatar svg { width: 100%; height: 100%; display: block; }
+    .hero-info { flex: 1; min-width: 220px; }
+    .hero-name { font-size: 30px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.15; margin-bottom: 4px; }
+    .hero-sub { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); display: flex; align-items: center; gap: 7px; }
+    .hero-sub svg { flex-shrink: 0; }
+    .hero-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .friend-cta {
+      border: none; border-radius: 14px; padding: 11px 20px;
+      font-family: inherit; font-size: 14.5px; font-weight: 800; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; color: #0E85B5; border-bottom: 3px solid rgba(0,0,0,0.14);
+      transition: transform 0.12s, background 0.15s;
+    }
+    .friend-cta:hover { transform: translateY(-1px); }
+    .friend-cta:disabled { cursor: default; transform: none; opacity: 0.85; }
+    .friend-cta.is-friends { background: rgba(255,255,255,0.18); color: #fff; border-bottom-color: transparent; cursor: default; }
+    .friend-cta.sent { background: rgba(255,255,255,0.18); color: #fff; border-bottom-color: transparent; }
+
+    /* ═══ MENU (blokkeren / rapporteren) ═══ */
+    .pp-menu-wrap { position: absolute; top: 0; right: 0; z-index: 5; }
+    .pp-menu-btn {
+      width: 38px; height: 38px; border-radius: 11px; border: none; cursor: pointer;
+      background: rgba(255,255,255,0.16); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .pp-menu-btn:hover { background: rgba(255,255,255,0.28); }
+    .pp-menu {
+      position: absolute; top: 44px; right: 0; min-width: 190px;
+      background: #fff; border-radius: 14px; padding: 6px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18); border: 1px solid #ECECEC;
+    }
+    .pp-menu-item {
+      display: block; width: 100%; text-align: left; border: none; background: none;
+      font-family: inherit; font-size: 14px; font-weight: 700; color: #1C1C1E;
+      padding: 10px 12px; border-radius: 9px; cursor: pointer;
+    }
+    .pp-menu-item:hover { background: #F2F2F7; }
+    html.dark .pp-menu { background: #2C2C2E; border-color: #3A3A3C; }
+    html.dark .pp-menu-item { color: #fff; }
+    html.dark .pp-menu-item:hover { background: #3A3A3C; }
+
+    /* ═══ RAPPORTEER-MODAL ═══ */
+    .report-overlay {
+      position: fixed; inset: 0; z-index: 9000; display: none;
+      align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5); padding: 20px; opacity: 0; transition: opacity 0.2s;
+    }
+    .report-overlay.open { display: flex; opacity: 1; }
+    .report-modal {
+      background: #fff; color: #1C1C1E; width: 100%; max-width: 420px;
+      border-radius: 20px; padding: 26px 24px 22px; border: 1px solid #ECECEC;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+      transform: translateY(12px) scale(0.97); transition: transform 0.22s cubic-bezier(0.2,0.9,0.3,1.2);
+    }
+    .report-overlay.open .report-modal { transform: translateY(0) scale(1); }
+    .report-heading { font-size: 19px; font-weight: 900; margin-bottom: 8px; }
+    .report-body { font-size: 14px; color: #6A6A6E; line-height: 1.55; margin-bottom: 16px; }
+    .report-opt {
+      display: flex; align-items: center; gap: 10px; padding: 9px 4px;
+      font-size: 14.5px; font-weight: 700; cursor: pointer; border-radius: 8px;
+    }
+    .report-opt:hover { background: #F7F7FA; }
+    .report-opt input { width: 17px; height: 17px; accent-color: #1CB0F6; cursor: pointer; }
+    .report-details {
+      width: 100%; margin-top: 10px; padding: 11px 13px; resize: vertical;
+      border: 1.5px solid #E3E3E8; border-radius: 12px; background: #fff; color: #1C1C1E;
+      font-family: inherit; font-size: 14px; outline: none;
+    }
+    .report-details:focus { border-color: #1CB0F6; }
+    .report-msg { min-height: 18px; font-size: 13px; color: #FF3B30; margin: 8px 2px 0; }
+    .report-actions { display: flex; gap: 10px; margin-top: 16px; }
+    .report-btn-cancel, .report-btn-go {
+      flex: 1; padding: 13px 12px; border-radius: 12px; border: none;
+      font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.15s;
+    }
+    .report-btn-cancel { background: #F2F2F7; color: #1C1C1E; }
+    .report-btn-cancel:hover { background: #E8E8EE; }
+    .report-btn-go { background: #1CB0F6; color: #fff; border-bottom: 3px solid #0E85B5; }
+    .report-btn-go:hover:not(:disabled) { background: #0E9DE0; }
+    .report-btn-go:disabled { opacity: 0.55; cursor: default; }
+    html.dark .report-modal { background: #2C2C2E; color: #fff; border-color: #3A3A3C; }
+    html.dark .report-body { color: #98989E; }
+    html.dark .report-opt:hover { background: #3A3A3C; }
+    html.dark .report-details { background: #1C1C1E; color: #fff; border-color: #3A3A3C; }
+    html.dark .report-btn-cancel { background: #3A3A3C; color: #fff; }
+    html.dark .report-btn-cancel:hover { background: #48484A; }
+
+    /* ═══ STAT TILES ═══ */
+    .stats-title { font-size: 20px; font-weight: 900; color: #1C1C1E; }
+    .section-head { display: flex; justify-content: space-between; align-items: baseline; margin: 6px 0 14px; }
+    .section-sub { font-size: 13px; font-weight: 700; color: #8E8E93; }
+    .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 30px; }
+    .stat-card {
+      background: #fff; border: 1.5px solid #E8E8EA; border-radius: 18px;
+      padding: 16px 18px; display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .stat-icon { flex-shrink: 0; width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; }
+    .si-fire   { background: #FFF3E0; }
+    .si-xp     { background: #FFF8E1; }
+    .si-league { background: #F3EEFF; }
+    .si-top3   { background: #EBF7FF; }
+    .si-q      { background: #EFFBEA; }
+    .si-acc    { background: #FFEFF1; }
+    .stat-value { font-size: 21px; font-weight: 900; color: #1C1C1E; line-height: 1; }
+    .stat-label { font-size: 12.5px; color: #8E8E93; font-weight: 700; margin-top: 4px; }
+
+    /* ═══ BADGES (kopie van profile.html — houd in sync) ═══ */
+    .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .badge-card {
+      position: relative; background: #fff; border: 1.5px solid #E8E8EA; border-radius: 18px;
+      padding: 18px 16px 16px; display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 7px; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.16s, box-shadow 0.16s, border-color 0.16s;
+    }
+    .badge-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,0.10); border-color: #D8D8DC; }
+    .badge-card.locked { opacity: 0.9; }
+    .badge-medal-wrap { position: relative; flex-shrink: 0; }
+    .badge-medal {
+      width: 66px; height: 66px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: inset 0 -4px 8px rgba(0,0,0,0.18), inset 0 3px 6px rgba(255,255,255,0.35), 0 3px 8px rgba(0,0,0,0.12);
+    }
+    .badge-medal.is-locked { filter: grayscale(1) opacity(0.55); }
+    .badge-medal svg { width: 38px; height: 38px; }
+    .badge-medal svg [stroke]:not([stroke="none"]) { stroke: #fff; }
+    .badge-medal svg [fill]:not([fill="none"]) { fill: #fff; }
+    .badge-tier-lvl {
+      position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%);
+      background: #fff; border: 1.5px solid #E2E2E6; border-radius: 99px;
+      font-size: 10.5px; font-weight: 900; color: #1C1C1E; padding: 1.5px 9px; white-space: nowrap;
+    }
+    .badge-tier-lvl.locked { color: #B0B0B5; }
+    .badge-name { font-size: 13.5px; font-weight: 800; color: #1C1C1E; line-height: 1.2; margin-top: 4px; }
+    .badge-count { font-size: 11.5px; font-weight: 700; color: #8E8E93; }
+    .badge-mini-bar { width: 100%; height: 7px; border-radius: 99px; background: #EFEFF2; overflow: hidden; }
+    .badge-mini-fill { height: 100%; border-radius: 99px; width: 0%; }
+
+    /* Feliciteer-knop op behaalde badges */
+    .congrats-btn {
+      position: absolute; top: 9px; right: 9px; width: 32px; height: 32px;
+      border-radius: 50%; border: 1.5px solid #E2E2E6; background: #fff;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
+      transition: transform 0.14s, background 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .congrats-btn:hover { transform: scale(1.12); background: #FFF8E1; border-color: #F1A800; }
+    .congrats-btn svg { width: 17px; height: 17px; display: block; }
+    .congrats-btn.done { background: #EFFBEA; border-color: #58CC02; cursor: default; }
+    .congrats-btn.done:hover { transform: none; }
+    .congrats-toast {
+      position: fixed; left: 50%; bottom: 34px; transform: translateX(-50%) translateY(20px);
+      background: #1C1C1E; color: #fff; font-size: 14px; font-weight: 800;
+      border-radius: 14px; padding: 12px 20px; z-index: 900; opacity: 0;
+      transition: opacity 0.25s, transform 0.25s; pointer-events: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+    .congrats-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* Terug-knop + statusmeldingen */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 7px; margin-bottom: 18px;
+      color: #8E8E93; font-size: 14px; font-weight: 800; text-decoration: none;
+      border: none; background: none; cursor: pointer; font-family: inherit; padding: 0;
+    }
+    .back-link:hover { color: #1CB0F6; }
+    .state-card {
+      background: #fff; border: 1.5px solid #E8E8EA; border-radius: 20px;
+      padding: 46px 24px; text-align: center; color: #8E8E93; font-size: 15px; font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      body { height: auto; overflow: auto; }
+      .page { padding: 18px 16px 130px; }
+      .hero-card { padding: 22px 20px; }
+      .hero-avatar { width: 88px; height: 88px; font-size: 34px; }
+      .hero-name { font-size: 23px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .badge-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* Popup-modus: kale profielkaart in de modal-iframe */
+    html.pop-mode .main-sidebar, html.pop-mode .sb-toggle,
+    html.pop-mode .ms-tabbar, html.pop-mode .back-link { display: none !important; }
+    html.pop-mode body { display: block; height: auto; overflow: auto; }
+    html.pop-mode .main-content { padding-bottom: 0 !important; }
+    html.pop-mode .page { max-width: none; padding: 20px 22px 40px; }
+
+    /* Dark mode */
+    html.dark body { background: #1C1C1E; color: #EBEBF0; }
+    html.dark .stat-card, html.dark .badge-card, html.dark .state-card { background: #2C2C2E; border-color: #3A3A3C; box-shadow: none; }
+    html.dark .badge-card:hover { border-color: #48484A; }
+    html.dark .stats-title, html.dark .stat-value, html.dark .badge-name { color: #EBEBF0; }
+    html.dark .badge-mini-bar { background: #3A3A3C; }
+    html.dark .badge-tier-lvl { background: #3A3A3C; border-color: #48484A; color: #EBEBF0; }
+    html.dark .badge-tier-lvl.locked { color: #8E8E93; }
+    html.dark .congrats-btn { background: #3A3A3C; border-color: #48484A; }
+    html.dark .congrats-btn:hover { background: #4a4330; }
+    html.dark .congrats-btn.done { background: #2c3b24; border-color: #58CC02; }
+  </style>
+</head>
+<body>
+
+<div class="main-content" id="page-root">
+  <div class="page">
+    <button class="back-link" onclick="history.length > 1 ? history.back() : (window.location.href = 'profile.html')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M14.5 6L9 12l5.5 6" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Terug
+    </button>
+
+    <div id="pp-loading" class="state-card">Profiel laden…</div>
+    <div id="pp-error" class="state-card" style="display:none;">Deze gebruiker bestaat niet (meer).</div>
+
+    <div id="pp-content" style="display:none;">
+      <div class="hero-card">
+        <div class="hero-deco hd1"></div><div class="hero-deco hd2"></div>
+        <div class="hero-main">
+          <div class="hero-avatar" id="pp-avatar"></div>
+          <div class="hero-info">
+            <div class="hero-name" id="pp-name">–</div>
+            <div class="hero-sub" id="pp-rank-row"><span id="pp-rank">Student</span></div>
+            <div class="hero-sub" id="pp-year-row" style="display:none;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 4L2.5 8.6 12 13.2l9.5-4.6L12 4z" fill="rgba(255,255,255,0.9)"/><path d="M5.5 10.6v4.6c0 1.5 2.9 3.2 6.5 3.2s6.5-1.7 6.5-3.2v-4.6" stroke="rgba(255,255,255,0.9)" stroke-width="1.8" stroke-linecap="round"/></svg>
+              <span id="pp-year"></span>
+            </div>
+            <div class="hero-actions" id="pp-actions"></div>
+          </div>
+          <div class="pp-menu-wrap">
+            <button id="pp-menu-btn" class="pp-menu-btn" style="display:none;" aria-label="Meer opties" onclick="toggleModMenu(event)"></button>
+            <div id="pp-menu" class="pp-menu" style="display:none;">
+              <button id="pp-block-item" class="pp-menu-item" onclick="onBlockToggle()">Gebruiker blokkeren</button>
+              <button class="pp-menu-item" onclick="openReport()">Rapporteren</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-head"><div class="stats-title">Statistieken</div></div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon si-xp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M13 2L4.5 13.5H11L10 22L19.5 10H13L13 2Z" fill="#FFC800"/><path d="M13 2L11.5 5.5H15L13 2Z" fill="rgba(255,255,255,0.50)"/><path d="M11 13.5H14.5L10 22L11 13.5Z" fill="rgba(255,255,255,0.20)"/></svg></div>
+          <div><div class="stat-value" id="pp-stat-xp">–</div><div class="stat-label">Totaal XP</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-league"><div id="pp-league-shield" style="display:flex;"></div></div>
+          <div><div class="stat-value" id="pp-league-name" style="font-size:18px;">–</div><div class="stat-label">Huidige rang</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-fire"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2.5c.6 3.4-1 5-2.4 6.6C8.2 10.7 7 12.4 7 15a5 5 0 0 0 10 0c0-1.5-.5-2.9-1.3-4.1-.5 1-1.2 1.7-2.2 2.1.5-2.9-.3-7.2-1.5-10.5z" fill="#FF9600"/><path d="M12 21a3.4 3.4 0 0 1-3.4-3.4c0-1.6 1-2.6 1.9-3.6.6-.7 1.2-1.3 1.5-2.2.3.9.9 1.5 1.5 2.2.9 1 1.9 2 1.9 3.6A3.4 3.4 0 0 1 12 21z" fill="#FFC800"/></svg></div>
+          <div><div class="stat-value" id="pp-stat-streak">–</div><div class="stat-label">Dagenreeks</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-top3"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 3h10v6a5 5 0 01-10 0V3z" fill="#1CB0F6"/><path d="M7 4H4a1 1 0 00-1 1c0 2.6 1.6 4.4 4 4.9M17 4h3a1 1 0 011 1c0 2.6-1.6 4.4-4 4.9" stroke="#1CB0F6" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v3" stroke="#1CB0F6" stroke-width="2"/><path d="M8.5 21c.4-2 1.9-3 3.5-3s3.1 1 3.5 3h-7z" fill="#1CB0F6"/><path d="M7 3h4L9 8.5A5 5 0 017 9V3z" fill="rgba(255,255,255,0.30)"/></svg></div>
+          <div><div class="stat-value" id="pp-stat-top3">–</div><div class="stat-label">Top 3-finishes</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-q"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" fill="#58CC02"/><path d="M8 12.2L10.8 15L16 9.5" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div><div class="stat-value" id="pp-stat-questions">–</div><div class="stat-label">Vragen beantwoord</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon si-acc"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#FF4B4B" stroke-width="2.4"/><circle cx="12" cy="12" r="5" stroke="#FF4B4B" stroke-width="2.4"/><circle cx="12" cy="12" r="1.8" fill="#FF4B4B"/></svg></div>
+          <div><div class="stat-value" id="pp-stat-accuracy">–</div><div class="stat-label">Accuratesse</div></div>
+        </div>
+      </div>
+
+      <div class="section-head">
+        <div class="stats-title">Prestaties</div>
+        <div class="section-sub" id="pp-badge-summary"></div>
+      </div>
+      <div class="badge-grid" id="pp-badge-grid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="congrats-toast" id="congrats-toast"></div>
+
+<!-- ── Gebruiker rapporteren ── -->
+<div id="report-overlay" class="report-overlay" aria-hidden="true">
+  <div class="report-modal" role="dialog" aria-modal="true" aria-labelledby="report-heading">
+    <h2 id="report-heading" class="report-heading">Gebruiker rapporteren</h2>
+    <p class="report-body">Waarom wil je deze gebruiker melden? Ons team bekijkt elke melding.</p>
+    <label class="report-opt"><input type="radio" name="report-reason" value="name" checked><span>Ongepaste naam</span></label>
+    <label class="report-opt"><input type="radio" name="report-reason" value="avatar"><span>Ongepaste avatar</span></label>
+    <label class="report-opt"><input type="radio" name="report-reason" value="harassment"><span>Intimidatie of pesten</span></label>
+    <label class="report-opt"><input type="radio" name="report-reason" value="spam"><span>Spam</span></label>
+    <label class="report-opt"><input type="radio" name="report-reason" value="other"><span>Anders</span></label>
+    <textarea id="report-details" class="report-details" rows="3" maxlength="1000" placeholder="Toelichting (optioneel)"></textarea>
+    <div id="report-msg" class="report-msg"></div>
+    <div class="report-actions">
+      <button class="report-btn-cancel" onclick="closeReport()">Annuleren</button>
+      <button id="report-go" class="report-btn-go" onclick="submitReport()">Verstuur melding</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Supabase client (auth_gate.js hergebruikt window.getSB) ── */
+let _sb = null;
+function getSB() {
+  if (_sb) return _sb;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _sb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); } catch(e) {}
+  return _sb;
+}
+window.getSB = getSB;
+
+/* ── Rang (zelfde thresholds als profile/trofeeenpad) ── */
+const LEAGUE_TIERS = [
+  { name: 'Student',      min: 0,     color: '#58CC02', light: 'rgba(255,255,255,0.22)' },
+  { name: 'Co-assistent', min: 10000, color: '#00CD9C', light: 'rgba(255,255,255,0.30)' },
+  { name: 'Basisarts',    min: 20000, color: '#1CB0F6', light: 'rgba(255,255,255,0.30)' },
+  { name: 'AIOS',         min: 30000, color: '#A78BFA', light: 'rgba(255,255,255,0.28)' },
+  { name: 'Specialist',   min: 40000, color: '#FFB800', light: 'rgba(255,255,255,0.32)' },
+  { name: 'Hoogleraar',   min: 50000, color: '#FF4B6E', light: 'rgba(255,255,255,0.30)' },
+];
+function getLeagueIdx(xp) {
+  for (var i = LEAGUE_TIERS.length - 1; i >= 0; i--) if (xp >= LEAGUE_TIERS[i].min) return i;
+  return 0;
+}
+function makeLeagueShield(idx, size) {
+  var t = LEAGUE_TIERS[idx];
+  var h = Math.round(size * 1.1);
+  return '<svg width="' + size + '" height="' + h + '" viewBox="0 0 100 110" fill="none">'
+    + '<path d="M50 4 L92 18 Q96 18 96 24 L96 62 Q96 90 50 106 Q4 90 4 62 L4 24 Q4 18 8 18 Z" fill="' + t.color + '"/>'
+    + '<path d="M12 24 L4 42 L4 62 Q4 76 18 86 L40 98 L14 52 Z" fill="' + t.light + '"/>'
+    + '<path d="M50 4 L92 18 Q96 18 96 24 L96 32 Q62 12 50 4 Z" fill="rgba(255,255,255,0.28)"/>'
+    + '</svg>';
+}
+
+/* ── Badges — KOPIE van profile.html (14 badges, keep in sync) ── */
+function fmtN(n) { return n >= 1000 ? (Math.round(n / 100) / 10 + '').replace(/\.0$/, '') + 'k' : '' + n; }
+const TIER_STYLE = [
+  { grad: 'linear-gradient(145deg,#E8A15C,#B06B2E)', bar: '#C77B3A' },
+  { grad: 'linear-gradient(145deg,#D8DEE6,#A7B3C0)', bar: '#9AA7B4' },
+  { grad: 'linear-gradient(145deg,#FFD34D,#F1A800)', bar: '#F1A800' },
+  { grad: 'linear-gradient(145deg,#7FE0D4,#2FA898)', bar: '#2FA898' },
+  { grad: 'linear-gradient(145deg,#7FB8FF,#2F6BE0)', bar: '#2F6BE0' },
+  { grad: 'linear-gradient(145deg,#D08BFF,#8B39D6)', bar: '#8B39D6' },
+];
+const BADGE_ICONS = {
+  carriere: '<svg viewBox="0 0 24 24" fill="none"><path d="M3 18v-4h5v-4h5V6h5V3" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 18h18" stroke="#111" stroke-width="2" stroke-linecap="round" opacity="0.5"/></svg>',
+  histo: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 21h11" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M9 21v-3" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M8.5 18a5.5 5.5 0 0 0 8.5-4.6" stroke="#111" stroke-width="2" stroke-linecap="round"/><rect x="10.4" y="3.4" width="4" height="8.5" rx="2" transform="rotate(24 12 7)" fill="#111"/><path d="M4 21h3.5" stroke="#111" stroke-width="2" stroke-linecap="round"/></svg>',
+  anatoom: '<svg viewBox="0 0 24 24" fill="none"><path d="M7.5 7.5l9 9" stroke="#111" stroke-width="2.6" stroke-linecap="round"/><circle cx="5.4" cy="5.6" r="2.4" fill="#111"/><circle cx="8" cy="4.4" r="2" fill="#111"/><circle cx="18.6" cy="18.4" r="2.4" fill="#111"/><circle cx="16" cy="19.6" r="2" fill="#111"/></svg>',
+  neuro: '<svg viewBox="0 0 24 24" fill="none"><path d="M10 4a3 3 0 0 0-3 2.6A3 3 0 0 0 4.6 10 3 3 0 0 0 5 14.4 3.2 3.2 0 0 0 8 19h2V4z" fill="#111"/><path d="M14 4a3 3 0 0 1 3 2.6A3 3 0 0 1 19.4 10 3 3 0 0 1 19 14.4 3.2 3.2 0 0 1 16 19h-2V4z" fill="#111"/></svg>',
+  farma: '<svg viewBox="0 0 24 24" fill="none"><rect x="2.6" y="8.4" width="18.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)" stroke="#111" stroke-width="2"/><path d="M8.4 8.4l7.2 7.2" stroke="#111" stroke-width="2"/></svg>',
+  micro: '<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="5.6" ry="8" transform="rotate(32 12 12)" stroke="#111" stroke-width="2"/><circle cx="10.6" cy="10.2" r="1.1" fill="#111"/><circle cx="13.4" cy="13.6" r="1.1" fill="#111"/><path d="M6.6 6.4L4.4 4.2M17.4 17.6l2.2 2.2M17.8 6.6l2-2" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  jurist: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5v16" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M6 20h12" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M5 7h14" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M5 7l-2.6 5h5.2L5 7zM19 7l-2.6 5h5.2L19 7z" stroke="#111" stroke-width="1.7" stroke-linejoin="round"/></svg>',
+  opic: '<svg viewBox="0 0 24 24" fill="none"><path d="M2 12h4l2-6 3 12 2-8 2 4h5" stroke="#111" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  scherp: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#111" stroke-width="2"/><circle cx="12" cy="12" r="5" stroke="#111" stroke-width="2"/><circle cx="12" cy="12" r="1.7" fill="#111"/></svg>',
+  wittejas: '<svg viewBox="0 0 24 24" fill="none"><path d="M9 3l3 3 3-3 4.5 2.2V21H4.5V5.2L9 3z" stroke="#111" stroke-width="2" stroke-linejoin="round"/><path d="M12 6v15" stroke="#111" stroke-width="1.6"/><rect x="14.4" y="12.4" width="2.6" height="3.6" stroke="#111" stroke-width="1.4"/></svg>',
+  streak: '<svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2.5" stroke="#111" stroke-width="1.8"/><path d="M3.5 9.2h17M8 3v4M16 3v4" stroke="#111" stroke-width="1.8" stroke-linecap="round"/><path d="M8.4 14.2l2.3 2.3 4.2-4.6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  podium: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="14.5" r="5" stroke="#111" stroke-width="2"/><path d="M9 10L6.4 3M15 10l2.6-7" stroke="#111" stroke-width="2" stroke-linecap="round"/><path d="M12 12.4l.9 1.9 2.1.3-1.5 1.5.35 2.1-1.85-1-1.85 1 .35-2.1L8.1 14.6l2.1-.3z" fill="#111"/></svg>',
+  nacht: '<svg viewBox="0 0 24 24" fill="none"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" fill="#111"/><circle cx="18.4" cy="5.6" r="0.9" fill="#111"/></svg>',
+  flatline: '<svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="#111" stroke-width="1.8"/><path d="M6 12h12" stroke="#111" stroke-width="2.4" stroke-linecap="round"/></svg>',
+};
+const BADGES = [
+  { key: 'carriere', name: 'Carrière', metric: 'xp', fmt: true,
+    tiers: [{ t: 0 }, { t: 10000 }, { t: 20000 }, { t: 30000 }, { t: 40000 }, { t: 50000 }] },
+  { key: 'histo', name: 'Jack van Horssen', metric: 'histoCorrect', tiers: [{ t: 10 }, { t: 20 }, { t: 40 }, { t: 80 }, { t: 160 }] },
+  { key: 'anatoom', name: 'Anatoom', metric: 'anatomyCorrect', tiers: [{ t: 10 }, { t: 25 }, { t: 50 }, { t: 100 }, { t: 200 }] },
+  { key: 'neuro', name: 'Neuroloog', metric: 'neuroCorrect', tiers: [{ t: 10 }, { t: 25 }, { t: 50 }, { t: 100 }, { t: 200 }] },
+  { key: 'farma', name: 'Farmacoloog', metric: 'pharmaCorrect', tiers: [{ t: 10 }, { t: 25 }, { t: 50 }, { t: 100 }, { t: 200 }] },
+  { key: 'micro', name: 'Microjager', metric: 'microCorrect', tiers: [{ t: 10 }, { t: 25 }, { t: 50 }, { t: 100 }] },
+  { key: 'jurist', name: 'Witte Toga', metric: 'ethicsCorrect', tiers: [{ t: 10 }, { t: 25 }, { t: 50 }, { t: 100 }] },
+  { key: 'opic', name: 'Op de IC', metric: 'maxStreak', tiers: [{ t: 10 }, { t: 20 }, { t: 30 }, { t: 40 }, { t: 50 }] },
+  { key: 'scherp', name: 'Scherpschutter', metric: 'qCorrect', tiers: [{ t: 25 }, { t: 100 }, { t: 500 }, { t: 2000 }] },
+  { key: 'wittejas', name: 'Witte Jas', metric: 'qTotal', tiers: [{ t: 50 }, { t: 250 }, { t: 1000 }, { t: 5000 }] },
+  { key: 'streak', name: 'Trouwe Student', metric: 'dayStreak', tiers: [{ t: 3 }, { t: 7 }, { t: 30 }, { t: 100 }] },
+  { key: 'podium', name: 'Podiumbeest', metric: 'top3', tiers: [{ t: 1 }, { t: 5 }, { t: 10 }, { t: 25 }] },
+  { key: 'nacht', name: 'Nachtdienst', metric: 'nightQ', tiers: [{ t: 10 }, { t: 20 }, { t: 30 }, { t: 40 }, { t: 50 }] },
+  { key: 'flatline', name: 'Flat Line', metric: 'flatLine', tiers: [{ t: 1 }, { t: 3 }, { t: 5 }, { t: 10 }, { t: 20 }] },
+];
+function badgeTierIdx(value, tiers) {
+  let idx = -1;
+  for (let i = 0; i < tiers.length; i++) { if (value >= tiers[i].t) idx = i; else break; }
+  return idx;
+}
+
+/* ── State ── */
+var _target = null;       // bekeken user_id
+var _me = null;           // eigen user_id
+var _friendStatus = 'none';
+var _friendshipId = null;
+var _targetName = 'deze gebruiker';
+var _isBlocked = false;
+
+function q(id) { return document.getElementById(id); }
+
+function showToast(msg) {
+  var t = q('congrats-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(function() { t.classList.remove('show'); }, 2600);
+}
+
+/* Avatar: DB-snapshot injecteren; alles wat op actieve inhoud lijkt → initiaal */
+function renderAvatar(svgStr, name) {
+  var el = q('pp-avatar');
+  if (svgStr && /<svg[\s>]/i.test(svgStr) && !/<script|<foreignObject|on\w+\s*=|javascript:/i.test(svgStr)) {
+    if (/viewBox/.test(svgStr)) {
+      el.innerHTML = svgStr;
+    } else {
+      var inner = svgStr.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+      el.innerHTML = '<svg viewBox="50 10 300 265" xmlns="http://www.w3.org/2000/svg">' + inner + '</svg>';
+    }
+    return;
+  }
+  var colors = ['#1CB0F6','#58CC02','#FF9600','#B57BF6','#FF4B4B'];
+  el.style.background = colors[((name || '?').charCodeAt(0) || 0) % colors.length];
+  el.textContent = ((name || '?')[0] || '?').toUpperCase();
+}
+
+/* ── Vriendknop ── */
+function renderFriendCta() {
+  var box = q('pp-actions');
+  box.innerHTML = '';
+  renderModMenu();
+  if (_isBlocked) {
+    var bb = document.createElement('button');
+    bb.className = 'friend-cta is-friends';
+    bb.disabled = true;
+    bb.textContent = 'Geblokkeerd';
+    box.appendChild(bb);
+    return;
+  }
+  var btn = document.createElement('button');
+  btn.className = 'friend-cta';
+  if (_friendStatus === 'self') {
+    btn.textContent = 'Dit ben jij — naar je profiel';
+    // In popup-modus navigeert dit het BOVENLIGGENDE venster, niet de iframe
+    btn.onclick = function() { (window.top || window).location.href = 'profile.html'; };
+  } else if (_friendStatus === 'friends') {
+    btn.classList.add('is-friends');
+    btn.disabled = true;
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg> Vrienden';
+  } else if (_friendStatus === 'requested') {
+    btn.classList.add('sent');
+    btn.disabled = true;
+    btn.textContent = 'Verzoek verzonden';
+  } else if (_friendStatus === 'incoming') {
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2.1"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M19 8v6M22 11h-6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg> Verzoek accepteren';
+    btn.onclick = acceptIncoming;
+  } else {
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3.4" stroke="currentColor" stroke-width="2.1"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/><path d="M19 8v6M22 11h-6" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/></svg> Vriend worden';
+    btn.onclick = sendRequest;
+  }
+  box.appendChild(btn);
+}
+
+async function sendRequest() {
+  var sb = getSB();
+  if (!sb || !_me || !_target) return;
+  var btn = q('pp-actions').querySelector('button');
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    await sb.from('friendships').insert({ requester_id: _me, addressee_id: _target, status: 'pending' });
+    _friendStatus = 'requested';
+  } catch(e) {}
+  renderFriendCta();
+}
+
+async function acceptIncoming() {
+  var sb = getSB();
+  if (!sb || !_friendshipId) return;
+  var btn = q('pp-actions').querySelector('button');
+  btn.disabled = true; btn.textContent = '…';
+  try {
+    await sb.from('friendships').update({ status: 'accepted' }).eq('id', _friendshipId);
+    _friendStatus = 'friends';
+  } catch(e) {}
+  renderFriendCta();
+  renderProfileBadges();   // feliciteer-knoppen verschijnen nu
+}
+
+/* ── Blokkeren / rapporteren ── */
+var KEBAB_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.8" fill="currentColor"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/><circle cx="12" cy="19" r="1.8" fill="currentColor"/></svg>';
+function renderModMenu() {
+  var btn = q('pp-menu-btn');
+  var menu = q('pp-menu');
+  if (!btn || !menu) return;
+  // Alleen tonen als ingelogd én niet je eigen profiel
+  if (!_me || _friendStatus === 'self') { btn.style.display = 'none'; menu.style.display = 'none'; return; }
+  btn.style.display = '';
+  btn.innerHTML = KEBAB_SVG;
+  q('pp-block-item').textContent = _isBlocked ? 'Deblokkeren' : 'Gebruiker blokkeren';
+}
+function toggleModMenu(ev) {
+  if (ev) ev.stopPropagation();
+  var menu = q('pp-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+function closeModMenu() { var m = q('pp-menu'); if (m) m.style.display = 'none'; }
+document.addEventListener('click', closeModMenu);
+
+async function onBlockToggle() {
+  closeModMenu();
+  var sb = getSB();
+  if (!sb || !_target) return;
+  if (_isBlocked) {
+    try { await sb.rpc('unblock_user', { p_target: _target }); } catch(e) {}
+    _isBlocked = false;
+    showToast('Blokkade opgeheven.');
+    renderFriendCta();
+    return;
+  }
+  if (!confirm('Weet je zeker dat je ' + _targetName + ' wilt blokkeren? Jullie vriendschap wordt verbroken en je ziet elkaar niet meer in het klassement of zoeken.')) return;
+  try {
+    var { data } = await sb.rpc('block_user', { p_target: _target });
+    if (data && data.ok) {
+      _isBlocked = true; _friendStatus = 'none'; _friendshipId = null;
+      showToast(_targetName + ' is geblokkeerd.');
+      renderFriendCta();
+      renderProfileBadges();  // feliciteer-knoppen verdwijnen (niet meer vrienden)
+    } else { showToast('Blokkeren niet gelukt. Probeer het later opnieuw.'); }
+  } catch(e) { showToast('Blokkeren niet gelukt. Probeer het later opnieuw.'); }
+}
+
+function openReport() {
+  closeModMenu();
+  var ov = q('report-overlay');
+  q('report-msg').textContent = '';
+  q('report-details').value = '';
+  var checked = document.querySelector('input[name="report-reason"]:checked');
+  if (checked) checked.checked = false;
+  var first = document.querySelector('input[name="report-reason"]');
+  if (first) first.checked = true;
+  ov.classList.add('open'); ov.setAttribute('aria-hidden', 'false');
+}
+function closeReport() {
+  var ov = q('report-overlay');
+  ov.classList.remove('open'); ov.setAttribute('aria-hidden', 'true');
+}
+async function submitReport() {
+  var sb = getSB();
+  var go = q('report-go');
+  var msg = q('report-msg');
+  if (!sb || !_target) { msg.textContent = 'Er ging iets mis. Probeer het later opnieuw.'; return; }
+  var reason = (document.querySelector('input[name="report-reason"]:checked') || {}).value || 'other';
+  var details = (q('report-details').value || '').trim();
+  go.disabled = true; go.textContent = 'Versturen…';
+  try {
+    var { data } = await sb.rpc('report_user', { p_target: _target, p_reason: reason, p_details: details });
+    if (data && data.ok) {
+      closeReport();
+      showToast(data.reason === 'already' ? 'Je hebt deze gebruiker al gerapporteerd.' : 'Bedankt, je melding is verstuurd.');
+    } else if (data && data.reason === 'login') {
+      msg.textContent = 'Je bent niet meer ingelogd.';
+    } else { msg.textContent = 'Versturen niet gelukt. Probeer het later opnieuw.'; }
+  } catch(e) { msg.textContent = 'Versturen niet gelukt. Probeer het later opnieuw.'; }
+  go.disabled = false; go.textContent = 'Verstuur melding';
+}
+
+/* ── Feliciteren ── */
+async function sendCongrats(badgeKey, badgeName, btn) {
+  var sb = getSB();
+  if (!sb || !_target) return;
+  btn.disabled = true;
+  try {
+    var { data } = await sb.rpc('send_congrats', { p_target: _target, p_badge_key: badgeKey });
+    if (data && data.ok) {
+      showToast('Felicitatie gestuurd voor ' + badgeName + '!');
+      markCongratsDone(btn);
+    } else if (data && data.reason === 'already') {
+      showToast('Je hebt vandaag al gefeliciteerd voor deze badge.');
+      markCongratsDone(btn);
+    } else {
+      btn.disabled = false;
+      showToast('Versturen niet gelukt. Probeer het later opnieuw.');
+    }
+  } catch(e) {
+    btn.disabled = false;
+    showToast('Versturen niet gelukt. Probeer het later opnieuw.');
+  }
+}
+
+function markCongratsDone(btn) {
+  btn.classList.add('done');
+  btn.disabled = true;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M5 12.5l4.5 4.5L19 7" stroke="#58CC02" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+/* ── Badges renderen ── */
+var _badgeVals = {};
+function renderProfileBadges() {
+  var grid = q('pp-badge-grid');
+  grid.innerHTML = '';
+  var unlocked = 0, levels = 0;
+  BADGES.forEach(function(b) {
+    var value = _badgeVals[b.metric] || 0;
+    var idx = badgeTierIdx(value, b.tiers);
+    var isMax = idx === b.tiers.length - 1;
+    var locked = idx < 0;
+    if (!locked) { unlocked++; levels += idx + 1; }
+    var style = TIER_STYLE[Math.max(idx, 0)];
+    var nextT = locked ? b.tiers[0].t : (isMax ? b.tiers[idx].t : b.tiers[idx + 1].t);
+    var curT = (locked || isMax) ? (locked ? 0 : b.tiers[idx].t) : b.tiers[idx].t;
+    var fmt = b.fmt ? fmtN : function(n) { return '' + n; };
+    var pct;
+    if (locked) pct = Math.min(100, Math.round(value / b.tiers[0].t * 100));
+    else if (isMax) pct = 100;
+    else pct = Math.round((value - curT) / (nextT - curT) * 100);
+
+    var card = document.createElement('div');
+    card.className = 'badge-card' + (locked ? ' locked' : '');
+    card.innerHTML =
+      '<div class="badge-medal-wrap">' +
+        '<div class="badge-medal' + (locked ? ' is-locked' : '') + '" style="background:' + style.grad + '">' + BADGE_ICONS[b.key] + '</div>' +
+        '<span class="badge-tier-lvl' + (locked ? ' locked' : '') + '">' + (locked ? 'Nog niet' : 'Niveau ' + (idx + 1)) + '</span>' +
+      '</div>' +
+      '<div class="badge-name"></div>' +
+      '<div class="badge-count">' + (isMax ? 'MAX' : (fmt(value) + ' / ' + fmt(nextT))) + '</div>' +
+      '<div class="badge-mini-bar"><div class="badge-mini-fill" style="width:' + pct + '%;background:' + (locked ? '#C7C7CC' : style.bar) + '"></div></div>';
+    card.querySelector('.badge-name').textContent = b.name;
+
+    if (!locked && _friendStatus === 'friends') {
+      var cbtn = document.createElement('button');
+      cbtn.className = 'congrats-btn';
+      cbtn.title = 'Feliciteer met deze prestatie';
+      cbtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M7.2 11.6L3 21l9.4-4.2-5.2-5.2z" fill="#F1A800"/><path d="M9.6 9.8l4.6 4.6" stroke="#B06B2E" stroke-width="1.6" stroke-linecap="round"/><path d="M14 4.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z" fill="#1CB0F6"/><path d="M19.4 9.6l.5 1.4 1.4.5-1.4.5-.5 1.4-.5-1.4-1.4-.5 1.4-.5.5-1.4z" fill="#FF4B4B"/><path d="M17.5 15.8l.4 1.1 1.1.4-1.1.4-.4 1.1-.4-1.1-1.1-.4 1.1-.4.4-1.1z" fill="#58CC02"/></svg>';
+      cbtn.onclick = function() { sendCongrats(b.key, b.name, cbtn); };
+      card.appendChild(cbtn);
+    }
+    grid.appendChild(card);
+  });
+  var sum = q('pp-badge-summary');
+  if (sum) sum.textContent = unlocked + ' van ' + BADGES.length + ' badges · ' + levels + ' niveaus behaald';
+}
+
+/* ── Laden ── */
+async function loadProfile() {
+  var sb = getSB();
+  var params = new URLSearchParams(window.location.search);
+  _target = params.get('u');
+  if (!sb || !_target) { q('pp-loading').style.display = 'none'; q('pp-error').style.display = ''; return; }
+
+  var data = null;
+  try {
+    var res = await sb.rpc('get_public_profile', { p_target: _target });
+    data = res.data;
+  } catch(e) {}
+  q('pp-loading').style.display = 'none';
+  if (!data || !data.ok) {
+    var errEl = q('pp-error');
+    if (data && data.reason === 'unavailable') errEl.textContent = 'Dit profiel is niet beschikbaar.';
+    errEl.style.display = '';
+    return;
+  }
+
+  _friendStatus = data.friend_status || 'none';
+  _friendshipId = data.friendship_id || null;
+  _targetName = data.display_name || 'Gebruiker';
+  _isBlocked = !!data.is_blocked;
+
+  q('pp-content').style.display = '';
+  document.title = _targetName + ' – VUmed';
+  q('pp-name').textContent = _targetName;
+  renderAvatar(data.avatar_svg, _targetName);
+
+  var xp = data.total_xp || 0;
+  var lIdx = getLeagueIdx(xp);
+  q('pp-rank').textContent = LEAGUE_TIERS[lIdx].name;
+  q('pp-league-shield').innerHTML = makeLeagueShield(lIdx, 28);
+  q('pp-league-name').textContent = LEAGUE_TIERS[lIdx].name;
+  q('pp-league-name').style.color = LEAGUE_TIERS[lIdx].color;
+  if (data.study_year) {
+    q('pp-year-row').style.display = '';
+    q('pp-year').textContent = 'Jaar ' + data.study_year;
+  }
+  renderFriendCta();
+
+  q('pp-stat-xp').textContent = xp.toLocaleString('nl-NL');
+  q('pp-stat-streak').textContent = data.login_streak || 0;
+  q('pp-stat-top3').textContent = data.top3_finishes || 0;
+  q('pp-stat-questions').textContent = (data.q_total || 0).toLocaleString('nl-NL');
+  q('pp-stat-accuracy').textContent = data.q_total > 0 ? Math.round(data.q_correct / data.q_total * 100) + '%' : '–';
+
+  /* Topic-badges: correct_refs ∩ badge_index.json (zelfde logica als profile.html) */
+  var correctSet = new Set();
+  var refs = data.correct_refs || {};
+  for (var ek in refs) (refs[ek] || []).forEach(function(qn) { correctSet.add(ek + '#' + qn); });
+  var bi = null;
+  try { bi = await fetch('badge_index.json').then(function(r) { return r.ok ? r.json() : null; }); } catch(e) {}
+  var countIn = function(list) { var c = 0; (list || []).forEach(function(ref) { if (correctSet.has(ref)) c++; }); return c; };
+
+  _badgeVals = {
+    xp: xp,
+    dayStreak: data.login_streak || 0,
+    top3: data.top3_finishes || 0,
+    qTotal: data.q_total || 0,
+    qCorrect: data.q_correct || 0,
+    maxStreak: data.max_correct_streak || 0, flatLine: data.flat_line_count || 0, nightQ: data.night_questions || 0,
+    histoCorrect: bi ? countIn(bi.histology) : 0,
+    anatomyCorrect: bi ? countIn(bi.anatomy) : 0,
+    pharmaCorrect: bi ? countIn(bi.pharma) : 0,
+    microCorrect: bi ? countIn(bi.micro) : 0,
+    neuroCorrect: bi ? countIn(bi.neuro) : 0,
+    ethicsCorrect: bi ? countIn(bi.ethics) : 0,
+  };
+  renderProfileBadges();
+}
+
+document.addEventListener('DOMContentLoaded', async function() {
+  var session = await VumedAuthGate.guard({ subtitle: 'Log in om profielen van andere studenten te bekijken.' });
+  if (!session) return;
+  _me = session.user && session.user.id;
+  loadProfile();
+});
+</script>
+</body>
+</html>

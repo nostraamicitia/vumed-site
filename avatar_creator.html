@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <link rel="icon" type="image/png" href="favicon-32.png">
+<script src="pwa.js?v=10"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
+  <title>Avatar aanmaken – VUmed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dark-theme.css?v=3">
+  <script src="supabase_config.js"></script>
+  <script src="supabase-js.min.js"></script>
+  <script src="navbar.js?v=44" data-active="profiel"></script>
+  <script src="bg-decor.js?v=4"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Nunito', Arial, sans-serif; background: #fff; color: #1C1C1E;
+      -webkit-font-smoothing: antialiased; display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Wrapper: fills space after sidebar, aligns card to its offset top ── */
+    .main-wrapper { flex: 1; display: flex; align-items: flex-start; justify-content: center;
+      padding: 0; background: #fff; overflow: hidden; position: relative; }
+
+    /* ── Editor card: top starts 100px above centre, bottom cut by 200px ── */
+    /* Original centred top = 10%. Moving up 100px → margin-top: calc(10% - 100px). */
+    /* Height = original 80% minus the 200px bottom cut plus the 100px top gain = calc(80% - 100px) */
+    .editor-card { width: 80%; height: calc(80% - 60px); margin-top: calc(10% - 40px); display: flex;
+      border-radius: 22px; border: 1.5px solid #e8e8e8;
+      box-shadow: 0 6px 32px rgba(0,0,0,0.08);
+      overflow: hidden; position: relative; background: #fff; }
+
+    /* ── Avatar preview pane (50 % of card) ── */
+    .preview-pane { width: 50%; flex-shrink: 0;
+      display: flex; align-items: flex-end; justify-content: center; overflow: hidden;
+      transition: background 0.3s; border-radius: 22px 0 0 22px; }
+    #avatar-big { display: flex; align-items: flex-end; justify-content: center; height: 100%; }
+    #avatar-big svg { display: block; height: 48vh; width: auto; flex-shrink: 0; }
+
+    /* ── Options pane (50 % of card) ── */
+    .options-pane { width: 50%; flex-shrink: 0; min-width: 0; display: flex; flex-direction: column;
+      border-left: 1.5px solid #f0f0f0; }
+    .cat-tabs { display: flex; padding: 0 8px; border-bottom: 1.5px solid #f0f0f0;
+      overflow-x: auto; flex-shrink: 0; scrollbar-width: none; }
+    .cat-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab { display: flex; flex-direction: column; align-items: center; gap: 3px;
+      padding: 10px 8px 8px; cursor: pointer; border-bottom: 3px solid transparent;
+      min-width: 46px; color: #b0b8c4; transition: color 0.15s, border-color 0.15s;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+    .cat-tab.active { color: #1CB0F6; border-bottom-color: #1CB0F6; }
+
+    .options-content { flex: 1; overflow-y: auto; padding: 20px 18px 90px; }
+    .section-title { font-size: 15px; font-weight: 800; color: #1C1C1E; margin-bottom: 10px; margin-top: 18px; }
+    .section-title:first-child { margin-top: 0; }
+
+    .swatch-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; margin-bottom: 6px; }
+    .swatch { aspect-ratio: 1; border-radius: 11px; cursor: pointer;
+      border: 2.5px solid transparent; transition: transform 0.1s, border-color 0.15s; position: relative; }
+    .swatch:hover { transform: scale(1.1); }
+    .swatch.sel { border-color: #1CB0F6 !important; box-shadow: 0 0 0 2px rgba(28,176,246,0.25); }
+    .swatch.sel::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center;
+      justify-content:center; font-size:13px; color:rgba(255,255,255,0.9); font-weight:900;
+      text-shadow:0 1px 3px rgba(0,0,0,0.4); }
+
+    .style-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+    .style-cell { border: 2.5px solid #f0f0f0; border-radius: 13px; cursor: pointer;
+      overflow: hidden; padding: 6px 6px 4px; background: #fafafa;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .style-cell:hover { border-color: #b8dff2; background: #f5fcff; }
+    .style-cell.sel  { border-color: #1CB0F6; background: #e8f7ff; }
+    .style-cell svg  { width: 76px; height: 76px; display: block; }
+    /* Locked skin (shop item not yet owned): greyed thumb + padlock badge */
+    .style-cell.locked { position: relative; }
+    .style-cell.locked:hover { border-color: #f0f0f0; background: #fafafa; }
+    .style-cell.locked > svg { filter: grayscale(1) opacity(0.35); }
+    .style-cell .lock-badge { position: absolute; top: 8px; right: 8px;
+      width: 22px; height: 22px; border-radius: 50%; background: #FFC800;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .style-cell .lock-badge svg { width: 12px; height: 12px; }
+    .style-label { font-size: 10px; font-weight: 700; color: #afafaf;
+      text-transform: uppercase; letter-spacing: 0.04em; }
+
+    /* ── Hide the nav sidebar on the avatar editor — only the back link leaves ── */
+    .main-sidebar, .sb-toggle { display: none !important; }
+
+    /* ── Back link — top-left outside the editor card ── */
+    .back-link { position: absolute; top: calc(10% - 40px - 18px); left: calc(10% + 2px);
+      display: flex; align-items: center; gap: 8px;
+      color: #b0b8c4; font-size: 15px; font-weight: 800;
+      cursor: pointer; transition: color 0.15s; user-select: none; }
+    .back-link:hover { color: #1CB0F6; }
+    .back-link svg { transition: transform 0.15s; }
+    .back-link:hover svg { transform: translateX(-3px); }
+
+    /* ── Leave modal overlay ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.38); align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-card { background: #fff; border-radius: 24px; padding: 36px 32px 28px;
+      width: 420px; max-width: 90vw; text-align: center;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.18); }
+    .modal-title { font-size: 22px; font-weight: 900; color: #1C1C1E; margin-bottom: 12px; line-height: 1.25; }
+    .modal-sub { font-size: 15px; font-weight: 600; color: #8c9aab; margin-bottom: 28px; }
+    .modal-keep { width: 100%; padding: 17px; background: #1CB0F6; color: #fff;
+      border: none; border-bottom: 4px solid #0e85b5; border-radius: 16px;
+      font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em;
+      cursor: pointer; font-family: inherit; margin-bottom: 16px;
+      transition: background 0.15s, transform 0.1s; }
+    .modal-keep:hover { background: #22c3ff; }
+    .modal-keep:active { transform: translateY(2px); border-bottom-width: 2px; }
+    .modal-leave { background: none; border: none; color: #FF4B4B; font-size: 14px;
+      font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em;
+      cursor: pointer; font-family: inherit; padding: 8px 16px;
+      transition: opacity 0.15s; }
+    .modal-leave:hover { opacity: 0.75; }
+
+    /* ── Klaar button — just outside bottom-right corner of editor-card ── */
+    /* Card is 80% × 80% centred → 10% gap on each side.               */
+    /* bottom: calc(10% - 56px) places button just below the card edge. */
+    .done-btn { position: absolute; bottom: calc(10% + 100px - 110px); right: calc(10% + 24px);
+      padding: 14px 40px; background: #1CB0F6; color: #fff;
+      border: none; border-bottom: 4px solid #0e85b5; border-radius: 14px;
+      font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em;
+      cursor: pointer; font-family: inherit; transition: transform 0.1s, background 0.15s;
+      z-index: 10; box-shadow: 0 4px 16px rgba(28,176,246,0.25); }
+    .done-btn:hover  { background: #22c3ff; }
+    .done-btn:active { transform: translateY(3px); border-bottom-width: 1px; }
+
+    /* ══════════════════════════════════════════════════════════
+       PHONE (≤768px) — stacked layout à la Duolingo "Pick your look":
+       full-screen, avatar preview on top, tabs + options as a bottom
+       sheet. The desktop side-by-side card crushes on narrow screens.
+    ══════════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      /* modal-style editor: no in-app chrome competing for space.
+         The wallet bar centres at the top and would collide with the
+         "Klaar" button — hide it here (the reference is a clean editor). */
+      .ms-tabbar { display: none !important; }
+      #vumed-stats { display: none !important; }
+
+      .main-wrapper { align-items: stretch; padding: 0; }
+
+      /* card fills the viewport, stacks vertically, loses its framing */
+      .editor-card {
+        width: 100%; height: 100%; margin-top: 0;
+        flex-direction: column;
+        border: none; border-radius: 0; box-shadow: none;
+      }
+
+      /* preview = fixed top region, avatar anchored to its bottom */
+      .preview-pane {
+        width: 100%; flex: 0 0 44vh; border-radius: 0;
+      }
+      #avatar-big svg { height: 40vh; }
+
+      /* options = bottom sheet, overlaps the preview by a hair */
+      .options-pane {
+        width: 100%; flex: 1 1 auto; min-height: 0;
+        border-left: none; background: #fff;
+        border-radius: 20px 20px 0 0;
+        margin-top: -16px; position: relative; z-index: 2;
+        box-shadow: 0 -5px 22px rgba(0,0,0,0.07);
+      }
+      .cat-tabs { justify-content: space-around; padding: 4px 4px 0; }
+      .cat-tab { min-width: 0; flex: 1; padding: 9px 2px 7px; font-size: 9px; }
+      .options-content { padding: 16px 16px 40px; }
+
+      /* back link + done button float over the preview, top corners */
+      .back-link {
+        top: 14px; left: 14px; font-size: 14px; z-index: 3;
+        padding: 6px 10px 6px 6px; border-radius: 12px;
+        background: rgba(255,255,255,0.72);
+        -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+      }
+      .done-btn {
+        position: absolute; top: 12px; right: 14px; bottom: auto; left: auto;
+        padding: 11px 24px; font-size: 13px;
+      }
+    }
+
+    /* dark phone tweak: sheet matches the dark editor card (the back-link
+       pill stays light — the preview area is user-coloured, not themed).
+       The section-title fix is unscoped: it's dark-on-dark on desktop too. */
+    @media (max-width: 768px) {
+      html.dark .options-pane { background: #2C2C2E; }
+    }
+    html.dark .section-title { color: #EAECEF; }
+  </style>
+</head>
+<body>
+
+<!-- Leave confirmation modal -->
+<div class="modal-overlay" id="leave-modal">
+  <div class="modal-card">
+    <div class="modal-title">Weet je zeker dat je wilt vertrekken?</div>
+    <div class="modal-sub">Al je niet-opgeslagen wijzigingen gaan verloren.</div>
+    <button class="modal-keep" onclick="closeModal()">Blijf avatar bewerken</button>
+    <br>
+    <button class="modal-leave" onclick="confirmLeave()">Verlaat avatar editor</button>
+  </div>
+</div>
+
+<!-- Main wrapper (white bg, centres the card with padding) -->
+<div class="main-wrapper">
+  <!-- Back link: top-left, outside the editor card -->
+  <div class="back-link" onclick="handleBack()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Terug naar profiel
+  </div>
+  <!-- Editor card (~80% of page, rounded, bordered) -->
+  <div class="editor-card">
+    <div class="preview-pane" id="preview-pane">
+      <div id="avatar-big"></div>
+    </div>
+    <div class="options-pane">
+      <div class="cat-tabs" id="cat-tabs"></div>
+      <div class="options-content" id="options-content"></div>
+    </div>
+  </div>
+  <!-- Klaar button sits just outside the card's bottom-right corner -->
+  <button class="done-btn" onclick="saveAndDone()">Klaar</button>
+</div>
+
+<script src="avatar_render.js?v=26"></script>
+<script>
+/* Renderers (h2r/darken/lighten, DEFAULTS, renderBody/Head/Hair, buildSVG,
+   HAIR_STYLE_LABELS) live in the shared avatar_render.js — edit them THERE. */
+let state = { ...DEFAULTS, ...JSON.parse(localStorage.getItem('vumed_avatar')||'{}') };
+let activeTab = 0;
+// Temporary preview of a LOCKED shop skin ({key, prevVal}). The avatar equips
+// it so you can see it, but it is never saved — it reverts when you switch
+// category, save, or leave. See previewSkin()/revertPreview().
+let _preview = null;
+
+/* ══════════════════════════════════════════════════════════
+   UI DATA
+══════════════════════════════════════════════════════════ */
+const SKIN_TONES     = [
+  '#5F4235','#6E4C41','#7C4A2D','#8E5744','#9A6633','#9A6B50',
+  '#A8714B','#B5806B','#C98F79','#DFA967','#E9A987','#F2BCA4',
+  '#F5C7B9','#F6D2A9','#F8E7DE',
+];
+const HAIR_COLORS    = [
+  '#1C1C1E','#2E1A0E','#6E3D28','#5C3317','#7D3412','#8B0000','#6B4226',
+  '#A0522D','#CD853F','#DAA520','#F5DEB3','#E8E8E8','#C0C0C0',
+  '#FF69B4','#CE82FF','#1CB0F6','#58CC02',
+];
+const CLOTHING_COLORS= ['#80bbda','#CE82FF','#9B59D0','#1CB0F6','#58CC02','#FFC800','#FF9600','#FF3B30','#FF86D0','#E8E8E8','#1C1C1E'];
+// Palette for recolor:'accent' garments (hoofddoek / mondkapje).
+const ACCENT_COLORS  = ['#896ac5','#5e9fc9','#1CB0F6','#58CC02','#00B894','#FFC800','#FF9600','#FF3B30','#FF86D0','#8E5744','#6E6E73','#1C1C1E','#E8E8E8','#FFFFFF'];
+const BG_COLORS      = [
+  '#e4e4e4','#c8c8c8','#484848',
+  '#e4d4ff','#ce82ff','#7B4FCC',
+  '#cce8ff','#7ec8ff','#1A69CC',
+  '#d4f8e8','#89e219','#2E8B57',
+  '#fff3cc','#ffc800','#FF9600',
+  '#ffd4d4','#ff8888','#FF3B30',
+  '#ffd4ee','#ff86d0','#CC4FAA',
+];
+
+/* ══════════════════════════════════════════════════════════
+   TAB ICONS
+══════════════════════════════════════════════════════════ */
+function tabIcon(idx, active) {
+  const c = active ? '#1CB0F6' : '#b0b8c4';
+  const icons = [
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="10" r="5" stroke="${c}" stroke-width="2"/><rect x="9" y="14" width="6" height="8" rx="2" fill="${c}" opacity="0.5"/></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="5" rx="2" fill="${c}"/><line x1="6" y1="8" x2="6" y2="17" stroke="${c}" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="8" x2="10" y2="19" stroke="${c}" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="8" x2="14" y2="19" stroke="${c}" stroke-width="2" stroke-linecap="round"/><line x1="18" y1="8" x2="18" y2="17" stroke="${c}" stroke-width="2" stroke-linecap="round"/></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M9 3L3 6.5L5 10.5L7 9.5V21H17V9.5L19 10.5L21 6.5L15 3C15 4.2 13.7 5.2 12 5.2C10.3 5.2 9 4.2 9 3Z" fill="${c}" opacity="0.7" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="13" r="4" stroke="${c}" stroke-width="2"/><circle cx="17" cy="13" r="4" stroke="${c}" stroke-width="2"/><path d="M11 13H13" stroke="${c}" stroke-width="2" stroke-linecap="round"/><line x1="3" y1="13" x2="1" y2="13" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><line x1="21" y1="13" x2="23" y2="13" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/></svg>`,
+    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 9L8 4H16L21 9L17 11V20H7V11Z" fill="${c}" opacity="0.7" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+  ];
+  return icons[idx] || '';
+}
+
+/* ══════════════════════════════════════════════════════════
+   RENDER
+══════════════════════════════════════════════════════════ */
+function renderPreview() {
+  document.getElementById('preview-pane').style.background = state.bgColor;
+  document.getElementById('avatar-big').innerHTML = buildSVG(state, 'full');
+}
+
+function renderTabs() {
+  const labels = ['Huid','Haar','Outfits','Accessoires','Overig'];
+  document.getElementById('cat-tabs').innerHTML = labels.map((t,i) =>
+    `<div class="cat-tab${i===activeTab?' active':''}" onclick="setTab(${i})">
+      ${tabIcon(i, i===activeTab)}
+      ${t}
+    </div>`
+  ).join('');
+}
+
+// Dynamic-item slots stored inline in the avatar state. Thumbnails must render
+// their OWN item on a neutral base, so we clear ALL of these before applying the
+// cell's override — otherwise the currently-equipped headwear/mask/etc. leaks
+// into every thumbnail (and headwear would hide the hair in unrelated rows).
+const ITEM_SLOTS = ['hairItem','outfitItem','headwearItem','glassesItem','accItem','miscItem','bgItem'];
+function miniSVG(overrides, mode='head') {
+  const base = {...state};
+  ITEM_SLOTS.forEach(function (k) { delete base[k]; });
+  return buildSVG({...base, ...overrides}, mode);
+}
+
+function swatchRow(label, colors, key) {
+  return `<div class="section-title">${label}</div>
+  <div class="swatch-grid">
+    ${colors.map(c=>`<div class="swatch${state[key]===c?' sel':''}"
+      style="background:${c};${['#FFFFFF','#E8E8E8','#e4e4e4','#fff3cc','#ffd4d4','#ffd4ee','#e4d4ff','#cce8ff','#d4f8e8','#F2BCA4','#F5C7B9','#F6D2A9','#F8E7DE'].includes(c)?'border-color:#ddd!important':''}"
+      onclick="set('${key}','${c}')"></div>`).join('')}
+  </div>`;
+}
+
+function styleRow(label, labels, key, mode='head', locked=[], suppress=false) {
+  return `<div class="section-title">${label}</div>
+  <div class="style-grid">
+    ${labels.map((lbl,i)=>{
+      // Admin switched this baked option off → skip it (unless it's the value the
+      // user currently has equipped, so their selection stays visible/selectable).
+      if (BUILTIN_HIDDEN[key+':'+i] && state[key]!==i) return '';
+      const ov = {}; ov[key]=i;
+      // baked thumbnails must show their OWN art even when a dynamic override is equipped
+      if (key==='hairStyle') ov.hairItem = null;
+      else if (key==='outfit') ov.outfitItem = null;
+      const isLocked = locked.includes(i);
+      const click = isLocked ? `previewSkin('${key}',${i})` : `set('${key}',${i})`;
+      return `<div class="style-cell${(!suppress && state[key]===i)?' sel':''}${isLocked?' locked':''}" onclick="${click}">
+        ${miniSVG(ov, mode)}
+        ${isLocked ? '<div class="lock-badge"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="#7A5A00"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#7A5A00" stroke-width="2.6" fill="none"/></svg></div>' : ''}
+        <div class="style-label">${lbl}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+/* ── Shop skins (gekocht met munten in shop.html) ──
+   Ownership = user_profiles.avatar_skins, gespiegeld naar localStorage
+   vumed_skins door shop.html (bij aankoop) + profile.html (bij laden). */
+function ownedSkins() {
+  try { return JSON.parse(localStorage.getItem('vumed_skins') || '[]'); }
+  catch (e) { return []; }
+}
+// Shop-skin gating for BAKED options: which avatar_skins id unlocks each option,
+// and its coin price (for the toast). Outfits: Dokter=0 / Chirurg=1 / Hoodie=3 are
+// paid, Standaard=2 is the free default. Stethoscoop/Voorhoofdslamp Goud (index 2).
+const OUTFIT_SKIN = { 0: 'outfit_doctor', 1: 'outfit_surgeon', 3: 'outfit_hoodie' };
+const SKIN_PRICE  = { outfit_doctor: 1000, outfit_surgeon: 1000, outfit_hoodie: 500,
+                      stetho_normal: 1000, stetho_gold: 5000, headlamp_normal: 1000, headlamp_gold: 5000 };
+function skinIdFor(key, i) {
+  if (key === 'outfit') return OUTFIT_SKIN[i] || null;
+  // Stethoscoop: 1=Stethoscoop (stetho_normal), 2=Goud (stetho_gold) — both paid.
+  if (key === 'stethoscope') return i === 1 ? 'stetho_normal' : i === 2 ? 'stetho_gold' : null;
+  // Overig/voorhoofdslamp: 1=Voorhoofdslamp (headlamp_normal), 2=Goud (headlamp_gold) — both paid.
+  if (key === 'accOverig')   return i === 1 ? 'headlamp_normal' : i === 2 ? 'headlamp_gold' : null;
+  return null;
+}
+// Which indices of a baked row are locked = those whose unlocking skin isn't owned.
+function lockedSkinIdx(key, indices) {
+  const owned = ownedSkins();
+  return indices.filter(i => { const id = skinIdFor(key, i); return id && !owned.includes(id); });
+}
+let _skinToastT = null;
+// priceText overrides the SKIN_PRICE lookup (dyn items carry their own price +
+// currency). itemId doubles as the shop deeplink target (shop.html?item=<id>).
+function lockedSkinMsg(itemId, priceText) {
+  let el = document.getElementById('skin-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'skin-toast';
+    const dark = document.documentElement.classList.contains('dark');
+    el.style.cssText = 'position:fixed;top:26px;left:50%;transform:translateX(-50%);z-index:900;'
+      + 'display:flex;align-items:center;gap:12px;padding:9px 12px 9px 20px;border-radius:14px;'
+      + 'font-size:14px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,0.13);'
+      + 'opacity:0;transition:opacity .25s ease;pointer-events:none;white-space:nowrap;'
+      + (dark ? 'background:#2C2C2E;border:1px solid #6B5A1E;color:#FFD64F;'
+              : 'background:#fff;border:1px solid #FFE9A8;color:#B08508;');
+    document.body.appendChild(el);
+  }
+  const price = priceText || (((itemId && SKIN_PRICE[itemId]) || 3000) + ' munten');
+  el.innerHTML = '<span>Te koop in de shop voor ' + price + '.</span>'
+    + (itemId ? '<button onclick="goShop(\'' + itemId + '\')" style="border:none;cursor:pointer;'
+      + 'background:#1CB0F6;color:#fff;font:inherit;font-size:13px;font-weight:800;'
+      + 'padding:7px 13px;border-radius:10px;box-shadow:0 2px 0 #0A9EDC;">Bekijk in de shop</button>' : '');
+  void el.offsetWidth;
+  el.style.opacity = '1';
+  el.style.pointerEvents = 'auto';
+  clearTimeout(_skinToastT);
+  _skinToastT = setTimeout(() => { el.style.opacity = '0'; el.style.pointerEvents = 'none'; }, 4200);
+}
+
+/* Try on a LOCKED shop skin without owning it. The avatar equips it so you can
+   see how it looks, but the value is never committed — remember the real value
+   in _preview and restore it on category switch / save / leave. */
+function previewSkin(key, i) {
+  if (!_preview || _preview.key !== key) {
+    if (_preview) state[_preview.key] = _preview.prevVal;  // drop any other stale preview
+    _preview = { key, prevVal: state[key] };
+  }
+  state[key] = i;
+  renderPreview();
+  renderOptions();
+  lockedSkinMsg(skinIdFor(key, i));   // still hint that it's a shop item
+}
+function revertPreview() {
+  if (!_preview) return;
+  state[_preview.key] = _preview.prevVal;
+  _preview = null;
+}
+
+/* ── Dynamic avatar items (admin catalog, table avatar_items) ──
+   Launched items are appended to each category. Equipping stores the item's
+   payload INLINE in the avatar state (hairItem/outfitItem/accItem/bgItem) so the
+   renderer draws it and it travels with the saved avatar. Ownership shares
+   vumed_skins (item uuid); price 0 = free. */
+const DYN_SLOT = { hair:'hairItem', hoofddeksel:'headwearItem', bril:'glassesItem',
+  outfit:'outfitItem', accessory:'accItem', overig:'miscItem', background:'bgItem' };
+function emptyDynByKind() { return { hair:[], hoofddeksel:[], bril:[], outfit:[], accessory:[], overig:[], background:[] }; }
+let DYN_BY_KIND = emptyDynByKind();
+// Built-in parts the admin has switched OFF (table avatar_builtin_hidden, public
+// read). Keyed "styleRow-key:index" → true; a hidden index is skipped in styleRow.
+// Saved avatars already using a hidden index still render — this only trims the picker.
+let BUILTIN_HIDDEN = {};
+let _dynSb = null;
+function dynSB() {
+  if (_dynSb) return _dynSb;
+  if (!window.SUPABASE_URL || !window.supabase) return null;
+  try { _dynSb = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); } catch (e) { return null; }
+  return _dynSb;
+}
+function loadDynItems() {
+  const c = dynSB(); if (!c) return;
+  // refresh ownership mirror (a fresh purchase in another tab shows up here)
+  c.auth.getUser().then(function (u) {
+    const uid = u && u.data && u.data.user && u.data.user.id;
+    if (!uid) return;
+    window._avatarUid = uid;
+    c.from('user_profiles').select('avatar_skins, avatar_state').eq('user_id', uid).maybeSingle().then(function (r) {
+      if (r && r.data) {
+        try { localStorage.setItem('vumed_skins', JSON.stringify(r.data.avatar_skins || [])); } catch (e) {}
+        // Cross-device: adopt the stored config so editing on a fresh device
+        // starts from the real avatar (not DEFAULTS). Only adopt when nothing
+        // has been touched yet this session, so an in-progress edit is never lost.
+        if (r.data.avatar_state && !hasUnsavedChanges()) {
+          state = Object.assign({}, DEFAULTS, r.data.avatar_state);
+          savedSnapshot = JSON.stringify(state);
+          try { localStorage.setItem('vumed_avatar', JSON.stringify(state)); } catch (e) {}
+          renderPreview();
+        }
+        renderOptions();
+      }
+    }, function(){});
+  }, function(){});
+  // launched catalog
+  c.from('avatar_items').select('*').eq('launched', true).order('kind').order('sort').order('created_at')
+    .then(function (r) {
+      if (!r || !r.data) return;
+      DYN_BY_KIND = emptyDynByKind();
+      r.data.forEach(function (it) { (DYN_BY_KIND[it.kind] || (DYN_BY_KIND[it.kind] = [])).push(it); });
+      renderOptions();
+    }, function () {});
+}
+function loadBuiltinHidden() {
+  const c = dynSB(); if (!c) return;
+  c.from('avatar_builtin_hidden').select('part,idx').then(function (r) {
+    if (!r || !r.data) return;
+    const m = {};
+    r.data.forEach(function (row) { m[row.part + ':' + row.idx] = true; });
+    BUILTIN_HIDDEN = m;
+    renderOptions();
+  }, function () {});
+}
+function dynItemById(id) {
+  let found = null;
+  Object.keys(DYN_BY_KIND).forEach(function (k) { DYN_BY_KIND[k].forEach(function (it) { if (it.id === id) found = it; }); });
+  return found;
+}
+function isDynOwned(it) { return (it.price <= 0) || ownedSkins().includes(it.id); }
+function dynEsc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+// withNone → prepend a "Geen" cell that clears the slot (for additive slots that
+// have no baked default: Hoofddeksel / Bril / Overig).
+function dynGrid(kind, mode, withNone) {
+  const arr = DYN_BY_KIND[kind] || []; if (!arr.length && !withNone) return '';
+  const slot = DYN_SLOT[kind];
+  let cells = '';
+  if (withNone) {
+    const noneSel = !state[slot];
+    cells += `<div class="style-cell${noneSel?' sel':''}" onclick="clearDyn('${slot}')">
+      ${miniSVG({}, mode || 'head')}
+      <div class="style-label">Geen</div>
+    </div>`;
+  }
+  cells += arr.map(function (it) {
+    const owned = isDynOwned(it);
+    const sel = state[slot] && state[slot].id === it.id;
+    const ov = {}; ov[slot] = { id: it.id, svg: it.svg, tf: it.transform, recolor: it.recolor, hideEars: !!it.hides_ears };
+    const click = owned ? `pickDyn('${it.id}')` : `lockedDynMsg('${it.id}')`;
+    return `<div class="style-cell${sel?' sel':''}${owned?'':' locked'}" onclick="${click}">
+      ${miniSVG(ov, mode || 'head')}
+      ${owned ? '' : '<div class="lock-badge"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="#7A5A00"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#7A5A00" stroke-width="2.6" fill="none"/></svg></div>'}
+      <div class="style-label">${dynEsc(it.name)}</div>
+    </div>`;
+  }).join('');
+  return `<div class="style-grid" style="margin-top:9px">` + cells + `</div>`;
+}
+function clearDyn(slot) { delete state[slot]; renderPreview(); renderOptions(); }
+function pickDyn(id) {
+  const it = dynItemById(id); if (!it) return;
+  const slot = DYN_SLOT[it.kind];
+  if (state[slot] && state[slot].id === id) delete state[slot];   // toggle off → back to baked
+  else state[slot] = { id: it.id, svg: it.svg, tf: it.transform, recolor: it.recolor, hideEars: !!it.hides_ears };
+  renderPreview(); renderOptions();
+}
+function lockedDynMsg(id) {
+  const it = dynItemById(id);
+  lockedSkinMsg(id, it ? (it.price + (it.currency === 'gems' ? ' edelstenen' : ' munten')) : null);
+}
+
+function renderOptions() {
+  let html = '';
+  switch(activeTab) {
+    case 0: html = swatchRow('Huidtint', SKIN_TONES, 'skin'); break;
+    case 1:
+      html  = swatchRow('Haarkleur', HAIR_COLORS, 'hairColor');
+      html += styleRow('Kapsel', HAIR_STYLE_LABELS, 'hairStyle', 'head', [], !!state.hairItem);
+      html += dynGrid('hair', 'head');
+      break;
+    case 2: {
+      // Outfits — thumbnails in 'full' mode so the whole outfit shows.
+      // Dokter/Chirurg/Hoodie are shop skins (locked until bought); Standaard is free.
+      const outfitLocked = Object.keys(OUTFIT_SKIN).map(Number)
+        .filter(i => !ownedSkins().includes(OUTFIT_SKIN[i]));
+      html  = styleRow('Outfit', OUTFIT_LABELS, 'outfit', 'full', outfitLocked, !!state.outfitItem);
+      html += dynGrid('outfit', 'full');
+      html += swatchRow('Kledingkleur', CLOTHING_COLORS, 'clothingColor');
+      break;
+    }
+    case 3:
+      // Hoofddeksel — dynamic parts (headscarf/cap). Equipping one HIDES the hair.
+      html  = `<div class="section-title">Hoofddeksel</div>` + dynGrid('hoofddeksel', 'head', true);
+      // Colour picker for a recolorable headwear (hoofddoek) — only when equipped.
+      if (state.headwearItem && state.headwearItem.recolor === 'accent')
+        html += swatchRow('Hoofddoekkleur', ACCENT_COLORS, 'headwearColor');
+      // Bril — dynamic parts (glasses/mask on the face).
+      html += `<div class="section-title">Bril</div>` + dynGrid('bril', 'head', true);
+      // Overig — verzamelcategorie: Voorhoofdslamp + dynamische overige items
+      // (bv. mondkapje) + Stethoscoop.
+      // Voorhoofdslamp (1) = headlamp_normal, Goud (2) = headlamp_gold — both paid,
+      // locked until the matching shop skin is owned.
+      html += styleRow('Overig', ACC_OVERIG_LABELS, 'accOverig', 'head',
+                       lockedSkinIdx('accOverig', [1, 2]));
+      html += dynGrid('overig', 'head', true);
+      // Colour picker for a recolorable Overig item (mondkapje) — only when equipped.
+      if (state.miscItem && state.miscItem.recolor === 'accent')
+        html += swatchRow('Mondkapjekleur', ACCENT_COLORS, 'miscColor');
+      html += dynGrid('accessory', 'head');
+      // Stethoscoop (1) = stetho_normal, Goud (2) = stetho_gold — both paid,
+      // locked until the matching shop skin is owned. Lives under Accessoires → Overig.
+      html += styleRow('Stethoscoop', STETHO_LABELS, 'stethoscope', 'full',
+                       lockedSkinIdx('stethoscope', [1, 2]));
+      break;
+    case 4:
+      html  = swatchRow('Achtergrondkleur', BG_COLORS, 'bgColor');
+      html += dynGrid('background', 'full');
+      break;
+  }
+  document.getElementById('options-content').innerHTML = html;
+}
+
+/* ══════════════════════════════════════════════════════════
+   INTERACTION
+══════════════════════════════════════════════════════════ */
+function setTab(i) { revertPreview(); activeTab = i; renderTabs(); renderOptions(); renderPreview(); }
+
+function set(key, val) {
+  if (_preview && _preview.key === key) _preview = null;  // a real pick on this row supersedes the preview
+  state[key] = val;
+  // Picking a baked hair/outfit clears any equipped dynamic override for that slot.
+  if (key === 'hairStyle') delete state.hairItem;
+  if (key === 'outfit') delete state.outfitItem;
+  renderPreview();
+  renderOptions();
+}
+
+// Snapshot of state at page load — used to detect unsaved changes.
+// Mutable: adopting the DB avatar (cross-device) resets this baseline so an
+// unedited fresh device doesn't count the adopt as an unsaved change.
+let savedSnapshot = JSON.stringify(state);
+
+function hasUnsavedChanges() {
+  return JSON.stringify(state) !== savedSnapshot;
+}
+
+let _leaveTarget = 'profile.html';
+
+function handleBack() {
+  _leaveTarget = 'profile.html';
+  revertPreview();  // a locked-skin try-on is not an unsaved change
+  if (hasUnsavedChanges()) {
+    document.getElementById('leave-modal').classList.add('open');
+  } else {
+    confirmLeave();
+  }
+}
+
+// "Bekijk in de shop" in the locked-skin toast: leave to the shop with the item
+// deeplinked (shop.html?item=<id>), through the same unsaved-changes gate as
+// the back button.
+function goShop(itemId) {
+  _leaveTarget = 'shop.html' + (itemId ? '?item=' + encodeURIComponent(itemId) : '');
+  revertPreview();
+  if (hasUnsavedChanges()) {
+    document.getElementById('leave-modal').classList.add('open');
+  } else {
+    confirmLeave();
+  }
+}
+
+function closeModal() {
+  document.getElementById('leave-modal').classList.remove('open');
+}
+
+function confirmLeave() {
+  window.location.href = _leaveTarget;
+}
+
+// Close modal when clicking outside the card
+document.getElementById('leave-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+async function saveAndDone() {
+  revertPreview();  // never save a skin the user doesn't own
+  localStorage.setItem('vumed_avatar', JSON.stringify(state));
+  try { localStorage.setItem('vumed_avatar_head_svg', buildSVG(state, 'head')); } catch (e) {}
+  // Persist the full config + head snapshot to the DB so every device (phone,
+  // laptop) shows this exact avatar. The DB is the source of truth on load.
+  try {
+    const c = dynSB();
+    if (c) {
+      const u = await c.auth.getUser();
+      const uid = u && u.data && u.data.user && u.data.user.id;
+      if (uid) {
+        await c.from('user_profiles').upsert(
+          { user_id: uid, avatar_state: state, avatar_svg: buildSVG(state, 'head') },
+          { onConflict: 'user_id' }
+        );
+      }
+    }
+  } catch (e) {}
+  window.location.href = 'profile.html';
+}
+
+function goBack() {
+  handleBack();
+}
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════ */
+renderTabs();
+renderOptions();
+renderPreview();
+loadDynItems();        // fetch launched shop items + fresh ownership, then re-render
+loadBuiltinHidden();   // fetch which baked kapsels/outfits/etc. the admin switched off
+</script>
+</body>
+</html>

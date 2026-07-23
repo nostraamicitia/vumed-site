@@ -1,0 +1,2549 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <link rel="icon" type="image/png" href="favicon-32.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>Hematologie en Oncologie — 2e Toetsmoment 2016-2017</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dark-theme.css?v=3">
+<script src="supabase_config.js"></script>
+<script src="openai_config.js"></script>
+<script src="supabase-js.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #FFFFFF;
+  color: #1C1C1E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.site-header {
+  background: rgba(255,255,255,0.90);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+}
+.header-inner {
+  max-width: none; margin: 0 auto; padding: 0 24px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 48px; gap: 8px;
+}
+.back-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  text-decoration: none;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: start; grid-column: 1;
+  white-space: nowrap;
+}
+.back-btn:hover { background: rgba(60,60,67,0.08); }
+.back-btn svg { flex-shrink: 0; }
+.header-title { display: none; }
+.header-title .title-sub {
+  font-size: 12px; font-weight: 600; color: #6E6E73;
+}
+.header-right { justify-self: end; }
+.submit-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 15px; font-weight: 600; color: #6E6E73;
+  background: none; border: none; cursor: pointer;
+  padding: 6px 6px 6px 10px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  justify-self: end; grid-column: 3;
+  white-space: nowrap; font-family: inherit;
+}
+.submit-btn:hover { background: rgba(60,60,67,0.08); }
+/* ── Modals (confirm submit + confirm reset) ─────────────────────────────── */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.40); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 20px; padding: 28px 28px 22px;
+  max-width: 340px; width: calc(100% - 40px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+  text-align: center; animation: modal-in 0.18s ease;
+}
+@keyframes modal-in { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-box h2 { font-size: 17px; font-weight: 800; color: #1C1C1E; margin: 0 0 8px; }
+.modal-box p  { font-size: 14px; color: #6E6E73; margin: 0 0 22px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions button {
+  flex: 1; padding: 12px; border-radius: 12px; font-size: 15px;
+  font-weight: 700; border: none; cursor: pointer; font-family: inherit;
+  transition: opacity 0.15s;
+}
+.modal-actions button:hover { opacity: 0.85; }
+.btn-cancel { background: #F2F2F7; color: #1C1C1E; }
+.btn-confirm { background: #58CC02; color: #fff; }
+.btn-danger  { background: #FF3B30; color: #fff; }
+/* ── Results overlay ────────────────────────────────────────────────────── */
+#results-overlay {
+  display: none; position: fixed; inset: 0; z-index: 300;
+  background: #fff; overflow-y: auto;
+  animation: modal-in 0.2s ease;
+}
+#results-overlay.show { display: block; }
+.results-inner {
+  max-width: 560px; margin: 0 auto; padding: 48px 24px 60px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.results-title { font-size: 24px; font-weight: 800; color: #1C1C1E; margin: 0 0 6px; }
+.results-sub   { font-size: 14px; color: #6E6E73; margin: 0 0 36px; }
+.score-ring {
+  width: 150px; height: 150px; border-radius: 50%;
+  background: conic-gradient(#58CC02 0%, #58CC02 var(--pct), #E5E5EA var(--pct), #E5E5EA 100%);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 36px; position: relative;
+}
+.score-ring-inner {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: #fff; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-num { font-size: 30px; font-weight: 800; color: #1C1C1E; line-height: 1; }
+.score-den { font-size: 13px; color: #6E6E73; font-weight: 600; margin-top: 2px; }
+.results-stats {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 12px;
+  width: 100%; margin-bottom: 36px;
+}
+.stat-card {
+  background: #F2F2F7; border-radius: 14px; padding: 16px 12px;
+  text-align: center;
+}
+.stat-card .stat-n { font-size: 26px; font-weight: 800; }
+.stat-card .stat-lbl { font-size: 12px; font-weight: 600; color: #6E6E73; margin-top: 2px; }
+.stat-correct .stat-n { color: #58CC02; }
+.stat-wrong   .stat-n { color: #FF3B30; }
+.stat-open    .stat-n { color: #8E8E93; }
+.results-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.results-actions button {
+  padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 700;
+  border: none; cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+}
+.results-actions button:hover { opacity: 0.85; }
+.btn-back-exam { background: #F2F2F7; color: #1C1C1E; }
+.btn-new-exam  { background: #FF3B30; color: #fff; }
+/* ── Streak progress bar ─────────────────────────────────────────────────── */
+.streak-wrap {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 51;
+  height: 48px; display: flex; align-items: center;
+  padding: 0 132px; pointer-events: none;
+}
+.streak-inner {
+  max-width: 560px; width: 100%; margin: 0 auto; pointer-events: none;
+}
+.streak-bar-wrap {
+  position: relative;
+}
+.streak-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0%;
+  transform: translateX(-50%);
+  font-size: 11px; font-weight: 800; color: #58CC02;
+  letter-spacing: 0.05em; white-space: nowrap;
+  opacity: 0;
+  transition: left 0.5s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ease;
+  pointer-events: none; user-select: none;
+}
+.streak-bar-bg {
+  width: 100%; height: 14px; background: #E5E5EA;
+  border-radius: 999px; overflow: hidden;
+  pointer-events: auto; cursor: pointer;
+}
+.streak-bar-fill {
+  height: 100%; width: 0%; border-radius: 999px;
+  background: #58CC02;
+  transition: width 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  position: relative; overflow: hidden;
+}
+.streak-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 15%; left: 6%; right: 6%;
+  height: 35%;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.30);
+  pointer-events: none;
+}
+
+/* ── Progress bar sparkles ──────────────────────────────────────────────── */
+@keyframes sparkle-pop {
+  0%   { transform: translate(-50%,-50%) scale(0);   opacity: 1; }
+  60%  { transform: translate(var(--sx), var(--sy))  scale(1.2); opacity: 1; }
+  100% { transform: translate(calc(var(--sx)*1.6), calc(var(--sy)*1.6)) scale(0); opacity: 0; }
+}
+.bar-sparkle {
+  position: fixed;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 200;
+  animation: sparkle-pop 0.65s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+}
+/* old scroll-progress bar (hidden, kept for updateSummary compat) */
+.progress-wrap { display: none; }
+.progress-fill { display: none; }
+.exam-main { max-width: 820px; margin: 0 auto; padding: 28px 20px 100px; margin-top: 48px; }
+.q-block {
+  padding: 26px 4px 28px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #E5E5EA;
+  animation: fadeInUp 0.3s cubic-bezier(0.25,0.46,0.45,0.94) both;
+}
+.q-block:last-child { border-bottom: none; }
+.q-num  { font-size: 11px; font-weight: 700; color: #8E8E93; letter-spacing: 0.09em;
+  text-transform: uppercase; margin-bottom: 10px; }
+.q-num-ai {
+  display: inline-flex; vertical-align: middle; align-items: center; justify-content: center;
+  background: none; border: none; padding: 0; margin-left: 6px;
+  color: #8E8E93; cursor: pointer; line-height: 0; transition: color 0.15s;
+}
+.q-num-ai:hover { color: #1CB0F6; }
+.q-num-ai svg { display: block; }
+
+/* ── Fixed AI chat tab on left edge ─────────────────────────────────────── */
+.chat-tab {
+  position: fixed; left: 0; top: 50%; transform: translateY(-50%);
+  z-index: 150;
+  background: #1CB0F6;
+  border-radius: 0 10px 10px 0;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  box-shadow: 2px 2px 12px rgba(28,176,246,0.30);
+  border: none;
+  transition: background 0.15s, padding-left 0.15s;
+  color: #fff;
+}
+.chat-tab:hover { background: #0A9EDC; padding-left: 14px; }
+.chat-tab svg { display: block; flex-shrink: 0; }
+.q-text { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-context { font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 20px; }
+.q-question{ font-size: 15px; line-height: 1.7; color: #1C1C1E; margin-bottom: 16px; }
+.q-image { max-width: 100%; max-height: 340px; border-radius: 12px; margin-bottom: 16px;
+  object-fit: contain; border: 1px solid rgba(60,60,67,0.1); display: block; }
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px;
+  border: 1.5px solid #D1D1D6; border-radius: 12px; background: #FFFFFF;
+  cursor: pointer; font-family: inherit; font-size: 14px;
+  text-align: left; line-height: 1.5;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+.opt-btn:hover:not(:disabled) { background: #EBF7FF; border-color: #1CB0F6; transform: translateY(-1px); }
+.opt-btn:active:not(:disabled) { transform: scale(0.99); }
+.opt-btn.selected  { border-color: #1CB0F6; background: #EBF7FF; }
+.opt-btn.correct   { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+.opt-btn.wrong     { border-color: #FF3B30; background: #FFF2F2; color: #C0392B; }
+.opt-btn:disabled  { cursor: default; }
+.opt-letter { min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  font-weight: 700; flex-shrink: 0; margin-top: 1px; transition: background 0.15s; }
+.opt-btn.selected .opt-letter { background: #1CB0F6; color: #fff; }
+.opt-btn.correct  .opt-letter { background: #58CC02; color: #fff; }
+.opt-btn.wrong    .opt-letter { background: #FF3B30; color: #fff; }
+.check-btn {
+  padding: 10px 22px; background: #E5E5EA; color: #3C3C43;
+  border: none; border-radius: 12px; font-size: 14px; font-weight: 700;
+  font-family: inherit; cursor: pointer; max-height: 80px;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.14s ease,
+              opacity 0.32s ease, max-height 0.34s ease, padding 0.34s ease, margin 0.34s ease;
+}
+.check-btn:hover:not(:disabled) { background: #1CB0F6; color: #fff; }
+.check-btn:active:not(:disabled) { transform: scale(0.97); }
+.check-btn:disabled { opacity: 0.4; cursor: default; }
+.check-btn.cb-correct {
+  background: #58CC02; color: #fff; opacity: 1;
+  animation: cb-pop 0.34s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes cb-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.check-btn.cb-vanish {
+  opacity: 0 !important; transform: scale(0.7) translateY(-4px);
+  max-height: 0; padding-top: 0; padding-bottom: 0; margin: 0;
+  overflow: hidden; pointer-events: none;
+}
+.q-btn-row {
+  display: flex; justify-content: center; align-items: center;
+}
+.q-ai-btn {
+  display: inline-flex; align-items: center;
+  gap: 7px;
+  background: none; border: 1.5px solid #1CB0F6;
+  border-radius: 20px; color: #1CB0F6;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 7px 18px; cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.q-ai-btn:hover { background: #1CB0F6; color: #fff; }
+.q-ai-btn svg { flex-shrink: 0; }
+.result { margin-top: 12px; display: none; }
+.result.show { display: block; }
+.result-badge { display: none; }
+.result-badge.correct, .result-badge.wrong { display: none; }
+
+/* ── Correct answer fly animation ───────────────────────────────────────── */
+.fly-dot {
+  position: fixed;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #58CC02;
+  box-shadow: 0 2px 12px rgba(88,204,2,0.5);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    left   0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    top    0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    width  0.2s  ease 0.38s,
+    height 0.2s  ease 0.38s,
+    opacity 0.18s ease 0.46s;
+}
+@keyframes barPop {
+  0%   { transform: scaleY(1); }
+  40%  { transform: scaleY(1.35); }
+  70%  { transform: scaleY(0.92); }
+  100% { transform: scaleY(1); }
+}
+.bar-pop { animation: barPop 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+/* ── XP popup ───────────────────────────────────────────────────────────── */
+.xp-pop {
+  position: fixed; pointer-events: none; z-index: 9999;
+  font-family: 'Nunito', sans-serif; font-size: 17px; font-weight: 900;
+  color: #FFC800; text-shadow: 0 1px 6px rgba(0,0,0,0.18);
+  transform: translateX(-50%);
+  animation: xpFloat 1.3s ease-out forwards;
+}
+@keyframes xpFloat {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0)   scale(1); }
+  30%  { opacity: 1; transform: translateX(-50%) translateY(-18px) scale(1.15); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-56px) scale(0.85); }
+}
+.result-note { font-size: 13px; color: #636366; margin-top: 8px; line-height: 1.55;
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border-left: 3px solid #D1D1D6; }
+.juiste-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+.juiste-table th { background: #F2F2F7; color: #1C1C1E; font-weight: 700;
+  padding: 8px 12px; border: 1px solid #E5E5EA; text-align: left; }
+.juiste-table td { padding: 7px 12px; border: 1px solid #E5E5EA; }
+.juiste-table tr:nth-child(even) td { background: #FAFAFA; }
+.multi-hint { font-size: 13px; color: #636366; margin-bottom: 10px; }
+/* ── Drag-and-drop matching ─────────────────────────────────────────────── */
+.dnd-pool {
+  display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 14px;
+  background: #F2F2F7; border-radius: 14px; margin-bottom: 14px;
+  min-height: 52px; border: 2px dashed transparent;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-pool.dnd-over { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-card {
+  padding: 8px 14px; background: #fff; border-radius: 10px;
+  border: 1.5px solid #D1D1D6; font-size: 13px; cursor: grab;
+  user-select: none; line-height: 1.4;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  transition: box-shadow 0.15s, transform 0.12s, border-color 0.15s;
+}
+.dnd-card:hover   { box-shadow: 0 3px 12px rgba(0,0,0,0.12); transform: translateY(-1px); }
+.dnd-card.dnd-sel { border-color: #1CB0F6; background: #EBF7FF;
+                     box-shadow: 0 0 0 3px rgba(28,176,246,0.2); }
+.dnd-card.dnd-ghost { opacity: 0.35; cursor: grabbing; }
+.dnd-card.correct { background: #F0FFF4; border-color: #58CC02; color: #1C6B2E; cursor: default; }
+.dnd-card.wrong   { background: #FFF2F2; border-color: #FF3B30; color: #C0392B; cursor: default; }
+.dnd-pairs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.dnd-pair  { display: flex; align-items: stretch; gap: 10px; }
+.dnd-label {
+  flex: 1; padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: center;
+}
+.dnd-label.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-label.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-zone {
+  flex: 1; min-height: 44px; padding: 8px 12px; border-radius: 10px;
+  border: 2px dashed #D1D1D6; display: flex; align-items: center;
+  background: #FAFAFA; cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.dnd-zone.dnd-over    { border-color: #1CB0F6; background: #EBF7FF; }
+.dnd-zone.dnd-filled  { border-style: solid; border-color: #E5E5EA; background: #fff; }
+.dnd-zone.dnd-correct { border-color: #58CC02; background: #F0FFF4; }
+.dnd-zone.dnd-wrong   { border-color: #FF3B30; background: #FFF2F2; }
+.dnd-hint { font-size: 12px; color: #AEAEB2; pointer-events: none; }
+/* subitem reveal items */
+.match-items { margin: 4px 0 18px; display: flex; flex-direction: column; gap: 7px; }
+.match-item {
+  padding: 10px 14px; background: #F9F9F9; border-radius: 10px;
+  border: 1.5px solid #E5E5EA; font-size: 14px; line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.match-letter {
+  min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.summary { display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid rgba(60,60,67,0.12);
+  padding: 12px 20px; display: flex; align-items: center;
+  justify-content: center; gap: 16px; font-size: 13px; z-index: 40;
+}
+.summary-stat { display: flex; align-items: center; gap: 6px; color: #636366; }
+.summary-stat .n { font-weight: 700; color: #1C1C1E; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-correct { background: #58CC02; }
+.dot-wrong   { background: #FF3B30; }
+.dot-pending { background: #D1D1D6; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
+
+
+/* ── Glossary bottom-sheet popup ────────────────────────────────────────── */
+/* ── Glossary term underline ─────────────────────────────────────── */
+.gterm {
+  border-bottom: 1.5px dotted #A0A0A8;
+  cursor: pointer; color: inherit;
+  transition: opacity 0.15s;
+}
+.gterm:hover { opacity: 1; color: #B57BF6; border-bottom-color: #B57BF6; }
+
+/* ── Hover tooltip ───────────────────────────────────────────────── */
+.g-tip {
+  position: fixed; z-index: 400; pointer-events: none;
+  background: #fff; color: #1C1C1E;
+  font-size: 13px; line-height: 1.55; font-family: inherit;
+  padding: 10px 14px; border-radius: 10px; max-width: 260px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.14);
+  opacity: 0; transition: opacity 0.14s; white-space: normal;
+}
+.g-tip.show { opacity: 1; }
+
+/* ── Right side panel ────────────────────────────────────────────── */
+.g-panel {
+  position: fixed; top: 63px; right: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #fff; overflow-y: auto;
+  border-left: 1px solid rgba(60,60,67,0.12);
+  box-shadow: -4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.g-panel.open { transform: translateX(0); }
+
+/* Push exam content left when panel is open */
+.exam-main {
+  transition: margin-right 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+body.g-open .exam-main {
+  margin-right: 368px;
+}
+body.chat-open .exam-main {
+  margin-left: 368px;
+}
+
+/* ── Selection popup ("Vraag chat") ─────────────────────────────────── */
+.sel-popup {
+  position: fixed; z-index: 500;
+  background: #1C1C1E; color: #fff;
+  font-size: 13px; font-weight: 600; font-family: inherit;
+  padding: 7px 13px; border-radius: 20px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; pointer-events: auto;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+  white-space: nowrap; user-select: none;
+}
+.sel-popup.show { opacity: 1; transform: translateY(0); }
+.sel-popup svg { flex-shrink: 0; }
+
+/* ── Chat panel ──────────────────────────────────────────────────────── */
+.chat-panel {
+  position: fixed; top: 63px; left: 0; bottom: 0; z-index: 201;
+  width: 360px; max-width: 45vw;
+  background: #F2F2F7;
+  border-right: 1px solid rgba(60,60,67,0.12);
+  box-shadow: 4px 0 24px rgba(0,0,0,0.10);
+  transform: translateX(-110%);
+  transition: transform 0.28s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex; flex-direction: column;
+}
+.chat-panel.open { transform: translateX(0); }
+.chat-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px; background: #fff;
+  border-bottom: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-panel-title {
+  font-size: 15px; font-weight: 700; color: #1C1C1E;
+}
+.chat-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+}
+.chat-context-pill {
+  margin: 10px 12px 0; padding: 7px 12px;
+  background: #fff; border-radius: 10px;
+  font-size: 12px; color: #636366; font-style: italic;
+  border: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+  line-height: 1.4;
+}
+.chat-context-pill strong { color: #1C1C1E; font-style: normal; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.chat-msg {
+  max-width: 88%; padding: 9px 13px;
+  border-radius: 18px; font-size: 13.5px; line-height: 1.5;
+  word-break: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: #1CB0F6; color: #fff;
+  border-bottom-right-radius: 5px;
+}
+.chat-msg.ai {
+  align-self: flex-start;
+  background: #fff; color: #1C1C1E;
+  border-bottom-left-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+/* Formatted AI message content */
+.chat-msg.ai h3 { font-size: 13px; font-weight: 800; margin: 10px 0 3px; color: #1C1C1E; }
+.chat-msg.ai h4 { font-size: 12.5px; font-weight: 700; margin: 8px 0 2px; color: #3A3A3C; }
+.chat-msg.ai p  { margin: 0 0 7px; }
+.chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 4px 0 8px 16px; padding: 0; }
+.chat-msg.ai li { margin-bottom: 4px; line-height: 1.5; }
+.chat-msg.ai strong { font-weight: 700; }
+.chat-msg.ai em { font-style: italic; color: #3A3A3C; }
+.chat-msg.ai hr { border: none; border-top: 1px solid #E5E5EA; margin: 8px 0; }
+.chat-msg.typing { color: #8E8E93; font-style: italic; }
+.chat-msg.streaming::after {
+  content: '▍';
+  display: inline-block;
+  color: #1CB0F6;
+  animation: cur-blink 0.6s step-end infinite;
+  margin-left: 1px;
+}
+@keyframes cur-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.chat-input-area {
+  display: flex; align-items: flex-end; gap: 8px;
+  padding: 10px 12px 14px; background: #fff;
+  border-top: 1px solid rgba(60,60,67,0.10); flex-shrink: 0;
+}
+.chat-input {
+  flex: 1; border: 1.5px solid #D1D1D6; border-radius: 20px;
+  padding: 8px 14px; font-size: 13.5px; font-family: inherit;
+  resize: none; outline: none; line-height: 1.4;
+  max-height: 100px; overflow-y: auto;
+  transition: border-color 0.15s;
+}
+.chat-input:focus { border-color: #1CB0F6; }
+.chat-send {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: #1CB0F6; color: #fff; font-size: 17px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.chat-send:hover { background: #0A9EDC; }
+.chat-send:disabled { background: #D1D1D6; cursor: default; }
+.g-panel-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 20px 20px 0; gap: 12px;
+}
+.g-close {
+  background: #F2F2F7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 15px; cursor: pointer;
+  color: #636366; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 2px;
+}
+.g-title {
+  font-size: 20px; font-weight: 700; color: #1C1C1E;
+  line-height: 1.25; padding-bottom: 14px;
+}
+.g-img {
+  width: 100%; max-height: 180px; object-fit: cover;
+  margin: 0 0 14px; border-bottom: 1px solid rgba(60,60,67,0.08);
+  display: block;
+}
+.g-img-nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; padding: 4px 0 10px; margin-top: -6px;
+}
+.g-img-btn {
+  background: #f2f2f7; border: none; border-radius: 50%;
+  width: 30px; height: 30px; font-size: 16px; cursor: pointer;
+  color: #1C1C1E; line-height: 1; transition: background 0.15s;
+}
+.g-img-btn:hover { background: #e5e5ea; }
+.g-img-counter { font-size: 12px; color: #8E8E93; min-width: 36px; text-align: center; font-family: 'Nunito', sans-serif; }
+.g-body { padding: 0 20px 40px; flex: 1; }
+.g-def {
+  font-size: 13.5px; line-height: 1.72; color: #3A3A3C;
+}
+.g-def h4 {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: #8E8E93; margin: 16px 0 6px;
+}
+.g-def p  { margin: 0 0 10px; }
+.g-def ul { margin: 0 0 10px; padding-left: 18px; }
+.g-def li { margin-bottom: 4px; }
+}
+/* ── Side-by-side graphs (Q47) ──────────────────────────────────────────── */
+.graphs-row {
+  display: flex; flex-direction: row; gap: 12px; margin-bottom: 20px;
+  align-items: flex-start;
+}
+.graph-item {
+  flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center;
+  background: #f9f9f9; border-radius: 12px; padding: 10px 8px 8px;
+  border: 1px solid rgba(60,60,67,0.08);
+}
+.graph-item img {
+  width: 100%; height: auto; max-height: 220px;
+  object-fit: contain; border-radius: 8px; display: block;
+}
+.graph-label {
+  font-size: 11px; font-weight: 800; color: #636366; text-transform: uppercase;
+  letter-spacing: 0.08em; margin-bottom: 8px;
+}
+.graph-thumb {
+  width: 100%; height: auto; max-height: 220px; object-fit: contain;
+  border-radius: 10px; border: 1.5px solid #E5E5EA;
+  background: #fff; margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="vumed.html" class="back-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 10.5L12 3L21 10.5V20C21 20.55 20.55 21 20 21H15V15H9V21H4C3.45 21 3 20.55 3 20V10.5Z" fill="#6E6E73"/>
+        <path d="M1 11L12 2L23 11" stroke="#6E6E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Menu
+    </a>
+    <span class="header-title">
+      <span>Hematologie en Oncologie</span>
+      <span class="title-sub">2e Toetsmoment 2016&#8209;2017</span>
+    </span>
+    <button class="submit-btn" onclick="openSubmitModal()">
+      Inleveren
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.5 4L11.5 9L6.5 14" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+<div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+<div class="streak-wrap" id="streak-wrap" onclick="openResetModal()" title="Klik om examen te resetten" style="cursor:pointer;">
+  <div class="streak-inner">
+    <div class="streak-bar-wrap">
+      <span id="streak-label" class="streak-label"></span>
+      <div class="streak-bar-bg">
+        <div class="streak-bar-fill" id="streak-fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Submit confirmation modal -->
+<div id="submit-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen inleveren</h2>
+    <p>Weet je zeker dat je het examen afsluit?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeSubmitModal()">Nee</button>
+      <button class="btn-confirm" onclick="showResults()">Ja, inleveren</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reset confirmation modal -->
+<div id="reset-modal" class="modal-backdrop">
+  <div class="modal-box">
+    <h2>Examen resetten</h2>
+    <p>Al je antwoorden worden gewist en je begint opnieuw. Weet je het zeker?</p>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeResetModal()">Annuleren</button>
+      <button class="btn-danger" onclick="resetExam()">Ja, resetten</button>
+    </div>
+  </div>
+</div>
+
+<!-- Results overlay -->
+<div id="results-overlay">
+  <div class="results-inner">
+    <div class="results-title">Jouw resultaten</div>
+    <div class="results-sub">Hematologie en Oncologie &middot; 2e Toetsmoment 2016&#8209;2017</div>
+    <div class="score-ring" id="score-ring">
+      <div class="score-ring-inner">
+        <div class="score-num" id="score-num">—</div>
+        <div class="score-den" id="score-den">/ 55</div>
+      </div>
+    </div>
+    <div class="results-stats">
+      <div class="stat-card stat-correct">
+        <div class="stat-n" id="res-correct">0</div>
+        <div class="stat-lbl">Goed</div>
+      </div>
+      <div class="stat-card stat-wrong">
+        <div class="stat-n" id="res-wrong">0</div>
+        <div class="stat-lbl">Fout</div>
+      </div>
+      <div class="stat-card stat-open">
+        <div class="stat-n" id="res-open">0</div>
+        <div class="stat-lbl">Niet beantwoord</div>
+      </div>
+    </div>
+    <div class="results-actions">
+      <button class="btn-back-exam" onclick="closeResults()">Terug naar examen</button>
+      <button class="btn-new-exam" onclick="resetExam()">Opnieuw beginnen</button>
+    </div>
+  </div>
+</div>
+
+<main class="exam-main">
+
+<div class="q-block" id="qblock-1">
+  <div class="q-num">Vraag 1 <button class="q-num-ai" onclick="openChatForQuestion(1, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+<figure style="margin:0 0 14px 0;text-align:center;"><img src="images/M2.png" alt="Afbeelding M2" style="max-width:100%;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.15);"></figure>
+  <div class="q-text">Een 75-jarige vrouw presenteert zich op de EHBO met een hypercalciëmie. In haar beenmerg worden de cellen zoals weergegeven in bovenstaande foto gezien. Welke ziekte heeft zij?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="1" data-letter="a" onclick="selectOption(1,'a')">
+      <span class="opt-letter">A</span><span>Ziekte van Hodgkin</span>
+    </button>
+    <button class="opt-btn" data-qnum="1" data-letter="b" onclick="selectOption(1,'b')">
+      <span class="opt-letter">B</span><span>Acute lymfatische leukemie</span>
+    </button>
+    <button class="opt-btn" data-qnum="1" data-letter="c" onclick="selectOption(1,'c')">
+      <span class="opt-letter">C</span><span>Multipel myeloom</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-1" disabled onclick="checkMCQ(1,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-1">
+    <div class="result-badge" id="badge-1"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-2">
+  <div class="q-num">Vraag 2 <button class="q-num-ai" onclick="openChatForQuestion(2, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Stelling: de kans op coronarialijden na thoracale bestraling voor de ziekte van <span class="gterm" data-term="m_hodgkin">Hodgkin lymfoom</span> is verhoogd.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="2" data-letter="a" onclick="selectOption(2,'a')">
+      <span class="opt-letter">A</span><span>Juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="2" data-letter="b" onclick="selectOption(2,'b')">
+      <span class="opt-letter">B</span><span>Onjuist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-2" disabled onclick="checkMCQ(2,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-2">
+    <div class="result-badge" id="badge-2"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-3">
+  <div class="q-num">Vraag 3 <button class="q-num-ai" onclick="openChatForQuestion(3, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke drie van de onderstaande beweringen over de TYPE en SCREEN testen zijn juist?</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="3" data-letter="a" onclick="toggleMulti(3,'a')">
+      <span class="opt-letter">A</span><span>Bij deze testen wordt de aanwezigheid van allo-antistoffen onderzocht</span>
+    </button>
+    <button class="opt-btn" data-qnum="3" data-letter="b" onclick="toggleMulti(3,'b')">
+      <span class="opt-letter">B</span><span>Bij deze test worden zowel de erytrocyten als het serum van de patiënt gebruikt</span>
+    </button>
+    <button class="opt-btn" data-qnum="3" data-letter="c" onclick="toggleMulti(3,'c')">
+      <span class="opt-letter">C</span><span>De screen test wordt ook wel de indirecte antiglobulinetest genoemd</span>
+    </button>
+    <button class="opt-btn" data-qnum="3" data-letter="d" onclick="toggleMulti(3,'d')">
+      <span class="opt-letter">D</span><span>Er treedt geen agglutinatie plaats van erytrocyten als er allo-antistoffen aanwezig zijn</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-3" disabled onclick='checkMulti(3,["a", "b", "c"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-3">
+    <div class="result-badge" id="badge-3"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-4">
+  <div class="q-num">Vraag 4 <button class="q-num-ai" onclick="openChatForQuestion(4, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke drie eigenschappen/uitspraken uit onderstaande lijst horen bij een <span class="gterm" data-term="folliculair_lymfoom">folliculair lymfoom</span>?</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="4" data-letter="a" onclick="toggleMulti(4,'a')">
+      <span class="opt-letter">A</span><span>Behandeling is niet direct noodzakelijk</span>
+    </button>
+    <button class="opt-btn" data-qnum="4" data-letter="b" onclick="toggleMulti(4,'b')">
+      <span class="opt-letter">B</span><span>Het is een agressief groeiend lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="4" data-letter="c" onclick="toggleMulti(4,'c')">
+      <span class="opt-letter">C</span><span>Het is een zogenoemd laaggradig lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="4" data-letter="d" onclick="toggleMulti(4,'d')">
+      <span class="opt-letter">D</span><span>Het is niet te genezen met chemo-immunotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="4" data-letter="e" onclick="toggleMulti(4,'e')">
+      <span class="opt-letter">E</span><span>Het is te genezen met chemo-immunotherapie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-4" disabled onclick='checkMulti(4,["a", "c", "d"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-4">
+    <div class="result-badge" id="badge-4"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-5">
+  <div class="q-num">Vraag 5 <button class="q-num-ai" onclick="openChatForQuestion(5, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënt bij wie net de diagnose Chronische Myeloïde Leukemie is vastgesteld heeft een sterk verhoogd leucocytenaantal van 80 × 10⁹/l. Wat zal er in de perifere differentiatie met name zichtbaar zijn?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="5" data-letter="a" onclick="selectOption(5,'a')">
+      <span class="opt-letter">A</span><span>Myeloïde blasten</span>
+    </button>
+    <button class="opt-btn" data-qnum="5" data-letter="b" onclick="selectOption(5,'b')">
+      <span class="opt-letter">B</span><span>Lymfocyten</span>
+    </button>
+    <button class="opt-btn" data-qnum="5" data-letter="c" onclick="selectOption(5,'c')">
+      <span class="opt-letter">C</span><span>Lymfoïde blasten</span>
+    </button>
+    <button class="opt-btn" data-qnum="5" data-letter="d" onclick="selectOption(5,'d')">
+      <span class="opt-letter">D</span><span>Myeloïde voorlopercellen</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-5" disabled onclick="checkMCQ(5,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-5">
+    <div class="result-badge" id="badge-5"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-6">
+  <div class="q-num">Vraag 6 <button class="q-num-ai" onclick="openChatForQuestion(6, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een vrouw is heterozygoot voor sikkelcelziekte. Welke mogelijkheid schetst de huisarts?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="6" data-letter="a" onclick="selectOption(6,'a')">
+      <span class="opt-letter">A</span><span>Indien uw partner geen hemoglobinopathie heeft is er geen kans op een ernstige hemoglobinopathie</span>
+    </button>
+    <button class="opt-btn" data-qnum="6" data-letter="b" onclick="selectOption(6,'b')">
+      <span class="opt-letter">B</span><span>Indien uw partner een sikkelceltrait heeft is er 50% kans op een ernstige hemoglobinopathie die gepaard gaat met sikkelcelcrises</span>
+    </button>
+    <button class="opt-btn" data-qnum="6" data-letter="c" onclick="selectOption(6,'c')">
+      <span class="opt-letter">C</span><span>Indien uw partner een sikkelcelziekte heeft is er 25% kans op een ernstige hemoglobinopathie die gepaard gaat met sikkelcelcrises</span>
+    </button>
+    <button class="opt-btn" data-qnum="6" data-letter="d" onclick="selectOption(6,'d')">
+      <span class="opt-letter">D</span><span>Indien uw partner geen hemoglobinopathie heeft, hoeven uw toekomstige kinderen geen rekening te houden met een kind met een ernstige hemoglobinopathie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-6" disabled onclick="checkMCQ(6,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-6">
+    <div class="result-badge" id="badge-6"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-7">
+  <div class="q-num">Vraag 7 <button class="q-num-ai" onclick="openChatForQuestion(7, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke combinatie van diagnose en aanvullend onderzoek is juist?<br>Diagnose: <select class="dd-sel dd-sel-7" data-idx="0" onchange="updateDD(7)" style="min-width:140px;"><option value="">— kies —</option><option value="Foliumzuurdeficientie">Foliumzuurdeficientie</option><option value="Hemolytische anemie">Hemolytische anemie</option><option value="IJzergebrek">IJzergebrek</option><option value="Vitamine B12 deficiëntie">Vitamine B12 deficiëntie</option></select><br>Aanvullend onderzoek: <select class="dd-sel dd-sel-7" data-idx="1" onchange="updateDD(7)" style="min-width:140px;"><option value="">— kies —</option><option value="Colonoscopie">Colonoscopie</option><option value="Dieet anamnese">Dieet anamnese</option><option value="Directe Coombs test">Directe Coombs test</option><option value="Schillingtest">Schillingtest</option></select></div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-7" disabled onclick='checkDD(7,["Hemolytische anemie", "Directe Coombs test"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-7">
+    <div class="result-badge" id="badge-7"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-8">
+  <div class="q-num">Vraag 8 <button class="q-num-ai" onclick="openChatForQuestion(8, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke chromosomale afwijking hoort bij een acute promyelocyten leukemie?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="8" data-letter="a" onclick="selectOption(8,'a')">
+      <span class="opt-letter">A</span><span>Een inversie 16</span>
+    </button>
+    <button class="opt-btn" data-qnum="8" data-letter="b" onclick="selectOption(8,'b')">
+      <span class="opt-letter">B</span><span>Een translocatie 9;22</span>
+    </button>
+    <button class="opt-btn" data-qnum="8" data-letter="c" onclick="selectOption(8,'c')">
+      <span class="opt-letter">C</span><span>Een translocatie 15;17</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-8" disabled onclick="checkMCQ(8,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-8">
+    <div class="result-badge" id="badge-8"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-9">
+  <div class="q-num">Vraag 9 <button class="q-num-ai" onclick="openChatForQuestion(9, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welk soort onderzoek is niet geschikt om chromosomale afwijkingen aan te tonen?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="9" data-letter="a" onclick="selectOption(9,'a')">
+      <span class="opt-letter">A</span><span>Polymerase kettingreactie</span>
+    </button>
+    <button class="opt-btn" data-qnum="9" data-letter="b" onclick="selectOption(9,'b')">
+      <span class="opt-letter">B</span><span>Klassiek cytogenetisch onderzoek</span>
+    </button>
+    <button class="opt-btn" data-qnum="9" data-letter="c" onclick="selectOption(9,'c')">
+      <span class="opt-letter">C</span><span>Flowcytometrie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-9" disabled onclick="checkMCQ(9,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-9">
+    <div class="result-badge" id="badge-9"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-10">
+  <div class="q-num">Vraag 10 <button class="q-num-ai" onclick="openChatForQuestion(10, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënt met bloedgroep O positief krijgt een bloedtransfusie met bloedgroep A plus en wordt plotseling hypotensief. Wat is de meest waarschijnlijke oorzaak van de hypotensie?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="10" data-letter="a" onclick="selectOption(10,'a')">
+      <span class="opt-letter">A</span><span>Een adhesie van granulocyten aan endotheel van de pulmonale vaten, geïnduceerd door antistoffen van de donor tegen granulocyten van de patiënt</span>
+    </button>
+    <button class="opt-btn" data-qnum="10" data-letter="b" onclick="selectOption(10,'b')">
+      <span class="opt-letter">B</span><span>Een door anti-A antilichamen van de patiënt geïnduceerde lysis van rode cellen van de donor</span>
+    </button>
+    <button class="opt-btn" data-qnum="10" data-letter="c" onclick="selectOption(10,'c')">
+      <span class="opt-letter">C</span><span>Een door anti-B antilichamen van de donor geïnduceerde lysis van rode cellen van de patiënt</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-10" disabled onclick="checkMCQ(10,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-10">
+    <div class="result-badge" id="badge-10"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-11">
+  <div class="q-num">Vraag 11 <button class="q-num-ai" onclick="openChatForQuestion(11, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënt met CML heeft een sterk verhoogd leucocytenaantal. Wat is het aangewezen beleid?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="11" data-letter="a" onclick="selectOption(11,'a')">
+      <span class="opt-letter">A</span><span>Een "wait en see" beleid voorstellen</span>
+    </button>
+    <button class="opt-btn" data-qnum="11" data-letter="b" onclick="selectOption(11,'b')">
+      <span class="opt-letter">B</span><span>Behandelen met hydrea</span>
+    </button>
+    <button class="opt-btn" data-qnum="11" data-letter="c" onclick="selectOption(11,'c')">
+      <span class="opt-letter">C</span><span>Behandelen met een tyrosinekinaseremmer</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-11" disabled onclick="checkMCQ(11,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-11">
+    <div class="result-badge" id="badge-11"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-12">
+  <div class="q-num">Vraag 12 <button class="q-num-ai" onclick="openChatForQuestion(12, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Combineer het bloedbeeld met de ziekte die dit bloedbeeld kan geven.</div>
+  <p style="font-size:13px;color:#8E8E93;margin:0 0 10px 0;">Sleep een optie naar de bijbehorende rij, of tik eerst op een kaart en dan op een rij.</p>
+  <div class="dnd-pool" id="dnd-pool-12" ondragover="_dndOver(event)" ondragleave="_dndLeave(event)" ondrop="_dndPoolDrop(event,12)" onclick="_dndPoolClick(event,12)"></div>
+  <div class="dnd-pairs">
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-12-a">Acute Myeloïde Leukemie</div>
+      <div class="dnd-zone" id="dnd-zone-12-a" data-dnd-zone="12" data-letter="a"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,12,'a')" onclick="_dndZoneClick(event,12,'a')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-12-b">Chronische Myeloïde leukemie</div>
+      <div class="dnd-zone" id="dnd-zone-12-b" data-dnd-zone="12" data-letter="b"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,12,'b')" onclick="_dndZoneClick(event,12,'b')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-12-c">Auto-immuun hemolytische anemie</div>
+      <div class="dnd-zone" id="dnd-zone-12-c" data-dnd-zone="12" data-letter="c"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,12,'c')" onclick="_dndZoneClick(event,12,'c')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-12-d">Polycythemia vera</div>
+      <div class="dnd-zone" id="dnd-zone-12-d" data-dnd-zone="12" data-letter="d"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,12,'d')" onclick="_dndZoneClick(event,12,'d')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-12" disabled onclick='checkMatchingDnD(12,{"a": "Hb 3,7 mmol/l, trombocyten 12 × 10⁹/l, leukocyten 65 × 10⁹/l", "b": "Hb 7,8 mmol/l, trombocyten 480 × 10⁹/l, leukocyten 260 × 10⁹/l", "c": "Hb 4,1 mmol/l, trombocyten 280 × 10⁹/l, leukocyten 4,3 × 10⁹/l", "d": "Hb 11,2 mmol/l, trombocyten 480 × 10⁹/l, leukocyten 11,0 × 10⁹/l"})'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-12">
+    <div class="result-badge" id="badge-12"></div>
+  </div>
+</div>
+<script>document.addEventListener("DOMContentLoaded",function(){dndInit(12,["Hb 3,7 mmol/l, trombocyten 12 × 10⁹/l, leukocyten 65 × 10⁹/l", "Hb 7,8 mmol/l, trombocyten 480 × 10⁹/l, leukocyten 260 × 10⁹/l", "Hb 4,1 mmol/l, trombocyten 280 × 10⁹/l, leukocyten 4,3 × 10⁹/l", "Hb 11,2 mmol/l, trombocyten 480 × 10⁹/l, leukocyten 11,0 × 10⁹/l"]);});</script>
+<div class="q-block" id="qblock-13">
+  <div class="q-num">Vraag 13 <button class="q-num-ai" onclick="openChatForQuestion(13, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Stelling: Er is waarschijnlijk sprake van een maligne hematologische aandoening gekenmerkt door een maturatiedefect.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="13" data-letter="a" onclick="selectOption(13,'a')">
+      <span class="opt-letter">A</span><span>Juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="13" data-letter="b" onclick="selectOption(13,'b')">
+      <span class="opt-letter">B</span><span>Onjuist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-13" disabled onclick="checkMCQ(13,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-13">
+    <div class="result-badge" id="badge-13"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-14">
+  <div class="q-num">Vraag 14 <button class="q-num-ai" onclick="openChatForQuestion(14, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welk verschijnsel past het MINST bij een net gediagnosticeerd <span class="gterm" data-term="multipel_myeloom">multipel myeloom</span>?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="14" data-letter="a" onclick="selectOption(14,'a')">
+      <span class="opt-letter">A</span><span>Dwarslesie</span>
+    </button>
+    <button class="opt-btn" data-qnum="14" data-letter="b" onclick="selectOption(14,'b')">
+      <span class="opt-letter">B</span><span>Lymfadenopathie</span>
+    </button>
+    <button class="opt-btn" data-qnum="14" data-letter="c" onclick="selectOption(14,'c')">
+      <span class="opt-letter">C</span><span>Nierinsufficiëntie</span>
+    </button>
+    <button class="opt-btn" data-qnum="14" data-letter="d" onclick="selectOption(14,'d')">
+      <span class="opt-letter">D</span><span>Hypercalciëmie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-14" disabled onclick="checkMCQ(14,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-14">
+    <div class="result-badge" id="badge-14"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-15">
+  <div class="q-num">Vraag 15 <button class="q-num-ai" onclick="openChatForQuestion(15, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patient met myelofibrose heeft splenomegalie, <span class="gterm" data-term="hb">Hb</span> 6,8 mmol/l, leucocyten 24 × 10⁹/l met leuco-erytroblastair bloedbeeld. Welke perifere differentiatie past het best?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="15" data-letter="a" onclick="selectOption(15,'a')">
+      <span class="opt-letter">A</span><span>Een verhoogd leucocytenaantal met linksverschuiving van de myeloide reeks en erytroblasten</span>
+    </button>
+    <button class="opt-btn" data-qnum="15" data-letter="b" onclick="selectOption(15,'b')">
+      <span class="opt-letter">B</span><span>Een verlaagd leucocytenaantal met 10% neutrofielen</span>
+    </button>
+    <button class="opt-btn" data-qnum="15" data-letter="c" onclick="selectOption(15,'c')">
+      <span class="opt-letter">C</span><span>Een verhoogd leucocytenaantal met overwegend myeloblasten</span>
+    </button>
+    <button class="opt-btn" data-qnum="15" data-letter="d" onclick="selectOption(15,'d')">
+      <span class="opt-letter">D</span><span>Een verhoogd leucocytenaantal met overwegend lymfoblasten</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-15" disabled onclick="checkMCQ(15,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-15">
+    <div class="result-badge" id="badge-15"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-16">
+  <div class="q-num">Vraag 16 <button class="q-num-ai" onclick="openChatForQuestion(16, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënt met febriele neutropenie tijdens behandeling. Wat is het beste beleid?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="16" data-letter="a" onclick="selectOption(16,'a')">
+      <span class="opt-letter">A</span><span>Even aankijken, als hij zieker wordt moet hij opnieuw bellen</span>
+    </button>
+    <button class="opt-btn" data-qnum="16" data-letter="b" onclick="selectOption(16,'b')">
+      <span class="opt-letter">B</span><span>Patiënt opnemen, kweken afnemen, uitslag hiervan afwachten om gericht antibiotica te kunnen starten</span>
+    </button>
+    <button class="opt-btn" data-qnum="16" data-letter="c" onclick="selectOption(16,'c')">
+      <span class="opt-letter">C</span><span>Patiënt opnemen, bloedkweken afnemen en starten met breedspectrum antibiotica</span>
+    </button>
+    <button class="opt-btn" data-qnum="16" data-letter="d" onclick="selectOption(16,'d')">
+      <span class="opt-letter">D</span><span>Starten met antibiotica, als hij zieker wordt moet hij opnieuw bellen</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-16" disabled onclick="checkMCQ(16,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-16">
+    <div class="result-badge" id="badge-16"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-17">
+  <div class="q-num">Vraag 17 <button class="q-num-ai" onclick="openChatForQuestion(17, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patient met <span class="gterm" data-term="ziekte_van_waldenstrom">Waldenström</span> presenteert zich met wazig zien. Van welke problemen met bijbehorende oplossingen kan bij haar sprake zijn?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="17" data-letter="a" onclick="selectOption(17,'a')">
+      <span class="opt-letter">A</span><span>Anemie waarvoor wisseltransfusie moet plaatsvinden</span>
+    </button>
+    <button class="opt-btn" data-qnum="17" data-letter="b" onclick="selectOption(17,'b')">
+      <span class="opt-letter">B</span><span>Hyperviscositeit waarvoor plasmaferese moet plaatsvinden</span>
+    </button>
+    <button class="opt-btn" data-qnum="17" data-letter="c" onclick="selectOption(17,'c')">
+      <span class="opt-letter">C</span><span>Leucostase waarvoor leukaferese moet plaatsvinden</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-17" disabled onclick="checkMCQ(17,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-17">
+    <div class="result-badge" id="badge-17"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-18">
+  <div class="q-num">Vraag 18 <button class="q-num-ai" onclick="openChatForQuestion(18, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een jongere patiënte heeft koorts, een hoog leucocytenaantal met myeloide blasten. Welke van onderstaande lymfomen is het meest waarschijnlijk?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="18" data-letter="a" onclick="selectOption(18,'a')">
+      <span class="opt-letter">A</span><span>Hodgkin-lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="b" onclick="selectOption(18,'b')">
+      <span class="opt-letter">B</span><span>Primair mediastinaal B-cel-lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="c" onclick="selectOption(18,'c')">
+      <span class="opt-letter">C</span><span>Een indolent B cel non-Hodgkin lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="18" data-letter="d" onclick="selectOption(18,'d')">
+      <span class="opt-letter">D</span><span>Diffuus grootcellig B-cel-lymfoom</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-18" disabled onclick="checkMCQ(18,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-18">
+    <div class="result-badge" id="badge-18"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-19">
+  <div class="q-num">Vraag 19 <button class="q-num-ai" onclick="openChatForQuestion(19, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënte met een diffuus grootcellig <span class="gterm" data-term="b_cel_lymfoom">B-cel lymfoom</span>. Welke van onderstaande middelen moet zij zeker krijgen?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="19" data-letter="a" onclick="selectOption(19,'a')">
+      <span class="opt-letter">A</span><span>Ruxolitinib</span>
+    </button>
+    <button class="opt-btn" data-qnum="19" data-letter="b" onclick="selectOption(19,'b')">
+      <span class="opt-letter">B</span><span>Imatinib</span>
+    </button>
+    <button class="opt-btn" data-qnum="19" data-letter="c" onclick="selectOption(19,'c')">
+      <span class="opt-letter">C</span><span>Rituximab</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-19" disabled onclick="checkMCQ(19,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-19">
+    <div class="result-badge" id="badge-19"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-20">
+  <div class="q-num">Vraag 20 <button class="q-num-ai" onclick="openChatForQuestion(20, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een oudere man met vergrote klieren in hals, oksels en liezen, splenomegalie, leucocyten 118 × 10⁹/L, monotone celpopulatie, veel stuk gestreken cellen. Wat is de meest waarschijnlijke diagnose?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="20" data-letter="a" onclick="selectOption(20,'a')">
+      <span class="opt-letter">A</span><span>CLL</span>
+    </button>
+    <button class="opt-btn" data-qnum="20" data-letter="b" onclick="selectOption(20,'b')">
+      <span class="opt-letter">B</span><span>CML</span>
+    </button>
+    <button class="opt-btn" data-qnum="20" data-letter="c" onclick="selectOption(20,'c')">
+      <span class="opt-letter">C</span><span>ALL</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-20" disabled onclick="checkMCQ(20,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-20">
+    <div class="result-badge" id="badge-20"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-21">
+  <div class="q-num">Vraag 21 <button class="q-num-ai" onclick="openChatForQuestion(21, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke drie soorten hemoglobinemoleculen vind je in het bloed bij een gezonde volwassene?</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="21" data-letter="a" onclick="toggleMulti(21,'a')">
+      <span class="opt-letter">A</span><span>HbA2</span>
+    </button>
+    <button class="opt-btn" data-qnum="21" data-letter="b" onclick="toggleMulti(21,'b')">
+      <span class="opt-letter">B</span><span>HbE</span>
+    </button>
+    <button class="opt-btn" data-qnum="21" data-letter="c" onclick="toggleMulti(21,'c')">
+      <span class="opt-letter">C</span><span>HbF</span>
+    </button>
+    <button class="opt-btn" data-qnum="21" data-letter="d" onclick="toggleMulti(21,'d')">
+      <span class="opt-letter">D</span><span>HbA</span>
+    </button>
+    <button class="opt-btn" data-qnum="21" data-letter="e" onclick="toggleMulti(21,'e')">
+      <span class="opt-letter">E</span><span>HbS</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-21" disabled onclick='checkMulti(21,["a", "c", "d"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-21">
+    <div class="result-badge" id="badge-21"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-22">
+  <div class="q-num">Vraag 22 <button class="q-num-ai" onclick="openChatForQuestion(22, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke combinatie van vier bepalingen/onderzoeken moet plaatsvinden om te beoordelen of behandeling gestart moet worden bij <span class="gterm" data-term="multipel_myeloom">multipel myeloom</span>?</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="22" data-letter="a" onclick="toggleMulti(22,'a')">
+      <span class="opt-letter">A</span><span>Beenmergonderzoek</span>
+    </button>
+    <button class="opt-btn" data-qnum="22" data-letter="b" onclick="toggleMulti(22,'b')">
+      <span class="opt-letter">B</span><span>Calcium</span>
+    </button>
+    <button class="opt-btn" data-qnum="22" data-letter="c" onclick="toggleMulti(22,'c')">
+      <span class="opt-letter">C</span><span>Hemoglobine</span>
+    </button>
+    <button class="opt-btn" data-qnum="22" data-letter="d" onclick="toggleMulti(22,'d')">
+      <span class="opt-letter">D</span><span>M-proteïne</span>
+    </button>
+    <button class="opt-btn" data-qnum="22" data-letter="e" onclick="toggleMulti(22,'e')">
+      <span class="opt-letter">E</span><span>Nierfunctie</span>
+    </button>
+    <button class="opt-btn" data-qnum="22" data-letter="f" onclick="toggleMulti(22,'f')">
+      <span class="opt-letter">F</span><span>Skeletfoto's</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-22" disabled onclick='checkMulti(22,["b", "c", "e", "f"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-22">
+    <div class="result-badge" id="badge-22"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-23">
+  <div class="q-num">Vraag 23 <button class="q-num-ai" onclick="openChatForQuestion(23, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">In tegenstelling tot een ernstige vorm van β-thalassemie, die pas na de geboorte tot uiting komt, kan een ernstige vorm van α-thalassemie al voor de geboorte tot sterfte leiden. Deze stelling is:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="23" data-letter="a" onclick="selectOption(23,'a')">
+      <span class="opt-letter">A</span><span>Onjuist</span>
+    </button>
+    <button class="opt-btn" data-qnum="23" data-letter="b" onclick="selectOption(23,'b')">
+      <span class="opt-letter">B</span><span>Juist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-23" disabled onclick="checkMCQ(23,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-23">
+    <div class="result-badge" id="badge-23"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-24">
+  <div class="q-num">Vraag 24 <button class="q-num-ai" onclick="openChatForQuestion(24, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Waarom hebben kinderen met Acute Lymfatische Leukemie (ALL) een betere prognose dan volwassenen met ALL? Kies twee redenen:</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="24" data-letter="a" onclick="toggleMulti(24,'a')">
+      <span class="opt-letter">A</span><span>Omdat de biologische kenmerken ALL tussen kinderen en volwassenen verschillen</span>
+    </button>
+    <button class="opt-btn" data-qnum="24" data-letter="b" onclick="toggleMulti(24,'b')">
+      <span class="opt-letter">B</span><span>Omdat er veel vaker meningeale localisatie van de ziekte aanwezig is bij volwassenen</span>
+    </button>
+    <button class="opt-btn" data-qnum="24" data-letter="c" onclick="toggleMulti(24,'c')">
+      <span class="opt-letter">C</span><span>Omdat kinderen een andere behandeling krijgen</span>
+    </button>
+    <button class="opt-btn" data-qnum="24" data-letter="d" onclick="toggleMulti(24,'d')">
+      <span class="opt-letter">D</span><span>Omdat kinderen minder vaak infecties hebben</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-24" disabled onclick='checkMulti(24,["a", "c"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-24">
+    <div class="result-badge" id="badge-24"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-25">
+  <div class="q-num">Vraag 25 <button class="q-num-ai" onclick="openChatForQuestion(25, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Bij welke twee van onderstaande kan de JAK2 mutatie worden gevonden?</div>
+  <p class="multi-hint">Meerdere antwoorden mogelijk.</p>
+  <div class="options">
+    <button class="opt-btn" data-qnum="25" data-letter="a" onclick="toggleMulti(25,'a')">
+      <span class="opt-letter">A</span><span>Chronische lymfatische leukemie</span>
+    </button>
+    <button class="opt-btn" data-qnum="25" data-letter="b" onclick="toggleMulti(25,'b')">
+      <span class="opt-letter">B</span><span>Chronische myeloide leukemie</span>
+    </button>
+    <button class="opt-btn" data-qnum="25" data-letter="c" onclick="toggleMulti(25,'c')">
+      <span class="opt-letter">C</span><span>Polycythemia vera</span>
+    </button>
+    <button class="opt-btn" data-qnum="25" data-letter="d" onclick="toggleMulti(25,'d')">
+      <span class="opt-letter">D</span><span>Primaire myelofibrose</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-25" disabled onclick='checkMulti(25,["c", "d"])'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-25">
+    <div class="result-badge" id="badge-25"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-26">
+  <div class="q-num">Vraag 26 <button class="q-num-ai" onclick="openChatForQuestion(26, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Waar wordt ijzer geresorbeerd?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="26" data-letter="a" onclick="selectOption(26,'a')">
+      <span class="opt-letter">A</span><span>Colon</span>
+    </button>
+    <button class="opt-btn" data-qnum="26" data-letter="b" onclick="selectOption(26,'b')">
+      <span class="opt-letter">B</span><span>Maag</span>
+    </button>
+    <button class="opt-btn" data-qnum="26" data-letter="c" onclick="selectOption(26,'c')">
+      <span class="opt-letter">C</span><span>Duodenum</span>
+    </button>
+    <button class="opt-btn" data-qnum="26" data-letter="d" onclick="selectOption(26,'d')">
+      <span class="opt-letter">D</span><span>Terminale Ileum</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-26" disabled onclick="checkMCQ(26,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-26">
+    <div class="result-badge" id="badge-26"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-27">
+  <div class="q-num">Vraag 27 <button class="q-num-ai" onclick="openChatForQuestion(27, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Wat verstaat men in de oncopathologie onder 'anaplasie'?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="27" data-letter="a" onclick="selectOption(27,'a')">
+      <span class="opt-letter">A</span><span>Afwezigheid van differentiatie van de tumorcellen</span>
+    </button>
+    <button class="opt-btn" data-qnum="27" data-letter="b" onclick="selectOption(27,'b')">
+      <span class="opt-letter">B</span><span>Autonome, ongereguleerde groei van tumorcellen</span>
+    </button>
+    <button class="opt-btn" data-qnum="27" data-letter="c" onclick="selectOption(27,'c')">
+      <span class="opt-letter">C</span><span>Transformatie naar maligniteit</span>
+    </button>
+    <button class="opt-btn" data-qnum="27" data-letter="d" onclick="selectOption(27,'d')">
+      <span class="opt-letter">D</span><span>Aanwezigheid van meer dan één differentiatierichting van tumorcellen</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-27" disabled onclick="checkMCQ(27,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-27">
+    <div class="result-badge" id="badge-27"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-28">
+  <div class="q-num">Vraag 28 <button class="q-num-ai" onclick="openChatForQuestion(28, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Tumoren zijn monoclonaal. Wat wordt hiermee bedoeld?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="28" data-letter="a" onclick="selectOption(28,'a')">
+      <span class="opt-letter">A</span><span>De cellen van een tumor tonen alle hetzelfde genotype, al verschillen ze in fenotype</span>
+    </button>
+    <button class="opt-btn" data-qnum="28" data-letter="b" onclick="selectOption(28,'b')">
+      <span class="opt-letter">B</span><span>Een tumor is afkomstig van één enkele getransformeerde cel</span>
+    </button>
+    <button class="opt-btn" data-qnum="28" data-letter="c" onclick="selectOption(28,'c')">
+      <span class="opt-letter">C</span><span>De cellen van een tumor tonen alle hetzelfde fenotype, al verschillen ze in genotype</span>
+    </button>
+    <button class="opt-btn" data-qnum="28" data-letter="d" onclick="selectOption(28,'d')">
+      <span class="opt-letter">D</span><span>Een tumor ontstaat uit cellen met alle hetzelfde differentiatietype</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-28" disabled onclick="checkMCQ(28,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-28">
+    <div class="result-badge" id="badge-28"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-29">
+  <div class="q-num">Vraag 29 <button class="q-num-ai" onclick="openChatForQuestion(29, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Oncogene RAS mutaties leiden tot een afwijkend RAS eiwit. Wat is de essentie van de afwijking van dit eiwit?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="29" data-letter="a" onclick="selectOption(29,'a')">
+      <span class="opt-letter">A</span><span>Het bindt irreversibel aan groeifactor-receptoren</span>
+    </button>
+    <button class="opt-btn" data-qnum="29" data-letter="b" onclick="selectOption(29,'b')">
+      <span class="opt-letter">B</span><span>Het kan niet proteasomaal afgebroken worden</span>
+    </button>
+    <button class="opt-btn" data-qnum="29" data-letter="c" onclick="selectOption(29,'c')">
+      <span class="opt-letter">C</span><span>Het is altijd in de GTP-gebonden, actieve vorm</span>
+    </button>
+    <button class="opt-btn" data-qnum="29" data-letter="d" onclick="selectOption(29,'d')">
+      <span class="opt-letter">D</span><span>Het heeft het vermogen verloren, de MAPK pathway te activeren</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-29" disabled onclick="checkMCQ(29,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-29">
+    <div class="result-badge" id="badge-29"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-30">
+  <div class="q-num">Vraag 30 <button class="q-num-ai" onclick="openChatForQuestion(30, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Waarvoor is de aanwezigheid van een HSR (homogeneously staining region) in een chromosome spread indicatief?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="30" data-letter="a" onclick="selectOption(30,'a')">
+      <span class="opt-letter">A</span><span>Een amplificatie</span>
+    </button>
+    <button class="opt-btn" data-qnum="30" data-letter="b" onclick="selectOption(30,'b')">
+      <span class="opt-letter">B</span><span>Een deletie</span>
+    </button>
+    <button class="opt-btn" data-qnum="30" data-letter="c" onclick="selectOption(30,'c')">
+      <span class="opt-letter">C</span><span>Een mitotische catastrofe</span>
+    </button>
+    <button class="opt-btn" data-qnum="30" data-letter="d" onclick="selectOption(30,'d')">
+      <span class="opt-letter">D</span><span>Een chromosomale inversie of translocatie</span>
+    </button>
+    <button class="opt-btn" data-qnum="30" data-letter="e" onclick="selectOption(30,'e')">
+      <span class="opt-letter">E</span><span>Telomere insufficiëntie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-30" disabled onclick="checkMCQ(30,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-30">
+    <div class="result-badge" id="badge-30"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-31">
+  <div class="q-num">Vraag 31 <button class="q-num-ai" onclick="openChatForQuestion(31, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welk virus staat niet bekend als kankerverwekkend?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="31" data-letter="a" onclick="selectOption(31,'a')">
+      <span class="opt-letter">A</span><span>Reovirus</span>
+    </button>
+    <button class="opt-btn" data-qnum="31" data-letter="b" onclick="selectOption(31,'b')">
+      <span class="opt-letter">B</span><span>HPV-16, humaan papillomavirus 16</span>
+    </button>
+    <button class="opt-btn" data-qnum="31" data-letter="c" onclick="selectOption(31,'c')">
+      <span class="opt-letter">C</span><span>HBV, Hepatitis B virus</span>
+    </button>
+    <button class="opt-btn" data-qnum="31" data-letter="d" onclick="selectOption(31,'d')">
+      <span class="opt-letter">D</span><span>HTLV-1, Humaan T-cel lymfotroop virus type 1</span>
+    </button>
+    <button class="opt-btn" data-qnum="31" data-letter="e" onclick="selectOption(31,'e')">
+      <span class="opt-letter">E</span><span>EBV, Epstein-Barr virus</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-31" disabled onclick="checkMCQ(31,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-31">
+    <div class="result-badge" id="badge-31"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-32">
+  <div class="q-num">Vraag 32 <button class="q-num-ai" onclick="openChatForQuestion(32, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënt met hypercalciëmie bij prostaatkanker verdenking. Welke diagnostische test komt als eerste in aanmerking?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="32" data-letter="a" onclick="selectOption(32,'a')">
+      <span class="opt-letter">A</span><span>Serum calcium</span>
+    </button>
+    <button class="opt-btn" data-qnum="32" data-letter="b" onclick="selectOption(32,'b')">
+      <span class="opt-letter">B</span><span>PSA</span>
+    </button>
+    <button class="opt-btn" data-qnum="32" data-letter="c" onclick="selectOption(32,'c')">
+      <span class="opt-letter">C</span><span>Botscan</span>
+    </button>
+    <button class="opt-btn" data-qnum="32" data-letter="d" onclick="selectOption(32,'d')">
+      <span class="opt-letter">D</span><span>Glucose controle</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-32" disabled onclick="checkMCQ(32,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-32">
+    <div class="result-badge" id="badge-32"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-33">
+  <div class="q-num">Vraag 33 <button class="q-num-ai" onclick="openChatForQuestion(33, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke genetische veranderingen zijn in grote mate verantwoordelijk voor het ontstaan van een cutaan <span class="gterm" data-term="melanoom">melanoom</span>?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="33" data-letter="a" onclick="selectOption(33,'a')">
+      <span class="opt-letter">A</span><span>RAS mutaties</span>
+    </button>
+    <button class="opt-btn" data-qnum="33" data-letter="b" onclick="selectOption(33,'b')">
+      <span class="opt-letter">B</span><span>GNAQ en GNA11 mutaties</span>
+    </button>
+    <button class="opt-btn" data-qnum="33" data-letter="c" onclick="selectOption(33,'c')">
+      <span class="opt-letter">C</span><span>Allerlei UV geïnduceerde mutaties, maar vooral BRAF V600E</span>
+    </button>
+    <button class="opt-btn" data-qnum="33" data-letter="d" onclick="selectOption(33,'d')">
+      <span class="opt-letter">D</span><span>BCR-ABL mutaties</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-33" disabled onclick="checkMCQ(33,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-33">
+    <div class="result-badge" id="badge-33"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-34">
+  <div class="q-num">Vraag 34 <button class="q-num-ai" onclick="openChatForQuestion(34, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Wanneer bestaat een verhoogde kans op longembolie?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="34" data-letter="a" onclick="selectOption(34,'a')">
+      <span class="opt-letter">A</span><span>Zowel het hebben van kanker als behandeling met chemotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="34" data-letter="b" onclick="selectOption(34,'b')">
+      <span class="opt-letter">B</span><span>Enkel het hebben van kanker</span>
+    </button>
+    <button class="opt-btn" data-qnum="34" data-letter="c" onclick="selectOption(34,'c')">
+      <span class="opt-letter">C</span><span>Enkel de behandeling met chemotherapie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-34" disabled onclick="checkMCQ(34,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-34">
+    <div class="result-badge" id="badge-34"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-35">
+  <div class="q-num">Vraag 35 <button class="q-num-ai" onclick="openChatForQuestion(35, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke vorm van kanker is niet gevoelig voor hormonale therapie?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="35" data-letter="a" onclick="selectOption(35,'a')">
+      <span class="opt-letter">A</span><span>Coloncarcinoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="35" data-letter="b" onclick="selectOption(35,'b')">
+      <span class="opt-letter">B</span><span>Prostaatcarcinoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="35" data-letter="c" onclick="selectOption(35,'c')">
+      <span class="opt-letter">C</span><span>Mammacarcinoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="35" data-letter="d" onclick="selectOption(35,'d')">
+      <span class="opt-letter">D</span><span>Endometriumcarcinoom</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-35" disabled onclick="checkMCQ(35,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-35">
+    <div class="result-badge" id="badge-35"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-36">
+  <div class="q-num">Vraag 36 <button class="q-num-ai" onclick="openChatForQuestion(36, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een tumor in het hoofdhalsgebied betreft meestal een:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="36" data-letter="a" onclick="selectOption(36,'a')">
+      <span class="opt-letter">A</span><span>Lymfoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="36" data-letter="b" onclick="selectOption(36,'b')">
+      <span class="opt-letter">B</span><span>Sarcoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="36" data-letter="c" onclick="selectOption(36,'c')">
+      <span class="opt-letter">C</span><span>Adenocarcinoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="36" data-letter="d" onclick="selectOption(36,'d')">
+      <span class="opt-letter">D</span><span>Plaveiselcelcarcinoom</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-36" disabled onclick="checkMCQ(36,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-36">
+    <div class="result-badge" id="badge-36"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-37">
+  <div class="q-num">Vraag 37 <button class="q-num-ai" onclick="openChatForQuestion(37, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Twee beweringen: A. Bij radiotherapie gebruikt men ioniserende straling. B. Radiotherapie wordt gefractioneerd om complicaties te voorkomen.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="37" data-letter="a" onclick="selectOption(37,'a')">
+      <span class="opt-letter">A</span><span>Bewering A en B zijn juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="37" data-letter="b" onclick="selectOption(37,'b')">
+      <span class="opt-letter">B</span><span>Bewering A is juist en B is onjuist</span>
+    </button>
+    <button class="opt-btn" data-qnum="37" data-letter="c" onclick="selectOption(37,'c')">
+      <span class="opt-letter">C</span><span>Bewering A is onjuist en B is juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="37" data-letter="d" onclick="selectOption(37,'d')">
+      <span class="opt-letter">D</span><span>Bewering A en B zijn onjuist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-37" disabled onclick="checkMCQ(37,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-37">
+    <div class="result-badge" id="badge-37"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-38">
+  <div class="q-num">Vraag 38 <button class="q-num-ai" onclick="openChatForQuestion(38, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Wat is de standaard curatieve behandeling van een invasief blaascarcinoom?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="38" data-letter="a" onclick="selectOption(38,'a')">
+      <span class="opt-letter">A</span><span>Intraveneuze chemotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="38" data-letter="b" onclick="selectOption(38,'b')">
+      <span class="opt-letter">B</span><span>Partiële blaasresectie met medeneming van de tumor</span>
+    </button>
+    <button class="opt-btn" data-qnum="38" data-letter="c" onclick="selectOption(38,'c')">
+      <span class="opt-letter">C</span><span>Intravesicale spoelingen met BCG</span>
+    </button>
+    <button class="opt-btn" data-qnum="38" data-letter="d" onclick="selectOption(38,'d')">
+      <span class="opt-letter">D</span><span>Radicale cystectomie met medeneming van lymfeklieren</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-38" disabled onclick="checkMCQ(38,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-38">
+    <div class="result-badge" id="badge-38"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-39">
+  <div class="q-num">Vraag 39 <button class="q-num-ai" onclick="openChatForQuestion(39, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Bij welke patiënten met prostaatkanker is het gemiddelde effect van behandeling met docetaxel chemotherapie op de overleving het grootste?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="39" data-letter="a" onclick="selectOption(39,'a')">
+      <span class="opt-letter">A</span><span>Bij patiënten met een castratie-resistent prostaatcarcinoom (CRPC)</span>
+    </button>
+    <button class="opt-btn" data-qnum="39" data-letter="b" onclick="selectOption(39,'b')">
+      <span class="opt-letter">B</span><span>Bij patiënten met een recent gediagnosticeerd gemetastaseerd (hoog volume) hormoonsensitief prostaatcarcinoom (HSPC)</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-39" disabled onclick="checkMCQ(39,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-39">
+    <div class="result-badge" id="badge-39"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-40">
+  <div class="q-num">Vraag 40 <button class="q-num-ai" onclick="openChatForQuestion(40, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Wat is nu de meest aangewezen postoperatieve behandeling bij T2N1M0 rectumcarcinoom?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="40" data-letter="a" onclick="selectOption(40,'a')">
+      <span class="opt-letter">A</span><span>Chemotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="40" data-letter="b" onclick="selectOption(40,'b')">
+      <span class="opt-letter">B</span><span>Radiotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="40" data-letter="c" onclick="selectOption(40,'c')">
+      <span class="opt-letter">C</span><span>Observatie</span>
+    </button>
+    <button class="opt-btn" data-qnum="40" data-letter="d" onclick="selectOption(40,'d')">
+      <span class="opt-letter">D</span><span>Chemotherapie en radiotherapie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-40" disabled onclick="checkMCQ(40,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-40">
+    <div class="result-badge" id="badge-40"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-41">
+  <div class="q-num">Vraag 41 <button class="q-num-ai" onclick="openChatForQuestion(41, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welk antwoord is juist m.b.t. screenend onderzoek naar Lynch syndroom?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="41" data-letter="a" onclick="selectOption(41,'a')">
+      <span class="opt-letter">A</span><span>De term MSI in het kader van erfelijke darmkankertesten staat voor Multi Snip Interference</span>
+    </button>
+    <button class="opt-btn" data-qnum="41" data-letter="b" onclick="selectOption(41,'b')">
+      <span class="opt-letter">B</span><span>Screenend onderzoek naar aanwezigheid van het Lynch syndroom moet standaard uitgevoerd worden door de patholoog op de tumor wanneer deze de diagnose colorectaalcarcinoom stelt op een leeftijd van < 70 jaar</span>
+    </button>
+    <button class="opt-btn" data-qnum="41" data-letter="c" onclick="selectOption(41,'c')">
+      <span class="opt-letter">C</span><span>Nieuw-ontstane overerfbare mutaties komen met name bij het Lynch syndroom frequent voor</span>
+    </button>
+    <button class="opt-btn" data-qnum="41" data-letter="d" onclick="selectOption(41,'d')">
+      <span class="opt-letter">D</span><span>De penetrantie van pathogene mutaties op de leeftijd van 50 jaar is sterk verschillend in vrouwen en mannen</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-41" disabled onclick="checkMCQ(41,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-41">
+    <div class="result-badge" id="badge-41"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-42">
+  <div class="q-num">Vraag 42 <button class="q-num-ai" onclick="openChatForQuestion(42, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Het hand-voetsyndroom wordt gezien als bijwerking van:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="42" data-letter="a" onclick="selectOption(42,'a')">
+      <span class="opt-letter">A</span><span>5-FU</span>
+    </button>
+    <button class="opt-btn" data-qnum="42" data-letter="b" onclick="selectOption(42,'b')">
+      <span class="opt-letter">B</span><span>Capecitabine</span>
+    </button>
+    <button class="opt-btn" data-qnum="42" data-letter="c" onclick="selectOption(42,'c')">
+      <span class="opt-letter">C</span><span>Docetaxel</span>
+    </button>
+    <button class="opt-btn" data-qnum="42" data-letter="d" onclick="selectOption(42,'d')">
+      <span class="opt-letter">D</span><span>Alle antwoordmogelijkheden zijn juist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-42" disabled onclick="checkMCQ(42,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-42">
+    <div class="result-badge" id="badge-42"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-43">
+  <div class="q-num">Vraag 43 <button class="q-num-ai" onclick="openChatForQuestion(43, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een 29-jarige vrouw: invasief ductaal adenocarcinoom rechter borst, 2,1 cm, graad III, ER+, PR+, Her2+. Borstbesparende operatie radicaal, schildwachtklier negatief. Wat is de juiste adjuvante behandeling?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="43" data-letter="a" onclick="selectOption(43,'a')">
+      <span class="opt-letter">A</span><span>Radiotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="43" data-letter="b" onclick="selectOption(43,'b')">
+      <span class="opt-letter">B</span><span>Chemotherapie en trastuzumab</span>
+    </button>
+    <button class="opt-btn" data-qnum="43" data-letter="c" onclick="selectOption(43,'c')">
+      <span class="opt-letter">C</span><span>Radiotherapie en hormonale therapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="43" data-letter="d" onclick="selectOption(43,'d')">
+      <span class="opt-letter">D</span><span>Radiotherapie, chemotherapie, trastuzumab</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-43" disabled onclick="checkMCQ(43,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-43">
+    <div class="result-badge" id="badge-43"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-44">
+  <div class="q-num">Vraag 44 <button class="q-num-ai" onclick="openChatForQuestion(44, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Benoem de vier fasen van ziekte met bij iedere fase een mogelijk psychologisch probleem.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="44" data-letter="a" onclick="selectOption(44,'a')">
+      <span class="opt-letter">A</span><span>Acute fase (schok verwerken), Chronische fase (leren omgaan met gevolgen), ongeneeslijk ziek-fase (onzekerheid), sterf-fase (problemen met familie)</span>
+    </button>
+    <button class="opt-btn" data-qnum="44" data-letter="b" onclick="selectOption(44,'b')">
+      <span class="opt-letter">B</span><span>Acute fase (schok verwerken), Chronische fase (leren omgaan met gevolgen), Palliatieve fase (omgaan met angst voor de toekomst), Terminale fase (moeite met afscheid nemen)</span>
+    </button>
+    <button class="opt-btn" data-qnum="44" data-letter="c" onclick="selectOption(44,'c')">
+      <span class="opt-letter">C</span><span>Diagnostische fase (schok verwerken), behandel fase (gedeelde besluitvorming is te lastig), Palliatieve fase (verwerken dat je niet meer beter wordt), Terminale fase (depressie)</span>
+    </button>
+    <button class="opt-btn" data-qnum="44" data-letter="d" onclick="selectOption(44,'d')">
+      <span class="opt-letter">D</span><span>Diagnostische fase (niet aan kinderen durven vertellen), behandel fase (moeheid en misselijkheid), ongeneeslijk ziek-fase (paniek), Terminale fase (moeite met afscheid nemen)</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-44" disabled onclick="checkMCQ(44,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-44">
+    <div class="result-badge" id="badge-44"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-45">
+  <div class="q-num">Vraag 45 <button class="q-num-ai" onclick="openChatForQuestion(45, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welke tumormarkers zijn vaak verhoogd bij testiscarcinoom?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="45" data-letter="a" onclick="selectOption(45,'a')">
+      <span class="opt-letter">A</span><span>CEA en CA-15.3</span>
+    </button>
+    <button class="opt-btn" data-qnum="45" data-letter="b" onclick="selectOption(45,'b')">
+      <span class="opt-letter">B</span><span>CA-19.9 en CEA</span>
+    </button>
+    <button class="opt-btn" data-qnum="45" data-letter="c" onclick="selectOption(45,'c')">
+      <span class="opt-letter">C</span><span>PSA en AFP</span>
+    </button>
+    <button class="opt-btn" data-qnum="45" data-letter="d" onclick="selectOption(45,'d')">
+      <span class="opt-letter">D</span><span>AFP en B-HCG</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-45" disabled onclick="checkMCQ(45,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-45">
+    <div class="result-badge" id="badge-45"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-46">
+  <div class="q-num">Vraag 46 <button class="q-num-ai" onclick="openChatForQuestion(46, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een patiënte met mammacarcinoom blijkt een longembolie te hebben. Wat is hiervan de meest waarschijnlijke oorzaak?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="46" data-letter="a" onclick="selectOption(46,'a')">
+      <span class="opt-letter">A</span><span>Het gebruik van tamoxifen</span>
+    </button>
+    <button class="opt-btn" data-qnum="46" data-letter="b" onclick="selectOption(46,'b')">
+      <span class="opt-letter">B</span><span>De radiotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="46" data-letter="c" onclick="selectOption(46,'c')">
+      <span class="opt-letter">C</span><span>De chemotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="46" data-letter="d" onclick="selectOption(46,'d')">
+      <span class="opt-letter">D</span><span>De chirurgische lumpectomie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-46" disabled onclick="checkMCQ(46,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-46">
+    <div class="result-badge" id="badge-46"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-47">
+  <div class="q-num">Vraag 47 <button class="q-num-ai" onclick="openChatForQuestion(47, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Laxantia moeten absoluut worden voorgeschreven worden bij:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="47" data-letter="a" onclick="selectOption(47,'a')">
+      <span class="opt-letter">A</span><span>Ileus</span>
+    </button>
+    <button class="opt-btn" data-qnum="47" data-letter="b" onclick="selectOption(47,'b')">
+      <span class="opt-letter">B</span><span>NSAID's</span>
+    </button>
+    <button class="opt-btn" data-qnum="47" data-letter="c" onclick="selectOption(47,'c')">
+      <span class="opt-letter">C</span><span>Antidepressiva</span>
+    </button>
+    <button class="opt-btn" data-qnum="47" data-letter="d" onclick="selectOption(47,'d')">
+      <span class="opt-letter">D</span><span>Opiaten</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-47" disabled onclick="checkMCQ(47,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-47">
+    <div class="result-badge" id="badge-47"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-48">
+  <div class="q-num">Vraag 48 <button class="q-num-ai" onclick="openChatForQuestion(48, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een febriele neutropene patiënt. Wat is nu het meest aangewezen beleid?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="48" data-letter="a" onclick="selectOption(48,'a')">
+      <span class="opt-letter">A</span><span>Breed-spectrum antibiotica starten, na afname van kweken</span>
+    </button>
+    <button class="opt-btn" data-qnum="48" data-letter="b" onclick="selectOption(48,'b')">
+      <span class="opt-letter">B</span><span>Kweken afnemen en op geleide van kweken antibiotica starten</span>
+    </button>
+    <button class="opt-btn" data-qnum="48" data-letter="c" onclick="selectOption(48,'c')">
+      <span class="opt-letter">C</span><span>Opname ter observatie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-48" disabled onclick="checkMCQ(48,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-48">
+    <div class="result-badge" id="badge-48"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-49">
+  <div class="q-num">Vraag 49 <button class="q-num-ai" onclick="openChatForQuestion(49, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Stellingen over euthanasie: 1. Een voorwaarde voor euthanasie is dat het verzoek wordt beoordeeld door een onafhankelijke arts. 2. Bij euthanasie wordt bij voorkeur gebruik gemaakt van de combinatie van hoge dosis morfine en midazolam intraveneus.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="49" data-letter="a" onclick="selectOption(49,'a')">
+      <span class="opt-letter">A</span><span>Stelling 1 en 2 zijn beide juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="49" data-letter="b" onclick="selectOption(49,'b')">
+      <span class="opt-letter">B</span><span>Stelling 1 is onjuist, stelling 2 is juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="49" data-letter="c" onclick="selectOption(49,'c')">
+      <span class="opt-letter">C</span><span>Stelling 1 is juist, stelling 2 is onjuist</span>
+    </button>
+    <button class="opt-btn" data-qnum="49" data-letter="d" onclick="selectOption(49,'d')">
+      <span class="opt-letter">D</span><span>Stelling 1 en 2 zijn beide onjuist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-49" disabled onclick="checkMCQ(49,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-49">
+    <div class="result-badge" id="badge-49"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-50">
+  <div class="q-num">Vraag 50 <button class="q-num-ai" onclick="openChatForQuestion(50, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Een volledig bedlegerige patiënte met een grote decubituswond heeft pijn ondanks paracetamol. Waar is hier sprake van?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="50" data-letter="a" onclick="selectOption(50,'a')">
+      <span class="opt-letter">A</span><span>Nociceptieve pijn</span>
+    </button>
+    <button class="opt-btn" data-qnum="50" data-letter="b" onclick="selectOption(50,'b')">
+      <span class="opt-letter">B</span><span>Doorbraakpijn</span>
+    </button>
+    <button class="opt-btn" data-qnum="50" data-letter="c" onclick="selectOption(50,'c')">
+      <span class="opt-letter">C</span><span>Neuropatische pijn</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-50" disabled onclick="checkMCQ(50,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-50">
+    <div class="result-badge" id="badge-50"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-51">
+  <div class="q-num">Vraag 51 <button class="q-num-ai" onclick="openChatForQuestion(51, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Welk antwoord is niet juist m.b.t. checkpoint remmers?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="51" data-letter="a" onclick="selectOption(51,'a')">
+      <span class="opt-letter">A</span><span>Ipilimumab en nivolumab zijn checkpoint remmers</span>
+    </button>
+    <button class="opt-btn" data-qnum="51" data-letter="b" onclick="selectOption(51,'b')">
+      <span class="opt-letter">B</span><span>Nivolumab is effectiever dan ipilimumab bij het gemetastaseerde melanoom</span>
+    </button>
+    <button class="opt-btn" data-qnum="51" data-letter="c" onclick="selectOption(51,'c')">
+      <span class="opt-letter">C</span><span>Tumor responsen na immunotherapie kunnen pas laat komen</span>
+    </button>
+    <button class="opt-btn" data-qnum="51" data-letter="d" onclick="selectOption(51,'d')">
+      <span class="opt-letter">D</span><span>Ipilimumab heeft minder bijwerkingen dan een behandeling met anti-PD1 antilichamen</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-51" disabled onclick="checkMCQ(51,'d')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-51">
+    <div class="result-badge" id="badge-51"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-52">
+  <div class="q-num">Vraag 52 <button class="q-num-ai" onclick="openChatForQuestion(52, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Zet de volgende solide tumoren op volgorde van % 5-jaarsoverleving. Sleep van laagste (positie 1) naar hoogste (positie 5).</div>
+  <p style="font-size:13px;color:#8E8E93;margin:0 0 10px 0;">Sleep een optie naar de bijbehorende rij, of tik eerst op een kaart en dan op een rij.</p>
+  <div class="dnd-pool" id="dnd-pool-52" ondragover="_dndOver(event)" ondragleave="_dndLeave(event)" ondrop="_dndPoolDrop(event,52)" onclick="_dndPoolClick(event,52)"></div>
+  <div class="dnd-pairs">
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-52-a">1 (laagste overleving)</div>
+      <div class="dnd-zone" id="dnd-zone-52-a" data-dnd-zone="52" data-letter="a"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,52,'a')" onclick="_dndZoneClick(event,52,'a')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-52-b">2</div>
+      <div class="dnd-zone" id="dnd-zone-52-b" data-dnd-zone="52" data-letter="b"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,52,'b')" onclick="_dndZoneClick(event,52,'b')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-52-c">3</div>
+      <div class="dnd-zone" id="dnd-zone-52-c" data-dnd-zone="52" data-letter="c"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,52,'c')" onclick="_dndZoneClick(event,52,'c')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-52-d">4</div>
+      <div class="dnd-zone" id="dnd-zone-52-d" data-dnd-zone="52" data-letter="d"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,52,'d')" onclick="_dndZoneClick(event,52,'d')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+    <div class="dnd-pair">
+      <div class="dnd-label" id="dnd-label-52-e">5 (hoogste overleving)</div>
+      <div class="dnd-zone" id="dnd-zone-52-e" data-dnd-zone="52" data-letter="e"
+           ondragover="_dndOver(event)" ondragleave="_dndLeave(event)"
+           ondrop="_dndZoneDrop(event,52,'e')" onclick="_dndZoneClick(event,52,'e')">
+        <span class="dnd-hint">Sleep hier naartoe</span>
+      </div>
+    </div>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-52" disabled onclick='checkMatchingDnD(52,{"a": "Pancreascarcinoom", "b": "Longcarcinoom", "c": "Coloncarcinoom", "d": "Mammacarcinoom", "e": "Melanoom"})'>Controleer antwoord</button>
+</div>
+  <div class="result" id="result-52">
+    <div class="result-badge" id="badge-52"></div>
+  </div>
+</div>
+<script>document.addEventListener("DOMContentLoaded",function(){dndInit(52,["Pancreascarcinoom", "Longcarcinoom", "Coloncarcinoom", "Mammacarcinoom", "Melanoom"]);});</script>
+<div class="q-block" id="qblock-53">
+  <div class="q-num">Vraag 53 <button class="q-num-ai" onclick="openChatForQuestion(53, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Er komt een 60-jarige man met gemetastaseerd niercelcarcinoom bij jou op het spreekuur. Je wilt graag een (i) behandeling starten. Maar je weet dat bij niercelcarcinoom (ii) niet effectief is, dus je kiest voor (iii).</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="53" data-letter="a" onclick="selectOption(53,'a')">
+      <span class="opt-letter">A</span><span>(i) palliatieve, (ii) chemotherapie, (iii) immunotherapie</span>
+    </button>
+    <button class="opt-btn" data-qnum="53" data-letter="b" onclick="selectOption(53,'b')">
+      <span class="opt-letter">B</span><span>(i) adjuvante, (ii) immunotherapie, (iii) chemotherapie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-53" disabled onclick="checkMCQ(53,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-53">
+    <div class="result-badge" id="badge-53"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-54">
+  <div class="q-num">Vraag 54 <button class="q-num-ai" onclick="openChatForQuestion(54, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Drie jaar geleden hemicolectomie rechts i.v.m. coloncarcinoom. Nu CEA gestegen naar 10,1 ng/ml. CT toont solitaire afwijking in de lever, zonder andere afwijkingen. Wat is de meest aangewezen behandeling?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="54" data-letter="a" onclick="selectOption(54,'a')">
+      <span class="opt-letter">A</span><span>Chirurgische resectie</span>
+    </button>
+    <button class="opt-btn" data-qnum="54" data-letter="b" onclick="selectOption(54,'b')">
+      <span class="opt-letter">B</span><span>Observatie</span>
+    </button>
+    <button class="opt-btn" data-qnum="54" data-letter="c" onclick="selectOption(54,'c')">
+      <span class="opt-letter">C</span><span>Chemotherapie</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-54" disabled onclick="checkMCQ(54,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-54">
+    <div class="result-badge" id="badge-54"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-55">
+  <div class="q-num">Vraag 55 <button class="q-num-ai" onclick="openChatForQuestion(55, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Wat is de meest voorkomende oorzaak van ileus bij patiënten met kanker in de terminale fase?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="55" data-letter="a" onclick="selectOption(55,'a')">
+      <span class="opt-letter">A</span><span>Obstipatie of faecale impactie</span>
+    </button>
+    <button class="opt-btn" data-qnum="55" data-letter="b" onclick="selectOption(55,'b')">
+      <span class="opt-letter">B</span><span>Electrolytstoornissen</span>
+    </button>
+    <button class="opt-btn" data-qnum="55" data-letter="c" onclick="selectOption(55,'c')">
+      <span class="opt-letter">C</span><span>Peritonitis carcinomatosa</span>
+    </button>
+    <button class="opt-btn" data-qnum="55" data-letter="d" onclick="selectOption(55,'d')">
+      <span class="opt-letter">D</span><span>Obstructie van de darm door de primaire tumor</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-55" disabled onclick="checkMCQ(55,'c')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-55">
+    <div class="result-badge" id="badge-55"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-56">
+  <div class="q-num">Vraag 56 <button class="q-num-ai" onclick="openChatForQuestion(56, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Na haar borstamputatie is patiënte geëmotioneerd. De arts vertelt: "Maar u krijgt van ons wel een hele mooie borstprothese hoor, het verschil zie je haast niet!" Welke vorm van vermijdingsgedrag toont de arts hier?</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="56" data-letter="a" onclick="selectOption(56,'a')">
+      <span class="opt-letter">A</span><span>Verdedigen</span>
+    </button>
+    <button class="opt-btn" data-qnum="56" data-letter="b" onclick="selectOption(56,'b')">
+      <span class="opt-letter">B</span><span>De pil vergulden</span>
+    </button>
+    <button class="opt-btn" data-qnum="56" data-letter="c" onclick="selectOption(56,'c')">
+      <span class="opt-letter">C</span><span>Ambiguïteit</span>
+    </button>
+    <button class="opt-btn" data-qnum="56" data-letter="d" onclick="selectOption(56,'d')">
+      <span class="opt-letter">D</span><span>Hang yourself</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-56" disabled onclick="checkMCQ(56,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-56">
+    <div class="result-badge" id="badge-56"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-57">
+  <div class="q-num">Vraag 57 <button class="q-num-ai" onclick="openChatForQuestion(57, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Stelling: Tijdens het geven van slecht nieuws dient de arts in de fase van 'de klap uitdelen' veel details te geven over het ziektebeeld om een helder beeld te schetsen aan de patiënt.</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="57" data-letter="a" onclick="selectOption(57,'a')">
+      <span class="opt-letter">A</span><span>Juist</span>
+    </button>
+    <button class="opt-btn" data-qnum="57" data-letter="b" onclick="selectOption(57,'b')">
+      <span class="opt-letter">B</span><span>Onjuist</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-57" disabled onclick="checkMCQ(57,'b')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-57">
+    <div class="result-badge" id="badge-57"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-58">
+  <div class="q-num">Vraag 58 <button class="q-num-ai" onclick="openChatForQuestion(58, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">In de oncologische praktijk treden heftige emotionele reacties van patiënten het meest op:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="58" data-letter="a" onclick="selectOption(58,'a')">
+      <span class="opt-letter">A</span><span>In een latere fase van een behandeltraject als de arts het sein "veilig" heeft gegeven</span>
+    </button>
+    <button class="opt-btn" data-qnum="58" data-letter="b" onclick="selectOption(58,'b')">
+      <span class="opt-letter">B</span><span>In een vroege fase van een behandeltraject met uitzicht op herstel/verbetering</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-58" disabled onclick="checkMCQ(58,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-58">
+    <div class="result-badge" id="badge-58"></div>
+  </div>
+</div>
+<div class="q-block" id="qblock-59">
+  <div class="q-num">Vraag 59 <button class="q-num-ai" onclick="openChatForQuestion(59, true)" title="Leg de vraag uit met AI"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+  <div class="q-text">Als een terminale patiënt zijn ziekte ontkent dient de arts als richtlijn deze ontkenning te:</div>
+  <div class="options">
+    <button class="opt-btn" data-qnum="59" data-letter="a" onclick="selectOption(59,'a')">
+      <span class="opt-letter">A</span><span>Exploreren</span>
+    </button>
+    <button class="opt-btn" data-qnum="59" data-letter="b" onclick="selectOption(59,'b')">
+      <span class="opt-letter">B</span><span>Stimuleren</span>
+    </button>
+    <button class="opt-btn" data-qnum="59" data-letter="c" onclick="selectOption(59,'c')">
+      <span class="opt-letter">C</span><span>Doorbreken</span>
+    </button>
+  </div>
+  <div class="q-btn-row">
+<button class="check-btn" id="check-59" disabled onclick="checkMCQ(59,'a')">Controleer antwoord</button>
+</div>
+  <div class="result" id="result-59">
+    <div class="result-badge" id="badge-59"></div>
+  </div>
+</div>
+
+<div style="max-width:820px;margin:8px auto 48px;padding:0 20px;text-align:center;">
+  <button id="end-submit-btn" onclick="openSubmitModal()" style="width:100%;max-width:420px;padding:15px 24px;background:#1CB0F6;color:#fff;border:none;border-radius:14px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 0 #0E85B5;">Examen inleveren</button>
+</div>
+</main>
+
+
+<!-- Glossary tooltip -->
+<div id="g-tip" class="g-tip"></div>
+<!-- Selection popup -->
+<div id="sel-popup" class="sel-popup" onclick="openChatWithSelection()">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  Vraag chat
+</div>
+
+<!-- Fixed AI chat tab on left edge -->
+<button class="chat-tab" onclick="openChatForQuestion(null)" title="Vraag de AI">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+  <svg width="10" height="16" viewBox="0 0 10 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="2,2 8,8 2,14"/>
+  </svg>
+</button>
+
+<!-- Chat panel -->
+<div id="chat-panel" class="chat-panel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-title">Chat</div>
+    <button class="chat-close" onclick="closeChat()">&#x2715;</button>
+  </div>
+  <div id="chat-context-pill" class="chat-context-pill" style="display:none"></div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chat-input" placeholder="Stel een vraag..." rows="1"></textarea>
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Glossary right panel -->
+<div id="g-panel" class="g-panel">
+  <div class="g-panel-header">
+    <div id="g-title" class="g-title"></div>
+    <button class="g-close" onclick="closeGlossary()">&#x2715;</button>
+  </div>
+  <img id="g-img" class="g-img" src="" alt="" style="display:none">
+  <div id="g-img-nav" class="g-img-nav" style="display:none">
+    <button class="g-img-btn" onclick="gImgPrev()">&#8592;</button>
+    <span id="g-img-counter" class="g-img-counter"></span>
+    <button class="g-img-btn" onclick="gImgNext()">&#8594;</button>
+  </div>
+  <div class="g-body">
+    <div id="g-def" class="g-def"></div>
+  </div>
+</div>
+<script>var GLOSSARY = {
+  "melanoom": {
+    "title": "Melanoom",
+    "short": "Melanoom is een agressieve huidtumor uitgaande van melanocyten; de belangrijkste risicofactoren zijn UV-blootstelling en lichte huid. Vroegtijdige excisie is curatief, maar gemetastaseerd melanoom heeft een slechte prognose zonder immunotherapie.",
+    "definition": "<p>Melanoom is een <strong>maligne tumor van melanocyten</strong> (pigmentcellen). Incidentie stijgt wereldwijd; risicofactoren zijn UV-straling, lichte huid, veel naevi en familiaire belasting (CDKN2A-mutatie).</p><p>ABCDE-criteria: Asymmetrie, Border (onregelmatig), Color (kleurvariatie), Diameter (&gt; 6 mm), Evolution (verandering). Breslow-dikte bepaalt prognose en behandeling.</p><p>Typen: superficieel spreidend (meest frequent), nodulair (agressief), lentigo maligna, acrolentigineus (voetzolen, nagels).</p><p>Behandeling: ruime excisie ± schildwachtklierbiopsie. Bij metastasen: BRAF-remmer (vemurafenib) bij BRAF V600E, of immuuntherapie (anti-PD1: nivolumab/pembrolizumab, anti-CTLA4: ipilimumab).</p>",
+    "image_url": "",
+    "wiki_titles": ["Melanoma", "Dermoscopy", "Skin cancer"]
+  },
+  "plaveiselcelcarcinoom": {
+    "title": "Plaveiselcelcarcinoom",
+    "short": "Plaveiselcelcarcinoom is een epitheliale maligniteit van plaveiselcellen (squameuze epitheelcellen), het vaakst voorkomend in huid, longen, hoofd-hals gebied en cervix; UV-straling en roken zijn belangrijke risicofactoren.",
+    "definition": "<p>Plaveiselcelcarcinoom (SCC, squameuze celcarcinoom) is een <strong>epitheliale maligniteit</strong> die uitgaat van keratinocyten of plaveiselcelepitheel. Het is een van de meest voorkomende vormen van kanker wereldwijd.</p><p>Lokalisaties:</p><ul><li><strong>Huid</strong>: chronische UV-blootstelling, actinische keratose als voorloper; kans op metastase ~5%</li><li><strong>Long</strong>: sterk geassocieerd met roken; centraal gelegen, cavitaties</li><li><strong>Hoofd-hals</strong>: tabak + alcohol, of HPV-geassocieerd (orofarynx)</li><li><strong>Cervix</strong>: HPV-geassocieerd</li></ul><p>Behandeling: excisie (huid), chemoradiatie (hoofd-hals, cervix) of resectie (long).</p>",
+    "image_url": "",
+    "wiki_titles": ["Squamous cell carcinoma", "Actinic keratosis", "Head and neck cancer"]
+  },
+  "acute_myeloide_leukemie": {
+    "match": "acute myeloïde leukemie|acute myeloide leukemie",
+    "title": "Acute myeloïde leukemie (AML)",
+    "short": "AML is een agressieve leukemie door klonale expansie van myeloïde blasten in beenmerg en bloed; diagnose vereist ≥ 20% blasten en behandeling is intensieve chemotherapie (7+3-schema).",
+    "definition": "<p>Acute myeloïde leukemie (AML) is een <strong>klonale hematopoietische maligniteit</strong> gekenmerkt door ≥ 20% myeloïde blasten in beenmerg of bloed. Incidentie stijgt met de leeftijd (mediane leeftijd bij diagnose ~68 jaar).</p><p>Klinisch: plotselinge presentatie met anemie, trombocytopenie (bloedingen, petechiën), neutropenie (infecties) en soms DIC (m.n. bij APL/t(15;17)).</p><p>Behandeling: inductiechemo '7+3' (cytarabine + anthracycline) → consolidatie → eventueel allogene SCT bij hoog risico. APL (APML) is speciaal: ATRA + arseen.</p><p>Cytogenetiek bepaalt prognose: t(8;21), inv(16) gunstig; monosomie 5/7, complex karyotype ongunstig.</p>",
+    "image_url": "",
+    "wiki_title": "Acute myeloid leukemia"
+  },
+  "m_hodgkin": {
+    "match": "M. Hodgkin",
+    "title": "M. Hodgkin (Hodgkin lymfoom)",
+    "short": "Hodgkin lymfoom is een B-cel lymfoom gekenmerkt door Reed-Sternberg-cellen; het treft vooral jongvolwassenen (15–35 jaar) en ouderen, en is goed te genezen met ABVD-chemotherapie.",
+    "definition": "<p>Hodgkin lymfoom (HL) is een <strong>B-cellymfoom</strong> met pathognomonische <strong>Reed-Sternberg-cellen</strong> (grote binucleaire cellen, 'uil-ogen'). Twee leeftijdspieken: 15–35 jaar en &gt; 55 jaar.</p><p>Typen: klassiek HL (nodulair sclerotiserend meest frequent) en nodulair lymfocytenrijk HL. Presentatie: pijnloze cervicale lymfadenopathie, B-symptomen (koorts, nachtzweten, gewichtsverlies), jeuk.</p><p>Stadiëring: Ann Arbor I–IV. Behandeling: ABVD-chemotherapie ± radiotherapie; 5-jaarsoverleving &gt; 85%. Brentuximab vedotin (anti-CD30) bij recidief.</p>",
+    "image_url": "",
+    "wiki_title": "Hodgkin lymphoma"
+  },
+  "multipel_myeloom": {
+    "match": "multipel myeloom",
+    "title": "Multipel myeloom",
+    "short": "Multipel myeloom is een maligne plasmacelziekte met klonale proliferatie in het beenmerg, productie van een M-proteïne en eindorgaanschade (CRAB: hypercalciëmie, nierfalen, anemie, botlaesies).",
+    "definition": "<p>Multipel myeloom (MM) is een <strong>klonale plasmacelmaligniteit</strong> waarbij abnormale plasmacellen in het beenmerg een monoklonaal immunoglobuline (M-proteïne) produceren.</p><p>Diagnostische criteria (SLiM-CRAB): ≥ 10% klonale beenmergplasmacellen + ≥ 1 CRAB-criterium:</p><ul><li><strong>C</strong>alcium verhoogd (&gt; 2,75 mmol/l)</li><li><strong>R</strong>enal — nierfunctiestoornissen (kreatinine &gt; 177 µmol/l)</li><li><strong>A</strong>nemie (Hb &lt; 6,2 mmol/l of &gt; 1,25 mmol/l onder ondergrens)</li><li><strong>B</strong>one — lytische botlaesies of osteoporose</li></ul><p>Behandeling: bij fitte patiënten autologe stamceltransplantatie ± proteasoomremmers (bortezomib), IMiDs (lenalidomide) en anti-CD38 (daratumumab).</p>",
+    "image_url": "",
+    "wiki_title": "Multiple myeloma"
+  },
+  "plasmocytose": {
+    "title": "Plasmocytose",
+    "short": "Plasmocytose is een verhoogd percentage plasmacellen in het beenmerg (> 5%); bij > 10% rijpe plasmacellen denkt men aan multipel myeloom of een verwante plasmacelziekte.",
+    "definition": "<p>Plasmocytose betekent een verhoogd aandeel plasmacellen in het beenmerg. Normaal zijn dit &lt; 5%. Reactieve plasmocytose (tot ~10%) ziet men bij chronische infecties, auto-immuunziekten en levercirrose.</p><p>Bij &gt; 10% klonale plasmacellen denkt men aan een <strong>plasmacelneoplasie</strong>:</p><ul><li><strong>Multipel myeloom</strong>: ≥ 10% clonale plasmacellen + CRAB-criteria of biomarker</li><li><strong>MGUS</strong>: &lt; 10% plasmacellen, M-proteïne &lt; 30 g/l, geen eindorgaanschade</li><li><strong>Solitair plasmocytoom</strong>: geïsoleerde plasmacelproliferatie zonder systemische ziekte</li></ul>",
+    "image_url": "",
+    "wiki_title": "Plasmacytosis"
+  },
+  "b_cel_lymfoom": {
+    "match": "B-cel lymfoom|B cel lymfoom|B-cellymfoom",
+    "title": "B-cellymfoom",
+    "short": "B-cellymfomen zijn lymfomen die uitgaan van B-lymfocyten; ze vormen de grootste groep non-Hodgkin lymfomen en variëren van indolent (folliculair) tot zeer agressief (Burkitt, DLBCL).",
+    "definition": "<p>B-cellymfomen omvatten alle <strong>non-Hodgkin lymfomen</strong> (NHL) die ontspringen aan B-lymfocyten. Ze maken ~85% van alle NHL uit.</p><p>Belangrijk onderscheid:</p><ul><li><strong>Indolent</strong>: folliculair lymfoom, CLL/SLL, marginale zone lymfoom — langzame groei, zelden curatief maar goed te controleren</li><li><strong>Agressief</strong>: diffuus grootcellig B-cellymfoom (DLBCL) — meest voorkomend, potentieel curatief met R-CHOP</li><li><strong>Zeer agressief</strong>: Burkitt lymfoom — t(8;14), c-MYC, spoedeisende behandeling</li></ul><p>Immunofenotypering (CD19, CD20, CD22) is essentieel voor subclassificatie.</p>",
+    "image_url": "",
+    "wiki_title": "B-cell lymphoma"
+  },
+  "folliculair_lymfoom": {
+    "match": "folliculair lymfoom",
+    "title": "Folliculair lymfoom",
+    "short": "Folliculair lymfoom is het meest voorkomende indolente non-Hodgkin B-cellymfoom; het groeit langzaam en is zelden te genezen maar goed te behandelen. Kenmerkend zijn vergrote lymfeklieren zonder B-symptomen.",
+    "definition": "<p>Folliculair lymfoom (FL) is een <strong>indolent (laaggradig) B-cellymfoom</strong> dat uitgaat van follikelcentrumcellen. Het is het vaakst voorkomende laaggradig lymfoom (~20% van alle NHL).</p><p>Kenmerk: t(14;18)-translucatie → overexpressie van BCL-2 → remming van apoptose. Klinisch: pijnloze lymfadenopathie, splenomegalie, zelden B-symptomen. Stadium III–IV bij diagnose is de regel.</p><p>Behandeling: 'watch and wait' bij asymptomatisch, rituximab ± chemotherapie bij symptomen. Transformatie naar agressief DLBCL treedt op bij ~3% per jaar.</p>",
+    "image_url": "",
+    "wiki_title": "Follicular lymphoma"
+  },
+  "gele_sclerae": {
+    "match": "gele sclerae|gele sclera",
+    "title": "Gele sclerae (icterus)",
+    "short": "Gele sclerae ontstaan door afzetting van bilirubine in de conjunctiva en worden zichtbaar bij bilirubine > 35 µmol/l; ze wijzen op icterus door hemolyse, leverpathologie of galwegobstructie.",
+    "definition": "<p>Gele sclerae (geel oogwit) zijn het vroegste klinische teken van <strong>icterus</strong> en ontstaan door ophoping van bilirubine in elastinerijke weefsels. Ze worden zichtbaar bij een bilirubine &gt; 35 µmol/l (normaal &lt; 17 µmol/l).</p><p>Oorzaken naar type hyperbilirubinemie:</p><ul><li><strong>Pre-hepatisch</strong>: hemolyse (verhoogd ongeconjugeerd bilirubine)</li><li><strong>Hepatisch</strong>: hepatitis, levercirrose, geneesmiddelenreactie</li><li><strong>Post-hepatisch</strong>: galwegobstructie door steen, tumor of strictuur (verhoogd geconjugeerd bilirubine, donkere urine, ontkleurde ontlasting)</li></ul>",
+    "image_url": "",
+    "wiki_title": "Jaundice"
+  },
+  "haptoglobine": {
+    "title": "Haptoglobine",
+    "short": "Haptoglobine is een plasmaproteïne dat vrij hemoglobine bindt bij intravasculaire hemolyse; een verlaagd haptoglobine (< 0,3 g/l) is een betrouwbare marker voor hemolyse.",
+    "definition": "<p>Haptoglobine is een acutefase-eiwit dat in de lever wordt aangemaakt en dat vrijgekomen hemoglobine (bij intravasculaire hemolyse) bindt en naar de lever transporteert voor afbraak. Hierdoor wordt nierschade door vrij Hb voorkomen.</p><p><strong>Verlaagd haptoglobine</strong> (&lt; 0,3 g/l) wijst op hemolyse — het complex wordt snel geklaard en het aanbod overtreft de aanmaak. Andere oorzaken van laag haptoglobine: leverziekte, congenitale ahaptoglobinemie.</p><p><strong>Verhoogd haptoglobine</strong> ziet men bij ontsteking (acutefase-reactie), maar dit kan een gelijktijdige hemolyse maskeren.</p>",
+    "image_url": "",
+    "wiki_title": "Haptoglobin"
+  },
+  "leucocytose": {
+    "title": "Leucocytose",
+    "short": "Leucocytose is een verhoogd aantal witte bloedcellen (leukocyten > 11 × 10\u2079/l), vaak als reactie op infectie, ontsteking, stress of maligniteit. Extreme verhogingen (> 100 × 10\u2079/l) worden gezien bij leukemie.",
+    "definition": "<p>Leucocytose betekent een verhoogd aantal leukocyten (&gt; 11 × 10<sup>9</sup>/l) in het perifere bloed. Fysiologische oorzaken zijn inspanning en stress; pathologische oorzaken zijn infectie, ontsteking, corticosteroïdgebruik en maligniteit (m.n. leukemie).</p><p>Op basis van het celtype onderscheidt men: <strong>neutrofilie</strong> (bacteriële infectie), <strong>lymfocytose</strong> (virale infectie, CLL), <strong>eosinofilie</strong> (allergie, parasitose) en <strong>monocytose</strong>. Extreme leucocytose (&gt; 100 × 10<sup>9</sup>/l) bij leukemie kan leiden tot leucostase met orgaanschade.</p>",
+    "image_url": "",
+    "wiki_title": "Leukocytosis"
+  },
+  "hb": {
+    "title": "Hb (Hemoglobine)",
+    "short": "Hemoglobine (Hb) is het ijzerhoudende eiwit in rode bloedcellen dat zuurstof transporteert. Normaalwaarden zijn 8,5–11,0 mmol/l (mannen) en 7,5–10,0 mmol/l (vrouwen); een verlaagd Hb duidt op anemie.",
+    "definition": "<p>Hemoglobine (Hb) is het ijzerhoudende eiwit in rode bloedcellen dat zuurstof opneemt in de longen en afgeeft aan de weefsels.</p><p>Normaalwaarden: <strong>8,5–11,0 mmol/l</strong> (mannen) en <strong>7,5–10,0 mmol/l</strong> (vrouwen). Een verlaagd Hb wijst op <em>anemie</em>; oorzaken zijn bloedverlies, verminderde aanmaak (ijzertekort, B12-deficiëntie, beenmergfalen) of verhoogde afbraak (hemolyse).</p><p>Klachten: vermoeidheid, bleekheid, dyspnoe d'effort, tachycardie. De behandelbeslissing hangt af van de onderliggende ziekte — niet alleen van het absolute Hb-getal.</p>",
+    "image_url": "",
+    "wiki_title": "Hemoglobin"
+  },
+  "lager_hb": {
+    "match": "lager Hb",
+    "title": "Lager Hb (Hemoglobine)",
+    "short": "Hemoglobine (Hb) is het eiwit in rode bloedcellen dat zuurstof transporteert; een verlaagd Hb (< 8,5 mmol/l mannen, < 7,5 mmol/l vrouwen) duidt op anemie. Of een transfusie nodig is hangt niet alleen af van het Hb-getal, maar ook van de onderliggende ziekte.",
+    "definition": "<p>Hemoglobine (Hb) is het ijzerhoudende eiwit in rode bloedcellen dat zuurstof opneemt in de longen en afgeeft aan de weefsels. De normaalwaarden zijn <strong>8,5–11,0 mmol/l</strong> voor mannen en <strong>7,5–10,0 mmol/l</strong> voor vrouwen.</p><p>Een verlaagd Hb duidt op <em>anemie</em>, waarvan de oorzaak bloedverlies, verminderde aanmaak (ijzertekort, vitamine B12-deficiëntie, beenmergfalen) of verhoogde afbraak (hemolyse) kan zijn. Klachten zijn vermoeidheid, bleekheid, dyspnoe d'effort en tachycardie.</p><p>De beslissing om een transfusie te geven is niet alleen afhankelijk van het absolute Hb, maar ook van de onderliggende ziekte. Bij bepaalde aandoeningen (bijv. sikkelcelziekte of thalassemie) kan een transfusie zelfs bij een lager Hb ongewenst zijn vanwege complicatierisico's zoals ijzerstapeling of alloimmunisatie.</p>",
+    "image_url": "",
+    "wiki_title": "Hemoglobin"
+  },
+  "anemie": {
+    "title": "Anemie",
+    "definition": "Anemie is een aandoening waarbij het hemoglobinegehalte in het bloed lager is dan normaal (< 8,5 mmol/L bij mannen, < 7,5 mmol/L bij vrouwen), waardoor de zuurstoftransportcapaciteit van het bloed verminderd is. De oorzaken zijn divers: verlies van rode bloedcellen (bloeding, hemolyse), verminderde aanmaak (ijzertekort, vitamine B12-deficiëntie, beenmergfalen) of een combinatie hiervan. Klinisch presenteert anemie zich met vermoeidheid, bleekheid, dyspnoe d'effort en tachycardie; behandeling richt zich op de onderliggende oorzaak.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Sickle_cell_01.jpg/320px-Sickle_cell_01.jpg",
+    "short": "Anemie is een verlaagd hemoglobinegehalte (< 8,5 mmol/l mannen, < 7,5 mmol/l vrouwen) waardoor het bloed minder zuurstof kan vervoeren, met klachten als vermoeidheid, bleekheid en kortademigheid. Oorzaak kan bloedverlies, verminderde aanmaak of verhoogde afbraak zijn."
+  },
+  "hemolytische anemie": {
+    "title": "Hemolytische Anemie",
+    "definition": "Hemolytische anemie ontstaat door versnelde afbraak van erytrocyten met een levensduur korter dan de normale 120 dagen, waardoor het beenmerg de productie niet kan bijhouden. De hemolyse kan intravasculair (bijv. bij transfusiereacties, PNH) of extravasculair (milt, lever) plaatsvinden, en de oorzaak kan intrinsiek (erfelijk: sikkelcel, sferocytose, G6PD-deficiëntie) of extrinsiek (auto-immuun, medicamenteus) zijn. Klinische kenmerken zijn anemie, icterus, splenomegalie, verhoogd LDH en bilirubine, verminderd haptoglobine en reticulocytose.",
+    "image_url": "",
+    "short": "Hemolytische anemie ontstaat doordat rode bloedcellen sneller worden afgebroken dan het beenmerg ze aanmaakt, door erfelijke oorzaken (sikkelcel, sferocytose) of verworven oorzaken (auto-immuun, medicamenteus). Kenmerkend zijn icterus, splenomegalie en reticulocytose."
+  },
+  "aplastische anemie": {
+    "title": "Aplastische Anemie",
+    "definition": "Aplastische anemie is een zeldzame, ernstige aandoening gekenmerkt door pancytopenie als gevolg van een verminderd functioneel beenmerg, waarbij hematopoëtische stamcellen ontbreken of sterk gereduceerd zijn. In de meeste gevallen (70%) is de oorzaak auto-immuun (T-cellen vernietigen stamcellen); andere oorzaken zijn toxines, medicijnen, virussen of zeldzame erfelijke aandoeningen. Behandeling bestaat bij jongere patiënten bij voorkeur uit allogene stamceltransplantatie; bij oudere patiënten of bij afwezigheid van een donor worden immunosuppressiva (ATG + ciclosporine) ingezet.",
+    "image_url": "",
+    "short": "Aplastische anemie is een zeldzame aandoening waarbij het beenmerg onvoldoende bloedcellen aanmaakt door verlies van stamcellen, meestal door een auto-immuunproces. Behandeling is stamceltransplantatie bij jongeren of immunosuppressie (ATG + ciclosporine) bij ouderen."
+  },
+  "thalassemie": {
+    "title": "Thalassemie",
+    "definition": "Thalassemie zijn erfelijke hemoglobinopathieën gekenmerkt door verminderde of afwezige synthese van α- of β-globineketens, resulterend in ineffectieve erytropoëse, hemolytische anemie en ijzerstapeling. β-thalassemie major presenteert zich in de eerste levensjaren met ernstige transfusieafhankelijke anemie, beenmergexpansie (schedel- en gezichtsafwijkingen) en splenomegalie; α-thalassemie varieert van asymptomatisch (dragerschap) tot hydrops fetalis (α0/α0). Behandeling van ernstige thalassemie bestaat uit levenslange transfusies met ijzerchelatietherapie (deferasirox) of allogene stamceltransplantatie; gentherapie is in opkomst.",
+    "image_url": "",
+    "short": "Thalassemie zijn erfelijke aandoeningen waarbij de aanmaak van alfa- of bèta-globineketens verminderd is, wat leidt tot chronische hemolytische anemie en ijzerstapeling. Ernst varieert van asymptomatisch dragerschap tot transfusieafhankelijke ziekte."
+  },
+  "leukemie": {
+    "title": "Leukemie",
+    "definition": "Leukemie is een maligne aandoening van het hematopoëtische systeem gekenmerkt door ongecontroleerde proliferatie van abnormale witte bloedcellen in beenmerg en bloed. Men onderscheidt acute vormen (AML, ALL) met snelle progressie en blastenaccumulatie, en chronische vormen (CML, CLL) met een langzamer beloop. Klinische presentatie omvat pancytopenie (anemie, infecties, bloedingen), leukocytose, splenomegalie en beenmergfalen; behandeling varieert van chemotherapie tot gerichte therapie en stamceltransplantatie.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Acute_leukemia-ALL.jpg/320px-Acute_leukemia-ALL.jpg",
+    "short": "Leukemie is een kwaadaardige aandoening waarbij abnormale witte bloedcellen ongecontroleerd groeien in beenmerg en bloed, met als gevolg vermoeidheid, infecties en bloedingsneiging. Men onderscheidt acute vormen (AML, ALL) en chronische vormen (CML, CLL)."
+  },
+  "neutropenie": {
+    "title": "Neutropenie",
+    "definition": "Neutropenie is een verlaagd aantal neutrofiele granulocyten (< 1,5 × 10⁹/L) en vergroot het risico op bacteriële en schimmelinfecties aanzienlijk, met name bij ernstige neutropenie (< 0,5 × 10⁹/L). Oorzaken zijn chemotherapie, beenmergfalen, auto-immuunprocessen of congenitale aandoeningen (cycli­sche neutropenie). Koorts bij een neutropene patiënt (febriele neutropenie) is een medische noodtoestand die onmiddellijk behandeling met breedbandantibiotica vereist.",
+    "image_url": "",
+    "short": "Neutropenie is een verlaagd aantal neutrofiele granulocyten (< 1,5 × 10⁹/l), waardoor het infectierisico sterk toeneemt. Koorts bij een neutropene patiënt is een medische noodtoestand die direct behandeld moet worden met breedbandantibiotica."
+  },
+  "pancytopenie": {
+    "title": "Pancytopenie",
+    "definition": "Pancytopenie is de gelijktijdige vermindering van alle drie cellijnen in het perifere bloed: erytrocyten (anemie), leukocyten (leukopenie) en trombocyten (trombocytopenie). De oorzaak ligt doorgaans in het beenmerg: aplasie, infiltratie door maligne cellen (leukemie, lymfoom, myeloom), myelodysplasie of granulomateuze aandoeningen. Beenmergbiopsie en -aspiraat zijn essentieel voor diagnose en bepalen van de verdere behandelstrategie.",
+    "image_url": "",
+    "short": "Pancytopenie is de gelijktijdige verlaging van rode bloedcellen, witte bloedcellen en bloedplaatjes, wat leidt tot vermoeidheid, infectiegevoeligheid en bloedingsneiging. De oorzaak ligt vrijwel altijd in het beenmerg en vereist biopsie voor diagnose."
+  },
+  "lymfoom": {
+    "title": "Lymfoom",
+    "definition": "Lymfoom is een heterogene groep maligniteiten van het lymfatische systeem, onderverdeeld in Hodgkin lymfoom (HL) en non-Hodgkin lymfoom (NHL), met elk afzonderlijke biologische kenmerken en behandelingsbenaderingen. De ziekte presenteert zich klassiek met pijnloze lymfadenopathie, 'B-symptomen' (nachtzweten, gewichtsverlies > 10%, koorts) en soms splenomegalie. Diagnose vereist lymfklierbiopsie voor histologische classificatie; behandeling varieert van watch-and-wait (indolent NHL) tot intensieve chemo-immunotherapie (CHOP-R) of radiotherapie.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Lymphoma_macro.jpg/320px-Lymphoma_macro.jpg",
+    "short": "Lymfoom is een kwaadaardige aandoening van het lymfatische systeem, onderverdeeld in Hodgkin en non-Hodgkin lymfoom, die zich klassiek presenteert met pijnloze opgezette lymfklieren en soms B-symptomen (nachtzweten, gewichtsverlies, koorts). Diagnose vereist lymfklierbiopsie."
+  },
+  "hodgkin lymfoom": {
+    "title": "Hodgkin Lymfoom",
+    "definition": "Hodgkin lymfoom (HL) is een B-cel-maligniteit gekenmerkt door de aanwezigheid van Reed-Sternberg-cellen (grote, bi-nucleaire cellen) in een reactief inflammatoir infiltraat, en heeft een bimodale leeftijdsverdeling (jong volwassenen en ouderen). De ziekte spreidt zich voornamelijk via aaneengesloten lymfkliergroepen uit en wordt gestadeerd volgens het Ann Arbor-systeem (I–IV); symptomen zijn pijnloze lymfadenopathie, B-symptomen en pruritus. Behandeling met ABVD-chemotherapie (± consolidatieradiotherapie) geeft uitstekende resultaten met > 80% genezing bij vroeg stadium.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Hodgkin_disease_-_Reed-Sternberg_cell_-_lymph_node_biopsy.jpg/320px-Hodgkin_disease_-_Reed-Sternberg_cell_-_lymph_node_biopsy.jpg",
+    "short": "Hodgkin lymfoom is een B-cel-maligniteit gekenmerkt door Reed-Sternberg-cellen, die zich presenteert met pijnloze lymfadenopathie en B-symptomen. Met ABVD-chemotherapie is meer dan 80% van de patiënten te genezen."
+  },
+  "non-hodgkin lymfoom": {
+    "title": "Non-Hodgkin Lymfoom",
+    "definition": "Non-Hodgkin lymfoom (NHL) is een diverse groep van meer dan 60 lymfkliermaligniteiten afkomstig van B-, T- of NK-cellen, variërend van indolente (folliculair lymfoom) tot zeer agressieve vormen (diffuus grootcellig B-cellymfoom, Burkitt). Risicofactoren zijn immunosuppressie, auto-immuunziekte, virale infecties (EBV, HIV, Helicobacter pylori) en ouderdom; presentatie is variabeler dan HL met zowel nodale als extranodaal betreffende organen. Behandeling is sterk afhankelijk van het histologisch subtype: rituximab-bevattende chemo-immunotherapie is bij B-cel NHL de standaard.",
+    "image_url": "",
+    "short": "Non-Hodgkin lymfoom omvat meer dan 60 verschillende B-, T- of NK-cel-maligniteiten, variërend van indolente vormen tot zeer agressieve types. Standaardbehandeling bij B-cel NHL is rituximab gecombineerd met chemotherapie (R-CHOP)."
+  },
+  "dic": {
+    "title": "Diffuse Intravasale Stolling (DIC)",
+    "definition": "Diffuse intravasale stolling (DIC) is een ernstig verworven coagulopathie-syndroom waarbij systemische activatie van het stollingssysteem leidt tot microvasculaire trombose in organen én consumptie van stollingsfactoren en trombocyten met als gevolg bloedingen. Onderliggende oorzaken zijn sepsis, ernstig trauma, maligniteit, obstetrische complicaties of transfusiereacties; laboratoriumonderzoek toont verhoogd D-dimeer, gedaald fibrinogeen, verlengde PT/APTT en trombocytopenie. Behandeling richt zich primair op de onderliggende oorzaak; ondersteunende transfusie van plasma, trombocyten en fibrinogeen zijn geïndiceerd bij actieve bloeding.",
+    "image_url": "",
+    "short": "DIC is een ernstige stollingstoornis waarbij gelijktijdig trombose én bloedingen optreden door uitputting van stollingsfactoren, uitgelokt door sepsis, trauma of maligniteit. Behandeling richt zich op de onderliggende oorzaak."
+  },
+  "reticulocyten": {
+    "title": "Reticulocyten",
+    "definition": "Reticulocyten zijn jonge, kernloze rode bloedcellen die nog ribosomaal RNA bevatten (zichtbaar als netwerk bij supravitale kleuring) en normaal 0,5-2% van de erytrocytenpopulatie uitmaken als maat voor beenmergactiviteit. Een verhoogd reticulocytenpercentage (reticulocytose) wijst op verhoogde erytropoëse als reactie op perifeer bloedverlies of hemolyse; een verlaagd getal bij anemie wijst op beenmergfalen of ineffectieve erytropoëse. De absolute reticulocytencount en de reticulocytenproductie-index (RPI) zijn klinisch relevanter dan het percentage voor het onderscheid tussen regeneratieve en aplastische anemie.",
+    "image_url": "",
+    "short": "Reticulocyten zijn jonge rode bloedcellen (normaal 0,5–2%) die de beenmergactiviteit weerspiegelen: reticulocytose wijst op bloedverlies of hemolyse, een verlaagd getal bij anemie op beenmergfalen. Ze zijn essentieel voor het onderscheid tussen regeneratieve en aplastische anemie."
+  },
+  "stamceltransplantatie": {
+    "title": "Stamceltransplantatie",
+    "definition": "Hematopoëtische stamceltransplantatie (SCT) is een behandeling waarbij het defecte beenmerg van een patiënt wordt vervangen door gezonde hematopoëtische stamcellen, afkomstig van de patiënt zelf (autoloog) of een donor (allogeen). Allogene SCT maakt gebruik van het graft-versus-leukemie (GVL)-effect voor curatie van hematologische maligniteiten, maar gaat gepaard met risico op graft-versus-host-ziekte (GVHD); autologe SCT omzeilt dit immunologisch risico maar mist GVL. Indicaties voor allogene SCT zijn AML, ALL, CML in blastencrisis, MDS en aplastische anemie; autologe SCT wordt ingezet bij multiple myeloom, recidiverend lymfoom en AL-amyloïdose.",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Bone_marrow_biopsy.jpg/320px-Bone_marrow_biopsy.jpg",
+    "short": "Stamceltransplantatie vervangt het zieke beenmerg door gezonde hematopoëtische stamcellen van de patiënt zelf (autoloog) of een donor (allogeen). Allogene transplantatie biedt een graft-versus-leukemie-effect maar brengt risico op GVHD."
+  },
+  "chemotherapie": {
+    "title": "Chemotherapie",
+    "definition": "Chemotherapie omvat het gebruik van cytotoxische geneesmiddelen om maligne cellen te doden of hun groei te remmen, werkend via mechanismen als DNA-schade (alkylerende middelen, platinumverbindingen), remming van topoisomerasen (anthracyclinen, etoposide) of interferentie met mitose (vincristine, taxanen). Bijwerkingen zijn grotendeels het gevolg van toxiciteit op snel delende normale cellen: beenmergdepressie (pancytopenie, infectierisico), mucositis, alopecia, nausea en gonaden-toxiciteit. Moderne oncologie combineert chemotherapie vaak met gerichte therapie (monoklonale antilichamen, tyrosinekinaseremmers) of immunotherapie om de effectiviteit te verhogen en bijwerkingen te beperken.",
+    "image_url": "",
+    "short": "Chemotherapie gebruikt cytotoxische middelen om kankercellen te doden via DNA-schade of remming van celdeling. Bijwerkingen ontstaan door toxiciteit op snel delende gezonde cellen: beenmergdepressie, mucositis, haaruitval en misselijkheid."
+  },
+  "rituximab": {
+    "title": "Rituximab",
+    "definition": "Rituximab is een chimeer monoklonaal antilichaam gericht tegen het CD20-antigeen op het oppervlak van B-lymfocyten, dat celdood veroorzaakt via complement-activering, antilichaam-afhankelijke cellulaire cytotoxiciteit (ADCC) en directe apoptose-inductie. Het wordt breed ingezet bij B-cel NHL (standaard in R-CHOP), CLL, diffuus grootcellig B-cellymfoom, en auto-immuunziekten zoals AIHA en ITP. Bijwerkingen omvatten infusiereacties (koorts, rillingen, hypotensie), B-cel-depletie met verhoogd infectierisico en zeldzame progressieve multifocale leuko-encefalopathie (PML) door reactivering van het JC-virus.",
+    "image_url": "",
+    "short": "Rituximab is een monoklonaal antilichaam tegen CD20 op B-lymfocyten dat B-cellen doodt en standaard wordt ingezet bij B-cel non-Hodgkin lymfoom (R-CHOP). Bijwerkingen zijn infusiereacties en verhoogd infectierisico door langdurige B-cel-depletie."
+  },
+  "imatinib": {
+    "title": "Imatinib",
+    "definition": "Imatinib (Gleevec/Glivec) was de eerste moleculair gerichte tyrosinekinaseremmer en revolutioneerde de behandeling van CML door selectief BCR-ABL1, c-KIT en PDGFR te remmen, waardoor de levensverwachting van CML-patiënten dramatisch verbeterde. Het mechanisme berust op competitieve remming van de ATP-bindingsplaats van het BCR-ABL-kinase, waardoor proliferatie- en overlevingssignalen worden geblokkeerd in Philadelphia-chromosoom-positieve cellen. Resistentie kan optreden door mutaties in het ABL-kinasedomein (m.n. T315I), waarvoor tweede- en derde-generatie TKI's (dasatinib, nilotinib, ponatinib) beschikbaar zijn.",
+    "image_url": "",
+    "short": "Imatinib was de eerste gerichte tyrosinekinaseremmer en revolutioneerde de behandeling van CML door selectief BCR-ABL1 te remmen, ontstaan door het Philadelphia-chromosoom. Bij resistentie zijn tweede- en derde-generatie remmers beschikbaar."
+  },
+  "ipilimumab": {
+    "title": "Ipilimumab",
+    "short": "Ipilimumab blokkeert CTLA-4 op T-cellen waardoor het immuunsysteem kankercellen beter aanvalt; het was het eerste checkpoint-remmende middel met bewezen overlevingsvoordeel bij gemetastaseerd melanoom. Immuungerelateerde bijwerkingen (colitis, hepatitis, rash) kunnen ernstig zijn.",
+    "definition": "<p>Ipilimumab is een monoklonaal antilichaam dat werkt als immuun checkpoint remmer door CTLA-4 (cytotoxic T-lymphocyte-associated protein 4) te blokkeren. Het versterkt het immuunsysteem om kankercellen aan te vallen en wordt voornamelijk gebruikt bij gevorderd melanoom.</p><p><strong>Merknaam:</strong> Yervoy &bull; <strong>Fabrikant:</strong> Bristol Myers Squibb &bull; <strong>FDA-goedkeuring:</strong> 2011 &bull; <strong>Toediening:</strong> intraveneus</p><h4>Werkingsmechanisme</h4><p>Ipilimumab bindt aan CTLA-4 op T-cellen, een remmende receptor die de immuunactivatie normaal onderdrukt. Door CTLA-4 te blokkeren, blijven T-cellen actief en kunnen ze tumorcellen effectiever herkennen en vernietigen.</p><h4>Klinische toepassingen</h4><p>Initieel goedgekeurd voor onresecteerbaar of gemetastaseerd melanoom. Nu ook in combinatie met nivolumab bij niercelcarcinoom, colorectaal carcinoom (MSI-H), hepatocellulair carcinoom en bepaalde longkankers.</p><h4>Bijwerkingen</h4><p>Immuungerelateerde bijwerkingen (irAEs): rash, colitis, hepatitis, hypofysitis, pneumonitis. Behandeling met corticosteroïden of immunosuppressiva indien ernstig.</p><h4>Klinische impact</h4><p>Ipilimumab was het eerste checkpoint-remmende middel dat verbeterde overleving aantoonde bij gemetastaseerd melanoom en legde de basis voor de gehele klasse van immuuncheckpoint-remmers zoals pembrolizumab en nivolumab.</p>",
+    "image_url": "",
+    "wiki_title": "Ipilimumab"
+  }
+,
+"hpv": {
+    "title": "HPV (humaan papillomavirus)",
+    "short": "HPV is een DNA-virus dat via seksueel contact wordt overgedragen en de belangrijkste oorzaak is van cervixcarcinoom, maar ook orofarynx- en anuscarcinoom kan veroorzaken. Vaccinatie beschermt effectief tegen de oncogene serotypen 16 en 18.",
+    "definition": "<p>HPV (humaan papillomavirus) is een <strong>dubbelstrengs DNA-virus</strong> waarvan meer dan 200 typen bekend zijn. Oncogene typen (hoog-risico) zijn type <strong>16 en 18</strong>, die samen verantwoordelijk zijn voor ~70% van cervixcarcinomen.</p><p>HPV integreert in het gastheergenom en remt via de eiwitten E6 en E7 de tumorsuppressoren p53 en Rb, wat leidt tot ongecontroleerde celproliferatie.</p><p>Geassocieerde maligniteiten:</p><ul><li>Cervixcarcinoom (≈100% HPV-positief)</li><li>Orofarynxcarcinoom (tonsil, tongbasis)</li><li>Anuscarcinoom, vulvacarcinoom, peniscarcinoom</li></ul><p>Vaccinatie (Gardasil 9): opgenomen in het Rijksvaccinatieprogramma voor meisjes én jongens.</p>",
+    "image_url": "",
+    "wiki_titles": ["Human papillomavirus infection", "Cervical cancer"]
+  },
+  "siadh": {
+    "title": "SIADH",
+    "short": "SIADH (syndroom van inadequate ADH-secretie) is een paraneoplastisch syndroom waarbij overmatige ADH-productie leidt tot hyponatriëmie door waterretentie. Kleincellig longcarcinoom is de meest frequente maligne oorzaak.",
+    "definition": "<p>SIADH (syndrome of inappropriate antidiuretic hormone secretion) ontstaat door <strong>overmatige ADH-secretie</strong>, wat leidt tot waterretentie en verdunningshyponatriëmie.</p><p>Kenmerken:</p><ul><li>Hyponatriëmie (Na⁺ &lt; 135 mmol/l) met lage plasma-osmolaliteit</li><li>Urine-osmolaliteit &gt; plasma-osmolaliteit</li><li>Urinair Na⁺ &gt; 20 mmol/l, euvolemie</li></ul><p>Maligne oorzaken:</p><ul><li><strong>Kleincellig longcarcinoom</strong> (meest frequent)</li><li>Thymoom, lymfoom, pancreas-, duodenumcarcinoom</li></ul><p>Andere oorzaken: CZS-aandoeningen, geneesmiddelen (SSRI, carbamazepine, cyclofosfamide).</p><p>Behandeling: vochtrestrictie, zo nodig hypertoon NaCl of tolvaptan.</p>",
+    "image_url": "",
+    "wiki_title": "Syndrome of inappropriate antidiuretic hormone secretion"
+  },
+  "adjuvante_chemotherapie": {
+    "match": "adjuvante chemotherapie",
+    "title": "Adjuvante chemotherapie",
+    "short": "Adjuvante chemotherapie is systemische behandeling na primaire chirurgie om micrometastasen te elimineren en de kans op recidief te verkleinen, zonder dat er aantoonbare resterziekte is. Het verhoogt de overleving bij diverse carcinomen waaronder borst, colon en long.",
+    "definition": "<p>Adjuvante chemotherapie wordt gegeven <strong>na lokale (chirurgische) behandeling</strong> wanneer macroscopisch geen restziekte aantoonbaar is, maar het risico op micrometastasen aanwezig is.</p><p>Doel: elimineren van sluimerende micrometastasen die later kunnen leiden tot recidief of metastasering.</p><p>Onderscheid:</p><ul><li><strong>Adjuvant</strong>: ná primaire resectie, geen aantoonbare resterziekte</li><li><strong>Neoadjuvant</strong>: vóór chirurgie (tumorverkleining, downstaging)</li><li><strong>Palliatief</strong>: bij irresectabele of gemetastaseerde ziekte</li></ul><p>Voorbeelden:</p><ul><li>Borstkanker: AC-T (doxorubicine, cyclofosfamide, paclitaxel)</li><li>Coloncarcinoom stadium III: FOLFOX (5-FU, oxaliplatin)</li><li>NSCLC: cisplatine-doublet na resectie stadium II–IIIA</li></ul>",
+    "image_url": "",
+    "wiki_title": "Adjuvant therapy"
+  },
+  "fap": {
+    "title": "FAP (familiaire adenomateuze polyposis)",
+    "short": "FAP is een autosomaal dominante erfelijke aandoening door een kiembaan-APC-genmutatie die leidt tot honderden colonpoliepen; zonder behandeling ontwikkelt vrijwel iedereen coloncarcinoom voor het 40e jaar. Profylactische colectomie is de behandeling van keuze.",
+    "definition": "<p>FAP (familiaire adenomateuze polyposis) is een <strong>autosomaal dominante erfelijke aandoening</strong> veroorzaakt door een kiembaanmutatie in het <strong>APC-gen</strong> (5q21), een tumorsuppressorgen dat β-catenine reguleert in de Wnt-signaleringsroute.</p><p>Kenmerken:</p><ul><li>Honderden tot duizenden adenomateuze poliepen in het colon, zichtbaar vanaf puberteit</li><li>Vrijwel 100% kans op coloncarcinoom zonder profylactische colectomie</li><li>Duodenale poliepen (risico periampullaire carcinoom)</li><li>Desmoidtumoren, CHRPE</li></ul><p>Attenuated FAP (AFAP): &lt;100 poliepen, later begin.</p><p>Behandeling: profylactische proctocolectomie met ileo-anale pouch; levenslange surveillance.</p>",
+    "image_url": "",
+    "wiki_titles": ["Familial adenomatous polyposis", "APC (gene)"]
+  },
+  "pet_ct": {
+    "match": "PET-CT|PET/CT|PET-scan",
+    "title": "PET-CT",
+    "short": "PET-CT combineert positronemissietomografie (metabole activiteit via ¹⁸F-FDG) met CT (anatomische localisatie) voor detectie, stadiëring en respons-evaluatie van maligniteiten. Tumorcellen nemen door hun hoge glucoseomzetting meer FDG op en lichten op als 'hot spots'.",
+    "definition": "<p>PET-CT is een <strong>hybride beeldvormingstechniek</strong> die functionele PET-informatie koppelt aan anatomische CT-detail.</p><p>Werkingsprincipe:</p><ul><li><sup>18</sup>F-FDG (fluorodeoxyglucose) is een radioactief gelabeld glucoseanaloog</li><li>Tumorcellen met hoge metabole activiteit nemen meer FDG op (Warburg-effect)</li><li>Positronen → annihilatie → twee 511 keV-fotonen → reconstructie</li></ul><p>Indicaties in oncologie:</p><ul><li>Stadiëring en detectie van metastasen (lymfoom, melanoom, NSCLC)</li><li>Respons-evaluatie na chemo- of radiotherapie</li><li>Lokalisatie van recidief bij stijgend tumormarker</li></ul><p>Beperkingen: slechte resolutie voor kleine laesies (&lt;6 mm); fout-positief bij ontsteking; weinig zinvol bij traag groeiende tumoren.</p>",
+    "image_url": "",
+    "wiki_titles": ["Positron emission tomography", "CT scan"]
+  },
+  "braf_remmers": {
+    "match": "BRAF-remmers|BRAF-remmer",
+    "title": "BRAF-remmers",
+    "short": "BRAF-remmers (vemurafenib, dabrafenib) zijn doelgerichte therapieën die het gemuteerde BRAF-V600E-kinase remmen en worden gebruikt bij BRAF V600E-gemuteerd melanoom; ze worden vaak gecombineerd met MEK-remmers (trametinib) om resistentie te voorkomen.",
+    "definition": "<p>BRAF-remmers zijn <strong>kleine-molecuulremmers</strong> die specifiek binden aan het gemuteerde BRAF V600E-kinase in de RAS-RAF-MEK-ERK-signaalroute.</p><p>De BRAF V600E-mutatie is aanwezig in:</p><ul><li>~50% van melanomen</li><li>~10% van colorectale carcinomen</li><li>~100% van hairy cell leukemie</li><li>Papillair schildkliercarcinoom</li></ul><p>Beschikbare middelen:</p><ul><li><strong>Vemurafenib</strong>: eerste BRAF-remmer voor gemetastaseerd melanoom</li><li><strong>Dabrafenib + trametinib</strong> (MEK-remmer): betere effectiviteit, minder resistentie</li></ul><p>Bijwerkingen: huidtoxiciteit, artralgie, paradoxale MAPK-activering (→ cutaan plaveiselcelcarcinoom).</p>",
+    "image_url": "",
+    "wiki_titles": ["BRAF inhibitor", "Melanoma"]
+  },
+  "hematurie": {
+    "title": "Hematurie",
+    "short": "Hematurie is de aanwezigheid van bloed in de urine, macroscopisch (zichtbaar rood/bruin) of microscopisch (≥ 3 erytrocyten per gezichtsveld); oorzaken variëren van urineweginfectie en urolithiasis tot blaas- of niercarcinoom.",
+    "definition": "<p>Hematurie is de aanwezigheid van <strong>erytrocyten in de urine</strong>.</p><p>Classificatie:</p><ul><li><strong>Macroscopisch</strong>: zichtbaar rood, roze of bruinrood urine</li><li><strong>Microscopisch</strong>: ≥ 3 erytrocyten per high-power field</li></ul><p>Glomerulaire vs. non-glomerulaire hematurie:</p><ul><li>Glomerulair: acantocyten, erytrocytencilinders, proteïnurie → nefrologisch</li><li>Non-glomerulair: normale erytrocyten → urologisch</li></ul><p>Oorzaken (urologisch):</p><ul><li><strong>Maligne</strong>: blaascarcinoom, niercelcarcinoom, prostaatcarcinoom</li><li><strong>Benigne</strong>: urolithiasis, cystitis, BPH, trauma</li></ul><p><strong>Pijnloze macroscopische hematurie</strong> bij oudere patiënt → urologische maligniteit tot het tegendeel bewezen is.</p>",
+    "image_url": "",
+    "wiki_title": "Hematuria"
+  },
+  "recist": {
+    "title": "RECIST",
+    "short": "RECIST (Response Evaluation Criteria in Solid Tumors) zijn gestandaardiseerde criteria om tumorrespons op behandeling te beoordelen via verandering in tumorgrootte op CT of MRI; responsklassen zijn complete respons (CR), partiële respons (PR), stabiele ziekte (SD) en progressieve ziekte (PD).",
+    "definition": "<p>RECIST (Response Evaluation Criteria in Solid Tumors) zijn <strong>gestandaardiseerde meetcriteria</strong> voor de beoordeling van tumorrespons op anti-kankertherapie op beeldvorming (CT/MRI).</p><p>Doellaesies (target lesions):</p><ul><li>Selecteer ≤ 5 meetbare laesies (≤ 2 per orgaan), meet langste diameter</li></ul><table style='width:100%;font-size:12px;border-collapse:collapse;margin-top:6px'><tr style='background:#f2f2f7'><th style='padding:4px;text-align:left;border:1px solid #ddd'>Categorie</th><th style='padding:4px;text-align:left;border:1px solid #ddd'>Definitie</th></tr><tr><td style='padding:4px;border:1px solid #ddd'><strong>CR</strong></td><td style='padding:4px;border:1px solid #ddd'>Verdwijning van alle doellaesies</td></tr><tr><td style='padding:4px;border:1px solid #ddd'><strong>PR</strong></td><td style='padding:4px;border:1px solid #ddd'>≥ 30% afname som langste diameter</td></tr><tr><td style='padding:4px;border:1px solid #ddd'><strong>SD</strong></td><td style='padding:4px;border:1px solid #ddd'>Noch PR noch PD</td></tr><tr><td style='padding:4px;border:1px solid #ddd'><strong>PD</strong></td><td style='padding:4px;border:1px solid #ddd'>≥ 20% toename of nieuwe laesies</td></tr></table><p style='margin-top:8px'>RECIST 1.1 (2009) is de huidige versie; iRECIST voor immunotherapierespons (pseudo-progressie).</p>",
+    "image_url": "",
+    "wiki_title": "Response evaluation criteria in solid tumors"
+  }
+,
+"ziekte_van_waldenstrom": {
+    "match": "ziekte van Waldenström|Waldenström|ziekte van Waldenstrom",
+    "title": "Ziekte van Waldenström",
+    "short": "De ziekte van Waldenström is een zeldzaam indolent B-cel lymfoom waarbij plasmacytoïde lymfocyten overmatig IgM produceren, wat kan leiden tot hyperviscositeitssyndroom, anemie en hepatosplenomegalie.",
+    "definition": "<p>De ziekte van Waldenström (Waldenströms macroglobulinemie) is een <strong>indolent non-Hodgkin B-cel lymfoom</strong> gekenmerkt door beenmerginfiltatie met lymfoplasmacytoïde cellen die grote hoeveelheden <strong>monoclonaal IgM</strong> produceren.</p><p>Kliniek:</p><ul><li><strong>Hyperviscositeitssyndroom</strong>: wazig zien, hoofdpijn, neurologische uitval, bloedingsneiging — door hoge IgM-concentratie</li><li>Constitutionele symptomen: vermoeidheid, B-symptomen</li><li>Hepatosplenomegalie, lymfadenopathie</li><li>Anemie (beenmergverdringen + hemolyse)</li><li>Perifere neuropathie (IgM binden aan myelineschede)</li></ul><p>Diagnose: IgM-piek op eiwitelectroforese, beenmergbiopt met lymfoplasmacytoïde infiltratie, MYD88 L265P-mutatie in ~90%.</p><p>Behandeling: rituximab-gebaseerde chemo-immunotherapie (R-CHOP, ibrutinib); plasmaferese bij ernstige hyperviscositeit.</p>",
+    "image_url": "",
+    "wiki_title": "Waldenström's macroglobulinemia"
+  },
+  "lymfatische_leukemie": {
+    "match": "chronische lymfatische leukemie|lymfatische leukemie|CLL",
+    "title": "Chronische lymfatische leukemie (CLL)",
+    "short": "CLL is de meest voorkomende leukemie bij volwassenen, gekenmerkt door accumulatie van rijpe maar functioneel incompetente B-lymfocyten in bloed, beenmerg en lymfeklieren; het beloop is vaak indolent maar kan transformeren naar agressief lymfoom (Richter-transformatie).",
+    "definition": "<p>Chronische lymfatische leukemie (CLL) is een <strong>indolent B-cel maligniteit</strong> met klonale expansie van rijpe CD5+/CD23+ B-lymfocyten die niet functioneren maar ook niet apoptoseren.</p><p>Kliniek:</p><ul><li>Asymptomatisch (toevalsbevinding op bloedbeeld)</li><li>Lymfadenopathie, hepatosplenomegalie</li><li>Anemie en trombocytopenie (beenmergverdringen)</li><li>Auto-immuun hemolytische anemie (AIHA) en ITP</li><li>Verhoogde infectiegevoeligheid (hypogammaglobulinemie)</li></ul><p>Rai/Binet-stadiëring bepaalt prognose. Prognostische markers: del(17p) / TP53-mutatie = slechtst; IGHV-gemuteerd = beter.</p><p>Behandeling: 'watch-and-wait' bij asymptomatisch; BTK-remmer (ibrutinib, acalabrutinib) of venetoclax + rituximab bij symptomatisch.</p>",
+    "image_url": "",
+    "wiki_title": "Chronic lymphocytic leukemia"
+  },
+  "prednison": {
+    "title": "Prednison",
+    "short": "Prednison is een synthetisch glucocorticoïd met krachtige anti-inflammatoire en immunosuppressieve werking, gebruikt bij auto-immuunziekten, allergische reacties en als onderdeel van chemotherapieprotocollen bij lymfomen en leukemieën (o.a. CHOP-schema).",
+    "definition": "<p>Prednison is een <strong>synthetisch glucocorticoïd</strong> (prodrug → actief prednisolon) met brede anti-inflammatoire en immunosuppressieve effecten via remming van NF-κB en AP-1.</p><p>Werkingsmechanisme:</p><ul><li>Remt prostaglandine- en cytokinenproductie (IL-1, IL-6, TNF-α)</li><li>Induceert apoptose in lymfocyten → onmisbaar in hematologische maligniteiten</li><li>Vermindert vasculaire permeabiliteit</li></ul><p>Hematologische indicaties:</p><ul><li>Onderdeel CHOP, R-CHOP, MOPP-protocollen</li><li>ALL-inductietherapie</li><li>CLL met AIHA of ITP</li><li>Multipel myeloom (VMP, MPT)</li></ul><p>Bijwerkingen bij langdurig gebruik: cushingoid, osteoporose, hyperglykemie, adreuminsufficiëntie bij plotse stop, verhoogde infectierisico.</p>",
+    "image_url": "",
+    "wiki_title": "Prednisone"
+  },
+  "lymfadenopathie": {
+    "title": "Lymfadenopathie",
+    "short": "Lymfadenopathie is het pathologisch vergroten van lymfeklieren (> 1 cm) als gevolg van infectie, auto-immuunziekte of maligniteit; bilaterale gegeneraliseerde lymfadenopathie met B-symptomen doet meer aan maligniteit denken dan gelokaliseerde reactieve lymfeklieren.",
+    "definition": "<p>Lymfadenopathie is de term voor <strong>vergote lymfeklieren</strong> (normaal &lt; 1 cm; &gt; 1,5 cm geldt zeker als pathologisch).</p><p>Indeling:</p><ul><li><strong>Lokaal</strong>: reactief bij infectie in drainagegebied (bijv. cervicaal bij keelontsteking)</li><li><strong>Gegeneraliseerd</strong>: systemische oorzaak (infectie, auto-immuun, maligniteit)</li></ul><p>Oorzaken:</p><ul><li>Infectieus: EBV (mononucleosis), CMV, HIV, toxoplasmose, TBC</li><li>Maligne: lymfoom (Hodgkin, NHL), leukemie (CLL), solide metastasen</li><li>Auto-immuun: SLE, RA, sarcoïdose</li></ul><p>Alarmsymptomen (suggestief voor maligniteit):</p><ul><li>B-symptomen: koorts, nachtzweten, &gt; 10% gewichtsverlies in 6 maanden</li><li>Harde, vaste, niet-pijnlijke klieren</li><li>Progressief groeiend</li><li>Mediastinale lymfadenopathie</li></ul>",
+    "image_url": "",
+    "wiki_title": "Lymphadenopathy"
+  },
+  "braf_mutatie": {
+    "match": "BRAF-mutatie|BRAF mutatie|BRAF V600E|BRAF-V600E",
+    "title": "BRAF-mutatie (V600E)",
+    "short": "De BRAF V600E-mutatie is een activerende puntmutatie die leidt tot constitutieve activering van de MAPK-signaalroute en ongecontroleerde celproliferatie; aanwezig in ~50% van melanomen, ~10% van colorectale carcinomen en vrijwel alle hairy cell leukemieën.",
+    "definition": "<p>De <strong>BRAF V600E-mutatie</strong> is een puntmutatie (valine → glutaminezuur op positie 600) in het BRAF-kinasegen, waardoor BRAF constitutief actief is onafhankelijk van upstream RAS-activering.</p><p>Gevolg: continue activering van de <strong>MAPK/ERK-signaalroute</strong> → ongecontroleerde celproliferatie, remming van apoptose.</p><p>Voorkomen:</p><ul><li>~50% melanomen</li><li>~100% hairy cell leukemie (HCL)</li><li>~10% colorectale carcinomen (slechte prognose, weinig respons op EGFR-remmers)</li><li>Papillair schildkliercarcinoom</li><li>Gliomen (kinderen)</li></ul><p>Klinische relevantie:</p><ul><li>Therapeutisch doelwit: BRAF-remmers (vemurafenib, dabrafenib) ± MEK-remmer</li><li>Diagnostisch: BRAF-mutatiestatus bepaalt behandelstrategie bij melanoom en CRC</li><li>Bij CRC: BRAF V600E = slechtere prognose en geen baat bij cetuximab/panitumumab</li></ul>",
+    "image_url": "",
+    "wiki_titles": ["BRAF (gene)", "BRAF inhibitor"]
+  }
+};
+// Q3 hemoglobinopathie matching table
+var Q3_ANS = [
+  ['mutatie in betaketen',  'polymerisatie deoxy-HbS',     'obstructie microcirculatie'],
+  ['synthese betaketens',   'overschot vrije alfa-ketens', 'intramedullaire hemolyse'],
+  ['synthese alfaketens',   'overschot vrije beta-ketens', 'bij HbH ziekte verhoogde afbraak in milt']
+];
+function updateMatchCheck3() {
+  var sels = document.querySelectorAll('.mq3-sel');
+  var ok = Array.from(sels).every(function(s){ return s.value !== ''; });
+  document.getElementById('check-3').disabled = !ok;
+}
+function checkMatchTable3() {
+  var sels = document.querySelectorAll('.mq3-sel');
+  var allOk = true;
+  sels.forEach(function(sel) {
+    var r = parseInt(sel.dataset.row), c = parseInt(sel.dataset.col);
+    var correct = Q3_ANS[r][c];
+    sel.disabled = true;
+    if (sel.value === correct) {
+      sel.style.borderColor = '#34C759'; sel.style.background = '#F0FFF4';
+    } else {
+      sel.style.borderColor = '#FF3B30'; sel.style.background = '#FFF2F2';
+      allOk = false;
+    }
+  });
+  state.answered[3] = allOk ? 'correct' : 'wrong';
+  var badge = document.getElementById('badge-3');
+  badge.className = 'result-badge ' + (allOk ? 'correct' : 'wrong');
+  badge.textContent = '';
+  document.getElementById('result-3').classList.add('show');
+  if (allOk) {
+    state.streak++;
+    awardXP(xpForQuestion(3), 3);
+  } else {
+    state.streak = 0;
+  }
+  updateSummary();
+  updateStreakBar();
+}
+
+</script>
+<script>
+var SAVE_KEY = 'vumed_progress_ho_2016_2017_2e';
+(function(){try{if(!localStorage.getItem(SAVE_KEY)){var _old=localStorage.getItem('medeace_progress_ho_2016_2017_2e');if(_old){localStorage.setItem(SAVE_KEY,_old);localStorage.removeItem('medeace_progress_ho_2016_2017_2e');}}}catch(e){}})();
+var EXAM_KEY = 'ho_2016_2017_2e';
+var CHAT_SYSTEM = 'Je bent een medische studieassistent voor een tweedejaars student geneeskunde aan Amsterdam UMC/VUmc. De student studeert voor hematologie en oncologie. Beantwoord vragen kort, klinisch relevant en in het Nederlands. Gebruik geen onnodige inleidingen.';
+</script>
+<script src="medeace-runtime.js?v=10"></script>
+<script src="answer_terms.js?v=1"></script>
+<script src="progressdots.js?v=67"></script>
+</body>
+</html>
