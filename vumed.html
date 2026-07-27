@@ -1996,9 +1996,14 @@ function AuthModal({ onClose, onLoggedIn, initialMsg }) {
           )}
         </div>
 
-        {/* Terms */}
+        {/* Terms — echte links (auth_gate.js doet hetzelfde); een reviewer én
+            een gebruiker moet het privacybeleid hier kunnen openen. */}
         <div style={{ fontSize: 12, color: "#afafaf", textAlign: "center", lineHeight: 1.6 }}>
-          Door in te loggen ga je akkoord met onze <strong style={{ color: "#777" }}>Gebruiksvoorwaarden</strong> en <strong style={{ color: "#777" }}>Privacybeleid</strong>.
+          Door in te loggen ga je akkoord met onze{" "}
+          <a href="voorwaarden.html" target="_blank" rel="noopener"
+             style={{ color: "#1CB0F6", fontWeight: 700, textDecoration: "none" }}>Gebruiksvoorwaarden</a> en{" "}
+          <a href="privacybeleid.html" target="_blank" rel="noopener"
+             style={{ color: "#1CB0F6", fontWeight: 700, textDecoration: "none" }}>Privacybeleid</a>.
         </div>
 
       </div>

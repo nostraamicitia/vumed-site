@@ -615,6 +615,22 @@
       <div class="section-panel" id="panel-privacy">
         <div class="settings-title">Privacy</div>
         <div class="settings-divider"></div>
+
+        <!-- Zichtbaarheid voor andere gebruikers. Het weekklassement is het
+             enige onderdeel dat gegevens van jou aan anderen toont; hier zet je
+             dat aan of uit (dezelfde kolom als de toestemmingsvraag op de
+             klassementpagina: user_profiles.leaderboard_opt_in). -->
+        <div class="section-header">Zichtbaarheid</div>
+        <div class="toggle-row">
+          <span class="toggle-label">Meedoen aan het weekklassement<span class="goal-hint" id="lb-hint">Je weergavenaam, avatar en week-XP zijn dan zichtbaar voor andere VUmed-gebruikers.</span></span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-lb">
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+        </div>
+
+        <div class="section-header" style="margin-top: 28px;">Documenten</div>
         <a class="link-row" href="privacybeleid.html">
           <span>Privacybeleid</span>
           <span class="link-arrow">›</span>
@@ -663,15 +679,15 @@
 
       <div class="nav-card">
         <div class="nav-card-header">Account</div>
-        <button class="nav-card-btn active" onclick="switchSection('voorkeuren', this)">Voorkeuren</button>
-        <button class="nav-card-btn" onclick="switchSection('profiel', this)">Profiel</button>
-        <button class="nav-card-btn" onclick="switchSection('sociaal', this)">Sociale accounts</button>
-        <button class="nav-card-btn" onclick="switchSection('privacy', this)">Privacy</button>
+        <button class="nav-card-btn active" data-sec="voorkeuren" onclick="switchSection('voorkeuren', this)">Voorkeuren</button>
+        <button class="nav-card-btn" data-sec="profiel" onclick="switchSection('profiel', this)">Profiel</button>
+        <button class="nav-card-btn" data-sec="sociaal" onclick="switchSection('sociaal', this)">Sociale accounts</button>
+        <button class="nav-card-btn" data-sec="privacy" onclick="switchSection('privacy', this)">Privacy</button>
       </div>
 
       <div class="nav-card">
         <div class="nav-card-header">Ondersteuning</div>
-        <button class="nav-card-btn" onclick="switchSection('help', this)">Helpcentrum</button>
+        <button class="nav-card-btn" data-sec="help" onclick="switchSection('help', this)">Helpcentrum</button>
         <a class="nav-card-btn" href="over.html" style="text-decoration:none;">Over VUmed</a>
       </div>
 
@@ -953,17 +969,43 @@ function _accMsg(id, type, text) {
 })();
 
 // ── Section switching ─────────────────────────────────────────────────────
+// btn is optioneel: bij een deeplink (#privacy) zoeken we de bijbehorende
+// navigatieknop zelf op via data-sec.
 function switchSection(id, btn) {
+  var panel = document.getElementById('panel-' + id);
+  if (!panel) return;
   document.querySelectorAll('.section-panel').forEach(function(p) {
     p.classList.remove('active');
   });
   document.querySelectorAll('.nav-card-btn').forEach(function(b) {
     b.classList.remove('active');
   });
-  document.getElementById('panel-' + id).classList.add('active');
-  btn.classList.add('active');
+  panel.classList.add('active');
+  if (!btn) btn = document.querySelector('.nav-card-btn[data-sec="' + id + '"]');
+  if (btn) btn.classList.add('active');
   document.getElementById('page-root').scrollTop = 0;
 }
+
+// ── Deeplinks ─────────────────────────────────────────────────────────────
+// Zonder dit landde instellingen.html#privacy (o.a. de knop "Naar Account
+// verwijderen" in privacybeleid.html en de accountrij op profile.html) altijd
+// op Voorkeuren. #verwijderen opent daarnaast direct de bevestigingsmodal.
+(function initHashRoute() {
+  var MAP = { voorkeuren:'voorkeuren', profiel:'profiel', account:'profiel',
+              sociaal:'sociaal', privacy:'privacy', help:'help',
+              verwijderen:'privacy' };
+  function route() {
+    var h = (location.hash || '').replace(/^#/, '').toLowerCase();
+    var sec = MAP[h];
+    if (!sec) return;
+    switchSection(sec);
+    if (h === 'verwijderen') setTimeout(function () {
+      try { openDeleteAccount(); } catch (e) {}
+    }, 280);
+  }
+  route();
+  window.addEventListener('hashchange', route);
+})();
 
 // ── Dark / light mode ─────────────────────────────────────────────────────
 function setMode(mode) {
@@ -982,6 +1024,52 @@ function setMode(mode) {
   var saved = localStorage.getItem('vumed_theme') || 'light';
   document.getElementById('mode-light').classList.toggle('active', saved === 'light');
   document.getElementById('mode-dark').classList.toggle('active', saved === 'dark');
+})();
+
+// ── Weekklassement: zichtbaarheid voor andere gebruikers ──────────────────
+// Dezelfde kolom als de toestemmingsvraag op voortgang.html. Uit = de server
+// laat je uit ieder klassement (get_weekly_leaderboard filtert erop).
+(function initLbToggle() {
+  var tog  = document.getElementById('toggle-lb');
+  var hint = document.getElementById('lb-hint');
+  if (!tog) return;
+  var sb = _settingsSB();
+  if (!sb) { setTimeout(initLbToggle, 500); return; }
+  var uid = null;
+  tog.disabled = true;
+
+  sb.auth.getSession().then(async function (res) {
+    var session = res && res.data && res.data.session;
+    if (!session) {
+      if (hint) hint.textContent = 'Log in om je zichtbaarheid in het klassement te beheren.';
+      return;
+    }
+    uid = session.user.id;
+    try {
+      var q = await sb.from('user_profiles')
+        .select('leaderboard_opt_in').eq('user_id', uid).maybeSingle();
+      if (q.error) throw q.error;
+      tog.checked  = !!(q.data && q.data.leaderboard_opt_in);
+      tog.disabled = false;
+    } catch (e) {
+      if (hint) hint.textContent = 'Je zichtbaarheid kon niet worden opgehaald — probeer het later opnieuw.';
+    }
+  }).catch(function () {});
+
+  tog.addEventListener('change', async function () {
+    if (!uid) return;
+    var want = tog.checked;
+    tog.disabled = true;
+    try {
+      var r = await sb.from('user_profiles')
+        .upsert({ user_id: uid, leaderboard_opt_in: want });
+      if (r.error) throw r.error;
+    } catch (e) {
+      tog.checked = !want;                       /* mislukt = laat de oude stand zien */
+      if (hint) hint.textContent = 'Opslaan mislukte — probeer het later opnieuw.';
+    }
+    tog.disabled = false;
+  });
 })();
 
 // ── Sound effects toggle ──────────────────────────────────────────────────

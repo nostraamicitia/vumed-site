@@ -284,6 +284,70 @@
       padding: 36px 22px; text-align: center;
       color: #afafaf; font-size: 14px; font-weight: 600; line-height: 1.6;
     }
+
+    /* ── Toestemming voor het klassement ────────────────────────────────────
+       Je weergavenaam, avatar en week-XP zijn zichtbaar voor andere gebruikers,
+       en dat gebeurt pas nadat je hier expliciet ja op zegt (Apple 5.1.2).
+       Eigen kleuren + eigen html.dark-regels: dark-theme.css kent deze klassen
+       niet. Volgorde volgt gotcha 5 — html.dark-regels ná de basisregels. */
+    .lbc-overlay {
+      position: fixed; inset: 0; z-index: 9200; padding: 20px;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.5); opacity: 0; transition: opacity .2s ease;
+    }
+    .lbc-overlay.open { display: flex; opacity: 1; }
+    .lbc-modal {
+      background: #fff; color: #1C1C1E; width: 100%; max-width: 430px;
+      border-radius: 22px; padding: 26px 24px 22px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.3);
+      max-height: calc(100vh - 40px); overflow-y: auto;
+      transform: translateY(12px) scale(.97);
+      transition: transform .22s cubic-bezier(.2,.9,.3,1.2);
+    }
+    .lbc-overlay.open .lbc-modal { transform: none; }
+    .lbc-icon {
+      width: 60px; height: 60px; margin: 0 auto 14px; border-radius: 50%;
+      background: rgba(28,176,246,0.12);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lbc-title { font-size: 20px; font-weight: 900; text-align: center; margin-bottom: 9px; }
+    .lbc-body { font-size: 14.5px; color: #6b7280; line-height: 1.6; text-align: center; margin-bottom: 16px; }
+    .lbc-list { list-style: none; padding: 14px 16px; margin-bottom: 16px; background: #F7F9FB; border-radius: 14px; }
+    .lbc-list li { display: flex; gap: 10px; font-size: 13.5px; font-weight: 600; line-height: 1.5; }
+    .lbc-list li + li { margin-top: 9px; }
+    .lbc-list svg { flex-shrink: 0; margin-top: 2px; }
+    .lbc-actions { display: flex; flex-direction: column; gap: 10px; }
+    .lbc-btn {
+      width: 100%; padding: 14px 12px; border-radius: 14px; border: none;
+      font-family: inherit; font-size: 15px; font-weight: 800; cursor: pointer;
+      transition: background .15s, transform .1s;
+    }
+    .lbc-btn--yes { background: #1CB0F6; color: #fff; border-bottom: 4px solid #0E85B5; }
+    .lbc-btn--yes:hover { background: #33bcff; }
+    .lbc-btn--yes:active { transform: translateY(2px); border-bottom-width: 2px; }
+    .lbc-btn--no { background: #fff; color: #7b8794; border: 2px solid #E5E5EA; }
+    .lbc-btn--no:hover { background: #F7F9FB; }
+    .lbc-note { font-size: 12.5px; color: #afafaf; text-align: center; line-height: 1.55; margin-top: 14px; }
+    .lbc-note a { color: #1CB0F6; font-weight: 700; }
+
+    /* Uitgezette staat in de klassementkaart zelf */
+    .lbc-off { padding: 32px 22px; text-align: center; }
+    .lbc-off-title { font-size: 15.5px; font-weight: 800; color: #1C1C1E; margin-bottom: 8px; }
+    .lbc-off-text { font-size: 13.5px; color: #afafaf; font-weight: 600; line-height: 1.6; max-width: 330px; margin: 0 auto 16px; }
+    .lbc-off-btn {
+      background: #1CB0F6; color: #fff; border: none; border-bottom: 4px solid #0E85B5;
+      border-radius: 14px; padding: 12px 22px;
+      font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer;
+    }
+    .lbc-off-btn:hover { background: #33bcff; }
+
+    html.dark .lbc-modal { background: #2C2C2E; color: #F2F2F7; }
+    html.dark .lbc-body { color: #98989F; }
+    html.dark .lbc-list { background: #1C1C1E; }
+    html.dark .lbc-btn--no { background: #2C2C2E; color: #98989F; border-color: #48484A; }
+    html.dark .lbc-btn--no:hover { background: #3A3A3C; }
+    html.dark .lbc-off-title { color: #F2F2F7; }
+
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.14); border-radius: 10px; }
@@ -446,6 +510,41 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ── Toestemming klassement (Apple Guideline 5.1.2) ──────────────────────
+     Verschijnt één keer, vóór je gegevens bij anderen in beeld komen. Geen
+     sluiten-buiten-de-modal en geen kruisje: er moet een keuze gemaakt worden
+     (net als de dagdoel-picker op het dashboard). -->
+<div class="lbc-overlay" id="lbcOverlay" role="dialog" aria-modal="true" aria-labelledby="lbcTitle">
+  <div class="lbc-modal">
+    <div class="lbc-icon">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 21h12" stroke="#1CB0F6" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M12 17v4" stroke="#1CB0F6" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M7 4h10v5a5 5 0 0 1-10 0V4z" fill="#1CB0F6"/>
+        <path d="M7 5H4.5v1.5A3.5 3.5 0 0 0 8 10M17 5h2.5v1.5A3.5 3.5 0 0 1 16 10" stroke="#1CB0F6" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <h2 class="lbc-title" id="lbcTitle">Meedoen aan het weekklassement?</h2>
+    <p class="lbc-body">Het klassement is openbaar binnen VUmed. Als je meedoet, delen we deze gegevens met andere gebruikers van de app:</p>
+    <ul class="lbc-list">
+      <li>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1CB0F6"/><path d="M7.5 12.4l3 3 6-6.4" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Je weergavenaam en je avatar</span>
+      </li>
+      <li>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#1CB0F6"/><path d="M7.5 12.4l3 3 6-6.4" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>De XP die je deze week hebt verdiend, en je plek in de lijst</span>
+      </li>
+    </ul>
+    <p class="lbc-body" style="margin-bottom:14px">Doe je niet mee, dan blijft je voortgang volledig privé. Je kunt dit altijd wijzigen via <strong>Instellingen&nbsp;→&nbsp;Privacy</strong>.</p>
+    <div class="lbc-actions">
+      <button type="button" class="lbc-btn lbc-btn--yes" id="lbcYes">Ja, ik doe mee</button>
+      <button type="button" class="lbc-btn lbc-btn--no" id="lbcNo">Nee, houd mij privé</button>
+    </div>
+    <p class="lbc-note">Meer weten? Lees het <a href="privacybeleid.html" target="_blank" rel="noopener">privacybeleid</a>.</p>
   </div>
 </div>
 
@@ -723,6 +822,79 @@ async function loadLeaderboard(sb, myId) {
   }
 }
 
+/* ── Toestemming voor het klassement (Apple Guideline 5.1.2) ───────────────
+   `user_profiles.leaderboard_opt_in`: null = nog nooit gevraagd, en dan is de
+   gebruiker ook NIET zichtbaar (get_weekly_leaderboard filtert op
+   coalesce(leaderboard_opt_in,false)). true = toestemming, false = privé.
+   Faalt de kolomlezing (bv. een build tegen een oudere database), dan doen we
+   niets bijzonders en gedraagt de pagina zich als voorheen — de server blijft
+   in dat geval de poortwachter. */
+let lbOptIn = null;
+
+async function readLbOptIn(sb, uid) {
+  try {
+    const { data, error } = await sb
+      .from('user_profiles').select('leaderboard_opt_in').eq('user_id', uid).maybeSingle();
+    if (error) return undefined;
+    return data ? (data.leaderboard_opt_in === null ? null : !!data.leaderboard_opt_in) : null;
+  } catch (e) { return undefined; }
+}
+
+async function saveLbOptIn(sb, uid, val) {
+  lbOptIn = val;
+  try {
+    const { error } = await sb.from('user_profiles')
+      .upsert({ user_id: uid, leaderboard_opt_in: val });
+    return !error;
+  } catch (e) { return false; }
+}
+
+/* Blokkerende keuze — geen kruisje, geen sluiten buiten de modal. */
+function askLbConsent() {
+  return new Promise(function (resolve) {
+    const ov  = document.getElementById('lbcOverlay');
+    const yes = document.getElementById('lbcYes');
+    const no  = document.getElementById('lbcNo');
+    function done(val) {
+      yes.onclick = null; no.onclick = null;
+      ov.classList.remove('open');
+      /* De inline display:flex hieronder is nodig voor de opening-transitie,
+         maar overschrijft ook de display:none uit de basisregel — laat je hem
+         staan, dan blijft er een onzichtbare overlay over de hele pagina liggen
+         die alle kliks opslokt (gevonden in test). */
+      setTimeout(function () { ov.style.display = ''; }, 240);
+      resolve(val);
+    }
+    yes.onclick = function () { done(true); };
+    no.onclick  = function () { done(false); };
+    ov.style.display = 'flex';            /* reflow vóór de transitie — geen rAF,
+                                             die bevriest in achtergrondtabs */
+    void ov.offsetHeight;
+    setTimeout(function () { ov.classList.add('open'); }, 10);
+  });
+}
+
+/* Klassementkaart in de "ik doe niet mee"-stand, met een weg terug. */
+function renderLbOptedOut(sb, uid) {
+  const pod  = document.getElementById('podium');
+  const list = document.getElementById('lbList');
+  if (pod) pod.style.display = 'none';
+  list.innerHTML =
+    '<div class="lbc-off">' +
+      '<div class="lbc-off-title">Je doet niet mee aan het klassement</div>' +
+      '<div class="lbc-off-text">Je naam, avatar en week-XP blijven privé en worden niet met andere gebruikers gedeeld. Je voortgang, XP en prestaties lopen gewoon door.</div>' +
+      '<button type="button" class="lbc-off-btn" id="lbcJoin">Toch meedoen</button>' +
+    '</div>';
+  const join = document.getElementById('lbcJoin');
+  if (join) join.onclick = async function () {
+    join.disabled = true;
+    join.textContent = 'Bezig…';
+    await saveLbOptIn(sb, uid, true);
+    list.innerHTML = '<div class="lb-empty">Klassement laden…</div>';
+    await loadLeaderboard(sb, uid);
+  };
+}
+
 /* ── Rang (medische carrière) — zelfde ladder als profile.html LEAGUE_TIERS ── */
 const RANK_TIERS = [
   { name: 'Student',      min: 0,     color: '#58CC02' },
@@ -787,6 +959,16 @@ async function init() {
 
   totalXP = profile?.total_xp || 0;
 
+  /* Toestemming vóór álles: zolang de vraag niet beantwoord is schrijven we nog
+     geen enkel klassementveld (week_key/week_start_xp) en halen we de lijst niet
+     op. Wie "nee" kiest komt nooit in andermans klassement — dat wordt
+     server-side afgedwongen in get_weekly_leaderboard(). */
+  lbOptIn = await readLbOptIn(sb, user.id);
+  if (lbOptIn === null) {
+    const choice = await askLbConsent();
+    await saveLbOptIn(sb, user.id, choice);
+  }
+
   /* Update profile fields if needed */
   const currentWeekKey = getISOWeekKey();
   const localAvatar    = localStorage.getItem('vumed_avatar_head_svg') || null;
@@ -809,7 +991,9 @@ async function init() {
   countUp(document.getElementById('tileWeekXP'), Math.max(0, totalXP - weekStartXP));
 
   updateStats();
-  await loadLeaderboard(sb, user.id);
+
+  if (lbOptIn === false) renderLbOptedOut(sb, user.id);
+  else await loadLeaderboard(sb, user.id);
 
   /* Logged out in another tab → the gate comes back rather than a hard redirect. */
   sb.auth.onAuthStateChange(function(event, session2){
