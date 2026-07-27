@@ -475,9 +475,11 @@
     <!-- Left: section panels -->
     <div class="settings-content">
 
-      <!-- ── VOORKEUREN ── -->
-      <div class="section-panel active" id="panel-voorkeuren">
-        <div class="settings-title">Voorkeuren</div>
+      <!-- ── ACCOUNT (voorkeuren + profiel samengevoegd) ──────────────────
+           Eén tabblad voor alles wat over jouw account gaat: wie je bent, hoe
+           de app zich gedraagt, en onderaan het verwijderen ervan. -->
+      <div class="section-panel active" id="panel-account">
+        <div class="settings-title">Account</div>
         <div class="settings-divider"></div>
 
         <div class="section-header">Leservaringen</div>
@@ -505,12 +507,9 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- ── PROFIEL ── -->
-      <div class="section-panel" id="panel-profiel">
-        <div class="settings-title">Profiel</div>
-        <div class="settings-divider"></div>
+        <div class="settings-divider" style="margin: 28px 0 0;"></div>
+        <div class="section-header" style="margin-top: 22px;">Je profiel</div>
 
         <!-- Logged in: identity card -->
         <div id="pcard-wrap" style="display:none;">
@@ -554,6 +553,14 @@
             </svg>
           </div>
           <div class="placeholder-text">Log in om je profielinformatie te bekijken en te bewerken.</div>
+        </div>
+
+        <!-- Account verwijderen — onderaan dit tabblad, want het is het meest
+             ingrijpende wat je met je account kunt doen (Apple 5.1.1(v)). -->
+        <div class="danger-card" style="margin-top: 30px;">
+          <div class="danger-title">Account verwijderen</div>
+          <div class="danger-text">Verwijdert je account, voortgang, opgeslagen vragen en spelgegevens <strong>definitief</strong> — dit kan niet ongedaan worden gemaakt.</div>
+          <button class="danger-btn" onclick="openDeleteAccount()">Account verwijderen</button>
         </div>
       </div>
 
@@ -643,11 +650,6 @@
           <span>Cookies &amp; lokale opslag</span>
           <span class="link-arrow">›</span>
         </a>
-        <div class="danger-card">
-          <div class="danger-title">Account verwijderen</div>
-          <div class="danger-text">Verwijdert je account, voortgang, opgeslagen vragen en spelgegevens <strong>definitief</strong> — dit kan niet ongedaan worden gemaakt.</div>
-          <button class="danger-btn" onclick="openDeleteAccount()">Account verwijderen</button>
-        </div>
       </div>
 
       <!-- ── HELPCENTRUM ── -->
@@ -678,9 +680,8 @@
     <div class="settings-sidebar">
 
       <div class="nav-card">
-        <div class="nav-card-header">Account</div>
-        <button class="nav-card-btn active" data-sec="voorkeuren" onclick="switchSection('voorkeuren', this)">Voorkeuren</button>
-        <button class="nav-card-btn" data-sec="profiel" onclick="switchSection('profiel', this)">Profiel</button>
+        <div class="nav-card-header">Instellingen</div>
+        <button class="nav-card-btn active" data-sec="account" onclick="switchSection('account', this)">Account</button>
         <button class="nav-card-btn" data-sec="sociaal" onclick="switchSection('sociaal', this)">Sociale accounts</button>
         <button class="nav-card-btn" data-sec="privacy" onclick="switchSection('privacy', this)">Privacy</button>
       </div>
@@ -991,9 +992,11 @@ function switchSection(id, btn) {
 // verwijderen" in privacybeleid.html en de accountrij op profile.html) altijd
 // op Voorkeuren. #verwijderen opent daarnaast direct de bevestigingsmodal.
 (function initHashRoute() {
-  var MAP = { voorkeuren:'voorkeuren', profiel:'profiel', account:'profiel',
-              sociaal:'sociaal', privacy:'privacy', help:'help',
-              verwijderen:'privacy' };
+  // Voorkeuren en Profiel zijn samengevoegd tot één Account-tabblad; hun oude
+  // deeplinks blijven werken en komen daar uit.
+  var MAP = { account:'account', voorkeuren:'account', profiel:'account',
+              verwijderen:'account',
+              sociaal:'sociaal', privacy:'privacy', help:'help' };
   function route() {
     var h = (location.hash || '').replace(/^#/, '').toLowerCase();
     var sec = MAP[h];

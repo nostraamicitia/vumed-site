@@ -342,21 +342,13 @@
     .afr-invite .add-friend-icon { background: linear-gradient(135deg, #FFB74D, #FF9600); }
     .afr-invite:hover { background: #FFF6E9; }
     .afr-invite:hover .add-friend-arrow { color: #FF9600; }
-    /* Accountkaart — rijen zijn hier links, dus onderstreping eraf. Het
-       tandwieltje in de hero was de enige weg naar Instellingen (en daarmee
-       naar Account verwijderen); deze rijen maken dat expliciet zichtbaar. */
+    /* Instellingen-rij — een link, dus onderstreping eraf. Het tandwieltje in
+       de hero was de enige weg naar Instellingen (en daarmee naar Account
+       verwijderen); deze rij maakt die route expliciet zichtbaar. */
     a.add-friend-row { text-decoration: none; }
     .afr-settings .add-friend-icon { background: linear-gradient(135deg, #A0AEC0, #6B7A8D); }
     .afr-settings:hover { background: #F2F4F7; }
     .afr-settings:hover .add-friend-arrow { color: #6B7A8D; }
-    .afr-privacy .add-friend-icon { background: linear-gradient(135deg, #A78BFA, #8B5CF6); }
-    .afr-privacy:hover { background: #F5F0FF; }
-    .afr-privacy:hover .add-friend-arrow { color: #8B5CF6; }
-    .afr-delete .add-friend-icon { background: linear-gradient(135deg, #FF7A70, #FF3B30); }
-    .afr-delete .add-friend-label { color: #FF3B30; }
-    .afr-delete:hover { background: #FFF1F0; }
-    .afr-delete:hover .add-friend-arrow { color: #FF3B30; }
-    html.dark .afr-delete .add-friend-label { color: #FF6B60; }
 
     .friend-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1.5px solid #f0f0f0; }
     .friend-row:last-child { border-bottom: none; }
@@ -772,33 +764,16 @@
       </div>
     </div>
 
-    <!-- Account card — zelfde taal als de vriendenkaart. "Account verwijderen"
-         staat hier expliciet in beeld (Apple Guideline 5.1.1(v)) en linkt via
-         #verwijderen rechtstreeks naar de bevestigingsmodal in instellingen. -->
+    <!-- Eén zichtbare, benoemde ingang naar Instellingen. Het tandwieltje in de
+         hero is daarmee niet langer de enige route — daar liep de App-Review
+         op vast (5.1.1(v)). Account verwijderen zelf woont in
+         instellingen.html → Account. -->
     <div class="add-friends-card">
-      <div class="add-friends-title">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="#fff" stroke-width="2.1"/><path d="M5 19.5c0-3.6 3.1-6 7-6s7 2.4 7 6" stroke="#fff" stroke-width="2.1" stroke-linecap="round"/></svg>
-        Account
-      </div>
       <a class="add-friend-row afr-settings" href="instellingen.html">
         <div class="add-friend-icon">
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#fff" stroke-width="2.2"/><path d="M12 3v2.4M12 18.6V21M4.2 7.5l2.1 1.2M17.7 15.3l2.1 1.2M4.2 16.5l2.1-1.2M17.7 8.7l2.1-1.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
         </div>
         <div class="add-friend-label">Instellingen</div>
-        <div class="add-friend-arrow">›</div>
-      </a>
-      <a class="add-friend-row afr-privacy" href="privacybeleid.html">
-        <div class="add-friend-icon">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3.2l6.5 2.6v5.4c0 4-2.7 7.4-6.5 8.6-3.8-1.2-6.5-4.6-6.5-8.6V5.8L12 3.2z" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/><path d="M9.2 12.2l2 2 3.6-3.9" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="add-friend-label">Privacybeleid</div>
-        <div class="add-friend-arrow">›</div>
-      </a>
-      <a class="add-friend-row afr-delete" href="instellingen.html#verwijderen">
-        <div class="add-friend-icon">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5.5 7h13M9.5 7V4.8h5V7M7 7l.9 12.2h8.2L17 7" stroke="#fff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/><path d="M10.4 10.5v6M13.6 10.5v6" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/></svg>
-        </div>
-        <div class="add-friend-label">Account verwijderen</div>
         <div class="add-friend-arrow">›</div>
       </a>
     </div>
@@ -1367,13 +1342,14 @@ async function loadStats(sb, userId) {
   } catch(e) {}
 
   // Optional columns — separate query so a missing column never kills the rest
-  let streak = 0, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null;
+  let streak = 0, streakDay = null, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null;
   try {
     const { data } = await sb.from('user_profiles')
-      .select('login_streak, top3_finishes, username_changed_at, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
+      .select('login_streak, last_active_date, top3_finishes, username_changed_at, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
       .eq('user_id', userId).maybeSingle();
     if (data) {
       streak    = data.login_streak       ?? 0;
+      streakDay = data.last_active_date   ?? null;
       top3      = data.top3_finishes      ?? 0;
       maxStreak = data.max_correct_streak ?? 0;
       flatLine  = data.flat_line_count    ?? 0;
@@ -1395,10 +1371,22 @@ async function loadStats(sb, userId) {
       } catch(e) {}
     }
   } catch(e) {}
-  // The wallet reads progressdots' vumed_daystreak (localStorage) — the DB's
-  // login_streak lags behind it (RPC only fires once today qualifies). Show the
-  // same number the wallet shows: take the freshest of the two.
-  try { streak = Math.max(streak, parseInt(localStorage.getItem('vumed_daystreak') || '0', 10) || 0); } catch(e) {}
+  /* Dagenreeks = de LOPENDE reeks, precies het getal dat de wallet toont.
+     Twee bronnen kunnen de verste zijn: de DB (login_streak + last_active_date,
+     cross-device) en de lokale spiegel (vumed_daystreak + vumed_lastactive, die
+     al bij is vóór de RPC van vandaag gevuurd heeft). Van ALLEBEI telt alleen
+     een LEVENDE reeks mee — laatste gekwalificeerde dag is vandaag of gisteren.
+     Een verlopen reeks blijft in de DB staan (de vriesregels hebben het oude
+     getal nodig) maar leest overal als 0; dat is de bug die de profielpagina
+     10 liet tonen terwijl de balk al 0 stond. Zelfde regel als
+     vumed_stats.liveRun / progressdots (Prestaties) / get_public_profile. */
+  try {
+    const _t = new Date().toISOString().slice(0, 10);
+    const _y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    const _live = (n, d) => { n = parseInt(n, 10) || 0; if (!n || !d) return n; return (d === _t || d === _y) ? n : 0; };
+    streak = Math.max(_live(streak, streakDay),
+                      _live(localStorage.getItem('vumed_daystreak'), localStorage.getItem('vumed_lastactive')));
+  } catch(e) {}
 
   // Questions answered + accuracy + per-topic correct counts — from exam_progress
   // (own rows via RLS). Topic membership comes from badge_index.json (a compact

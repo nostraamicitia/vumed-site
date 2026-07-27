@@ -203,7 +203,6 @@
     #derden       { --acc: #FF9600; --acc-bg: #FFF3E0; }
     #cookies      { --acc: #E8A33D; --acc-bg: #FCF3E3; }
     #rechten      { --acc: #4B71F6; --acc-bg: #EBF0FF; }
-    #verwijderen  { --acc: #FF3B30; --acc-bg: #FFECEB; }
     html.dark #overzicht   { --acc-bg: rgba(28,176,246,0.16); }
     html.dark #account     { --acc-bg: rgba(181,123,246,0.16); }
     html.dark #gegevens    { --acc-bg: rgba(88,204,2,0.16); }
@@ -211,28 +210,6 @@
     html.dark #derden      { --acc-bg: rgba(255,150,0,0.16); }
     html.dark #cookies     { --acc-bg: rgba(232,163,61,0.16); }
     html.dark #rechten     { --acc-bg: rgba(75,113,246,0.18); }
-    html.dark #verwijderen { --acc-bg: rgba(255,59,48,0.16); }
-
-    /* Danger-variant */
-    .doc-section.danger { border-color: rgba(255,59,48,0.30); box-shadow: 0 6px 0 rgba(255,59,48,0.18); }
-    html.dark .doc-section.danger { border-color: rgba(255,59,48,0.40); box-shadow: 0 6px 0 rgba(255,59,48,0.22); }
-    .doc-section.danger h2 { color: #FF3B30; }
-    .danger-btn {
-      display: inline-block; text-decoration: none;
-      background: #FF3B30; color: #fff; border: none;
-      border-radius: 13px; padding: 12px 22px; margin-top: 6px;
-      font-family: inherit; font-size: 14px; font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 4px 0 #c42e24;
-      transition: background 0.15s ease, transform 0.08s ease, box-shadow 0.08s ease;
-    }
-    .danger-btn:hover { background: #e0342a; }
-    .danger-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #c42e24; }
-    /* De knop IS een link, en `.doc-section a` (0,1,1) verslaat `.danger-btn`
-       (0,1,0) → de tekst werd blauw en kreeg bij hover een onderstreping.
-       Vandaar `a.danger-btn` (0,2,1 / 0,2,2): tekst wit, nooit onderstreept. */
-    .doc-section a.danger-btn { color: #fff; }
-    .doc-section a.danger-btn:hover { color: #fff; text-decoration: none; }
 
     /* ── Sticky TOC — zelfde tile-taal ── */
     .doc-toc { position: sticky; top: 44px; }
@@ -480,22 +457,8 @@
         <ul>
           <li><strong>Inzien</strong> wat er over je is opgeslagen — vraag het op via <a href="helpcentrum.html#contact">contact</a>.</li>
           <li><strong>Corrigeren</strong> — je naam en avatar pas je zelf aan op je <a href="profile.html">profiel</a>.</li>
-          <li><strong>Verwijderen</strong> — je hele account en alle gegevens, zie hieronder.</li>
+          <li><strong>Verwijderen</strong> — je hele account en alle gegevens verdwijnen definitief via <a href="instellingen.html#verwijderen">Instellingen → Account → Account verwijderen</a>. Kom je er niet uit, mail dan vanaf het adres waarmee je bent ingelogd naar <a href="mailto:vumedteam@gmail.com?subject=VUmed%20%E2%80%94%20account%20verwijderen&body=Ik%20wil%20mijn%20VUmed-account%20en%20alle%20bijbehorende%20gegevens%20verwijderen.%0A%0AVerstuur%20deze%20mail%20vanaf%20het%20e-mailadres%20van%20je%20account.">vumedteam@gmail.com</a>, dan doen wij het handmatig.</li>
         </ul>
-      </div>
-
-      <div class="doc-section danger rv" id="verwijderen">
-        <div class="sec-head">
-          <div class="sec-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 7H19M10 7V5C10 4.45 10.45 4 11 4H13C13.55 4 14 4.45 14 5V7M8 7L8.8 19.1C8.85 19.6 9.3 20 9.8 20H14.2C14.7 20 15.15 19.6 15.2 19.1L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h2>Account verwijderen</h2>
-        </div>
-        <p>Wil je je account kwijt? Dat regel je direct in de app: ga naar <strong>Instellingen → Privacy → Account verwijderen</strong>. Je account, voortgang, opgeslagen vragen, vrienden en spelgegevens worden dan meteen en <strong>definitief verwijderd</strong> — dit kan niet ongedaan worden gemaakt.</p>
-        <a class="danger-btn" href="instellingen.html#verwijderen">Naar Account verwijderen</a>
-        <p style="margin-top:14px">Kom je er niet uit? Stuur dan een e-mail vanaf het adres waarmee je bent ingelogd, dan verwijderen wij je account handmatig: <a href="mailto:vumedteam@gmail.com?subject=VUmed%20%E2%80%94%20account%20verwijderen&body=Ik%20wil%20mijn%20VUmed-account%20en%20alle%20bijbehorende%20gegevens%20verwijderen.%0A%0AVerstuur%20deze%20mail%20vanaf%20het%20e-mailadres%20van%20je%20account.">vumedteam@gmail.com</a>.</p>
       </div>
 
     </div>
@@ -511,7 +474,6 @@
         <a class="toc-link" href="#derden"      style="--dot:#FF9600">Diensten van derden</a>
         <a class="toc-link" href="#cookies"     style="--dot:#E8A33D">Cookies &amp; opslag</a>
         <a class="toc-link" href="#rechten"     style="--dot:#4B71F6">Jouw rechten</a>
-        <a class="toc-link" href="#verwijderen" style="--dot:#FF3B30">Account verwijderen</a>
       </div>
     </div>
 

@@ -77,6 +77,22 @@
 
   function today() { return new Date().toISOString().slice(0, 10); }
   function yesterday() { return new Date(Date.now() - 86400000).toISOString().slice(0, 10); }
+  /* ── Day-streak: LIVE runs only ──────────────────────────────────────────
+     A run is alive while its last qualified day is today or yesterday. Once a
+     day is skipped the run is over and every surface must read 0 until a new
+     day qualifies (progressdots.maybeBumpStreak / update_login_streak then
+     start the next run, bridging the gap with streakbevriezers if there are
+     enough). The stored counter is deliberately NOT zeroed — the freeze rules
+     need the old value — so the expiry is applied at read time, here.
+     vumed_lastactive is always written together with vumed_daystreak; a
+     counter without a day is legacy data and is left alone rather than nuking
+     a real streak. Same rule in profile.html, progressdots.js (Prestaties)
+     and get_public_profile — KEEP IN SYNC. */
+  function liveRun(n, day) {
+    n = parseInt(n, 10) || 0;
+    if (!n || !day) return n;
+    return (day === today() || day === yesterday()) ? n : 0;
+  }
   /* Floor at 0 only — hearts may exceed HEART_MAX (chest/gift overflow).
      Shop purchases cap explicitly in buyHearts. */
   function clampH(h) { return Math.max(0, Math.round(h || 0)); }
@@ -166,7 +182,7 @@
         ? clampH(parseInt(h, 10))
         : Math.max(HEART_MAX, h !== null ? clampH(parseInt(h, 10)) : 0);
       state.giftDay = localStorage.getItem(LS.gift);
-      state.streak = parseInt(localStorage.getItem(LS.streak) || '0', 10) || 0;
+      state.streak = liveRun(localStorage.getItem(LS.streak), localStorage.getItem('vumed_lastactive'));
       state.gems = parseInt(localStorage.getItem(LS.gems) || '0', 10) || 0;
       state.coins = parseInt(localStorage.getItem(LS.coins) || '0', 10) || 0;
       state.xp = parseInt(localStorage.getItem(LS.xp) || '0', 10) || 0;
@@ -278,8 +294,8 @@
       } catch (e) {}
     }
     // streak from localStorage (progressdots owns vumed_daystreak; the DB
-    // reconcile above may just have raised it)
-    state.streak = parseInt(localStorage.getItem(LS.streak) || '0', 10) || 0;
+    // reconcile above may just have raised it), expired runs read 0
+    state.streak = liveRun(localStorage.getItem(LS.streak), localStorage.getItem('vumed_lastactive'));
     state.loaded = true;
   }
 
@@ -736,7 +752,7 @@
     awardGems: awardGems, awardCoins: awardCoins, awardHearts: awardHearts, loseHeart: loseHeart,
     buyHearts: buyHearts, buyFreezes: buyFreezes, claimGift: claimGift, syncStreak: syncStreak,
     goalInfo: goalInfo, setGoal: setGoal, checkGoalDay: checkGoalDay,
-    claimGoalMilestone: claimGoalMilestone,
+    claimGoalMilestone: claimGoalMilestone, liveRun: liveRun,
     refresh: function () { return pull().then(paint); },
     getState: function () { return Object.assign({}, state); }, _refill: refill
   };
