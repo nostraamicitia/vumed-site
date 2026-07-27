@@ -11,6 +11,8 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="navbar.js?v=46" data-active="instellingen"></script>
+  <!-- Je eigen avatar op de identiteitskaart (i.p.v. een initiaal) -->
+  <script src="avatar_render.js?v=26"></script>
   <script src="bg-decor.js?v=4"></script>
 
   <!-- Apply saved theme before paint to avoid flash -->
@@ -432,8 +434,11 @@
     .ag-sub { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-top: 2px; line-height: 1.45; }
     .ag-body { margin-top: 10px; }
 
-    /* Identiteitskaart: de avatar ís hier het icoon, dus geen extra tegel. */
-    .acc-me { display: flex; align-items: center; gap: 18px; }
+    /* Identiteitskaart: de avatar ís hier het icoon, dus geen extra tegel.
+       56px + 15px gap laat de naam bijna op dezelfde tekstlijn beginnen als de
+       titels van de kaarten eronder — 68px trok die lijn zichtbaar scheef. */
+    .acc-me { display: flex; align-items: center; gap: 15px; }
+    .acc-me .pcard-avatar { width: 56px; height: 56px; font-size: 23px; }
     .acc-group .pcard { background: none; border: none; box-shadow: none; padding: 0; }
 
     /* Inloggegevens — alleen wat je wijzigt klapt open (zelfde techniek als de
@@ -551,93 +556,159 @@
     <!-- Left: section panels -->
     <div class="settings-content">
 
-      <!-- ── ACCOUNT (voorkeuren + profiel samengevoegd) ──────────────────
-           Eén tabblad voor alles wat over jouw account gaat: wie je bent, hoe
-           de app zich gedraagt, en onderaan het verwijderen ervan. -->
+      <!-- ── ACCOUNT ────────────────────────────────────────────────────
+           Eén logische stapel: wie je bent → wat je instelt → hoe je
+           binnenkomt → weggaan. --i bepaalt de volgorde waarin de kaarten
+           invallen. -->
       <div class="section-panel active" id="panel-account">
         <div class="settings-title">Account</div>
-        <div class="settings-divider"></div>
 
-        <div class="section-header">Leservaringen</div>
-        <div class="toggle-row">
-          <span class="toggle-label">Geluidseffecten</span>
-          <label class="toggle-switch">
-            <input type="checkbox" id="toggle-sound">
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-        </div>
+        <!-- 1 — Wie je bent. De avatar is hier het icoon; een extra tegel
+                ernaast zou dubbelop zijn. -->
+        <section class="acc-group acc-me" id="pcard-wrap" style="--i:0; display:none;">
+          <div class="pcard-avatar" id="pcard-avatar"></div>
+          <div class="pcard-info">
+            <div class="pcard-name" id="pcard-name"></div>
+            <div class="pcard-mail" id="pcard-mail"></div>
+            <div class="pcard-since" id="pcard-since"></div>
+          </div>
+        </section>
 
-        <div class="mode-row">
-          <span class="toggle-label">Dagdoel<span class="goal-hint" id="goal-hint">vragen per dag</span></span>
-          <div class="mode-selector" id="goal-selector"></div>
-        </div>
-
-        <div style="margin-top: 28px;">
-          <div class="section-header">Weergave</div>
-          <div class="mode-row">
-            <span class="toggle-label">Modus</span>
-            <div class="mode-selector">
-              <button class="mode-btn" id="mode-light" onclick="setMode('light')">Licht</button>
-              <button class="mode-btn" id="mode-dark"  onclick="setMode('dark')">Donker</button>
+        <section class="acc-group" id="pcard-anon" style="--i:0;">
+          <div class="ag-head">
+            <div class="ag-icon i-blue">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.8" fill="currentColor"/>
+                <path d="M4.5 20c0-4 3.4-6.5 7.5-6.5s7.5 2.5 7.5 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ag-title">Nog niet ingelogd</div>
+              <div class="ag-sub">Log in om je gegevens te zien en je account te beheren.</div>
             </div>
           </div>
-        </div>
+        </section>
 
-        <div class="settings-divider" style="margin: 28px 0 0;"></div>
-        <div class="section-header" style="margin-top: 22px;">Je profiel</div>
-
-        <!-- Logged in: identity card -->
-        <div id="pcard-wrap" style="display:none;">
-          <div class="pcard">
-            <div class="pcard-avatar" id="pcard-avatar"></div>
-            <div class="pcard-info">
-              <div class="pcard-name" id="pcard-name"></div>
-              <div class="pcard-mail" id="pcard-mail"></div>
-              <div class="pcard-since" id="pcard-since"></div>
+        <!-- 2 — Voorkeuren. Dagdoel eerst: dat stuurt je hele dag. -->
+        <section class="acc-group" style="--i:1;">
+          <div class="ag-head">
+            <div class="ag-icon i-green">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 7h9M17 7h3M4 17h3M11 17h9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                <circle cx="15" cy="7" r="2.6" stroke="currentColor" stroke-width="2.2"/>
+                <circle cx="9" cy="17" r="2.6" stroke="currentColor" stroke-width="2.2"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ag-title">Voorkeuren</div>
+              <div class="ag-sub">Hoeveel je per dag oefent, wat je hoort en hoe de app eruitziet.</div>
             </div>
           </div>
-          <div class="acc-form">
-            <div class="section-header">E-mailadres wijzigen</div>
-            <form id="acc-email-form" novalidate>
-              <label class="acc-label" for="acc-new-email">Nieuw e-mailadres</label>
-              <input class="acc-input" type="email" id="acc-new-email" name="email" autocomplete="email" placeholder="naam@voorbeeld.nl">
-              <div class="acc-msg" id="acc-email-msg"></div>
-              <button type="submit" class="btn-primary" id="acc-email-btn">E-mail wijzigen</button>
-            </form>
+          <div class="ag-body">
+            <div class="mode-row" style="border-bottom:1px solid var(--border);">
+              <span class="toggle-label">Dagdoel<span class="goal-hint" id="goal-hint">vragen per dag</span></span>
+              <div class="mode-selector" id="goal-selector"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Geluidseffecten<span class="goal-hint">Bij een goed of fout antwoord.</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-sound">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
+            <div class="mode-row">
+              <span class="toggle-label">Weergave</span>
+              <div class="mode-selector">
+                <button class="mode-btn" id="mode-light" onclick="setMode('light')">Licht</button>
+                <button class="mode-btn" id="mode-dark"  onclick="setMode('dark')">Donker</button>
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div class="acc-form">
-            <div class="section-header">Wachtwoord wijzigen</div>
-            <form id="acc-pw-form" novalidate>
-              <label class="acc-label" for="acc-new-pw">Nieuw wachtwoord</label>
-              <input class="acc-input" type="password" id="acc-new-pw" name="new-password" autocomplete="new-password" placeholder="Minstens 6 tekens">
-              <label class="acc-label" for="acc-new-pw2">Herhaal nieuw wachtwoord</label>
-              <input class="acc-input" type="password" id="acc-new-pw2" name="confirm-password" autocomplete="new-password" placeholder="Nogmaals je nieuwe wachtwoord">
-              <div class="acc-msg" id="acc-pw-msg"></div>
-              <button type="submit" class="btn-primary" id="acc-pw-btn">Wachtwoord wijzigen</button>
-            </form>
+        <!-- 3 — Inloggegevens. Dichtgeklapt tot je iets wilt wijzigen. -->
+        <section class="acc-group" id="cred-wrap" style="--i:2; display:none;">
+          <div class="ag-head">
+            <div class="ag-icon i-teal">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="8.5" cy="12" r="4.2" stroke="currentColor" stroke-width="2.2"/>
+                <path d="M12.7 12H21M18 12v3.2M15.4 12v2.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ag-title">Inloggegevens</div>
+              <div class="ag-sub">Waarmee je binnenkomt op al je apparaten.</div>
+            </div>
           </div>
-        </div>
+          <div class="ag-body">
 
-        <!-- Logged out: placeholder -->
-        <div id="pcard-anon" class="placeholder-card">
-          <div class="placeholder-icon">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="7.5" r="4.5" fill="#1CB0F6"/>
-              <path d="M4 20c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1z" fill="#1CB0F6" opacity="0.6"/>
-            </svg>
+            <div class="cred" id="cred-email">
+              <button type="button" class="cred-toggle" aria-expanded="false" aria-controls="cred-email-panel" onclick="toggleCred('cred-email')">
+                <span class="cred-name">E-mailadres<span class="cred-value" id="cred-email-cur">—</span></span>
+                <span class="cred-act">Wijzigen
+                  <svg class="cred-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </button>
+              <div class="cred-panel" id="cred-email-panel">
+                <div class="cred-inner">
+                  <div class="acc-form">
+                    <form id="acc-email-form" novalidate>
+                      <label class="acc-label" for="acc-new-email">Nieuw e-mailadres</label>
+                      <input class="acc-input" type="email" id="acc-new-email" name="email" autocomplete="email" placeholder="naam@voorbeeld.nl">
+                      <div class="acc-msg" id="acc-email-msg"></div>
+                      <button type="submit" class="btn-primary" id="acc-email-btn">E-mail wijzigen</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="cred" id="cred-pw">
+              <button type="button" class="cred-toggle" aria-expanded="false" aria-controls="cred-pw-panel" onclick="toggleCred('cred-pw')">
+                <span class="cred-name">Wachtwoord<span class="cred-value" aria-hidden="true">••••••••</span></span>
+                <span class="cred-act">Wijzigen
+                  <svg class="cred-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+              </button>
+              <div class="cred-panel" id="cred-pw-panel">
+                <div class="cred-inner">
+                  <div class="acc-form">
+                    <form id="acc-pw-form" novalidate>
+                      <label class="acc-label" for="acc-new-pw">Nieuw wachtwoord</label>
+                      <input class="acc-input" type="password" id="acc-new-pw" name="new-password" autocomplete="new-password" placeholder="Minstens 6 tekens">
+                      <label class="acc-label" for="acc-new-pw2">Herhaal nieuw wachtwoord</label>
+                      <input class="acc-input" type="password" id="acc-new-pw2" name="confirm-password" autocomplete="new-password" placeholder="Nogmaals je nieuwe wachtwoord">
+                      <div class="acc-msg" id="acc-pw-msg"></div>
+                      <button type="submit" class="btn-primary" id="acc-pw-btn">Wachtwoord wijzigen</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div class="placeholder-text">Log in om je profielinformatie te bekijken en te bewerken.</div>
-        </div>
+        </section>
 
-        <!-- Account verwijderen — onderaan dit tabblad, want het is het meest
-             ingrijpende wat je met je account kunt doen (Apple 5.1.1(v)). -->
-        <div class="danger-card" style="margin-top: 30px;">
-          <div class="danger-title">Account verwijderen</div>
-          <div class="danger-text">Verwijdert je account, voortgang, opgeslagen vragen en spelgegevens <strong>definitief</strong> — dit kan niet ongedaan worden gemaakt.</div>
-          <button class="danger-btn" onclick="openDeleteAccount()">Account verwijderen</button>
-        </div>
+        <!-- 4 — Weggaan. Altijd onderaan (Apple 5.1.1(v)), en alleen zichtbaar
+                als er een account is om te verwijderen. -->
+        <section class="acc-group is-danger" id="danger-wrap" style="--i:3; display:none;">
+          <div class="ag-head">
+            <div class="ag-icon i-red" style="--acc:#FF3B30; --acc-bg:#FFECEB;">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 7h14M10 7V4.8h4V7M7.2 7l.85 12.2h7.9L16.8 7" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.4 10.6v6M13.6 10.6v6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <div class="ag-title">Account verwijderen</div>
+              <div class="ag-sub">Je account, voortgang, opgeslagen vragen en spelgegevens verdwijnen definitief. Dit kan niet ongedaan worden gemaakt.</div>
+            </div>
+          </div>
+          <div class="danger-card">
+            <button class="danger-btn" onclick="openDeleteAccount()">Account verwijderen</button>
+          </div>
+        </section>
       </div>
 
       <!-- ── SOCIALE ACCOUNTS ── -->
@@ -889,15 +960,57 @@ async function confirmDeleteAccount() {
     go.disabled = false; go.textContent = 'Verwijder mijn account';
   }
 }
+/* ── Avatar op de identiteitskaart ─────────────────────────────────────────
+   Zelfde volgorde als profile.html: de opgeslagen config (VumedAvatar) is de
+   bron, de gecachete head-SVG is de terugval, en pas als beide ontbreken staat
+   er nog een initiaal. Op een vers toestel is localStorage leeg, dus halen we
+   de config uit de DB (user_profiles.avatar_state, met avatar_svg als oudere
+   fallback) en tekenen we opnieuw — precies wat profile.html doet. */
+function _paintAvatar(el, name) {
+  try {
+    if (window.VumedAvatar) {
+      var st = VumedAvatar.getState();
+      el.style.background = st.bgColor || '';
+      el.innerHTML = VumedAvatar.build(st, 'head');
+      return true;
+    }
+  } catch (e) {}
+  var svg = null;
+  try { svg = localStorage.getItem('vumed_avatar_head_svg'); } catch (e) {}
+  if (svg && svg.indexOf('<svg') !== -1) { el.innerHTML = svg; return true; }
+  el.textContent = (name.charAt(0) || 'S').toUpperCase();
+  return false;
+}
+function _pullAvatar(uid, el, name) {
+  if (!uid) return;
+  var sb = _settingsSB(); if (!sb) return;
+  sb.from('user_profiles').select('avatar_state, avatar_svg').eq('user_id', uid).maybeSingle()
+    .then(function (r) {
+      var d = r && r.data; if (!d) return;
+      if (d.avatar_state) {
+        try { localStorage.setItem('vumed_avatar', JSON.stringify(d.avatar_state)); } catch (e) {}
+        _paintAvatar(el, name);
+      } else if (!(window.VumedAvatar && VumedAvatar.hasCustom()) &&
+                 d.avatar_svg && d.avatar_svg.indexOf('<svg') !== -1) {
+        el.style.background = '';
+        el.innerHTML = d.avatar_svg;
+      }
+    }, function () {});
+}
+
 // Fills the Profiel card + Sociale accounts rows with the live session.
 function _fillAccountPanels(session) {
   var user = session && session.user;
   var pcWrap = document.getElementById('pcard-wrap');
   var pcAnon = document.getElementById('pcard-anon');
+  var crWrap = document.getElementById('cred-wrap');
+  var dgWrap = document.getElementById('danger-wrap');
   var acList = document.getElementById('acct-list');
   var acAnon = document.getElementById('acct-anon');
   if (!user) {
     if (pcWrap) pcWrap.style.display = 'none';
+    if (crWrap) crWrap.style.display = 'none';
+    if (dgWrap) dgWrap.style.display = 'none';
     if (pcAnon) pcAnon.style.display = '';
     if (acList) acList.style.display = 'none';
     if (acAnon) acAnon.style.display = '';
@@ -906,6 +1019,8 @@ function _fillAccountPanels(session) {
   if (pcAnon) pcAnon.style.display = 'none';
   if (acAnon) acAnon.style.display = 'none';
   if (pcWrap) pcWrap.style.display = '';
+  if (crWrap) crWrap.style.display = '';
+  if (dgWrap) dgWrap.style.display = '';
   if (acList) acList.style.display = '';
 
   var email = user.email || '';
@@ -918,6 +1033,9 @@ function _fillAccountPanels(session) {
   var elAv = document.getElementById('pcard-avatar');
   if (elName) elName.textContent = name;
   if (elMail) elMail.textContent = email;
+  // De rij "E-mailadres" toont de waarde die hij bedient.
+  var elCur = document.getElementById('cred-email-cur');
+  if (elCur) elCur.textContent = email || '—';
   if (elSince && user.created_at) {
     try {
       var d = new Date(user.created_at);
@@ -925,12 +1043,7 @@ function _fillAccountPanels(session) {
       elSince.textContent = 'Lid sinds ' + mnd[d.getMonth()] + ' ' + d.getFullYear();
     } catch (e) {}
   }
-  if (elAv) {
-    var svg = null;
-    try { svg = localStorage.getItem('vumed_avatar_head_svg'); } catch (e) {}
-    if (svg && svg.indexOf('<svg') !== -1) { elAv.innerHTML = svg; }
-    else { elAv.textContent = (name.charAt(0) || 'S').toUpperCase(); }
-  }
+  if (elAv) { _paintAvatar(elAv, name); _pullAvatar(user.id, elAv, name); }
 
   // Sociale accounts — read the real linked identities
   var providers = [];
@@ -1044,6 +1157,28 @@ function _accMsg(id, type, text) {
     // met een eigen staff-login. Gewone gebruikers zien nergens admin-elementen.
   }).catch(function () {});
 })();
+
+// ── Inloggegevens: één rij tegelijk open ──────────────────────────────────
+// De hoogte-animatie zit in CSS (grid-template-rows 0fr → 1fr); hier alleen de
+// klasse en de aria-staat. Openen sluit de andere rij, zodat er nooit twee
+// formulieren tegelijk om aandacht vragen.
+function toggleCred(id) {
+  var row = document.getElementById(id);
+  if (!row) return;
+  var open = !row.classList.contains('open');
+  document.querySelectorAll('.cred.open').forEach(function (r) {
+    r.classList.remove('open');
+    var b = r.querySelector('.cred-toggle');
+    if (b) b.setAttribute('aria-expanded', 'false');
+  });
+  if (open) {
+    row.classList.add('open');
+    var btn = row.querySelector('.cred-toggle');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    var first = row.querySelector('.acc-input');
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 340);
+  }
+}
 
 // ── Section switching ─────────────────────────────────────────────────────
 // btn is optioneel: bij een deeplink (#privacy) zoeken we de bijbehorende

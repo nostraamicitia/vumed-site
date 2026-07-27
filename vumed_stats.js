@@ -393,7 +393,7 @@
   /* Shop: spend gems on streak freezers (streakbevriezers). A freezer bridges one
      missed day so the day-streak survives — consumed by progressdots.js
      maybeBumpStreak (local) and the update_login_streak RPC (DB). */
-  /* Bescherming kopen. Prijs, aantal én het plafond (2 bevriezers / 1 amulet,
+  /* Bescherming kopen. Prijs, aantal én het plafond (3 bevriezers / 1 amulet,
      Duolingo-model) staan SERVER-side in buy_streak_item — de client stuurt
      alleen de soort, en schrijft pas na een bevestigd antwoord. Vervangt het
      oude add_gems(-cost) + add_freezes(count)-paar (audit 22-07: aankopen
