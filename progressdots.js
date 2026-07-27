@@ -1274,19 +1274,6 @@
 
   /* Daily goal + day streak (localStorage only). */
   function _today() { return new Date().toISOString().slice(0, 10); }
-  /* Een dagenreeks LEEFT zolang de laatste gekwalificeerde dag vandaag of
-     gisteren is; daarna is de reeks voorbij en leest de teller 0 tot een
-     nieuwe dag kwalificeert. Het opgeslagen getal blijft staan (de
-     vriesregels in maybeBumpStreak / update_login_streak hebben het nodig),
-     dus de vervaldatum wordt bij het LEZEN toegepast — hier, en identiek in
-     vumed_stats.liveRun, profile.html en get_public_profile. Een getal zonder
-     dag is legacy-data en blijft staan. */
-  function _liveStreak(n, day) {
-    n = parseInt(n, 10) || 0;
-    if (!n || !day) return n;
-    var y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-    return (day === _today() || day === y) ? n : 0;
-  }
   function _answeredCount() {
     try { return (typeof state !== "undefined" && state && state.answered) ? Object.keys(state.answered).length : 0; } catch (e) { return 0; }
   }
@@ -1666,7 +1653,7 @@
         Promise.all([
           fetch('badge_index.json').then(function (x) { return x.ok ? x.json() : null; }).catch(function () { return null; }),
           sb.from('exam_progress').select('exam_key, answered:progress->answered').eq('user_id', uid),
-          sb.from('user_profiles').select('total_xp, login_streak, last_active_date, top3_finishes, max_correct_streak, flat_line_count, night_questions').eq('user_id', uid).maybeSingle(),
+          sb.from('user_profiles').select('total_xp, login_streak, top3_finishes, max_correct_streak, flat_line_count, night_questions').eq('user_id', uid).maybeSingle(),
           sb.from('exam_progress').select('progress').eq('user_id', uid).eq('exam_key', 'achievement_claims').maybeSingle(),
         ]).then(function (res) {
           var bi = res[0] || {}, rows = (res[1] && res[1].data) || [], prof = (res[2] && res[2].data) || {}, claimRow = (res[3] && res[3].data) || null;
@@ -1677,12 +1664,8 @@
           rows.forEach(function (row) { if (row.exam_key === ek) return; var a = row.answered; if (a && typeof a === 'object') { for (var q in a) { qT++; if (a[q] === 'correct') { qC++; cset[row.exam_key + '#' + q] = 1; } } } });
           var topic = {};
           for (var m2 in TOPIC) { var grp = TOPIC[m2]; var c = 0; (bi[grp] || []).forEach(function (ref) { if (cset[ref]) c++; }); topic[grp] = c; }
-          /* Dagenreeks: alleen een LOPENDE reeks telt voor 'Trouwe Student' —
-             laatste gekwalificeerde dag vandaag of gisteren, anders 0 (zelfde
-             regel als vumed_stats.liveRun; een verlopen reeks blijft in de DB
-             staan voor de vriesregels maar mag geen badge meer voeden). */
-          var ds = 0; try { ds = _liveStreak(localStorage.getItem('vumed_daystreak'), localStorage.getItem('vumed_lastactive')); } catch (e) {}
-          base = { xp: prof.total_xp || 0, dayStreak: Math.max(_liveStreak(prof.login_streak, prof.last_active_date), ds), top3: prof.top3_finishes || 0,
+          var ds = 0; try { ds = parseInt(localStorage.getItem('vumed_daystreak') || '0', 10) || 0; } catch (e) {}
+          base = { xp: prof.total_xp || 0, dayStreak: Math.max(prof.login_streak || 0, ds), top3: prof.top3_finishes || 0,
                    maxStreak: prof.max_correct_streak || 0, flatLine: prof.flat_line_count || 0, nightQ: prof.night_questions || 0,
                    qCorrect: qC, qTotal: qT, topic: topic };
           // claimed state: Supabase row first, merge localStorage (max per key)
