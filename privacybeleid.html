@@ -228,6 +228,11 @@
     }
     .danger-btn:hover { background: #e0342a; }
     .danger-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #c42e24; }
+    /* De knop IS een link, en `.doc-section a` (0,1,1) verslaat `.danger-btn`
+       (0,1,0) → de tekst werd blauw en kreeg bij hover een onderstreping.
+       Vandaar `a.danger-btn` (0,2,1 / 0,2,2): tekst wit, nooit onderstreept. */
+    .doc-section a.danger-btn { color: #fff; }
+    .doc-section a.danger-btn:hover { color: #fff; text-decoration: none; }
 
     /* ── Sticky TOC — zelfde tile-taal ── */
     .doc-toc { position: sticky; top: 44px; }
