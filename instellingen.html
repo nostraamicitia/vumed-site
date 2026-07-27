@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=44" data-active="instellingen"></script>
+  <script src="navbar.js?v=46" data-active="instellingen"></script>
   <script src="bg-decor.js?v=4"></script>
 
   <!-- Apply saved theme before paint to avoid flash -->
@@ -397,6 +397,82 @@
     .acc-msg.err { display: block; color: #FF3B30; }
     .acc-form .btn-primary { margin-top: 16px; }
     .acc-form .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    /* ══ Account-tabblad — één logische stapel ════════════════════════════
+       Wie je bent → wat je instelt → hoe je binnenkomt → weggaan. Elke groep
+       is een kaart met een gekleurde icoontegel; dezelfde --acc/--acc-bg-opzet
+       als de secties op privacybeleid.html, zodat dit scherm bij de rest van
+       de app hoort in plaats van bij een generiek instellingenscherm. */
+    .acc-group {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+      transition: background .28s ease, border-color .28s ease;
+    }
+    /* Binnenkomst: de kaarten vallen kort na elkaar in, in leesvolgorde.
+       fill = backwards, nooit both — both sloopt :hover (CLAUDE.md §REF). */
+    .section-panel.active .acc-group {
+      animation: agIn .42s cubic-bezier(.2,.78,.28,1) backwards;
+      animation-delay: calc(var(--i, 0) * 60ms);
+    }
+    @keyframes agIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .section-panel.active .acc-group { animation: none; } }
+
+    .ag-head { display: flex; align-items: center; gap: 13px; }
+    .ag-icon {
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--acc, #1CB0F6); background: var(--acc-bg, #EBF7FF);
+    }
+    .ag-icon svg { width: 22px; height: 22px; display: block; }
+    .ag-title { font-size: 16.5px; font-weight: 900; letter-spacing: -.2px; }
+    .ag-sub { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-top: 2px; line-height: 1.45; }
+    .ag-body { margin-top: 10px; }
+
+    /* Identiteitskaart: de avatar ís hier het icoon, dus geen extra tegel. */
+    .acc-me { display: flex; align-items: center; gap: 18px; }
+    .acc-group .pcard { background: none; border: none; box-shadow: none; padding: 0; }
+
+    /* Inloggegevens — alleen wat je wijzigt klapt open (zelfde techniek als de
+       FAQ-accordeons in helpcentrum.html: grid-template-rows 0fr → 1fr). */
+    .cred { border-bottom: 1px solid var(--border); transition: border-color .28s ease; }
+    .cred:last-child { border-bottom: none; }
+    .cred-toggle {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 14px;
+      padding: 15px 2px; background: none; border: none; cursor: pointer;
+      font-family: inherit; text-align: left; color: var(--text);
+    }
+    .cred-toggle:focus-visible { outline: 2px solid #1CB0F6; outline-offset: 2px; border-radius: 10px; }
+    .cred-name { font-size: 16px; font-weight: 600; min-width: 0; }
+    .cred-value {
+      display: block; font-size: 12.5px; font-weight: 700; color: var(--text-sub);
+      margin-top: 2px; overflow-wrap: anywhere;
+    }
+    .cred-act {
+      display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+      font-size: 13.5px; font-weight: 800; color: #1CB0F6;
+    }
+    .cred-chev { display: block; transition: transform .3s cubic-bezier(.34,1.5,.5,1); }
+    .cred.open .cred-chev { transform: rotate(180deg); }
+    .cred-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .34s cubic-bezier(.25,.46,.45,.94); }
+    .cred.open .cred-panel { grid-template-rows: 1fr; }
+    .cred-inner { overflow: hidden; }
+    .cred-inner .acc-form { margin-top: 0; padding-bottom: 18px; }
+    .cred-inner .acc-label:first-child { margin-top: 4px; }
+    @media (prefers-reduced-motion: reduce) { .cred-panel { transition: none; } }
+
+    /* Gevarenzone — zelfde kaartvorm, rode tint. */
+    .acc-group.is-danger { background: var(--danger-bg); border-color: var(--danger-border); }
+    .acc-group.is-danger .ag-title { color: #FF3B30; }
+    .acc-group.is-danger .danger-card { background: none; border: none; padding: 0; margin-top: 12px; }
+
+    html.dark .ag-icon.i-blue   { background: rgba(28,176,246,0.16); }
+    html.dark .ag-icon.i-green  { background: rgba(88,204,2,0.16); }
+    html.dark .ag-icon.i-teal   { background: rgba(0,205,156,0.16); }
+    html.dark .ag-icon.i-red    { background: rgba(255,59,48,0.16); }
 
     /* ── Sociale accounts ── */
     .acct-ico {

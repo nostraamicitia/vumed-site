@@ -398,7 +398,7 @@
     try {
       if (!window.VUMED_STATS_OFF && !window.VumedStats && !document.querySelector('script[data-vumed-stats]')) {
         var ss = document.createElement('script');
-        ss.src = 'vumed_stats.js?v=20'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
+        ss.src = 'vumed_stats.js?v=23'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
         (document.head || document.documentElement).appendChild(ss);
       }
     } catch (e) {}

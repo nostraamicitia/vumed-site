@@ -23,7 +23,7 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=20'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=23'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();
@@ -1274,6 +1274,23 @@
 
   /* Daily goal + day streak (localStorage only). */
   function _today() { return new Date().toISOString().slice(0, 10); }
+  /* Een dagenreeks LEEFT zolang het SCHILD (de laatste gedekte dag: geoefend,
+     bevroren of amulet) vandaag of gisteren is; daarna is de reeks voorbij en
+     leest de teller 0 tot een nieuwe dag kwalificeert. Het opgeslagen getal
+     wordt op de client nooit genuld — dat doet de server (roll_streak_for) —
+     dus de vervaldatum wordt bij het LEZEN toegepast: hier, en identiek in
+     vumed_stats.liveRun, profile.html, native-notify.js en
+     get_public_profile. Een getal zonder dag is legacy-data en blijft staan. */
+  function _shieldDay() {
+    try { return localStorage.getItem('vumed_streak_shield') || localStorage.getItem('vumed_lastactive'); }
+    catch (e) { return null; }
+  }
+  function _liveStreak(n, day) {
+    n = parseInt(n, 10) || 0;
+    if (!n || !day) return n;
+    var y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+    return (day === _today() || day === y) ? n : 0;
+  }
   function _answeredCount() {
     try { return (typeof state !== "undefined" && state && state.answered) ? Object.keys(state.answered).length : 0; } catch (e) { return 0; }
   }
@@ -1322,23 +1339,19 @@
       if (last === today || !_dayQualifies()) return;
       var y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
       var s = parseInt(localStorage.getItem('vumed_daystreak') || '0', 10) || 0;
-      var next = 1;
-      if (last === y) {
-        next = s + 1;
-      } else if (last && s > 0) {
-        /* Gap of N missed days: N streakbevriezers (shop) bridge it — all N are
-           consumed and the streak continues. Fewer than N → reset, none consumed.
-           Mirror only here; the DB balance is debited by update_login_streak
-           (same rule server-side) via VumedStats.syncStreak() below. */
-        var missed = Math.round((Date.parse(today) - Date.parse(last)) / 86400000) - 1;
-        var fz = parseInt(localStorage.getItem('vumed_freezes') || '0', 10) || 0;
-        if (missed >= 1 && fz >= missed) {
-          next = s + 1;
-          localStorage.setItem('vumed_freezes', String(fz - missed));
-        }
-      }
+      /* Voortzetten hangt aan het SCHILD, niet aan "laatst geoefend": een dag
+         die door een bevriezer of de weekend-amulet gedekt is telt gewoon mee.
+         Bevriezers worden hier NIET meer afgeboekt — sinds migration
+         streak_protection verzilvert de server ze 's nachts (roll_streak_for)
+         en is de DB de enige boekhouding. Lokaal rekenen we alleen door wat
+         het schild al zegt; syncStreak hieronder haalt daarna het echte getal
+         op (dat kan hoger zijn als de server net een gat overbrugde). */
+      var shield = localStorage.getItem('vumed_streak_shield') || last;
+      var next = (shield === y || shield === today) && s > 0 ? s + 1 : 1;
       localStorage.setItem('vumed_daystreak', String(next));
       localStorage.setItem('vumed_lastactive', today);
+      localStorage.setItem('vumed_streak_shield', today);
+      localStorage.setItem('vumed_streak_frozen', '0');   // vandaag geoefend = ontdooid
       /* Push the qualified day to the DB streak (update_login_streak is idempotent
          per day and consumes DB freezers on a gap). The DB is the cross-device
          authority on the NUMBER, so once the RPC + re-pull settle, adopt the
@@ -1653,7 +1666,7 @@
         Promise.all([
           fetch('badge_index.json').then(function (x) { return x.ok ? x.json() : null; }).catch(function () { return null; }),
           sb.from('exam_progress').select('exam_key, answered:progress->answered').eq('user_id', uid),
-          sb.from('user_profiles').select('total_xp, login_streak, top3_finishes, max_correct_streak, flat_line_count, night_questions').eq('user_id', uid).maybeSingle(),
+          sb.from('user_profiles').select('total_xp, login_streak, last_active_date, streak_shield_date, top3_finishes, max_correct_streak, flat_line_count, night_questions').eq('user_id', uid).maybeSingle(),
           sb.from('exam_progress').select('progress').eq('user_id', uid).eq('exam_key', 'achievement_claims').maybeSingle(),
         ]).then(function (res) {
           var bi = res[0] || {}, rows = (res[1] && res[1].data) || [], prof = (res[2] && res[2].data) || {}, claimRow = (res[3] && res[3].data) || null;
@@ -1664,8 +1677,12 @@
           rows.forEach(function (row) { if (row.exam_key === ek) return; var a = row.answered; if (a && typeof a === 'object') { for (var q in a) { qT++; if (a[q] === 'correct') { qC++; cset[row.exam_key + '#' + q] = 1; } } } });
           var topic = {};
           for (var m2 in TOPIC) { var grp = TOPIC[m2]; var c = 0; (bi[grp] || []).forEach(function (ref) { if (cset[ref]) c++; }); topic[grp] = c; }
-          var ds = 0; try { ds = parseInt(localStorage.getItem('vumed_daystreak') || '0', 10) || 0; } catch (e) {}
-          base = { xp: prof.total_xp || 0, dayStreak: Math.max(prof.login_streak || 0, ds), top3: prof.top3_finishes || 0,
+          /* Dagenreeks: alleen een LOPENDE reeks telt voor 'Trouwe Student' —
+             laatste gekwalificeerde dag vandaag of gisteren, anders 0 (zelfde
+             regel als vumed_stats.liveRun; een verlopen reeks blijft in de DB
+             staan voor de vriesregels maar mag geen badge meer voeden). */
+          var ds = 0; try { ds = _liveStreak(localStorage.getItem('vumed_daystreak'), _shieldDay()); } catch (e) {}
+          base = { xp: prof.total_xp || 0, dayStreak: Math.max(_liveStreak(prof.login_streak, prof.streak_shield_date || prof.last_active_date), ds), top3: prof.top3_finishes || 0,
                    maxStreak: prof.max_correct_streak || 0, flatLine: prof.flat_line_count || 0, nightQ: prof.night_questions || 0,
                    qCorrect: qC, qTotal: qT, topic: topic };
           // claimed state: Supabase row first, merge localStorage (max per key)

@@ -15,7 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="avatar_render.js?v=26"></script>
   <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=44" data-active="profiel"></script>
+  <script src="navbar.js?v=46" data-active="profiel"></script>
   <script src="user_popup.js?v=1"></script>
   <script src="bg-decor.js?v=4"></script>
   <style>
@@ -1342,14 +1342,15 @@ async function loadStats(sb, userId) {
   } catch(e) {}
 
   // Optional columns — separate query so a missing column never kills the rest
-  let streak = 0, streakDay = null, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null;
+  let streak = 0, streakDay = null, frozenDays = 0, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null;
   try {
     const { data } = await sb.from('user_profiles')
-      .select('login_streak, last_active_date, top3_finishes, username_changed_at, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
+      .select('login_streak, last_active_date, streak_shield_date, streak_frozen_days, top3_finishes, username_changed_at, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
       .eq('user_id', userId).maybeSingle();
     if (data) {
       streak    = data.login_streak       ?? 0;
-      streakDay = data.last_active_date   ?? null;
+      streakDay = data.streak_shield_date ?? data.last_active_date ?? null;
+      frozenDays = data.streak_frozen_days ?? 0;
       top3      = data.top3_finishes      ?? 0;
       maxStreak = data.max_correct_streak ?? 0;
       flatLine  = data.flat_line_count    ?? 0;
@@ -1372,20 +1373,24 @@ async function loadStats(sb, userId) {
     }
   } catch(e) {}
   /* Dagenreeks = de LOPENDE reeks, precies het getal dat de wallet toont.
-     Twee bronnen kunnen de verste zijn: de DB (login_streak + last_active_date,
-     cross-device) en de lokale spiegel (vumed_daystreak + vumed_lastactive, die
-     al bij is vóór de RPC van vandaag gevuurd heeft). Van ALLEBEI telt alleen
-     een LEVENDE reeks mee — laatste gekwalificeerde dag is vandaag of gisteren.
-     Een verlopen reeks blijft in de DB staan (de vriesregels hebben het oude
-     getal nodig) maar leest overal als 0; dat is de bug die de profielpagina
-     10 liet tonen terwijl de balk al 0 stond. Zelfde regel als
-     vumed_stats.liveRun / progressdots (Prestaties) / get_public_profile. */
+     Twee bronnen kunnen de verste zijn: de DB (login_streak + het SCHILD, de
+     laatste gedekte dag — geoefend, bevroren of amulet) en de lokale spiegel
+     (vumed_daystreak + vumed_streak_shield, die al bij is vóór de RPC van
+     vandaag gevuurd heeft). Van ALLEBEI telt alleen een LEVENDE reeks mee:
+     schild is vandaag of gisteren. Een verlopen reeks leest overal 0 — dat
+     was de bug die hier 10 liet staan terwijl de balk al 0 stond. Zelfde
+     regel als vumed_stats.liveRun / progressdots._liveStreak /
+     native-notify.js / get_public_profile. */
   try {
     const _t = new Date().toISOString().slice(0, 10);
     const _y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
     const _live = (n, d) => { n = parseInt(n, 10) || 0; if (!n || !d) return n; return (d === _t || d === _y) ? n : 0; };
-    streak = Math.max(_live(streak, streakDay),
-                      _live(localStorage.getItem('vumed_daystreak'), localStorage.getItem('vumed_lastactive')));
+    const _locShield = localStorage.getItem('vumed_streak_shield') || localStorage.getItem('vumed_lastactive');
+    const _dbLive = _live(streak, streakDay);
+    const _locLive = _live(localStorage.getItem('vumed_daystreak'), _locShield);
+    if (_locLive > _dbLive) frozenDays = parseInt(localStorage.getItem('vumed_streak_frozen') || '0', 10) || 0;
+    streak = Math.max(_dbLive, _locLive);
+    if (!streak) frozenDays = 0;
   } catch(e) {}
 
   // Questions answered + accuracy + per-topic correct counts — from exam_progress
@@ -1455,7 +1460,7 @@ async function loadStats(sb, userId) {
   if (el('stat-accuracy'))  el('stat-accuracy').textContent  = (haveQ && qTotal > 0) ? Math.round(qCorrect / qTotal * 100) + '%' : '–';
   renderProfileLeague(xp);
   renderHeroXP(xp);
-  window._setFireStreak && window._setFireStreak(streak);
+  window._setFireStreak && window._setFireStreak(streak, frozenDays > 0);
 
   // Render the badge collection from all computed metrics
   renderBadges({
@@ -2071,9 +2076,27 @@ window.addEventListener('DOMContentLoaded', function() {
       _statFireAnim = window.lottie.loadAnimation({ container: sfEl, renderer: 'svg', loop: true, autoplay: true, path: 'streak_anim.json' });
     }
   }
-  window._setFireStreak = function(v) {
+  /* Bevroren reeks = ijsvlam in plaats van de lottie (zelfde silhouet, ijs-
+     kleuren — identiek aan IC.ice in vumed_stats.js, KEEP IN SYNC). De lottie
+     wordt vernietigd en bij het ontdooien opnieuw opgebouwd. */
+  var ICE_FLAME = '<svg viewBox="0 0 27.5 36.7" style="width:100%;height:100%"><path d="M13.01,0.81C13.38,0.27 14.15,0.25 14.54,0.77C14.54,0.77 24.54,14.24 24.54,14.24C26.24,16.55 27.25,19.43 27.25,22.55C27.25,30.20 21.21,36.39 13.75,36.39C6.41,36.39 0.43,30.39 0.25,22.91C0.25,22.91 0.25,6.19 0.25,6.19C0.25,5.45 1.02,4.99 1.64,5.34C1.64,5.34 6.93,8.29 6.93,8.29C7.35,8.53 7.88,8.40 8.16,7.99C8.16,7.99 13.01,0.81 13.01,0.81Z" fill="#4FA8DB"/><path d="M13.21,15.25C13.48,14.89 14.02,14.89 14.29,15.25C14.29,15.25 19.51,22.18 19.51,22.18C20.41,23.39 20.95,24.90 20.95,26.54C20.95,30.56 17.73,33.81 13.75,33.81C9.77,33.81 6.55,30.56 6.55,26.54C6.55,24.90 7.09,23.39 7.99,22.18C7.99,22.18 13.21,15.25 13.21,15.25Z" fill="#CFF0FF"/><g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"><path d="M13.75,21.6v9.2M9.75,23.9l8,4.6M17.75,23.9l-8,4.6"/></g></svg>';
+  var _frozenNow = false;
+  window._setFireStreak = function(v, frozen) {
     var sfEl = document.getElementById('stat-fire-icon');
-    if (sfEl) sfEl.style.filter = v === 0 ? 'grayscale(1) opacity(0.45)' : 'none';
+    if (!sfEl) return;
+    frozen = !!frozen && v > 0;
+    if (frozen !== _frozenNow) {
+      _frozenNow = frozen;
+      if (frozen) {
+        if (_statFireAnim) { try { _statFireAnim.destroy(); } catch(e) {} _statFireAnim = null; }
+        sfEl.innerHTML = ICE_FLAME;
+        sfEl.title = 'Je reeks is bevroren — oefen vandaag om hem te ontdooien';
+      } else {
+        sfEl.innerHTML = ''; sfEl.removeAttribute('title');
+        initAnims();
+      }
+    }
+    sfEl.style.filter = v === 0 ? 'grayscale(1) opacity(0.45)' : 'none';
   };
   document.addEventListener('DOMContentLoaded', initAnims);
 })();

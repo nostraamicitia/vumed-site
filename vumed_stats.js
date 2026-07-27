@@ -52,6 +52,13 @@
     hearts: 'vumed_hearts', heartsDay: 'vumed_hearts_day',
     gift: 'vumed_heartgift', streak: 'vumed_daystreak',
     freezes: 'vumed_freezes',
+    /* Streakbescherming (Duolingo-model, migration streak_protection):
+       lastActive = laatst GEOEFEND, shield = laatste dag die GEDEKT is
+       (geoefend, bevroren of amulet). Het verschil tussen die twee ís de
+       bevroren toestand; frozen telt hoeveel dagen dat nu duurt. */
+    lastActive: 'vumed_lastactive', shield: 'vumed_streak_shield',
+    frozen: 'vumed_streak_frozen', amulet: 'vumed_amulet',
+    broken: 'vumed_streak_broken',  // {n,date} van een net gebroken reeks (repair)
     goal: 'vumed_daygoal',          // the chosen dagdoel — the key dashboard's dailyRing already read
     goalRun: 'vumed_goalstate'      // {streak,lastDay,minGoal,claimed[]} mirror of the DB run
   };
@@ -77,12 +84,40 @@
 
   function today() { return new Date().toISOString().slice(0, 10); }
   function yesterday() { return new Date(Date.now() - 86400000).toISOString().slice(0, 10); }
+  /* ── Day-streak: LIVE runs only ──────────────────────────────────────────
+     A run is alive while its SHIELD (the last covered day — practiced, frozen
+     or amulet) is today or yesterday. Once a day is neither practiced nor
+     protected the run is over and every surface reads 0 until a new day
+     qualifies. The stored counter is deliberately NOT zeroed on the client —
+     the server owns that (roll_streak_for runs nightly via pg_cron and again
+     on the next update_login_streak) — so the expiry is applied at read time,
+     here. A counter without a day is legacy data and is left alone rather
+     than nuking a real streak. Same rule in profile.html, progressdots.js
+     (_liveStreak), native-notify.js and get_public_profile — KEEP IN SYNC. */
+  function liveRun(n, day) {
+    n = parseInt(n, 10) || 0;
+    if (!n || !day) return n;
+    return (day === today() || day === yesterday()) ? n : 0;
+  }
+  /* De gedekte dag: het schild als we het hebben, anders de laatst geoefende
+     dag (oude spiegels van vóór migration streak_protection). */
+  function shieldDay() {
+    try { return localStorage.getItem(LS.shield) || localStorage.getItem(LS.lastActive); }
+    catch (e) { return null; }
+  }
+  function localStreak() {
+    try { return liveRun(localStorage.getItem(LS.streak), shieldDay()); } catch (e) { return 0; }
+  }
   /* Floor at 0 only — hearts may exceed HEART_MAX (chest/gift overflow).
      Shop purchases cap explicitly in buyHearts. */
   function clampH(h) { return Math.max(0, Math.round(h || 0)); }
 
   var state = {
     hearts: HEART_MAX, giftDay: null, streak: 0, freezes: 0, coins: 0, gems: 0, xp: 0,
+    /* streakbescherming: frozen = aantal dagen dat de reeks nu bevroren is
+       (0 = gewoon geoefend), amulet = weekend-amuletten in bezit, broken =
+       {n,date} van een net gebroken reeks zolang repair nog kan. */
+    frozen: 0, amulet: 0, broken: null,
     uid: null, loaded: false,
     goal: null,                             // null = never chosen → dashboard shows the picker
     goalRun: { streak: 0, lastDay: null, minGoal: null, claimed: [] }
@@ -113,6 +148,9 @@
     },
     /* static frame of streak_anim.json (dagenreeks-vlam) in the lottie's own colours */
     flame: '<svg viewBox="0 0 27.5 36.7" width="15" height="19"><path d="M13.01,0.81C13.38,0.27 14.15,0.25 14.54,0.77C14.54,0.77 24.54,14.24 24.54,14.24C26.24,16.55 27.25,19.43 27.25,22.55C27.25,30.20 21.21,36.39 13.75,36.39C6.41,36.39 0.43,30.39 0.25,22.91C0.25,22.91 0.25,6.19 0.25,6.19C0.25,5.45 1.02,4.99 1.64,5.34C1.64,5.34 6.93,8.29 6.93,8.29C7.35,8.53 7.88,8.40 8.16,7.99C8.16,7.99 13.01,0.81 13.01,0.81Z" fill="#EB6C31"/><path d="M13.21,15.25C13.48,14.89 14.02,14.89 14.29,15.25C14.29,15.25 19.51,22.18 19.51,22.18C20.41,23.39 20.95,24.90 20.95,26.54C20.95,30.56 17.73,33.81 13.75,33.81C9.77,33.81 6.55,30.56 6.55,26.54C6.55,24.90 7.09,23.39 7.99,22.18C7.99,22.18 13.21,15.25 13.21,15.25Z" fill="#EFEF65"/></svg>',
+    /* Bevroren variant van diezelfde vlam: identieke paden, ijskleuren, plus
+       een rijp-ster. Zelfde silhouet = je herkent het meteen als JOUW reeks. */
+    ice: '<svg viewBox="0 0 27.5 36.7" width="15" height="19"><path d="M13.01,0.81C13.38,0.27 14.15,0.25 14.54,0.77C14.54,0.77 24.54,14.24 24.54,14.24C26.24,16.55 27.25,19.43 27.25,22.55C27.25,30.20 21.21,36.39 13.75,36.39C6.41,36.39 0.43,30.39 0.25,22.91C0.25,22.91 0.25,6.19 0.25,6.19C0.25,5.45 1.02,4.99 1.64,5.34C1.64,5.34 6.93,8.29 6.93,8.29C7.35,8.53 7.88,8.40 8.16,7.99C8.16,7.99 13.01,0.81 13.01,0.81Z" fill="#4FA8DB"/><path d="M13.21,15.25C13.48,14.89 14.02,14.89 14.29,15.25C14.29,15.25 19.51,22.18 19.51,22.18C20.41,23.39 20.95,24.90 20.95,26.54C20.95,30.56 17.73,33.81 13.75,33.81C9.77,33.81 6.55,30.56 6.55,26.54C6.55,24.90 7.09,23.39 7.99,22.18C7.99,22.18 13.21,15.25 13.21,15.25Z" fill="#CFF0FF"/><g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" opacity="0.95"><path d="M13.75,21.6v9.2M9.75,23.9l8,4.6M17.75,23.9l-8,4.6"/></g></svg>',
     coin: '<svg viewBox="0 0 24 24" width="19" height="19"><circle cx="12" cy="12" r="9.5" fill="#FFC800"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#E0A800" stroke-width="1.6"/><path d="M6 12 H8.6 L9.7 8.9 L11.4 15 L12.7 10.6 L13.6 12 H18" stroke="#E0A800" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     gem: '<svg viewBox="0 0 24 24" width="19" height="19"><path d="M6 3h12l4 6-10 12L2 9z" fill="#1CB0F6"/><path d="M2 9h20M8 3l-2 6 6 12M16 3l2 6-6 12" fill="none" stroke="#0A8BD0" stroke-width="1.1" stroke-linejoin="round"/></svg>',
     bolt: '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M13 2 4 14h6l-1 8 9-12h-6z" fill="#58CC02"/></svg>'
@@ -136,7 +174,20 @@
     }
     s.addEventListener('load', cb);
   }
+  /* Bevroren reeks = ijsvlam in plaats van de lottie (Duolingo doet hetzelfde:
+     het getal blijft staan, de vlam wordt blauw). Eigen node, zodat de lottie
+     ernaast in leven blijft en gewoon terugkomt zodra je weer oefent. */
+  var _iceEl = null;
+  function iceNode() {
+    if (!_iceEl) {
+      _iceEl = document.createElement('span');
+      _iceEl.className = 'vs-flame vs-ice';
+      _iceEl.innerHTML = IC.ice;
+    }
+    return _iceEl;
+  }
   function flameNode() {
+    if (state.frozen > 0 && state.streak > 0) return iceNode();
     if (!_flameEl) {
       _flameEl = document.createElement('span');
       _flameEl.className = 'vs-flame';
@@ -166,7 +217,13 @@
         ? clampH(parseInt(h, 10))
         : Math.max(HEART_MAX, h !== null ? clampH(parseInt(h, 10)) : 0);
       state.giftDay = localStorage.getItem(LS.gift);
-      state.streak = parseInt(localStorage.getItem(LS.streak) || '0', 10) || 0;
+      state.streak = localStreak();
+      state.frozen = state.streak > 0 ? (parseInt(localStorage.getItem(LS.frozen) || '0', 10) || 0) : 0;
+      state.amulet = parseInt(localStorage.getItem(LS.amulet) || '0', 10) || 0;
+      try {
+        var bk = JSON.parse(localStorage.getItem(LS.broken) || 'null');
+        state.broken = (bk && bk.n > 0 && bk.date) ? bk : null;
+      } catch (e0) { state.broken = null; }
       state.gems = parseInt(localStorage.getItem(LS.gems) || '0', 10) || 0;
       state.coins = parseInt(localStorage.getItem(LS.coins) || '0', 10) || 0;
       state.xp = parseInt(localStorage.getItem(LS.xp) || '0', 10) || 0;
@@ -212,12 +269,13 @@
     if (state.uid) {
       var c = sb();
       try {
-        var r = await c.from('user_profiles').select('total_xp,total_gems,total_coins,streak_freezes,hearts,hearts_day,heart_gift_day,login_streak,last_active_date,daily_goal,goal_streak,goal_last_date,goal_min,goal_claimed').eq('user_id', state.uid).single();
+        var r = await c.from('user_profiles').select('total_xp,total_gems,total_coins,streak_freezes,weekend_amulet,hearts,hearts_day,heart_gift_day,login_streak,last_active_date,streak_shield_date,streak_frozen_days,broken_streak,broken_streak_date,daily_goal,goal_streak,goal_last_date,goal_min,goal_claimed').eq('user_id', state.uid).single();
         if (r && r.data) {
           state.xp = r.data.total_xp || 0;
           state.gems = r.data.total_gems || 0;
           state.coins = r.data.total_coins || 0;
           state.freezes = r.data.streak_freezes || 0;
+          state.amulet = r.data.weekend_amulet || 0;
           state.hearts = (r.data.hearts_day === today() && r.data.hearts != null)
             ? clampH(r.data.hearts)
             : Math.max(HEART_MAX, clampH(r.data.hearts));  // new day → refill to 20 (overflow carries)
@@ -233,43 +291,32 @@
             claimed: Array.isArray(r.data.goal_claimed) ? r.data.goal_claimed.map(Number) : []
           };
           if (!state.goal && pending) { state.goal = pending; pushGoal(pending); }
-          /* Day-streak: progressdots owns the local counter (vumed_daystreak),
-             but that alone is per-device — phone and laptop drift apart. The
-             DB's login_streak (update_login_streak RPC) is the cross-device
-             truth. Adopt it when its run is LIVE (last qualified day = today
-             or yesterday, same ISO-UTC clock as _today) and ahead of the live
-             local run; a stale local counter never blocks the adoption, and a
-             local run that's ahead (RPC not yet fired today) is kept. */
+          /* Day-streak: de DB is de bron. Sinds migration streak_protection
+             verzilvert de server bescherming 's nachts (roll_streak_for), dus
+             login_streak + streak_shield_date zijn op elk moment de waarheid
+             — inclusief of de reeks nu BEVROREN is. De lokale spiegel is
+             alleen sneller in één geval: dit toestel kwalificeerde zojuist en
+             de RPC staat nog open (lokaal schild = vandaag, DB nog gisteren).
+             Daarom: adopteer de DB tenzij het lokale schild verder staat. */
           try {
             var dbS = r.data.login_streak || 0;
-            var dbD = r.data.last_active_date || null;   // 'YYYY-MM-DD'
-            if (dbS > 0 && dbD) {
-              var t = today(), y = yesterday();
-              var locD = localStorage.getItem('vumed_lastactive');
-              var locS = parseInt(localStorage.getItem(LS.streak) || '0', 10) || 0;
-              if (dbD === t) {
-                /* The DB already counted today: update_login_streak is the single
-                   authority on the number (it applies the freeze/reset rules
-                   idempotently per day). Adopt it UNCONDITIONALLY — this corrects
-                   a per-device local counter that drifted either too HIGH (a day
-                   double-counted against this device's own last-active) or too
-                   LOW (spuriously reset), the drift that made phone and laptop
-                   disagree. */
-                if (locS !== dbS || locD !== t) {
-                  localStorage.setItem(LS.streak, String(dbS));
-                  localStorage.setItem('vumed_lastactive', t);
-                }
-              } else if (dbD === y) {
-                /* Today not yet counted server-side. A live local run may be
-                   legitimately one ahead (this device qualified today and its RPC
-                   is still pending) — keep the higher of the two. */
-                var locLive = (locD === t || locD === y) ? locS : 0;
-                if (dbS > locLive) {
-                  localStorage.setItem(LS.streak, String(dbS));
-                  if (!locD || dbD > locD) localStorage.setItem('vumed_lastactive', dbD);
-                }
-              }
+            var dbShield = r.data.streak_shield_date || r.data.last_active_date || null;
+            var dbLast = r.data.last_active_date || null;
+            var locShield = shieldDay();
+            if (dbShield && (!locShield || locShield <= dbShield)) {
+              localStorage.setItem(LS.streak, String(dbS));
+              localStorage.setItem(LS.shield, dbShield);
+              if (dbLast) localStorage.setItem(LS.lastActive, dbLast);
+              localStorage.setItem(LS.frozen, String(r.data.streak_frozen_days || 0));
             }
+            /* Gebroken reeks bewaren zolang repair nog kan (server bewaakt het
+               venster; dit is puur om de kaart te kunnen tonen). */
+            if ((r.data.broken_streak || 0) > 0 && r.data.broken_streak_date) {
+              localStorage.setItem(LS.broken, JSON.stringify({ n: r.data.broken_streak, date: r.data.broken_streak_date }));
+            } else {
+              localStorage.removeItem(LS.broken);
+            }
+            localStorage.setItem(LS.amulet, String(state.amulet));
           } catch (e2) {}
           mirrorLocal();
           mirrorGoal();
@@ -277,9 +324,14 @@
         }
       } catch (e) {}
     }
-    // streak from localStorage (progressdots owns vumed_daystreak; the DB
-    // reconcile above may just have raised it)
-    state.streak = parseInt(localStorage.getItem(LS.streak) || '0', 10) || 0;
+    // streak from localStorage (progressdots owns vumed_daystreak; de
+    // DB-reconcile hierboven kan hem net hebben bijgewerkt), verlopen = 0
+    state.streak = localStreak();
+    state.frozen = state.streak > 0 ? (parseInt(localStorage.getItem(LS.frozen) || '0', 10) || 0) : 0;
+    try {
+      var bkr = JSON.parse(localStorage.getItem(LS.broken) || 'null');
+      state.broken = (bkr && bkr.n > 0 && bkr.date) ? bkr : null;
+    } catch (e3) { state.broken = null; }
     state.loaded = true;
   }
 
@@ -341,20 +393,41 @@
   /* Shop: spend gems on streak freezers (streakbevriezers). A freezer bridges one
      missed day so the day-streak survives — consumed by progressdots.js
      maybeBumpStreak (local) and the update_login_streak RPC (DB). */
-  async function buyFreezes(cost, count) {
+  /* Bescherming kopen. Prijs, aantal én het plafond (2 bevriezers / 1 amulet,
+     Duolingo-model) staan SERVER-side in buy_streak_item — de client stuurt
+     alleen de soort, en schrijft pas na een bevestigd antwoord. Vervangt het
+     oude add_gems(-cost) + add_freezes(count)-paar (audit 22-07: aankopen
+     horen atomair). */
+  async function buyStreakItem(kind) {
     if (!state.uid) return { ok: false, reason: 'login' };
-    if (state.gems < cost) return { ok: false, reason: 'gems' };
-    state.gems -= cost;
-    state.freezes += count;
-    mirrorLocal(); pop('gems', '-' + cost); paint();
-    var c = sb();
-    if (c) {
-      try {
-        await c.rpc('add_gems', { p_user_id: state.uid, p_amount: -cost });
-        await c.rpc('add_freezes', { p_user_id: state.uid, p_amount: count });
-      } catch (e) {}
-    }
-    return { ok: true, freezes: state.freezes };
+    var c = sb(); if (!c) return { ok: false, reason: 'offline' };
+    var r;
+    try { r = await c.rpc('buy_streak_item', { p_kind: kind }); }
+    catch (e) { return { ok: false, reason: 'offline' }; }
+    var d = (r && r.data) || null;
+    if (!d || !d.ok) return d || { ok: false, reason: 'offline' };
+    var spent = state.gems - d.gems;
+    state.gems = d.gems;
+    if (d.kind === 'amulet') state.amulet = d.count; else state.freezes = d.count;
+    mirrorLocal(); if (spent > 0) pop('gems', '-' + spent); paint();
+    return { ok: true, kind: d.kind, count: d.count, freezes: state.freezes, amulet: state.amulet };
+  }
+  /* Legacy-signatuur: een uit de cache geserveerde shop.html roept nog
+     buyFreezes(cost, count) aan. Vertaal naar de nieuwe RPC. */
+  function buyFreezes(cost, count) { return buyStreakItem(count >= 2 ? 'freeze2' : 'freeze1'); }
+  /* Streak repair: een net gebroken reeks terugkopen. Venster (2 dagen) en
+     prijs bewaakt repair_streak server-side. */
+  async function repairStreak() {
+    if (!state.uid) return { ok: false, reason: 'login' };
+    var c = sb(); if (!c) return { ok: false, reason: 'offline' };
+    var r;
+    try { r = await c.rpc('repair_streak', {}); }
+    catch (e) { return { ok: false, reason: 'offline' }; }
+    var d = (r && r.data) || null;
+    if (!d || !d.ok) return d || { ok: false, reason: 'offline' };
+    await pull(); paint();
+    try { pop('gems', '-' + (d.cost || 0)); } catch (e2) {}
+    return d;
   }
   /* Push the day-streak to the DB (update_login_streak consumes freezers server-side
      on a gap), then re-pull so the local freezer mirror matches. Callers must only
@@ -629,8 +702,85 @@
     if (state.hearts >= HEART_MAX) return 'Hartjes vol';
     return 'Morgen weer ' + HEART_MAX + ' hartjes';
   }
+  /* ── "Je reeks is bevroren" ───────────────────────────────────────────────
+     Duolingo vertelt je dát een bevriezer je gered heeft; zonder die melding
+     is de hele feature onzichtbaar. Eén keer per dag, en niet in een tentamen
+     (daar valt hij midden in een vraag over het scherm). Woont hier omdat
+     alleen vumed_stats.js op élke pagina meekomt én de bevroren toestand uit
+     de DB kent — progressdots.js draait alleen op examenpagina's. */
+  function frostStyle() {
+    if (document.getElementById('vs-frost-style')) return;
+    var st = document.createElement('style');
+    st.id = 'vs-frost-style';
+    st.textContent = [
+      '#vs-frost{position:fixed;inset:0;z-index:541;background:rgba(255,255,255,0.97);display:flex;',
+      'flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;',
+      "font-family:'Nunito',-apple-system,'Segoe UI',sans-serif;opacity:0;transition:opacity .3s ease;",
+      'cursor:pointer;-webkit-tap-highlight-color:transparent;}',
+      'html.dark #vs-frost{background:rgba(28,28,30,0.975);}',
+      '#vs-frost.on{opacity:1;}',
+      '.vs-frost-glow{position:absolute;width:520px;height:520px;max-width:150vw;left:50%;top:42%;',
+      'transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;',
+      'background:radial-gradient(circle,rgba(79,168,219,0.26),rgba(79,168,219,0.08) 45%,transparent 70%);}',
+      '.vs-frost-ice{width:132px;height:auto;position:relative;}',
+      '#vs-frost.on .vs-frost-ice{animation:vsFrostIn .6s cubic-bezier(.34,1.56,.5,1) .08s backwards;}',
+      '@keyframes vsFrostIn{0%{transform:scale(0) translateY(24px)}60%{transform:scale(1.1,.93)}100%{transform:none}}',
+      '.vs-frost-n{font-size:56px;font-weight:900;color:#4FA8DB;margin:14px 0 2px;letter-spacing:-1px;}',
+      '.vs-frost-t{font-size:22px;font-weight:900;color:#3C3C43;}',
+      'html.dark .vs-frost-t{color:#F2F2F7;}',
+      '.vs-frost-s{font-size:15px;font-weight:700;color:#8E8E93;max-width:320px;margin:8px 0 22px;line-height:1.45;}',
+      '.vs-frost-btn{background:#1CB0F6;color:#fff;border:none;border-radius:14px;padding:14px 34px;',
+      'font-family:inherit;font-size:15px;font-weight:800;letter-spacing:.4px;cursor:pointer;box-shadow:0 4px 0 #0E85B5;}',
+      '.vs-frost-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #0E85B5;}'
+    ].join('');
+    document.head.appendChild(st);
+  }
+  function frostNotice(streak, days) {
+    try {
+      if (!document.body || document.getElementById('vs-frost')) return;
+      frostStyle();
+      var w = document.createElement('div');
+      w.id = 'vs-frost';
+      w.setAttribute('role', 'dialog');
+      w.setAttribute('aria-modal', 'true');
+      w.innerHTML =
+        '<div class="vs-frost-glow"></div>' +
+        '<div class="vs-frost-ice">' + IC.ice.replace('width="15" height="19"', 'style="width:100%;height:auto"') + '</div>' +
+        '<div class="vs-frost-n">' + streak + '</div>' +
+        '<div class="vs-frost-t">Je reeks is bevroren</div>' +
+        '<div class="vs-frost-s">' +
+          (days > 1 ? days + ' gemiste dagen zijn opgevangen' : 'Een gemiste dag is opgevangen') +
+          '. Oefen vandaag om je reeks te ontdooien.</div>' +
+        '<button class="vs-frost-btn" type="button">AAN DE SLAG</button>';
+      document.body.appendChild(w);
+      void w.offsetWidth;                          // reflow, geen rAF (gotcha 3)
+      w.classList.add('on');
+      var onKey = function (e) { if (e.key === 'Escape') close(); };
+      function close() {
+        w.style.opacity = '0';
+        setTimeout(function () { if (w.parentNode) w.parentNode.removeChild(w); }, 320);
+        document.removeEventListener('keydown', onKey);
+      }
+      w.addEventListener('click', close);
+      document.addEventListener('keydown', onKey);
+    } catch (e) {}
+  }
+  var _frostDone = false;
+  function maybeFrostNotice() {
+    if (_frostDone || !state.loaded) return;
+    if (document.getElementById('streak-wrap')) return;   // tentamenpagina: niet storen
+    _frostDone = true;
+    if (!(state.frozen > 0 && state.streak > 0)) return;
+    try {
+      if (localStorage.getItem('vumed_frost_seen') === today()) return;
+      localStorage.setItem('vumed_frost_seen', today());
+    } catch (e) {}
+    var n = state.streak, d = state.frozen;
+    setTimeout(function () { frostNotice(n, d); }, 600);
+  }
   function paint() {
     maybeBlock();
+    maybeFrostNotice();
     try { document.dispatchEvent(new CustomEvent('vumed-stats')); } catch (e) {}
     if (!bar) return;
     var warn = state.hearts <= 3 ? ' vs-warn' : '';
@@ -655,12 +805,22 @@
     }
     bar.innerHTML =
       heartsPill +
-      '<div class="vs-pill" title="Dagstreak' + (state.freezes > 0 ? ' · ' + state.freezes + ' streakbevriezer' + (state.freezes === 1 ? '' : 's') : '') + '"><span class="vs-flameslot"></span><span class="vs-num">' + state.streak + '</span></div>' +
+      '<div class="vs-pill" title="' + streakTitle() + '"><span class="vs-flameslot"></span><span class="vs-num">' + state.streak + '</span></div>' +
       '<div class="vs-pill vs-coins" title="Munten">' + IC.coin + '<span class="vs-num">' + nf(state.coins) + '<span class="vs-pop" data-pop="coins"></span></span></div>' +
       '<div class="vs-pill vs-gems" title="Gems">' + IC.gem + '<span class="vs-num">' + nf(state.gems) + '<span class="vs-pop" data-pop="gems"></span></span></div>' +
       '<div class="vs-pill" title="XP">' + IC.bolt + '<span class="vs-num">' + nf(state.xp) + '</span></div>';
     var slot = bar.querySelector('.vs-flameslot');
     if (slot) slot.appendChild(flameNode());   // persistent node — lottie survives repaints
+  }
+  /* Tooltip van de streak-pill: bevroren toestand eerst, dan wat er nog in
+     voorraad is. */
+  function streakTitle() {
+    var t = state.frozen > 0 && state.streak > 0
+      ? 'Dagstreak bevroren — oefen vandaag om hem te ontdooien'
+      : 'Dagstreak';
+    if (state.freezes > 0) t += ' · ' + state.freezes + ' streakbevriezer' + (state.freezes === 1 ? '' : 's');
+    if (state.amulet > 0) t += ' · weekend-amulet';
+    return t;
   }
   function pop(which, txt) {
     if (!bar) return;
@@ -734,9 +894,10 @@
     HEART_MAX: HEART_MAX, GIFT_HEARTS: GIFT_HEARTS, REFILL_COST: REFILL_COST,
     GOALS: GOALS.slice(), DEFAULT_GOAL: DEFAULT_GOAL, GOAL_TIERS: GOAL_TIERS,
     awardGems: awardGems, awardCoins: awardCoins, awardHearts: awardHearts, loseHeart: loseHeart,
-    buyHearts: buyHearts, buyFreezes: buyFreezes, claimGift: claimGift, syncStreak: syncStreak,
+    buyHearts: buyHearts, buyFreezes: buyFreezes, buyStreakItem: buyStreakItem,
+    repairStreak: repairStreak, claimGift: claimGift, syncStreak: syncStreak,
     goalInfo: goalInfo, setGoal: setGoal, checkGoalDay: checkGoalDay,
-    claimGoalMilestone: claimGoalMilestone,
+    claimGoalMilestone: claimGoalMilestone, liveRun: liveRun,
     refresh: function () { return pull().then(paint); },
     getState: function () { return Object.assign({}, state); }, _refill: refill
   };

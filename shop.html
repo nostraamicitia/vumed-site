@@ -12,9 +12,9 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=44" data-active="shop"></script>
+  <script src="navbar.js?v=46" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="vumed_stats.js?v=21" data-vumed-stats="1"></script>
+  <script src="vumed_stats.js?v=23" data-vumed-stats="1"></script>
   <script src="avatar_render.js?v=26"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -155,6 +155,9 @@
     .item:hover .item-art { transform: scale(1.14) rotate(-4deg); }
     .item-name { font-size: 15.5px; font-weight: 900; }
     .item-desc { font-size: 12.5px; font-weight: 600; color: #8E8E93; line-height: 1.4; min-height: 34px; }
+    /* "In bezit: 1 / 2" — bij een plafond van 2 is dat het enige getal dat telt */
+    .fz-have { min-height: 0; margin-top: 4px; font-weight: 800; color: #1CB0F6; }
+    html.dark .fz-have { color: #5AC8FF; }
 
     /* Duolingo-style 3D buttons, tinted per section */
     .item-btn { margin-top: 14px; width: 100%; border: none; border-radius: 14px; padding: 12px;
@@ -294,6 +297,36 @@ var FREEZE = function (s) {
 };
 var MULTIFREEZE2 = '<div style="display:flex;gap:4px;align-items:center">' + FREEZE(38) + FREEZE(46) + '</div>';
 var MULTIFREEZE5 = '<div style="display:flex;gap:3px;align-items:center">' + FREEZE(30) + FREEZE(40) + FREEZE(48) + FREEZE(40) + FREEZE(30) + '</div>';
+/* Weekend-amulet: hanger aan een koord met de vlam erin, in de paarse
+   glossary-tint zodat hij naast het blauwe ijs eigen taal spreekt. */
+var _amN = 0;
+var AMULET = function (s) {
+  var id = 'amg' + (_amN++);
+  return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24">'
+    + '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="1" y2="1">'
+    +   '<stop offset="0" stop-color="#C4A2FF"/><stop offset="0.55" stop-color="#8B5CF6"/><stop offset="1" stop-color="#6D3FD6"/>'
+    + '</linearGradient></defs>'
+    + '<path d="M7.4 3.2 12 6.4 16.6 3.2" fill="none" stroke="#B98BFF" stroke-width="1.5" stroke-linecap="round"/>'
+    + '<circle cx="12" cy="14" r="7.6" fill="url(#'+id+')" stroke="#5B32B8" stroke-width="0.9"/>'
+    + '<circle cx="12" cy="14" r="5.4" fill="none" stroke="#E4D6FF" stroke-width="0.9" opacity="0.75"/>'
+    + '<g transform="translate(9.05,9.4) scale(0.215)">'
+    +   '<path d="M13.01,0.81C13.38,0.27 14.15,0.25 14.54,0.77C14.54,0.77 24.54,14.24 24.54,14.24C26.24,16.55 27.25,19.43 27.25,22.55C27.25,30.20 21.21,36.39 13.75,36.39C6.41,36.39 0.43,30.39 0.25,22.91C0.25,22.91 0.25,6.19 0.25,6.19C0.25,5.45 1.02,4.99 1.64,5.34C1.64,5.34 6.93,8.29 6.93,8.29C7.35,8.53 7.88,8.40 8.16,7.99C8.16,7.99 13.01,0.81 13.01,0.81Z" fill="#FFE9B0"/>'
+    + '</g>'
+    + '<path d="M8.1 9.3a7.6 7.6 0 0 1 3.1-2.1" fill="none" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity="0.65"/>'
+    + '</svg>';
+};
+/* Reeks herstellen: de vlam terug uit de scherven, met een klok-pijl die
+   zegt dat het maar even kan. */
+var REPAIR = function (s) {
+  return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24">'
+    + '<path d="M4.6 12.4a7.6 7.6 0 1 1 2.2 5.4" fill="none" stroke="#FF9600" stroke-width="2.1" stroke-linecap="round"/>'
+    + '<path d="M4.2 7.6v4.6h4.6" fill="none" stroke="#FF9600" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<g transform="translate(8.55,7.2) scale(0.2)">'
+    +   '<path d="M13.01,0.81C13.38,0.27 14.15,0.25 14.54,0.77C14.54,0.77 24.54,14.24 24.54,14.24C26.24,16.55 27.25,19.43 27.25,22.55C27.25,30.20 21.21,36.39 13.75,36.39C6.41,36.39 0.43,30.39 0.25,22.91C0.25,22.91 0.25,6.19 0.25,6.19C0.25,5.45 1.02,4.99 1.64,5.34C1.64,5.34 6.93,8.29 6.93,8.29C7.35,8.53 7.88,8.40 8.16,7.99C8.16,7.99 13.01,0.81 13.01,0.81Z" fill="#EB6C31"/>'
+    +   '<path d="M13.21,15.25C13.48,14.89 14.02,14.89 14.29,15.25C14.29,15.25 19.51,22.18 19.51,22.18C20.41,23.39 20.95,24.90 20.95,26.54C20.95,30.56 17.73,33.81 13.75,33.81C9.77,33.81 6.55,30.56 6.55,26.54C6.55,24.90 7.09,23.39 7.99,22.18C7.99,22.18 13.21,15.25 13.21,15.25Z" fill="#EFEF65"/>'
+    + '</g>'
+    + '</svg>';
+};
 /* Munt — zelfde art als de wallet-pill in vumed_stats.js (IC.coin) */
 var COIN = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="#FFC800"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#E0A800" stroke-width="1.6"/><path d="M6 12 H8.6 L9.7 8.9 L11.4 15 L12.7 10.6 L13.6 12 H18" stroke="#E0A800" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'; };
 /* Gouden stethoscoop: oor-beugel + kop goud (de metalen delen), slang donker */
@@ -346,11 +379,19 @@ var OFFERS = [
   { id: 'hf', name: 'Volle hartjes', gain: 20, cost: 350, art: HEART(52), desc: 'Vul je hartjes in één keer aan tot 20.' }
 ];
 
-/* ── Streakbevriezers: bought with gems, auto-consumed on a missed day ── */
+/* ── Streakbescherming: met gems gekocht, 's nachts automatisch verzilverd
+   (migration streak_protection → roll_streak_for). Duolingo-model: je mag er
+   maar een beperkt aantal in bezit hebben, dus het is bescherming en geen
+   voorraadkast. Prijs, aantal én plafond staan SERVER-side in buy_streak_item
+   — wat hier staat is alleen de weergave.  Plafonds: 2 bevriezers, 1 amulet. */
+var FREEZE_CAP = 2, AMULET_CAP = 1, REPAIR_COST = 300;   // spiegel van buy_streak_item / repair_streak
 var FREEZE_OFFERS = [
-  { id: 'f1', name: '1 streakbevriezer',  count: 1, cost: 50,  art: FREEZE(46),   desc: 'Beschermt je dagstreak één gemiste dag.' },
-  { id: 'f2', name: '2 streakbevriezers', count: 2, cost: 90,  art: MULTIFREEZE2, desc: 'Twee dagen bescherming — voordeliger per stuk.' },
-  { id: 'f5', name: '5 streakbevriezers', count: 5, cost: 180, art: MULTIFREEZE5, desc: 'Voor de vakantie: vijf dagen bescherming.' }
+  { id: 'freeze1', kind: 'freeze', name: '1 streakbevriezer',  count: 1, cost: 50, art: FREEZE(46),
+    desc: 'Vangt één gemiste dag op. Gaat vanzelf af.' },
+  { id: 'freeze2', kind: 'freeze', name: '2 streakbevriezers', count: 2, cost: 90, art: MULTIFREEZE2,
+    desc: 'Meteen je koffer vol — voordeliger per stuk.' },
+  { id: 'amulet',  kind: 'amulet', name: 'Weekend-amulet',     count: 1, cost: 80, art: AMULET(46),
+    desc: 'Dekt zaterdag én zondag met één item.' }
 ];
 
 /* ── Avatar-skins: bought with COINS, ownership in user_profiles.avatar_skins
@@ -418,7 +459,8 @@ function renderItems(s, api) {
   var loggedIn = !!s.uid;
   // Only rebuild the DOM (and replay the entrance animations) when something a
   // card actually shows has changed — 'vumed-stats' fires on every wallet paint.
-  var sig = [s.uid, s.hearts, s.gems, s.coins, s.freezes, s.loaded,
+  var sig = [s.uid, s.hearts, s.gems, s.coins, s.freezes, s.amulet, s.loaded,
+             (s.broken ? s.broken.n + '@' + s.broken.date : ''),
              ownedSkins().length, DYN_ITEMS.length].join('|');
   if (renderItems._sig === sig) return;
   renderItems._sig = sig;
@@ -440,16 +482,43 @@ function renderItems(s, api) {
 
   document.getElementById('shop-row').innerHTML = cards.join('');
 
+  /* Bescherming: het plafond bepaalt of een kaart nog te koop is. Wat je al
+     hebt staat op de kaart zelf, want dat is bij een plafond van 2 het enige
+     wat telt. De server weigert een overschrijding sowieso (buy_streak_item). */
+  var have = { freeze: s.freezes || 0, amulet: s.amulet || 0 };
+  var caps = { freeze: FREEZE_CAP, amulet: AMULET_CAP };
   var fzCards = FREEZE_OFFERS.map(function (o) {
-    var canPay = loggedIn && s.gems >= o.cost;
+    var room = caps[o.kind] - have[o.kind];
+    var full = room < o.count;
+    var canPay = loggedIn && s.gems >= o.cost && !full;
     var label = !loggedIn ? 'Log in om te kopen'
+              : full ? (have[o.kind] >= caps[o.kind] ? 'Koffer is vol' : 'Geen ruimte')
               : GEM(15) + ' ' + o.cost;
     return '<div class="item"><div class="item-art">' + o.art + '</div>'
       + '<div class="item-name">' + o.name + '</div>'
       + '<div class="item-desc">' + o.desc + '</div>'
+      + '<div class="item-desc fz-have">In bezit: ' + have[o.kind] + ' / ' + caps[o.kind] + '</div>'
       + '<button class="item-btn" ' + (canPay ? '' : 'disabled') + ' onclick="buyFreeze(\'' + o.id + '\')">' + label + '</button>'
       + '</div>';
   });
+  /* Streak repair: alleen zichtbaar zolang er écht iets te herstellen valt.
+     Het venster (2 dagen) bewaakt repair_streak server-side; hier rekenen we
+     hetzelfde uit zodat de kaart niet blijft hangen. */
+  var br = s.broken;
+  if (br && br.n > 0 && br.date) {
+    var lim = new Date(Date.now() - 2 * 86400000).toISOString().slice(0, 10);
+    if (br.date >= lim) {
+      var canFix = loggedIn && s.gems >= REPAIR_COST;
+      fzCards.push('<div class="item"><div class="item-art">' + REPAIR(46) + '</div>'
+        + '<div class="item-name">Reeks herstellen</div>'
+        + '<div class="item-desc">Je reeks van ' + br.n + ' dag' + (br.n === 1 ? '' : 'en') + ' brak op '
+        + br.date.slice(8, 10) + '-' + br.date.slice(5, 7) + '. Haal hem terug.</div>'
+        + '<div class="item-desc fz-have">Nog even mogelijk</div>'
+        + '<button class="item-btn" ' + (canFix ? '' : 'disabled') + ' onclick="repairStreak()">'
+        + (!loggedIn ? 'Log in om te kopen' : GEM(15) + ' ' + REPAIR_COST) + '</button>'
+        + '</div>');
+    }
+  }
   document.getElementById('freeze-row').innerHTML = fzCards.join('');
 
   renderAvatar(s);
@@ -489,15 +558,41 @@ function buy(id) {
 }
 
 function buyFreeze(id) {
-  var api = VS(); if (!api || !api.buyFreezes) return;
+  var api = VS(); if (!api) return;
   var o = FREEZE_OFFERS.filter(function (x) { return x.id === id; })[0];
   if (!o) return;
-  Promise.resolve(api.buyFreezes(o.cost, o.count)).then(function (r) {
-    if (r && r.ok) toast('Gekocht! Je hebt nu ' + r.freezes + ' streakbevriezer' + (r.freezes === 1 ? '' : 's') + '.');
+  if (!api.buyStreakItem) {   // uit de cache geserveerde vumed_stats.js
+    toast('Ververs de pagina en probeer opnieuw.', true); return;
+  }
+  Promise.resolve(api.buyStreakItem(o.id)).then(function (r) {
+    if (r && r.ok) {
+      toast(o.kind === 'amulet'
+        ? 'Gekocht! Je weekend-amulet staat klaar.'
+        : 'Gekocht! Je hebt nu ' + r.count + ' streakbevriezer' + (r.count === 1 ? '' : 's') + '.');
+    }
+    else if (r && r.reason === 'cap') toast('Je kunt er maximaal ' + r.cap + ' tegelijk hebben.', true);
     else if (r && r.reason === 'gems') toast('Niet genoeg gems.', true);
     else if (r && r.reason === 'login') toast('Log eerst in om te kopen.', true);
+    else toast('Kopen lukte niet. Probeer het zo nog eens.', true);
     renderAll();
   });
+}
+
+/* Streak repair — de reeks terugkopen die net gebroken is. */
+var _repairBusy = false;
+function repairStreak() {
+  var api = VS(); if (!api || !api.repairStreak || _repairBusy) return;
+  _repairBusy = true;
+  Promise.resolve(api.repairStreak()).then(function (r) {
+    _repairBusy = false;
+    if (r && r.ok) toast('Hersteld! Je reeks staat weer op ' + r.streak + ' dag' + (r.streak === 1 ? '' : 'en') + '.');
+    else if (r && r.reason === 'gems') toast('Niet genoeg gems.', true);
+    else if (r && r.reason === 'expired') toast('Deze reeks is te lang geleden gebroken.', true);
+    else if (r && r.reason === 'nothing') toast('Er valt niets te herstellen.', true);
+    else if (r && r.reason === 'login') toast('Log eerst in.', true);
+    else toast('Herstellen lukte niet. Probeer het zo nog eens.', true);
+    renderAll();
+  }, function () { _repairBusy = false; });
 }
 
 /* Skin purchase: coins via the atomic add_coins RPC, ownership as a jsonb

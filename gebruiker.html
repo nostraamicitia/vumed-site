@@ -21,7 +21,7 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=44" data-active="profiel"></script>
+  <script src="navbar.js?v=46" data-active="profiel"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -726,7 +726,12 @@ async function loadProfile() {
   renderFriendCta();
 
   q('pp-stat-xp').textContent = xp.toLocaleString('nl-NL');
+  /* get_public_profile geeft de LOPENDE reeks terug (verlopen = 0) plus of
+     hij nu bevroren is — dat laatste als tooltip, want deze tegel heeft geen
+     vlam om blauw te kleuren. */
   q('pp-stat-streak').textContent = data.login_streak || 0;
+  if (data.streak_frozen) q('pp-stat-streak').title = 'Deze reeks is bevroren';
+  else q('pp-stat-streak').removeAttribute('title');
   q('pp-stat-top3').textContent = data.top3_finishes || 0;
   q('pp-stat-questions').textContent = (data.q_total || 0).toLocaleString('nl-NL');
   q('pp-stat-accuracy').textContent = data.q_total > 0 ? Math.round(data.q_correct / data.q_total * 100) + '%' : '–';
