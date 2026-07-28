@@ -95,8 +95,10 @@
        "1 hartje" en dat is precies de verwarring die we niet willen). De randen
        nemen de kaartkleur aan, zodat de overlappingen in beide thema's los
        leesbaar blijven i.p.v. tot één rode klont te versmelten. */
-    .fh-h { stroke: #fff; stroke-width: 1; stroke-linejoin: round; }
-    html.dark .fh-h { stroke: #2C2C2E; }
+    /* Dónkere, halfdoorzichtige rand — géén witte lijn. Wit maakte er losse
+       stickers van; de referentie (dd.png) is één rode massa waarin je de
+       overlappingen aan de rand en het verloop leest. */
+    .fh-h { stroke: #B81E42; stroke-opacity: .32; stroke-width: .7; stroke-linejoin: round; }
     /* .item-art > svg krijgt max-width:100% maar houdt z'n height-attribuut, dus
        een brede tekening wordt platgedrukt i.p.v. geschaald. height:auto laat de
        viewBox de verhouding bewaren, ook op de smallere telefoonkaart. */
@@ -293,42 +295,55 @@ var HEART = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 
 var GEM = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z" fill="#1CB0F6"/><path d="M2 9h20M8 3l-2 6 6 12M16 3l2 6-6 12" fill="none" stroke="#0A8BD0" stroke-width="1.1" stroke-linejoin="round"/></svg>'; };
 var GIFT = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none"><rect x="8.6" y="2.6" width="6.8" height="4.8" rx="2.4" stroke="#E03131" stroke-width="1.7"/><rect x="2.5" y="5.4" width="19" height="15.2" rx="3" fill="#FF4B4B"/><rect x="2.5" y="5.4" width="19" height="4.2" rx="3" fill="#FF6B6B"/><rect x="2.5" y="9.4" width="19" height="1.4" fill="rgba(0,0,0,0.14)"/><rect x="10.4" y="11" width="3.2" height="7.6" rx="1" fill="#fff"/><rect x="8.2" y="13.2" width="7.6" height="3.2" rx="1" fill="#fff"/></svg>'; };
 var MULTIHEART = '<div style="display:flex;gap:2px;align-items:center">' + HEART(30) + HEART(42) + HEART(30) + '</div>';
-/* Volle hartjes (20 in één keer) = een STAPEL. Een stapel is orde, geen chaos:
-   identieke exemplaren, één regelmatige steek, duidelijke lagen. Alles wat naar
-   "hoopje" neigt — verschillende maten, willekeurige rotaties — is er bewust
-   uit; dat leest als omgevallen, niet als opgestapeld.
-
-   De hartvorm heeft z'n eigen stapelmechaniek: de punt onderaan past precies in
-   de KLEFT tussen de twee bollen van een hart. Dus stapelen we als metselwerk —
-   elke rij een halve steek (FH_DX/2) verschoven, en FH_DY is exact de rij-
-   afstand waarbij elke punt in de kleft eronder wegzakt. Verander je FH_DX,
-   herbereken dan FH_DY, anders zweven de rijen of overlappen ze te diep.
-
-   Onderste rij wordt LAATST getekend: die staat vooraan en dekt de punten van
-   de rij erboven af — precies dat maakt dat de lagen in elkaar grijpen.
-   Diepte zit in de tint per rij (voor verzadigd → achter licht), niet in
-   schaduw en niet in maat. */
+/* Volle hartjes (20 in één keer) = een ROMMELIGE STAPEL, naar Tijmens referentie
+   (`dd.png`, 28-07). Wat die referentie kenmerkt en wat we dus nabouwen:
+     1. DICHTHEID — de lagen overlappen ~55%, niet 20%. Dat maakt er één massa
+        van in plaats van drie herkenbare rijen. Dit is het belangrijkste punt;
+        een nettere versie leest meteen als een keurige piramide.
+     2. GELIJKE MAAT — alle hartjes 0.90-1.06. Grote maatverschillen lezen als
+        perspectief/diepte, en dat wil de referentie juist niet.
+     3. ROMMEL IN DE HOEK, niet in het raster — de x-posities staan wél op een
+        regelmatige steek (12.5) zodat de massa gelijkmatig dekt, maar hoogte
+        en rotatie variëren per hart (-30°…+27°). Zo is het rommelig zonder
+        gaten te laten vallen.
+     4. ÉÉN RODE MASSA — geen witte scheidingslijnen (die maakten er stickers
+        van). Elk hart heeft een eigen diagonaal verloop en een dunne, dónkere
+        rand; overlappingen lees je aan het verloop, precies als in dd.png.
+   Bandhoogtes cy≈13 / 20 / 28 met de middelste band een halve steek verschoven;
+   voorste band wordt laatst getekend. */
 var HEART_PATH = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
-/* cx/cy = middelpunt. Het pad is 24×24 met z'n zwaartepunt op (12, 12.2). */
-var _fhOne = function (cx, cy, fill) {
-  return '<path class="fh-h" d="' + HEART_PATH + '" fill="' + fill
-    + '" transform="translate(' + (cx - 12) + ',' + (cy - 12.2) + ')"/>';
+/* cx/cy = middelpunt, rot = graden erom. Het pad is 24×24 met z'n zwaartepunt
+   op (12, 12.2) — vandaar de tegen-translate helemaal achteraan. */
+var _fhOne = function (cx, cy, s, rot, grad) {
+  return '<path class="fh-h" d="' + HEART_PATH + '" fill="url(#' + grad + ')" transform="translate('
+    + cx + ',' + cy + ') rotate(' + rot + ') scale(' + s + ') translate(-12,-12.2)"/>';
 };
-/* FH_DY 15.6 is de kritieke maat: de punt van een hart komt dan 0,75 eenheid
-   BOVEN het punt waar de twee bollen eronder elkaar kruisen, dus je ziet 'm in
-   de kleft liggen. Zak je lager (13-14), dan dekken die bollen de punt af en
-   verliezen de bovenste rijen hun hartvorm — ze lezen als blobs. */
-var FH_DX = 18.5, FH_DY = 15.6;                  // steek binnen een rij · afstand tussen de rijen
-var _fhRow = function (n, cx0, cy, fill) {
-  var out = '';
-  for (var i = 0; i < n; i++) out += _fhOne(cx0 + i * FH_DX, cy, fill);
-  return out;
-};
-var FH_BACK = '#FF97AC', FH_MID = '#FF6E8B', FH_FRONT = '#FF4B6E';
-var FULLHEARTS = '<svg class="fh-svg" width="120" height="64" viewBox="0 0 96 51.2">'
-  + _fhRow(3, 29.5,  10,   FH_BACK)              // achterste rij bovenaan
-  + _fhRow(4, 20.25, 25.6, FH_MID)               // halve steek naar links, één rij lager
-  + _fhRow(5, 11,    41.2, FH_FRONT)             // voorste rij, breedste, basiskleur
+/* Verlopen in objectBoundingBox-ruimte: één definitie bedient alle hartjes én
+   kantelt met elk hart mee. Drie dieptevarianten, dicht bij elkaar gehouden —
+   het moet één rood blijven, geen drie kleuren. */
+var FH_GRADS = '<defs>'
+  + '<linearGradient id="fhgA" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#FF8FA6"/><stop offset="1" stop-color="#FF647F"/></linearGradient>'
+  + '<linearGradient id="fhgB" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#FF7188"/><stop offset="1" stop-color="#FF4B6E"/></linearGradient>'
+  + '<linearGradient id="fhgC" x1="0" y1="0" x2="0.7" y2="1"><stop offset="0" stop-color="#FF5C79"/><stop offset="1" stop-color="#EC3A5F"/></linearGradient>'
+  + '</defs>';
+/* 9 hartjes, 3 per band. Minder wordt bereikt door de BAK smaller te maken, niet
+   door de steek op te rekken: de steek van 12.5 is precies wat de ~55% overlap
+   geeft, en die dichtheid ís het karakter. Rek je de steek op, dan vallen er
+   gaten en wordt het weer een rij. De hartjes blijven dus even groot (~34px);
+   alleen het blok krimpt mee. */
+var FULLHEARTS = '<svg class="fh-svg" width="92" height="65.8" viewBox="0 0 54.5 39">' + FH_GRADS
+  /* achterste band — koepelt naar het midden omhoog, schouders lager */
+  + _fhOne(11.5, 14.4, 0.92, -24, 'fhgA')
+  + _fhOne(24.0, 11.6, 1.02,   9, 'fhgA')
+  + _fhOne(36.5, 12.6, 0.96, -13, 'fhgA')
+  /* middenband — halve steek verschoven, valt in de gaten van de band erachter */
+  + _fhOne(17.75, 20.0, 0.98, -30, 'fhgB')
+  + _fhOne(30.25, 18.8, 1.04,  12, 'fhgB')
+  + _fhOne(42.75, 20.2, 0.94,  22, 'fhgB')
+  /* voorste band — donkerst, dekt de punten van de banden erachter af */
+  + _fhOne(11.5, 27.4, 0.96, -18, 'fhgC')
+  + _fhOne(24.0, 26.4, 1.06,   5, 'fhgC')
+  + _fhOne(36.5, 27.6, 1.00, -22, 'fhgC')
   + '</svg>';
 /* Streakbevriezer: glazig ijsblok met de dagenreeks-vlam erin bevroren.
    Vlamvorm = statisch frame van streak_anim.json (de dagenreeks-lottie). */
