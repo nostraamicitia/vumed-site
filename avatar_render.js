@@ -382,8 +382,12 @@ function renderAccOverig(s) {
   const strapL = gold ? '#E9C24A' : '#5A6E7E';
   const bezel  = gold ? '#F5BF1C' : '#8FA6B2';
   const dish   = gold ? '#FFF0C2' : '#DDE7EC';
-  // Straight band across the forehead from temple to temple.
-  const band = 'M50,40 H344';
+  // Straight band across the forehead from temple to temple. The endpoints are
+  // the CENTRES of the round caps, so the visible band runs 13 units (half the
+  // 26 stroke) wider on each side: 67..333. That matches the head+hair
+  // silhouette at y=40 (pixel-scanned: bare skull 81..318, with hair 68..334)
+  // so the band ends exactly on the temples instead of floating past them.
+  const band = 'M80,40 H320';
   const inner = `
     <path d="${band}" fill="none" stroke="${strap}" stroke-width="26" stroke-linecap="round"/>
     <path d="${band}" fill="none" stroke="${strapL}" stroke-width="7" stroke-linecap="round" opacity="0.6"/>

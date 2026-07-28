@@ -15,7 +15,7 @@
   <script src="navbar.js?v=46" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="vumed_stats.js?v=23" data-vumed-stats="1"></script>
-  <script src="avatar_render.js?v=26"></script>
+  <script src="avatar_render.js?v=27"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -293,38 +293,42 @@ var HEART = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 
 var GEM = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z" fill="#1CB0F6"/><path d="M2 9h20M8 3l-2 6 6 12M16 3l2 6-6 12" fill="none" stroke="#0A8BD0" stroke-width="1.1" stroke-linejoin="round"/></svg>'; };
 var GIFT = function (s) { return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none"><rect x="8.6" y="2.6" width="6.8" height="4.8" rx="2.4" stroke="#E03131" stroke-width="1.7"/><rect x="2.5" y="5.4" width="19" height="15.2" rx="3" fill="#FF4B4B"/><rect x="2.5" y="5.4" width="19" height="4.2" rx="3" fill="#FF6B6B"/><rect x="2.5" y="9.4" width="19" height="1.4" fill="rgba(0,0,0,0.14)"/><rect x="10.4" y="11" width="3.2" height="7.6" rx="1" fill="#fff"/><rect x="8.2" y="13.2" width="7.6" height="3.2" rx="1" fill="#fff"/></svg>'; };
 var MULTIHEART = '<div style="display:flex;gap:2px;align-items:center">' + HEART(30) + HEART(42) + HEART(30) + '</div>';
-/* Volle hartjes (20 in één keer) = een HOOPJE, geen stapel. Drie dingen doen
-   het werk, en ze moeten alle drie blijven staan als iemand hier ooit aan
-   sleutelt:
-     1. zwaartekracht — de onderste hartjes rusten op een gedachte grondlijn op
-        y≈41, de hoop loopt taps naar boven (4 onder, 3 midden, 2 top);
-     2. rotatie — géén hartje staat rechtop. Rechtop = netjes neergelegd;
-        gekanteld = gevallen. Elke hoek is anders (-58° … +23°);
-     3. asymmetrie — geen gespiegelde paren, en linksonder is er één ver
-        doorgekanteld ONDER de hoop uit gerold. Dat ene hartje is het verschil
-        tussen "een hoopje" en "een cluster".
-   Diepte zit in de tint (achter licht → voor verzadigd), niet in schaduw. */
+/* Volle hartjes (20 in één keer) = een STAPEL. Een stapel is orde, geen chaos:
+   identieke exemplaren, één regelmatige steek, duidelijke lagen. Alles wat naar
+   "hoopje" neigt — verschillende maten, willekeurige rotaties — is er bewust
+   uit; dat leest als omgevallen, niet als opgestapeld.
+
+   De hartvorm heeft z'n eigen stapelmechaniek: de punt onderaan past precies in
+   de KLEFT tussen de twee bollen van een hart. Dus stapelen we als metselwerk —
+   elke rij een halve steek (FH_DX/2) verschoven, en FH_DY is exact de rij-
+   afstand waarbij elke punt in de kleft eronder wegzakt. Verander je FH_DX,
+   herbereken dan FH_DY, anders zweven de rijen of overlappen ze te diep.
+
+   Onderste rij wordt LAATST getekend: die staat vooraan en dekt de punten van
+   de rij erboven af — precies dat maakt dat de lagen in elkaar grijpen.
+   Diepte zit in de tint per rij (voor verzadigd → achter licht), niet in
+   schaduw en niet in maat. */
 var HEART_PATH = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
-/* cx/cy = middelpunt, rot = graden om dat middelpunt. Het pad zelf is 24×24 met
-   z'n zwaartepunt op (12, 12.2) — vandaar de tegen-translate helemaal achteraan. */
-var _fhOne = function (cx, cy, s, rot, fill) {
-  return '<path class="fh-h" d="' + HEART_PATH + '" fill="' + fill + '" transform="translate('
-    + cx + ',' + cy + ') rotate(' + rot + ') scale(' + s + ') translate(-12,-12.2)"/>';
+/* cx/cy = middelpunt. Het pad is 24×24 met z'n zwaartepunt op (12, 12.2). */
+var _fhOne = function (cx, cy, fill) {
+  return '<path class="fh-h" d="' + HEART_PATH + '" fill="' + fill
+    + '" transform="translate(' + (cx - 12) + ',' + (cy - 12.2) + ')"/>';
+};
+/* FH_DY 15.6 is de kritieke maat: de punt van een hart komt dan 0,75 eenheid
+   BOVEN het punt waar de twee bollen eronder elkaar kruisen, dus je ziet 'm in
+   de kleft liggen. Zak je lager (13-14), dan dekken die bollen de punt af en
+   verliezen de bovenste rijen hun hartvorm — ze lezen als blobs. */
+var FH_DX = 18.5, FH_DY = 15.6;                  // steek binnen een rij · afstand tussen de rijen
+var _fhRow = function (n, cx0, cy, fill) {
+  var out = '';
+  for (var i = 0; i < n; i++) out += _fhOne(cx0 + i * FH_DX, cy, fill);
+  return out;
 };
 var FH_BACK = '#FF97AC', FH_MID = '#FF6E8B', FH_FRONT = '#FF4B6E';
-/* Tekenvolgorde = achter naar voren; de kleur volgt diezelfde diepte.
-   Breed en laag (80×42 ≈ 2:1) — een hoop is een heuvel, geen boeket. */
-var FULLHEARTS = '<svg class="fh-svg" width="122" height="64" viewBox="0 0 80 42">'   /* past binnen de 123px die de kaart biedt → geen clamp, geen vervorming */
-  + _fhOne(30,    9.5, 0.55, -27, FH_BACK)      // de kruin: twee kleintjes, bijna rechtop
-  + _fhOne(44,    7.5, 0.66,  -5, FH_BACK)
-  + _fhOne(19,   19.5, 0.72, -38, FH_MID)       // middenlaag, in de dalen tussen de onderste
-  + _fhOne(36,   16.5, 0.88,  -9, FH_MID)
-  + _fhOne(54,   17.5, 0.84,  22, FH_MID)
-  + _fhOne(10,   31,   0.76, -73, FH_FRONT)     // aan de voet valt alles om: links plat op z'n zij…
-  + _fhOne(69,   31.5, 0.70,  57, FH_FRONT)     // …rechts doorgekanteld, andere hoek, andere maat
-  + _fhOne(24,   29,   0.98, -21, FH_FRONT)     // onderste rij, op de grondlijn
-  + _fhOne(59,   28.5, 0.94,  29, FH_FRONT)
-  + _fhOne(42,   29,   1.10,   5, FH_FRONT)     // grootste, vooraan = de basiskleur
+var FULLHEARTS = '<svg class="fh-svg" width="120" height="64" viewBox="0 0 96 51.2">'
+  + _fhRow(3, 29.5,  10,   FH_BACK)              // achterste rij bovenaan
+  + _fhRow(4, 20.25, 25.6, FH_MID)               // halve steek naar links, één rij lager
+  + _fhRow(5, 11,    41.2, FH_FRONT)             // voorste rij, breedste, basiskleur
   + '</svg>';
 /* Streakbevriezer: glazig ijsblok met de dagenreeks-vlam erin bevroren.
    Vlamvorm = statisch frame van streak_anim.json (de dagenreeks-lottie). */
