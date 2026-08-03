@@ -167,13 +167,17 @@
   ].join('');
 
   // ECG line (cap-line y16, text baseline y54): isoelectric baseline · rounded
-  // P wave · PR segment · one continuous QRS — small Q dip, tall sharp R, then
-  // the R plunges straight down into a bold V (the S limb, the letter) and
-  // recovers · ST segment · rounded T wave · the line runs on over "umed".
+  // P wave · PR segment · one continuous QRS — the R rises straight off the
+  // baseline, plunges down into a bold V (the S limb, the letter) and recovers ·
+  // ST segment · rounded T wave · the line runs on over "umed".
   // The WORD "Vumed" (V drawn by the line + "umed" text, x=70) is centred; the
   // left lead-in now STARTS at x=4 (was -16, which ran off the left edge on a
   // phone) so nothing spills off-screen — the word keeps its position.
-  var ecgD = 'M4,16 H12 Q18,10 24,16 H32 L34,20 L40,2 L52,54 L64,16 H72 Q81,6 90,16 H214';
+  // 2026-08-03: de Q-dip (H32 L34,20) is ERUIT. Die afdaling was 2 eenheden breed
+  // terwijl de lijn 6.6 dik is, dus PR-segment en R-flank versmolten tot één bol
+  // die ~4 eenheden ONDER de basislijn hing — het complex leek door te zakken.
+  // KEEP IN SYNC met splash.html en vumed_logo/make_logo.py.
+  var ecgD = 'M4,16 H12 Q18,10 24,16 H34 L40,2 L52,54 L64,16 H72 Q81,6 90,16 H214';
   // Per-letter reveal: each glyph of "Umed" rises onto the baseline with a
   // small overshoot, staggered so it lands just as the glowing dot sweeps
   // past it (dot reaches x≈88 at ~0.74s, x≈220 at ~1.22s). SMIL on the
