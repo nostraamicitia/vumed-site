@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <link rel="icon" type="image/png" href="favicon-32.png">
-<script src="pwa.js?v=10"></script>
+<script src="pwa.js?v=11"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
@@ -13,7 +13,7 @@
   <script src="supabase-js.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-  <script src="avatar_render.js?v=27"></script>
+  <script src="avatar_render.js?v=28"></script>
   <script src="auth_gate.js?v=12"></script>
   <script src="navbar.js?v=46" data-active="profiel"></script>
   <script src="user_popup.js?v=1"></script>
@@ -702,7 +702,7 @@
       <div class="heat-grid" id="heat-grid"></div>
     </div>
     <div class="heat-foot">
-      <div class="heat-note">Beantwoorde vragen per dag op dit apparaat</div>
+      <div class="heat-note">Beantwoorde vragen per dag</div>
       <div class="heat-legend">Minder
         <div class="heat-cell"></div><div class="heat-cell h1"></div><div class="heat-cell h2"></div><div class="heat-cell h3"></div><div class="heat-cell h4"></div>
       Meer</div>
@@ -860,11 +860,30 @@ function renderHeroXP(xp) {
 }
 document.addEventListener('DOMContentLoaded', renderHeroAvatar);
 
+/* Een uitgerust admin-item (hoofddoek, bril, …) is INLINE opgeslagen in de
+   avatar-config — een kopie van de catalogusrij. Bewerkt de admin dat item in
+   admin_avatar.html, dan blijft die kopie oud. Hier halen we de verse catalogus
+   op en verversen we de ART van wat je draagt (je KEUZE blijft ongemoeid).
+   Lukt de query niet, dan blijft de gebakken kopie staan — nooit een lege slot. */
+async function refreshEquippedItems(sb) {
+  try {
+    if (!window.VumedAvatar || !VumedAvatar.hydrate || !VumedAvatar.hasCustom()) return false;
+    var r = await sb.from('avatar_items').select('id, svg, transform, recolor, hides_ears');
+    if (r.error || !r.data || !r.data.length) return false;
+    var st = VumedAvatar.getState();
+    if (!VumedAvatar.hydrate(st, r.data)) return false;
+    localStorage.setItem('vumed_avatar', JSON.stringify(st));
+    renderHeroAvatar();
+    return true;                      // → syncAvatarToCloud duwt de verse config omhoog
+  } catch(e) { return false; }
+}
+
 /* Sync the rendered avatar head to localStorage + Supabase so the
    leaderboard (voortgang.html) shows the real avatar everywhere. */
 async function syncAvatarToCloud(sb, uid, remoteSvg) {
   try {
     if (!window.VumedAvatar || !VumedAvatar.hasCustom()) return;
+    var refreshed = await refreshEquippedItems(sb);
     var st   = VumedAvatar.getState();
     var head = VumedAvatar.build(st, 'head');
     localStorage.setItem('vumed_avatar_head_svg', head);
@@ -874,8 +893,11 @@ async function syncAvatarToCloud(sb, uid, remoteSvg) {
     // Carry-up: if the DB has no config yet (legacy avatars built before the
     // avatar_state column existed), push this device's config up so every other
     // device adopts it. We never overwrite an existing DB config here — the
-    // creator's save is the only writer of a *new* config.
-    if (!window._remoteAvatarState) payload.avatar_state = st;
+    // creator's save is the only writer of a *new* config. Uitzondering:
+    // refreshEquippedItems heeft zojuist de ART van een uitgerust item
+    // bijgewerkt — dan MOET de opgeslagen config mee, anders blijft de oude
+    // kopie eeuwig terugkomen van de server.
+    if (!window._remoteAvatarState || refreshed) payload.avatar_state = st;
     if (Object.keys(payload).length) {
       payload.user_id = uid;
       await sb.from('user_profiles').upsert(payload, { onConflict: 'user_id' });
@@ -1099,7 +1121,38 @@ function formatTimeRemaining(ms) {
   return m + ' minuten';
 }
 
-/* ── Activity heatmap (localStorage vumed_daily_<ISO-date>, per device) ── */
+/* ── Activity heatmap ─────────────────────────────────────────────────
+   TWEE bronnen, per dag de HOOGSTE van de twee:
+   1. de SERVER (`get_my_activity_days` → activity_events, gevuld door de
+      exam_progress-trigger) = de account-historie, over alle apparaten heen;
+   2. localStorage `vumed_daily_<ISO>` = de lokale teller die progressdots
+      bij ELK antwoord ophoogt, dus vandaag al bij vóór de DB-save rond is.
+   Waarom niet optellen: dat zou dezelfde vraag dubbel tellen. Waarom niet
+   alleen de server: die logt per save een positieve delta, dus een lokale
+   herkansing na een reset telt hij niet mee. Max() = het beste van beide.
+   Deze kalender WAS localStorage-only; die keys zijn per apparaat én worden
+   door VumedScope.wipe opgeruimd bij uitloggen/accountwissel → lege kalender
+   naast een tegel die gewoon 207 vragen meldde. Dat was de bug.
+   Dagsleutels overal ISO-UTC (zelfde klok als de streak- en dagdoelclaims). */
+var _heatRemote = {};   // {"2026-07-18": 78, …} uit de DB; leeg = alleen lokaal
+function heatCount(key) {
+  var loc = 0;
+  try { loc = parseInt(localStorage.getItem('vumed_daily_' + key) || '0', 10) || 0; } catch (e) {}
+  var rem = _heatRemote[key] || 0;
+  return rem > loc ? rem : loc;
+}
+async function loadActivityDays(sb) {
+  try {
+    const { data, error } = await sb.rpc('get_my_activity_days');
+    if (error || !Array.isArray(data)) return;            // oude DB zonder RPC → lokaal blijft werken
+    const map = {};
+    data.forEach(function(r) {
+      if (r && r.day) map[String(r.day).slice(0, 10)] = parseInt(r.answered, 10) || 0;
+    });
+    _heatRemote = map;
+    renderHeatmap();
+  } catch (e) {}
+}
 function heatLevel(n) {
   if (n <= 0)  return 0;
   if (n <= 4)  return 1;
@@ -1171,7 +1224,7 @@ function renderHeatMonth() {
         cell.classList.add('togo');
       } else {
         var key = day.toISOString().slice(0, 10);
-        var n = parseInt(localStorage.getItem('vumed_daily_' + key) || '0', 10) || 0;
+        var n = heatCount(key);
         var lvl = heatLevel(n);
         if (lvl > 0) cell.classList.add('h' + lvl);
         monthTotal += n;
@@ -1260,7 +1313,7 @@ function renderHeatmap() {
       } else if (day > today) {
         cell.classList.add('togo');                         // future day → plain grey, no tooltip
       } else {
-        var n = parseInt(localStorage.getItem('vumed_daily_' + key) || '0', 10) || 0;
+        var n = heatCount(key);
         var lvl = heatLevel(n);
         if (lvl > 0) cell.classList.add('h' + lvl);
         allTotal += n;
@@ -1490,6 +1543,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   const session = await VumedAuthGate.guard(PROFILE_GATE);
   if (!session) return;
 
+  loadActivityDays(sb);        // kalender uit de DB — los van loadStats, hertekent zelf
   await loadStats(sb, session.user.id);
   checkAddFriendParam();
 
@@ -1500,7 +1554,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       const xpEl = document.getElementById('stat-xp');
       if (xpEl) xpEl.textContent = '–';
       window._friendData = null;
+      _heatRemote = {};                    // kalender van het vorige account niet laten hangen
+      renderHeatmap();
     } else if (event === 'SIGNED_IN' && session2?.user) {
+      loadActivityDays(sb);
       loadStats(sb, session2.user.id);
     }
   });

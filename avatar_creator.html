@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
     <link rel="icon" type="image/png" href="favicon-32.png">
-<script src="pwa.js?v=10"></script>
+<script src="pwa.js?v=11"></script>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
@@ -351,7 +351,7 @@
   <button class="done-btn" onclick="saveAndDone()">Klaar</button>
 </div>
 
-<script src="avatar_render.js?v=27"></script>
+<script src="avatar_render.js?v=28"></script>
 <script>
 /* Renderers (h2r/darken/lighten, DEFAULTS, renderBody/Head/Hair, buildSVG,
    HAIR_STYLE_LABELS) live in the shared avatar_render.js — edit them THERE. */
@@ -613,6 +613,7 @@ function loadDynItems() {
           state = Object.assign({}, DEFAULTS, r.data.avatar_state);
           savedSnapshot = JSON.stringify(state);
           try { localStorage.setItem('vumed_avatar', JSON.stringify(state)); } catch (e) {}
+          refreshEquipped();   // de DB-kopie kan ná de catalogus landen → opnieuw verversen
           renderPreview();
         }
         renderOptions();
@@ -625,8 +626,28 @@ function loadDynItems() {
       if (!r || !r.data) return;
       DYN_BY_KIND = emptyDynByKind();
       r.data.forEach(function (it) { (DYN_BY_KIND[it.kind] || (DYN_BY_KIND[it.kind] = [])).push(it); });
+      refreshEquipped(r.data);
       renderOptions();
     }, function () {});
+}
+/* Admin-bewerkingen doorvoeren op wat je AL draagt. Een uitgerust item bewaart
+   een KOPIE van de catalogusrij, dus zonder deze stap blijft een item dat de
+   admin zojuist heeft bijgesteld er oud uitzien — ook al is de catalogus vers.
+   Alleen de ART ververst; WELK item je draagt verandert nooit. Geen DB-schrijf
+   hier: dat zou een nog niet opgeslagen bewerking meeduwen (profile.html heelt
+   de opgeslagen kopie). */
+let DYN_ROWS = null;
+function refreshEquipped(rows) {
+  if (rows) DYN_ROWS = rows;
+  if (!DYN_ROWS || !window.VumedAvatar || !VumedAvatar.hydrate) return;
+  const clean = !hasUnsavedChanges();
+  if (!VumedAvatar.hydrate(state, DYN_ROWS)) return;
+  if (clean) savedSnapshot = JSON.stringify(state);   // verse art is geen wijziging van jou
+  try {
+    localStorage.setItem('vumed_avatar', JSON.stringify(state));
+    localStorage.setItem('vumed_avatar_head_svg', buildSVG(state, 'head'));
+  } catch (e) {}
+  renderPreview();
 }
 function loadBuiltinHidden() {
   const c = dynSB(); if (!c) return;

@@ -473,10 +473,45 @@ function buildSVG(s, mode='full') {
   return `<svg viewBox="${vb}" xmlns="http://www.w3.org/2000/svg">${out}</svg>`;
 }
 
+/* ── Re-hydrate equipped dynamic items from the admin catalog ──
+   An equipped item is stored INLINE in the avatar state (a COPY of the
+   avatar_items row) so any renderer draws it without a DB fetch. That copy goes
+   STALE the moment an admin edits the item in admin_avatar.html — the saved
+   avatar keeps the old art/placement forever. hydrateDyn() refreshes every
+   equipped slot from a freshly fetched catalog (matched on the item id) and
+   reports whether anything actually changed, so the caller can re-render and
+   persist the refreshed state.
+   An id that is NOT in the list keeps its baked copy: a non-admin only ever
+   fetches launched rows (RLS), so an item taken offline would otherwise make
+   the hat/outfit vanish from an avatar that legitimately owns it. */
+const DYN_SLOTS = ['hairItem', 'outfitItem', 'headwearItem', 'glassesItem',
+                   'accItem', 'miscItem', 'bgItem'];
+function hydrateDyn(state, rows) {
+  if (!state || !rows || !rows.length) return false;
+  const byId = {};
+  rows.forEach(function (r) { if (r && r.id) byId[r.id] = r; });
+  let changed = false;
+  DYN_SLOTS.forEach(function (slot) {
+    const cur = state[slot];
+    if (!cur || !cur.id) return;                       // empty slot / legacy copy without id
+    const row = byId[cur.id];
+    if (!row) return;                                  // unknown here → keep what we have
+    const fresh = { id: row.id, svg: row.svg, tf: row.transform,
+                    recolor: row.recolor, hideEars: !!row.hides_ears };
+    if (cur.svg === fresh.svg && cur.tf === fresh.tf &&
+        cur.recolor === fresh.recolor && !!cur.hideEars === fresh.hideEars) return;
+    state[slot] = fresh;
+    changed = true;
+  });
+  return changed;
+}
+
 /* Convenience API for pages that only consume the avatar */
 window.VumedAvatar = {
   DEFAULTS: DEFAULTS,
   build: buildSVG,
+  SLOTS: DYN_SLOTS,
+  hydrate: hydrateDyn,
   hasCustom: function () { try { return !!localStorage.getItem('vumed_avatar'); } catch (e) { return false; } },
   getState: function () {
     try { return Object.assign({}, DEFAULTS, JSON.parse(localStorage.getItem('vumed_avatar') || '{}')); }

@@ -258,7 +258,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="avatar_render.js?v=27"></script>
+  <script src="avatar_render.js?v=28"></script>
   <script>
   var PROJECT = null;
   var _sb = null;
@@ -524,9 +524,24 @@
   $('confirm-ov').addEventListener('click', function(e){ if(e.target===this) closeConfirm(); });
 
   /* ── List ── */
+  var ITEM_SLOT = { hair:'hairItem', hoofddeksel:'headwearItem', bril:'glassesItem',
+    outfit:'outfitItem', accessory:'accItem', overig:'miscItem', background:'bgItem' };
+  var ITEM_MODE = { outfit:'full', background:'full' };   // rest = head-crop
+  /* Thumbnail = het item ZOALS HET OP DE AVATAR STAAT, dus mét de transform die
+     je hierboven hebt ingesteld. De rauwe art in z'n eigen view_box tonen
+     verbergt juist de meest gemaakte wijziging: een plaatsings-tweak. */
   function itemThumb(it){
-    var vb = it.view_box || '0 0 100 100';
-    return '<svg viewBox="'+esc(vb)+'" preserveAspectRatio="xMidYMid meet">'+it.svg+'</svg>';
+    try {
+      var base = Object.assign({}, state);
+      ['hairItem','outfitItem','headwearItem','glassesItem','accItem','miscItem','bgItem']
+        .forEach(function(k){ delete base[k]; });
+      base[ITEM_SLOT[it.kind] || 'accItem'] = { id:it.id, svg:it.svg, tf:it.transform,
+        recolor:it.recolor, hideEars:!!it.hides_ears };
+      return buildSVG(base, ITEM_MODE[it.kind] || 'head');
+    } catch(e){
+      var vb = it.view_box || '0 0 100 100';
+      return '<svg viewBox="'+esc(vb)+'" preserveAspectRatio="xMidYMid meet">'+it.svg+'</svg>';
+    }
   }
   function renderList(){
     var el = $('item-list');

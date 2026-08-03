@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="avatar_render.js?v=27"></script>
+  <script src="avatar_render.js?v=28"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -1422,6 +1422,24 @@ let _items = [];
 const CUR_LABEL = { coins: 'munten', gems: 'edelstenen' };
 const KIND_LABEL = { hair:'Kapsel', hoofddeksel:'Hoofddeksel', bril:'Bril', outfit:'Outfit',
   accessory:'Accessoire', overig:'Overig', background:'Achtergrond' };
+const ITEM_SLOT = { hair:'hairItem', hoofddeksel:'headwearItem', bril:'glassesItem',
+  outfit:'outfitItem', accessory:'accItem', overig:'miscItem', background:'bgItem' };
+const ITEM_MODE = { outfit:'full', background:'full' };   // rest = head-crop
+/* Thumbnail = het item ZOALS HET OP DE AVATAR STAAT, dus mét de transform uit
+   de editor. De rauwe art in z'n eigen view_box tonen verbergt juist de meest
+   gemaakte wijziging — een plaatsings-tweak — waardoor een geslaagde bewerking
+   er onveranderd uitziet. */
+function itemThumb(it) {
+  try {
+    const s = Object.assign({}, VumedAvatar.DEFAULTS);
+    s[ITEM_SLOT[it.kind] || 'accItem'] = { id: it.id, svg: it.svg, tf: it.transform,
+      recolor: it.recolor, hideEars: !!it.hides_ears };
+    return VumedAvatar.build(s, ITEM_MODE[it.kind] || 'head');
+  } catch (e) {
+    return '<svg viewBox="' + esc(it.view_box || '0 0 100 100') +
+           '" preserveAspectRatio="xMidYMid meet">' + (it.svg || '') + '</svg>';
+  }
+}
 async function loadItems() {
   const sb = getSB();
   const { data, error } = await sb.from('avatar_items').select('*').order('kind').order('sort').order('created_at');
@@ -1460,9 +1478,8 @@ function renderItemGrid() {
 
   $('item-grid').innerHTML = list.map(it => {
     const price = it.price > 0 ? (nf(it.price) + ' ' + (CUR_LABEL[it.currency] || 'munten')) : 'Gratis';
-    const vb = esc(it.view_box || '0 0 100 100');
     return '<div class="item-card">' +
-      '<div class="item-thumb"><svg viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet">' + (it.svg || '') + '</svg></div>' +
+      '<div class="item-thumb">' + itemThumb(it) + '</div>' +
       '<div class="item-nm">' + esc(it.name || '(naamloos)') + '</div>' +
       '<div class="item-meta">' +
         '<span class="item-badge kind">' + esc(KIND_LABEL[it.kind] || it.kind) + '</span>' +
@@ -1893,6 +1910,9 @@ function showView(name) {
   $('at-sub').textContent = NAV_META[name].sub;
   try { localStorage.setItem('vumed_admin_view', name); } catch (e) {}
   if (name === 'team') loadTeam().catch(console.error);
+  // Items worden in admin_avatar.html bewerkt; opnieuw ophalen bij het openen
+  // van de sectie, anders kijk je naar de lijst van vóór die bewerking.
+  if (name === 'items') loadItems().catch(console.error);
   const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
 }
 
@@ -2061,6 +2081,13 @@ async function boot(session) {
   let last = 'overview';
   try { last = localStorage.getItem('vumed_admin_view') || 'overview'; } catch (e) {}
   showView(last);
+  // Terug uit admin_avatar.html komt via de bfcache: geen reload, dus ook geen
+  // verse query. Zonder dit zie je na een bewerking nog de oude kaart staan.
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && document.getElementById('view-items').classList.contains('on')) {
+      loadItems().catch(console.error);
+    }
+  });
 }
 
 /* Wachtwoord-herstel: Supabase stuurt een link terug naar deze pagina met
