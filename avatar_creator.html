@@ -116,6 +116,103 @@
       transition: opacity 0.15s; }
     .modal-leave:hover { opacity: 0.75; }
 
+    /* ── Vergrendeld shop-item — ÉÉN component, twee gedaanten ──
+       Verving de oude toast (#skin-toast): die was white-space:nowrap op
+       top:26px, liep op 393px links en rechts van het scherm af en botste
+       met de terugknop / Klaar. Basis hieronder = de TELEFOON-sheet; het
+       @media (min-width:769px)-blok verderop maakt er op desktop een
+       zwevende kaart bovenin van. Geen blur en een lichte scrim: de
+       pas-op-proef van previewSkin staat op de avatar erboven en juist
+       dát moet zichtbaar blijven. */
+    .ls-back { position: fixed; inset: 0; z-index: 120; display: none;
+      background: rgba(0,0,0,0.32); opacity: 0; transition: opacity 0.22s ease; }
+    .ls-back.open { display: block; }
+    .ls-back.show { opacity: 1; }
+    .ls-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 121; display: none;
+      width: 100%; max-width: 520px; margin: 0 auto; background: #fff;
+      border-radius: 26px 26px 0 0; box-shadow: 0 -10px 40px rgba(0,0,0,0.22);
+      padding: 10px 20px calc(18px + env(safe-area-inset-bottom));
+      transform: translateY(102%); transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); }
+    .ls-sheet.open { display: block; }
+    .ls-sheet.show { transform: translateY(0); }
+    .ls-grab { width: 42px; height: 5px; border-radius: 3px; background: #E5E5EA; margin: 0 auto 14px; }
+    .ls-row { display: flex; align-items: center; gap: 14px; }
+    .ls-art { flex: 0 0 88px; height: 88px; border-radius: 18px; background: #F5F7FA;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; }
+    /* IN KLEUR — anders dan de rastercel: dit is de verkoopkaart, je moet
+       zien wat je koopt. Het slotje draagt de "nog niet van jou"-boodschap. */
+    .ls-art > svg { width: 76px; height: 76px; display: block; }
+    .ls-art .lock-badge { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px;
+      border-radius: 50%; background: #FFC800; display: flex; align-items: center;
+      justify-content: center; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+    .ls-art .lock-badge svg { width: 12px; height: 12px; }
+    .ls-txt { min-width: 0; }
+    .ls-name { font-size: 19px; font-weight: 900; color: #1C1C1E; line-height: 1.2;
+      overflow-wrap: anywhere; }
+    .ls-sub { font-size: 13px; font-weight: 700; color: #8c9aab; margin-top: 3px; }
+    .ls-price { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px;
+      padding: 5px 12px 5px 7px; border-radius: 999px;
+      background: #FFF6DA; color: #B08508; font-size: 15px; font-weight: 900; }
+    .ls-price.gems { background: #E6F5FE; color: #0A8BD0; }
+    .ls-price svg { display: block; }
+    .ls-go { width: 100%; margin-top: 18px; padding: 16px; background: #1CB0F6; color: #fff;
+      border: none; border-bottom: 4px solid #0e85b5; border-radius: 16px; font-family: inherit;
+      font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em;
+      cursor: pointer; transition: transform 0.1s; }
+    .ls-go:active { transform: translateY(2px); border-bottom-width: 2px; }
+    .ls-close { width: 100%; margin-top: 6px; padding: 12px; background: none; border: none;
+      color: #8c9aab; font-family: inherit; font-size: 13px; font-weight: 900;
+      text-transform: uppercase; letter-spacing: 0.07em; cursor: pointer; }
+    .ls-x { display: none; }
+    /* html.dark .cls (0,2,1) verslaat .cls.state (0,2,0) → :not(.gems) (gotcha 5) */
+    html.dark .ls-sheet { background: #2C2C2E; }
+    html.dark .ls-grab { background: #48484A; }
+    html.dark .ls-art { background: #3A3A3C; }
+    html.dark .ls-name { color: #EAECEF; }
+    html.dark .ls-price:not(.gems) { background: #4A3D12; color: #FFD64F; }
+    html.dark .ls-price.gems { background: #123A4E; color: #7FD4FF; }
+
+    /* ── Desktop: dezelfde kaart, maar als zwevende balk bovenin ──
+       Niet modaal (je blijft in het raster bladeren) en hij verdwijnt
+       vanzelf; daarom géén scrim, wél een kruisje. De kaart is horizontaal:
+       [art] [naam + prijs] [knop] [×]. */
+    @media (min-width: 769px) {
+      .ls-back { display: none !important; }
+      /* top:58 = onder de wallet-balk (die staat op y 8-43, ook gecentreerd);
+         op 22px dekte de kaart de hartjes/munten af. */
+      .ls-sheet { left: 50%; right: auto; bottom: auto; top: 58px;
+        width: auto; max-width: min(620px, calc(100vw - 48px)); margin: 0;
+        border-radius: 20px; padding: 14px 16px 14px 14px;
+        border: 1.5px solid #ececec;
+        box-shadow: 0 14px 40px rgba(0,0,0,0.16);
+        display: none; align-items: center; gap: 16px;
+        transform: translate(-50%, -140%);
+        transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.2s ease;
+        opacity: 0; }
+      .ls-sheet.open { display: flex; }
+      .ls-sheet.show { transform: translate(-50%, 0); opacity: 1; }
+      .ls-grab, .ls-close { display: none; }
+      .ls-row { gap: 14px; flex: 1; min-width: 0; }
+      .ls-art { flex: 0 0 62px; height: 62px; border-radius: 14px; }
+      .ls-art > svg { width: 54px; height: 54px; }
+      .ls-art .lock-badge { width: 18px; height: 18px; top: 4px; right: 4px; }
+      .ls-art .lock-badge svg { width: 10px; height: 10px; }
+      .ls-name { font-size: 16px; white-space: nowrap; }
+      .ls-sub { font-size: 12px; white-space: nowrap; }
+      .ls-price { margin-top: 6px; padding: 3px 10px 3px 6px; font-size: 13.5px; }
+      .ls-price svg { width: 16px; height: 16px; }
+      .ls-go { width: auto; margin-top: 0; flex-shrink: 0;
+        padding: 12px 20px; font-size: 12.5px; border-radius: 13px; border-bottom-width: 3px; }
+      .ls-x { display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        width: 30px; height: 30px; border: none; border-radius: 50%; cursor: pointer;
+        background: #F2F4F7; color: #8c9aab; padding: 0; transition: background 0.15s, color 0.15s; }
+      .ls-x:hover { background: #E6E9EE; color: #5b6674; }
+      html.dark .ls-sheet { border-color: #3A3A3C; }
+      html.dark .ls-x { background: #3A3A3C; color: #9aa4b2; }
+      html.dark .ls-x:hover { background: #48484A; color: #EAECEF; }
+    }
+
     /* ── Klaar button — just outside bottom-right corner of editor-card ── */
     /* Card is 80% × 80% centred → 10% gap on each side.               */
     /* bottom: calc(10% - 56px) places button just below the card edge. */
@@ -200,6 +297,27 @@
     <br>
     <button class="modal-leave" onclick="confirmLeave()">Verlaat avatar editor</button>
   </div>
+</div>
+
+<!-- Vergrendeld shop-item op de telefoon (zie .ls-* in de stylesheet) -->
+<div class="ls-back" id="ls-back" onclick="closeLockedSheet()"></div>
+<div class="ls-sheet" id="ls-sheet" role="dialog" aria-modal="true" aria-labelledby="ls-name">
+  <div class="ls-grab"></div>
+  <div class="ls-row">
+    <div class="ls-art" id="ls-art"></div>
+    <div class="ls-txt">
+      <div class="ls-name" id="ls-name"></div>
+      <div class="ls-sub">Nog niet van jou — je past 'm nu even.</div>
+      <div class="ls-price" id="ls-price"></div>
+    </div>
+  </div>
+  <button class="ls-go" id="ls-go">Bekijk in de shop</button>
+  <button class="ls-close" onclick="closeLockedSheet()">Verder passen</button>
+  <button class="ls-x" onclick="closeLockedSheet()" aria-label="Sluiten">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+      <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+  </button>
 </div>
 
 <!-- Main wrapper (white bg, centres the card with padding) -->
@@ -363,34 +481,69 @@ function lockedSkinIdx(key, indices) {
   const owned = ownedSkins();
   return indices.filter(i => { const id = skinIdFor(key, i); return id && !owned.includes(id); });
 }
-let _skinToastT = null;
-// priceText overrides the SKIN_PRICE lookup (dyn items carry their own price +
-// currency). itemId doubles as the shop deeplink target (shop.html?item=<id>).
-function lockedSkinMsg(itemId, priceText) {
-  let el = document.getElementById('skin-toast');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'skin-toast';
-    const dark = document.documentElement.classList.contains('dark');
-    el.style.cssText = 'position:fixed;top:26px;left:50%;transform:translateX(-50%);z-index:900;'
-      + 'display:flex;align-items:center;gap:12px;padding:9px 12px 9px 20px;border-radius:14px;'
-      + 'font-size:14px;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,0.13);'
-      + 'opacity:0;transition:opacity .25s ease;pointer-events:none;white-space:nowrap;'
-      + (dark ? 'background:#2C2C2E;border:1px solid #6B5A1E;color:#FFD64F;'
-              : 'background:#fff;border:1px solid #FFE9A8;color:#B08508;');
-    document.body.appendChild(el);
-  }
-  const price = priceText || (((itemId && SKIN_PRICE[itemId]) || 3000) + ' munten');
-  el.innerHTML = '<span>Te koop in de shop voor ' + price + '.</span>'
-    + (itemId ? '<button onclick="goShop(\'' + itemId + '\')" style="border:none;cursor:pointer;'
-      + 'background:#1CB0F6;color:#fff;font:inherit;font-size:13px;font-weight:800;'
-      + 'padding:7px 13px;border-radius:10px;box-shadow:0 2px 0 #0A9EDC;">Bekijk in de shop</button>' : '');
-  void el.offsetWidth;
-  el.style.opacity = '1';
-  el.style.pointerEvents = 'auto';
-  clearTimeout(_skinToastT);
-  _skinToastT = setTimeout(() => { el.style.opacity = '0'; el.style.pointerEvents = 'none'; }, 4200);
+// Nette naam per shop-skin voor de telefoon-sheet — de rijlabels alleen zijn
+// dubbelzinnig ("Goud" staat zowel onder Stethoscoop als onder Overig).
+const SKIN_NAME = { outfit_doctor: 'Doktersjas', outfit_surgeon: 'Chirurgenpak',
+  outfit_hoodie: 'Hoodie', stetho_normal: 'Stethoscoop', stetho_gold: 'Gouden stethoscoop',
+  headlamp_normal: 'Voorhoofdslamp', headlamp_gold: 'Gouden voorhoofdslamp' };
+const LS_COIN = '<svg width="19" height="19" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" fill="#FFC800"/><circle cx="12" cy="12" r="6.6" fill="none" stroke="#E0A800" stroke-width="1.6"/><path d="M6 12 H8.6 L9.7 8.9 L11.4 15 L12.7 10.6 L13.6 12 H18" stroke="#E0A800" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const LS_GEM  = '<svg width="19" height="19" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z" fill="#1CB0F6"/><path d="M2 9h20M8 3l-2 6 6 12M16 3l2 6-6 12" fill="none" stroke="#0A8BD0" stroke-width="1.1" stroke-linejoin="round"/></svg>';
+const LOCK_BADGE = '<div class="lock-badge"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="11" rx="2.5" fill="#7A5A00"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#7A5A00" stroke-width="2.6" fill="none"/></svg></div>';
+function phoneUI() { return window.matchMedia('(max-width: 768px)').matches; }
+
+/* Kaart voor een vergrendeld item. Sluiten laat de pas-op-proef staan —
+   "Verder passen" is precies dat. Alleen KLASSEN toggelen, nooit een inline
+   display: een vergeten inline waarde laat een onzichtbare overlay liggen die
+   alle kliks opslokt. Op desktop is de kaart niet-modaal en verdwijnt hij
+   vanzelf; op de telefoon blijft de sheet staan tot je hem wegtikt. */
+let _lsHideT = null, _lsAutoT = null;
+function openLockedSheet(o) {
+  const back = document.getElementById('ls-back'), sheet = document.getElementById('ls-sheet');
+  if (!back || !sheet) return;
+  clearTimeout(_lsHideT); clearTimeout(_lsAutoT);
+  document.getElementById('ls-art').innerHTML = (o.art || '') + LOCK_BADGE;
+  document.getElementById('ls-name').textContent = o.name || 'Shop-item';
+  const price = document.getElementById('ls-price');
+  price.className = 'ls-price' + (o.currency === 'gems' ? ' gems' : '');
+  price.innerHTML = (o.currency === 'gems' ? LS_GEM : LS_COIN)
+    + '<span>' + o.amount + '</span>';
+  document.getElementById('ls-go').onclick = function () {
+    closeLockedSheet();
+    goShop(o.itemId);
+  };
+  back.classList.add('open'); sheet.classList.add('open');
+  void sheet.offsetWidth;                       // reflow, geen rAF (bevriest in achtergrondtabs)
+  back.classList.add('show'); sheet.classList.add('show');
+  if (!phoneUI()) _lsAutoT = setTimeout(closeLockedSheet, 6500);
 }
+function closeLockedSheet() {
+  const back = document.getElementById('ls-back'), sheet = document.getElementById('ls-sheet');
+  if (!back || !sheet) return;
+  back.classList.remove('show'); sheet.classList.remove('show');
+  clearTimeout(_lsHideT); clearTimeout(_lsAutoT);
+  _lsHideT = setTimeout(function () {
+    back.classList.remove('open'); sheet.classList.remove('open');
+  }, 300);
+}
+document.addEventListener('keydown', function (e) {
+  if (e.key === 'Escape' && document.getElementById('ls-sheet').classList.contains('open')) closeLockedSheet();
+});
+
+// opts: {amount, currency:'coins'|'gems', name, art}. itemId doubles as the shop
+// deeplink target (shop.html?item=<id>). Eén component, twee gedaanten: op de
+// telefoon een modale bottom sheet, op desktop een zwevende kaart bovenin die
+// vanzelf weer verdwijnt (zie de .ls-* regels + het @media-blok).
+function lockedSkinMsg(itemId, opts) {
+  const o = opts || {};
+  openLockedSheet({
+    itemId: itemId,
+    amount: (o.amount != null) ? o.amount : ((itemId && SKIN_PRICE[itemId]) || 3000),
+    currency: o.currency === 'gems' ? 'gems' : 'coins',
+    name: o.name || (itemId && SKIN_NAME[itemId]) || 'Shop-item',
+    art: o.art
+  });
+}
+
 
 /* Try on a LOCKED shop skin without owning it. The avatar equips it so you can
    see how it looks, but the value is never committed — remember the real value
@@ -403,7 +556,11 @@ function previewSkin(key, i) {
   state[key] = i;
   renderPreview();
   renderOptions();
-  lockedSkinMsg(skinIdFor(key, i));   // still hint that it's a shop item
+  // still hint that it's a shop item — with art + naam voor de telefoon-sheet
+  const id = skinIdFor(key, i);
+  const ov = {}; ov[key] = i;
+  lockedSkinMsg(id, { name: SKIN_NAME[id], currency: 'coins',
+    art: miniSVG(ov, (key === 'outfit' || key === 'stethoscope') ? 'full' : 'head') });
 }
 function revertPreview() {
   if (!_preview) return;
@@ -514,9 +671,16 @@ function pickDyn(id) {
   else state[slot] = { id: it.id, svg: it.svg, tf: it.transform, recolor: it.recolor, hideEars: !!it.hides_ears };
   renderPreview(); renderOptions();
 }
+// Thumbnail-modus per categorie — dezelfde als waarmee dynGrid de rij tekent.
+const DYN_MODE = { hair:'head', hoofddeksel:'head', bril:'head', outfit:'full',
+  accessory:'head', overig:'head', background:'full' };
 function lockedDynMsg(id) {
   const it = dynItemById(id);
-  lockedSkinMsg(id, it ? (it.price + (it.currency === 'gems' ? ' edelstenen' : ' munten')) : null);
+  if (!it) { lockedSkinMsg(id, null); return; }
+  const ov = {}; ov[DYN_SLOT[it.kind]] = { id: it.id, svg: it.svg, tf: it.transform,
+    recolor: it.recolor, hideEars: !!it.hides_ears };
+  lockedSkinMsg(id, { amount: it.price, currency: it.currency === 'gems' ? 'gems' : 'coins',
+    name: it.name, art: miniSVG(ov, DYN_MODE[it.kind] || 'head') });
 }
 
 function renderOptions() {
