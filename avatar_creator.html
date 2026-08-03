@@ -18,14 +18,20 @@
     body { font-family: 'Nunito', Arial, sans-serif; background: #fff; color: #1C1C1E;
       -webkit-font-smoothing: antialiased; display: flex; height: 100vh; overflow: hidden; }
 
-    /* ── Wrapper: fills space after sidebar, aligns card to its offset top ── */
-    .main-wrapper { flex: 1; display: flex; align-items: flex-start; justify-content: center;
+    /* ── Wrapper: fills space after sidebar, aligns card to its offset top ──
+       KOLOM-flex: de kaart en de Klaar-knop staan ONDER elkaar in de flow,
+       zodat de knop altijd net onder de kaart valt (zie .done-btn). */
+    .main-wrapper { flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
       padding: 0; background: #fff; overflow: hidden; position: relative; }
 
     /* ── Editor card: top starts 100px above centre, bottom cut by 200px ── */
     /* Original centred top = 10%. Moving up 100px → margin-top: calc(10% - 100px). */
     /* Height = original 80% minus the 200px bottom cut plus the 100px top gain = calc(80% - 100px) */
-    .editor-card { width: 80%; height: calc(80% - 60px); margin-top: calc(10% - 40px); display: flex;
+    /* min-height:0 + de standaard flex-shrink laten de kaart inkrimpen als de
+       Klaar-knop er anders niet meer onder past (breed + laag venster). */
+    .editor-card { width: 80%; height: calc(80% - 60px); margin-top: calc(10% - 40px);
+      min-height: 0; display: flex;
       border-radius: 22px; border: 1.5px solid #e8e8e8;
       box-shadow: 0 6px 32px rgba(0,0,0,0.08);
       overflow: hidden; position: relative; background: #fff; }
@@ -221,10 +227,16 @@
       html.dark .ls-x:hover { background: #48484A; color: #EAECEF; }
     }
 
-    /* ── Klaar button — just outside bottom-right corner of editor-card ── */
-    /* Card is 80% × 80% centred → 10% gap on each side.               */
-    /* bottom: calc(10% - 56px) places button just below the card edge. */
-    .done-btn { position: absolute; bottom: calc(10% + 100px - 110px); right: calc(10% + 24px);
+    /* ── Klaar button — just outside bottom-right corner of editor-card ──
+       ⚠️ NIET absoluut positioneren t.o.v. de wrapper: de kaart hangt met
+       `margin-top: calc(10% - 40px)` aan de BREEDTE en een `bottom: N%` aan
+       de HOOGTE, dus die twee lopen uit elkaar op een breed/laag venster —
+       gemeten 1512×780: 15px overlap, 1920×1000: 34px (Tijmen, 03-08).
+       De knop staat nu als flex-item ONDER de kaart in de flow; de
+       margin-right van 10%+24px lijnt hem 24px binnen de rechterrand van
+       de (80% brede, gecentreerde) kaart uit — precies zoals eerst. */
+    .done-btn { align-self: flex-end; flex-shrink: 0;
+      margin: 14px calc(10% + 24px) 10px 0;
       padding: 14px 40px; background: #1CB0F6; color: #fff;
       border: none; border-bottom: 4px solid #0e85b5; border-radius: 14px;
       font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.07em;
@@ -281,6 +293,7 @@
       }
       .done-btn {
         position: absolute; top: 12px; right: 14px; bottom: auto; left: auto;
+        margin: 0;                 /* desktop lijnt hem uit op de kaartrand */
         padding: 11px 24px; font-size: 13px;
       }
     }
