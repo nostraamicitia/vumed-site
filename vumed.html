@@ -19,7 +19,7 @@
   <!-- Supabase -->
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=46" data-active="tentamens"></script>
+  <script src="navbar.js?v=48" data-active="tentamens"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="gift_modal.js?v=29"></script>
   <script src="auth_gate.js?v=12"></script><!-- gedeelde login/signup-popup (gebruikt window._sbInstance) -->
@@ -552,6 +552,14 @@
       from { opacity: 0; transform: translateY(-6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    /* Segmented toggle, dezelfde taal als de Pad/Opgeslagen/Foutenreview-balk op
+       het dashboard (Tijmen 2026-08-05). De telefoonversie hieronder had dit al;
+       dit trekt hem naar alle schermen. De inline achtergrond van een INACTIEVE
+       pill moet weg, anders ligt er een tweede, troebele chip op de rail. */
+    .subj-pills { background: rgba(0,0,0,0.16); border-radius: 14px; padding: 4px; }
+    .subj-pill { transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
+    .subj-pill:not(.on) { background: transparent !important; }
+    .subj-pill.on { box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
     .insights-btn { transition: background 0.15s; }
     .insights-btn:hover { filter: brightness(1.08); }
     .review-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); background: #FAFAFC; }
@@ -2834,6 +2842,15 @@ function InsightsPanel({ meta, col, open, custom, subject }) {
   const [inView, setInView] = React.useState(true);
   const rootRef = React.useRef(null);
   React.useEffect(() => { if (!open) { setHovered(-1); setSelected(null); } }, [open]);
+  // Haakje voor de rondleiding: die laat de uitleg van boven naar beneden langs de
+  // onderwerpen lopen zodat de donut meebeweegt. Nagebootste mouseover-events
+  // werken niet — React 18 leidt onMouseEnter af uit echte muisbewegingen — dus
+  // stellen we de state hier rechtstreeks beschikbaar. Alleen als het paneel open is.
+  React.useEffect(() => {
+    if (!open) return;
+    window.__vumedInsHover = setHovered;
+    return () => { if (window.__vumedInsHover === setHovered) delete window.__vumedInsHover; };
+  }, [open]);
   // Re-play the entrance animation whenever the open panel scrolls back into view.
   React.useEffect(() => {
     if (!open || !rootRef.current) return;
@@ -2858,7 +2875,7 @@ function InsightsPanel({ meta, col, open, custom, subject }) {
   return (
     <div ref={rootRef} style={{ background: col.bg, padding: "14px 20px 16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <div style={{
+        <div className="ins-donut" style={{
           transition: "transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease",
           transitionDelay: shown ? "0.06s" : "0s",
           transform: shown ? "scale(1) rotate(0deg)" : "scale(0.5) rotate(-60deg)",
@@ -2867,9 +2884,9 @@ function InsightsPanel({ meta, col, open, custom, subject }) {
         }}>
           <PieDonut topics={sortedObj} total={total} colors={COLORS} hovered={hovered} onHover={setHovered} onSelect={pick} />
         </div>
-        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 7 }}>
+        <div className="ins-legend" style={{ flex: 1, display: "flex", flexDirection: "column", gap: 7 }}>
           {sorted.map(([topic, count], i) => (
-            <div key={topic} style={{
+            <div key={topic} className="ins-row" style={{
               transition: "transform 0.34s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.34s ease",
               // stagger in on entry (top row first); collapse together on leave (bottom row first)
               transitionDelay: shown ? `${0.10 + i * 0.05}s` : `${(rows - 1 - i) * 0.02}s`,

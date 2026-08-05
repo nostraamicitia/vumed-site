@@ -398,7 +398,7 @@
     try {
       if (!window.VUMED_STATS_OFF && !window.VumedStats && !document.querySelector('script[data-vumed-stats]')) {
         var ss = document.createElement('script');
-        ss.src = 'vumed_stats.js?v=23'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
+        ss.src = 'vumed_stats.js?v=25'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
         (document.head || document.documentElement).appendChild(ss);
       }
     } catch (e) {}
@@ -450,6 +450,24 @@
   } else {
     inject();
   }
+
+  /* ── 4b. Rondleiding (coach marks) ──────────────────────────────────────
+     tutorial.js wordt LAZY geladen — zo hoeft geen enkele hub-pagina een
+     extra <script>-tag te krijgen. Hij start zichzelf (auto()) en doet
+     niets als de gebruiker de rondleidingen heeft uitgezet of ze al zag.
+     progressdots.js doet hetzelfde voor de examenpagina's. */
+  (function loadTutorial() {
+    try {
+      if (window.VUMED_TUT_OFF || window.VumedTutorial) return;
+      if (document.querySelector('script[data-vumed-tut]')) return;
+      if (document.documentElement.classList.contains('pop-mode')) return;  // gebruiker.html-popup
+      if (localStorage.getItem('vumed_tut_off') === '1' &&
+          location.search.indexOf('tutorial=') === -1) return;              // niets te doen → niets laden
+      var s = document.createElement('script');
+      s.src = 'tutorial.js?v=3'; s.async = true; s.setAttribute('data-vumed-tut', '1');
+      (document.head || document.documentElement).appendChild(s);
+    } catch (e) {}
+  })();
 
   /* ── 5. Profile icon renderer (exposed globally) ── */
   function renderSidebarProfileIcon(initial) {

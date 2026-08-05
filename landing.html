@@ -1301,16 +1301,15 @@
   }).catch(function () {});
 })();
 
-// ── Mascot: render the VUmed doctor avatar (or the visitor's own avatar) ───
+// ── Mascot: the VUmed doctor avatar (always the default look) ──────────────
 (function () {
   try {
     if (!window.VumedAvatar) return;
-    /* Always in doctor's coat + stethoscope and the "Warrig" hair (style 5)
-       on the landing page — a visitor's own avatar keeps its face and hair
-       colour, but wears the mascot look here. */
+    /* The landing page is marketing: it shows the VUmed mascot, NEVER the
+       visitor's own avatar. Plain defaults + doctor's coat, stethoscope and
+       the "Warrig" hair (style 5). */
     var st = Object.assign(
       {}, window.VumedAvatar.DEFAULTS,
-      window.VumedAvatar.hasCustom() ? window.VumedAvatar.getState() : null,
       { outfit: 0, stethoscope: 1, hairStyle: 5 }
     );
     function inject(id, mode) {

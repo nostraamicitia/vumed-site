@@ -12,9 +12,9 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=46" data-active="shop"></script>
+  <script src="navbar.js?v=48" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="vumed_stats.js?v=23" data-vumed-stats="1"></script>
+  <script src="vumed_stats.js?v=25" data-vumed-stats="1"></script>
   <script src="avatar_render.js?v=28"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -175,7 +175,8 @@
     .item:hover .item-art { transform: scale(1.14) rotate(-4deg); }
     .item-name { font-size: 15.5px; font-weight: 900; }
     .item-desc { font-size: 12.5px; font-weight: 600; color: #8E8E93; line-height: 1.4; min-height: 34px; }
-    /* "In bezit: 1 / 2" — bij een plafond van 2 is dat het enige getal dat telt */
+    /* Kaal "1/2" — het woord "In bezit" voegde niets toe, en heb je er geen, dan
+       staat er niets (Tijmen 2026-08-05). */
     .fz-have { min-height: 0; margin-top: 4px; font-weight: 800; color: #1CB0F6; }
     html.dark .fz-have { color: #5AC8FF; }
 
@@ -592,7 +593,7 @@ function renderItems(s, api) {
     return '<div class="item"><div class="item-art">' + o.art + '</div>'
       + '<div class="item-name">' + o.name + '</div>'
       + '<div class="item-desc">' + o.desc + '</div>'
-      + '<div class="item-desc fz-have">In bezit: ' + have[o.kind] + ' / ' + caps[o.kind] + '</div>'
+      + (have[o.kind] ? '<div class="item-desc fz-have">' + have[o.kind] + '/' + caps[o.kind] + '</div>' : '')
       + '<button class="item-btn" ' + (canPay ? '' : 'disabled') + ' onclick="buyFreeze(\'' + o.id + '\')">' + label + '</button>'
       + '</div>';
   });

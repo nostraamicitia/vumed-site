@@ -23,8 +23,24 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=23'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=25'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
+    } catch (e) {}
+  })();
+
+  /* Rondleiding (coach marks) op de examen-/missiepagina's. LAZY geladen zodat
+     de ~418 examen-HTML's geen extra <script>-tag nodig hebben; navbar.js doet
+     hetzelfde voor de hub-pagina's. tutorial.js start zichzelf en houdt in
+     localStorage bij wat je al zag. */
+  (function loadTutorial() {
+    try {
+      if (window.VUMED_TUT_OFF || window.VumedTutorial) return;
+      if (document.querySelector('script[data-vumed-tut]')) return;
+      if (localStorage.getItem('vumed_tut_off') === '1' &&
+          location.search.indexOf('tutorial=') === -1) return;
+      var t = document.createElement('script');
+      t.src = 'tutorial.js?v=3'; t.async = true; t.setAttribute('data-vumed-tut', '1');
+      (document.head || document.documentElement).appendChild(t);
     } catch (e) {}
   })();
 
@@ -652,6 +668,10 @@
   function repOnClick(ev) {
     if (!repMode) return;
     if (ev.target.closest && ev.target.closest('.pd-corner')) return;  // the flag itself toggles
+    // The tutorial overlay sits above everything and must stay clickable: this
+    // handler swallows every click (preventDefault + stopPropagation), so with
+    // report mode on you could not press "Volgende" — the step just repeated.
+    if (ev.target.closest && ev.target.closest('#vtut')) return;
     ev.preventDefault();
     ev.stopPropagation();
     var b = ev.target && ev.target.closest ? ev.target.closest('.q-block') : null;
@@ -1205,6 +1225,106 @@
       '.pd-toast.pd-show{opacity:1;transform:translateX(-50%) translateY(0);}';
     var el = document.createElement('style');
     el.id = 'pd-bm-style'; el.textContent = css; document.head.appendChild(el);
+  }
+
+  /* ── Bevestigingsmodals ("Examen inleveren" / "Examen resetten") ───────────
+     De markup (.modal-backdrop > .modal-box > h2 + p + .modal-actions) staat
+     gebakken in 417 examens; de opmaak daarvan dateert van vóór de huidige
+     app-taal (platte knoppen, 17px kop, harde backdrop). Die opmaak wordt hier
+     fleet-breed vervangen — één huis i.p.v. een retrofit over 417 bestanden,
+     hetzelfde patroon als de .dd-select/.cat-row-fixes.
+     ⚠️ gen_exams.py bakt dezelfde regels voor NIEUWE builds — KEEP IN SYNC.
+     ⚠️ dark-theme.css zet .modal-box/.btn-cancel met !important; dit stijlblok
+     wordt ná die <link> in de head gehangen (setupTheme draait eerder), dus de
+     donkere regels hier moeten óók !important zijn om te winnen. */
+  var MODAL_IC = {
+    'submit-modal': '<svg viewBox="0 0 24 24" fill="none" width="30" height="30">' +
+      '<path d="M21.4 3.6 2.9 10.2c-.8.3-.8 1.4 0 1.7l6.6 2.3 2.3 6.6c.3.8 1.4.8 1.7 0L20.1 2.3' +
+      'a.9.9 0 0 0-1.2-1.2" transform="translate(0 1)" stroke="currentColor" stroke-width="1.9" ' +
+      'stroke-linejoin="round" fill="currentColor" fill-opacity=".16"/>' +
+      '<path d="M20.6 3.4 9.5 14.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>',
+    'reset-modal': '<svg viewBox="0 0 24 24" fill="none" width="30" height="30">' +
+      '<path d="M20 12a8 8 0 1 1-2.6-5.9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path d="M20.2 3.2v4.4h-4.4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" ' +
+      'stroke-linejoin="round"/></svg>'
+  };
+
+  function injectModalCss() {
+    if (document.getElementById('pd-modal-style')) return;
+    var css =
+      '.modal-backdrop{display:none;position:fixed;inset:0;z-index:200;padding:20px;' +
+        'background:rgba(16,22,32,0.46);-webkit-backdrop-filter:blur(7px) saturate(1.15);' +
+        'backdrop-filter:blur(7px) saturate(1.15);align-items:center;justify-content:center;}' +
+      '.modal-backdrop.show{display:flex;animation:pd-mo-bg .22s ease;}' +
+      '@keyframes pd-mo-bg{from{opacity:0}to{opacity:1}}' +
+      /* dezelfde kaarttaal als de resultatenpagina: 24px radius, zachte diepte-
+         schaduw + haarlijn, en een val met lichte overshoot i.p.v. een schaal-fade */
+      '.modal-box{position:relative;background:#fff;border:1px solid rgba(20,26,38,0.06);' +
+        'border-radius:24px;padding:26px 24px 22px;max-width:372px;width:100%;text-align:center;' +
+        'box-shadow:0 26px 60px rgba(16,24,40,0.24),0 4px 12px rgba(16,24,40,0.08);' +
+        'animation:pd-mo-in .34s cubic-bezier(.2,.9,.3,1.12);}' +
+      '@keyframes pd-mo-in{from{opacity:0;transform:translateY(16px) scale(.96)}' +
+        'to{opacity:1;transform:none}}' +
+      /* icoonmedaillon (door decorateModals ingevoegd) — kleur per modal via --mc */
+      '.pd-mo-ic{width:64px;height:64px;margin:0 auto 15px;border-radius:50%;display:flex;' +
+        'align-items:center;justify-content:center;color:var(--mc,#1CB0F6);' +
+        'background:var(--mcb,rgba(28,176,246,0.13));' +
+        'box-shadow:0 0 0 7px var(--mcg,rgba(28,176,246,0.07));}' +
+      '.pd-mo-ic svg{display:block;}' +
+      '.modal-box h2{font-size:20px;font-weight:800;color:#1C1C1E;margin:0 0 7px;' +
+        'letter-spacing:-.01em;line-height:1.25;}' +
+      '.modal-box p{font-size:14.5px;font-weight:600;color:#6E6E73;margin:0 0 22px;line-height:1.5;}' +
+      '.modal-actions{display:flex;gap:10px;}' +
+      /* 3D-knoppen: dezelfde massieve offset-schaduw als Controleren / Claim XP */
+      '.modal-actions button{flex:1;padding:14px 12px;border-radius:15px;font-size:15px;' +
+        'font-weight:800;border:none;cursor:pointer;font-family:inherit;line-height:1.15;' +
+        'transition:transform .12s,box-shadow .12s,filter .15s,background .15s;}' +
+      '.modal-actions button:hover{opacity:1;filter:brightness(1.05);}' +
+      '.modal-actions button:active{transform:translateY(3px);}' +
+      '.modal-actions button:focus-visible{outline:3px solid rgba(28,176,246,.45);outline-offset:2px;}' +
+      '.btn-cancel{background:#F2F2F7;color:#3C3C43;box-shadow:0 3px 0 #DCDCE2;}' +
+      '.btn-cancel:hover{background:#EAEAF0;filter:none;}' +
+      '.btn-cancel:active{box-shadow:0 0 0 #DCDCE2;}' +
+      '.btn-confirm{background:#1CB0F6;color:#fff;box-shadow:0 4px 0 #0E85B5;}' +
+      '.btn-confirm:active{box-shadow:0 1px 0 #0E85B5;}' +
+      '.btn-danger{background:#FF3B30;color:#fff;box-shadow:0 4px 0 #C9271F;}' +
+      '.btn-danger:active{box-shadow:0 1px 0 #C9271F;}' +
+      /* dark — moet !important zijn, zie de kop van dit blok */
+      'html.dark .modal-backdrop{background:rgba(0,0,0,0.58);}' +
+      'html.dark .modal-box{background:#2C2C2E !important;border-color:rgba(255,255,255,0.08);' +
+        'box-shadow:0 26px 60px rgba(0,0,0,0.5);}' +
+      'html.dark .modal-box h2{color:#FFFFFF !important;}' +
+      'html.dark .modal-box p{color:#AEAEB2 !important;}' +
+      'html.dark .btn-cancel{background:#3A3A3C !important;color:#FFFFFF !important;' +
+        'box-shadow:0 3px 0 #262628;}' +
+      'html.dark .btn-cancel:hover{background:#434346 !important;}' +
+      '@media (max-width:400px){.modal-box{padding:22px 18px 18px;}.modal-box h2{font-size:18.5px;}' +
+        '.pd-mo-ic{width:56px;height:56px;margin-bottom:12px;}.modal-actions button{padding:13px 8px;font-size:14.5px;}}' +
+      '@media (prefers-reduced-motion:reduce){.modal-backdrop,.modal-box{animation:none !important;}' +
+        '.modal-actions button{transition:none !important;}}';
+    var el = document.createElement('style');
+    el.id = 'pd-modal-style'; el.textContent = css; document.head.appendChild(el);
+  }
+
+  /* Medaillon vóór de kop hangen. Puur decoratief (aria-hidden) en idempotent —
+     de modals staan in de gebakken HTML, dus we voegen alleen toe wat mist. */
+  function decorateModals() {
+    injectModalCss();
+    Object.keys(MODAL_IC).forEach(function (id) {
+      var m = document.getElementById(id);
+      if (!m) return;
+      var box = m.querySelector('.modal-box');
+      if (!box || box.querySelector('.pd-mo-ic')) return;
+      var ic = document.createElement('div');
+      ic.className = 'pd-mo-ic';
+      ic.setAttribute('aria-hidden', 'true');
+      var red = (id === 'reset-modal');
+      ic.style.setProperty('--mc',  red ? '#FF3B30' : '#1CB0F6');
+      ic.style.setProperty('--mcb', red ? 'rgba(255,59,48,0.13)' : 'rgba(28,176,246,0.13)');
+      ic.style.setProperty('--mcg', red ? 'rgba(255,59,48,0.07)' : 'rgba(28,176,246,0.07)');
+      ic.innerHTML = MODAL_IC[id];
+      box.insertBefore(ic, box.firstChild);
+    });
   }
 
   var _toastEl = null, _toastT = null;
@@ -2257,18 +2377,20 @@
       '.pd-rb-w{background:linear-gradient(90deg,#FF6B60,#FF3B30);}' +
       '.pd-res-actions{margin-top:18px;}' +
       '.pd-res-claim{position:relative;overflow:hidden;width:100%;padding:16px;border:none;border-radius:16px;' +
-        'background:#58CC02;color:#fff;font-family:inherit;font-size:16px;font-weight:800;letter-spacing:.04em;' +
-        'text-transform:uppercase;cursor:pointer;box-shadow:0 5px 0 #46A302;' +
+        /* blauw = de actie-kleur van de app (Controleren / Inleveren); groen blijft
+           voorbehouden aan "goed antwoord" (Tijmen 2026-08-05) */
+        'background:#1CB0F6;color:#fff;font-family:inherit;font-size:16px;font-weight:800;letter-spacing:.04em;' +
+        'text-transform:uppercase;cursor:pointer;box-shadow:0 5px 0 #0E85B5;' +
         'transition:transform .12s,box-shadow .12s,filter .15s;display:flex;align-items:center;justify-content:center;gap:9px;}' +
       '.pd-res-claim::after{content:"";position:absolute;top:0;bottom:0;left:-45%;width:30%;transform:skewX(-18deg);' +
         'background:linear-gradient(105deg,rgba(255,255,255,0) 0%,rgba(255,255,255,0.35) 50%,rgba(255,255,255,0) 100%);' +
         'animation:pd-bnshine 3.4s ease-in-out 1.1s infinite;pointer-events:none;}' +
       '.pd-res-claim:hover{filter:brightness(1.06);}' +
-      '.pd-res-claim:active{transform:translateY(3px);box-shadow:0 2px 0 #46A302;}' +
+      '.pd-res-claim:active{transform:translateY(3px);box-shadow:0 2px 0 #0E85B5;}' +
       '.pd-res-claim svg{flex:0 0 auto;animation:pd-bolt-wig 2.1s ease-in-out 1.4s infinite;}' +
       '@keyframes pd-bolt-wig{0%,58%,100%{transform:none}66%{transform:rotate(-12deg) scale(1.18)}' +
         '76%{transform:rotate(9deg) scale(1.1)}86%{transform:none}}' +
-      '.pd-res-claim.pd-claimed{cursor:default;filter:saturate(.85);transform:none;box-shadow:0 5px 0 #46A302;}' +
+      '.pd-res-claim.pd-claimed{cursor:default;filter:saturate(.85);transform:none;box-shadow:0 5px 0 #0E85B5;}' +
       '.pd-res-claim.pd-claimed::after,.pd-res-claim.pd-claimed svg{animation:none;}' +
       '.pd-xchip{position:fixed;left:var(--cx);top:var(--cy);z-index:600;pointer-events:none;display:flex;' +
         'align-items:center;gap:6px;background:#FFC800;color:#7A5800;font-family:inherit;font-size:15px;font-weight:800;' +
@@ -2719,6 +2841,7 @@
     try { setupResults(); } catch (e) {}   // richer "Jouw resultaten" page (wraps the built-in overlay)
     try { setupTimeTrack(); } catch (e) {}   // actieve-tijd klok → "Tempo" stat op de resultatenpagina
     try { setupBackReturn(); } catch (e) {}   // route "Menu" back to the dashboard tab we came from
+    try { decorateModals(); } catch (e) {}   // "Examen inleveren"/"resetten": app-taal + icoonmedaillon
     try { setupCorners(); } catch (e) {}   // theme + report buttons (independent of the bar)
     try { setupPanelSwipe(); } catch (e) {}   // phone: swipe to hide/reveal glossary + AI chat panels
     try { setupPhoneChat(); } catch (e) {}    // phone: chat keyboard behaviour (no auto-focus/zoom, viewport pin)
@@ -2894,17 +3017,26 @@
     var tMerge = tGray + 360;                 // grey settles → organic meld
     var tEnd   = tMerge + 560;                // meld done → resting bar
 
-    void dotsRow.offsetWidth;                 // commit scale(0) so the pop transitions
-    barWrap.classList.add('pd-split', 'pd-stagger');           // appear, staggered, grey
-    setTimeout(function () { barWrap.classList.add('pd-green'); }, tGreen);   // green wave
-    setTimeout(function () {
-      barWrap.classList.remove('pd-stagger'); // collective from here (no per-dot delay)
-      barWrap.classList.remove('pd-green');   // → all turn grey together
-    }, tGray);
-    setTimeout(function () { barWrap.classList.add('pd-merge'); }, tMerge);   // organic meld
-    setTimeout(function () {
-      barWrap.classList.remove('pd-split', 'pd-merge');        // resting = merged bar
-    }, tEnd);
+    /* Herbruikbaar gemaakt: de rondleiding speelt precies deze animatie opnieuw
+       af bij de stap over de progressiebar (Tijmen 2026-08-05: "laat de balk-
+       animatie spelen net zoals bij het openen van een examen"). */
+    function playBarIntro() {
+      barWrap.classList.remove('pd-split', 'pd-stagger', 'pd-green', 'pd-merge');
+      void dotsRow.offsetWidth;               // commit scale(0) so the pop transitions
+      barWrap.classList.add('pd-split', 'pd-stagger');         // appear, staggered, grey
+      setTimeout(function () { barWrap.classList.add('pd-green'); }, tGreen); // green wave
+      setTimeout(function () {
+        barWrap.classList.remove('pd-stagger'); // collective from here (no per-dot delay)
+        barWrap.classList.remove('pd-green');   // → all turn grey together
+      }, tGray);
+      setTimeout(function () { barWrap.classList.add('pd-merge'); }, tMerge); // organic meld
+      setTimeout(function () {
+        barWrap.classList.remove('pd-split', 'pd-merge');       // resting = merged bar
+      }, tEnd);
+      return tEnd;
+    }
+    window.pdPlayBarIntro = playBarIntro;
+    playBarIntro();
   }
 
   if (document.readyState === 'loading') {

@@ -805,10 +805,12 @@
     }
     bar.innerHTML =
       heartsPill +
-      '<div class="vs-pill" title="' + streakTitle() + '"><span class="vs-flameslot"></span><span class="vs-num">' + state.streak + '</span></div>' +
+      /* vs-streak / vs-xp zijn puur haakjes voor tutorial.js (de rondleiding
+         wijst de pillen één voor één aan) — geen CSS hangt eraan. */
+      '<div class="vs-pill vs-streak" title="' + streakTitle() + '"><span class="vs-flameslot"></span><span class="vs-num">' + state.streak + '</span></div>' +
       '<div class="vs-pill vs-coins" title="Munten">' + IC.coin + '<span class="vs-num">' + nf(state.coins) + '<span class="vs-pop" data-pop="coins"></span></span></div>' +
       '<div class="vs-pill vs-gems" title="Gems">' + IC.gem + '<span class="vs-num">' + nf(state.gems) + '<span class="vs-pop" data-pop="gems"></span></span></div>' +
-      '<div class="vs-pill" title="XP">' + IC.bolt + '<span class="vs-num">' + nf(state.xp) + '</span></div>';
+      '<div class="vs-pill vs-xp" title="XP">' + IC.bolt + '<span class="vs-num">' + nf(state.xp) + '</span></div>';
     var slot = bar.querySelector('.vs-flameslot');
     if (slot) slot.appendChild(flameNode());   // persistent node — lottie survives repaints
   }

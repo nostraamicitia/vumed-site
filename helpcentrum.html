@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=46" data-active="instellingen"></script>
+  <script src="navbar.js?v=48" data-active="instellingen"></script>
   <script src="bg-decor.js?v=4"></script>
 
   <!-- Apply saved theme before paint to avoid flash -->
@@ -216,6 +216,29 @@
       display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
       margin-top: 16px;
     }
+    /* ── Rondleiding-kaart ── */
+    .tour-btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 6px; }
+    .tour-btn {
+      display: inline-flex; align-items: center; padding: 8px 14px;
+      border-radius: 999px; background: #EAF6FF; color: #0E85B5;
+      font-size: 13.5px; font-weight: 800; text-decoration: none;
+      border: 1.5px solid rgba(28,176,246,0.28);
+      transition: background 0.12s ease, transform 0.1s ease;
+    }
+    .tour-btn:hover { background: #D8EFFF; }
+    .tour-btn:active { transform: scale(0.97); }
+    /* gotcha 5: html.dark .tour-btn (0,2,1) zou een state-regel overrulen —
+       hier is er geen state, maar houd de vorm consistent met de rest. */
+    html.dark .tour-btn { background: #23323C; color: #7FD0FF; border-color: rgba(28,176,246,0.35); }
+    html.dark .tour-btn:hover { background: #2B3E4A; }
+    .tour-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .tour-row .contact-btn { flex: 0 0 auto; }
+    .tour-note {
+      margin-top: 10px; font-size: 13px; font-weight: 700; color: #58A700;
+      background: rgba(88,204,2,0.10); border-radius: 10px; padding: 9px 12px;
+    }
+    html.dark .tour-note { color: #8CE04A; background: rgba(88,204,2,0.14); }
+
     .contact-card {
       background: var(--surface);
       border: 1.5px solid var(--border);
@@ -295,6 +318,45 @@
           <path d="M16.5 16.5L21 21" stroke="#8E8E93" stroke-width="2" stroke-linecap="round"/>
         </svg>
         <input type="search" id="faq-search" placeholder="Zoek in veelgestelde vragen…" autocomplete="off">
+      </div>
+    </div>
+
+    <!-- ── RONDLEIDINGEN ──────────────────────────────────────────────────
+         De coach marks uit tutorial.js. Elke knop opent de pagina met
+         ?tutorial=<id>; de motor wacht daar zelf tot de UI staat. -->
+    <div class="faq-cat rv" id="rondleiding">
+      <div class="faq-cat-head">
+        <div class="faq-cat-icon c-cyan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z" fill="#fff"/>
+            <circle cx="12" cy="9" r="2.6" fill="#1CB0F6"/>
+          </svg>
+        </div>
+        <div class="faq-cat-title">Rondleidingen</div>
+      </div>
+
+      <div class="contact-card">
+        <div class="contact-card-text" style="margin-bottom:4px;">
+          Wijst je in het scherm zelf aan waar alles zit. Je krijgt ze één keer
+          per onderdeel automatisch — hier kun je ze opnieuw bekijken.
+        </div>
+        <div class="tour-btns">
+          <a class="tour-btn" href="dashboard.html?tutorial=dashboard">Dashboard</a>
+          <a class="tour-btn" href="vumed.html?tutorial=tentamens">Tentamens</a>
+          <a class="tour-btn" href="voortgang.html?tutorial=klassement">Klassement</a>
+          <a class="tour-btn" href="profile.html?tutorial=profiel">Profiel</a>
+          <a class="tour-btn" href="shop.html?tutorial=shop">Shop</a>
+          <a class="tour-btn" href="trofeeenpad.html?tutorial=trofeeen">Trofeeënpad</a>
+        </div>
+        <div class="contact-card-text" style="margin-top:2px;">
+          De uitleg bij een tentamen — begrippen, AI en de voortgangsstippen —
+          start vanzelf zodra je een tentamen opent.
+        </div>
+        <div class="tour-row">
+          <button type="button" class="contact-btn" id="tour-reset">Alles opnieuw tonen</button>
+          <button type="button" class="contact-btn ghost" id="tour-toggle">Rondleidingen uitzetten</button>
+        </div>
+        <div class="tour-note" id="tour-note" hidden></div>
       </div>
     </div>
 
@@ -618,12 +680,58 @@ document.querySelectorAll('.faq-q').forEach(function (btn) {
   els.forEach(function (el) { io.observe(el); });
 })();
 
-// ── Deep links (#contact / #bug) ───────────────────────────────────────────
+// ── Deep links (#contact / #bug / #rondleiding) ────────────────────────────
 (function () {
   var h = window.location.hash;
   if (!h) return;
   var el = document.querySelector(h);
   if (el) setTimeout(function () { el.scrollIntoView({ block: 'start' }); }, 120);
+})();
+
+// ── Rondleidingen aan/uit + opnieuw ────────────────────────────────────────
+// Werkt op localStorage in plaats van op de VumedTutorial-API: staan de
+// rondleidingen uit, dan laadt navbar.js tutorial.js hier helemaal niet meer
+// (bewust — niets te doen) en zou de knop "weer aanzetten" dood zijn.
+(function () {
+  var PREFIX = 'vumed_tut_', OFF = 'vumed_tut_off';
+  var reset = document.getElementById('tour-reset');
+  var toggle = document.getElementById('tour-toggle');
+  var note = document.getElementById('tour-note');
+  if (!reset || !toggle) return;
+
+  function isOff() { try { return localStorage.getItem(OFF) === '1'; } catch (e) { return false; } }
+  function say(t) { if (!note) return; note.textContent = t; note.hidden = false; }
+  function paint() {
+    var off = isOff();
+    toggle.textContent = off ? 'Rondleidingen aanzetten' : 'Rondleidingen uitzetten';
+    document.querySelectorAll('.tour-btn').forEach(function (b) {
+      b.style.opacity = off ? '0.45' : '';
+      b.style.pointerEvents = off ? 'none' : '';
+    });
+  }
+
+  reset.addEventListener('click', function () {
+    try {
+      var kill = [];
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf(PREFIX) === 0) kill.push(k);   // dekt ook vumed_tut_off
+      }
+      kill.forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) {}
+    paint();
+    say('Klaar — je krijgt elke rondleiding weer één keer te zien.');
+  });
+
+  toggle.addEventListener('click', function () {
+    try {
+      if (isOff()) { localStorage.removeItem(OFF); say('Rondleidingen staan weer aan.'); }
+      else { localStorage.setItem(OFF, '1'); say('Rondleidingen staan uit. Je kunt ze hier altijd weer aanzetten.'); }
+    } catch (e) {}
+    paint();
+  });
+
+  paint();
 })();
 </script>
 
