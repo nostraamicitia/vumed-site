@@ -391,7 +391,18 @@
            blijft onderin plek over. ⚠️ Alleen als het doel óók BREED is: naast
            een smalle, hoge kolom (de sidebar) past de kaart prima, en die half
            uitlichten ziet er kapot uit (Tijmen 2026-08-05). */
-        if (r.h > vh * 0.56 && r.w > vw * 0.55) r.h = Math.round(vh * 0.56);
+        /* Ruimte vrijhouden voor de kaart, maar niet meer dan nodig. Op de
+           telefoon is de kaart een sheet van ~150px: daar 56% wegknippen liet
+           van de quest-flyout alleen de bovenrand over (Tijmen 2026-08-06).
+           Nu rekenen we met de ECHTE hoogte van de kaart. */
+        var kaartH = 0;
+        try { kaartH = cur.card.offsetHeight || 0; } catch (e) {}
+        if (isPhone()) {
+          var maxH = vh - (kaartH + 34);
+          if (kaartH && r.h > maxH && maxH > 80) r.h = Math.round(maxH);
+        } else if (r.h > vh * 0.56 && r.w > vw * 0.55) {
+          r.h = Math.round(vh * 0.56);
+        }
         /* Staat het doel (nog) buiten beeld — de smooth-scroll ernaartoe loopt
            nog — dan klemt de berekening hierboven de hoogte negatief. Nooit naar
            `null` vallen: dat dimt in één klap het hele scherm, wat leest als een
@@ -545,8 +556,15 @@
     }, 160);
   }
 
+  /* Stille debughulp: zet `window.VTUT_DEBUG = true` vóór het starten. */
+  function dbg() {
+    if (!window.VTUT_DEBUG) return;
+    try { console.log.apply(console, ['[vtut]'].concat([].slice.call(arguments))); } catch (e) {}
+  }
+
   function arrive(st, instant) {
     if (!cur) return;
+    dbg('arrive', st.title, 'instant=' + !!instant, 'wait=' + (st.wait || 260));
     if (instant || !st.target) { cur.frozen = false; place(); return; }
     /* Bevriezen: de vlek blijft staan waar hij stond terwijl de pagina scrolt of
        een paneel openschuift, en glijdt er dáárna in één beweging heen. Zonder
@@ -575,32 +593,33 @@
        plek van een nog openschuivend paneel verschijnen en daarna alsnog
        verspringen ("eerst helemaal links, dan naar rechts", Tijmen 2026-08-05).
        Twee metingen van 140ms uit elkaar moeten gelijk zijn; daarna landt hij. */
-    function land(pogingen, vorigeSleutel) {
-      if (!cur || cur.steps[cur.i] !== stap) return;
+    /* ⚠️ METEEN landen, daarna ÉÉN correctie. Eerder wachtte hij op twee gelijke
+       metingen achter elkaar; dat hing aan meerdere timertikken en bleef in de
+       praktijk hangen — dan bewoog de lichtvlek helemaal niet meer (Tijmen
+       2026-08-06: "de highlight werkt totaal niet in de tentamenomgeving"). Nu:
+       direct neerzetten, en 460ms later nog één keer kijken. Is het doel intussen
+       ergens anders (een paneel dat nog inschoof), dan gaat de vlek dáár opnieuw
+       open — een fade+pop, dus het leest als bedoeld en niet als wegglijden. */
+    function land(fase) {
+      if (!cur || cur.steps[cur.i] !== stap) { dbg('land: stap gewisseld'); return; }
       var el = resolve(stap.target);
       var maat = el ? unionRect(el) : null;
+      dbg('land', stap.title, 'fase=' + fase, 'doel=' + (!!el),
+          'maat=' + (maat ? Math.round(maat.width) + 'x' + Math.round(maat.height) : 'geen'));
       if (!el || !maat) {
-        if (pogingen > 0) { setTimeout(function () { land(pogingen - 1, null); }, 140); return; }
+        if (fase === 1) { setTimeout(function () { land(2); }, 460); return; }
         next();                       /* doel komt niet → stap stil overslaan */
-        return;
-      }
-      var sleutel = [Math.round(maat.top), Math.round(maat.left),
-                     Math.round(maat.width), Math.round(maat.height)].join(',');
-      /* Staat er nog helemaal niets uitgelicht (eerste stap), dan niet wachten:
-         dan kijk je tegen een volledig donker scherm aan. */
-      if (cur.rect && sleutel !== vorigeSleutel && pogingen > 0) {
-        setTimeout(function () { land(pogingen - 1, sleutel); }, 140);
         return;
       }
       var verschoven = Math.abs(window.scrollY - (cur.scrollAt || 0)) > 4;
       var vanaf = cur.rect;
       cur.el = el;
-      if (verschoven || !dichtbij(vanaf, maat)) { openAt(); return; }
-      cur.frozen = false;
-      place();                        /* dichtbij → gewoon overschuiven */
+      if (verschoven || !dichtbij(vanaf, maat)) openAt();
+      else { cur.frozen = false; place(); }
+      if (fase === 1) setTimeout(function () { land(2); }, 460);
     }
 
-    setTimeout(function () { whenStil(function () { land(5, null); }); }, st.wait || 260);
+    setTimeout(function () { whenStil(function () { land(1); }); }, st.wait || 260);
   }
 
   function loop() {
