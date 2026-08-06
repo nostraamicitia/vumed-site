@@ -927,11 +927,11 @@
         actDelay: 950,          /* pas optillen NA het landen, anders hobbelt hij */
         act: function (el) { lift(el, 900); setTimeout(function () { poke(el); }, 260); } },
 
-      /* De vlek ligt op de ACTIEVE tab en schuift mee als een schuifknop:
-         `follow` laat hem het doel elke frame opnieuw opzoeken (Tijmen
-         2026-08-05: "echt als een toggle button"). */
-      { target: '.hero-tabs .tab.active',
-        follow: true,
+      /* ⚠️ De HELE balk in het licht, niet alleen de actieve tab (Tijmen
+         2026-08-06: "gewoon alles in die white overlay"). Het schakelen zie je
+         binnen de lichtvlek gebeuren; de vlek zelf blijft staan. `follow` is er
+         daarom bewust af — dat liet 'm van tab naar tab schuiven. */
+      { target: '.hero-tabs',
         title: 'Pad, Opgeslagen, Fouten',
         body: 'Je bewaarde vragen en je fouten, apart te oefenen.',
         /* Eerst even op Pad blijven staan zodat je ziet wáár je bent; pas daarna
