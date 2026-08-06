@@ -1447,32 +1447,26 @@
         smooth: true, wait: 900, actDelay: 1000,
         act: function (el) { shopSweep(el); } },
 
-      /* ⚠️ NIET het hele `#avatar-cats` uitlichten: dat is de complete lijst met
-         alle categorieën onder elkaar, dus de lichtvlek werd een groot vaag blok
-         (Tijmen 2026-08-05: "vooral bij het Avatar-gedeelte"). Twee gerichte
-         stappen: eerst de categoriekop, dan de rij kaarten eronder. */
+      /* ⚠️ Eén stap voor het hele avatar-deel (Tijmen 2026-08-06: "per categorie
+         moet je gewoon dingetjes samenvoegen"). De categoriekop ÉN de rij
+         kaarten eronder samen in het licht — een groepsdoel, dus de lichtvlek
+         wordt het omhullende vlak. Eerder waren dit twee stappen waarvan de
+         eerste alleen het categorieknopje uitlichtte; dat was te weinig. */
       { target: function () {
-          var h = document.querySelectorAll('#avatar-cats .cat-head');
-          for (var i = 0; i < h.length; i++) { if (visible(h[i])) return h[i]; }
-          return null;
-        },
-        title: 'Per categorie',
-        body: 'Haar, kleding, brillen en meer.',
-        smooth: true, wait: 900, actDelay: 900,
-        act: function (el) {
-          var c = el.querySelector('.cat-chip');
-          if (c) { lift(c, 800); setTimeout(function () { poke(c); }, 260); }
-        } },
-
-      { target: function () {
-          var r = document.querySelectorAll('#avatar-cats .av-row');
-          for (var i = 0; i < r.length; i++) { if (visible(r[i])) return r[i]; }
-          return null;
+          var kop = null, rij = null, h = document.querySelectorAll('#avatar-cats .cat-head'),
+              r = document.querySelectorAll('#avatar-cats .av-row');
+          for (var i = 0; i < h.length && !kop; i++) { if (visible(h[i])) kop = h[i]; }
+          for (var j = 0; j < r.length && !rij; j++) { if (visible(r[j])) rij = r[j]; }
+          var lijst = [kop, rij].filter(Boolean);
+          return lijst.length ? lijst : null;
         },
         title: 'Je avatar aankleden',
-        body: 'Alles eerst passen, pas dan kopen.',
+        body: 'Haar, kleding, brillen en meer — eerst passen, dan pas kopen.',
         smooth: true, wait: 900, actDelay: 900,
-        act: function (el) { shopSweep(el); } }
+        act: function (el) {
+          var rij = Array.isArray(el) ? el[el.length - 1] : el;
+          shopSweep(rij);
+        } }
     ]
   });
 
