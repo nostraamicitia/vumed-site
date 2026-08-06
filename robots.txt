@@ -1,0 +1,44 @@
+# vumed.nl
+#
+# Bewuste keuze (2026-08-06): alleen de publieke informatiepagina's mogen in
+# zoekmachines. De ~439 tentamenpagina's blijven binnen de site gewoon
+# bereikbaar, maar worden NIET gecrawld — VUmc/TestVision-materiaal hoort niet
+# doorzoekbaar in Google te staan.
+#
+# Werking: onderaan staat "Disallow: /" (alles dicht); de Allow-regels erboven
+# zetten per pad de deur weer open. Zoekmachines kiezen de LANGSTE passende
+# regel, dus een specifieke Allow verslaat de algemene Disallow. De Allow-regels
+# staan bewust BOVEN de Disallow, want oudere crawlers pakken de eerste match.
+#
+# Een nieuwe publieke pagina toevoegen? Zet hem hier én in sitemap.xml.
+
+User-agent: *
+
+# Publieke pagina's
+Allow: /$
+Allow: /index.html
+Allow: /landing.html
+Allow: /over.html
+Allow: /helpcentrum.html
+Allow: /privacybeleid.html
+Allow: /voorwaarden.html
+
+# Assets die nodig zijn om die pagina's te kunnen renderen
+Allow: /*.css
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.svg
+Allow: /images/
+Allow: /decor/
+Allow: /manifest.json
+Allow: /pwa.js
+Allow: /navbar.js
+Allow: /avatar_render.js
+Allow: /supabase-js.min.js
+Allow: /supabase_config.js
+
+# Al het overige: tentamens, missies, app-schermen, admin, profielen van
+# gebruikers. Niet crawlen.
+Disallow: /
+
+Sitemap: https://vumed.nl/sitemap.xml
