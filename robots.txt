@@ -23,22 +23,48 @@ Allow: /helpcentrum.html
 Allow: /privacybeleid.html
 Allow: /voorwaarden.html
 
+# App-schermen. Die horen NIET in zoekresultaten, maar ze staan hier bewust
+# OPEN zodat Google de <meta name="robots" content="noindex"> op die pagina's
+# kan LEZEN. Een pagina die je alleen in robots.txt blokkeert blijft namelijk
+# als kale URL in de index staan — dat was precies het probleem met
+# /trofeeenpad (06-08). Blokkeren = "niet crawlen", noindex = "niet tonen";
+# voor iets dat er al in staat heb je het tweede nodig, en dus niet het eerste.
+# Deze regels zijn prefix-matches en dekken dus ook de vorm zonder .html.
+# Er staat geen tentamenmateriaal op deze pagina's.
+Allow: /dashboard
+Allow: /vumed
+Allow: /trofeeenpad
+Allow: /shop
+Allow: /voortgang
+Allow: /profile
+Allow: /gebruiker
+Allow: /instellingen
+Allow: /avatar_creator
+Allow: /missie
+Allow: /splash
+Allow: /login
+Allow: /onboarding_preview
+
 # Assets die nodig zijn om die pagina's te kunnen renderen
 Allow: /*.css
 Allow: /*.png
 Allow: /*.jpg
 Allow: /*.svg
+Allow: /favicon.ico
+Allow: /*.ico
 Allow: /images/
 Allow: /decor/
 Allow: /manifest.json
+Allow: /sitemap.xml
 Allow: /pwa.js
 Allow: /navbar.js
 Allow: /avatar_render.js
 Allow: /supabase-js.min.js
 Allow: /supabase_config.js
 
-# Al het overige: tentamens, missies, app-schermen, admin, profielen van
-# gebruikers. Niet crawlen.
+# Al het overige — vooral de ~439 tentamenpagina's, plus het beheerportaal.
+# Niet crawlen. (Ze dragen daarnaast allemaal een noindex-meta, voor het geval
+# er ooit toch eentje via een externe link binnenkomt.)
 Disallow: /
 
 Sitemap: https://vumed.nl/sitemap.xml
