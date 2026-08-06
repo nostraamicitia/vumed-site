@@ -5,6 +5,66 @@
    adding keys; keys/`match` are matched against whole option text
    (case-insensitive). */
 window.ANSWER_TERMS = {
+ "prionziekte": {
+  "match": "prionziekten|prionziektes|prionziekte|spongiforme encefalopathieën|spongiforme encefalopathie|overdraagbare spongiforme encefalopathie",
+  "title": "Prionziekten",
+  "short": "Prionziekten zijn zeldzame, dodelijke hersenziekten waarbij een verkeerd gevouwen eiwit (PrP) zich ophoopt en het hersenweefsel sponsachtig maakt — zoals de ziekte van Creutzfeldt-Jakob en BSE.",
+  "definition": "<p><strong>Prionziekten</strong> (overdraagbare spongiforme encefalopathieën) zijn zeldzame, altijd dodelijke neurodegeneratieve ziekten. De oorzaak is geen micro-organisme maar een <em>eiwit</em>: het lichaamseigen PrP<sup>C</sup> klapt om naar de pathologische PrP<sup>Sc</sup>-vorm, die aggregeert in plaques en het hersenweefsel vol microscopische vacuolen zet — vandaar de <em>spongiforme</em> (sponsachtige) aanblik.</p><p>Bij de mens: de <em>ziekte van Creutzfeldt-Jakob</em> (sporadisch, erfelijk via PRNP-mutaties, of verworven), <em>kuru</em>, <em>fatale familiaire insomnie</em> en <em>GSS</em>. Bij dieren: <em>BSE</em> (“gekkekoeienziekte”) en <em>scrapie</em>. Klinisch: snel progressieve dementie, myoclonieën en ataxie, met overlijden meestal binnen een jaar.</p><p>Prionen zijn extreem resistent: gewone sterilisatie, koken, straling en de meeste desinfectantia inactiveren ze niet — een reële bron van iatrogene overdracht via instrumenten en transplantaten.</p>",
+  "image_url": "",
+  "wiki_titles": [
+   "Transmissible spongiform encephalopathy",
+   "Creutzfeldt–Jakob disease"
+  ]
+ },
+ "PrP": {
+  "match": "PrPSc|PrPC|PrP|prioneiwit|prion-eiwit",
+  "title": "PrP (prioneiwit)",
+  "short": "PrP is een lichaamseigen eiwit in hersencellen. In de normale vorm (PrP^C) zit het vol alfa-helices; in de ziektevorm (PrP^Sc) is het omgevouwen tot beta-sheets en slaat het onoplosbaar neer.",
+  "definition": "<p><strong>PrP</strong> (prion protein) wordt gecodeerd door het <em>PRNP</em>-gen en komt normaal voor op het membraan van vooral neuronen. De gezonde vorm <strong>PrP<sup>C</sup></strong> (cellular) is rijk aan <em>alfa-helices</em>, goed oplosbaar en wordt gewoon afgebroken door proteasen.</p><p>De ziektevorm <strong>PrP<sup>Sc</sup></strong> (scrapie) heeft dezelfde aminozuurvolgorde — alleen de vouwing verschilt: veel <em>beta-sheets</em>, waardoor hydrofobe zijketens aan het oppervlak komen. Daardoor is PrP<sup>Sc</sup> onoplosbaar, protease-resistent en plakt het aan elkaar tot fibrillen en amyloïde plaques.</p><p>Het besmettelijke zit in de vorm: PrP<sup>Sc</sup> werkt als mal en dwingt gezond PrP<sup>C</sup> in dezelfde vouwing — een kettingreactie zonder DNA of RNA.</p>",
+  "image_url": "",
+  "wiki_titles": [
+   "Major prion protein",
+   "Prion"
+  ]
+ },
+ "alfa-helix": {
+  "match": "alfa-helices|alfa-helixen|alfa-helixes|alfa-helix|alfa helices|alfa helix|alpha-helices|alpha-helixes|alpha-helix|alpha helices|alpha helix|α-helices|α-helix",
+  "title": "Alfa-helix",
+  "short": "De alfa-helix is een veelvoorkomende secundaire eiwitstructuur: een rechtsdraaiende spiraal die bij elkaar wordt gehouden door waterstofbruggen in de ruggengraat van het eiwit.",
+  "definition": "<p>De <strong>alfa-helix</strong> is een element van de <em>secundaire</em> eiwitstructuur: een rechtsdraaiende spiraal met ongeveer 3,6 aminozuren per winding. Hij wordt gestabiliseerd door waterstofbruggen tussen de C=O van aminozuur <em>n</em> en de N–H van aminozuur <em>n+4</em> — dus tussen de <em>ruggengraat</em>-atomen, niet tussen de zijketens.</p><p>De zijketens steken naar buiten: hydrofiel richting het water, hydrofoob naar de kern van het eiwit. <em>Proline</em> mist de N–H en knikt de keten — de klassieke “helix-breaker”; ook glycine destabiliseert. Voorbeelden: keratine, collageen (drie helices ineengedraaid) en de normale vorm van het prioneiwit PrP<sup>C</sup>.</p>",
+  "image_url": "",
+  "wiki_title": "Alpha helix"
+ },
+ "beta-sheet": {
+  "match": "beta-sheets|bèta-sheets|β-sheets|beta sheets|beta-sheet|bèta-sheet|β-sheet|beta sheet|bètaplaat|beta-plaatstructuur",
+  "title": "Beta-sheet",
+  "short": "Een beta-sheet is de tweede grote secundaire eiwitstructuur: uitgestrekte ketens die naast elkaar liggen als een geplooid vel, verbonden door waterstofbruggen.",
+  "definition": "<p>De <strong>beta-sheet</strong> (bèta-plaatstructuur) bestaat uit uitgestrekte polypeptideketens (β-strengen) die náást elkaar liggen en met waterstofbruggen aan elkaar vastzitten — parallel of antiparallel. Het geheel is licht geplooid, als een harmonicavel.</p><p>De zijketens wijzen afwisselend boven en onder het vlak. Liggen daar vooral <em>hydrofobe</em> zijketens, dan plakken beta-sheets van verschillende eiwitmoleculen aan elkaar: dat is precies wat er misgaat bij <em>amyloïdvorming</em> — bij prionziekten (PrP<sup>Sc</sup>), de ziekte van Alzheimer en systemische amyloïdose. Het neerslag is dan onoplosbaar en vrijwel niet meer af te breken.</p>",
+  "image_url": "",
+  "wiki_title": "Beta sheet"
+ },
+ "ATP": {
+  "match": "adenosinetrifosfaat|adenosine trifosfaat|adenosine-trifosfaat|ATP",
+  "title": "ATP (adenosinetrifosfaat)",
+  "short": "ATP is de energiemunt van de cel: bij afsplitsing van de derde fosfaatgroep komt energie vrij die transport, contractie en biosynthese aandrijft.",
+  "definition": "<p><strong>ATP</strong> (adenosinetrifosfaat) bestaat uit adenine, ribose en drie fosfaatgroepen. Hydrolyse van de eindstandige fosfaatbinding (ATP → ADP + P<sub>i</sub>) levert ongeveer 30 kJ/mol — genoeg om ongunstige reacties te koppelen aan een gunstige: spiercontractie, de Na⁺/K⁺-ATPase, en de opbouw van eiwitten, vetten en DNA.</p><p>Het meeste ATP komt uit de <em>oxidatieve fosforylering</em> in het mitochondrion: de elektronentransportketen pompt protonen naar de intermembraanruimte, en ATP-synthase laat die protonengradiënt terugstromen en maakt daarmee ATP (chemiosmose). Glycolyse en de citroenzuurcyclus leveren daarnaast rechtstreeks een kleine hoeveelheid.</p><p>De cel slaat ATP nauwelijks op — de voorraad gaat in seconden — dus productie en verbruik zijn strak gekoppeld: veel ADP versnelt de verbranding, overmaat ATP remt die af.</p>",
+  "image_url": "",
+  "wiki_titles": [
+   "Adenosine triphosphate",
+   "ATP synthase"
+  ]
+ },
+ "dinitrofenol": {
+  "match": "2,4-dinitrophenol|2,4-dinitrofenol|dinitrophenol|dinitrofenol|DNP",
+  "title": "Dinitrofenol (DNP)",
+  "short": "Dinitrofenol is een ontkoppelaar: het laat protonen langs ATP-synthase het mitochondrion in lekken, zodat de verbranding doorgaat maar er geen ATP meer wordt gemaakt — alle energie komt vrij als warmte.",
+  "definition": "<p><strong>2,4-dinitrofenol</strong> (DNP) is het schoolvoorbeeld van een <em>ontkoppelaar</em> van de oxidatieve fosforylering. Het is een lipofiel, zwak zuur dat protonen kan opnemen en — opgelost in de binnenmembraan — weer kan afgeven aan de matrix. Daarmee omzeilt het ATP-synthase.</p><p>Gevolg: de <em>protonengradiënt</em> valt weg, dus er wordt nauwelijks nog ATP gevormd, terwijl de elektronentransportketen juist op volle toeren gaat draaien om de gradiënt te herstellen. Het zuurstofverbruik stijgt en alle vrijkomende energie gaat verloren als <em>warmte</em>: hyperthermie, zweten, tachycardie en bij hoge dosis een dodelijke oververhitting.</p><p>DNP werd ooit als afslankmiddel verkocht en is daarvoor verboden; het lichaamseigen equivalent is <em>UCP1</em> (thermogenine) in bruin vetweefsel, dat op dezelfde manier warmte maakt.</p>",
+  "image_url": "",
+  "wiki_titles": [
+   "2,4-Dinitrophenol",
+   "Oxidative phosphorylation"
+  ]
+ },
  "lysosoom": {
   "title": "Lysosoom",
   "short": "Membraanblaasje vol verterende enzymen dat afvalstoffen en opgenomen materiaal afbreekt.",

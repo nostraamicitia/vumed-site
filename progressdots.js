@@ -363,6 +363,12 @@
       'html.dark .chat-panel-header, html.dark .chat-input-area { background: transparent !important; }' +
       'html.dark .chat-msg.ai { border-color: #48484A !important; }' +
       'html.dark .chat-close, html.dark .g-close { background: #2C2C2E !important; border-color: #48484A !important; }' +
+      /* Begrippenbank-afbeelding: de gebakken regel is `object-fit: cover; max-height:180`,
+         die staande plaatjes (alfa-helix 150x219, structuurformules) tot onherkenbare uitsnedes
+         bijsnijdt. `contain` toont ze heel; de witte plaat is nodig omdat Wikipedia-structuur-
+         formules transparante PNG's met ZWARTE lijnen zijn (ATP, dinitrofenol) — in dark mode
+         anders onzichtbaar. */
+      '.g-img { object-fit: contain; max-height: 230px; background: #FFFFFF; }' +
       /* categorize rows had a hard-coded white bg (dark-theme.css predates them) */
       'html.dark .cat-row { background: #2C2C2E !important; border-color: #48484A !important; }' +
       'html.dark .cat-term { color: #EBEBF0 !important; }' +
