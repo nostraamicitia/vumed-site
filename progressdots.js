@@ -1375,6 +1375,73 @@
     }).catch(function () {});
   }
 
+  /* ── Bron-PDF-knopje per vraag (ALLEEN lokaal) ──────────────────────────
+     Springt naar de plek in de originele TestVision-PDF waar deze vraag
+     vandaan komt: _bron.html?exam=<bestand>&q=<n>.
+
+     Bewust NIET op is_admin gegate. Het beheer draait op een EIGEN sessie
+     (storageKey 'vumed-admin-auth'), dus die RPC zegt hier niets zinnigs.
+     De echte voorwaarde is "kan dit hier überhaupt werken": draaien we op
+     localhost én ligt pdf_index.json ernaast? De bron-PDF's staan alleen op
+     Tijmens Mac en deployen nooit, dus op vumed.nl verschijnt dit nooit. */
+  var SRC_SVG = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none">' +
+    '<path d="M6 3h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" ' +
+    'stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>' +
+    '<path d="M13 3v5h5M8.5 13h7M8.5 17h4.5" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round"/></svg>';
+
+  function isLocalHost() {
+    var h = location.hostname;
+    return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h === '0.0.0.0';
+  }
+
+  function setupSourceLinks() {
+    if (!isLocalHost()) return;
+    if (!document.querySelector('.q-block')) return;
+    var stem = (location.pathname.split('/').pop() || '').replace(/\.html$/i, '');
+    if (!stem || stem === 'missie') return;          // missies hebben geen eigen bron-PDF
+
+    var cached = null;
+    try { cached = sessionStorage.getItem('vumed_bron_ok'); } catch (e) {}
+    if (cached === '0') return;
+    if (cached === '1') return paint();
+
+    fetch('pdf_index.json', { method: 'HEAD' }).then(function (r) {
+      try { sessionStorage.setItem('vumed_bron_ok', r.ok ? '1' : '0'); } catch (e) {}
+      if (r.ok) paint();
+    }).catch(function () {
+      try { sessionStorage.setItem('vumed_bron_ok', '0'); } catch (e) {}
+    });
+
+    function paint() {
+      if (document.getElementById('pd-src-style')) return;
+      var st = document.createElement('style');
+      st.id = 'pd-src-style';
+      st.textContent =
+        '.pd-src{display:inline-flex;align-items:center;padding:2px 4px;margin-left:4px;' +
+        'vertical-align:middle;color:#C7C7CC;line-height:0;border-radius:6px;text-decoration:none;}' +
+        '.pd-src:hover{color:#B57BF6;background:#F5EDFF;}' +
+        'html.dark .pd-src{color:#6E6E73;}' +
+        'html.dark .pd-src:hover{background:#48484A;color:#B57BF6;}';
+      document.head.appendChild(st);
+
+      [].forEach.call(document.querySelectorAll('.q-block'), function (b) {
+        var host = b.querySelector('.q-num') || b;
+        if (host.querySelector('.pd-src')) return;
+        var a = document.createElement('a');
+        a.className = 'pd-src';
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.title = 'Bekijk deze vraag in de originele PDF';
+        a.href = '_bron.html?exam=' + encodeURIComponent(stem) + '&q=' + qnumOfBlock(b);
+        a.innerHTML = SRC_SVG;
+        // De meldmodus vangt elke klik in een .q-block af; laat deze door.
+        a.addEventListener('click', function (ev) { ev.stopPropagation(); });
+        host.appendChild(a);
+      });
+    }
+  }
+
   function toggleBookmark(qn, btn) {
     var sb = (typeof window.getSB === 'function') ? window.getSB() : null;
     if (!sb) { pdToast('Log in om vragen op te slaan'); return; }
@@ -2853,6 +2920,7 @@
     try { setupPhoneChat(); } catch (e) {}    // phone: chat keyboard behaviour (no auto-focus/zoom, viewport pin)
     try { setupAnswerTerms(); } catch (e) {}   // answer-option → term-bank stars (independent of the bar)
     try { setupBookmarks(); } catch (e) {}   // per-question save star (independent of the bar)
+    try { setupSourceLinks(); } catch (e) {} // bron-PDF-knopje, alleen lokaal
     try { if (/^pak_/.test(examKeyOf())) setupCatButtons(); } catch (e) {}   // PAK: categorize rows → visible option buttons
     try { Ach.load(); } catch (e) {}   // Prestaties: watch for tier crossings → claimable legendary chests
     setTimeout(function () { try { Ach.load(); } catch (e) {} }, 1200);   // retry once getSB/session are ready

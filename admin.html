@@ -136,6 +136,9 @@
     .rep-head { font-size: 13px; font-weight: 700; }
     .rep-head .r-exam { color: var(--blue); font-weight: 900; text-decoration: none; }
     .rep-head .r-exam:hover { text-decoration: underline; }
+    .rep-head .r-bron { color: #B57BF6; font-weight: 900; font-size: 11.5px; text-decoration: none;
+      background: rgba(181,123,246,.14); border-radius: 999px; padding: 2px 8px; margin-left: 6px; }
+    .rep-head .r-bron:hover { background: rgba(181,123,246,.26); }
     .rep-head .r-user { color: var(--muted); }
     .rep-msg { font-size: 13.5px; font-weight: 600; margin-top: 4px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
     .rep-side { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; flex-shrink: 0; }
@@ -609,6 +612,8 @@
       <button class="an-item" data-view="team"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 2.6v5.2c0 4.4-3 8-7 9.4-4-1.4-7-5-7-9.4V4.6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.2 11.8l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Team</button>
       <button class="an-item" data-view="mail"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Mail</button>
       <button class="an-item" data-view="system"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h4l2.5 6 5-14L17 13h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Systeem</button>
+      <!-- Alleen zichtbaar op localhost: de bron-PDF's staan niet op de server. -->
+      <a class="an-item" id="nav-bron" href="_bron.html" target="_blank" rel="noopener" style="display:none;text-decoration:none;"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 3v5h5M8.5 13h7M8.5 17h4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Bron-PDF</a>
     </nav>
     <div class="an-foot">
       <div class="an-me"><span class="an-av" id="me-av"></span><div class="an-me-txt"><b id="me-name">—</b><span id="me-mail"></span></div></div>
@@ -1137,6 +1142,21 @@ function renderFeed(events) {
   : '<div class="note">Nog geen events — het activiteiten-log vult zich vanaf nu bij elke opgeslagen vraag.</div>';
 }
 
+/* ── Bron-PDF ────────────────────────────────────────────────────────────
+   _bron.html springt naar de plek in de originele TestVision-PDF. Dat werkt
+   ALLEEN lokaal: de bron-PDF's staan op Tijmens Mac en deployen nooit (ze
+   bevatten complete antwoordmodellen). Op vumed.nl blijven deze ingangen dus
+   verborgen in plaats van dood. Voeden met: python3 build_pdf_index.py */
+function isLocalHost() {
+  var h = location.hostname;
+  return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h === '0.0.0.0';
+}
+function bronLink(examKey, qnum) {
+  if (!isLocalHost() || !examKey) return '';
+  return ' <a class="r-bron" target="_blank" rel="noopener" title="Bekijk deze vraag in de originele PDF"' +
+    ' href="_bron.html?exam=' + encodeURIComponent(examKey) + '&q=' + (+qnum || 0) + '">bron-PDF</a>';
+}
+
 function renderReports(reports) {
   const open = reports.filter(r => r.status === 'open').length;
   const nb = $('nav-reports');
@@ -1156,6 +1176,7 @@ function renderReports(reports) {
       '<div class="rep-body">' +
         '<div class="rep-head"><a class="r-exam" href="' + link + '" target="_blank" rel="noopener">' +
           esc(examLabel(r.exam_key)) + ' · Vraag ' + esc(r.qnum) + '</a>' +
+        bronLink(r.exam_key, r.qnum) +
         ' <span class="r-user">— ' + esc(who) + (r.email ? ' (' + esc(r.email) + ')' : '') + '</span></div>' +
         '<div class="rep-msg">' + esc(r.message) + '</div>' +
       '</div>' +
@@ -2043,7 +2064,10 @@ function showConsole() {
 let _wired = false, _autoTimer = null;
 function wireOnce() {
   if (_wired) return; _wired = true;
-  document.querySelectorAll('.an-item').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+  // De Bron-PDF-knop is een echte link naar een aparte pagina, geen SPA-view:
+  // overslaan bij het koppelen, en alleen tonen als hij hier kán werken.
+  document.querySelectorAll('.an-item[data-view]').forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+  if (isLocalHost()) { const nb = $('nav-bron'); if (nb) nb.style.display = ''; }
   $('logout-btn').addEventListener('click', async () => {
     try { await getSB().auth.signOut(); } catch (e) {}
     showLogin('Je bent uitgelogd.');
