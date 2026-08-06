@@ -562,6 +562,16 @@
     try { console.log.apply(console, ['[vtut]'].concat([].slice.call(arguments))); } catch (e) {}
   }
 
+  /* Welk DEEL van het doel valt binnen het scherm (0..1)? Gebruikt om te zien
+     of een paneel klaar is met inschuiven — zie de uitleg in land(). */
+  function zichtDeel(m) {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var w = Math.max(0, Math.min(m.left + m.width, vw) - Math.max(m.left, 0));
+    var h = Math.max(0, Math.min(m.top + m.height, vh) - Math.max(m.top, 0));
+    var opp = m.width * m.height;
+    return opp > 0 ? (w * h) / opp : 0;
+  }
+
   function arrive(st, instant) {
     if (!cur) return;
     dbg('arrive', st.title, 'instant=' + !!instant, 'wait=' + (st.wait || 260));
@@ -600,7 +610,7 @@
        direct neerzetten, en 460ms later nog één keer kijken. Is het doel intussen
        ergens anders (een paneel dat nog inschoof), dan gaat de vlek dáár opnieuw
        open — een fade+pop, dus het leest als bedoeld en niet als wegglijden. */
-    function land(fase) {
+    function land(fase, pogingen) {
       if (!cur || cur.steps[cur.i] !== stap) { dbg('land: stap gewisseld'); return; }
       var el = resolve(stap.target);
       var maat = el ? unionRect(el) : null;
@@ -609,6 +619,18 @@
       if (!el || !maat) {
         if (fase === 1) { setTimeout(function () { land(2); }, 460); return; }
         next();                       /* doel komt niet → stap stil overslaan */
+        return;
+      }
+      /* ⚠️ Het doel BESTAAT wel maar staat nog grotendeels BUITEN beeld: een
+         zijpaneel dat nog inschuift (translateX). Landen we dan, dan klemt
+         place() het gat tot een streepje van 8px aan de schermrand — precies
+         wat Tijmen op de telefoon zag bij de AI-chat (2026-08-06), en eerder
+         bij de begrippenbank. Een langere `wait` is daar een gok voor; dit
+         MEET het. Begrensd op ~900ms en daarna landen we toch: een open poll
+         bleef eerder hangen en dan bewoog de vlek helemaal niet meer. */
+      if (fase === 1 && (pogingen || 0) < 8 && zichtDeel(maat) < 0.6) {
+        dbg('land: doel nog buiten beeld', Math.round(zichtDeel(maat) * 100) + '%');
+        setTimeout(function () { land(1, (pogingen || 0) + 1); }, 110);
         return;
       }
       var verschoven = Math.abs(window.scrollY - (cur.scrollAt || 0)) > 4;
@@ -850,6 +872,18 @@
   function isOff()      { return lsGet(LS_OFF) === '1'; }
   function seen(id)     { return lsGet(LS_SEEN + id) === '1'; }
   function markSeen(id) { lsSet(LS_SEEN + id, '1'); }
+
+  /* localhost = de adminomgeving (CLAUDE.md §CORR 2026-08-06). Daar wordt niet
+     vanzelf een rondleiding gestart: elke testpoort is een verse origin, dus
+     dan begint er bij ELK bezoek één, en die legt met `.vtut-catch` een
+     klikvanger over de hele pagina — o.a. over het bron-PDF-knopje. Handmatig
+     starten blijft gewoon werken (?tutorial=…, helpcentrum, het testpaneel).
+     Wil je de auto-start lokaal testen: localStorage `vumed_tut_local` = '1'. */
+  function localNoAuto() {
+    var h = location.hostname;
+    if (h !== 'localhost' && h !== '127.0.0.1' && h !== '[::1]' && h !== '0.0.0.0') return false;
+    return lsGet('vumed_tut_local') !== '1';
+  }
 
   /* ------------------------------------------------------------ definities */
   /* Elke stap: {target, title, body, pad, before, after, wait}.
@@ -1308,18 +1342,26 @@
         body: 'Definitie en beeld, zonder het tentamen te verlaten.',
         act: function (el) { lift(el, 900); } },
 
+      /* ⚠️ Deze stap opent de chat BEWUST NIET. Deed hij dat wel (en dat deed
+         hij), dan lag het chatpaneel — op de telefoon vrijwel schermvullend —
+         al over de pagina terwijl de lichtvlek nog op het icoontje stond: je
+         keek naar een verduisterd chatvenster met een lichtpuntje erboven
+         (Tijmen 2026-08-06). Exact dezelfde les als bij de quests-flyout in
+         ronde 9: eerst de KNOP tonen, de VOLGENDE stap opent het paneel. */
       { target: '.q-num-ai',
         pad: 6,
         title: 'Vraag het de AI',
         body: 'Uitleg op maat bij deze vraag.',
         actDelay: 360,
-        act: function (el) { poke(el); setTimeout(demoChat, 240); },
-        after: closeChatDemo },
+        act: function (el) { lift(el, 900); poke(el); } },
 
       { target: '#chat-panel',
         before: function () { if (!document.querySelector('#chat-panel.open')) demoChat(); },
         after: closeChatDemo,
-        wait: 400,
+        /* Het paneel schuift van links in (translateX). Met een te korte
+           wachttijd meet je z'n startpositie buiten beeld — zelfde valkuil als
+           bij de begrippenbank, die 760ms nodig had. */
+        wait: 760,
         title: 'En hij legt het uit',
         body: 'Vraag door zo veel je wilt. Een foto meesturen kan ook.' },
 
@@ -1646,6 +1688,7 @@
 
   function auto() {
     if (isOff()) return false;
+    if (localNoAuto()) return false;
     if (cur) return false;
     var k = pageKey();
     if (!k) return false;

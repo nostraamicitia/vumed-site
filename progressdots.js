@@ -39,7 +39,7 @@
       if (localStorage.getItem('vumed_tut_off') === '1' &&
           location.search.indexOf('tutorial=') === -1) return;
       var t = document.createElement('script');
-      t.src = 'tutorial.js?v=3'; t.async = true; t.setAttribute('data-vumed-tut', '1');
+      t.src = 'tutorial.js?v=5'; t.async = true; t.setAttribute('data-vumed-tut', '1');
       (document.head || document.documentElement).appendChild(t);
     } catch (e) {}
   })();
@@ -1399,7 +1399,26 @@
     if (!isLocalHost()) return;
     if (!document.querySelector('.q-block')) return;
     var stem = (location.pathname.split('/').pop() || '').replace(/\.html$/i, '');
-    if (!stem || stem === 'missie') return;          // missies hebben geen eigen bron-PDF
+    if (!stem) return;
+
+    /* Een missie heeft geen eigen bron-PDF — het bestand heet 'missie' — maar
+       elke vraag erin komt wél ergens vandaan. `QBANK.src` mapt de qbank-gid
+       (het getal in id="qblock-<gid>") naar '<tentamen>#<vraagnummer>'. Alle
+       missievragen staan al in de DOM (missionview toont er één tegelijk), dus
+       één keer schilderen bij het laden dekt de hele missie. */
+    var srcMap = (window.QBANK && window.QBANK.src) || null;
+    if (stem === 'missie' && !srcMap) return;
+
+    function targetFor(b) {
+      if (srcMap) {
+        var m = /^qblock-(\d+)$/.exec(b.id || '');
+        var ref = m && srcMap[m[1]];
+        var hash = ref ? ref.lastIndexOf('#') : -1;
+        if (hash < 0) return null;                   // vraag zonder bron: geen knopje
+        return { exam: ref.slice(0, hash), q: ref.slice(hash + 1) };
+      }
+      return { exam: stem, q: qnumOfBlock(b) };
+    }
 
     var cached = null;
     try { cached = sessionStorage.getItem('vumed_bron_ok'); } catch (e) {}
@@ -1417,23 +1436,35 @@
       if (document.getElementById('pd-src-style')) return;
       var st = document.createElement('style');
       st.id = 'pd-src-style';
+      /* ⚠️ Alles hieronder is gescoped als `.q-block a.pd-src` en niet als
+         `.pd-src`. Reden: injectCss() zet `.q-block a { pointer-events: none;
+         cursor: text !important; color: inherit !important }` om door iOS
+         auto-gedetecteerde telefoonnummers in vraagteksten onklikbaar te
+         maken — en dit knopje is óók een <a> binnen een .q-block, dus het
+         ving die regel vol en was NERGENS klikbaar. (0,2,1) verslaat (0,1,1);
+         de !important's zijn nodig tegen de !important's daar.
+         Volgorde: donkere basis (0,3,2) verslaat lichte hover (0,3,1), dus de
+         donkere hover-regel (0,4,2) moet er ná staan — gotcha 5. */
       st.textContent =
-        '.pd-src{display:inline-flex;align-items:center;padding:2px 4px;margin-left:4px;' +
-        'vertical-align:middle;color:#C7C7CC;line-height:0;border-radius:6px;text-decoration:none;}' +
-        '.pd-src:hover{color:#B57BF6;background:#F5EDFF;}' +
-        'html.dark .pd-src{color:#6E6E73;}' +
-        'html.dark .pd-src:hover{background:#48484A;color:#B57BF6;}';
+        '.q-block a.pd-src{display:inline-flex;align-items:center;padding:2px 4px;margin-left:4px;' +
+        'vertical-align:middle;line-height:0;border-radius:6px;text-decoration:none !important;' +
+        'pointer-events:auto !important;cursor:pointer !important;color:#C7C7CC !important;}' +
+        '.q-block a.pd-src:hover{color:#B57BF6 !important;background:#F5EDFF;}' +
+        'html.dark .q-block a.pd-src{color:#6E6E73 !important;}' +
+        'html.dark .q-block a.pd-src:hover{background:#48484A;color:#B57BF6 !important;}';
       document.head.appendChild(st);
 
       [].forEach.call(document.querySelectorAll('.q-block'), function (b) {
         var host = b.querySelector('.q-num') || b;
         if (host.querySelector('.pd-src')) return;
+        var tgt = targetFor(b);
+        if (!tgt) return;
         var a = document.createElement('a');
         a.className = 'pd-src';
         a.target = '_blank';
         a.rel = 'noopener';
         a.title = 'Bekijk deze vraag in de originele PDF';
-        a.href = '_bron.html?exam=' + encodeURIComponent(stem) + '&q=' + qnumOfBlock(b);
+        a.href = '_bron.html?exam=' + encodeURIComponent(tgt.exam) + '&q=' + tgt.q;
         a.innerHTML = SRC_SVG;
         // De meldmodus vangt elke klik in een .q-block af; laat deze door.
         a.addEventListener('click', function (ev) { ev.stopPropagation(); });
