@@ -123,16 +123,21 @@ html.dark .ob-input::placeholder{color:#7C848C;}
 .ob-year{flex:1;position:relative;border:2px solid #E7ECF1;background:#fff;border-radius:18px;padding:15px 6px 13px;cursor:pointer;
   font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:9px;
   transition:border-color .15s,transform .15s,box-shadow .15s,background .15s;}
-.ob-year:hover{transform:translateY(-3px);border-color:var(--yc);}
-html.dark .ob-year{background:#2A2A2E;border-color:#3A3A40;}
+/* 3D-lip, gelijk aan .ob-goal en dashboard.html .goal-opt. Geen color-mix. */
+.ob-year{box-shadow:0 4px 0 #E6E6EC;}
+.ob-year:hover{border-color:var(--yc);box-shadow:0 4px 0 var(--yc2);}
+.ob-year:active{transform:translateY(4px) scale(.997);box-shadow:0 0 0 var(--yc2);}
+.ob-year:focus-visible{outline:3px solid var(--yc);outline-offset:3px;}
+html.dark .ob-year{background:#1F1F22;border-color:#3A3A40;box-shadow:0 4px 0 #151517;}
+html.dark .ob-year:hover{border-color:var(--yc);box-shadow:0 4px 0 var(--yc2);}
+html.dark .ob-year:active{transform:translateY(4px) scale(.997);box-shadow:0 0 0 var(--yc2);}
 .ob-year-n{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;
   font-size:19px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--yc),var(--yc2));
-  box-shadow:0 5px 12px color-mix(in srgb,var(--yc) 38%,transparent);}
+  box-shadow:inset 0 -2.5px 0 rgba(0,0,0,0.18);}
 .ob-year-l{font-size:13.5px;font-weight:800;color:#3E4E5A;}
 html.dark .ob-year-l{color:#C5CCD3;}
-.ob-year.sel{border-color:var(--yc);background:color-mix(in srgb,var(--yc) 9%,#fff);
-  box-shadow:0 9px 22px color-mix(in srgb,var(--yc) 24%,transparent);}
-html.dark .ob-year.sel{background:color-mix(in srgb,var(--yc) 20%,#2A2A2E);}
+.ob-year.sel{border-color:var(--yc);box-shadow:0 4px 0 var(--yc2);}
+html.dark .ob-year.sel{border-color:var(--yc);box-shadow:0 4px 0 var(--yc2);}
 .ob-year.sel .ob-year-l{color:var(--yc);}
 .ob-year-tick{position:absolute;top:9px;right:9px;width:19px;height:19px;border-radius:50%;background:var(--yc);
   display:flex;align-items:center;justify-content:center;color:#fff;opacity:0;transform:scale(.5);transition:opacity .14s,transform .14s;}
