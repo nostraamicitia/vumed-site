@@ -225,7 +225,10 @@
     .strip-arrow svg { display: block; }
     .subj-row {
       display: flex; align-items: center; gap: 9px; min-width: 0; padding: 6px 0;
-      overflow-x: auto; scroll-behavior: smooth; scrollbar-width: none;
+      /* scroll-behavior blijft AUTO: de carrousel schrijft elk frame scrollLeft,
+         en met 'smooth' zou de browser daar telkens een animatie overheen leggen.
+         De pijltjes vragen zelf expliciet om behavior:'smooth'. */
+      overflow-x: auto; scroll-behavior: auto; scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent);
       mask-image: linear-gradient(90deg, transparent, #000 26px, #000 calc(100% - 26px), transparent);
@@ -1413,6 +1416,109 @@
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
   els.forEach(function (el) { io.observe(el); });
+})();
+
+// ── Vakkenstrip: rustig doorlopende carrousel ──────────────────────────────
+// De rij blijft een echte scroll-container (swipen op de telefoon en de
+// pijltjes op desktop werken dus gewoon door); wij duwen alleen elk frame een
+// klein beetje scrollLeft erbij en springen naadloos terug zodra de eerste set
+// voorbij is. Stilstaan zodra iemand hem aanraakt — anders klik je nooit het
+// vak dat je bedoelt.
+(function () {
+  var row = document.getElementById('subj-row');
+  if (!row) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var count = row.children.length;
+  if (!count) return;
+
+  // Tweede set voor de naadloze lus. Het aantal vakken is een veelvoud van 6,
+  // dus de kleurencyclus (.subj-chip:nth-child(6n+x)) loopt door over de kopie.
+  var i, clone;
+  for (i = 0; i < count; i++) {
+    clone = row.children[i].cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    row.appendChild(clone);
+  }
+
+  var SPEED = 26;   // px per seconde
+  var loop = 0;     // exacte breedte van één set, inclusief de tussenruimte
+  function measure() {
+    // offsetLeft rekent vanaf de offsetParent, niet vanaf de inhoud van de
+    // scroll-container — dus de marge van de eerste pil erafhalen, anders is
+    // de lus honderden pixels te lang en springt hij bij het omslagpunt.
+    var first = row.children[0], second = row.children[count];
+    loop = (first && second) ? (second.offsetLeft - first.offsetLeft) : 0;
+  }
+  measure();
+  // Chipbreedtes verspringen met de media query → opnieuw opmeten.
+  window.addEventListener('resize', measure);
+  // …en met het lettertype: de eerste meting gebeurt nog in de terugvalfont,
+  // daarna maakt Nunito de pillen breder/smaller. Zonder deze hermeting klopt
+  // het omslagpunt niet en loopt de rij er straal voorbij.
+  window.addEventListener('load', measure);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+  var hold = false;   // muis ligt erop / vinger staat erop
+  var until = 0;      // tijdelijk stil na een handeling
+  function pauseFor(ms) {
+    var t = Date.now() + ms;
+    if (t > until) until = t;
+  }
+
+  // Hover-pauze alleen op apparaten met een echte muisaanwijzer: op een
+  // touchscreen blijft mouseenter na een tik hangen en zou de carrousel
+  // voorgoed stilstaan.
+  if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+    row.addEventListener('mouseenter', function () { hold = true; });
+    row.addEventListener('mouseleave', function () { hold = false; });
+  }
+  row.addEventListener('touchstart', function () { hold = true; }, { passive: true });
+  row.addEventListener('touchend', function () { hold = false; pauseFor(1600); }, { passive: true });
+  row.addEventListener('touchcancel', function () { hold = false; pauseFor(1600); }, { passive: true });
+  row.addEventListener('wheel', function () { pauseFor(1600); }, { passive: true });
+  // Toetsenbordgebruikers: zolang een pil focus heeft blijft de rij staan.
+  row.addEventListener('focusin', function () { hold = true; });
+  row.addEventListener('focusout', function () { hold = false; });
+  // De pijltjes doen hun eigen smooth-scroll — daar niet doorheen duwen.
+  var arrows = document.querySelectorAll('.strip-arrow');
+  for (i = 0; i < arrows.length; i++) {
+    arrows[i].addEventListener('click', function () { pauseFor(2000); });
+  }
+
+  var pos = 0;     // eigen positie in floats; scrollLeft rondt te grof af
+  var wrote = 0;   // wat wij het laatst schreven, om eigen scroll te herkennen
+  var last = 0;
+
+  function tick(t) {
+    requestAnimationFrame(tick);
+    if (!last) { last = t; return; }
+    var dt = (t - last) / 1000;
+    last = t;
+    if (dt > 0.25) return;              // tab stond op de achtergrond: geen sprong
+    if (!loop) { measure(); return; }
+
+    // Stilstaan = ECHT niets schrijven. Een toewijzing aan scrollLeft breekt
+    // een lopende smooth-scroll af, dus anders slikt de lus de pijltjes op en
+    // werkt hij een swipe tegen. Alleen de positie bijhouden.
+    if (hold || Date.now() < until) { pos = row.scrollLeft; wrote = pos; return; }
+
+    // Handmatig gescrold? Dan die positie overnemen i.p.v. overschrijven.
+    if (Math.abs(row.scrollLeft - wrote) > 1.5) pos = row.scrollLeft;
+
+    pos += SPEED * dt;
+
+    // Eén keer per ronde opnieuw opmeten, vlak vóór de sprong terug. Kost
+    // niets (elke ~2,5 min) en corrigeert zichzelf als de lus intussen is
+    // veranderd — dat scheelt een zichtbare sprong bij de naad. Terugvallen
+    // binnen één lus is onzichtbaar: de tweede set is een exacte kopie.
+    if (pos >= loop || pos < 0) measure();
+    pos = ((pos % loop) + loop) % loop;
+    row.scrollLeft = pos;
+    wrote = row.scrollLeft;
+  }
+  requestAnimationFrame(tick);
 })();
 </script>
 
