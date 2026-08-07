@@ -36,7 +36,7 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=50" data-active="dashboard"></script>
+  <script src="navbar.js?v=51" data-active="dashboard"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -528,6 +528,20 @@
       padding: 3.5px 8px; border-radius: 8px; color: #fff; background: var(--rc); }
     /* .modal p (0,1,1) would re-add its 22px margin-bottom — match its specificity */
     .modal .goal-note { font-size: 12px; font-weight: 600; color: #8E8E93; margin: 14px 0 0; line-height: 1.45; text-align: center; }
+    /* Ja/nee-knoppen van de welkomststap — zelfde 3D-taal als de bevestigings-
+       modals in de tentamens (#1CB0F6 + 0 4px 0 #0E85B5, indrukken zakt in). */
+    .ob-choice { display: flex; gap: 10px; }
+    .ob-btn3d { flex: 1 1 0; border: none; font-family: inherit; font-weight: 800; font-size: 15px;
+      padding: 14px 10px; border-radius: 14px; cursor: pointer; color: #fff;
+      background: #1CB0F6; box-shadow: 0 4px 0 #0E85B5;
+      transition: transform .1s ease, box-shadow .1s ease; }
+    .ob-btn3d:active { transform: translateY(4px); box-shadow: 0 0 0 #0E85B5; }
+    .ob-btn3d:focus-visible { outline: 3px solid #0E85B5; outline-offset: 3px; }
+    .ob-btn3d.sec { background: #F2F2F7; color: #3C3C43; box-shadow: 0 4px 0 #DCDCE2; }
+    .ob-btn3d.sec:active { box-shadow: 0 0 0 #DCDCE2; }
+    /* html.dark .ob-btn3d.sec (0,3,1) verslaat .ob-btn3d.sec:active (0,3,0) → eigen regel (gotcha 5) */
+    html.dark .ob-btn3d.sec { background: #3A3A3C; color: #EBEBF0; box-shadow: 0 4px 0 #232325; }
+    html.dark .ob-btn3d.sec:active { box-shadow: 0 0 0 #232325; }
     /* Onboarding-backdrop (.ob-back) is een EIGEN class op de gedeelde .modal-back,
        zodat deze animaties de andere dashboard-modals niet raken.
        fill = backwards, nooit `both` — dat laatste bevriest de eindtransform en
@@ -2009,6 +2023,36 @@ async function refreshAuthState() {
     { y: 'year3', n: 3, rc: '#58CC02', rc2: '#46A302' },
   ];
 
+  /* Welkomststap: wil je de rondleidingen? "Nee" zet ALLEEN de stand
+     "alleen tentamen" (tutorial.js LS_MIN) — de tentamen-rondleiding blijft dus
+     draaien, want dáár zit de uitleg over antwoorden/hartjes/begrippenbank/AI.
+     Dat staat ook met zoveel woorden in de voetnoot: niemand mag zich later
+     afvragen waarom er tóch iets opduikt. */
+  const TUT_ASKED = 'vumed_tut_asked';
+
+  function tutStepHTML() {
+    return '<div class="modal goal-modal">'
+      + '<div class="goal-hero">'
+      /* Gevouwen kaart. Op 26px moet een icoon een SILHOUET hebben: een
+         gestippelde route met vlaggetje viel uit elkaar tot ruis, en een
+         wegwijzer las als een "P" — allebei op ware grootte nagekeken. De kaart
+         is bovendien meteen anders dan de pet (jaar) en de roos (dagdoel). */
+      +   '<div class="goal-hero-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      +     '<path d="M2 6.5 9 3l6 3 7-3.5v15L15 21l-6-3-7 3.5z"/>'
+      +     '<path d="M9 3v15"/><path d="M15 6v15"/></svg></div>'
+      +   '<h2>Welkom bij VUmed</h2>'
+      +   '<p>Zullen we je even rondleiden? In een minuut zie je hoe alles werkt.</p>'
+      + '</div>'
+      + '<div class="goal-body">'
+      +   '<div class="ob-choice">'
+      +     '<button class="ob-btn3d sec" data-tut="nee">Nee, hoeft niet</button>'
+      +     '<button class="ob-btn3d" data-tut="ja">Ja, graag</button>'
+      +   '</div>'
+      +   '<p class="goal-note">Bij je eerste tentamen laten we sowieso kort zien hoe het werkt. '
+      +   'Alles terugzetten kan in het Helpcentrum.</p>'
+      + '</div></div>';
+  }
+
   function yearStepHTML() {
     return '<div class="modal goal-modal">'
       + '<div class="goal-hero">'
@@ -2055,29 +2099,65 @@ async function refreshAuthState() {
     if (on) { try { if (open) closePanel(); } catch (e) {} }
   }
 
-  function openGoalPicker(askYear, askGoal) {
+  // Stappen zijn een LIJST, geen genestelde if/else: er zijn er nu drie
+  // (rondleiding / jaar / dagdoel) en elke stap kan los ontbreken — een
+  // terugkerend account mist bijvoorbeeld alleen de rondleidingvraag.
+  function openGoalPicker(askTut, askYear, askGoal) {
     const vs = VS(); if (!vs || !vs.GOALS) return;
+    const steps = [];
+    if (askTut)  steps.push('tut');
+    if (askYear) steps.push('year');
+    if (askGoal) steps.push('goal');
+    if (!steps.length) return;
+
     const back = document.createElement('div');
     back.className = 'modal-back ob-back';
-    back.innerHTML = askYear ? yearStepHTML() : goalStepHTML(vs);
     obShow(true);
+    let i = 0;
+    // innerHTML zetten maakt een VERSE .goal-modal → de entree-animatie speelt
+    // vanzelf opnieuw bij elke stap.
+    const paint = () => {
+      const s = steps[i];
+      back.innerHTML = s === 'tut' ? tutStepHTML() : s === 'year' ? yearStepHTML() : goalStepHTML(vs);
+    };
+    const next = () => {
+      i++;
+      if (i >= steps.length) { back.remove(); obShow(false); render(); }
+      else paint();
+    };
+    paint();
+
     // Deliberately no outside-click / Esc close: it's a one-time choice, and
     // dismissing it would leave the profile incomplete and re-open next load.
     back.addEventListener('click', (e) => {
+      const tb = e.target.closest('[data-tut]');
+      if (tb) {
+        const wil = tb.getAttribute('data-tut') === 'ja';
+        try {
+          localStorage.setItem(TUT_ASKED, '1');
+          // tutorial.js is lazy geladen door navbar.js en is hier meestal al
+          // binnen; is hij dat niet, dan schrijven we de vlag zelf — de motor
+          // leest 'm bij de volgende pageload gewoon uit localStorage.
+          if (window.VumedTutorial && window.VumedTutorial.setMin) window.VumedTutorial.setMin(!wil);
+          else if (!wil) localStorage.setItem('vumed_tut_min', '1');
+          else localStorage.removeItem('vumed_tut_min');
+        } catch (err) {}
+        next();
+        return;
+      }
       const yb = e.target.closest('[data-year]');
       if (yb) {
         const y = yb.getAttribute('data-year');
         localStorage.setItem('vumed_study_year', y);
         pushStudyYear(y);
         afterYearChange();
-        if (askGoal) back.innerHTML = goalStepHTML(vs);   // door naar stap 2
-        else { back.remove(); obShow(false); }
+        next();
         return;
       }
       const b = e.target.closest('[data-goal]');
       if (!b) return;
       const n = parseInt(b.getAttribute('data-goal'), 10);
-      Promise.resolve(vs.setGoal(n)).then(() => { back.remove(); obShow(false); render(); });
+      Promise.resolve(vs.setGoal(n)).then(next);
     });
     document.body.appendChild(back);
   }
@@ -2088,10 +2168,19 @@ async function refreshAuthState() {
     let st; try { st = vs.getState(); } catch (e) { return; }
     if (!st.loaded || !st.uid) return;      // wait for the profile pull; logged-in only
     goalAsked = true;                       // guard vóór de awaits (event vuurt vaak)
+    // ?onboarding=1 speelt de hele reeks opnieuw af (om te controleren hoe het
+    // eruitziet). Wat je aanklikt wordt WEL opgeslagen — het is geen droogloop.
+    let force = false;
+    try { force = new URLSearchParams(location.search).get('onboarding') === '1'; } catch (e) {}
     const yearKnown = await syncStudyYear();
     const goalKnown = vs.goalInfo().chosen;
-    if (yearKnown && goalKnown) return;
-    openGoalPicker(!yearKnown, !goalKnown);
+    // De rondleidingvraag staat in localStorage, niet in de DB — net als de rest
+    // van de rondleidingstaat. Op een tweede toestel wordt hij dus opnieuw
+    // gesteld, en dat klopt: de rondleidingen zijn ook per toestel.
+    let tutAsked = false;
+    try { tutAsked = localStorage.getItem(TUT_ASKED) === '1'; } catch (e) { tutAsked = true; }
+    if (yearKnown && goalKnown && tutAsked && !force) return;
+    openGoalPicker(force || !tutAsked, force || !yearKnown, force || !goalKnown);
   }
 
   function shiftMain(px) {

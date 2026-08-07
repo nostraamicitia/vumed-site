@@ -464,7 +464,7 @@
       if (localStorage.getItem('vumed_tut_off') === '1' &&
           location.search.indexOf('tutorial=') === -1) return;              // niets te doen → niets laden
       var s = document.createElement('script');
-      s.src = 'tutorial.js?v=5'; s.async = true; s.setAttribute('data-vumed-tut', '1');
+      s.src = 'tutorial.js?v=6'; s.async = true; s.setAttribute('data-vumed-tut', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();

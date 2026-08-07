@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=50" data-active="instellingen"></script>
+  <script src="navbar.js?v=51" data-active="instellingen"></script>
   <script src="bg-decor.js?v=4"></script>
 
   <!-- Apply saved theme before paint to avoid flash -->
@@ -706,21 +706,29 @@ document.querySelectorAll('.faq-q').forEach(function (btn) {
 // rondleidingen uit, dan laadt navbar.js tutorial.js hier helemaal niet meer
 // (bewust — niets te doen) en zou de knop "weer aanzetten" dood zijn.
 (function () {
-  var PREFIX = 'vumed_tut_', OFF = 'vumed_tut_off';
+  var PREFIX = 'vumed_tut_', OFF = 'vumed_tut_off', MIN = 'vumed_tut_min';
   var reset = document.getElementById('tour-reset');
   var toggle = document.getElementById('tour-toggle');
   var note = document.getElementById('tour-note');
   if (!reset || !toggle) return;
 
   function isOff() { try { return localStorage.getItem(OFF) === '1'; } catch (e) { return false; } }
+  /* "Nee, hoeft niet" bij de onboarding zet deze stand: alleen de tentamen-
+     rondleiding start nog vanzelf. Voor deze knop telt dat als "uit", anders
+     zegt hij "uitzetten" terwijl er al bijna niets meer start. */
+  function isMin() { try { return localStorage.getItem(MIN) === '1'; } catch (e) { return false; } }
   function say(t) { if (!note) return; note.textContent = t; note.hidden = false; }
   function paint() {
-    var off = isOff();
-    toggle.textContent = off ? 'Rondleidingen aanzetten' : 'Rondleidingen uitzetten';
+    var off = isOff(), min = isMin();
+    toggle.textContent = (off || min) ? 'Rondleidingen aanzetten' : 'Rondleidingen uitzetten';
+    /* Alleen bij écht uit zijn de snelkoppelingen dood: dan laadt navbar.js
+       tutorial.js niet meer. In de stand "alleen tentamen" is de motor er wél,
+       dus handmatig starten werkt gewoon. */
     document.querySelectorAll('.tour-btn').forEach(function (b) {
       b.style.opacity = off ? '0.45' : '';
       b.style.pointerEvents = off ? 'none' : '';
     });
+    if (min && !off) say('Alleen de tentamen-rondleiding start nog vanzelf. Hierboven start je ze allemaal met de hand.');
   }
 
   reset.addEventListener('click', function () {
@@ -738,8 +746,13 @@ document.querySelectorAll('.faq-q').forEach(function (btn) {
 
   toggle.addEventListener('click', function () {
     try {
-      if (isOff()) { localStorage.removeItem(OFF); say('Rondleidingen staan weer aan.'); }
-      else { localStorage.setItem(OFF, '1'); say('Rondleidingen staan uit. Je kunt ze hier altijd weer aanzetten.'); }
+      if (isOff() || isMin()) {
+        localStorage.removeItem(OFF); localStorage.removeItem(MIN);
+        say('Rondleidingen staan weer aan.');
+      } else {
+        localStorage.setItem(OFF, '1'); localStorage.removeItem(MIN);
+        say('Rondleidingen staan uit. Je kunt ze hier altijd weer aanzetten.');
+      }
     } catch (e) {}
     paint();
   });

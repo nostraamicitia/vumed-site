@@ -38,6 +38,14 @@
 
   var LS_SEEN = 'vumed_tut_';
   var LS_OFF  = 'vumed_tut_off';
+  /* "Nee" in de welkomstvraag van de onboarding zet ALLEEN deze vlag, niet
+     LS_OFF: de tentamen-rondleiding blijft dan wél draaien. Dat is bewust —
+     die legt uit hoe antwoorden, hartjes, begrippenbank en AI samenwerken, en
+     zonder dat weet een nieuwe gebruiker niet wat de app kan (Tijmen 07-08).
+     Prefix `vumed_tut_` → de knop "Alles opnieuw tonen" in het helpcentrum
+     ruimt hem vanzelf mee op, en VumedScope.wipe doet dat bij een accountwissel. */
+  var LS_MIN  = 'vumed_tut_min';
+  var MIN_KEEP = 'exam';   /* de enige rondleiding die in die stand nog autostart */
   var Z       = 1000500;   /* boven de image-zoom (999999) en de exam-overlays (1000000) */
 
   /* ---------------------------------------------------------------- helpers */
@@ -870,6 +878,7 @@
 
   /* ------------------------------------------------------------ staat / api */
   function isOff()      { return lsGet(LS_OFF) === '1'; }
+  function isMin()      { return lsGet(LS_MIN) === '1'; }
   function seen(id)     { return lsGet(LS_SEEN + id) === '1'; }
   function markSeen(id) { lsSet(LS_SEEN + id, '1'); }
 
@@ -1686,6 +1695,101 @@
     })();
   }
 
+  /* ------------------------------------------------- gast vs. ingelogd ---- */
+  /* Tijmen 2026-08-07: "als je niet ingelogd bent zijn er helemaal geen
+     rondleidingen — geen dashboard, niet op tentamens. Maar open je een
+     tentamen, dan krijg je wél: wil je de rondleiding volgen?"
+     Reden dat dit klopt: de onboarding (waar de vraag normaal wordt gesteld) is
+     login-only, dus een gast is nooit iets gevraagd. En het tentamen is precies
+     het scherm waar je zonder uitleg vastloopt. */
+  var LS_ASKED = 'vumed_tut_asked';   /* zelfde vlag als de welkomstvraag in de onboarding */
+  function askedBefore() { return lsGet(LS_ASKED) === '1'; }
+
+  /* Synchroon, want auto() draait vóór elke profiel-pull. VumedStats weet het
+     zodra de pull binnen is; daarvóór is de Supabase-sessiesleutel in
+     localStorage het enige betrouwbare signaal (zelfde truc als de
+     index.html-redirect). */
+  function loggedIn() {
+    try { var s = window.VumedStats && window.VumedStats.getState && window.VumedStats.getState();
+          if (s && s.uid) return true; } catch (e) {}
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i) || '';
+        if (k.indexOf('sb-') === 0 && k.indexOf('auth-token') > 0) return true;
+      }
+    } catch (e) {}
+    return false;
+  }
+
+  function askCss() {
+    if (document.getElementById('vtut-ask-css')) return;
+    var s = document.createElement('style');
+    s.id = 'vtut-ask-css';
+    s.textContent =
+      '#vtut-ask{position:fixed;inset:0;z-index:' + Z + ';display:flex;align-items:center;' +
+      'justify-content:center;padding:20px;background:rgba(16,22,32,.46);' +
+      '-webkit-backdrop-filter:blur(7px) saturate(1.15);backdrop-filter:blur(7px) saturate(1.15);' +
+      'animation:vtaBack .22s ease backwards;}' +
+      '@keyframes vtaBack{from{opacity:0}to{opacity:1}}' +
+      '@keyframes vtaCard{from{opacity:0;transform:translateY(16px) scale(.95)}to{opacity:1;transform:none}}' +
+      '.vta-card{background:#fff;border-radius:24px;padding:26px 24px 20px;max-width:380px;width:100%;' +
+      'text-align:center;box-shadow:0 26px 60px rgba(0,0,0,.28);font-family:inherit;' +
+      'animation:vtaCard .44s cubic-bezier(.22,1,.36,1) backwards;}' +
+      'html.dark .vta-card{background:#2C2C2E;}' +
+      '.vta-ic{width:64px;height:64px;margin:0 auto 14px;border-radius:50%;display:flex;' +
+      'align-items:center;justify-content:center;background:rgba(28,176,246,.14);' +
+      'box-shadow:0 0 0 8px rgba(28,176,246,.07);}' +
+      '.vta-ic svg{width:30px;height:30px;}' +
+      '.vta-card h2{font-size:20px;font-weight:900;margin:0 0 8px;color:#1C1C1E;}' +
+      'html.dark .vta-card h2{color:#fff;}' +
+      '.vta-card p{font-size:14.5px;font-weight:600;color:#6E6E73;margin:0 0 20px;line-height:1.45;}' +
+      'html.dark .vta-card p{color:#AEAEB2;}' +
+      '.vta-btns{display:flex;gap:10px;}' +
+      '.vta-b{flex:1 1 0;border:none;font-family:inherit;font-weight:800;font-size:15px;padding:14px 10px;' +
+      'border-radius:14px;cursor:pointer;color:#fff;background:#1CB0F6;box-shadow:0 4px 0 #0E85B5;' +
+      'transition:transform .1s ease,box-shadow .1s ease;}' +
+      '.vta-b:active{transform:translateY(4px);box-shadow:0 0 0 #0E85B5;}' +
+      '.vta-b.sec{background:#F2F2F7;color:#3C3C43;box-shadow:0 4px 0 #DCDCE2;}' +
+      '.vta-b.sec:active{box-shadow:0 0 0 #DCDCE2;}' +
+      /* gotcha 5: html.dark .vta-b.sec (0,3,1) verslaat .vta-b.sec:active (0,3,0) */
+      'html.dark .vta-b.sec{background:#3A3A3C;color:#EBEBF0;box-shadow:0 4px 0 #232325;}' +
+      'html.dark .vta-b.sec:active{box-shadow:0 0 0 #232325;}' +
+      '@media (prefers-reduced-motion:reduce){#vtut-ask,.vta-card{animation:none;}}';
+    document.head.appendChild(s);
+  }
+
+  function askExamTour() {
+    if (document.getElementById('vtut-ask')) return;
+    askCss();
+    var w = document.createElement('div');
+    w.id = 'vtut-ask';
+    w.innerHTML =
+      '<div class="vta-card" role="dialog" aria-modal="true">' +
+        '<div class="vta-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1CB0F6" stroke-width="2" ' +
+          'stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="M2 6.5 9 3l6 3 7-3.5v15L15 21l-6-3-7 3.5z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></div>' +
+        '<h2>Wil je een korte rondleiding?</h2>' +
+        '<p>In een halve minuut zie je hoe dit tentamen werkt.</p>' +
+        '<div class="vta-btns">' +
+          '<button class="vta-b sec" data-a="nee">Nee, hoeft niet</button>' +
+          '<button class="vta-b" data-a="ja">Ja, graag</button>' +
+        '</div></div>';
+    function done(ja) {
+      lsSet(LS_ASKED, '1');
+      document.removeEventListener('keydown', onKey, true);
+      if (w.parentNode) w.parentNode.removeChild(w);   /* node weg, geen inline display (les 27-07) */
+      if (ja) startWhenReady(TOURS.exam, {});
+      else markSeen('exam');                           /* niet nog eens vragen */
+    }
+    function onKey(e) { if (e.key === 'Escape') { e.stopPropagation(); done(false); } }
+    w.addEventListener('click', function (e) {
+      var b = e.target && e.target.closest ? e.target.closest('[data-a]') : null;
+      if (b) done(b.getAttribute('data-a') === 'ja');
+    });
+    document.addEventListener('keydown', onKey, true);
+    document.body.appendChild(w);
+  }
+
   function auto() {
     if (isOff()) return false;
     if (localNoAuto()) return false;
@@ -1693,7 +1797,17 @@
     var k = pageKey();
     if (!k) return false;
     if (document.documentElement.classList.contains('pop-mode')) return false;
+    /* Gast: nergens een rondleiding, behalve de vraag op een tentamen. */
+    if (!loggedIn()) {
+      if (k !== 'exam' || seen('exam') || askedBefore()) return false;
+      whenUnblocked(function (free) { if (free && !cur) askExamTour(); });
+      return true;
+    }
     var q = PAGE_QUEUE[k] || [];
+    /* "Nee, hoeft niet" bij de onboarding: alleen de tentamen-rondleiding blijft
+       vanzelf starten. Handmatig starten (helpcentrum, ?tutorial=…) blijft altijd
+       werken — dat is een expliciete vraag van de gebruiker. */
+    if (isMin()) q = q.filter(function (id) { return id === MIN_KEEP; });
     if (!q.length) return false;
     whenUnblocked(function (free) { if (free && !cur) runQueue(q); });
     return true;
@@ -1740,12 +1854,15 @@
     seen: seen,
     reset: function (id) { lsDel(LS_SEEN + id); },
     resetAll: function () {
-      lsDel(LS_OFF);
+      lsDel(LS_OFF); lsDel(LS_MIN);
       for (var id in TOURS) { if (Object.prototype.hasOwnProperty.call(TOURS, id)) lsDel(LS_SEEN + id); }
     },
     off: function () { lsSet(LS_OFF, '1'); },
-    on: function () { lsDel(LS_OFF); },
+    on: function () { lsDel(LS_OFF); lsDel(LS_MIN); },
     isOff: isOff,
+    /* Stand "alleen tentamen" — gezet door de welkomstvraag in de onboarding. */
+    isMin: isMin,
+    setMin: function (on) { if (on) lsSet(LS_MIN, '1'); else lsDel(LS_MIN); },
     stop: function () { finish('abort'); },
     next: next,
     /* Wat staat er nu in beeld — handig om van buitenaf te controleren. */

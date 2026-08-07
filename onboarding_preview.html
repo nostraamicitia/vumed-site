@@ -18,8 +18,12 @@
 
    ⚠️ HOUD IN SYNC met de echte stappen (dit is een getrouwe KOPIE):
      · Stap "Aanmelden"      ← vumed.html AuthModal  +  auth_gate.js .auth-* CSS
+     · Stap "Welkom"          ← dashboard.html tutStepHTML (rondleiding ja/nee)
      · Stap "Jaar" + "Dagdoel" ← dashboard.html yearStepHTML/goalStepHTML + .goal-* CSS
                                   (tiers/kleuren ← vumed_stats.js GOAL_TIERS)
+     ⚠️ De jaar-stap wijkt hier AF van de app: hier 3 kaartjes naast elkaar met
+        een aparte Doorgaan-knop, in de app 3 kaarten onder elkaar die meteen
+        doorklikken. Alleen de stíjl (3D-lip) is gelijk.
    Verandert een van die stappen in de app → werk de kopie hieronder bij.
    ────────────────────────────────────────────────────────────────────────── */
 
@@ -166,6 +170,17 @@ html.dark .ob-goal-name{color:#EDEFF2;}
 .ob-rec{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:#1CB0F6;
   background:rgba(28,176,246,0.13);padding:2.5px 7px;border-radius:7px;}
 .ob-goal-tag{flex:0 0 auto;font-size:11px;font-weight:800;color:#fff;background:var(--rc);padding:6px 11px;border-radius:10px;white-space:nowrap;}
+/* Ja/nee van de welkomststap ← dashboard.html .ob-choice/.ob-btn3d */
+.ob-choice{display:flex;gap:10px;margin-top:6px;}
+.ob-btn3d{flex:1 1 0;border:none;font-family:inherit;font-weight:800;font-size:15px;padding:14px 10px;
+  border-radius:14px;cursor:pointer;color:#fff;background:#1CB0F6;box-shadow:0 4px 0 #0E85B5;
+  transition:transform .1s ease,box-shadow .1s ease;}
+.ob-btn3d:active{transform:translateY(4px);box-shadow:0 0 0 #0E85B5;}
+.ob-btn3d:focus-visible{outline:3px solid #0E85B5;outline-offset:3px;}
+.ob-btn3d.sec{background:#F2F2F7;color:#3C3C43;box-shadow:0 4px 0 #DCDCE2;}
+.ob-btn3d.sec:active{box-shadow:0 0 0 #DCDCE2;}
+html.dark .ob-btn3d.sec{background:#3A3A3C;color:#EBEBF0;box-shadow:0 4px 0 #232325;}
+html.dark .ob-btn3d.sec:active{box-shadow:0 0 0 #232325;}
 /* Knop (3D-druk) + voetnoot */
 .ob-btn{width:100%;border:none;background:#1CB0F6;color:#fff;border-radius:16px;padding:16px 0;margin-top:24px;
   font-family:inherit;font-size:15px;font-weight:900;letter-spacing:0.03em;cursor:pointer;
@@ -353,6 +368,23 @@ html.dark .done-card p{color:#AEAEB2;}
       + '</div>';
   }
 
+  /* Welkomststap ← dashboard.html tutStepHTML. "Nee" zet daar alleen de stand
+     "alleen tentamen" (vumed_tut_min); de tentamen-rondleiding blijft draaien. */
+  function welcomeHTML() {
+    return '<div class="ob-card step-anim">'
+      + '<div class="ob-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      +   '<path d="M2 6.5 9 3l6 3 7-3.5v15L15 21l-6-3-7 3.5z"/><path d="M9 3v15"/><path d="M15 6v15"/></svg></div>'
+      + '<h2 class="ob-title">Welkom bij VUmed</h2>'
+      + '<p class="ob-sub">Zullen we je even rondleiden? In een minuut zie je hoe alles werkt.</p>'
+      + '<div class="ob-choice">'
+      +   '<button class="ob-btn3d sec" data-act="next">Nee, hoeft niet</button>'
+      +   '<button class="ob-btn3d" data-act="next">Ja, graag</button>'
+      + '</div>'
+      + '<p class="ob-foot">Bij je eerste tentamen laten we sowieso kort zien hoe het werkt. '
+      + 'Alles terugzetten kan in het Helpcentrum.</p>'
+      + '</div>';
+  }
+
   function goalHTML() {
     return '<div class="ob-card step-anim">'
       + '<div class="ob-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'
@@ -377,6 +409,7 @@ html.dark .done-card p{color:#AEAEB2;}
   /* ══════════════ STAPPEN-REGISTER ══════════════ */
   var STEPS = [
     { key: 'auth',  title: 'Aanmelden',       sub: 'Aanmaken/inloggen (vumed.html)',    backdrop: 'bd-frost', html: authHTML },
+    { key: 'welcome', title: 'Welkom',        sub: 'Wil je de rondleidingen?',          backdrop: 'bd-dim',   html: welcomeHTML },
     { key: 'combo', title: 'Studiejaar', sub: 'Kies je studiejaar', backdrop: 'bd-dim', html: comboHTML },
     { key: 'goal',  title: 'Dagdoel kiezen',  sub: 'Laatste stap van de onboarding',    backdrop: 'bd-dim',   html: goalHTML },
     { key: 'done',  title: 'Klaar',           sub: 'Landt op het dashboard',            backdrop: 'bd-dim',   html: doneHTML }
