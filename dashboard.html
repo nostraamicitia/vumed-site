@@ -2104,10 +2104,13 @@ async function refreshAuthState() {
   // terugkerend account mist bijvoorbeeld alleen de rondleidingvraag.
   function openGoalPicker(askTut, askYear, askGoal) {
     const vs = VS(); if (!vs || !vs.GOALS) return;
+    // Volgorde (Tijmen 07-08): eerst het profiel invullen — jaar, dan dagdoel —
+    // en de rondleidingvraag ACHTERAAN. Je hebt dan al iets van de app gezien,
+    // dus "zullen we je rondleiden?" is een aanbod in plaats van een drempel.
     const steps = [];
-    if (askTut)  steps.push('tut');
     if (askYear) steps.push('year');
     if (askGoal) steps.push('goal');
+    if (askTut)  steps.push('tut');
     if (!steps.length) return;
 
     const back = document.createElement('div');
