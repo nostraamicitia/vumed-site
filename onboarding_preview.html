@@ -139,13 +139,21 @@ html.dark .ob-year.sel{background:color-mix(in srgb,var(--yc) 20%,#2A2A2E);}
 .ob-year.sel .ob-year-tick{opacity:1;transform:scale(1);}
 /* Dagdoel-rijen */
 .ob-goals{display:flex;flex-direction:column;gap:10px;text-align:left;}
-.ob-goal{display:flex;align-items:center;gap:14px;width:100%;border:2px solid #E7ECF1;background:#fff;border-radius:18px;
-  padding:12px 15px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .13s,transform .13s,box-shadow .13s;}
-.ob-goal:hover{transform:translateY(-2px);border-color:var(--rc);box-shadow:0 10px 24px color-mix(in srgb,var(--rc) 26%,transparent);}
-html.dark .ob-goal{background:#2A2A2E;border-color:#3A3A40;}
+/* 3D-lip zoals dashboard.html .goal-opt — geen color-mix (iOS <16.2 laat de
+   hele declaratie vallen). Bij hover kleurt de lip mee, bij indrukken zakt de
+   kaart er volledig in. */
+.ob-goal{display:flex;align-items:center;gap:14px;width:100%;border:2px solid #E3E3E8;background:#fff;border-radius:18px;
+  padding:13px 15px;cursor:pointer;font-family:inherit;text-align:left;box-shadow:0 4px 0 #E6E6EC;
+  transition:border-color .13s,transform .13s,box-shadow .13s;}
+.ob-goal:hover{border-color:var(--rc);box-shadow:0 4px 0 var(--rc2);}
+.ob-goal:active{transform:translateY(4px) scale(.997);box-shadow:0 0 0 var(--rc2);}
+.ob-goal:focus-visible{outline:3px solid var(--rc);outline-offset:3px;}
+html.dark .ob-goal{background:#1F1F22;border-color:#3A3A40;box-shadow:0 4px 0 #151517;}
+html.dark .ob-goal:hover{border-color:var(--rc);box-shadow:0 4px 0 var(--rc2);}
+html.dark .ob-goal:active{transform:translateY(4px) scale(.997);box-shadow:0 0 0 var(--rc2);}
 .ob-goal-n{flex:0 0 auto;width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
   font-size:17px;font-weight:900;color:#fff;background:linear-gradient(135deg,var(--rc),var(--rc2));
-  box-shadow:0 4px 11px color-mix(in srgb,var(--rc) 34%,transparent);}
+  box-shadow:inset 0 -2.5px 0 rgba(0,0,0,0.18);}
 .ob-goal-txt{flex:1 1 auto;min-width:0;}
 .ob-goal-name{display:flex;align-items:center;gap:7px;font-size:15.5px;font-weight:800;color:#132532;}
 html.dark .ob-goal-name{color:#EDEFF2;}

@@ -490,17 +490,28 @@
     .goal-hero p { color: rgba(255,255,255,0.88); font-size: 13.5px; margin: 0; }
     .goal-body { padding: 18px 20px; }
     .goal-opts { display: flex; flex-direction: column; gap: 10px; margin: 0; text-align: left; }
-    .goal-opt { display: flex; align-items: center; gap: 13px; width: 100%; padding: 12px 14px; border-radius: 16px;
-      border: 2px solid #E5E5EA; background: linear-gradient(135deg, #FFFFFF, #F4F6F9); font-family: inherit; cursor: pointer; text-align: left;
+    /* Keuzekaarten spreken de 3D-taal van de rest van de app (opt-btn in
+       progressdots, item-btn in de shop): witte kaart, 2px rand en een massieve
+       offset-lip die bij hover de kleur van de optie aanneemt en bij indrukken
+       volledig inzakt — de kaart zákt dus echt, net als elke andere knop.
+       ⚠️ GEEN color-mix(): WebKit kent dat pas vanaf iOS 16.2 en laat de hele
+       declaratie stil vallen, dus de schaduw verdween daar simpelweg. */
+    .goal-opt { display: flex; align-items: center; gap: 13px; width: 100%; padding: 13px 14px; border-radius: 16px;
+      border: 2px solid #E3E3E8; background: #fff; font-family: inherit; cursor: pointer; text-align: left;
+      box-shadow: 0 4px 0 #E6E6EC;
       transition: border-color .12s ease, transform .12s ease, box-shadow .12s ease; }
-    .goal-opt:hover { border-color: var(--rc); transform: translateY(-2px);
-      box-shadow: 0 10px 22px color-mix(in srgb, var(--rc) 28%, transparent); }
-    html.dark .goal-opt { background: linear-gradient(135deg, #1C1C1E, #19191B); border-color: #3A3A3C; }
-    html.dark .goal-opt:hover { border-color: var(--rc); }
+    .goal-opt:hover { border-color: var(--rc); box-shadow: 0 4px 0 var(--rc2); }
+    .goal-opt:active { transform: translateY(4px) scale(.997); box-shadow: 0 0 0 var(--rc2); }
+    .goal-opt:focus-visible { outline: 3px solid var(--rc); outline-offset: 3px; }
+    /* html.dark .goal-opt (0,2,1) verslaat .goal-opt:hover/:active (0,2,0) →
+       de donkere varianten moeten hun eigen regel hebben (gotcha 5). */
+    html.dark .goal-opt { background: #1F1F22; border-color: #3A3A3C; box-shadow: 0 4px 0 #151517; }
+    html.dark .goal-opt:hover { border-color: var(--rc); box-shadow: 0 4px 0 var(--rc2); }
+    html.dark .goal-opt:active { transform: translateY(4px) scale(.997); box-shadow: 0 0 0 var(--rc2); }
     .goal-opt-n { flex: 0 0 auto; width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center;
       justify-content: center; font-size: 17px; font-weight: 900; color: #fff;
       background: linear-gradient(135deg, var(--rc), var(--rc2));
-      box-shadow: 0 4px 10px color-mix(in srgb, var(--rc) 35%, transparent); }
+      box-shadow: inset 0 -2.5px 0 rgba(0,0,0,0.18); }
     .goal-opt-txt { flex: 1 1 auto; min-width: 0; }
     /* name/sub are spans inside a flex item — without display:block they run
        together on one line ("Rustig10 vragen per dag"). */
@@ -517,6 +528,23 @@
       padding: 3.5px 8px; border-radius: 8px; color: #fff; background: var(--rc); }
     /* .modal p (0,1,1) would re-add its 22px margin-bottom — match its specificity */
     .modal .goal-note { font-size: 12px; font-weight: 600; color: #8E8E93; margin: 14px 0 0; line-height: 1.45; text-align: center; }
+    /* Onboarding-backdrop (.ob-back) is een EIGEN class op de gedeelde .modal-back,
+       zodat deze animaties de andere dashboard-modals niet raken.
+       fill = backwards, nooit `both` — dat laatste bevriest de eindtransform en
+       sloopt de :hover/:active van de kaarten erin (huisregel). */
+    @keyframes obBackIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes obCardIn { from { opacity: 0; transform: translateY(16px) scale(.95); }
+                          to   { opacity: 1; transform: none; } }
+    .ob-back { animation: obBackIn .22s ease backwards; }
+    .ob-back .goal-modal { animation: obCardIn .44s cubic-bezier(.22,1,.36,1) backwards; }
+    /* Tijdens de onboarding heeft de quest-knop geen functie (er is nog geen
+       dagdoel) en hij ligt bovenop de kaart → uit beeld zolang .ob-open staat.
+       (0,2,1) verslaat de .quest-tab-regels, ook die in de phone-media-query. */
+    html.ob-open .quest-tab { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .goal-opt { transition: none; }
+      .ob-back, .ob-back .goal-modal { animation: none; }
+    }
 
     /* ── Daily quests flyout (ported from vumed.html) ── */
     .quest-tab {
@@ -2019,11 +2047,20 @@ async function refreshAuthState() {
       + '</div></div>';
   }
 
+  // Zolang de onboarding open staat: quest-knop uit beeld (hij opent een paneel
+  // dat nog nergens over gaat, en op de telefoon ligt hij vóór de kaart), en een
+  // eventueel al open questpaneel gaat dicht.
+  function obShow(on) {
+    document.documentElement.classList.toggle('ob-open', on);
+    if (on) { try { if (open) closePanel(); } catch (e) {} }
+  }
+
   function openGoalPicker(askYear, askGoal) {
     const vs = VS(); if (!vs || !vs.GOALS) return;
     const back = document.createElement('div');
-    back.className = 'modal-back';
+    back.className = 'modal-back ob-back';
     back.innerHTML = askYear ? yearStepHTML() : goalStepHTML(vs);
+    obShow(true);
     // Deliberately no outside-click / Esc close: it's a one-time choice, and
     // dismissing it would leave the profile incomplete and re-open next load.
     back.addEventListener('click', (e) => {
@@ -2034,13 +2071,13 @@ async function refreshAuthState() {
         pushStudyYear(y);
         afterYearChange();
         if (askGoal) back.innerHTML = goalStepHTML(vs);   // door naar stap 2
-        else back.remove();
+        else { back.remove(); obShow(false); }
         return;
       }
       const b = e.target.closest('[data-goal]');
       if (!b) return;
       const n = parseInt(b.getAttribute('data-goal'), 10);
-      Promise.resolve(vs.setGoal(n)).then(() => { back.remove(); render(); });
+      Promise.resolve(vs.setGoal(n)).then(() => { back.remove(); obShow(false); render(); });
     });
     document.body.appendChild(back);
   }
