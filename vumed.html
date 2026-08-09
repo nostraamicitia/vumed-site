@@ -2664,7 +2664,7 @@ function PakModeRow({ link, col }) {
   const onDown = (e) => { e.currentTarget.style.transform = "translateY(1px)"; };
   const onUp = (e) => { e.currentTarget.style.transform = ""; };
   return (
-    <div style={{ display: "flex", gap: 8, marginTop: 2, marginBottom: 8 }}>
+    <div className="pak-modes" style={{ display: "flex", gap: 8, marginTop: 2, marginBottom: 8 }}>
       <a href={link + "?pakmode=shuffle"} title="Alle vragen in willekeurige volgorde"
         onMouseDown={onDown} onMouseUp={onUp} onMouseLeave={onUp}
         style={{ ...pill, background: col.bg + "1A", color: col.bg }}>
@@ -3073,12 +3073,17 @@ function SubjectCard({ subject, completedExams, onExamSelect, meta, custom, subj
               const cell = isPak
                 ? (<React.Fragment>{yb}<PakModeRow link={e.link} col={col} /></React.Fragment>)
                 : yb;
-              return sideBySide ? <div key={e.year} style={{ flex: 1 }}>{cell}</div> : (isPak ? <div key={e.year}>{cell}</div> : cell);
+              // flex-BASIS, not flex:1 — a zero basis makes the two semesters
+              // compress into the card instead of wrapping, and the pills below
+              // them are nowrap, so the second column ran clean off a phone.
+              return sideBySide
+                ? <div key={e.year} className="pak-cell" style={{ flex: "1 1 290px", minWidth: 0 }}>{cell}</div>
+                : (isPak ? <div key={e.year}>{cell}</div> : cell);
             });
             return (
               <div key={moment} style={S.moment}>
                 <div style={{ ...S.momentLabel, color: col.bg }}>{moment}</div>
-                {sideBySide ? <div style={{ display: "flex", gap: 12 }}>{items}</div> : items}
+                {sideBySide ? <div className="pak-row" style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>{items}</div> : items}
               </div>
             );
           })}
