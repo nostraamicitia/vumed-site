@@ -198,12 +198,22 @@
     /* PAK practice sets (see PakSet). The sliver sits fully above the card, so it
        reads as the rest of the deck without any z-index games. The two alternate
        ways to run a set are outlines on purpose: one primary per set. */
-    .pak-note { font-size: 12.5px; font-weight: 600; color: #8E8E93; line-height: 1.45; margin: -4px 0 12px; }
-    html.dark .pak-note { color: #98989F; }
-    .pak-mode { transition: background 0.16s ease, border-color 0.16s ease, transform 0.1s ease; }
+    /* Same 3D language as .opt-btn / .goal-opt: a solid lip under the button that
+       collapses as the button sinks. No color-mix() — WebKit below 16.2 drops the
+       whole declaration and the lip would silently vanish on older phones. */
+    .pak-mode {
+      background: #FFFFFF; border: 2px solid var(--pak-edge);
+      box-shadow: 0 3px 0 var(--pak-lip);
+      transition: background 0.15s ease, border-color 0.15s ease,
+                  box-shadow 0.1s ease, transform 0.1s ease;
+    }
     .pak-mode:hover  { background: var(--pak-hover); border-color: var(--pak-line); }
-    .pak-mode:active { transform: translateY(1px); }
+    .pak-mode:active { transform: translateY(3px); box-shadow: 0 0 0 var(--pak-lip); }
     .pak-mode:focus-visible { outline: 2px solid var(--pak-line); outline-offset: 2px; }
+    html.dark .pak-mode { background: #333337; box-shadow: 0 3px 0 #1B1B1E; }
+    html.dark .pak-mode:hover  { background: #3C3C41; }
+    html.dark .pak-mode:active { box-shadow: 0 0 0 #1B1B1E; }
+    @media (prefers-reduced-motion: reduce) { .pak-mode { transition: none; } }
 
     /* ── Nav segmented control ── */
     .nav-pill {
@@ -2674,20 +2684,20 @@ function YearButton({ year, link, done, col, onSelect, count }) {
 // bank: one set of questions per semester, which you can run three ways. The old
 // layout borrowed the exam grid and put three same-weight buttons in a row, two
 // of which read as the primary action. So a set gets its own card instead: the
-// start bar carries the set's name and size, the two alternate ways sit under it
-// as quiet outlines, and the sliver behind the top edge says "a stack of
-// questions" — which is what a set is.
+// start bar carries the set's name and size, and the two alternate ways sit under
+// it as lighter 3D buttons — same lip-and-sink language as the rest of the app,
+// one step quieter than the start bar.
 function PakSet({ label, link, done, col, qCount, onSelect }) {
   const mode = {
     flex: 1, display: "inline-flex", alignItems: "center", justifyContent: "center",
-    gap: 6, height: 36, borderRadius: 10, fontFamily: "inherit",
+    gap: 6, height: 38, borderRadius: 11, fontFamily: "inherit",
     fontWeight: 800, fontSize: 12.5, textDecoration: "none", boxSizing: "border-box",
     cursor: "pointer", whiteSpace: "nowrap", color: col.bg,
-    background: "transparent", border: `1.5px solid ${col.bg}3D`,
   };
   return (
     <div className="pak-set" style={{
-      "--pak-hover": col.bg + "17", "--pak-line": col.bg + "70",
+      "--pak-hover": col.bg + "12", "--pak-line": col.bg + "80",
+      "--pak-edge": col.bg + "3D", "--pak-lip": col.bg + "52",
       background: col.bg + "0E", border: `1px solid ${col.bg}24`,
       borderRadius: 16, padding: 12,
     }}>
@@ -3099,13 +3109,10 @@ function SubjectCard({ subject, completedExams, onExamSelect, meta, custom, subj
             });
             return (
               <div key={moment} style={S.moment}>
-                <div style={{ ...S.momentLabel, color: col.bg, marginBottom: subject.name === "PAK" ? 6 : 10 }}>{moment}</div>
-                {/* The two modes have title tooltips, which a phone never shows —
-                    so say what they do once, here, in the card itself. */}
-                {subject.name === "PAK" && (
-                  <div className="pak-note">
-                    Alle vragen van het semester. Shuffle zet ze door elkaar; Doorgaan herhaalt tot je alles goed hebt.
-                  </div>
+                {/* PAK has one group, so "Oefenvragen" only repeated the card's own
+                    title — the sets speak for themselves (Tijmen 2026-08-09). */}
+                {subject.name !== "PAK" && (
+                  <div style={{ ...S.momentLabel, color: col.bg }}>{moment}</div>
                 )}
                 {sideBySide ? <div className="pak-row" style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>{items}</div> : items}
               </div>
