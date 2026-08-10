@@ -19,6 +19,10 @@
   })();
   </script>
 
+  <!-- Safari op iOS toont hiermee bovenaan een balk naar de app in de App Store
+       (of "Openen" als hij al geïnstalleerd is). Alleen Safari/iOS gebruikt dit. -->
+  <meta name="apple-itunes-app" content="app-id=6793511885" />
+
   <title>VUmed — gratis oefententamens Geneeskunde VU (jaar 1, 2 en 3)</title>
   <meta name="description" content="Oefen gratis met échte tentamens van de opleiding Geneeskunde aan de VU. Ruim 13.000 vragen uit alle vakken van jaar 1, 2 en 3, met directe feedback en uitleg." />
   <link rel="canonical" href="https://vumed.nl/" />
@@ -615,20 +619,37 @@
       font-size: 17px; font-weight: 500; color: var(--text-sub);
       line-height: 1.65; max-width: 520px; margin: 0 auto 28px;
     }
-    .badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    /* badges + scan-kaart staan naast elkaar; op de telefoon onder elkaar */
+    .get-app {
+      display: flex; gap: 26px; align-items: center; justify-content: center;
+      flex-wrap: wrap;
+    }
+    .badges { display: flex; flex-direction: column; gap: 12px; }
     .badge {
       display: flex; align-items: center; gap: 12px;
       background: #1C1C1E; color: #fff; text-decoration: none;
-      border-radius: 14px; padding: 12px 20px; min-width: 210px;
+      border-radius: 14px; padding: 12px 20px; min-width: 232px;
       box-shadow: 0 3px 0 rgba(0,0,0,0.35);
-      transition: filter 0.12s;
+      transition: filter 0.12s, transform 0.12s;
     }
     html.dark .badge { background: #3A3A3C; }
-    .badge:hover { filter: brightness(1.15); }
+    .badge:hover { filter: brightness(1.15); transform: translateY(-2px); }
     .badge svg { flex-shrink: 0; }
     .badge-txt { text-align: left; }
     .badge-txt small { display: block; font-size: 11px; font-weight: 700; opacity: 0.75; letter-spacing: 0.4px; }
     .badge-txt b { font-size: 16px; font-weight: 900; }
+
+    /* Scan-kaart: op een laptop is een QR de kortste weg naar je telefoon. */
+    .scan {
+      display: flex; flex-direction: column; align-items: center; gap: 9px;
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: 18px; padding: 16px 16px 13px;
+      transition: background 0.28s ease, border-color 0.28s ease;
+    }
+    /* De QR heeft een witte stille zone; die afronden zodat het in dark mode
+       een bedoelde tegel is en geen uitgeknipt vierkant. */
+    .scan .qr { display: block; width: 132px; height: 132px; border-radius: 10px; background: #fff; }
+    .scan-cap { font-size: 12.5px; font-weight: 800; color: var(--text-sub); letter-spacing: 0.2px; }
 
     /* ── Product cards ── */
     .cards {
@@ -871,6 +892,10 @@
       .anywhere { padding: 40px 20px 50px; }
       .anywhere h2 { font-size: 24px; }
       .anywhere p { font-size: 15.5px; }
+      /* Je kunt je eigen scherm niet scannen — op de telefoon is de knop de weg. */
+      .scan { display: none; }
+      .badges { width: 100%; max-width: 340px; margin: 0 auto; }
+      .badge { min-width: 0; }
       .cards { grid-template-columns: 1fr; padding-bottom: 30px; }
       .endcta { padding: 52px 20px 0; }
       .endcta h2 { font-size: 36px; }
@@ -1179,22 +1204,28 @@
   <!-- ── Anywhere ── -->
   <section class="anywhere rv">
     <h2>oefen waar en wanneer je wilt</h2>
-    <p>VUmed werkt nu al direct in je browser — niets installeren, niets betalen. En binnenkort staat de app ook in de App Store en Google Play, zodat je voortgang overal met je meereist.</p>
-    <div class="badges">
-      <a class="badge" href="dashboard.html">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="6" y="2" width="12" height="20" rx="3" stroke="#fff" stroke-width="2"/>
-          <path d="M10 18.5 h4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <span class="badge-txt"><small>Binnenkort</small><b>In de App Store &amp; Play</b></span>
-      </a>
-      <a class="badge" href="dashboard.html">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <rect x="2" y="4" width="20" height="13" rx="2.5" stroke="#fff" stroke-width="2"/>
-          <path d="M8 20.5 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <span class="badge-txt"><small>Op je laptop</small><b>Direct in je browser</b></span>
-      </a>
+    <p>De app staat nu in de App Store — gratis, en je voortgang reist met je mee. Liever niets installeren? VUmed werkt net zo goed direct in je browser.</p>
+    <div class="get-app" id="get-app">
+      <div class="badges">
+        <a class="badge" id="badge-ios" href="https://apps.apple.com/nl/app/vumed/id6793511885" target="_blank" rel="noopener">
+          <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#fff" d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+          </svg>
+          <span class="badge-txt"><small>Download in de</small><b>App Store</b></span>
+        </a>
+        <a class="badge" href="dashboard.html">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="13" rx="2.5" stroke="#fff" stroke-width="2"/>
+            <path d="M8 20.5 h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="badge-txt"><small>Op je laptop</small><b>Direct in je browser</b></span>
+        </a>
+      </div>
+      <div class="scan" id="scan-card">
+        <img class="qr" src="qr_appstore.png" width="132" height="132"
+             alt="QR-code naar VUmed in de App Store" loading="lazy" />
+        <span class="scan-cap">Scan met je telefoon</span>
+      </div>
     </div>
   </section>
 
@@ -1314,6 +1345,7 @@
     <div class="fcol rv">
       <h4>Over VUmed</h4>
       <a href="over.html">Over ons</a>
+      <a href="https://apps.apple.com/nl/app/vumed/id6793511885" target="_blank" rel="noopener">Download de iPhone-app</a>
       <a href="helpcentrum.html">Helpcentrum</a>
       <a href="mailto:vumedteam@gmail.com?subject=VUmed">Contact</a>
       <a href="mailto:vumedteam@gmail.com?subject=VUmed%20bug">Bug melden</a>
@@ -1355,12 +1387,18 @@
     var g = document.getElementById('cta-ghost');   if (g) g.style.display = 'none';
     var l = document.getElementById('top-login');   if (l) l.textContent = 'Naar je dashboard';
   }
+  /* Alleen IN de geïnstalleerde app is "download de app" onzin. Een ingelogde
+     browsergebruiker mag de badge en de QR juist wél zien. */
+  function hideStoreInvite() {
+    var b = document.getElementById('badge-ios');  if (b) b.style.display = 'none';
+    var q = document.getElementById('scan-card');  if (q) q.style.display = 'none';
+  }
   var app = false;
   try {
     app = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
           || window.navigator.standalone === true;
   } catch (e) {}
-  if (app) { appMode(); return; }
+  if (app) { appMode(); hideStoreInvite(); return; }
   var sb = null;
   try {
     if (window.SUPABASE_URL && window.supabase) {
