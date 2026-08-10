@@ -640,7 +640,7 @@
           <path d="M12.5 40c1.6-6 7-9 13.5-9s11.9 3 13.5 9" stroke="#1CB0F6" stroke-width="3.4" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="firsttime-title">Kies je gebruikersnaam</div>
+      <div class="firsttime-title">Kies je naam</div>
       <div class="firsttime-sub">Je kunt dit na het kiezen slechts één keer per 24 uur wijzigen.</div>
       <input class="name-edit-input" id="firsttime-input" type="text" maxlength="40" placeholder="Jouw naam"
         onkeydown="if(event.key==='Enter')saveFirstTimeName();" style="margin-bottom:0;" />
@@ -1396,10 +1396,10 @@ async function loadStats(sb, userId) {
   } catch(e) {}
 
   // Optional columns — separate query so a missing column never kills the rest
-  let streak = 0, streakDay = null, frozenDays = 0, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null;
+  let streak = 0, streakDay = null, frozenDays = 0, top3 = 0, maxStreak = 0, flatLine = 0, nightQ = 0, remoteAvatar = null, profileName = '';
   try {
     const { data } = await sb.from('user_profiles')
-      .select('login_streak, last_active_date, streak_shield_date, streak_frozen_days, top3_finishes, username_changed_at, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
+      .select('login_streak, last_active_date, streak_shield_date, streak_frozen_days, top3_finishes, username_changed_at, display_name, max_correct_streak, flat_line_count, night_questions, avatar_svg, avatar_skins, avatar_state')
       .eq('user_id', userId).maybeSingle();
     if (data) {
       streak    = data.login_streak       ?? 0;
@@ -1410,6 +1410,7 @@ async function loadStats(sb, userId) {
       flatLine  = data.flat_line_count    ?? 0;
       nightQ    = data.night_questions    ?? 0;
       remoteAvatar = data.avatar_svg || null;
+      profileName = (data.display_name || '').trim();
       window._usernameChangedAt = data.username_changed_at || null;
       // Shop-skin ownership mirror (avatar_creator gates locked skins on this)
       try { localStorage.setItem('vumed_skins', JSON.stringify(data.avatar_skins || [])); } catch(e) {}
@@ -1492,8 +1493,15 @@ async function loadStats(sb, userId) {
     const { data: { session } } = await sb.auth.getSession();
     const u = session?.user;
     if (u) {
-      const hasName = !!(u.user_metadata?.full_name);
-      const displayName = u.user_metadata?.full_name || u.email?.split('@')[0] || '–';
+      /* Een naam kan uit TWEE bronnen komen en beide tellen: de auth-metadata
+         (gezet bij e-mail-signup) en user_profiles.display_name (gezet zodra je
+         ergens in de app opduikt, bv. het klassement). Vroeger keek dit alleen
+         naar de metadata — daardoor kreeg een Apple/Google-signup, die nooit om
+         een naam is gevraagd, hier alsnog een verplichte modal terwijl er allang
+         een display_name stond. Vraag alleen als er ECHT nergens een naam is. */
+      const metaName = (u.user_metadata?.full_name || '').trim();
+      const hasName  = !!(metaName || profileName);
+      const displayName = metaName || profileName || u.email?.split('@')[0] || '–';
       if (el('profile-name-display'))  el('profile-name-display').textContent  = displayName;
       window._currentUser = u;
       window._currentUserId = u.id;
