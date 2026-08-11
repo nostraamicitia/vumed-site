@@ -1800,17 +1800,35 @@
     /* Gast: nergens een rondleiding, behalve de vraag op een tentamen. */
     if (!loggedIn()) {
       if (k !== 'exam' || seen('exam') || askedBefore()) return false;
-      whenUnblocked(function (free) { if (free && !cur) askExamTour(); });
+      whenUnblocked(function (free) {
+        if (!free || cur || isOff() || seen('exam') || askedBefore()) return;
+        askExamTour();
+      });
       return true;
     }
-    var q = PAGE_QUEUE[k] || [];
-    /* "Nee, hoeft niet" bij de onboarding: alleen de tentamen-rondleiding blijft
-       vanzelf starten. Handmatig starten (helpcentrum, ?tutorial=…) blijft altijd
-       werken — dat is een expliciete vraag van de gebruiker. */
-    if (isMin()) q = q.filter(function (id) { return id === MIN_KEEP; });
-    if (!q.length) return false;
-    whenUnblocked(function (free) { if (free && !cur) runQueue(q); });
+    if (!queueFor(k).length) return false;
+    /* ⚠️⚠️ DE KEUZE VALT PAS TIJDENS HET WACHTEN — bepaal de lijst dus HIER,
+       niet vóór whenUnblocked. De welkomstvraag ("Zullen we je even
+       rondleiden?") staat in de onboarding, en die modal ís de blokkade waar
+       we op staan te wachten. Met een lijst van vóór het wachten stond
+       `vumed_tut_min` nog niet, en kreeg je na "Nee, hoeft niet" alsnog de
+       volledige rondleiding zodra de modal sloot (Tijmen 2026-08-11).
+       Geldt voor elke vlag die de gebruiker achter een blokkade kan zetten. */
+    whenUnblocked(function (free) {
+      if (!free || cur || isOff()) return;
+      var q = queueFor(k);
+      if (q.length) runQueue(q);
+    });
     return true;
+  }
+
+  /* De rondleidingen die op deze pagina vanzelf mogen starten. "Nee, hoeft niet"
+     bij de onboarding laat alleen de tentamen-rondleiding staan; handmatig
+     starten (helpcentrum, ?tutorial=…) blijft altijd werken — dat is een
+     expliciete vraag van de gebruiker. */
+  function queueFor(k) {
+    var q = PAGE_QUEUE[k] || [];
+    return isMin() ? q.filter(function (id) { return id === MIN_KEEP; }) : q;
   }
 
   /* --------------------------------------------------------------- exports */
