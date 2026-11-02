@@ -253,6 +253,17 @@
     html.dark .hero-tabs .tab.active { background: #fff !important; color: #1C1C1E !important; }
     html.dark .hero-tabs .tab.active[data-tab="opgeslagen"] svg path { fill: #1C1C1E; }
     html.dark .hero-tabs .tab.active[data-tab="fouten"] svg path { stroke: #1C1C1E; }
+    /* Hover (alleen muis): inactieve tab krijgt een zacht glas-vlak + het icoontje
+       kantelt/groeit een tikje; indrukken veert iets in. */
+    .hero-tabs .tab { transition: background .22s ease, color .22s ease, transform .22s cubic-bezier(.34,1.56,.64,1); }
+    .hero-tabs .tab > svg { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    @media (hover: hover) {
+      .hero-tabs .tab:not(.active):hover { background: rgba(255,255,255,0.16); color: #fff; }
+      html.dark .hero-tabs .tab:not(.active):hover { color: #fff !important; }
+      .hero-tabs .tab:not(.active):hover > svg { transform: scale(1.14) rotate(-8deg); }
+      .hero-tabs .tab.active:hover > svg { transform: scale(1.08); }
+    }
+    .hero-tabs .tab:active { transform: scale(0.97); }
 
     /* ── Duolingo winding mission path ── */
     .pathwrap { max-width: 660px; margin: 4px auto 0; }
@@ -323,7 +334,15 @@
     .pnode.qtile.done:hover { transform: translateY(-3px); }
     /* ── tap feedback: press-in on :active (disc bottoms out on its 3D edge),
        springy pop + colour ripple on click (added by openMissionPopup) ── */
-    .pnode.qtile:not(.locked) { transition: transform 0.08s ease, box-shadow 0.08s ease; }
+    .pnode.qtile:not(.locked) { transition: transform 0.08s ease, box-shadow 0.08s ease,
+      scale .32s cubic-bezier(.34,1.56,.64,1), filter .25s ease; }
+    /* Hover (alleen muis): de tegel groeit veerkrachtig een paar procent en licht
+       iets op. Via de losse `scale`-property, zodat hij samengaat met de
+       transform-animaties (bounce van de huidige tegel, pop, indrukken). */
+    @media (hover: hover) {
+      .pnode.qtile:not(.locked):hover { scale: 1.07; filter: brightness(1.06) saturate(1.05); }
+      .pnode.qtile:not(.locked):active { scale: 1.02; }
+    }
     .pnode.qtile:not(.locked):active { transform: translateY(8px); box-shadow: 0 0 0 rgba(0,0,0,0) !important; animation: none; }
     .pnode.qtile.qpop { animation: qtapPop 0.45s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes qtapPop { 0% { transform: translateY(6px) scale(0.94); }
@@ -724,7 +743,24 @@
              animation-timing-function: cubic-bezier(.25,.5,.4,1); }   /* tiny second toenk */
       100% { opacity: 1; transform: translate(var(--sx,0px),0); }
     }
+    /* ── Jaar-wissel (pill-klik): de vak-kaarten zwiepen vanaf de kant van het
+       nieuwe jaar binnen en landen met dezelfde squash-"toenk" als de tegels.
+       --yx = +/- startoffset (rechts bij hoger jaar, links bij lager), --i = stagger.
+       fill-mode backwards → na afloop geen transform meer op de kaart. ── */
+    .yr-land .subj-card { transform-origin: 50% 100%;
+      animation: yrLand .66s cubic-bezier(.2,.7,.3,1) backwards; animation-delay: calc(var(--i, 0) * 85ms); }
+    @keyframes yrLand {
+      0%   { opacity: 0; transform: translate(var(--yx, 40px), -18px) rotate(calc(var(--yr, 1) * 1.6deg)) scale(.96); }
+      45%  { opacity: 1; transform: translate(0, 3px) rotate(0) scaleY(.95) scaleX(1.025);
+             animation-timing-function: cubic-bezier(.3,.6,.4,1); }   /* toenk */
+      70%  { transform: translate(0, -3px) scaleY(1.015) scaleX(.995); }   /* hupje */
+      100% { opacity: 1; transform: none; }
+    }
+    /* Het gekozen jaar-pilletje maakt een klein sprongetje. */
+    .yr-pill.yr-pop { animation: yrPop .42s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes yrPop { 0% { transform: scale(.9); } 60% { transform: scale(1.08); } 100% { transform: scale(1); } }
     @media (prefers-reduced-motion: reduce) {
+      .yr-land .subj-card, .yr-pill.yr-pop { animation: none !important; }
       /* No transform:none here — that would kill the pnode serpentine translateX. */
       .dash-reveal { opacity: 1 !important; animation: none !important; transition: none !important; }
       .dash-reveal .plabel { opacity: 1 !important; }
@@ -1021,7 +1057,7 @@ function renderTopBar(cur) {
   const pills = Object.keys(YEAR_LABEL).map(y => {
     const col = YEAR_COL[y] || YEAR_COL.year1;
     return '<button class="yr-pill'+(y === cy ? ' active' : '')+'"'
-      + ' style="--yc:'+col.c+';--ysh:'+col.sh+'" onclick="setYear(\''+y+'\')">'
+      + ' style="--yc:'+col.c+';--ysh:'+col.sh+'" onclick="pickYear(\''+y+'\')">'
       + '<span class="yr-dot"></span>'+YEAR_LABEL[y]+'</button>';
   }).join('');
   return '<nav class="yr-nav">'+pills+'</nav>';
@@ -1614,6 +1650,33 @@ function setYear(y) {
   pushStudyYear(y);
   closeModal();
   afterYearChange();
+}
+
+/* Pill-klik: wissel van jaar + laat de vak-kaarten binnen landen (de swipe-pager
+   roept setYear direct aan en heeft zijn eigen schuif-animatie). */
+function pickYear(y) {
+  const from = parseInt(studyYear().replace('year', ''), 10) || 1;
+  const to = parseInt(String(y).replace('year', ''), 10) || 1;
+  if (to === from) return;
+  setYear(y);
+  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const dir = to > from ? 1 : -1;
+  const pane = document.getElementById('pane-pad');
+  const pill = document.querySelector('.yr-pill.active');
+  if (pill) pill.classList.add('yr-pop');
+  if (!pane) return;
+  const cards = pane.querySelectorAll('.subj-card');
+  cards.forEach((c, i) => c.style.setProperty('--i', Math.min(i, 6)));
+  pane.style.setProperty('--yx', (dir * 44) + 'px');
+  pane.style.setProperty('--yr', dir);
+  pane.classList.add('yr-land');
+  // Tegels: opnieuw de rustige instap-cascade, net na de eerste kaart-landing.
+  if (window.__dashRevealRestart) window.__dashRevealRestart(260);
+  setTimeout(() => {
+    pane.classList.remove('yr-land');
+    cards.forEach(c => c.style.removeProperty('--i'));
+    if (pill) pill.classList.remove('yr-pop');
+  }, 660 + Math.min(cards.length - 1, 6) * 85 + 60);
 }
 
 /* Jaar volgt het account: elke expliciete keuze (toggle of onboarding-popup)
@@ -2306,12 +2369,16 @@ async function refreshAuthState() {
   var SEL = '.pnode-row';   // tiles only — the year pills / tabs / subject headers / unit labels stay put
   // Entrance window: the first 1.6s after the FIRST tile reveals = the page-entry
   // cascade (slower rhythm, deeper stagger). After that: quick scroll-reveal drops.
-  var firstAt = 0;
+  var firstAt = 0, holdUntil = 0;
   function stagDelay(n) {
     if (!firstAt) firstAt = Date.now();
     var entrance = (Date.now() - firstAt) < 1600;
-    return (entrance ? Math.min(n, 9) * 110 : Math.min(n, 6) * 70) + 'ms';
+    var hold = Math.max(0, holdUntil - Date.now());
+    return (hold + (entrance ? Math.min(n, 9) * 110 : Math.min(n, 6) * 70)) + 'ms';
   }
+  // Jaar-wissel: herstart de instap-cascade; tegels wachten holdMs zodat de
+  // vak-kaarten eerst landen.
+  window.__dashRevealRestart = function (holdMs) { firstAt = 0; holdUntil = Date.now() + (holdMs || 0); };
   function drop(el, n) {
     el.style.animationDelay = stagDelay(n);
     el.classList.add('in');
