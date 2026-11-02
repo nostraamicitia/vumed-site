@@ -1481,7 +1481,8 @@ function initStickyTabs(defaultGrad) {
       if (s.getBoundingClientRect().top <= line) grad = s.getAttribute('data-grad');
       else break;                                           // sections are in top-to-bottom order
     }
-    grad = grad || defaultGrad;
+    // Nothing scrolled under the bar yet → match the first section right below it.
+    grad = grad || (secs[0] && secs[0].getAttribute('data-grad')) || defaultGrad;
     if (grad !== last) { tabs.style.background = grad; last = grad; }
   }
   sc.addEventListener('scroll', function () {
