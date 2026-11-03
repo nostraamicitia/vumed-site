@@ -43,12 +43,29 @@
     if (fixed) return;
     html.classList.toggle('dark', dark);
     html.style.colorScheme = dark ? 'dark' : 'light';
-    html.style.background = dark ? '#1C1C1E' : '';
+    // Donkere <html>-achtergrond ALLEEN tot de body er is (tegen een witte flits).
+    // Daarna moet hij weg: met een eigen achtergrond op <html> geeft de body zijn
+    // achtergrond niet meer door aan het canvas, en dan dekt de body de
+    // z-index:-1 laag van bg-decor.js (de medische icoontjes) helemaal af.
+    if (!parsed) html.style.background = dark ? '#1C1C1E' : '';
     paintMeta(dark);
   }
+  var parsed = false;
   apply(resolve(getMode()));
   // pwa.js zet later een witte theme-color; na het parsen nogmaals goed zetten.
-  d.addEventListener('DOMContentLoaded', function () { if (!fixed) paintMeta(html.classList.contains('dark')); });
+  function afterParse() {
+    if (!fixed) paintMeta(html.classList.contains('dark'));
+    // Ook de eigen head-snippets van de pagina's (dashboard, profiel, …) zetten
+    // style.background op <html>. Alleen opruimen op pagina's met bg-decor.js:
+    // die laden dark-theme.css in de <head>, dus de body is al donker. Op de
+    // examenpagina's komt die CSS pas later (progressdots.js) en houdt de
+    // <html>-kleur een witte flits tegen.
+    if (!d.querySelector('script[src^="bg-decor.js"]')) return;
+    parsed = true;
+    html.style.removeProperty('background');
+    html.style.removeProperty('background-color');
+  }
+  if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', afterParse); else afterParse();
 
   window.VumedTheme = {
     mode: getMode,                       // 'light' | 'dark' | 'system'
