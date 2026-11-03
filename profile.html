@@ -15,8 +15,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script src="avatar_render.js?v=28"></script>
-  <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=52" data-active="profiel"></script>
+  <script src="auth_gate.js?v=13"></script>
+  <script src="navbar.js?v=53" data-active="profiel"></script>
   <script src="user_popup.js?v=1"></script>
   <script src="bg-decor.js?v=4"></script>
   <style>
@@ -545,6 +545,8 @@
     html.dark .bm-tier-row.current { background: #12384D; }
     html.dark .bm-tier-name { color: #EBEBF0; }
   </style>
+<script src="safe_svg.js"></script>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
 
@@ -1603,6 +1605,7 @@ function visitUser(id) {
 }
 
 function makeMiniAvatar(svgStr, name) {
+  svgStr = window.vumedSafeSvg ? window.vumedSafeSvg(svgStr) : '';  // anti-XSS (safe_svg.js)
   const div = document.createElement('div');
   div.className = 'friend-mini-avatar';
   if (svgStr && /viewBox/.test(svgStr)) {

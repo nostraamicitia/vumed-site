@@ -30,7 +30,8 @@
   var SCOPE_KEEP = {           // apparaat-voorkeuren, niet accountgebonden
     vumed_theme: 1, vumed_sound: 1, vumed_sidebar_hidden: 1, vumed_splash: 1,
     vumed_skip_splash: 1, vumed_scroll: 1, vumed_return: 1,
-    vumed_native_opened: 1, vumed_push_token: 1, vumed_admin_view: 1
+    vumed_native_opened: 1, vumed_push_token: 1, vumed_admin_view: 1,
+    vumed_tut_off: 1           // "rondleiding uit" is een toestelkeuze, niet per account
   };
   function scopeWipe() {
     try {
@@ -159,7 +160,7 @@
     '  .ms-tab-ic{height:24px;display:flex;align-items:center;justify-content:center;position:relative;}',
     '  .ms-tab-ic .nav-notif-dot{top:-2px;right:-5px;}',
     '  .ms-tab-ic svg{width:22px;height:22px;}',
-    '  .ms-tab-lb{font-size:9px;font-weight:800;color:#b0b8c4;letter-spacing:0;font-family:"Nunito",sans-serif;',
+    '  .ms-tab-lb{font-size:10.5px;font-weight:800;color:#8A93A0;letter-spacing:0;font-family:"Nunito",sans-serif;',
     '    white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;}',
     '  .ms-tab.active .ms-tab-lb{color:#1CB0F6;}',
     '  .ms-sheet-backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:310;',

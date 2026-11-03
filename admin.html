@@ -559,6 +559,8 @@
       .admin-wrap { padding: 20px 16px 80px; }
     }
   </style>
+<script src="safe_svg.js"></script>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
 
@@ -862,6 +864,7 @@ const tierOf = xp => TIERS.find(t => xp >= t.min);
 
 /* Mini avatar — same pattern as profile.html makeMiniAvatar() */
 function miniAvatarHTML(svgStr, name) {
+  svgStr = window.vumedSafeSvg ? window.vumedSafeSvg(svgStr) : '';  // anti-XSS (safe_svg.js)
   if (svgStr) {
     const inner = svgStr.replace(/^<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
     return '<div class="mini-avatar" style="background:#e8f7ff;">' +

@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=52" data-active="voortgang"></script>
+  <script src="auth_gate.js?v=13"></script>
+  <script src="navbar.js?v=53" data-active="voortgang"></script>
   <script src="user_popup.js?v=1"></script>
   <script src="bg-decor.js?v=4"></script>
   <style>
@@ -409,6 +409,8 @@
     html.dark .lb-row--me, html.dark .lb-row--me:hover { background: #0E2A38; }
     html.dark .lb-row--me .lb-name, html.dark .lb-row--me .lb-xp, html.dark .lb-row--me .lb-rank-num { color: #58D4FF; }
   </style>
+<script src="safe_svg.js"></script>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
 
@@ -628,6 +630,7 @@ function avatarColor(name) {
 }
 function makeAvatar(svgStr, name, size, cls) {
   size = size || 42;
+  svgStr = window.vumedSafeSvg ? window.vumedSafeSvg(svgStr) : '';  // anti-XSS (safe_svg.js)
   const div = document.createElement('div');
   div.className = cls || 'lb-avatar';
   div.style.width = size + 'px';
@@ -812,14 +815,43 @@ function renderLeaderboard(rows, myId) {
 }
 
 /* ── Load leaderboard from Supabase RPC ── */
+/* Cache (sessionStorage, per account): de laatst geziene stand verschijnt meteen,
+   de verse lijst vervangt hem alleen als er iets veranderd is. */
+const LB_CACHE = 'vumed_lb_cache';
+function readLbCache(myId) {
+  try {
+    const c = JSON.parse(sessionStorage.getItem(LB_CACHE) || 'null');
+    if (c && c.uid === myId && c.week === getISOWeekKey() && Array.isArray(c.rows)) return c.rows;
+  } catch (e) {}
+  return null;
+}
+function writeLbCache(myId, rows) {
+  try { sessionStorage.setItem(LB_CACHE, JSON.stringify({ uid: myId, week: getISOWeekKey(), rows: rows })); } catch (e) {}
+}
+function renderLbError(sb, myId) {
+  const pod = document.getElementById('podium');
+  if (pod) pod.style.display = 'none';
+  const list = document.getElementById('lbList');
+  list.innerHTML = '<div class="lb-empty">Het klassement kon niet geladen worden. Check je verbinding.' +
+    '<br><button type="button" class="lbc-off-btn" id="lbRetry" style="margin-top:12px">Opnieuw proberen</button></div>';
+  const btn = document.getElementById('lbRetry');
+  if (btn) btn.onclick = function () {
+    btn.disabled = true; btn.textContent = 'Bezig…';
+    loadLeaderboard(sb, myId);
+  };
+}
 async function loadLeaderboard(sb, myId) {
   if (!sb) { renderLeaderboard([], myId); return; }
+  const cached = readLbCache(myId);   // is al getoond door init()
   try {
     const { data, error } = await sb.rpc('get_weekly_leaderboard');
-    if (error) { console.error('Leaderboard error:', error); renderLeaderboard([], myId); return; }
-    renderLeaderboard(data || [], myId);
-  } catch(e) {
-    renderLeaderboard([], myId);
+    if (error) throw error;
+    const rows = data || [];
+    writeLbCache(myId, rows);
+    if (!cached || JSON.stringify(cached) !== JSON.stringify(rows)) renderLeaderboard(rows, myId);
+  } catch (e) {
+    console.error('Leaderboard error:', e);
+    if (!cached) renderLbError(sb, myId);   // met cache: oude stand laten staan
   }
 }
 
@@ -843,6 +875,7 @@ async function readLbOptIn(sb, uid) {
 
 async function saveLbOptIn(sb, uid, val) {
   lbOptIn = val;
+  if (!val) { try { sessionStorage.removeItem(LB_CACHE); } catch (e) {} }
   try {
     const { error } = await sb.from('user_profiles')
       .upsert({ user_id: uid, leaderboard_opt_in: val });
@@ -950,6 +983,9 @@ async function init() {
   const user = session.user;
   const displayName = (user.user_metadata?.full_name || user.email || '').split('@')[0] || 'Gebruiker';
   window.renderSidebarProfileIcon && window.renderSidebarProfileIcon(displayName[0]);
+
+  /* Laatst geziene stand meteen tonen terwijl profiel + lijst vers geladen worden. */
+  { const c = readLbCache(user.id); if (c) renderLeaderboard(c, user.id); }
 
   /* Fetch full profile — stable columns only */
   const { data: profile } = await sb

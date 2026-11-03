@@ -284,7 +284,14 @@
   }
 
   /* ── Actions ───────────────────────────────────────────────────────────── */
+  // Ruwe (Engelse) Supabase-fouten → nette Nederlandse tekst (ui_boot.js).
+  function nice(err) {
+    return window.vumedErrorText ? window.vumedErrorText(err)
+      : 'Er ging iets mis. Probeer het opnieuw.';
+  }
+
   async function submit() {
+    if (loading) return;            // Enter/dubbeltik tijdens het laden = negeren
     setMsg('', '');
     var email = $('auth-email').value.trim();
     var pw = $('auth-pw').value;
@@ -300,14 +307,18 @@
 
     setLoading(true);
     var result;
-    if (mode === 'login') {
-      result = await sb.auth.signInWithPassword({ email: email, password: pw });
-    } else {
-      result = await sb.auth.signUp({ email: email, password: pw, options: { data: { full_name: name } } });
+    try {
+      if (mode === 'login') {
+        result = await sb.auth.signInWithPassword({ email: email, password: pw });
+      } else {
+        result = await sb.auth.signUp({ email: email, password: pw, options: { data: { full_name: name } } });
+      }
+    } catch (e) {
+      result = { error: e };          // netwerkfout gooit i.p.v. { error } terug te geven
     }
     setLoading(false);
 
-    if (result.error) { setMsg('err', result.error.message); return; }
+    if (result.error) { setMsg('err', nice(result.error)); return; }
     if (mode === 'signup' && result.data.user && !result.data.session) {
       setMsg('ok', 'Check je e-mail voor de bevestigingslink.');
       return;
@@ -341,14 +352,16 @@
       if (window.VUMED_NATIVE) redir = 'https://vumed.nl/vumed.html';
     } catch (e) {}
     if (!redir) redir = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'vumed.html';
-    var r = await sb.auth.resetPasswordForEmail(addr, { redirectTo: redir });
+    var r;
+    try { r = await sb.auth.resetPasswordForEmail(addr, { redirectTo: redir }); }
+    catch (e) { r = { error: e }; }
     setLoading(false);
 
     if (r.error) {
-      if (/rate limit|60 seconds|too many/i.test(r.error.message)) {
+      if (/rate limit|60 seconds|too many/i.test(r.error.message || '')) {
         setMsg('err', 'Je kunt maar één herstel-mail per minuut aanvragen. Probeer het zo opnieuw.');
       } else {
-        setMsg('err', r.error.message);
+        setMsg('err', nice(r.error));
       }
       return;
     }
@@ -383,12 +396,15 @@
       }
     } catch (e) { /* settings unreachable → just attempt the redirect */ }
 
-    var r = await sb.auth.signInWithOAuth({
-      provider: provider,
-      options: { redirectTo: window.location.origin + window.location.pathname },
-    });
+    var r;
+    try {
+      r = await sb.auth.signInWithOAuth({
+        provider: provider,
+        options: { redirectTo: window.location.origin + window.location.pathname },
+      });
+    } catch (e) { r = { error: e }; }
     // On success the browser navigates away; we only land here on failure.
-    if (r.error) { setLoading(false); setMsg('err', r.error.message); }
+    if (r.error) { setLoading(false); setMsg('err', nice(r.error)); }
   }
 
   /* Apple is dormant: unhide the button only when the provider is actually

@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=52" data-active="instellingen"></script>
+  <script src="navbar.js?v=53" data-active="instellingen"></script>
   <!-- Je eigen avatar op de identiteitskaart (i.p.v. een initiaal) -->
   <script src="avatar_render.js?v=28"></script>
   <script src="bg-decor.js?v=4"></script>
@@ -195,6 +195,8 @@
     /* Dagdoel selector — reuses .mode-selector/.mode-btn; 4 tiers need tighter
        buttons than the 2-way light/dark switch. */
     #goal-selector .mode-btn { padding: 9px 13px; min-width: 44px; }
+    /* Weergave heeft 3 opties (Systeem / Licht / Donker) — iets smaller op telefoons */
+    @media (max-width: 480px) { .mode-row .mode-selector .mode-btn { padding: 9px 12px; font-size: 13.5px; } }
     .goal-hint { display: block; font-size: 12px; font-weight: 600; color: var(--text-sub); margin-top: 2px; }
 
     /* Placeholder card */
@@ -546,6 +548,7 @@
       .pcard-avatar { width: 56px; height: 56px; font-size: 23px; }
     }
   </style>
+<script src="safe_svg.js"></script>
 </head>
 <body>
 
@@ -621,6 +624,7 @@
             <div class="mode-row">
               <span class="toggle-label">Weergave</span>
               <div class="mode-selector">
+                <button class="mode-btn" id="mode-system" onclick="setMode('system')">Systeem</button>
                 <button class="mode-btn" id="mode-light" onclick="setMode('light')">Licht</button>
                 <button class="mode-btn" id="mode-dark"  onclick="setMode('dark')">Donker</button>
               </div>
@@ -948,9 +952,13 @@ async function confirmDeleteAccount() {
     // Data + auth-user zijn weg; ruim de sessie/lokale sporen op.
     try { await sb.auth.signOut(); } catch (e) {}
     try {
-      var keep = { vumed_theme: localStorage.getItem('vumed_theme') };
+      // Apparaat-voorkeuren (thema, geluid, rondleiding uit) horen niet bij het
+      // account en blijven staan; al het andere gaat weg.
+      var KEEP = ['vumed_theme', 'vumed_sound', 'vumed_sidebar_hidden', 'vumed_tut_off'];
+      var keep = {};
+      KEEP.forEach(function (k) { var v = localStorage.getItem(k); if (v !== null) keep[k] = v; });
       localStorage.clear();
-      if (keep.vumed_theme) localStorage.setItem('vumed_theme', keep.vumed_theme);
+      Object.keys(keep).forEach(function (k) { localStorage.setItem(k, keep[k]); });
     } catch (e) {}
     var inApp = false;
     try {
@@ -1000,7 +1008,8 @@ function _pullAvatar(uid, el, name) {
       } else if (!(window.VumedAvatar && VumedAvatar.hasCustom()) &&
                  d.avatar_svg && d.avatar_svg.indexOf('<svg') !== -1) {
         el.style.background = '';
-        el.innerHTML = d.avatar_svg;
+        var safe = window.vumedSafeSvg ? window.vumedSafeSvg(d.avatar_svg) : '';
+        if (safe) el.innerHTML = safe;
       }
     }, function () {});
 }
@@ -1229,22 +1238,33 @@ function switchSection(id, btn) {
 })();
 
 // ── Dark / light mode ─────────────────────────────────────────────────────
+// 'system' = volg het toestel (ui_boot.js luistert naar prefers-color-scheme).
+function paintModeButtons(mode) {
+  ['system', 'light', 'dark'].forEach(function (m) {
+    var b = document.getElementById('mode-' + m);
+    if (b) b.classList.toggle('active', mode === m);
+  });
+}
 function setMode(mode) {
-  if (mode === 'dark') {
-    document.documentElement.classList.add('dark');
+  if (window.VumedTheme) {
+    window.VumedTheme.set(mode);
   } else {
-    document.documentElement.classList.remove('dark');
+    var dark = mode === 'dark' ||
+      (mode === 'system' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+    try {
+      if (mode === 'system') localStorage.removeItem('vumed_theme');
+      else localStorage.setItem('vumed_theme', mode);
+    } catch (e) {}
   }
-  localStorage.setItem('vumed_theme', mode);
-  document.getElementById('mode-light').classList.toggle('active', mode === 'light');
-  document.getElementById('mode-dark').classList.toggle('active', mode === 'dark');
+  paintModeButtons(mode);
 }
 
 // Init mode buttons to match current state (class already applied in <head>)
 (function() {
-  var saved = localStorage.getItem('vumed_theme') || 'light';
-  document.getElementById('mode-light').classList.toggle('active', saved === 'light');
-  document.getElementById('mode-dark').classList.toggle('active', saved === 'dark');
+  var saved = window.VumedTheme ? window.VumedTheme.mode()
+    : (localStorage.getItem('vumed_theme') || 'system');
+  paintModeButtons(saved);
 })();
 
 // ── Weekklassement: zichtbaarheid voor andere gebruikers ──────────────────

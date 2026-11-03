@@ -35,8 +35,8 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=52" data-active="dashboard"></script>
+  <script src="auth_gate.js?v=13"></script>
+  <script src="navbar.js?v=53" data-active="dashboard"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -73,7 +73,7 @@
     .sr-fill.sr-gold { stroke: #FFC800; }
     .sr-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .sr-big { font-size: 16px; font-weight: 900; color: #fff; line-height: 1; }
-    .sr-small { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.82); margin-top: 2px; }
+    .sr-small { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.82); margin-top: 2px; }
     .sr-label { font-size: 11px; font-weight: 800; color: rgba(255,255,255,0.92); text-transform: uppercase; letter-spacing: 0.4px; }
 
     /* ── Subject accordion (merged banner + hero: active = big, others = small) ── */
@@ -395,7 +395,7 @@
     .sc-head-dials { display: none; gap: 14px; align-items: flex-start; flex-shrink: 0; }
     .sc-head-dials .sr-ring, .sc-head-dials .sr-ring > svg { width: 60px; height: 60px; }
     .sc-head-dials .sr-big { font-size: 14px; }
-    .sc-head-dials .sr-small { font-size: 8.5px; }
+    .sc-head-dials .sr-small { font-size: 9.5px; }
     .sc-head-dials .sr-label { font-size: 10px; }
     .psubject.is-open .psubject-head { align-items: flex-start; }
     .psubject.is-open .sc-head-dials { display: flex; }
@@ -537,7 +537,7 @@
     .goal-opt-name { display: block; font-size: 15px; font-weight: 800; color: #1C1C1E; }
     html.dark .goal-opt-name { color: #EBEBF0; }
     .goal-rec { display: inline-block; vertical-align: 1.5px; margin-left: 6px; padding: 2.5px 7px; border-radius: 7px;
-      font-size: 9.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; color: #fff; background: #1CB0F6; }
+      font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .4px; color: #fff; background: #1CB0F6; }
     .goal-opt-sub { display: block; font-size: 12.5px; font-weight: 600; color: #8E8E93; margin-top: 2px; }
     .goal-opt-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
     .goal-stars { display: flex; align-items: center; gap: 1px; }
@@ -766,6 +766,7 @@
       .dash-reveal .plabel { opacity: 1 !important; }
     }
   </style>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
   <button class="dash-auth" id="dash-auth" type="button" onclick="openDashAuth()">Inloggen</button>
@@ -1749,9 +1750,18 @@ async function init() {
     document.getElementById('loading').innerHTML = 'Kon dashboardgegevens niet laden.';
     return;
   }
-  PROGRESS = await loadProgress();
+  /* Cache: toon meteen de laatst bekende voortgang (geen lege "laden…"-pagina),
+     haal daarna vers op en render alleen opnieuw als er iets veranderd is.
+     De key begint met vumed_, dus navbar.js wist hem bij uitloggen/ander account. */
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem('vumed_dash_progress') || 'null'); } catch (e) {}
+  if (cached && typeof cached === 'object') { PROGRESS = cached; render(); }
+  const fresh = await loadProgress();
+  const changed = !cached || JSON.stringify(cached) !== JSON.stringify(fresh);
+  PROGRESS = fresh;
+  try { localStorage.setItem('vumed_dash_progress', JSON.stringify(fresh)); } catch (e) {}
   const cur = computeCurrent();
-  render();
+  if (changed) render();
   maybeBlockClosedPopup(cur);
 }
 document.addEventListener('DOMContentLoaded', init);

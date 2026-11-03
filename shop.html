@@ -12,8 +12,8 @@
   <link rel="stylesheet" href="dark-theme.css?v=3">
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="auth_gate.js?v=12"></script>
-  <script src="navbar.js?v=52" data-active="shop"></script>
+  <script src="auth_gate.js?v=13"></script>
+  <script src="navbar.js?v=53" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="vumed_stats.js?v=25" data-vumed-stats="1"></script>
   <script src="avatar_render.js?v=28"></script>
@@ -33,8 +33,8 @@
     /* ── Colorful hero banner ── */
     .shop-hero { position: relative; overflow: hidden; border-radius: 24px; padding: 28px 30px;
       color: #fff; margin-bottom: 26px; display: flex; align-items: center; gap: 20px;
-      background: linear-gradient(135deg, #1CB0F6 0%, #6C63FF 52%, #CE82FF 100%);
-      box-shadow: 0 12px 30px rgba(108,99,255,0.28), inset 0 -4px 0 rgba(0,0,0,0.14);
+      background: linear-gradient(135deg, #1CB0F6 0%, #0E85B5 100%);
+      box-shadow: 0 12px 30px rgba(14,133,181,0.28), inset 0 -4px 0 rgba(0,0,0,0.14);
       animation: shDrop .62s cubic-bezier(.5,0,.85,.4) backwards; transform-origin: 50% 100%; }
     .shop-hero::before { content: ''; position: absolute; top: -60px; right: -30px;
       width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.14); }
@@ -158,7 +158,7 @@
     html.dark .item { background: #2C2C2E; border-color: #3A3A3C; }
     /* Colored top accent bar per section */
     .item::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
-      background: linear-gradient(90deg, #1CB0F6, #6C63FF); opacity: 0.9; }
+      background: linear-gradient(90deg, #1CB0F6, #0E85B5); opacity: 0.9; }
     #shop-row .item::before { background: linear-gradient(90deg, #FF6E8A, #E5245A); }
     #freeze-row .item::before { background: linear-gradient(90deg, #5AC8FF, #1CB0F6); }
     .av-row .item::before { background: linear-gradient(90deg, #CE82FF, #8B3FE0); }
@@ -228,7 +228,7 @@
       .item-art > svg, .item-art > img { zoom: 0.7; }
       .item-art > div { zoom: 0.5; }
       .item-name { font-size: 12px; line-height: 1.25; }
-      .item-desc { font-size: 10.5px; min-height: 0; }
+      .item-desc { font-size: 11.5px; min-height: 0; }
       /* Kaarten in een rij stretchen naar gelijke hoogte; met margin-top:auto
          zakt de knop naar de onderkant zodat alle tiles/knoppen op dezelfde
          hoogte uitlijnen, ongeacht of de naam/omschrijving korter is
@@ -239,6 +239,7 @@
       .cat-chip { font-size: 11.5px; padding: 7px 14px; }
     }
   </style>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
   <div class="main-content">

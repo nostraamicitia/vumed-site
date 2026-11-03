@@ -20,10 +20,10 @@
   <!-- Supabase -->
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=52" data-active="tentamens"></script>
+  <script src="navbar.js?v=53" data-active="tentamens"></script>
   <script src="bg-decor.js?v=4"></script>
   <script src="gift_modal.js?v=29"></script>
-  <script src="auth_gate.js?v=12"></script><!-- gedeelde login/signup-popup (gebruikt window._sbInstance) -->
+  <script src="auth_gate.js?v=13"></script><!-- gedeelde login/signup-popup (gebruikt window._sbInstance) -->
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -658,6 +658,7 @@
       .quest-tab .quest-badge { top: -6px; left: auto; right: -6px; }
     }
   </style>
+<script src="ui_boot.js?v=1"></script>
 </head>
 <body>
 
@@ -1809,15 +1810,18 @@ function AuthModal({ onClose, onLoggedIn, initialMsg }) {
     }
     const sb = getSB();
     if (!sb) { setMsg({ type: "err", text: "Supabase is nog niet geconfigureerd." }); return; }
+    if (loading) return;            // Enter/dubbeltik tijdens het laden = negeren
     setLoading(true);
     let result;
-    if (mode === "login") {
-      result = await sb.auth.signInWithPassword({ email, password });
-    } else {
-      result = await sb.auth.signUp({ email, password, options: { data: { full_name: name } } });
-    }
+    try {
+      if (mode === "login") {
+        result = await sb.auth.signInWithPassword({ email, password });
+      } else {
+        result = await sb.auth.signUp({ email, password, options: { data: { full_name: name } } });
+      }
+    } catch (e) { result = { error: e }; }
     setLoading(false);
-    if (result.error) { setMsg({ type: "err", text: result.error.message }); return; }
+    if (result.error) { setMsg({ type: "err", text: (window.vumedErrorText ? window.vumedErrorText(result.error) : "Er ging iets mis. Probeer het opnieuw.") }); return; }
     if (mode === "signup" && result.data.user && !result.data.session) {
       setMsg({ type: "ok", text: "Check je e-mail voor de bevestigingslink." });
       return;
@@ -1841,7 +1845,7 @@ function AuthModal({ onClose, onLoggedIn, initialMsg }) {
       if (/rate limit|60 seconds|too many/i.test(error.message)) {
         setMsg({ type: "err", text: "Je kunt maar één herstel-mail per minuut aanvragen. Probeer het zo opnieuw." });
       } else {
-        setMsg({ type: "err", text: error.message });
+        setMsg({ type: "err", text: (window.vumedErrorText ? window.vumedErrorText(error) : "Er ging iets mis. Probeer het opnieuw.") });
       }
       return;
     }
@@ -1880,7 +1884,7 @@ function AuthModal({ onClose, onLoggedIn, initialMsg }) {
     // On success the browser navigates away — we only get back here on failure.
     if (error) {
       setLoading(false);
-      setMsg({ type: "err", text: error.message });
+      setMsg({ type: "err", text: (window.vumedErrorText ? window.vumedErrorText(error) : "Er ging iets mis. Probeer het opnieuw.") });
     }
   }
 
@@ -2064,7 +2068,7 @@ function ResetPasswordModal({ onClose }) {
       } else if (/different from the old/i.test(error.message)) {
         setMsg({ type: "err", text: "Dit is je huidige wachtwoord al — kies een ander wachtwoord (of sluit dit venster, je bent gewoon ingelogd)." });
       } else {
-        setMsg({ type: "err", text: error.message });
+        setMsg({ type: "err", text: (window.vumedErrorText ? window.vumedErrorText(error) : "Er ging iets mis. Probeer het opnieuw.") });
       }
       return;
     }

@@ -11,9 +11,13 @@
 //
 // To force-clear every client's cache after a big change, bump CACHE_VERSION.
 
-const CACHE_VERSION = 'vumed-v9';
+const CACHE_VERSION = 'vumed-v10';
 const OFFLINE_FALLBACK = 'dashboard.html';
-const PRECACHE = ['splash.html', 'dashboard.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const PRECACHE = ['splash.html', 'dashboard.html', 'manifest.json', 'icon-192.png', 'icon-512.png',
+                  'ui_boot.js', 'supabase_config.js', 'openai_config.js', 'supabase-js.min.js'];
+// Trage verbinding (campus-wifi, trein): na zoveel ms de gecachete pagina tonen
+// terwijl de verse op de achtergrond binnenkomt voor het volgende bezoek.
+const NAV_TIMEOUT_MS = 4000;
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
@@ -43,18 +47,23 @@ self.addEventListener('fetch', (event) => {
                 (req.headers.get('accept') || '').includes('text/html');
 
   if (isDoc) {
-    // NETWORK-FIRST for documents
+    // NETWORK-FIRST for documents (met time-out als er een gecachete kopie is)
     event.respondWith((async () => {
-      try {
-        const fresh = await fetch(req);
-        const cache = await caches.open(CACHE_VERSION);
-        cache.put(req, fresh.clone());       // keep a copy only for offline revisits
+      const cache = await caches.open(CACHE_VERSION);
+      const network = fetch(req).then((fresh) => {
+        if (fresh && fresh.ok) cache.put(req, fresh.clone());   // copy for offline/slow revisits
         return fresh;
+      });
+      const cached = await cache.match(req);
+      try {
+        if (!cached) return await network;
+        const timeout = new Promise((resolve) => setTimeout(() => resolve(null), NAV_TIMEOUT_MS));
+        const winner = await Promise.race([network, timeout]);
+        if (winner) return winner;
+        event.waitUntil(network.catch(() => {}));                // keep refreshing the cache
+        return cached;
       } catch (_e) {
-        const cache = await caches.open(CACHE_VERSION);
-        return (await cache.match(req)) ||
-               (await cache.match(OFFLINE_FALLBACK)) ||
-               Response.error();
+        return cached || (await cache.match(OFFLINE_FALLBACK)) || Response.error();
       }
     })());
     return;

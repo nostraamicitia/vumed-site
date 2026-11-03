@@ -2412,7 +2412,7 @@
       '.pd-res-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px;}' +
       '.pd-st{background:var(--sa);border-radius:18px;padding:3px;box-shadow:0 3px 0 var(--sb);' +
         'animation:pd-drop .6s cubic-bezier(.5,0,.85,.4) backwards;animation-delay:var(--sd);}' +
-      '.pd-st-l{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;' +
+      '.pd-st-l{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;' +
         'text-align:center;padding:5px 4px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}' +
       '.pd-st-in{background:#fff;border-radius:15px;display:flex;align-items:center;justify-content:center;gap:7px;' +
         'padding:13px 6px;font-size:21px;font-weight:800;color:var(--sb);line-height:1;}' +
@@ -2471,7 +2471,7 @@
       '.pd-rrow:last-child{border-bottom:none;}' +
       '.pd-rrow-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:7px;}' +
       '.pd-rrow-name{font-size:13.5px;font-weight:700;color:#1C1C1E;display:flex;align-items:center;gap:6px;min-width:0;}' +
-      '.pd-rrow-tag{flex:0 0 auto;font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;' +
+      '.pd-rrow-tag{flex:0 0 auto;font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;' +
         'color:#C0392B;background:#FFF2F2;border:1px solid #FFD6D3;border-radius:6px;padding:2px 5px;}' +
       '.pd-rrow-val{flex:0 0 auto;font-size:12.5px;font-weight:700;display:flex;align-items:baseline;gap:6px;}' +
       '.pd-rrow-den{color:#8E8E93;font-weight:700;}' +
@@ -2547,7 +2547,7 @@
       '@media (max-width:560px){.pd-res-in{padding:20px 14px 48px;}.pd-res-name{font-size:21px;}' +
         '.pd-res-ring{width:158px;height:158px;}.pd-res-ring-in{width:122px;height:122px;}.pd-res-pct{font-size:37px;}' +
         '.pd-res-stats{gap:8px;}.pd-st-in{font-size:17px;padding:11px 5px;gap:5px;}' +
-        '.pd-st-l{font-size:9px;letter-spacing:.05em;}.pd-fq-s{font-size:12px;}}' +
+        '.pd-st-l{font-size:10px;letter-spacing:.04em;}.pd-fq-s{font-size:12px;}}' +
       '@media (prefers-reduced-motion:reduce){#pd-res *,#pd-res{animation:none !important;transition:none !important;}' +
         '.pd-conf-l{display:none;}.pd-spark{display:none;}.pd-xchip,.pd-xsp{display:none;}}';
     var el = document.createElement('style');
