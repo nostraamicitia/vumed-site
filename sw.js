@@ -11,7 +11,7 @@
 //
 // To force-clear every client's cache after a big change, bump CACHE_VERSION.
 
-const CACHE_VERSION = 'vumed-v10';
+const CACHE_VERSION = 'vumed-v11';
 const OFFLINE_FALLBACK = 'dashboard.html';
 const PRECACHE = ['splash.html', 'dashboard.html', 'manifest.json', 'icon-192.png', 'icon-512.png',
                   'ui_boot.js', 'supabase_config.js', 'openai_config.js', 'supabase-js.min.js'];

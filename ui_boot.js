@@ -18,6 +18,8 @@
  *                tekst-opblazen in landscape.
  *  6. Foutteksten — window.vumedErrorText(err) vertaalt ruwe (Engelse)
  *                Supabase/netwerk-fouten naar nette Nederlandse zinnen.
+ *  7. Husselen — meerkeuze-, dropdown- en sleepopties in willekeurige
+ *                volgorde bij elke paginalaad (goede antwoord stond vaak boven).
  */
 (function () {
   'use strict';
@@ -192,4 +194,113 @@
     if (msg) { try { console.warn('[vumed] onvertaalde fout:', msg); } catch (e) {} }
     return fallback || 'Er ging iets mis. Probeer het opnieuw.';
   };
+
+  /* ── 7. Antwoorden husselen ───────────────────────────────────────────── */
+  /* De vraag-HTML heeft de opties in een vaste volgorde, en bij dropdowns
+   * (55%) en sleepvragen (34%) stond het goede antwoord vaak bovenaan /
+   * in volgorde (feedback David, okt 2026). Elke keer dat een pagina laadt
+   * schudden we daarom:
+   *   - meerkeuze (.opt-btn): knoppen verplaatst, zichtbare letter A/B/C
+   *     opnieuw gezet. data-letter blijft → nakijken + opgeslagen voortgang
+   *     werken ongewijzigd.
+   *   - dropdowns (.dd-select / .ddt-sel): <option>s; nakijken gaat op tekst.
+   *   - sleepvragen: de kaartjes-pool (dndInit wordt omwikkeld).
+   * NIET geschud: opties die naar elkaar verwijzen ("A en B", "geen van
+   * bovenstaande", stellingen), juist/onjuist-paren en oplopende getallen.
+   * Draait als eerste DOMContentLoaded-listener (ui_boot laadt vóór de
+   * vragen), dus vóór restoreProgress en vóór de dndInit-aanroepen. */
+  function rnd(n) {
+    try { var a = new Uint32Array(1); crypto.getRandomValues(a); return a[0] % n; }
+    catch (e) { return Math.floor(Math.random() * n); }
+  }
+  function shuffled(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  var REF = /bovenstaande|hierboven|hieronder|stelling|\b[A-H]\s*(,|en|of|\+|&)\s*[A-H]\b|zowel\s+(antwoord\s+)?[A-H]\s+als|\bantwoord\s+[A-H]\b|alle\s+(genoemde|antwoorden|opties|alternatieven|bovenstaande)|geen\s+van\s+(de|al|bovenstaande|deze|beide)|\b(I|II|III|IV)\s*(,|en|of)\s*(I|II|III|IV)\b|\b[1-4]\s*(,|en|of)\s*[1-4]\s+(zijn|is)\b/i;
+  var FIXED = /^(juist|onjuist|waar|niet waar|onwaar|ja|nee|correct|incorrect|goed|fout)$/i;
+  function clean(s) { return String(s || '').replace(/\s+/g, ' ').trim(); }
+  function numericAsc(texts) {
+    var prev = -Infinity;
+    for (var i = 0; i < texts.length; i++) {
+      var m = texts[i].match(/^[<>≤≥~±+-]?\s*(\d+(?:[.,]\d+)?)/);
+      if (!m) return false;
+      var v = parseFloat(m[1].replace(',', '.'));
+      if (v < prev) return false;
+      prev = v;
+    }
+    return true;
+  }
+  function canShuffle(texts) {
+    if (texts.length < 2) return false;
+    for (var i = 0; i < texts.length; i++) {
+      if (REF.test(texts[i]) || FIXED.test(texts[i])) return false;
+    }
+    return !numericAsc(texts);
+  }
+  // Wissel nodes van plek binnen hun ouder, ook als er andere nodes tussen staan.
+  function reorder(nodes, order) {
+    var ph = nodes.map(function (n) {
+      var c = d.createComment(''); n.parentNode.replaceChild(c, n); return c;
+    });
+    ph.forEach(function (c, i) { c.parentNode.replaceChild(order[i], c); });
+  }
+
+  function shuffleMC(root) {
+    var groups = [];
+    root.querySelectorAll('.opt-btn').forEach(function (b) {
+      if (b.dataset.vmShuf) return;
+      var p = b.parentNode, g = null;
+      for (var i = 0; i < groups.length; i++) if (groups[i].p === p) { g = groups[i]; break; }
+      if (!g) groups.push(g = { p: p, btns: [] });
+      g.btns.push(b);
+    });
+    groups.forEach(function (g) {
+      var btns = g.btns;
+      btns.forEach(function (b) { b.dataset.vmShuf = '1'; });
+      var texts = btns.map(function (b) {
+        var t = clean(b.textContent), l = b.querySelector('.opt-letter');
+        return l ? clean(t.slice(clean(l.textContent).length)) : t;
+      });
+      if (!canShuffle(texts)) return;
+      var order = shuffled(btns);
+      reorder(btns, order);
+      order.forEach(function (b, i) {
+        var l = b.querySelector('.opt-letter');
+        if (l && /^[A-Z]$/.test(clean(l.textContent))) l.textContent = String.fromCharCode(65 + i);
+      });
+    });
+  }
+
+  function shuffleSelects(root) {
+    root.querySelectorAll('select.dd-select, select.ddt-sel').forEach(function (s) {
+      if (s.dataset.vmShuf) return;
+      s.dataset.vmShuf = '1';
+      var opts = Array.prototype.filter.call(s.options, function (o) { return o.value !== ''; });
+      if (!canShuffle(opts.map(function (o) { return clean(o.textContent); }))) return;
+      var keep = s.value;
+      reorder(opts, shuffled(opts));
+      s.value = keep;
+    });
+  }
+
+  function wrapDnd() {
+    var orig = window.dndInit;
+    if (typeof orig !== 'function' || orig._vmShuf) return;
+    var w = function (qnum, opts) {
+      return orig.call(this, qnum, Array.isArray(opts) ? shuffled(opts) : opts);
+    };
+    w._vmShuf = true;
+    try { window.dndInit = w; } catch (e) {}
+  }
+
+  window.vumedShuffleAnswers = function (root) {
+    root = root || d;
+    try { shuffleMC(root); } catch (e) {}
+    try { shuffleSelects(root); } catch (e) {}
+    try { wrapDnd(); } catch (e) {}
+  };
+  function shuffleOnLoad() { window.vumedShuffleAnswers(d); }
+  if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', shuffleOnLoad); else shuffleOnLoad();
 })();
