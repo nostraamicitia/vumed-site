@@ -2861,7 +2861,7 @@ window.ANSWER_TERMS = {
  "drinkvoeding (nutridrink)": {
   "title": "Drinkvoeding",
   "short": "Drinkvoeding is een energie- en eiwitrijke drink (zoals Nutridrink) als aanvulling op de gewone voeding bij (dreigende) ondervoeding.",
-  "definition": "<p><strong>Drinkvoeding</strong> is een kant-en-klare, energie- en eiwitrijke vloeibare voeding, verrijkt met vitamines en mineralen. Een bekend merk is Nutridrink.</p><p>Ze wordt gegeven als bijvoeding wanneer iemand met gewone maaltijden onvoldoende binnenkrijgt, maar nog wel kan slikken en het maag-darmkanaal normaal werkt. Het is de eerste stap vóór sondevoeding of parenterale voeding.</p>",
+  "definition": "<p><strong>Drinkvoeding</strong> is een kant-en-klare, energie- en eiwitrijke vloeibare voeding, verrijkt met vitamines en mineralen. Een bekend merk is Nutridrink.</p><p>Ze wordt gegeven als bijvoeding wanneer iemand met gewone maaltijden onvoldoende binnenkrijgt, bijvoorbeeld bij ziekte, ouderdom of na een operatie.</p>",
   "image_url": "",
   "wiki_title": "",
   "match": "drinkvoeding (nutridrink)|drinkvoeding|nutridrink",
