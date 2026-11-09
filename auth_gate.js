@@ -149,6 +149,9 @@
     + '.auth-msg{font-size:14px;margin-bottom:12px;font-weight:600;text-align:center;line-height:1.5;}'
     + '.auth-msg.err{color:#FF3B30;}'
     + '.auth-msg.ok{color:#34C759;}'
+    + '.auth-resend{display:block;margin:-4px auto 12px;background:none;border:none;color:#1CB0F6;cursor:pointer;'
+    + 'font-family:inherit;font-size:14px;font-weight:700;}'
+    + '.auth-resend:disabled{color:#8E8E93;cursor:default;}'
     + '@media (max-width:560px){.auth-card{padding:32px 22px 26px;}.auth-card h2{font-size:22px;}}';
 
   function injectCSS() {
@@ -176,6 +179,13 @@
     m.style.display = text ? 'block' : 'none';
     m.className = 'auth-msg ' + (type || '');
     m.textContent = text || '';
+    var r = $('auth-resend');
+    if (r) r.style.display = 'none';
+  }
+
+  function showResend() {
+    var r = $('auth-resend');
+    if (r) { r.style.display = 'block'; r.disabled = false; r.textContent = 'Bevestigingsmail opnieuw versturen'; }
   }
 
   function setLoading(on) {
@@ -230,6 +240,7 @@
       + '<button type="button" class="auth-forgot" id="auth-forgot">Wachtwoord vergeten?</button>'
       + '</div>'
       + '<div id="auth-msg" class="auth-msg" style="display:none"></div>'
+      + '<button type="button" class="auth-resend" id="auth-resend" style="display:none">Bevestigingsmail opnieuw versturen</button>'
       + '<button type="submit" class="auth-submit" id="auth-btn">Inloggen</button>'
       + '</form>'
       + '<div class="auth-switch" id="auth-switch"></div>'
@@ -251,6 +262,7 @@
     $('auth-form').addEventListener('submit', function (e) { e.preventDefault(); submit(); });
     $('auth-pw-eye').addEventListener('click', togglePw);
     $('auth-forgot').addEventListener('click', forgotPassword);
+    $('auth-resend').addEventListener('click', resendConfirmation);
     $('auth-google').addEventListener('click', function () { socialLogin('google'); });
     $('auth-apple').addEventListener('click', function () { socialLogin('apple'); });
     document.addEventListener('keydown', function (e) {
@@ -311,16 +323,23 @@
       if (mode === 'login') {
         result = await sb.auth.signInWithPassword({ email: email, password: pw });
       } else {
-        result = await sb.auth.signUp({ email: email, password: pw, options: { data: { full_name: name } } });
+        result = await sb.auth.signUp({ email: email, password: pw,
+          options: { data: { full_name: name }, emailRedirectTo: landingUrl() } });
       }
     } catch (e) {
       result = { error: e };          // netwerkfout gooit i.p.v. { error } terug te geven
     }
     setLoading(false);
 
-    if (result.error) { setMsg('err', nice(result.error)); return; }
+    if (result.error) {
+      setMsg('err', nice(result.error));
+      if (/email not confirmed/i.test(result.error.message || '')) showResend();
+      return;
+    }
     if (mode === 'signup' && result.data.user && !result.data.session) {
-      setMsg('ok', 'Check je e-mail voor de bevestigingslink.');
+      setMsg('ok', 'Bijna klaar! We hebben een bevestigingslink gestuurd naar ' + email + '. '
+        + 'Klik op de link om je account te activeren (check ook je spam-map).');
+      showResend();
       return;
     }
     hide();
@@ -330,6 +349,42 @@
     try { localStorage.setItem('vumed_skip_splash', '1'); } catch (e) {}
     if (typeof cfg.onLoggedIn === 'function') cfg.onLoggedIn(result.data);
     else window.location.reload();
+  }
+
+  // Waar links uit auth-mails (bevestigen, wachtwoord herstellen) op landen.
+  // Native: de WKWebView-origin is capacitor://app.vumed.nl, die Supabase niet
+  // accepteert en die de app niet heropent — dus altijd de publieke https-URL.
+  function landingUrl() {
+    try { if (window.VUMED_NATIVE) return 'https://vumed.nl/vumed.html'; } catch (e) {}
+    return window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'vumed.html';
+  }
+
+  async function resendConfirmation() {
+    var addr = $('auth-email').value.trim().toLowerCase();
+    var btn = $('auth-resend');
+    if (!addr) { setMsg('err', 'Vul je e-mailadres in.'); return; }
+    var sb = getClient();
+    if (!sb || !btn || btn.disabled) return;
+    btn.disabled = true;
+    var r;
+    try { r = await sb.auth.resend({ type: 'signup', email: addr, options: { emailRedirectTo: landingUrl() } }); }
+    catch (e) { r = { error: e }; }
+    if (r.error) {
+      setMsg('err', /rate limit|60 seconds|too many|for security purposes/i.test(r.error.message || '')
+        ? 'Je kunt maar één bevestigingsmail per minuut aanvragen. Probeer het zo opnieuw.'
+        : nice(r.error));
+      showResend();
+      return;
+    }
+    setMsg('ok', 'Nieuwe bevestigingslink verstuurd naar ' + addr + '. Check ook je spam-map.');
+    showResend();
+    var left = 60;
+    btn.disabled = true; btn.textContent = 'Opnieuw versturen (' + left + 's)';
+    var t = setInterval(function () {
+      left--;
+      if (left <= 0 || btn.style.display === 'none') { clearInterval(t); btn.disabled = false; btn.textContent = 'Bevestigingsmail opnieuw versturen'; return; }
+      btn.textContent = 'Opnieuw versturen (' + left + 's)';
+    }, 1000);
   }
 
   async function forgotPassword() {
@@ -347,13 +402,8 @@
     // PASSWORD_RECOVERY handler and the "Nieuw wachtwoord" modal. On native the
     // WKWebView origin is capacitor://app.vumed.nl (a non-http scheme Supabase
     // won't honour and that can't reopen the app), so force the public https URL.
-    var redir;
-    try {
-      if (window.VUMED_NATIVE) redir = 'https://vumed.nl/vumed.html';
-    } catch (e) {}
-    if (!redir) redir = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'vumed.html';
     var r;
-    try { r = await sb.auth.resetPasswordForEmail(addr, { redirectTo: redir }); }
+    try { r = await sb.auth.resetPasswordForEmail(addr, { redirectTo: landingUrl() }); }
     catch (e) { r = { error: e }; }
     setLoading(false);
 
