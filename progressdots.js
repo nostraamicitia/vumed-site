@@ -1035,9 +1035,29 @@
 
     var canChat = typeof openChatWithSelection === 'function';
     groups.forEach(function (opts) {
-      if (!opts.some(function (o) { return o.key; })) return;
-      opts.forEach(function (o) { addStar(o.btn, o.txt, o.key); });
+      // Shape rule: numbers/values, meta-answers and whole sentences never get
+      // a star — decided on the option's FORM only, never on whether it is a
+      // known term, so the star pattern says nothing about the right answer.
+      var eligible = opts.filter(function (o) { return !notATerm(o.txt); });
+      if (!eligible.some(function (o) { return o.key; })) return;
+      eligible.forEach(function (o) { addStar(o.btn, o.txt, o.key); });
     });
+
+    function notATerm(txt) {
+      var t = normTerm(txt);
+      if (!t) return true;
+      // numbers / values: '52%', '> 0.5', '3 kleinere maaltijden', '1/300'
+      if (/^[<>≤≥~±=]?\s*\d+([.,]\d+)?(\s|%|\/|$)/.test(t)) return true;
+      if ((t.match(/[a-zà-ÿ]/g) || []).length < 2) return true;
+      // meta answers
+      if (/^(geen|alle|allemaal|beide|allebei|alleen)( |$)/.test(t) &&
+          /(bovenstaande|beide|genoemde|antwoorden|opties|van de|hiervan)/.test(t)) return true;
+      if (/^(geen|beide|allebei|alle|ja|nee|juist|onjuist|waar|niet waar|onwaar|correct|incorrect)$/.test(t)) return true;
+      if (/^[a-h] (en|of) [a-h]( (en|of) [a-h])*$/.test(t)) return true;
+      // whole sentences / statements
+      if (t.split(' ').length > 6) return true;
+      return false;
+    }
 
     function addStar(btn, txt, key) {
       var wrap = document.createElement('span');
