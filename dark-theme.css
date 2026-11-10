@@ -67,6 +67,27 @@ html.dark .opt-btn.selected {
   border-color: #1CB0F6 !important;
 }
 html.dark .opt-letter { background: #3A3A3C !important; color: #EBEBF0 !important; }
+/* Antwoordstatus na nakijken: de grijze !important-regels hierboven overschreven
+   eerst het groen/rood van de pagina, waardoor goed/fout onzichtbaar was. */
+html.dark .opt-btn.selected .opt-letter { background: #1CB0F6 !important; color: #fff !important; }
+html.dark .opt-btn.correct,
+html.dark .dnd-card.correct,
+html.dark .dnd-label.dnd-correct,
+html.dark .dnd-zone.dnd-correct {
+  background: rgba(88,204,2,0.16) !important;
+  border-color: #58CC02 !important;
+  color: #B8F28A !important;
+}
+html.dark .opt-btn.wrong,
+html.dark .dnd-card.wrong,
+html.dark .dnd-label.dnd-wrong,
+html.dark .dnd-zone.dnd-wrong {
+  background: rgba(255,59,48,0.16) !important;
+  border-color: #FF3B30 !important;
+  color: #FFB4AE !important;
+}
+html.dark .opt-btn.correct .opt-letter { background: #58CC02 !important; color: #fff !important; }
+html.dark .opt-btn.wrong   .opt-letter { background: #FF3B30 !important; color: #fff !important; }
 
 html.dark .modal-box {
   background: #2C2C2E !important;
@@ -120,6 +141,12 @@ html.dark select, html.dark .mq3-sel {
   background: #3A3A3C !important;
   color: #EBEBF0 !important;
   border-color: #48484A !important;
+}
+html.dark select[style*="88, 204, 2"], html.dark select[style*="58CC02" i] {
+  background: rgba(88,204,2,0.16) !important; border-color: #58CC02 !important; color: #B8F28A !important;
+}
+html.dark select[style*="255, 59, 48"], html.dark select[style*="FF3B30" i] {
+  background: rgba(255,59,48,0.16) !important; border-color: #FF3B30 !important; color: #FFB4AE !important;
 }
 
 html.dark .result-note {

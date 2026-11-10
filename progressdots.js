@@ -75,7 +75,7 @@
     if (!document.querySelector('link[href^="dark-theme.css"]')) {
       var l = document.createElement('link');
       l.rel = 'stylesheet';
-      l.href = 'dark-theme.css?v=3';
+      l.href = 'dark-theme.css?v=4';
       (document.head || document.documentElement).appendChild(l);
     }
     try {
@@ -1014,11 +1014,8 @@
     var textKeys = newKeys.filter(function (k) { return !(G[k] && G[k].option_only); });
     if (textKeys.length) { try { wrapSharedInText(G, textKeys); } catch (e) {} }
 
-    // Group the options per question (their shared container). If ANY option
-    // of a question is a known term, EVERY option of that question gets a
-    // star — otherwise the lone star gives the answer away (the specific term
-    // is usually the right one). Known terms open the begrippenlijst; the
-    // others open the AI chat with that option, like a double-click does.
+    // Group the options per question (their shared container) and look up
+    // which ones are a term in the begrippenlijst.
     var groups = [], groupOf = [];
     var btns = document.querySelectorAll('.opt-btn');
     for (var i = 0; i < btns.length; i++) {
@@ -1037,14 +1034,16 @@
     var starsOff = false;
     try { starsOff = localStorage.getItem('vumed_optstars') === 'off'; } catch (e) {}
 
-    var canChat = typeof openChatWithSelection === 'function';
+    // Only options with an entry in the begrippenlijst get a star. Numbers,
+    // meta-answers and whole sentences never do, even if they match a term.
+    // A lone star among several term-shaped options points at one answer, so
+    // then the question gets no stars at all. This only looks at HOW MANY
+    // options have an entry, never at which one is right.
     if (!starsOff) groups.forEach(function (opts) {
-      // Shape rule: numbers/values, meta-answers and whole sentences never get
-      // a star — decided on the option's FORM only, never on whether it is a
-      // known term, so the star pattern says nothing about the right answer.
       var eligible = opts.filter(function (o) { return !notATerm(o.txt); });
-      if (!eligible.some(function (o) { return o.key; })) return;
-      eligible.forEach(function (o) { addStar(o.btn, o.txt, o.key); });
+      var known = eligible.filter(function (o) { return o.key; });
+      if (known.length === 1 && eligible.length > 1) return;
+      known.forEach(function (o) { addStar(o.btn, o.txt, o.key); });
     });
 
     function notATerm(txt) {
@@ -1070,8 +1069,6 @@
       wrap.appendChild(btn);
       btn.classList.add('pd-has-term');
 
-      // Same look and label for every star, so nothing hints at which
-      // options are in the begrippenlijst.
       var star = document.createElement('button');
       star.type = 'button';
       star.className = 'pd-term-star';
@@ -1081,34 +1078,22 @@
       star.addEventListener('click', function (ev) {
         ev.preventDefault();
         ev.stopPropagation();
-        openExplain(key, txt);
+        openExplain(key);
       });
-      if (key) {
-        // Double-tapping the ANSWER itself (a glossary term) should open the
-        // begrippenlijst, NOT the AI chat. Intercept the option's dblclick and
-        // stop it before it bubbles to the document-level AI handler.
-        btn.addEventListener('dblclick', function (ev) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          try { window.getSelection && window.getSelection().removeAllRanges(); } catch (e) {}
-          try { openGlossary(key); } catch (e) {}
-        }, true);
-      }
+      // Double-tapping the ANSWER itself (a glossary term) should open the
+      // begrippenlijst, NOT the AI chat. Intercept the option's dblclick and
+      // stop it before it bubbles to the document-level AI handler.
+      btn.addEventListener('dblclick', function (ev) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        try { window.getSelection && window.getSelection().removeAllRanges(); } catch (e) {}
+        try { openGlossary(key); } catch (e) {}
+      }, true);
       wrap.appendChild(star);
     }
 
-    function openExplain(key, txt) {
-      if (key) { try { openGlossary(key); } catch (e) {} return; }
-      if (canChat) {
-        try { _chatSelection = txt; openChatWithSelection(); return; } catch (e) {}
-      }
-      // No chat on this page: show it in the begrippenlijst panel anyway, so
-      // the star still behaves the same on every option.
-      var tmp = '__pd_opt_' + normTerm(txt);
-      if (!(tmp in G)) {
-        G[tmp] = { title: txt, definition: 'Dit begrip staat nog niet in de begrippenlijst.' };
-      }
-      try { openGlossary(tmp); } catch (e) {}
+    function openExplain(key) {
+      try { openGlossary(key); } catch (e) {}
     }
   }
 

@@ -5,12 +5,12 @@
   <link rel="icon" type="image/png" href="favicon-32.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>
-<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>Hematologie en Oncologie — 1e Toetsmoment 2019-2020</title>
+<title>Hematologie en Oncologie — 1e Toetsmoment 2019-2020</title>
+<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="dark-theme.css?v=3">
+<link rel="stylesheet" href="dark-theme.css?v=4">
 <script src="supabase_config.js"></script>
 <script src="openai_config.js"></script>
 <script src="supabase-js.min.js"></script>
@@ -2470,13 +2470,112 @@ function checkMatchTable3() {
 
 </script>
 <script>
+/* ── Glossary popup ─────────────────────────────────────────────────────── */
+document.addEventListener('mouseover', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  var entry = GLOSSARY[el.dataset.term];
+  if (!entry) return;
+  var tip = document.getElementById('g-tip');
+  var short = entry.short || (entry.definition || '').replace(/<[^>]+>/g, '').slice(0, 88) + '…';
+  tip.textContent = short;
+  var rect = el.getBoundingClientRect();
+  tip.style.left = Math.min(rect.left, window.innerWidth - 228) + 'px';
+  tip.style.top  = (rect.bottom + 8) + 'px';
+  tip.classList.add('show');
+});
+document.addEventListener('mouseout', function(e) {
+  if (e.target.closest && e.target.closest('.gterm'))
+    document.getElementById('g-tip').classList.remove('show');
+});
+
+document.addEventListener('click', function(e) {
+  var el = e.target.closest && e.target.closest('.gterm');
+  if (!el) return;
+  e.stopPropagation();
+  openGlossary(el.dataset.term);
+});
+
+var _gImgs = [], _gImgIdx = 0;
+
+function _fetchWikiImg(title) {
+  var nl = /^nl:/.test(title);
+  var base = nl ? 'https://nl.wikipedia.org/api/rest_v1/page/summary/' : 'https://en.wikipedia.org/api/rest_v1/page/summary/';
+  var t = nl ? title.slice(3) : title;
+  return fetch(base + encodeURIComponent(t))
+    .then(function(r) { return r.json(); })
+    .then(function(d) { return (d.thumbnail && d.thumbnail.source) ? d.thumbnail.source : null; })
+    .catch(function() { return null; });
+}
+
+function _gShowImg(idx) {
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  var ctr = document.getElementById('g-img-counter');
+  _gImgIdx = idx;
+  if (!_gImgs.length) { img.style.display='none'; nav.style.display='none'; return; }
+  img.src = _gImgs[idx];
+  img.style.display = 'block';
+  img.onerror = function(){ img.style.display='none'; };
+  if (_gImgs.length > 1) { nav.style.display='flex'; ctr.textContent=(idx+1)+' / '+_gImgs.length; }
+  else { nav.style.display='none'; }
+}
+
+function gImgPrev() { if (_gImgs.length>1) _gShowImg((_gImgIdx-1+_gImgs.length)%_gImgs.length); }
+function gImgNext() { if (_gImgs.length>1) _gShowImg((_gImgIdx+1)%_gImgs.length); }
+
+function openGlossary(termKey) {
+  var entry = GLOSSARY[termKey];
+  if (!entry) return;
+  document.getElementById('g-tip').classList.remove('show');
+  document.getElementById('g-title').textContent = entry.title || termKey;
+  var defEl = document.getElementById('g-def');
+  var defText = entry.definition || '(Geen definitie beschikbaar.)';
+  if (defText.indexOf('<') !== -1) { defEl.innerHTML = defText; } else { defEl.textContent = defText; }
+
+  _gImgs = []; _gImgIdx = 0;
+  var img = document.getElementById('g-img');
+  var nav = document.getElementById('g-img-nav');
+  img.style.display = 'none'; nav.style.display = 'none';
+
+  if (entry.image_url) {
+    _gImgs = [entry.image_url];
+    _gShowImg(0);
+  } else {
+    var titles = entry.wiki_titles || (entry.wiki_title ? [entry.wiki_title] : []);
+    if (titles.length) {
+      Promise.all(titles.map(_fetchWikiImg)).then(function(urls) {
+        _gImgs = urls.filter(function(u){ return !!u; });
+        if (_gImgs.length) _gShowImg(0);
+      });
+    }
+  }
+
+  if (typeof closeChat === 'function') closeChat();
+  document.body.classList.add('g-open');
+  document.getElementById('g-panel').classList.add('open');
+}
+
+function closeGlossary() {
+  document.body.classList.remove('g-open');
+  document.getElementById('g-panel').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!document.body.classList.contains('g-open')) return;
+  if (document.getElementById('g-panel').contains(e.target)) return;
+  if (e.target.closest && e.target.closest('.gterm')) return;
+  closeGlossary();
+});
+</script>
+<script>
 var SAVE_KEY = 'vumed_progress_ho_2019_2020_1e';
 (function(){try{if(!localStorage.getItem(SAVE_KEY)){var _old=localStorage.getItem('medeace_progress_ho_2019_2020_1e');if(_old){localStorage.setItem(SAVE_KEY,_old);localStorage.removeItem('medeace_progress_ho_2019_2020_1e');}}}catch(e){}})();
 var EXAM_KEY = 'ho_2019_2020_1e';
 var CHAT_SYSTEM = 'Je bent een medische studieassistent voor een tweedejaars student geneeskunde aan Amsterdam UMC/VUmc. De student studeert voor hematologie en oncologie. Beantwoord vragen kort, klinisch relevant en in het Nederlands. Gebruik geen onnodige inleidingen.';
 </script>
 <script src="medeace-runtime.js?v=10"></script>
-<script src="answer_terms/hematologie_en_oncologie.js?v=5b3329d5"></script>
-<script src="progressdots.js?v=82"></script>
+<script src="answer_terms/hematologie_en_oncologie.js?v=e7aab224"></script>
+<script src="progressdots.js?v=83"></script>
 </body>
 </html>
