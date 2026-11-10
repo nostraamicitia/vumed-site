@@ -1033,8 +1033,12 @@
       groups[gi].push({ btn: b, txt: (txt || '').trim(), key: map[normTerm(txt)] || null });
     }
 
+    // Instellingen → 'Sterretjes bij antwoorden' uit: geen sterretjes bij opties.
+    var starsOff = false;
+    try { starsOff = localStorage.getItem('vumed_optstars') === 'off'; } catch (e) {}
+
     var canChat = typeof openChatWithSelection === 'function';
-    groups.forEach(function (opts) {
+    if (!starsOff) groups.forEach(function (opts) {
       // Shape rule: numbers/values, meta-answers and whole sentences never get
       // a star — decided on the option's FORM only, never on whether it is a
       // known term, so the star pattern says nothing about the right answer.

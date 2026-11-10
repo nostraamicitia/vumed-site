@@ -621,6 +621,14 @@
                 <div class="toggle-thumb"></div>
               </label>
             </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Sterretjes bij antwoorden<span class="goal-hint">Uitleg-sterretje naast antwoordopties in toetsen.</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-optstars">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
             <div class="mode-row">
               <span class="toggle-label">Weergave</span>
               <div class="mode-selector">
@@ -954,7 +962,7 @@ async function confirmDeleteAccount() {
     try {
       // Apparaat-voorkeuren (thema, geluid, rondleiding uit) horen niet bij het
       // account en blijven staan; al het andere gaat weg.
-      var KEEP = ['vumed_theme', 'vumed_sound', 'vumed_sidebar_hidden', 'vumed_tut_off'];
+      var KEEP = ['vumed_theme', 'vumed_sound', 'vumed_sidebar_hidden', 'vumed_tut_off', 'vumed_optstars'];
       var keep = {};
       KEEP.forEach(function (k) { var v = localStorage.getItem(k); if (v !== null) keep[k] = v; });
       localStorage.clear();
@@ -1319,6 +1327,17 @@ function setMode(mode) {
   tog.checked = localStorage.getItem('vumed_sound') !== 'off';
   tog.addEventListener('change', function() {
     localStorage.setItem('vumed_sound', this.checked ? 'on' : 'off');
+  });
+})();
+
+// ── Sterretjes bij antwoordopties ─────────────────────────────────────────
+// progressdots.js slaat de sterretjes over als vumed_optstars 'off' is.
+(function() {
+  var tog = document.getElementById('toggle-optstars');
+  if (!tog) return;
+  try { tog.checked = localStorage.getItem('vumed_optstars') !== 'off'; } catch (e) { tog.checked = true; }
+  tog.addEventListener('change', function() {
+    try { localStorage.setItem('vumed_optstars', this.checked ? 'on' : 'off'); } catch (e) {}
   });
 })();
 
