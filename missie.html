@@ -13,6 +13,8 @@
   window.__MPARAMS = { vak: vak, unit: unit, deel: deel, mode: mode };
   window.__MK = mode ? (mode + "_" + vak) : ("mission_" + vak + "_" + unit + "_" + deel);
   if (vak) document.write('<scr'+'ipt src="qbank_'+vak+'.js"><\/scr'+'ipt>');
+  var AT_V = /*AT_V*/{"arts_en_pati_nt_1":"c3525718","arts_en_pati_nt_2":"fb400713","arts_en_pati_nt_3":"9beadd42","arts_en_pati_nt_4":"ec13d473","arts_en_pati_nt_5":"2f9e23e4","bouw_en_bewegen":"93595c54","circulatie_en_vasculaire_stoornissen":"de612720","circulatie_en_volumeregulatie":"55e92aba","groei_en_ontwikkeling":"394b5fa4","hematologie_en_oncologie":"5b3329d5","hersenen_en_zintuigen":"aac89a07","homeostase":"f7b120b9","huid_en_afweer":"287ef0f8","infectie_en_inflammatie":"5e07aeed","leefstijl_en_gezondheidszorg":"287fadf5","metabole_systemen":"c75ce29b","mwo1":"d31ba21f","mwo_2":"2e58f05d","neurologie_en_oogheelkunde":"2fab9f8e","psychisch_functioneren_en_cognitie":"a6afad38","schade_afweer_en_herstel":"c8ed28e8","spijsvertering_en_stofwisseling":"526103e2","start_van_het_leven":"2170ddf2"}/*AT_V*/;   // bijgewerkt door tools/split_answer_terms.py
+  if (vak && AT_V[vak]) document.write('<scr'+'ipt src="answer_terms/'+vak+'.js?v='+AT_V[vak]+'"><\/scr'+'ipt>');
 })();
 </script>
 <link rel="icon" type="image/png" href="favicon-32.png">
@@ -2788,7 +2790,6 @@ document.getElementById('reset-modal').addEventListener('click', function(e) {
 })();
 
 </script>
-<script src="answer_terms.js?v=8"></script>
 <script src="progressdots.js?v=82"></script>
 <script src="openreview.js?v=3"></script>
 <script src="missionview.js?v=9"></script>
