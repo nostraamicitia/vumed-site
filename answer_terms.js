@@ -23242,5 +23242,7883 @@ window.ANSWER_TERMS = {
   "wiki_title": "Thoracic diaphragm",
   "match": "diaphragma",
   "option_only": true
+ },
+ "matrix-eiwit": {
+  "title": "Capside",
+  "short": "Het capside is de eiwitmantel die het genetisch materiaal van een virus omsluit.",
+  "definition": "<p>Het <strong>capside</strong> bestaat uit herhaalde eiwiteenheden (capsomeren) en is meestal icosaëdrisch of helixvormig. Samen met het nucleïnezuur vormt het het nucleocapside; omhulde virussen hebben daaromheen nog een lipide-envelop afkomstig van de gastheercel. Niet-omhulde virussen zijn stabieler in de omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "Capsid",
+  "match": "matrix-eiwit",
+  "option_only": true
+ },
+ "gliclazide (su-derivaat)": {
+  "title": "Gliclazide",
+  "short": "Gliclazide is een sulfonylureumderivaat dat de insulineafgifte uit de bètacellen stimuleert; gebruikt bij diabetes type 2.",
+  "definition": "<p><strong>Gliclazide</strong> sluit ATP-gevoelige kaliumkanalen in de bètacel, waardoor insuline vrijkomt, ook bij een lage glucose. Het belangrijkste risico is hypoglykemie, vooral bij ouderen, bij overslaan van maaltijden en bij nierfunctiestoornissen. Het kan gewichtstoename geven.</p>",
+  "image_url": "",
+  "wiki_title": "Gliclazide",
+  "match": "gliclazide (su-derivaat)",
+  "option_only": true
+ },
+ "granulomatose met polyangiitis (gpa, wegener)": {
+  "title": "Granulomatose met polyangiitis (GPA)",
+  "short": "GPA is een ANCA-geassocieerde vasculitis van kleine vaten met granulomen, vooral in bovenste luchtwegen, longen en nieren.",
+  "definition": "<p>Bij <strong>GPA</strong> zijn er klachten van neus en bijholten (korsten, bloedingen, zadelneus), longnoduli of -bloedingen en een snel progressieve glomerulonefritis. Meestal zijn er c-ANCA (anti-PR3). Behandeling met hoge dosis corticosteroïden en rituximab of cyclofosfamide.</p>",
+  "image_url": "",
+  "wiki_title": "Granulomatosis with polyangiitis",
+  "match": "granulomatose met polyangiitis (gpa, wegener)",
+  "option_only": true
+ },
+ "lymfadenopathie": {
+  "title": "Lymfadenopathie",
+  "short": "Vergroting van lymfeklieren, vaak reactief bij infecties.",
+  "definition": "<p><b>Lymfadenopathie</b> is het vergroot of afwijkend zijn van lymfeklieren. Meestal reactief bij infecties (bv. in de hals bij keel-/oorontsteking), soms teken van een systeemziekte of maligniteit.</p>",
+  "image_url": "",
+  "wiki_title": "Lymphadenopathy",
+  "match": "lymfadenopathie",
+  "option_only": true
+ },
+ "velamenteuze insertie van de navelstreng": {
+  "title": "Velamenteuze insertie van de navelstreng",
+  "short": "Bij een velamenteuze insertie hecht de navelstreng aan de vliezen in plaats van aan de placenta, waardoor de vaten onbeschermd door de vliezen lopen.",
+  "definition": "<p>Bij een <strong>velamenteuze insertie</strong> lopen de navelstrengvaten zonder gelei van Wharton door de vliezen naar de placenta. Liggen ze vóór de baarmoedermond (vasa praevia), dan kunnen ze bij het breken van de vliezen scheuren, met snel foetaal bloedverlies. Het komt vaker voor bij meerlingen en IVF.</p>",
+  "image_url": "",
+  "wiki_title": "Velamentous cord insertion",
+  "match": "velamenteuze insertie van de navelstreng",
+  "option_only": true
+ },
+ "thrombangiitis obliterans (de ziekte van bürger)": {
+  "title": "Thrombangiitis obliterans (ziekte van Bürger)",
+  "short": "Ontsteking en trombose van kleine en middelgrote arteriën en venen, sterk gerelateerd aan roken.",
+  "definition": "<p>De ziekte van Bürger treft vooral jonge, hevige rokers en geeft ischemie van vingers en tenen met normale ontstekingsparameters (BSE, ANA). Stoppen met roken is essentieel.</p>",
+  "image_url": "",
+  "wiki_title": "Thromboangiitis obliterans",
+  "match": "thrombangiitis obliterans (de ziekte van bürger)",
+  "option_only": true
+ },
+ "migraine": {
+  "title": "Migraine",
+  "short": "Aanvalsgewijze, vaak eenzijdige kloppende hoofdpijn met misselijkheid, foto- en fonofobie, soms met aura. Duurt uren tot een dag.",
+  "definition": "<p><b>Migraine</b>-aanvallen worden verergerd door inspanning; de patiënt zoekt rust in een donkere kamer. Aanvalsbehandeling met triptanen bij onvoldoende effect van NSAID's.</p>",
+  "image_url": "",
+  "wiki_title": "Migraine",
+  "match": "migraine",
+  "option_only": true
+ },
+ "aritmogene rechterventrikel cardiomyopathie (arvc)": {
+  "title": "ARVC",
+  "short": "Aritmogene rechterventrikelcardiomyopathie: erfelijke aandoening met vervanging van hartspier door vet/bindweefsel en ritmestoornissen.",
+  "definition": "<p><b>ARVC</b> (aritmogene rechterventrikelcardiomyopathie) is een erfelijke cardiomyopathie waarbij myocard wordt vervangen door vet- en bindweefsel, vooral in de rechterventrikel. Het geeft ventriculaire ritmestoornissen en risico op plotse hartdood.</p>",
+  "image_url": "",
+  "wiki_title": "Arrhythmogenic cardiomyopathy",
+  "match": "aritmogene rechterventrikel cardiomyopathie (arvc)",
+  "option_only": true
+ },
+ "mri scan": {
+  "title": "MRI",
+  "short": "MRI maakt met een sterk magneetveld en radiogolven gedetailleerde beelden van weke delen, zonder ioniserende straling.",
+  "definition": "<p>Bij <strong>MRI</strong> worden waterstofkernen in een sterk magneetveld door radiogolven aangeslagen; het signaal bij terugkeer verschilt per weefseltype. MRI is bijzonder geschikt voor hersenen, ruggenmerg, gewrichten, weke delen en het bekken. Nadelen zijn de lange duur, kosten en beperkingen bij pacemakers en sommige metalen implantaten.</p>",
+  "image_url": "",
+  "wiki_title": "Magnetic resonance imaging",
+  "match": "mri scan",
+  "option_only": true
+ },
+ "cd4": {
+  "title": "CD4",
+  "short": "Celoppervlaktemolecuul op onder andere T-helpercellen; dient als receptor waaraan het hiv-virus zich hecht.",
+  "definition": "<p><b>CD4</b> is een glycoproteïne op het oppervlak van T-helperlymfocyten (en enkele andere cellen). Het humaan immunodeficiëntievirus (hiv) gebruikt CD4 (samen met een co-receptor) om aan de cel te binden en die binnen te dringen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "cd4",
+  "option_only": true
+ },
+ "n. fibularis profundus": {
+  "title": "N. fibularis profundus",
+  "short": "Tak van de n. fibularis communis die de spieren aan de voorzijde van het onderbeen innerveert.",
+  "definition": "<p>De <b>n. fibularis profundus</b> ontstaat bij het collum fibulae uit de n. fibularis communis en loopt in de voorste loge van het onderbeen. Hij innerveert de m. tibialis anterior, m. extensor hallucis longus en m. extensor digitorum longus (dorsaalflexie van voet en tenen) en heeft een klein sensibel gebied op de voetrug.</p>",
+  "image_url": "",
+  "wiki_title": "Deep peroneal nerve",
+  "match": "n. fibularis profundus",
+  "option_only": true
+ },
+ "angiotensine converting enzyme remmers (ace-remmers)": {
+  "title": "ACE-remmers",
+  "short": "Bloeddrukverlagers die ook de intraglomerulaire druk verlagen en proteïnurie verminderen.",
+  "definition": "<p><b>ACE-remmers</b> remmen het angiotensine-converting enzyme, waardoor minder angiotensine II wordt gevormd. Ze geven vasodilatatie van vooral de efferente arteriole en verlagen de systemische bloeddruk; beide verlagen de intraglomerulaire druk, wat de proteïnurie vermindert en nefroprotectief werkt.</p>",
+  "image_url": "",
+  "wiki_title": "ACE inhibitor",
+  "match": "angiotensine converting enzyme remmers (ace-remmers)",
+  "option_only": true
+ },
+ "immuungemediëerde trombocytopenische purpura (itp)": {
+  "title": "ITP",
+  "short": "Immuungemediëerde afbraak van trombocyten, met een laag trombocytengetal en huidbloedingen (petechiën/purpura).",
+  "definition": "<p><b>Immuungemediëerde trombocytopenische purpura (ITP)</b> is een auto-immuunziekte waarbij antistoffen tegen trombocyten leiden tot versnelde afbraak. Gevolg: trombocytopenie met petechiën en purpura (gestoorde primaire hemostase).</p>",
+  "image_url": "",
+  "wiki_title": "Immune thrombocytopenic purpura",
+  "match": "immuungemediëerde trombocytopenische purpura (itp)",
+  "option_only": true
+ },
+ "high density lipoprotein (hdl) cholesterol": {
+  "title": "HDL",
+  "short": "High-density lipoprotein; voert cholesterol vanuit perifere weefsels terug naar de lever (‘goede cholesterol’).",
+  "definition": "<p><b>HDL</b> verzorgt het omgekeerde cholesteroltransport: opname uit o.a. de vaatwand en terugvoer naar de lever.</p>",
+  "image_url": "",
+  "wiki_title": "High-density lipoprotein",
+  "match": "high density lipoprotein (hdl) cholesterol",
+  "option_only": true
+ },
+ "sterk verhoogd c-reactief proteïne (crp)": {
+  "title": "CRP",
+  "short": "C-reactief proteïne; ontstekingseiwit in het bloed dat helpt de kans op een gecompliceerde infectie in te schatten.",
+  "definition": "<p>Het CRP stijgt bij ontsteking of infectie; in de huisartsenpraktijk stuurt het het antibioticabeleid bij luchtweginfecties.</p>",
+  "image_url": "",
+  "wiki_title": "C-reactive_protein",
+  "match": "sterk verhoogd c-reactief proteïne (crp)",
+  "option_only": true
+ },
+ "syndrome of inappropriate adh-secretion (siadh)": {
+  "title": "SIADH",
+  "short": "Syndroom van inadequate ADH-secretie: te veel antidiuretisch hormoon geeft waterretentie en verdunningshyponatriëmie.",
+  "definition": "<p><b>SIADH</b> (syndrome of inappropriate ADH secretion) is een overmatige, niet-fysiologische afgifte van antidiuretisch hormoon, met waterretentie en een verdunningshyponatriëmie. Medicamenteuze oorzaak o.a. SSRI's zoals citalopram.</p>",
+  "image_url": "",
+  "wiki_title": "Syndrome of inappropriate antidiuretic hormone secretion",
+  "match": "syndrome of inappropriate adh-secretion (siadh)",
+  "option_only": true
+ },
+ "erysipelas": {
+  "title": "Erysipelas",
+  "short": "Wondroos: een scherp begrensde, oppervlakkige huidinfectie (dermis) meestal door streptokokken. Geeft een rode, warme, pijnlijke huid vaak met koorts.",
+  "definition": "<p><strong>Erysipelas</strong> (wondroos) is een acute infectie van de bovenste dermis en oppervlakkige lymfevaten, meestal door groep A-streptokokken. Kenmerkend zijn een scherp begrensde felrode zwelling, koorts en algemeen ziek-zijn; het is een belangrijke differentiaaldiagnose van DVT.</p>",
+  "image_url": "",
+  "wiki_title": "Erysipelas",
+  "match": "erysipelas",
+  "option_only": true
+ },
+ "carbamoylfosfaat (cpsi)": {
+  "title": "Carbamoylfosfaat",
+  "short": "Carbamoylfosfaat is een molecuul dat de eerste NH2-groep in de ureumcyclus levert; het wordt gevormd uit ammoniak en CO2.",
+  "definition": "<p><b>Carbamoylfosfaat</b> is het startproduct van de ureumcyclus. Het levert het eerste stikstofatoom van ureum; het tweede komt van aspartaat.</p>",
+  "image_url": "",
+  "wiki_title": "Carbamoyl phosphate",
+  "match": "carbamoylfosfaat (cpsi)",
+  "option_only": true
+ },
+ "blocking behavior": {
+  "title": "Blocking behavior",
+  "short": "Gespreksgedrag van de arts dat het uiten van emoties door de patiënt afremt of blokkeert, bijvoorbeeld door in feiten te vluchten.",
+  "definition": "<p><strong>Blocking behavior</strong> omvat (vaak onbewuste) gesprekstechnieken waarmee een hulpverlener het uiten van emoties door de patiënt tegenhoudt. Voorbeelden van valkuilen zijn 'vluchten in feiten', te snelle geruststelling, willen oplossen en te snelle identificatie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "blocking behavior",
+  "option_only": true
+ },
+ "behandeling met een carboanhydraseremmer": {
+  "title": "Carboanhydraseremmer (acetazolamide)",
+  "short": "Carboanhydraseremmers zoals acetazolamide remmen de terugresorptie van bicarbonaat in de proximale tubulus.",
+  "definition": "<p><strong>Acetazolamide</strong> geeft een zwakke diurese met verlies van bicarbonaat (metabole acidose) en kalium. Het wordt gebruikt bij glaucoom (minder kamerwaterproductie), hoogteziekte, idiopathische intracraniële hypertensie en soms metabole alkalose.</p>",
+  "image_url": "",
+  "wiki_title": "Acetazolamide",
+  "match": "behandeling met een carboanhydraseremmer",
+  "option_only": true
+ },
+ "encefalitis": {
+  "title": "Encefalitis",
+  "short": "Ontsteking van het hersenweefsel zelf, meestal door een virus.",
+  "definition": "<p>Bij <b>encefalitis</b> is het hersenparenchym ontstoken. De meest bekende oorzaak in Nederland is het herpes simplexvirus (vaak temporaal); daarnaast o.a. andere virussen, auto-immuunencefalitis (zoals anti-NMDA-receptorencefalitis) en postinfectieuze vormen. Klachten: koorts, hoofdpijn, verwardheid, gedragsverandering, epileptische aanvallen en focale uitval. Behandeling bij verdenking: direct aciclovir.</p>",
+  "image_url": "",
+  "wiki_title": "Encephalitis",
+  "match": "encefalitis",
+  "option_only": true
+ },
+ "pitting oedeem": {
+  "title": "Pitting oedeem",
+  "short": "Vochtophoping in het weefsel waarbij een ingedrukte put langzaam terugveert; o.a. bij hartfalen.",
+  "definition": "<p>Pitting oedeem is perifere vochtophoping waarbij druk met de vinger een blijvende indeuking geeft. Bij dikke enkels past het bij rechtszijdig hartfalen of overvulling.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "pitting oedeem",
+  "option_only": true
+ },
+ "acetylcholinereceptor": {
+  "title": "Acetylcholinereceptor-antistoffen",
+  "short": "Antistoffen tegen de acetylcholinereceptor van de neuromusculaire overgang, kenmerkend voor myasthenia gravis. Geven wisselende, ergonome spierzwakte.",
+  "definition": "<p>Bij <b>myasthenia gravis</b> blokkeren <b>acetylcholinereceptor</b>-antistoffen de prikkeloverdracht, met belastingsafhankelijke zwakte (o.a. dubbelzien, zwakte 's avonds).</p>",
+  "image_url": "",
+  "wiki_title": "Myasthenia gravis",
+  "match": "acetylcholinereceptor",
+  "option_only": true
+ },
+ "ct thorax/abdomen": {
+  "title": "CT abdomen",
+  "short": "Een CT abdomen is een röntgenscan in dwarsdoorsneden van de buik, vaak met contrast; goed voor acute buik, tumoren, abcessen en trauma.",
+  "definition": "<p>Bij een <strong>CT abdomen</strong> worden met röntgenstraling dunne dwarsdoorsneden van de buik gemaakt, meestal met intraveneus (en soms oraal) contrast.</p><p>Het geeft een overzichtelijk beeld van alle buikorganen, de darm en het retroperitoneum en wordt gebruikt bij een acute buik (bijv. perforatie, diverticulitis, appendicitis bij volwassenen), bij het stadiëren van tumoren, het opsporen van abcessen en bij trauma. Nadelen zijn de stralingsbelasting en het contrastmiddel (nierfunctie, allergie).</p>",
+  "image_url": "",
+  "wiki_title": "CT scan",
+  "match": "ct thorax/abdomen",
+  "option_only": true
+ },
+ "arachnoïdale villi": {
+  "title": "Arachnoïdale granulaties",
+  "short": "Arachnoïdale granulaties zijn uitstulpingen van de arachnoidea in de durale sinussen, waarlangs liquor naar het veneuze bloed wordt afgevoerd.",
+  "definition": "<p>Via de <strong>arachnoïdale granulaties</strong> (vooral in de sinus sagittalis superior) wordt liquor geresorbeerd. Bij een verstoorde resorptie (bijv. na een subarachnoïdale bloeding of meningitis) kan een communicerende hydrocephalus ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Arachnoid granulation",
+  "match": "arachnoïdale villi",
+  "option_only": true
+ },
+ "maximale effectiviteit (= efficacy)": {
+  "title": "Efficacy (effectiviteit)",
+  "short": "Efficacy is de mate waarin een gebonden ligand de receptor kan activeren; een antagonist heeft efficacy 0.",
+  "definition": "<p><strong>Efficacy</strong> (intrinsieke activiteit) beschrijft het maximale effect dat een stof via een receptor kan bewerkstelligen, onafhankelijk van de affiniteit.</p>",
+  "image_url": "",
+  "wiki_title": "Efficacy (pharmacology)",
+  "match": "maximale effectiviteit (= efficacy)",
+  "option_only": true
+ },
+ "latent auto-immune diabetes in adults (lada)": {
+  "title": "LADA",
+  "short": "Latent auto-immune diabetes in adults: langzaam verlopende auto-immune diabetes op volwassen leeftijd, aanvankelijk lijkend op type 2 maar zonder overgewicht.",
+  "definition": "<p><strong>LADA</strong> (latent auto-immune diabetes in adults) is een vorm van auto-immune diabetes die zich op volwassen leeftijd traag ontwikkelt. Patiënten hebben vaak een normaal gewicht en worden aanvankelijk voor type 2 aangezien, maar hebben eilandjes-auto-antistoffen.</p>",
+  "image_url": "",
+  "wiki_title": "Latent autoimmune diabetes in adults",
+  "match": "latent auto-immune diabetes in adults (lada)",
+  "option_only": true
+ },
+ "peesruptuur": {
+  "title": "Peesruptuur",
+  "short": "Een peesruptuur is een (gedeeltelijke) scheur van een pees. Fluorochinolonen kunnen het risico hierop verhogen.",
+  "definition": "<p>Een <strong>peesruptuur</strong> is een scheur van een pees, klassiek de achillespees. <em>Fluorochinolonen</em> (ciprofloxacine, moxifloxacine) verhogen het risico, vooral bij ouderen en bij gelijktijdig corticosteroïdgebruik.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "peesruptuur",
+  "option_only": true
+ },
+ "geneesmiddelreactie": {
+  "title": "Geneesmiddelreactie (exantheem)",
+  "short": "Een geneesmiddelreactie is een huiduitslag door een medicijn, klassiek een maculopapuleus exantheem tijdens antibioticagebruik. Alarmsignalen zijn slijmvliesbetrokkenheid.",
+  "definition": "<p><b>Geneesmiddelexantheem</b> ontstaat vaak 1-2 weken na start van het middel. Betrokkenheid van slijmvliezen wijst op ernstige reacties (SJS/TEN).</p>",
+  "image_url": "",
+  "wiki_title": "Drug_eruption",
+  "match": "geneesmiddelreactie",
+  "option_only": true
+ },
+ "non-steroïdale anti-inflammatoire drugs (nsaids)": {
+  "title": "NSAID",
+  "short": "Non-steroidal anti-inflammatory drug (aspirine, ibuprofen); remt COX-enzymen en daarmee ontsteking en plaatjesaggregatie.",
+  "definition": "<p><b>NSAID's</b> remmen cyclo-oxygenase: ontstekingsremmend en pijnstillend, maar met bloedingsrisico en maagslijmvliesschade.</p>",
+  "image_url": "",
+  "wiki_title": "Nonsteroidal anti-inflammatory drug",
+  "match": "non-steroïdale anti-inflammatoire drugs (nsaids)",
+  "option_only": true
+ },
+ "streptococcus agalactiae (groep b streptokok)": {
+  "title": "Groep B-streptokok (GBS)",
+  "short": "De groep B-streptokok (Streptococcus agalactiae) komt voor in darm en vagina en is een belangrijke verwekker van sepsis en meningitis bij pasgeborenen.",
+  "definition": "<p><strong>Groep B-streptokokken</strong> (<em>Streptococcus agalactiae</em>) zijn grampositieve, bètahemolytische ketenkokken. Ze komen bij een deel van de vrouwen voor in darm en vagina zonder klachten.</p><p>Tijdens de bevalling kan de baby besmet raken, met risico op neonatale sepsis, pneumonie en meningitis (vooral in de eerste levensdagen). Bij risicofactoren krijgt de moeder antibiotica tijdens de bevalling.</p>",
+  "image_url": "",
+  "wiki_title": "Group B streptococcal infection",
+  "match": "streptococcus agalactiae (groep b streptokok)",
+  "option_only": true
+ },
+ "lipoteichoïne zuur": {
+  "title": "Teichoïnezuur",
+  "short": "Teichoïnezuren zijn polymeren in de dikke peptidoglycaanlaag van grampositieve bacteriën; ze dragen bij aan hechting en ontstekingsactivatie.",
+  "definition": "<p><strong>Teichoïnezuren</strong> zijn polymeren van glycerol- of ribitolfosfaat die verankerd zijn in de peptidoglycaanlaag (wandteichoïnezuur) of in de celmembraan (lipoteichoïnezuur) van <em>grampositieve</em> bacteriën.</p><p>Ze geven de celwand een negatieve lading, helpen bij hechting aan gastheercellen en worden door Toll-like receptoren (TLR2) herkend, waardoor ze een ontstekingsreactie uitlokken. Gramnegatieve bacteriën hebben ze niet.</p>",
+  "image_url": "",
+  "wiki_title": "Teichoic acid",
+  "match": "lipoteichoïne zuur",
+  "option_only": true
+ },
+ "wet arbeidsongeschiktheidsverzekering zelfstandigen (waz)": {
+  "title": "Wet Afbreking Zwangerschap (WAZ)",
+  "short": "Wet die de voorwaarden voor zwangerschapsafbreking regelt, waaronder vergunning, noodsituatie en beraadtermijn.",
+  "definition": "<p>Onder de <strong>WAZ</strong> mag een afbreking alleen in een kliniek met vergunning; buiten de overtijdbehandeling geldt een verplichte beraadtermijn van 5 dagen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wet arbeidsongeschiktheidsverzekering zelfstandigen (waz)",
+  "option_only": true
+ },
+ "screening": {
+  "title": "Screening",
+  "short": "Het systematisch opsporen van (voorstadia van) ziekte bij mensen zonder klachten, om vroege behandeling mogelijk te maken.",
+  "definition": "<p><b>Screening</b> (bevolkingsonderzoek) is het systematisch onderzoeken van een asymptomatische populatie op (risico op) een aandoening, met als doel vroege opsporing en behandeling. Bepaalde vormen zijn in Nederland vergunningplichtig onder de Wet op het Bevolkingsonderzoek (WBO).</p>",
+  "image_url": "",
+  "wiki_title": "Screening (medicine)",
+  "match": "screening",
+  "option_only": true
+ },
+ "middendarm": {
+  "title": "Middendarm",
+  "short": "Embryonaal darmsegment waaruit distale duodenum tot en met het proximale tweederde deel van het colon ontstaat.",
+  "definition": "<p>De <b>middendarm</b> (midgut) vormt o.a. het jejunum, ileum, caecum, appendix en het rechter deel van het colon. Wordt gevoed door de a. mesenterica superior.</p>",
+  "image_url": "",
+  "wiki_title": "Midgut",
+  "match": "middendarm",
+  "option_only": true
+ },
+ "endometriose": {
+  "title": "Endometriose",
+  "short": "Aanwezigheid van endometriumweefsel buiten de uterusholte, met cyclische pijn en subfertiliteit.",
+  "definition": "<p><strong>Endometriose</strong> kan oppervlakkig peritoneaal, ovarieel (endometrioom) of diep infiltrerend zijn; diepe endometriose wordt met MRI in beeld gebracht.</p>",
+  "image_url": "",
+  "wiki_title": "Endometriosis",
+  "match": "endometriose",
+  "option_only": true
+ },
+ "mass movements": {
+  "title": "Mass movements",
+  "short": "Krachtige, enkele keren per dag optredende voortstuwende golven in het colon.",
+  "definition": "<p><b>Mass movements</b> (massabewegingen) treden vaak op na een maaltijd, onder invloed van de gastrocolische reflex. Ze verschillen van haustrale segmentaties, die de inhoud vooral mengen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "mass movements",
+  "option_only": true
+ },
+ "palatum durum": {
+  "title": "Palatum durum",
+  "short": "Het harde gehemelte: benig dak van de mondholte.",
+  "definition": "<p>Het palatum durum (harde verhemelte) wordt gevormd door de processus palatini van de maxilla en de horizontale platen van de ossa palatina en scheidt de mond- van de neusholte.</p>",
+  "image_url": "",
+  "wiki_title": "Hard palate",
+  "match": "palatum durum",
+  "option_only": true
+ },
+ "fructose-2,6-bisfosfaat (f2,6-bisp)": {
+  "title": "Fructose 2,6-bisfosfaat",
+  "short": "Krachtige allostere activator van de glycolyse (PFK1) en remmer van de gluconeogenese in de lever.",
+  "definition": "<p><b>Fructose 2,6-bisfosfaat</b> (F2,6-bisP) stuurt de balans tussen glycolyse en gluconeogenese. Insuline verhoogt de spiegel (glycolyse aan), glucagon verlaagt haar.</p>",
+  "image_url": "",
+  "wiki_title": "Fructose 2,6-bisphosphate",
+  "match": "fructose-2,6-bisfosfaat (f2,6-bisp)",
+  "option_only": true
+ },
+ "bronchiolus": {
+  "title": "Bronchiolus",
+  "short": "Kleine luchtweg (< 1 mm) zonder kraakbeen en klieren, herkenbaar aan een geplooide muur met gladde spier.",
+  "definition": "<p>Een <b>bronchiolus</b> is een geleidende luchtweg zonder kraakbeen of submuceuze klieren. Histologisch valt de relatief dikke laag gladde spier en het (soms geplooide) cilindrische tot kubische epitheel op.</p>",
+  "image_url": "",
+  "wiki_title": "Bronchiole",
+  "match": "bronchiolus",
+  "option_only": true
+ },
+ "gerandomiseerd interventieonderzoek (rct)": {
+  "title": "RCT",
+  "short": "Randomized controlled trial: een experimenteel onderzoek waarin deelnemers per toeval aan een interventie- of controlegroep worden toegewezen. Een sterk design voor causaliteit.",
+  "definition": "<p>Een <b>RCT</b> minimaliseert door randomisatie confounding en is een van de sterkste designs om causaliteit aan te tonen.</p>",
+  "image_url": "",
+  "wiki_title": "Randomized controlled trial",
+  "match": "gerandomiseerd interventieonderzoek (rct)",
+  "option_only": true
+ },
+ "progressieve supranucleaire paralyse (psp)": {
+  "title": "Progressieve supranucleaire paralyse (PSP)",
+  "short": "Atypisch parkinsonisme met vroege vallen en verticale blikparese (niet naar beneden kunnen kijken).",
+  "definition": "<p>Neurodegeneratief atypisch parkinsonsyndroom (tauopathie) met symmetrisch parkinsonisme, vroege posturele instabiliteit met achterovervallen en een supranucleaire verticale blikparese.</p>",
+  "image_url": "",
+  "wiki_title": "Progressive supranuclear palsy",
+  "match": "progressieve supranucleaire paralyse (psp)",
+  "option_only": true
+ },
+ "vetzuurverbranding": {
+  "title": "Vetzuren",
+  "short": "Vetzuren zijn koolstofketens met een carboxylgroep; ze worden via bèta-oxidatie in de mitochondriën verbrand en leveren veel ATP, maar alleen aeroob.",
+  "definition": "<p><strong>Vetzuren</strong> zijn lange koolwaterstofketens met een carboxylgroep, verzadigd of onverzadigd. Ze worden opgeslagen als triglyceriden in vetweefsel en bij behoefte door lipolyse vrijgemaakt.</p><p>In de cel worden ze met carnitine de mitochondriën in getransporteerd en via <em>bèta-oxidatie</em> afgebroken tot acetyl-CoA, dat de citroenzuurcyclus in gaat. Vetzuren leveren per gram veel meer energie dan glucose, maar alleen via zuurstofafhankelijke stofwisseling en relatief langzaam. In de lever kunnen ze ketonlichamen vormen.</p>",
+  "image_url": "",
+  "wiki_title": "Fatty acid",
+  "match": "vetzuurverbranding",
+  "option_only": true
+ },
+ "achterdocht": {
+  "title": "Achterdocht (paranoïdie)",
+  "short": "Overmatig wantrouwen jegens de bedoelingen van anderen, kan uitgroeien tot paranoïde wanen.",
+  "definition": "<p><b>Achterdocht</b> of <b>paranoïdie</b> is een overmatig, onterecht wantrouwen tegenover de intenties van anderen, bijvoorbeeld het idee dat buren samenspannen. Het is een cognitief symptoom dat kan uitgroeien tot een paranoïde waan bij psychose.</p>",
+  "image_url": "",
+  "wiki_title": "Paranoia",
+  "match": "achterdocht",
+  "option_only": true
+ },
+ "prostaglandine pgi2": {
+  "title": "Prostaglandinen",
+  "short": "Prostaglandinen zijn lokaal werkende lipidemediatoren uit arachidonzuur, gevormd via cyclo-oxygenase.",
+  "definition": "<p><strong>Prostaglandinen</strong> zijn betrokken bij ontsteking, pijn en koorts (PGE2), maagbescherming, nierdoorbloeding, de baring en het openhouden van de ductus arteriosus. Prostacycline (PGI2) uit het endotheel remt plaatjesaggregatie en verwijdt vaten; tromboxaan A2 uit plaatjes doet het omgekeerde. NSAID's remmen hun vorming.</p>",
+  "image_url": "",
+  "wiki_title": "Prostaglandin",
+  "match": "prostaglandine pgi2",
+  "option_only": true
+ },
+ "linitis plastica (diffuus type carcinoom)": {
+  "title": "Linitis plastica",
+  "short": "Diffuus infiltrerend maagcarcinoom waarbij de maagwand stug en verdikt wordt ('leren fles'); hoort bij het diffuse type met verlies van E-cadherine.",
+  "definition": "<p><b>Linitis plastica</b> is een diffuus groeiend maagcarcinoom dat de hele maagwand infiltreert en verstijft ('leren-fles-maag'). Geassocieerd met het diffuse type en <b>E-cadherine</b>-mutatie.</p>",
+  "image_url": "",
+  "wiki_title": "Linitis plastica",
+  "match": "linitis plastica (diffuus type carcinoom)",
+  "option_only": true
+ },
+ "gastro intestinale stromacel tumor (gist)": {
+  "title": "GIST",
+  "short": "Gastro-intestinale stromacel tumor: een mesenchymale tumor van het maag-darmkanaal, uitgaand van de cellen van Cajal, vaak met een KIT (CD117)-mutatie. Meestal in de maag gelegen.",
+  "definition": "<p>Een <b>GIST</b> (gastro-intestinale stromacel tumor) is de meest voorkomende mesenchymale tumor van het maag-darmkanaal, uitgaand van de interstitiele cellen van Cajal. Kenmerkend is een activerende mutatie in <i>KIT</i> (CD117) of <i>PDGFRA</i>; behandeling met tyrosinekinaseremmers (imatinib) is mogelijk.</p>",
+  "image_url": "",
+  "wiki_title": "Gastrointestinal stromal tumor",
+  "match": "gastro intestinale stromacel tumor (gist)",
+  "option_only": true
+ },
+ "urine sediment": {
+  "title": "Leukocyturie",
+  "short": "Leukocyturie is de aanwezigheid van witte bloedcellen in de urine, meestal bij een urineweginfectie.",
+  "definition": "<p><strong>Leukocyturie</strong> wordt aangetoond met een teststrook (leukocytenesterase) of microscopie. Meestal past het bij een bacteriële urineweginfectie, eventueel samen met positief nitriet. ‘Steriele’ leukocyturie zonder groei in de kweek komt voor bij o.a. chlamydia, urogenitale tuberculose, tubulo-interstitiële nefritis en na antibioticagebruik.</p>",
+  "image_url": "",
+  "wiki_title": "Pyuria",
+  "match": "urine sediment",
+  "option_only": true
+ },
+ "ß-hcg": {
+  "title": "hCG (humaan choriongonadotrofine)",
+  "short": "Zwangerschapshormoon uit de syncytiotrofoblast dat het corpus luteum in stand houdt.",
+  "definition": "<p><strong>hCG</strong> lijkt structureel op TSH/LH; door de α-subunit heeft het een licht schildklierstimulerend effect en verklaart mede de stijging van T4 vroeg in de zwangerschap.</p>",
+  "image_url": "",
+  "wiki_title": "Human chorionic gonadotropin",
+  "match": "ß-hcg",
+  "option_only": true
+ },
+ "een caput succedaneum": {
+  "title": "Caput succedaneum",
+  "short": "Een caput succedaneum is een oedemateuze zwelling van de hoofdhuid bij de pasgeborene, die over de schedelnaden heen loopt.",
+  "definition": "<p>Het <strong>caput succedaneum</strong> ontstaat door druk tijdens de baring (of vacuümextractie) en verdwijnt binnen enkele dagen. Een cefaalhematoom daarentegen is een bloeding onder het periost, begrensd door de schedelnaden, dat weken blijft en geelzucht kan verergeren.</p>",
+  "image_url": "",
+  "wiki_title": "Caput succedaneum",
+  "match": "een caput succedaneum",
+  "option_only": true
+ },
+ "virale hepatitis": {
+  "title": "Virale hepatitis",
+  "short": "Leverontsteking door een hepatitisvirus (A, B, C, D of E), met sterk verhoogde transaminasen.",
+  "definition": "<p><b>Virale hepatitis</b> is een ontsteking van de lever door hepatotrope virussen. Kenmerkend zijn fors verhoogde transaminasen (ALAT vaak hoger dan ASAT); hepatitis B en C kunnen chronisch worden en tot cirrose/carcinoom leiden.</p>",
+  "image_url": "",
+  "wiki_title": "Viral hepatitis",
+  "match": "virale hepatitis",
+  "option_only": true
+ },
+ "cd3": {
+  "title": "CD3",
+  "short": "Eiwitcomplex dat samen met de TCR het T-celreceptorcomplex vormt en de signaaltransductie na antigeenherkenning verzorgt; onmisbaar voor T-celontwikkeling en -activatie.",
+  "definition": "<p><b>CD3</b> bestaat uit meerdere ketens die niet-covalent gekoppeld zijn aan de αβ-TCR. Terwijl de TCR het peptide-MHC herkent, geeft CD3 het intracellulaire signaal door. Zonder CD3 worden er nauwelijks naïeve T cellen gevormd omdat T-celontwikkeling in de thymus afhankelijk is van functionele TCR-signalering.</p>",
+  "image_url": "",
+  "wiki_title": "CD3 (immunology)",
+  "match": "cd3",
+  "option_only": true
+ },
+ "c5a": {
+  "title": "C5a",
+  "short": "Complementsplitsproduct (anafylatoxine) dat sterk chemotactisch is voor neutrofielen en de vaatpermeabiliteit verhoogt.",
+  "definition": "<p><b>C5a</b> ontstaat bij complementactivatie en is een krachtig anafylatoxine. Het trekt neutrofielen en monocyten aan (chemotaxis), activeert deze cellen en verhoogt samen met C3a de doorlaatbaarheid van de vaatwand.</p>",
+  "image_url": "",
+  "wiki_title": "Complement component 5a",
+  "match": "c5a",
+  "option_only": true
+ },
+ "oesophaguscarcinoom": {
+  "title": "Oesophaguscarcinoom",
+  "short": "Kwaadaardige tumor van de slokdarm, meestal een plaveiselcelcarcinoom of adenocarcinoom (bij Barrett). Geeft vaak slikklachten (dysfagie).",
+  "definition": "<p>Kwaadaardige tumor van de <b>slokdarm</b>. De twee hoofdtypen zijn het plaveiselcelcarcinoom (proximaal, geassocieerd met roken/alcohol) en het adenocarcinoom (distaal, ontstaat uit een Barrett-slokdarm). Presenteert zich vaak met progressieve dysfagie en gewichtsverlies. Stagering met endoscopie, EUS en PET-CT.</p>",
+  "image_url": "",
+  "wiki_title": "Esophageal cancer",
+  "match": "oesophaguscarcinoom",
+  "option_only": true
+ },
+ "colorectale levermetastasen": {
+  "title": "Colorectale levermetastasen",
+  "short": "Uitzaaiingen van dikkedarmkanker naar de lever, de meest voorkomende leveruitzaaiing.",
+  "definition": "<p>Metastasen van een colorectaal carcinoom in de lever, via de v. portae. Frequentste maligne leverafwijking; beeldvorming met echo, CT, MRI en PET-scan.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal cancer",
+  "match": "colorectale levermetastasen",
+  "option_only": true
+ },
+ "spermatocyt": {
+  "title": "Spermatocyt",
+  "short": "Kiemcel in de spermatogenese; de primaire spermatocyt is diploïd en ondergaat de eerste meiotische deling tot secundaire spermatocyten.",
+  "definition": "<p>Een <strong>spermatocyt</strong> ontstaat uit een spermatogonium; na de meiose vormen zich haploïde spermatiden.</p>",
+  "image_url": "",
+  "wiki_title": "Spermatocyte",
+  "match": "spermatocyt",
+  "option_only": true
+ },
+ "velocardiofaciaal syndroom (deletie 22q11)": {
+  "title": "22q11-deletiesyndroom",
+  "short": "Het 22q11-deletiesyndroom ontstaat door een microdeletie op chromosoom 22 en geeft o.a. hartafwijkingen, een gehemeltespleet, hypocalciëmie en immuunstoornissen.",
+  "definition": "<p>Bij het <strong>22q11-deletiesyndroom</strong> (DiGeorge) is de ontwikkeling van de derde en vierde kieuwzakjes verstoord. Kenmerken (‘CATCH-22’): hartafwijkingen (vooral conotruncaal, zoals Fallot en truncus arteriosus), afwijkend gezicht, hypoplasie van de thymus (T-celtekort), gehemeltespleet en hypocalciëmie door hypoplastische bijschildklieren. Op latere leeftijd is er een verhoogd risico op psychose.</p>",
+  "image_url": "",
+  "wiki_title": "DiGeorge syndrome",
+  "match": "velocardiofaciaal syndroom (deletie 22q11)",
+  "option_only": true
+ },
+ "lh": {
+  "title": "LH (luteïniserend hormoon)",
+  "short": "Hypofysevoorkwabhormoon dat de ovulatie uitlokt en het corpus luteum onderhoudt; bij de man stimuleert het testosteronproductie.",
+  "definition": "<p>De <strong>LH</strong>-piek midden in de cyclus veroorzaakt de ovulatie.</p>",
+  "image_url": "",
+  "wiki_title": "Luteinizing hormone",
+  "match": "lh",
+  "option_only": true
+ },
+ "geavanceerd ultrageluid onderzoek (guo)": {
+  "title": "GUO (geavanceerd ultrageluidonderzoek)",
+  "short": "Uitgebreid echografisch onderzoek naar structurele foetale afwijkingen, uitgevoerd bij verhoogde kans of afwijkende bevindingen.",
+  "definition": "<p>Het <strong>GUO</strong> is een gedetailleerde echo (type 2) die bij een verhoogd risico of afwijkende screening wordt ingezet, bv. bij <em>echogene darmen</em>.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "geavanceerd ultrageluid onderzoek (guo)",
+  "option_only": true
+ },
+ "ct-angio": {
+  "title": "CT-angiografie thorax",
+  "short": "CT-scan met contrast van de longvaten om een longembolie aan te tonen of uit te sluiten.",
+  "definition": "<p>Bij CTA (CT-angio) thorax worden de pulmonale arteriën met contrast in beeld gebracht; het is de gouden standaard voor het aantonen van een longembolie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "ct-angio",
+  "option_only": true
+ },
+ "vaginaal toucher": {
+  "title": "Vaginaal toucher",
+  "short": "Inwendig onderzoek van portio, ontsluiting, indaling en ligging (POVIAS); gecontra-indiceerd bij placenta praevia.",
+  "definition": "<p>Bij een <strong>vaginaal toucher</strong> worden Portio, Ontsluiting, Vliezen, Indaling, Aard en Stand beoordeeld (POVIAS).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "vaginaal toucher",
+  "option_only": true
+ },
+ "congenitale hartafwijking": {
+  "title": "Congenitale hartafwijking",
+  "short": "Aangeboren structurele afwijking van hart of grote vaten; de meest voorkomende aangeboren afwijking bij de mens.",
+  "definition": "<p><strong>Congenitale hartafwijkingen</strong> zijn aangeboren structurele defecten van hart of grote vaten (bijv. VSD, ASD, tetralogie van Fallot). Ze komen bij ongeveer 8 per 1000 levendgeborenen voor; veel patiënten bereiken met behandeling de volwassenheid maar houden restrisico's.</p>",
+  "image_url": "",
+  "wiki_title": "Congenital heart defect",
+  "match": "congenitale hartafwijking",
+  "option_only": true
+ },
+ "altiso": {
+  "title": "ALTISO",
+  "short": "Ezelsbruggetje voor het gestructureerd uitvragen van een klacht: Aard, Lokalisatie, Tijdsbeloop, Intensiteit/invloed, Samenhang, Omstandigheden.",
+  "definition": "<p><b>ALTISO</b> is een acroniem om een hoofdklacht systematisch uit te vragen: <b>A</b>ard, <b>L</b>okalisatie, <b>T</b>ijdsbeloop, <b>I</b>ntensiteit/invloed, <b>S</b>amenhang/situatie en <b>O</b>mstandigheden. De vraag hoeveel hinder iemand ondervindt hoort bij Intensiteit/invloed.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "altiso",
+  "option_only": true
+ },
+ "optimisme": {
+  "title": "Optimisme",
+  "short": "Emotionele dispositie om gebeurtenissen positief te bekijken, die samenhangt met beter psychisch welzijn.",
+  "definition": "<p>Optimisme is de geneigdheid om positieve verwachtingen te hebben en gebeurtenissen vanuit een positief perspectief te bezien. Het is een emotionele dispositie die is geassocieerd met beter psychisch welbevinden.</p>",
+  "image_url": "",
+  "wiki_title": "Optimism",
+  "match": "optimisme",
+  "option_only": true
+ },
+ "judo-techniek": {
+  "title": "Judo-techniek",
+  "short": "Gesprekstechniek uit de motiverende gespreksvoering voor het omgaan met weerstand.",
+  "definition": "<p>De <b>judo-techniek</b> komt uit de motiverende gespreksvoering. Net als bij judo gebruik je de ‘kracht’ van de ander in plaats van ertegenin te duwen: je erkent het standpunt van de patiënt en gaat niet in discussie, zodat de patiënt zelf ruimte krijgt om andere afwegingen te maken.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "judo-techniek",
+  "option_only": true
+ },
+ "ct angio": {
+  "title": "CT-angiografie thorax",
+  "short": "CT-scan met contrast van de longvaten om een longembolie aan te tonen of uit te sluiten.",
+  "definition": "<p>Bij CTA (CT-angio) thorax worden de pulmonale arteriën met contrast in beeld gebracht; het is de gouden standaard voor het aantonen van een longembolie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "ct angio",
+  "option_only": true
+ },
+ "nt-pro bnp": {
+  "title": "BNP (brain natriuretic peptide)",
+  "short": "BNP is een hormoon uit de hartkamers dat vrijkomt bij rek van de wand; een verhoogde waarde past bij hartfalen.",
+  "definition": "<p><strong>BNP</strong> en het inactieve NT-proBNP worden afgegeven door ventrikelcellen bij volume- of drukbelasting. BNP bevordert natriurese en vaatverwijding en remt het RAAS. Een normale waarde maakt hartfalen bij een kortademige patiënt onwaarschijnlijk. Ook nierfalen, hoge leeftijd, longembolie en boezemfibrilleren verhogen de waarde.</p>",
+  "image_url": "",
+  "wiki_title": "Brain natriuretic peptide",
+  "match": "nt-pro bnp",
+  "option_only": true
+ },
+ "door werk verergerd astma": {
+  "title": "Beroepsastma",
+  "short": "Beroepsastma is astma dat door stoffen op het werk ontstaat, zoals meelstof bij bakkers of isocyanaten bij spuiters.",
+  "definition": "<p>Typisch voor <strong>beroepsastma</strong> zijn klachten die verbeteren in het weekend en de vakanties. Vroeg stoppen met blootstelling geeft de beste kans op herstel. Het is een beroepsziekte die moet worden gemeld.</p>",
+  "image_url": "",
+  "wiki_title": "Occupational asthma",
+  "match": "door werk verergerd astma",
+  "option_only": true
+ },
+ "(nt-pro-)bnp": {
+  "title": "BNP (brain natriuretic peptide)",
+  "short": "BNP is een hormoon uit de hartkamers dat vrijkomt bij rek van de wand; een verhoogde waarde past bij hartfalen.",
+  "definition": "<p><strong>BNP</strong> en het inactieve NT-proBNP worden afgegeven door ventrikelcellen bij volume- of drukbelasting. BNP bevordert natriurese en vaatverwijding en remt het RAAS. Een normale waarde maakt hartfalen bij een kortademige patiënt onwaarschijnlijk. Ook nierfalen, hoge leeftijd, longembolie en boezemfibrilleren verhogen de waarde.</p>",
+  "image_url": "",
+  "wiki_title": "Brain natriuretic peptide",
+  "match": "(nt-pro-)bnp",
+  "option_only": true
+ },
+ "nervus laryngeus recurrens": {
+  "title": "N. laryngeus recurrens",
+  "short": "De n. laryngeus recurrens is een tak van de n. vagus die vrijwel alle stembandspieren innerveert; links loopt hij om de aortaboog, rechts om de a. subclavia.",
+  "definition": "<p>Door zijn lange verloop is de <strong>n. laryngeus recurrens</strong> kwetsbaar bij schildklier-, slokdarm- en thoraxchirurgie en bij tumoren van long, slokdarm, schildklier en mediastinum, en (links) bij een aneurysma van de aortaboog. Uitval geeft heesheid door een stembandparese.</p>",
+  "image_url": "",
+  "wiki_title": "Recurrent laryngeal nerve",
+  "match": "nervus laryngeus recurrens",
+  "option_only": true
+ },
+ "nullipariteit": {
+  "title": "Nullipariteit",
+  "short": "Het nooit een kind gebaard hebben. Risicofactor voor onder meer ovarium- en endometriumcarcinoom.",
+  "definition": "<p><b>Nullipariteit</b> verhoogt het aantal ovulatiecycli en daarmee bepaalde gynaecologische kankerrisico’s.</p>",
+  "image_url": "",
+  "wiki_title": "Gravidity and parity",
+  "match": "nullipariteit",
+  "option_only": true
+ },
+ "jodium": {
+  "title": "Jodium",
+  "short": "Sporenelement dat onmisbaar is voor de aanmaak van schildklierhormonen T3 en T4. Een tekort leidt tot struma (vergrote schildklier).",
+  "definition": "<p><b>Jodium</b> wordt door de schildklier opgenomen en ingebouwd in thyreoglobuline om T3 en T4 te vormen. Bij jodiumtekort daalt de schildklierhormoonproductie, stijgt TSH en groeit de schildklier compensatoir (struma).</p>",
+  "image_url": "",
+  "wiki_title": "Iodine",
+  "match": "jodium",
+  "option_only": true
+ },
+ "specifieke serotonineheropnameremmer (ssri)": {
+  "title": "SSRI",
+  "short": "Selectieve serotonineheropnameremmer; antidepressivum dat ook een trombocytopathie kan veroorzaken.",
+  "definition": "<p>Een <b>SSRI</b> (selectieve serotonineheropnameremmer) is een veelgebruikt antidepressivum. SSRI’s remmen de heropname van serotonine, ook in de bloedplaatjes, waardoor een <b>trombocytopathie</b> ontstaat en het risico op maag-/bloedingscomplicaties toeneemt, zeker samen met NSAIDs.</p>",
+  "image_url": "",
+  "wiki_title": "Selective serotonin reuptake inhibitor",
+  "match": "specifieke serotonineheropnameremmer (ssri)",
+  "option_only": true
+ },
+ "lithium": {
+  "title": "Lithium",
+  "short": "Stemmingsstabilisator bij bipolaire stoornis; kan als bijwerking nefrogene diabetes insipidus geven.",
+  "definition": "<p><b>Lithium</b> is een stemmingsstabilisator bij de bipolaire stoornis. Een belangrijke bijwerking is <b>nefrogene diabetes insipidus</b>: de nier reageert onvoldoende op ADH, met polyurie en polydipsie als gevolg.</p>",
+  "image_url": "",
+  "wiki_title": "Lithium (medication)",
+  "match": "lithium",
+  "option_only": true
+ },
+ "hartspierweefsel": {
+  "title": "Hartspierweefsel",
+  "short": "Dwarsgestreept, onwillekeurig spierweefsel met vertakte cellen en glansstrepen (intercalated discs); regenereert nauwelijks.",
+  "definition": "<p><b>Hartspierweefsel</b> (myocard) bestaat uit vertakte, gestreepte cellen verbonden door glansstrepen met gap junctions. Het is onwillekeurig en kan zich vrijwel niet herstellen door het ontbreken van satellietcellen.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiac muscle",
+  "match": "hartspierweefsel",
+  "option_only": true
+ },
+ "calcitonine": {
+  "title": "Calcitonine",
+  "short": "Hormoon uit de parafolliculaire C-cellen van de schildklier.",
+  "definition": "<p><strong>Calcitonine</strong> wordt gemaakt door de parafolliculaire C-cellen van de schildklier als reactie op een stijging van het calcium. Het remt osteoclasten. Bij de mens is de fysiologische rol beperkt: na een totale thyreoïdectomie blijft de calciumspiegel normaal. Calcitonine is een tumormarker voor het medullair schildkliercarcinoom.</p>",
+  "image_url": "",
+  "wiki_title": "Calcitonin",
+  "match": "calcitonine",
+  "option_only": true
+ },
+ "voetheffersparese": {
+  "title": "Voetheffersparese",
+  "short": "Krachtsverlies van de spieren die de voet optrekken (dorsaalflexie), met een klapvoet als gevolg.",
+  "definition": "<p>Een <strong>voetheffersparese</strong> is zwakte van de dorsaalflexoren van de voet (o.a. m. tibialis anterior). De voet hangt slap naar beneden; patiënten lopen met een steppagegang om niet met de tenen te blijven haken. Oorzaken liggen in de zenuw, de zenuwwortel, de plexus of centraal.</p>",
+  "image_url": "",
+  "wiki_title": "Foot drop",
+  "match": "voetheffersparese",
+  "option_only": true
+ },
+ "incisura trochlearis": {
+  "title": "Incisura trochlearis",
+  "short": "Halvemaanvormige uitholling van de ulna die om de trochlea van de humerus grijpt.",
+  "definition": "<p>De <b>incisura trochlearis</b> is de C-vormige inkeping aan de bovenzijde van de ulna (tussen olecranon en processus coronoideus) die de trochlea humeri omvat en zo het scharnier van het ellebooggewricht vormt.</p>",
+  "image_url": "",
+  "wiki_title": "Trochlear notch",
+  "match": "incisura trochlearis",
+  "option_only": true
+ },
+ "foramen vertebrale": {
+  "title": "Foramen vertebrale",
+  "short": "Het foramen vertebrale is de opening in een wervel, begrensd door corpus en arcus, waardoor het ruggenmerg loopt; de opeenstapeling vormt de canalis vertebralis.",
+  "definition": "<p>Het <strong>foramen vertebrale</strong> wordt gevormd door het wervellichaam (ventraal) en de wervelboog (dorsaal). Alle foramina samen vormen het <em>wervelkanaal</em> (canalis vertebralis) dat het ruggenmerg omhult.</p>",
+  "image_url": "",
+  "wiki_title": "Vertebral foramen",
+  "match": "foramen vertebrale",
+  "option_only": true
+ },
+ "polyneuropathie": {
+  "title": "Polyneuropathie",
+  "short": "Diffuse aandoening van perifere zenuwen, vaak symmetrisch distaal, met sensibiliteitsstoornissen en verlaagde reflexen.",
+  "definition": "<p><b>Polyneuropathie</b> is een diffuse aantasting van perifere zenuwen, meestal symmetrisch en distaal (sok-handschoenpatroon), met sensibiliteitsstoornissen, verlaagde reflexen en soms spierzwakte. Frequente oorzaken: diabetes en alcohol.</p>",
+  "image_url": "",
+  "wiki_title": "Polyneuropathy",
+  "match": "polyneuropathie",
+  "option_only": true
+ },
+ "creatine fosfaat": {
+  "title": "Creatinefosfaat",
+  "short": "Energierijke fosfaatverbinding die zeer snel ATP kan regenereren voor kortdurende, explosieve inspanning zoals sprinten.",
+  "definition": "<p><b>Creatinefosfaat (fosfocreatine)</b> levert onmiddellijk een fosfaatgroep om ADP snel om te zetten in ATP. Dit systeem domineert bij korte, maximale inspanning (enkele seconden) zoals de 100 m sprint.</p>",
+  "image_url": "",
+  "wiki_title": "Phosphocreatine",
+  "match": "creatine fosfaat",
+  "option_only": true
+ },
+ "arteriolen (diameter <500 micron)": {
+  "title": "Arteriolen",
+  "short": "Arteriolen zijn de kleinste arteriën met een spierwand; ze bepalen het grootste deel van de perifere vaatweerstand.",
+  "definition": "<p>In <strong>arteriolen</strong> daalt de bloeddruk het sterkst. Door samen te trekken of te verwijden regelen ze de doorbloeding van weefsels (autoregulatie, sympathische invloed, lokale metabolieten) en daarmee de bloeddruk. Bij langdurige hypertensie of diabetes ontstaat arteriolosclerose (hyaliene verdikking).</p>",
+  "image_url": "",
+  "wiki_title": "Arteriole",
+  "match": "arteriolen (diameter <500 micron)",
+  "option_only": true
+ },
+ "reuscelvasculitis (arteriitis gigantocellularis of arteriitis temporalis)": {
+  "title": "Arteriitis temporalis (reuscelarteriitis)",
+  "short": "Arteriitis temporalis is een granulomateuze vasculitis van grote en middelgrote arteriën bij ouderen, met risico op blindheid.",
+  "definition": "<p>Bij <strong>reuscelarteriitis</strong> zijn vooral takken van de a. carotis externa (zoals de a. temporalis) en soms de aorta en haar takken ontstoken. Klachten: nieuwe hoofdpijn, gevoelige slaapslagader, kauwclaudicatie, visusstoornissen en algemene malaise, met een sterk verhoogde BSE/CRP. Bij verdenking direct hoge dosis prednison om blindheid te voorkomen; diagnose met echo of biopt.</p>",
+  "image_url": "",
+  "wiki_title": "Giant cell arteritis",
+  "match": "reuscelvasculitis (arteriitis gigantocellularis of arteriitis temporalis)",
+  "option_only": true
+ },
+ "ziekte van conn (primair hyperaldosteronisme)": {
+  "title": "Ziekte van Conn",
+  "short": "Primair hyperaldosteronisme: overproductie van aldosteron met hypertensie, hypokaliëmie en onderdrukte renine.",
+  "definition": "<p>Bij de ziekte van Conn produceert de bijnier autonoom te veel aldosteron. Kenmerkend zijn een hoge aldosteronconcentratie met sterk onderdrukte plasmarenine en hypokaliëmie.</p>",
+  "image_url": "",
+  "wiki_title": "Primary aldosteronism",
+  "match": "ziekte van conn (primair hyperaldosteronisme)",
+  "option_only": true
+ },
+ "ziekte van addison (primair hypocortisolisme)": {
+  "title": "Ziekte van Addison",
+  "short": "De ziekte van Addison is een primaire bijnierschorsinsufficiëntie met tekort aan cortisol en aldosteron.",
+  "definition": "<p>De <b>ziekte van Addison</b> is een primaire bijnierschorsinsufficiëntie, meestal door auto-immuundestructie (of bijv. tuberculose) van de bijnierschors, met tekort aan cortisol en aldosteron. Microscopisch: sterk gereduceerd aantal corticale cellen in bindweefsel.</p>",
+  "image_url": "",
+  "wiki_title": "Addison's disease",
+  "match": "ziekte van addison (primair hypocortisolisme)",
+  "option_only": true
+ },
+ "trombo-embolectomie": {
+  "title": "Trombo-embolectomie",
+  "short": "Chirurgische verwijdering van een stolsel (embolus) uit een bloedvat om de doorbloeding te herstellen.",
+  "definition": "<p>Bij acute arteriële afsluiting van een been kan een trombo-embolectomie (verwijdering van het stolsel) de perfusie herstellen, naast trombolyse.</p>",
+  "image_url": "",
+  "wiki_title": "Embolectomy",
+  "match": "trombo-embolectomie",
+  "option_only": true
+ },
+ "high density lipoprotein (hdl)": {
+  "title": "HDL-cholesterol",
+  "short": "'Gunstig' lipoproteïne dat cholesterol van de weefsels terug naar de lever transporteert (revers cholesteroltransport).",
+  "definition": "<p><b>High density lipoprotein (HDL)</b> neemt cholesterol op uit perifere weefsels en brengt het terug naar de lever (revers cholesteroltransport). Een hoog HDL is geassocieerd met een lager cardiovasculair risico.</p>",
+  "image_url": "",
+  "wiki_title": "High-density lipoprotein",
+  "match": "high density lipoprotein (hdl)",
+  "option_only": true
+ },
+ "very low density lipoprotein (vldl)": {
+  "title": "VLDL",
+  "short": "VLDL is een triglyceriderijk lipoproteïne dat door de lever wordt gemaakt en vetten naar de weefsels vervoert.",
+  "definition": "<p>Na afgifte van triglyceriden via lipoproteïnelipase wordt <strong>VLDL</strong> omgezet in IDL en vervolgens LDL. Verhoogde VLDL-productie (bij obesitas, insulineresistentie, alcohol) geeft hypertriglyceridemie.</p>",
+  "image_url": "",
+  "wiki_title": "Very-low-density lipoprotein",
+  "match": "very low density lipoprotein (vldl)",
+  "option_only": true
+ },
+ "cholecalciferol": {
+  "title": "Cholecalciferol (vitamine D3)",
+  "short": "Cholecalciferol is de inactieve voorloper van vitamine D die in de huid en via voeding wordt verkregen.",
+  "definition": "<p><b>Cholecalciferol</b> (vitamine D3) is een inactieve vorm van vitamine D die nog in lever (25-hydroxylatie) en nier (1-hydroxylatie) moet worden geactiveerd tot calcitriol.</p>",
+  "image_url": "",
+  "wiki_title": "Cholecalciferol",
+  "match": "cholecalciferol",
+  "option_only": true
+ },
+ "von willebrand factor": {
+  "title": "Von Willebrandfactor",
+  "short": "Plasma-eiwit dat trombocyten aan beschadigd endotheel laat hechten en factor VIII stabiliseert; centraal in de primaire hemostase.",
+  "definition": "<p><b>Von Willebrandfactor (vWF)</b> mediëert de adhesie van trombocyten aan subendotheliaal collageen (via GPIb) en draagt factor VIII. Bij de ziekte van Von Willebrand of vWF-defecten ontstaat een bloedingsneiging van het primaire-hemostasetype.</p>",
+  "image_url": "",
+  "wiki_title": "Von Willebrand factor",
+  "match": "von willebrand factor",
+  "option_only": true
+ },
+ "autoimmuun trombocytopenische purpura (aitp)": {
+  "title": "Auto-immuun trombocytopenische purpura (ITP)",
+  "short": "Verworven trombocytopenie door antistoffen tegen trombocyten, met petechiën en hematomen bij overigens normale milt.",
+  "definition": "<p>ITP (ook AITP) is een diagnose per exclusie: geïsoleerde trombocytopenie zonder splenomegalie of andere oorzaak. Normale PT/aPTT.</p>",
+  "image_url": "",
+  "wiki_title": "Immune thrombocytopenic purpura",
+  "match": "autoimmuun trombocytopenische purpura (aitp)",
+  "option_only": true
+ },
+ "coronairlijden": {
+  "title": "Coronairlijden",
+  "short": "Vernauwing van de kransslagaders door atherosclerose, met kans op angina pectoris en myocardinfarct.",
+  "definition": "<p><b>Coronairlijden</b> (coronaire hartziekte) beperkt de bloedtoevoer naar het myocard; de voorafkans wordt bepaald door het klachtenpatroon en risicofactoren.</p>",
+  "image_url": "",
+  "wiki_title": "Coronary artery disease",
+  "match": "coronairlijden",
+  "option_only": true
+ },
+ "protrombinetijd (pt), uitgedrukt in inr": {
+  "title": "PT (INR)",
+  "short": "Protrombinetijd, uitgedrukt in International Normalised Ratio; test de extrinsieke stollingsroute.",
+  "definition": "<p>De <b>protrombinetijd</b> (PT/INR) meet de extrinsieke en gemeenschappelijke stollingsroute. Gebruikt om vitamine K-antagonisten te monitoren.</p>",
+  "image_url": "",
+  "wiki_title": "Prothrombin time",
+  "match": "protrombinetijd (pt), uitgedrukt in inr",
+  "option_only": true
+ },
+ "syndrome of inappropriate adh secretion (siadh)": {
+  "title": "SIADH",
+  "short": "Syndroom van inadequate ADH-secretie: te veel antidiuretisch hormoon geeft waterretentie en verdunningshyponatriëmie.",
+  "definition": "<p><b>SIADH</b> (syndrome of inappropriate ADH secretion) is een overmatige, niet-fysiologische afgifte van antidiuretisch hormoon, met waterretentie en een verdunningshyponatriëmie. Medicamenteuze oorzaak o.a. SSRI's zoals citalopram.</p>",
+  "image_url": "",
+  "wiki_title": "Syndrome of inappropriate antidiuretic hormone secretion",
+  "match": "syndrome of inappropriate adh secretion (siadh)",
+  "option_only": true
+ },
+ "shock": {
+  "title": "Shock",
+  "short": "Shock is een levensbedreigend tekort aan weefselperfusie en zuurstoftoevoer; hoofdvormen zijn hypovolemisch, cardiogeen, obstructief en distributief (o.a. septisch).",
+  "definition": "<p><strong>Shock</strong> is een toestand van onvoldoende weefseldoorbloeding. Bij <em>distributieve/septische</em> shock zorgt uitgebreide vasodilatatie voor warme extremiteiten ('warme shock'), terwijl hypovolemische en cardiogene shock juist koude, klamme acra geven door vasoconstrictie. Herkenning van het type stuurt de behandeling.</p>",
+  "image_url": "",
+  "wiki_title": "Shock (circulatory)",
+  "match": "shock",
+  "option_only": true
+ },
+ "petechiën": {
+  "title": "Petechiën",
+  "short": "Speldenknopgrote huidbloedinkjes, kenmerkend voor een stoornis in de primaire hemostase (trombocyten).",
+  "definition": "<p>Petechiën ontstaan bij trombocytopenie of trombocytopathie en wijken niet weg op druk (niet-blancheerbaar).</p>",
+  "image_url": "",
+  "wiki_title": "Petechia",
+  "match": "petechiën",
+  "option_only": true
+ },
+ "micro-angiopathische hemolyse": {
+  "title": "Micro-angiopathische hemolyse",
+  "short": "Mechanische afbraak van erytrocyten in beschadigde kleine bloedvaten, met fragmentocyten in het bloed.",
+  "definition": "<p>Micro-angiopathische hemolytische anemie ontstaat als erytrocyten kapotgaan langs fibrinestrengen in kleine vaten (bv. bij TTP of DIS); kenmerkend zijn schistocyten/fragmentocyten.</p>",
+  "image_url": "",
+  "wiki_title": "Microangiopathic hemolytic anemia",
+  "match": "micro-angiopathische hemolyse",
+  "option_only": true
+ },
+ "acidose": {
+  "title": "Acidose",
+  "short": "Een verlaagde pH van het bloed (te zuur milieu). Metabole acidose gaat vaak samen met hyperkaliëmie.",
+  "definition": "<p><b>Acidose</b> is een verstoring van het zuur-base-evenwicht met een pH < 7,35. Bij metabole acidose zijn HCO3⁻ en base excess verlaagd. Acidose verschuift kalium uit de cellen en verergert daarmee hyperkaliëmie; correctie van de acidose corrigeert mede de hyperkaliëmie.</p>",
+  "image_url": "",
+  "wiki_title": "Acidosis",
+  "match": "acidose",
+  "option_only": true
+ },
+ "glomerulaire endotheelcellen": {
+  "title": "Glomerulaire endotheelcellen",
+  "short": "De gefenestreerde endotheelcellen van de glomerulaire capillairen vormen de eerste laag van de filtratiebarrière.",
+  "definition": "<p>De <b>glomerulaire endotheelcellen</b> zijn sterk gefenestreerd en houden samen met de basaalmembraan en podocyten cellen en grote eiwitten tegen tijdens filtratie.</p>",
+  "image_url": "",
+  "wiki_title": "Glomerulus (kidney)",
+  "match": "glomerulaire endotheelcellen",
+  "option_only": true
+ },
+ "aspartaat": {
+  "title": "Aspartaat",
+  "short": "Aspartaat is een aminozuur dat in de ureumcyclus de tweede NH2-groep van ureum levert.",
+  "definition": "<p><b>Aspartaat</b> is een aminozuur dat in de ureumcyclus condenseert met citrulline tot argininosuccinaat en zo de tweede stikstof voor ureum aanlevert.</p>",
+  "image_url": "",
+  "wiki_title": "Aspartic acid",
+  "match": "aspartaat",
+  "option_only": true
+ },
+ "carnitinefosfaat (cpt1)": {
+  "title": "CPT1",
+  "short": "Carnitine-palmitoyltransferase 1; transporteert vetzuren het mitochondrion in en wordt geremd door malonyl-CoA.",
+  "definition": "<p><b>CPT1</b> is de snelheidsbepalende stap voor vetzuuropname in het mitochondrion voor de β-oxidatie.</p>",
+  "image_url": "",
+  "wiki_title": "Carnitine palmitoyltransferase I",
+  "match": "carnitinefosfaat (cpt1)",
+  "option_only": true
+ },
+ "tunica media": {
+  "title": "Tunica media",
+  "short": "De tunica media is de middelste vaatwandlaag met glad spierweefsel en elastische vezels; in elastische arteriën is deze laag het meest prominent.",
+  "definition": "<p>De <b>tunica media</b> is de middelste laag van de vaatwand. Bij elastische arteriën (zoals de aorta) bevat zij veel elastische lamellen en is zij het dikst.</p>",
+  "image_url": "",
+  "wiki_title": "Tunica media",
+  "match": "tunica media",
+  "option_only": true
+ },
+ "verlaagde spiegel van antidiuretisch hormoon (adh)": {
+  "title": "ADH (vasopressine)",
+  "short": "Antidiuretisch hormoon dat de waterterugresorptie in de nier verhoogt via aquaporinen; stijgt bij hyperosmolaliteit en hypovolemie.",
+  "definition": "<p><b>ADH (vasopressine)</b> verhoogt de permeabiliteit voor water in de verzamelbuizen (via <b>aquaporinen</b>), waardoor meer water wordt teruggeresorbeerd. Het stijgt 'appropriately' bij hyperosmolaliteit en hypovolemie.</p>",
+  "image_url": "",
+  "wiki_title": "Vasopressin",
+  "match": "verlaagde spiegel van antidiuretisch hormoon (adh)",
+  "option_only": true
+ },
+ "lanosterol": {
+  "title": "Lanosterol",
+  "short": "Lanosterol is een sterol-intermediair in de cholesterolsynthese, gevormd na cyclisatie van squaleen.",
+  "definition": "<p><b>Lanosterol</b> is het eerste sterol in de cholesterolbiosynthese, dat via meerdere stappen wordt omgezet in cholesterol.</p>",
+  "image_url": "",
+  "wiki_title": "Lanosterol",
+  "match": "lanosterol",
+  "option_only": true
+ },
+ "persisterende truncus arteriosus": {
+  "title": "Persisterende truncus arteriosus",
+  "short": "Aangeboren afwijking waarbij één gemeenschappelijk vat uit het hart ontspringt in plaats van gescheiden aorta en a. pulmonalis.",
+  "definition": "<p>Bij een <b>persisterende truncus arteriosus</b> is het embryonale truncusseptum niet gevormd, zodat één vat long- en lichaamscirculatie voedt.</p>",
+  "image_url": "",
+  "wiki_title": "Persistent truncus arteriosus",
+  "match": "persisterende truncus arteriosus",
+  "option_only": true
+ },
+ "antrum pyloricum": {
+  "title": "Antrum pyloricum",
+  "short": "Het distale, trechtervormige deel van de maag dat overgaat in de pylorus.",
+  "definition": "<p>Het <b>antrum pyloricum</b> is het onderste deel van de maag, tussen het corpus en de pylorus. Hier bevinden zich G-cellen die gastrine produceren; het antrum maalt en stuwt de voedselbrij richting duodenum.</p>",
+  "image_url": "",
+  "wiki_title": "Pylorus",
+  "match": "antrum pyloricum",
+  "option_only": true
+ },
+ "monocyten": {
+  "title": "Monocyt",
+  "short": "Grootste witte bloedcel; verlaat het bloed en rijpt in de weefsels uit tot macrofaag of dendritische cel.",
+  "definition": "<p>De <b>monocyt</b> is de grootste circulerende leukocyt, met een niervormige kern. Hij circuleert enkele dagen en migreert dan de weefsels in.</p><p>Daar differentieert hij tot macrofaag of dendritische cel, die pathogenen fagocyteren en antigenen presenteren.</p>",
+  "image_url": "",
+  "wiki_title": "Monocyte",
+  "match": "monocyten",
+  "option_only": true
+ },
+ "crista terminalis": {
+  "title": "Crista terminalis",
+  "short": "Spierrichel in het rechter atrium die het gladwandige deel scheidt van het deel met mm. pectinati.",
+  "definition": "<p>De <b>crista terminalis</b> markeert de embryonale grens tussen sinus venosus en het eigenlijke atrium.</p>",
+  "image_url": "",
+  "wiki_title": "Crista terminalis",
+  "match": "crista terminalis",
+  "option_only": true
+ },
+ "calix major": {
+  "title": "Calix major",
+  "short": "Grote nierkelk waarin meerdere kleine kelken samenkomen en die uitmondt in het nierbekken.",
+  "definition": "<p>De <b>calices majores</b> verzamelen urine uit de calices minores en leiden deze naar de pelvis renalis.</p>",
+  "image_url": "",
+  "wiki_title": "Renal calyx",
+  "match": "calix major",
+  "option_only": true
+ },
+ "cortex renalis": {
+  "title": "Cortex renalis",
+  "short": "Buitenste laag van de nier met de glomeruli en de proximale en distale tubuli.",
+  "definition": "<p>De <b>cortex renalis</b> bevat de nierlichaampjes (glomeruli) en het grootste deel van de tubulaire structuren.</p>",
+  "image_url": "",
+  "wiki_title": "Renal cortex",
+  "match": "cortex renalis",
+  "option_only": true
+ },
+ "v. azygos": {
+  "title": "V. azygos",
+  "short": "Ongepaarde ader die het bloed uit de intercostale venen naar de v. cava superior afvoert.",
+  "definition": "<p>De <b>v. azygos</b> loopt langs de rechterzijde van de wervelkolom en mondt uit in de vena cava superior.</p>",
+  "image_url": "",
+  "wiki_title": "Azygos vein",
+  "match": "v. azygos",
+  "option_only": true
+ },
+ "calix minor": {
+  "title": "Calix minor",
+  "short": "Een kleine nierkelk die de urine opvangt van een enkele nierpapil en afgeeft aan een calix major.",
+  "definition": "<p>De <b>calices minores</b> zijn trechtervormige structuren die de urine van de papillen van de nierpiramiden opvangen. Meerdere calices minores komen samen in een calix major.</p>",
+  "image_url": "",
+  "wiki_title": "Minor calyx",
+  "match": "calix minor",
+  "option_only": true
+ },
+ "bijnier": {
+  "title": "Bijnier",
+  "short": "Endocriene klier boven de nier die o.a. cortisol, aldosteron en (in het merg) catecholaminen produceert.",
+  "definition": "<p>De <b>bijnier</b> (glandula suprarenalis) grenst aan de bovenpool van de nier; links liggen milt, maag en pancreas in de nabijheid.</p>",
+  "image_url": "",
+  "wiki_title": "Adrenal gland",
+  "match": "bijnier",
+  "option_only": true
+ },
+ "laryngitis subglottica (croup, pseudokroep)": {
+  "title": "Laryngitis subglottica (pseudokroep)",
+  "short": "Pseudokroep is een virale ontsteking onder de stembanden bij jonge kinderen, met blafhoest, heesheid en inspiratoire stridor.",
+  "definition": "<p><strong>Pseudokroep</strong> wordt meestal veroorzaakt door para-influenzavirussen en treedt vaak ’s nachts op bij kinderen van 6 maanden tot 3 jaar. Behandeling: geruststellen en bij matig tot ernstige klachten dexamethason; bij ernstige stridor in rust adrenalinevernevelingen. Het moet onderscheiden worden van epiglottitis.</p>",
+  "image_url": "",
+  "wiki_title": "Croup",
+  "match": "laryngitis subglottica (croup, pseudokroep)",
+  "option_only": true
+ },
+ "myelinisatie": {
+  "title": "Myelinisatie",
+  "short": "Vorming van een vetrijke isolerende schede rond axonen, door oligodendrocyten (CZS) en Schwann-cellen (PZS).",
+  "definition": "<p>Bij <b>myelinisatie</b> wikkelen oligodendrocyten in het centrale en Schwann-cellen in het perifere zenuwstelsel hun membraan in lagen om axonen. Daardoor kan de actiepotentiaal van insnoering naar insnoering springen (saltatoire geleiding). Myelinisatie begint prenataal en gaat door tot ver na de geboorte, waarbij de prefrontale cortex als een van de laatste gebieden volgt.</p>",
+  "image_url": "",
+  "wiki_title": "Myelination",
+  "match": "myelinisatie",
+  "option_only": true
+ },
+ "regressie": {
+  "title": "Lineaire regressie",
+  "short": "Statistische techniek om een continue uitkomst te voorspellen uit één of meer predictoren via een rechte lijn (Y = b0 + b1·X).",
+  "definition": "<p><b>Lineaire regressie</b> modelleert het verband tussen een <i>continue uitkomstvariabele</i> en één of meer onafhankelijke variabelen. Het intercept <b>b0</b> is de voorspelde waarde als alle predictoren 0 zijn; de coëfficiënt <b>b1</b> is de verandering in de uitkomst per eenheid toename van de predictor. Bij een dichotome predictor is b1 het verschil tussen de twee groepen.</p>",
+  "image_url": "",
+  "wiki_title": "Linear regression",
+  "match": "regressie",
+  "option_only": true
+ },
+ "eczeem": {
+  "title": "Eczeem",
+  "short": "Eczeem is een oppervlakkige, jeukende ontsteking van de huid; acuut gekenmerkt door roodheid en vesikels, chronisch door lichenificatie en schilfering.",
+  "definition": "<p><strong>Eczeem</strong> (dermatitis) is een spongiotische huidontsteking. <em>Acuut</em>: erytheem, vesikels, nattend, jeuk — histologisch <em>spongiose</em> (intercellulair oedeem). <em>Chronisch</em>: lichenificatie, schilfering, hyperkeratose.</p><p>Vormen: constitutioneel (atopisch) eczeem, allergisch contacteczeem (type IV, plakproeven positief) en orthoergisch/irritatief contacteczeem (niet-immunologisch).</p>",
+  "image_url": "",
+  "wiki_title": "Dermatitis",
+  "match": "eczeem",
+  "option_only": true
+ },
+ "x-gebonden agammaglobulinemie (ziekte van bruton)": {
+  "title": "X-gebonden agammaglobulinemie (Bruton)",
+  "short": "Erfelijk B-celdefect (BTK-mutatie) waardoor B-cellen niet uitrijpen en er nagenoeg geen antilichamen worden gemaakt.",
+  "definition": "<p>Bij <b>X-gebonden agammaglobulinemie (ziekte van Bruton)</b> ontbreekt het functionele enzym BTK, waardoor B-cellen stoppen in hun ontwikkeling (pro-/pre-B-cel stadium). Er ontstaan vrijwel geen rijpe B-cellen en immunoglobulinen, met recidiverende bacteriële infecties.</p>",
+  "image_url": "",
+  "wiki_title": "X-linked agammaglobulinemia",
+  "match": "x-gebonden agammaglobulinemie (ziekte van bruton)",
+  "option_only": true
+ },
+ "common variable immune deficiency (cvid)": {
+  "title": "CVID",
+  "short": "Common variable immune deficiency is een afweerstoornis met lage immunoglobulines en recidiverende infecties. Er is ook een verhoogd risico op auto-immuunziekten en maligniteiten.",
+  "definition": "<p>Common Variable Immune Deficiency: primaire immuundeficiëntie met verlaagde antistofproductie, recidiverende (lucht)weginfecties en een verhoogde kans op <strong>auto-immuunziekten</strong> en <strong>maligniteiten</strong>.</p>",
+  "image_url": "",
+  "wiki_title": "Common variable immunodeficiency",
+  "match": "common variable immune deficiency (cvid)",
+  "option_only": true
+ },
+ "irritatie door aarsmaden (enterobius vermicularis)": {
+  "title": "Enterobius vermicularis (aarsmade)",
+  "short": "Wormpje dat de dikke darm en het coecum bewoont en anale jeuk veroorzaakt, vooral bij kinderen.",
+  "definition": "<p><b>Enterobius vermicularis</b> (aarsmade) is een darmworm die leeft in het coecum en de dikke darm. De vrouwtjes leggen 's nachts eieren rond de anus, wat de typische anale jeuk veroorzaakt.</p>",
+  "image_url": "",
+  "wiki_title": "Enterobius vermicularis",
+  "match": "irritatie door aarsmaden (enterobius vermicularis)",
+  "option_only": true
+ },
+ "streptococcus agalactiae (streptokok groep b)": {
+  "title": "Groep B-streptokok (GBS)",
+  "short": "De groep B-streptokok (Streptococcus agalactiae) komt voor in darm en vagina en is een belangrijke verwekker van sepsis en meningitis bij pasgeborenen.",
+  "definition": "<p><strong>Groep B-streptokokken</strong> (<em>Streptococcus agalactiae</em>) zijn grampositieve, bètahemolytische ketenkokken. Ze komen bij een deel van de vrouwen voor in darm en vagina zonder klachten.</p><p>Tijdens de bevalling kan de baby besmet raken, met risico op neonatale sepsis, pneumonie en meningitis (vooral in de eerste levensdagen). Bij risicofactoren krijgt de moeder antibiotica tijdens de bevalling.</p>",
+  "image_url": "",
+  "wiki_title": "Group B streptococcal infection",
+  "match": "streptococcus agalactiae (streptokok groep b)",
+  "option_only": true
+ },
+ "heesheid": {
+  "title": "Heesheid",
+  "short": "Verandering van de stemkwaliteit (hese, schorre stem) door aandoening van de stembanden of larynx.",
+  "definition": "<p>Heesheid (dysfonie) ontstaat bij afwijkingen van de stemplooien of hun innervatie. Aanhoudende heesheid (>3 weken) bij een roker is een alarmsymptoom voor larynxcarcinoom.</p>",
+  "image_url": "",
+  "wiki_title": "Hoarse voice",
+  "match": "heesheid",
+  "option_only": true
+ },
+ "onychomycose": {
+  "title": "Onychomycose",
+  "short": "Onychomycose is een schimmelinfectie van de nagel, met verdikking, verkleuring en brokkeligheid van de nagelplaat.",
+  "definition": "<p><strong>Onychomycose</strong> is een infectie van de nagel door dermatofyten (meestal Trichophyton). De nagel wordt geel-bruin, verdikt en brokkelig, vaak beginnend distaal. Bevestiging met KOH-preparaat of kweek.</p>",
+  "image_url": "",
+  "wiki_title": "Onychomycosis",
+  "match": "onychomycose",
+  "option_only": true
+ },
+ "plakbandpreparaat": {
+  "title": "Plakbandpreparaat",
+  "short": "Diagnostische test voor enterobiasis (aarsmade): eieren rond de anus worden met plakband opgenomen en microscopisch bekeken.",
+  "definition": "<p>Diagnostische methode voor <b>enterobiasis</b> (aarsmadeinfectie): 's ochtends wordt met doorzichtig plakband perianaal materiaal afgenomen om de eieren van <i>Enterobius vermicularis</i> microscopisch aan te tonen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "plakbandpreparaat",
+  "option_only": true
+ },
+ "talipes equinovalgus": {
+  "title": "Klompvoet (pes equinovarus)",
+  "short": "Een klompvoet is een aangeboren standsafwijking met de voet in spitsvoetstand, naar binnen gekanteld en gedraaid.",
+  "definition": "<p>Bij een <strong>klompvoet</strong> staat de voet in equinus, varus, adductus en cavus. Behandeling volgens Ponseti: wekelijks gipsen, vaak een kleine doorsnijding van de achillespees en daarna jarenlang een spreidbeugel ’s nachts om terugval te voorkomen.</p>",
+  "image_url": "",
+  "wiki_title": "Clubfoot",
+  "match": "talipes equinovalgus",
+  "option_only": true
+ },
+ "talipes calcaneovarus": {
+  "title": "Klompvoet (pes equinovarus)",
+  "short": "Een klompvoet is een aangeboren standsafwijking met de voet in spitsvoetstand, naar binnen gekanteld en gedraaid.",
+  "definition": "<p>Bij een <strong>klompvoet</strong> staat de voet in equinus, varus, adductus en cavus. Behandeling volgens Ponseti: wekelijks gipsen, vaak een kleine doorsnijding van de achillespees en daarna jarenlang een spreidbeugel ’s nachts om terugval te voorkomen.</p>",
+  "image_url": "",
+  "wiki_title": "Clubfoot",
+  "match": "talipes calcaneovarus",
+  "option_only": true
+ },
+ "ademhalingsdepressie": {
+  "title": "Ademhalingsdepressie",
+  "short": "Verminderde ademhaling door onderdrukking van het ademcentrum, een gevreesde bijwerking van opioïden.",
+  "definition": "<p>Ademhalingsdepressie is een afgenomen ademfrequentie en -diepte door remming van het ademcentrum in de hersenstam. Bij opioïdgebruik is dit een ernstige bijwerking, zeker bij een voorgeschiedenis van ernstig astma.</p>",
+  "image_url": "",
+  "wiki_title": "Hypoventilation",
+  "match": "ademhalingsdepressie",
+  "option_only": true
+ },
+ "na⁺": {
+  "title": "Natrium",
+  "short": "Natrium is het belangrijkste kation buiten de cel; het bepaalt grotendeels het extracellulaire volume en de osmolaliteit.",
+  "definition": "<p><strong>Natrium</strong> wordt door de Na⁺/K⁺-ATPase buiten de cel gehouden, waardoor een gradiënt ontstaat die nodig is voor actiepotentialen en secundair actief transport. De hoeveelheid natrium in het lichaam bepaalt het extracellulaire volume (via RAAS en natriuretische peptiden); de natriumconcentratie weerspiegelt vooral de waterbalans (via ADH en dorst).</p>",
+  "image_url": "",
+  "wiki_title": "Sodium in biology",
+  "match": "na⁺",
+  "option_only": true
+ },
+ "actinefilamenten": {
+  "title": "Actine",
+  "short": "Eiwit dat microfilamenten vormt; betrokken bij celvorm, celbeweging en spiercontractie.",
+  "definition": "<p><b>Actine</b> is een van de meest voorkomende eiwitten in de cel. Losse moleculen (G-actine) polymeriseren tot dunne draden (F-actine): de microfilamenten van het cytoskelet.</p><p>Actinefilamenten geven de cel vorm, maken beweging en deling mogelijk en vormen samen met myosine het contractiele apparaat van spiercellen.</p>",
+  "image_url": "",
+  "wiki_title": "Actin",
+  "match": "actinefilamenten",
+  "option_only": true
+ },
+ "hemidesmosomen": {
+  "title": "Hemidesmosoom",
+  "short": "'Half desmosoom' dat basale keratinocyten verankert aan de basaalmembraan onder de epidermis.",
+  "definition": "<p>Een <b>hemidesmosoom</b> verankert de basale cellen van de epidermis aan de onderliggende basaalmembraan, vooral via integrine α6β4.</p><p>Anders dan een desmosoom (dat twee cellen verbindt) koppelt het één cel aan de extracellulaire matrix. Verstoring ligt ten grondslag aan bulleus pemfigoïd.</p>",
+  "image_url": "",
+  "wiki_title": "Hemidesmosome",
+  "match": "hemidesmosomen",
+  "option_only": true
+ },
+ "papillaire dermis": {
+  "title": "Dermis",
+  "short": "De lederhuid onder de epidermis: bindweefsel met collageen, bloedvaten, zenuwen, klieren en haarfollikels.",
+  "definition": "<p>De <b>dermis</b> (lederhuid) ligt onder de epidermis en bestaat uit bindweefsel met collageen en elastine.</p><p>Ze bevat bloedvaten, zenuwuiteinden, zweet- en talgklieren en haarfollikels en geeft de huid stevigheid en elasticiteit. Men onderscheidt een papillaire en een reticulaire dermis.</p>",
+  "image_url": "",
+  "wiki_title": "Dermis",
+  "match": "papillaire dermis",
+  "option_only": true
+ },
+ "rna polymerase": {
+  "title": "RNA-polymerase",
+  "short": "RNA-polymerase is het enzym dat tijdens transcriptie een RNA-streng synthetiseert op basis van een DNA-sjabloon.",
+  "definition": "<p><strong>RNA-polymerase</strong> leest de DNA-matrijs af en bouwt complementair RNA. Bij eukaryoten doet RNA-polymerase II het mRNA.</p>",
+  "image_url": "",
+  "wiki_title": "RNA polymerase",
+  "match": "rna polymerase",
+  "option_only": true
+ },
+ "fibrose": {
+  "title": "Fibrose",
+  "short": "Overmatige neerslag van bindweefsel (collageen) in een orgaan, doorgaans als eindstadium van chronische schade of ontsteking.",
+  "definition": "<p><b>Fibrose</b> is de vervanging van functioneel weefsel door collageenrijk littekenweefsel. In de long leidt dit tot verstijving en verstoorde gaswisseling; in de lever is uitgebreide fibrose met architectuurverstoring de basis van cirrose.</p>",
+  "image_url": "",
+  "wiki_title": "Fibrosis",
+  "match": "fibrose",
+  "option_only": true
+ },
+ "turner syndroom": {
+  "title": "Syndroom van Turner",
+  "short": "Het syndroom van Turner (45,X) is een chromosoomafwijking bij meisjes met o.a. kleine lengte en ovariumfalen.",
+  "definition": "<p>Bij het <strong>syndroom van Turner</strong> ontbreekt (deels) één X-chromosoom. Kenmerken: kleine lengte, ovariële dysgenesie met uitblijven van de puberteit en onvruchtbaarheid, een brede nek (pterygium colli), lymfoedeem bij de geboorte, een coarctatio aortae of bicuspide aortaklep en nierafwijkingen. De intelligentie is meestal normaal. Behandeling met groeihormoon en oestrogenen.</p>",
+  "image_url": "",
+  "wiki_title": "Turner syndrome",
+  "match": "turner syndroom",
+  "option_only": true
+ },
+ "ascorbinezuur (vitamin c)": {
+  "title": "Vitamine C (ascorbinezuur)",
+  "short": "Vitamine C is een in water oplosbare vitamine die nodig is voor de collageensynthese en werkt als antioxidant.",
+  "definition": "<p><strong>Vitamine C</strong> is cofactor van prolyl- en lysylhydroxylase, die collageen stabiliseren. Het bevordert ook de opname van non-heemijzer en werkt als antioxidant. Tekort geeft <em>scheurbuik</em>: tandvleesbloedingen, perifolliculaire bloedinkjes, slechte wondgenezing en loszittende tanden.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin C",
+  "match": "ascorbinezuur (vitamin c)",
+  "option_only": true
+ },
+ "de epidermis": {
+  "title": "Epidermis",
+  "short": "De opperhuid: het bovenste, uit meerlagig verhoornend plaveiselepitheel opgebouwde deel van de huid.",
+  "definition": "<p>De <b>epidermis</b> (opperhuid) is de buitenste huidlaag, opgebouwd uit meerlagig verhoornend plaveiselepitheel zonder bloedvaten.</p><p>Ze bestaat vooral uit keratinocyten in opeenvolgende lagen (basale → hoornlaag) en levert de beschermende barrière.</p>",
+  "image_url": "",
+  "wiki_title": "Epidermis",
+  "match": "de epidermis",
+  "option_only": true
+ },
+ "endosoom": {
+  "title": "Endosoom (vroeg/laat)",
+  "short": "Endosomen zijn blaasjes die via endocytose opgenomen materiaal sorteren; een vroeg endosoom rijpt tot een laat endosoom en fuseert daarna met een lysosoom voor afbraak.",
+  "definition": "<p><strong>Endosomen</strong> zijn membraanblaasjes in de endocytose-route. Het <em>vroege endosoom</em> ontvangt materiaal uit clathrine-blaasjes en sorteert recycling versus afbraak; het rijpt (verzuurt) tot een <em>laat endosoom</em>, dat vervolgens fuseert met een <em>lysosoom</em> voor vertering.</p>",
+  "image_url": "",
+  "wiki_title": "Endosome",
+  "match": "endosoom",
+  "option_only": true
+ },
+ "keratosis actinica": {
+  "title": "Actinische keratose",
+  "short": "Ruw, schilferend plekje door chronische zonschade; een voorstadium van plaveiselcelcarcinoom.",
+  "definition": "<p>Een <b>actinische keratose</b> (keratosis actinica, zonlichtkeratose) is een ruwe, schilferende plek op chronisch aan de zon blootgestelde huid.</p><p>Het is een premaligne afwijking die kan overgaan in een plaveiselcelcarcinoom.</p>",
+  "image_url": "",
+  "wiki_title": "Actinic keratosis",
+  "match": "keratosis actinica",
+  "option_only": true
+ },
+ "glycosylatie": {
+  "title": "Glycosylering",
+  "short": "Post-translationele toevoeging van suikerketens aan een eiwit, vooral in ER en Golgi.",
+  "definition": "<p><b>Glycosylering</b> is het aanhechten van suikerketens aan een eiwit (of lipide), voornamelijk in het endoplasmatisch reticulum en het Golgi-complex.</p><p>Het beïnvloedt vouwing, stabiliteit en herkenning; het levert glycoproteïnen en glycolipiden op.</p>",
+  "image_url": "",
+  "wiki_title": "Glycosylation",
+  "match": "glycosylatie",
+  "option_only": true
+ },
+ "ct-thorax/abdomen": {
+  "title": "CT abdomen",
+  "short": "Een CT abdomen is een röntgenscan in dwarsdoorsneden van de buik, vaak met contrast; goed voor acute buik, tumoren, abcessen en trauma.",
+  "definition": "<p>Bij een <strong>CT abdomen</strong> worden met röntgenstraling dunne dwarsdoorsneden van de buik gemaakt, meestal met intraveneus (en soms oraal) contrast.</p><p>Het geeft een overzichtelijk beeld van alle buikorganen, de darm en het retroperitoneum en wordt gebruikt bij een acute buik (bijv. perforatie, diverticulitis, appendicitis bij volwassenen), bij het stadiëren van tumoren, het opsporen van abcessen en bij trauma. Nadelen zijn de stralingsbelasting en het contrastmiddel (nierfunctie, allergie).</p>",
+  "image_url": "",
+  "wiki_title": "CT scan",
+  "match": "ct-thorax/abdomen",
+  "option_only": true
+ },
+ "fecaal calprotectine": {
+  "title": "Fecaal calprotectine",
+  "short": "Ontstekingsmarker in de ontlasting; verhoogd bij inflammatoire darmziekten, laag bij IBS.",
+  "definition": "<p><b>Fecaal calprotectine</b> is een eiwit uit neutrofielen dat in de feces wordt gemeten. Een verhoogde waarde wijst op darmontsteking (bv. de ziekte van Crohn of colitis ulcerosa) en helpt IBD van functionele klachten te onderscheiden.</p>",
+  "image_url": "",
+  "wiki_title": "Calprotectin",
+  "match": "fecaal calprotectine",
+  "option_only": true
+ },
+ "ecg (elektro-cardiogram)": {
+  "title": "ECG (elektrocardiogram)",
+  "short": "Een ECG registreert de elektrische activiteit van het hart via elektroden op de huid.",
+  "definition": "<p>Een standaard <strong>12-afleidingen-ECG</strong> laat de P-top (boezemdepolarisatie), het QRS-complex (kamerdepolarisatie) en de T-top (repolarisatie) zien. Het wordt gebruikt om ritmestoornissen, geleidingsstoornissen, ischemie en infarct, hypertrofie en elektrolytstoornissen (bijv. hyperkaliëmie) op te sporen.</p>",
+  "image_url": "",
+  "wiki_title": "Electrocardiography",
+  "match": "ecg (elektro-cardiogram)",
+  "option_only": true
+ },
+ "laboratoriumonderzoek": {
+  "title": "Specifiek IgE (RAST)",
+  "short": "Met een RAST of specifiek-IgE-bepaling wordt in het bloed gemeten of iemand IgE-antistoffen tegen een bepaald allergeen heeft.",
+  "definition": "<p>De bepaling van <strong>specifiek IgE</strong> is een alternatief voor de huidpriktest, bijvoorbeeld bij uitgebreid eczeem of als antihistaminica niet gestopt kunnen worden. Ook hier geldt: sensibilisatie is niet hetzelfde als allergie.</p>",
+  "image_url": "",
+  "wiki_title": "Radioallergosorbent test",
+  "match": "laboratoriumonderzoek",
+  "option_only": true
+ },
+ "verhoogde oogboldruk (glaucoom)": {
+  "title": "Glaucoom",
+  "short": "Beschadiging van de oogzenuw, vaak door verhoogde oogdruk, met blijvend gezichtsvelduitval.",
+  "definition": "<p>Glaucoom is een progressieve beschadiging van de nervus opticus, vaak samenhangend met een verhoogde oogboldruk. Het veroorzaakt onomkeerbare gezichtsvelduitval en kan onbehandeld tot blindheid leiden.</p>",
+  "image_url": "",
+  "wiki_title": "Glaucoma",
+  "match": "verhoogde oogboldruk (glaucoom)",
+  "option_only": true
+ },
+ "repolarisatie": {
+  "title": "Repolarisatie",
+  "short": "Herstel van de rustpotentiaal van hartspiercellen na een contractie; op het ECG zichtbaar als de T-top (ventrikels).",
+  "definition": "<p>Na depolarisatie herstellen de myocardcellen hun membraanpotentiaal (repolarisatie). Ventriculaire repolarisatie komt op het ECG overeen met de T-top.</p>",
+  "image_url": "",
+  "wiki_title": "Repolarization",
+  "match": "repolarisatie",
+  "option_only": true
+ },
+ "substantia nigra": {
+  "title": "Substantia nigra",
+  "short": "Dopaminerge kern in het mesencephalon, deel van de basale ganglia.",
+  "definition": "<p>De <b>substantia nigra</b> zendt dopaminerge projecties naar het striatum; degeneratie leidt tot de ziekte van Parkinson.</p>",
+  "image_url": "",
+  "wiki_title": "Substantia nigra",
+  "match": "substantia nigra",
+  "option_only": true
+ },
+ "pons": {
+  "title": "Pons",
+  "short": "De brug; deel van de hersenstam tussen mesencephalon en myelencephalon.",
+  "definition": "<p>De <b>pons</b> bevat kernen en banen die grote en kleine hersenen verbinden en o.a. de n. trigeminus, abducens en facialis herbergen.</p>",
+  "image_url": "",
+  "wiki_title": "Pons",
+  "match": "pons",
+  "option_only": true
+ },
+ "nasale hemianopsie": {
+  "title": "Nasale hemianopsie",
+  "short": "Uitval van de nasale (mediale) helft van het gezichtsveld van één oog, o.a. door druk op de laterale zijde van het chiasma.",
+  "definition": "<p>Een <b>nasale hemianopsie</b> kan ontstaan bij bijvoorbeeld een aneurysma van de arteria carotis interna dat op de laterale vezels van het chiasma drukt.</p>",
+  "image_url": "",
+  "wiki_title": "Hemianopsia",
+  "match": "nasale hemianopsie",
+  "option_only": true
+ },
+ "klassieke conditionering": {
+  "title": "Klassieke conditionering",
+  "short": "Leren door associatie tussen een neutrale en een betekenisvolle prikkel.",
+  "definition": "<p><b>Klassieke conditionering</b> (Pavlov) is een impliciete leervorm waarbij een neutrale stimulus een geconditioneerde respons gaat oproepen.</p>",
+  "image_url": "",
+  "wiki_title": "Classical conditioning",
+  "match": "klassieke conditionering",
+  "option_only": true
+ },
+ "priming": {
+  "title": "Priming",
+  "short": "Onbewuste beïnvloeding van een reactie door een eerdere stimulus.",
+  "definition": "<p><b>Priming</b> is een vorm van impliciet geheugen waarbij blootstelling aan een prikkel latere verwerking van een verwante prikkel versnelt.</p>",
+  "image_url": "",
+  "wiki_title": "Priming (psychology)",
+  "match": "priming",
+  "option_only": true
+ },
+ "benigne paroxismale positieduizeligheid (bppd)": {
+  "title": "BPPD",
+  "short": "Benigne paroxysmale positieduizeligheid: kortdurende draaiduizeligheid uitgelokt door hoofdbewegingen, door losgeraakte otolieten in een halfcirkelvormig kanaal.",
+  "definition": "<p><b>BPPD</b> (benigne paroxysmale positieduizeligheid) wordt veroorzaakt door otolietgruis (canalithiasis) in meestal het posterieure semicirculaire kanaal. Kenmerkend is kortdurende vertigo uitgelokt door standsverandering van het hoofd; de Dix-Hallpike-test is positief.</p>",
+  "image_url": "",
+  "wiki_title": "Benign paroxysmal positional vertigo",
+  "match": "benigne paroxismale positieduizeligheid (bppd)",
+  "option_only": true
+ },
+ "groeihormoonreceptor antagonist": {
+  "title": "Groeihormoonreceptorantagonist (pegvisomant)",
+  "short": "Een groeihormoonreceptorantagonist blokkeert de werking van groeihormoon op weefsels; gebruikt bij acromegalie.",
+  "definition": "<p><strong>Pegvisomant</strong> is een gemodificeerd groeihormoonmolecuul dat aan de groeihormoonreceptor bindt maar die niet activeert. Daardoor daalt de productie van IGF-1, die de klachten van acromegalie veroorzaakt. Het wordt gebruikt als operatie en somatostatine-analogen onvoldoende effect hebben; het verkleint de tumor zelf niet.</p>",
+  "image_url": "",
+  "wiki_title": "Pegvisomant",
+  "match": "groeihormoonreceptor antagonist",
+  "option_only": true
+ },
+ "prevertebrale ganglia": {
+  "title": "Prevertebrale ganglia",
+  "short": "Sympatische ganglia vóór de wervelkolom (o.a. ganglion coeliacum) waar postganglionaire sympatische neuronen liggen.",
+  "definition": "<p><b>Prevertebrale ganglia</b> liggen rond de grote buikarteriën en bevatten cellichamen van postganglionaire sympatische neuronen die de buikorganen innerveren.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "prevertebrale ganglia",
+  "option_only": true
+ },
+ "orale biologische beschikbaarheid (=bioavailability)": {
+  "title": "Biologische beschikbaarheid",
+  "short": "De biologische beschikbaarheid (bioavailability) is de fractie van een toegediende dosis die onveranderd de systemische circulatie bereikt.",
+  "definition": "<p><strong>Biologische beschikbaarheid</strong> is per definitie 100% bij intraveneuze toediening en lager bij orale toediening door onvolledige opname en het first pass-effect.</p>",
+  "image_url": "",
+  "wiki_title": "Bioavailability",
+  "match": "orale biologische beschikbaarheid (=bioavailability)",
+  "option_only": true
+ },
+ "hoofdcellen": {
+  "title": "Hoofdcellen",
+  "short": "Cellen in de maagwand die pepsinogeen produceren.",
+  "definition": "<p><b>Hoofdcellen</b> (chief cells) van de maagklieren bezitten veel ruw endoplasmatisch reticulum voor de aanmaak en secretie van pepsinogeen, het inactieve voorloperenzym van pepsine.</p>",
+  "image_url": "",
+  "wiki_title": "Gastric chief cell",
+  "match": "hoofdcellen",
+  "option_only": true
+ },
+ "compressietherapie (steunkousen/zwachtels)": {
+  "title": "Compressietherapie",
+  "short": "Bij compressietherapie wordt met zwachtels of therapeutisch elastische kousen druk op het been uitgeoefend om de veneuze en lymfatische afvoer te verbeteren.",
+  "definition": "<p><strong>Compressie</strong> is de basis van de behandeling van chronische veneuze insufficiëntie, een ulcus cruris venosum, lymfoedeem en het posttrombotisch syndroom. Bij ernstig arterieel vaatlijden is het gecontra-indiceerd; daarom wordt eerst de enkel-armindex gemeten.</p>",
+  "image_url": "",
+  "wiki_title": "Compression therapy",
+  "match": "compressietherapie (steunkousen/zwachtels)",
+  "option_only": true
+ },
+ "aneurysma aortae": {
+  "title": "Aneurysma aortae",
+  "short": "Blijvende, lokale verwijding van de aorta; op een thoraxfoto zichtbaar als een verbrede aortaschaduw.",
+  "definition": "<p>Een <b>aneurysma van de aorta</b> is een pathologische verwijding van de vaatwand. Ruptuur is levensbedreigend.</p>",
+  "image_url": "",
+  "wiki_title": "Aortic aneurysm",
+  "match": "aneurysma aortae",
+  "option_only": true
+ },
+ "herpes stomatitis (ontstoken mondslijmvlies)": {
+  "title": "Gingivostomatitis herpetica",
+  "short": "Gingivostomatitis herpetica is de primaire infectie met HSV-1 bij jonge kinderen, met pijnlijke blaasjes en zweertjes in de mond en koorts.",
+  "definition": "<p>Bij <strong>gingivostomatitis herpetica</strong> zijn er pijnlijke aften op tong, gehemelte en tandvlees, met gezwollen tandvlees, kwijlen, koorts en weigeren te drinken. Het risico op uitdroging is de belangrijkste complicatie. Vroeg gestart aciclovir kan het beloop verkorten.</p>",
+  "image_url": "",
+  "wiki_title": "Herpetic gingivostomatitis",
+  "match": "herpes stomatitis (ontstoken mondslijmvlies)",
+  "option_only": true
+ },
+ "specifiek(e) ige": {
+  "title": "Specifiek IgE (RAST)",
+  "short": "Met een RAST of specifiek-IgE-bepaling wordt in het bloed gemeten of iemand IgE-antistoffen tegen een bepaald allergeen heeft.",
+  "definition": "<p>De bepaling van <strong>specifiek IgE</strong> is een alternatief voor de huidpriktest, bijvoorbeeld bij uitgebreid eczeem of als antihistaminica niet gestopt kunnen worden. Ook hier geldt: sensibilisatie is niet hetzelfde als allergie.</p>",
+  "image_url": "",
+  "wiki_title": "Radioallergosorbent test",
+  "match": "specifiek(e) ige",
+  "option_only": true
+ },
+ "bepalen van urineretentie (bladderscan)": {
+  "title": "Bladderscan",
+  "short": "Echografisch onderzoek om het urineresidu in de blaas na mictie te bepalen.",
+  "definition": "<p>Een bladderscan is een niet-invasieve echografische meting van het blaasvolume, gebruikt om urineretentie (residu na mictie) vast te stellen zonder katheterisatie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "bepalen van urineretentie (bladderscan)",
+  "option_only": true
+ },
+ "reverse transcriptase": {
+  "title": "Reverse transcriptase",
+  "short": "Reverse transcriptase is een enzym van retrovirussen dat RNA omschrijft naar DNA — een karakteristieke eigenschap van bijv. hiv.",
+  "definition": "<p><strong>Reverse transcriptase</strong> is een RNA-afhankelijk DNA-polymerase. Het maakt van het virale RNA-genoom een DNA-kopie en is het aangrijpingspunt van meerdere antiretrovirale middelen.</p>",
+  "image_url": "",
+  "wiki_title": "Reverse transcriptase",
+  "match": "reverse transcriptase",
+  "option_only": true
+ },
+ "rna-polymerase": {
+  "title": "RNA-polymerase",
+  "short": "RNA-polymerase is het enzym dat tijdens transcriptie een RNA-streng synthetiseert op basis van een DNA-sjabloon.",
+  "definition": "<p><strong>RNA-polymerase</strong> leest de DNA-matrijs af en bouwt complementair RNA. Bij eukaryoten doet RNA-polymerase II het mRNA.</p>",
+  "image_url": "",
+  "wiki_title": "RNA polymerase",
+  "match": "rna-polymerase",
+  "option_only": true
+ },
+ "pneumonitis": {
+  "title": "Pneumonitis",
+  "short": "Ontsteking van het longweefsel; een typische immuun-gerelateerde bijwerking van immunotherapie.",
+  "definition": "<p><b>Pneumonitis</b> is een niet-infectieuze ontsteking van het longparenchym. Als immuun-gemedieerde bijwerking van checkpointremmers kan het ernstig zijn en behandeling met corticosteroïden vereisen.</p>",
+  "image_url": "",
+  "wiki_title": "Pneumonitis",
+  "match": "pneumonitis",
+  "option_only": true
+ },
+ "d-dimeer": {
+  "title": "D-dimeer",
+  "short": "Afbraakproduct van fibrine; een normale waarde sluit bij lage verdenking een trombose/longembolie vrijwel uit.",
+  "definition": "<p>D-dimeer is een fibrinolyse-afbraakproduct. Een normale waarde bij lage klinische verdenking sluit een longembolie uit; een verhoogde waarde is aspecifiek en vereist beeldvorming.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "d-dimeer",
+  "option_only": true
+ },
+ "iga protease": {
+  "title": "IgA-protease",
+  "short": "IgA-protease is een bacteriële virulentiefactor die het mucosale antistof IgA afbreekt, waardoor kolonisatie van slijmvliezen wordt vergemakkelijkt.",
+  "definition": "<p><b>IgA-protease</b> wordt geproduceerd door o.a. Neisseria en pneumokokken en helpt de bacterie de mucosale afweer te omzeilen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "iga protease",
+  "option_only": true
+ },
+ "surmenage": {
+  "title": "Surmenage",
+  "short": "Overbelasting door aanhoudende stress; nauw verwant aan overspanning en aanpassingsstoornis.",
+  "definition": "<p><b>Surmenage</b> is een toestand van overbelasting door langdurige of overmatige (psychische) inspanning en stress, waarbij lichamelijke en psychische klachten optreden. De term overlapt met overspanning en aanpassingsstoornis.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "surmenage",
+  "option_only": true
+ },
+ "humaan metapneumovirus": {
+  "title": "Humaan Metapneumovirus (HMPV)",
+  "short": "RSV-verwant virus dat bij jonge kinderen bronchiolitis en pneumonie kan geven, met een vergelijkbaar klinisch beeld als RSV.",
+  "definition": "<p><b>Humaan Metapneumovirus (HMPV)</b> is nauw verwant aan RSV en veroorzaakt luchtweginfecties bij jonge kinderen, variërend van verkoudheid tot bronchiolitis en pneumonie. Het beeld lijkt sterk op dat van RSV.</p>",
+  "image_url": "",
+  "wiki_title": "Human metapneumovirus",
+  "match": "humaan metapneumovirus",
+  "option_only": true
+ },
+ "iga-protease": {
+  "title": "IgA-protease",
+  "short": "IgA-protease is een bacteriële virulentiefactor die het mucosale antistof IgA afbreekt, waardoor kolonisatie van slijmvliezen wordt vergemakkelijkt.",
+  "definition": "<p><b>IgA-protease</b> wordt geproduceerd door o.a. Neisseria en pneumokokken en helpt de bacterie de mucosale afweer te omzeilen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "iga-protease",
+  "option_only": true
+ },
+ "fimbriae": {
+  "title": "Fimbriae (pili)",
+  "short": "Fimbriae zijn korte haarachtige uitsteeksels op bacteriën die dienen voor aanhechting aan gastheercellen, zoals E. coli aan het blaasepitheel bij urineweginfecties.",
+  "definition": "<p><strong>Fimbriae</strong> (pili) zijn dunne eiwit-uitsteeksels op het bacterieoppervlak die zorgen voor <em>adhesie</em> aan gastheerweefsel. Bij uropathogene <em>Escherichia coli</em> maken fimbriae (o.a. type-1 en P-pili) hechting aan het uro-epitheel mogelijk, een cruciale eerste stap bij urineweginfecties. Flagellen dienen daarentegen voor voortbeweging.</p>",
+  "image_url": "",
+  "wiki_title": "Fimbria (bacteriology)",
+  "match": "fimbriae",
+  "option_only": true
+ },
+ "malleolus": {
+  "title": "Malleolus",
+  "short": "De malleoli zijn de twee botknobbels aan de enkel: de mediale malleolus (tibia) en de laterale malleolus (fibula).",
+  "definition": "<p>De <strong>malleolus medialis</strong> (van de tibia) en <strong>malleolus lateralis</strong> (van de fibula) vormen de 'enkelvork' die het bovenste spronggewricht stabiliseert.</p>",
+  "image_url": "",
+  "wiki_title": "Malleolus",
+  "match": "malleolus",
+  "option_only": true
+ },
+ "basisverzekering": {
+  "title": "Basisverzekering",
+  "short": "Wettelijk verplichte zorgverzekering met een door de overheid vastgesteld standaardpakket en acceptatieplicht.",
+  "definition": "<p>De <b>basisverzekering</b> is de voor iedereen verplichte zorgverzekering (Zvw) met een door de overheid vastgesteld pakket. Verzekeraars hebben acceptatieplicht en mogen voor dezelfde polis geen onderscheid in premie maken; risicoverevening compenseert hen voor dure verzekerden.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "basisverzekering",
+  "option_only": true
+ },
+ "ggd": {
+  "title": "GGD",
+  "short": "Gemeentelijke Gezondheidsdienst; voert publieke-gezondheidstaken uit voor gemeenten.",
+  "definition": "<p>De <b>GGD</b> (Gemeentelijke/Gemeenschappelijke Gezondheidsdienst) voert namens gemeenten taken uit de Wet publieke gezondheid uit, zoals infectieziektebestrijding, jeugdgezondheidszorg en forensische geneeskunde. Uitbraken van bv. diarree op de kinderopvang worden hier gemeld.",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "ggd",
+  "option_only": true
+ },
+ "arbeidshygiënist": {
+  "title": "arbeidshygiënist",
+  "short": "Deskundige die werkgerelateerde risico's (zoals de RIE) in kaart brengt en beheerst.",
+  "definition": "<p>De <b>arbeidshygiënist</b> inventariseert en beheerst blootstelling en risico's op de werkplek.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "arbeidshygiënist",
+  "option_only": true
+ },
+ "extrinsieke allergische alveolitis (eaa)": {
+  "title": "Extrinsieke allergische alveolitis",
+  "short": "Extrinsieke allergische alveolitis is een immuunreactie (type III/IV) in de alveoli op ingeademde organische stoffen, zoals schimmelsporen of vogeleiwitten.",
+  "definition": "<p>Bij <strong>hypersensitivity pneumonitis</strong> (extrinsieke allergische alveolitis) reageert het immuunsysteem op herhaald ingeademde organische antigenen: schimmelsporen uit hooi (boerenlong), vogeleiwitten (duivenmelkerslong) of bevochtigerwater.</p><p>Het mechanisme is een type III- (immuuncomplex) en type IV- (T-cel) reactie met lymfocytaire alveolitis en kleine granulomen. Acuut: koorts, hoesten en kortademigheid enkele uren na blootstelling; chronisch kan longfibrose ontstaan. Behandeling: blootstelling vermijden, eventueel corticosteroïden.</p>",
+  "image_url": "",
+  "wiki_title": "Hypersensitivity pneumonitis",
+  "match": "extrinsieke allergische alveolitis (eaa)",
+  "option_only": true
+ },
+ "bovenste spronggewricht": {
+  "title": "Bovenste spronggewricht",
+  "short": "De articulatio talocruralis tussen tibia/fibula en talus; hier vinden dorsaal- en plantairflexie plaats.",
+  "definition": "<p>Het <b>bovenste spronggewricht</b> (art. talocruralis) ligt tussen de malleoli van tibia en fibula en de talus. De primaire bewegingen zijn dorsaalflexie en plantairflexie.</p>",
+  "image_url": "",
+  "wiki_title": "Ankle",
+  "match": "bovenste spronggewricht",
+  "option_only": true
+ },
+ "triangulaire fibrocartilagineuze complex (tfcc-laesie)": {
+  "title": "TFCC-laesie",
+  "short": "Beschadiging van het triangulaire fibrocartilagineuze complex aan de ulnaire zijde van de pols.",
+  "definition": "<p>Een <b>TFCC-laesie</b> is een scheur van het triangulaire fibrocartilagineuze complex, een kraakbeen-band-structuur aan de ulnaire (pink)zijde van de pols die het distale radio-ulnaire gewricht stabiliseert. Geeft pijn aan de ulnaire polszijde bij belasting.</p>",
+  "image_url": "",
+  "wiki_title": "Triangular fibrocartilage",
+  "match": "triangulaire fibrocartilagineuze complex (tfcc-laesie)",
+  "option_only": true
+ },
+ "totale ziektelast": {
+  "title": "Verloren levensjaren en ziektelast (DALY)",
+  "short": "De ziektelast van een aandoening wordt vaak uitgedrukt in DALY's: verloren levensjaren door vroegtijdige sterfte plus jaren geleefd met ziekte.",
+  "definition": "<p>Een <strong>DALY</strong> (disability-adjusted life year) combineert sterfte (verloren levensjaren) en beperkingen (jaren met ziekte, gewogen naar ernst). Zo kunnen ziekten die vooral sterfte geven worden vergeleken met ziekten die vooral beperkingen geven, zoals depressie.</p>",
+  "image_url": "",
+  "wiki_title": "Disability-adjusted life year",
+  "match": "totale ziektelast",
+  "option_only": true
+ },
+ "risicoperceptie": {
+  "title": "Risicoperceptie",
+  "short": "De inschatting die iemand maakt van een gezondheidsrisico.",
+  "definition": "Patiënten neigen ertoe hun eigen <b>risicoperceptie</b> te onderschatten ('mij overkomt het niet').",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "risicoperceptie",
+  "option_only": true
+ },
+ "bursitis olecrani": {
+  "title": "Bursitis olecrani",
+  "short": "'Student's elbow'; ontsteking van de slijmbeurs op de elleboogpunt.",
+  "definition": "<b>Bursitis olecrani</b> is een ontsteking van de bursa over het olecranon, vaak door langdurig leunen ('student's elbow').",
+  "image_url": "",
+  "wiki_title": "Olecranon bursitis",
+  "match": "bursitis olecrani",
+  "option_only": true
+ },
+ "tfcc-laesie (triangulaire fibrocartilagineuze complex)": {
+  "title": "TFCC-laesie",
+  "short": "Beschadiging van het triangulaire fibrocartilagineuze complex aan de ulnaire zijde van de pols.",
+  "definition": "<p>Een <b>TFCC-laesie</b> is een scheur van het triangulaire fibrocartilagineuze complex, een kraakbeen-band-structuur aan de ulnaire (pink)zijde van de pols die het distale radio-ulnaire gewricht stabiliseert. Geeft pijn aan de ulnaire polszijde bij belasting.</p>",
+  "image_url": "",
+  "wiki_title": "Triangular fibrocartilage",
+  "match": "tfcc-laesie (triangulaire fibrocartilagineuze complex)",
+  "option_only": true
+ },
+ "framing": {
+  "title": "framing",
+  "short": "Manier waarop informatie (bijv. een risico) wordt gepresenteerd, wat de perceptie en besluitvorming beïnvloedt.",
+  "definition": "<p><b>Framing</b> is het effect van de wijze van presenteren van informatie op de beoordeling ervan.</p>",
+  "image_url": "",
+  "wiki_title": "Framing effect",
+  "match": "framing",
+  "option_only": true
+ },
+ "lig. capitis femoris": {
+  "title": "Ligamentum capitis femoris",
+  "short": "Bandje in het heupgewricht met de a. lig. capitis femoris; levert bij volwassenen slechts een geringe bloedvoorziening aan de femurkop.",
+  "definition": "<p>Intra-articulair ligament dat de femurkop met het acetabulum verbindt. Bevat een kleine arterie die bij volwassenen onvoldoende is om de kop zelfstandig te voeden.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "lig. capitis femoris",
+  "option_only": true
+ },
+ "wet kwaliteit, klachten en geschillen zorg": {
+  "title": "Wkkgz",
+  "short": "Wet die goede zorg, klachtafhandeling en geschillenbeslechting in de zorg regelt.",
+  "definition": "<p>De <b>Wkkgz</b> verplicht zorgaanbieders tot het leveren van 'goede zorg' en regelt de klachten- en geschillenprocedure. Een patient met een schadeclaim gaat eerst naar de geschillencommissie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wet kwaliteit, klachten en geschillen zorg",
+  "option_only": true
+ },
+ "os coxae": {
+  "title": "Os coxae (heupbeen)",
+  "short": "Het heupbeen, opgebouwd uit os ilium, os ischii en os pubis, die samensmelten in het acetabulum.",
+  "definition": "<p>Het <strong>os coxae</strong> vormt samen met het os sacrum en os coccygis het benige bekken.</p>",
+  "image_url": "",
+  "wiki_title": "Hip bone",
+  "match": "os coxae",
+  "option_only": true
+ },
+ "effectiviteit": {
+  "title": "Effectiviteit",
+  "short": "Mate waarin een behandeling het beoogde gezondheidsresultaat bereikt in de praktijk.",
+  "definition": "<p><b>Effectiviteit</b> is de mate waarin een interventie in de dagelijkse praktijk het gewenste effect oplevert. Het is een van de kwaliteitsdomeinen van zorg.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "effectiviteit",
+  "option_only": true
+ },
+ "doelmatigheid": {
+  "title": "Doelmatigheid",
+  "short": "Het beginsel dat een maatregel daadwerkelijk effectief moet zijn om het beoogde doel te bereiken.",
+  "definition": "<p>Doelmatigheid beoordeelt of de gekozen maatregel het beoogde effect heeft. Als een maatregel het doel niet bereikt of averechts werkt, is zij niet doelmatig en moet zij worden heroverwogen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "doelmatigheid",
+  "option_only": true
+ },
+ "chronisch inflammatoir darmlijden (inflammatory bowel disease)": {
+  "title": "Inflammatory bowel disease (IBD)",
+  "short": "Chronische darmontsteking (ziekte van Crohn, colitis ulcerosa) met bloed in de ontlasting en koorts.",
+  "definition": "<p><b>IBD</b> onderscheidt zich van prikkelbaredarmsyndroom (PDS) door alarmsymptomen als bloed in de ontlasting, koorts en ontstekingsafwijkingen.</p>",
+  "image_url": "",
+  "wiki_title": "Inflammatory bowel disease",
+  "match": "chronisch inflammatoir darmlijden (inflammatory bowel disease)",
+  "option_only": true
+ },
+ "stikstofmonoxide (no)": {
+  "title": "Stikstofoxide (NO)",
+  "short": "Stikstofoxide (NO) is een gasvormige signaalstof uit het endotheel die gladde spier ontspant en zo vaten verwijdt.",
+  "definition": "<p><strong>NO</strong> wordt gemaakt uit arginine door NO-synthase. In het endotheel ontstaat het o.a. door schuifspanning en acetylcholine; het diffundeert naar de gladde spiercel, activeert guanylaatcyclase en verhoogt cGMP, wat relaxatie geeft. NO remt ook de plaatjesaggregatie. Nitraten en PDE5-remmers versterken deze route.</p>",
+  "image_url": "",
+  "wiki_title": "Nitric oxide",
+  "match": "stikstofmonoxide (no)",
+  "option_only": true
+ },
+ "fructose 2,6-bisfosfaat (f2,6bp)": {
+  "title": "Fructose 2,6-bisfosfaat",
+  "short": "Krachtige allostere activator van de glycolyse (PFK1) en remmer van de gluconeogenese in de lever.",
+  "definition": "<p><b>Fructose 2,6-bisfosfaat</b> (F2,6-bisP) stuurt de balans tussen glycolyse en gluconeogenese. Insuline verhoogt de spiegel (glycolyse aan), glucagon verlaagt haar.</p>",
+  "image_url": "",
+  "wiki_title": "Fructose 2,6-bisphosphate",
+  "match": "fructose 2,6-bisfosfaat (f2,6bp)",
+  "option_only": true
+ },
+ "adenosine trifosfaat (atp)": {
+  "match": "adenosine trifosfaat (atp)",
+  "title": "ATP (adenosinetrifosfaat)",
+  "short": "ATP is de energiemunt van de cel: bij afsplitsing van de derde fosfaatgroep komt energie vrij die transport, contractie en biosynthese aandrijft.",
+  "definition": "<p><strong>ATP</strong> (adenosinetrifosfaat) bestaat uit adenine, ribose en drie fosfaatgroepen. Hydrolyse van de eindstandige fosfaatbinding (ATP → ADP + P<sub>i</sub>) levert ongeveer 30 kJ/mol — genoeg om ongunstige reacties te koppelen aan een gunstige: spiercontractie, de Na⁺/K⁺-ATPase, en de opbouw van eiwitten, vetten en DNA.</p><p>Het meeste ATP komt uit de <em>oxidatieve fosforylering</em> in het mitochondrion: de elektronentransportketen pompt protonen naar de intermembraanruimte, en ATP-synthase laat die protonengradiënt terugstromen en maakt daarmee ATP (chemiosmose). Glycolyse en de citroenzuurcyclus leveren daarnaast rechtstreeks een kleine hoeveelheid.</p><p>De cel slaat ATP nauwelijks op — de voorraad gaat in seconden — dus productie en verbruik zijn strak gekoppeld: veel ADP versnelt de verbranding, overmaat ATP remt die af.</p>",
+  "image_url": "",
+  "wiki_titles": [
+   "Adenosine triphosphate",
+   "ATP synthase"
+  ],
+  "option_only": true
+ },
+ "citraat (citroenzuur)": {
+  "title": "Citraat",
+  "short": "Eerste product van de citroenzuurcyclus, gevormd uit acetyl-CoA en oxaalacetaat.",
+  "definition": "<p><b>Citraat</b> (citroenzuur) ontstaat wanneer acetyl-CoA in de citroenzuurcyclus aan oxaalacetaat wordt gekoppeld.</p><p>Het is de eerste stap van de cyclus; de naamgever citroenzuurcyclus verwijst ernaar.</p>",
+  "image_url": "",
+  "wiki_title": "Citric acid",
+  "match": "citraat (citroenzuur)",
+  "option_only": true
+ },
+ "mediastinum": {
+  "title": "Mediastinum",
+  "short": "Ruimte tussen beide longen met o.a. hart, grote vaten en oesophagus; ingedeeld in superius, anterius, medium en posterius.",
+  "definition": "<p>Het <b>mediastinum</b> is het middencompartiment van de borstholte tussen de beide pleuraholten.</p>",
+  "image_url": "",
+  "wiki_title": "Mediastinum",
+  "match": "mediastinum",
+  "option_only": true
+ },
+ "area nuda": {
+  "title": "Area nuda",
+  "short": "Het deel van het leveroppervlak zonder peritoneale bekleding, direct tegen het diafragma.",
+  "definition": "<p>Onbeklede (peritoneumvrije) zone aan de achterbovenzijde van de lever, waar deze direct aan het diafragma vastzit.</p>",
+  "image_url": "",
+  "wiki_title": "Bare area of the liver",
+  "match": "area nuda",
+  "option_only": true
+ },
+ "malonyl coa": {
+  "title": "Malonyl-CoA",
+  "short": "Carboxyleringsproduct van acetyl-CoA dat als bouwsteen dient voor de vetzuursynthese en de vetzuuroxidatie remt.",
+  "definition": "<p><b>Malonyl-CoA</b> ontstaat door acetyl-CoA-carboxylase en levert de C2-eenheden voor de groeiende vetzuurketen.</p>",
+  "image_url": "",
+  "wiki_title": "Malonyl-CoA",
+  "match": "malonyl coa",
+  "option_only": true
+ },
+ "pleura visceralis": {
+  "title": "Pleura visceralis en parietalis",
+  "short": "De pleura visceralis bekleedt de long, de pleura parietalis de borstwand; ertussen ligt de pleuraholte.",
+  "definition": "<p>De <strong>pleura visceralis</strong> ligt direct op het longoppervlak, de <strong>pleura parietalis</strong> tegen de thoraxwand en het diafragma. De overgang tussen beide ligt bij de longhilus. De dunne vochtlaag ertussen maakt wrijvingsloze ademhaling mogelijk.</p>",
+  "image_url": "",
+  "wiki_title": "Pulmonary pleurae",
+  "match": "pleura visceralis",
+  "option_only": true
+ },
+ "vesiculair ademgeruis": {
+  "title": "Vesiculair ademgeruis",
+  "short": "Normaal, zacht ademgeruis dat over gezonde longen hoorbaar is.",
+  "definition": "<p><b>Vesiculair ademgeruis</b> is het fysiologische ademgeruis over de longvelden; afwijkingen ervan (bronchiaal, verzwakt) wijzen op pathologie.</p>",
+  "image_url": "",
+  "wiki_title": "Respiratory sounds",
+  "match": "vesiculair ademgeruis",
+  "option_only": true
+ },
+ "dyssynergie": {
+  "title": "Bekkenbodemdyssynergie",
+  "short": "Gestoorde ontspanning of paradoxale aanspanning van de bekkenbodem tijdens defecatie.",
+  "definition": "<p>Bij <b>dyssynergie</b> van de bekkenbodem ontspant de bekkenbodem niet of trekt juist samen bij persen, wat langdurig en moeizaam toiletbezoek veroorzaakt.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "dyssynergie",
+  "option_only": true
+ },
+ "omentum minus": {
+  "title": "Omentum minus",
+  "short": "Dubbele peritoneumplooi tussen de kleine curvatuur van de maag/duodenum en de lever.",
+  "definition": "<p>Het <b>omentum minus</b> (kleine net) is een peritoneale plooi die van de leverhilus naar de kleine curvatuur van de maag en het begin van het duodenum loopt. Het bevat onder andere de a. hepatica, v. portae en ductus choledochus in de vrije rand.</p>",
+  "image_url": "",
+  "wiki_title": "Lesser omentum",
+  "match": "omentum minus",
+  "option_only": true
+ },
+ "pseudocroup (laryngitis subglottica)": {
+  "title": "Pseudocroup",
+  "short": "Virale ontsteking van het strottenhoofd onder de stembanden bij jonge kinderen, met blafhoest.",
+  "definition": "<p><b>Pseudocroup</b> wordt meestal veroorzaakt door het para-influenzavirus en treedt vooral 's nachts op bij kinderen van 6 maanden tot 6 jaar. Bij een ernstige vorm worden dexamethason en soms vernevelde adrenaline gegeven.</p>",
+  "image_url": "",
+  "wiki_title": "Croup",
+  "match": "pseudocroup (laryngitis subglottica)",
+  "option_only": true
+ },
+ "mmc (migrating myoelectrical complex)-contracties": {
+  "title": "Migrating myoelectrical complex (MMC)",
+  "short": "Golf van contracties tussen maaltijden die onverteerd materiaal uit maag en dunne darm veegt.",
+  "definition": "<p>Het <b>MMC</b> is de 'housekeeper' van het maag-darmkanaal: cyclische motoractiviteit tijdens vasten die restanten en bacteriën aboraal voortstuwt. Wordt onderbroken zodra er weer voedsel binnenkomt.</p>",
+  "image_url": "",
+  "wiki_title": "Migrating motor complex",
+  "match": "mmc (migrating myoelectrical complex)-contracties",
+  "option_only": true
+ },
+ "truncus coeliacus": {
+  "title": "Truncus coeliacus",
+  "short": "Eerste onparige tak van de buikaorta die de lever, maag, milt en het bovenste deel van het duodenum van bloed voorziet.",
+  "definition": "<p>De <b>truncus coeliacus</b> ontspringt net onder het diafragma uit de aorta abdominalis en splitst zich in de a. gastrica sinistra, a. splenica en a. hepatica communis.</p>",
+  "image_url": "",
+  "wiki_title": "Celiac artery",
+  "match": "truncus coeliacus",
+  "option_only": true
+ },
+ "lig. falciforme": {
+  "title": "Ligamentum falciforme",
+  "short": "Sikkelvormige buikvliesplooi die de lever aan de voorste buikwand en het middenrif verbindt.",
+  "definition": "<p>Het <b>lig. falciforme</b> is een rest van het ventrale mesenterium; in de vrije onderrand loopt het lig. teres hepatis (obliteratie van de v. umbilicalis).</p>",
+  "image_url": "",
+  "wiki_title": "Falciform ligament",
+  "match": "lig. falciforme",
+  "option_only": true
+ },
+ "omentum majus": {
+  "title": "Omentum majus",
+  "short": "Grote vetschort die vanaf de grote curvatuur van de maag over de darmen hangt.",
+  "definition": "<p>Het <b>omentum majus</b> ontwikkelt uit het dorsale mesogastrium en heeft een afdekkende, immunologische functie in de buikholte.</p>",
+  "image_url": "",
+  "wiki_title": "Greater omentum",
+  "match": "omentum majus",
+  "option_only": true
+ },
+ "ductus cysticus": {
+  "title": "Ductus cysticus",
+  "short": "De galbuis die de galblaas verbindt met de ductus hepaticus communis.",
+  "definition": "<p>De buis die de <b>galblaas</b> verbindt met de ductus hepaticus communis; samen vormen zij de ductus choledochus.</p>",
+  "image_url": "",
+  "wiki_title": "Cystic duct",
+  "match": "ductus cysticus",
+  "option_only": true
+ },
+ "papilla duodeni major (vater)": {
+  "title": "Papilla duodeni major (van Vater)",
+  "short": "Het slijmvliesheuveltje in het dalende deel van het duodenum waar de ductus choledochus en de ductus pancreaticus uitmonden.",
+  "definition": "<p>Bij de <b>papilla duodeni major</b> ligt de sfincter van Oddi. Via deze papil wordt bij een ERCP de galweg in beeld gebracht en behandeld. De papilla duodeni minor (iets hoger) is de uitmonding van de ductus pancreaticus accessorius.</p>",
+  "image_url": "",
+  "wiki_title": "Major duodenal papilla",
+  "match": "papilla duodeni major (vater)",
+  "option_only": true
+ },
+ "ductus hepaticus communis": {
+  "title": "Ductus hepaticus communis",
+  "short": "De gemeenschappelijke leverbuis die de gal uit beide leverkwabben verzamelt.",
+  "definition": "<p>Gevormd door samenvloeiing van de rechter en linker ductus hepaticus; sluit zich aan met de ductus cysticus tot de ductus choledochus.</p>",
+  "image_url": "",
+  "wiki_title": "Common hepatic duct",
+  "match": "ductus hepaticus communis",
+  "option_only": true
+ },
+ "bloedgasanalyse": {
+  "title": "Bloedgasanalyse",
+  "short": "Meting van pH, PCO2, PO2 en base-excess in arterieel bloed om gaswisseling en zuur-base te beoordelen.",
+  "definition": "<p>De arteriële bloedgasanalyse toont de oxygenatie, ventilatie (PCO2) en de zuur-basebalans (pH, base-excess).</p>",
+  "image_url": "",
+  "wiki_title": "Arterial_blood_gas_test",
+  "match": "bloedgasanalyse",
+  "option_only": true
+ },
+ "migrating myoelectrical complex (mmc) contracties": {
+  "title": "Migrating motor complex (MMC)",
+  "short": "Cyclisch motoriekpatroon in maag en dunne darm tijdens vasten dat resten wegveegt.",
+  "definition": "<p>Het <b>migrating motor complex</b> is de 'huishoudgolf' van de darm in nuchtere toestand, gestuurd door motiline, die onverteerde resten en bacteriën aboraal verplaatst.</p>",
+  "image_url": "",
+  "wiki_title": "Migrating motor complex",
+  "match": "migrating myoelectrical complex (mmc) contracties",
+  "option_only": true
+ },
+ "kubisch epitheel": {
+  "title": "Kubisch epitheel",
+  "short": "Kubisch epitheel bestaat uit kubusvormige cellen en bekleedt onder meer de terminale bronchioli en klierbuizen.",
+  "definition": "<p><strong>Kubisch epitheel</strong> heeft cellen die ongeveer even hoog als breed zijn. Het komt voor in klieren, nierbuisjes en de kleinste luchtwegen (bronchioli), in tegenstelling tot het plaveiselepitheel van de alveoli.</p>",
+  "image_url": "",
+  "wiki_title": "Simple cuboidal epithelium",
+  "match": "kubisch epitheel",
+  "option_only": true
+ },
+ "appendices omentales (epiploicae)": {
+  "title": "Appendices omentales",
+  "short": "Kleine vetophangsels aan de buitenzijde van het colon.",
+  "definition": "<p><b>Appendices omentales</b> (epiploicae) zijn met vet gevulde peritoneale uitstulpingen langs het colon, een van de morfologische kenmerken van de dikke darm.</p>",
+  "image_url": "",
+  "wiki_title": "Epiploic appendix",
+  "match": "appendices omentales (epiploicae)",
+  "option_only": true
+ },
+ "plicae circulares": {
+  "title": "plicae circulares",
+  "short": "Circulaire plooien van de mucosa en submucosa van de dunne darm (met name jejunum) die het absorptieoppervlak vergroten.",
+  "definition": "<p><b>Plicae circulares</b> (plooien van Kerckring) zijn permanente circulaire plooien in de dunne darm. Ze zijn het talrijkst en hoogst in het jejunum en vergroten samen met villi en microvilli het resorptieoppervlak.</p>",
+  "image_url": "",
+  "wiki_title": "Circular folds",
+  "match": "plicae circulares",
+  "option_only": true
+ },
+ "lactose intolerantie": {
+  "title": "Lactose-intolerantie",
+  "short": "Bij lactose-intolerantie is er te weinig lactase in de dunne darm, waardoor melksuiker in de dikke darm wordt gefermenteerd.",
+  "definition": "<p>Bij <strong>lactose-intolerantie</strong> geeft melk een opgeblazen gevoel, winderigheid, buikkrampen en osmotische diarree. De primaire vorm (afnemende lactase na de kindertijd) komt wereldwijd bij de meerderheid van de volwassenen voor; secundaire vormen ontstaan bij darmschade (bijv. coeliakie, gastro-enteritis). Diagnose met een waterstofademtest of eliminatie.</p>",
+  "image_url": "",
+  "wiki_title": "Lactose intolerance",
+  "match": "lactose intolerantie",
+  "option_only": true
+ },
+ "incretines (zoals gip en glp-1)": {
+  "title": "Incretines",
+  "short": "Incretines (zoals GIP en GLP-1) zijn darmhormonen die na een maaltijd de insulinesecretie versterken.",
+  "definition": "<p><strong>Incretines</strong> worden door de darm afgegeven bij voedselopname en stimuleren de bètacellen tot insulineafgifte, nog voordat de bloedglucose sterk stijgt. GIP (glucose-dependent insulinotrophic peptide) is er één van.</p>",
+  "image_url": "",
+  "wiki_title": "Incretin",
+  "match": "incretines (zoals gip en glp-1)",
+  "option_only": true
+ },
+ "zoutzuur (hcl)": {
+  "title": "Zoutzuur (maagzuur)",
+  "short": "Zoutzuur wordt door de pariëtale cellen van de maag uitgescheiden; het maakt de maaginhoud zuur, doodt micro-organismen en activeert pepsine.",
+  "definition": "<p>De pariëtale cellen pompen H⁺ via de H⁺/K⁺-ATPase het maaglumen in; chloride volgt. Stimulatoren zijn gastrine, histamine (H2) en acetylcholine (vagus); somatostatine remt. Het lage pH (1–2) helpt bij eiwitvertering en ijzeropname en beschermt tegen infecties. Protonpompremmers en H2-antagonisten verminderen de productie.</p>",
+  "image_url": "",
+  "wiki_title": "Gastric acid",
+  "match": "zoutzuur (hcl)",
+  "option_only": true
+ },
+ "lactase": {
+  "title": "Lactase",
+  "short": "Enzym van de dunnedarmborstelzoom dat lactose splitst in glucose en galactose.",
+  "definition": "<p><b>Lactase</b> hydrolyseert het disacharide lactose tot de monosachariden D-glucose en D-galactose. Een verlaagde activiteit veroorzaakt lactose-intolerantie.</p>",
+  "image_url": "",
+  "wiki_title": "Lactase",
+  "match": "lactase",
+  "option_only": true
+ },
+ "saturatie": {
+  "title": "Zuurstofsaturatie",
+  "short": "Percentage hemoglobine dat met zuurstof is verzadigd; maat voor de oxygenatie.",
+  "definition": "<p>De (perifere) zuurstofsaturatie (SpO2) geeft aan welk deel van het hemoglobine met O2 is verzadigd. Bij CO-vergiftiging kan de SpO2 vals-normaal zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Oxygen saturation (medicine)",
+  "match": "saturatie",
+  "option_only": true
+ },
+ "arcus aortae": {
+  "title": "Arcus aortae",
+  "short": "De aortaboog in het mediastinum superius waaruit de grote halsslagaders en de a. subclavia ontspringen.",
+  "definition": "<p>De <b>arcus aortae</b> verbindt de aorta ascendens met de aorta descendens en geeft de truncus brachiocephalicus, a. carotis communis sinistra en a. subclavia sinistra af.</p>",
+  "image_url": "",
+  "wiki_title": "Aortic arch",
+  "match": "arcus aortae",
+  "option_only": true
+ },
+ "sequentie": {
+  "title": "Sequentie (aangeboren afwijking)",
+  "short": "Een sequentie is een reeks aangeboren afwijkingen die alle voortkomen uit één enkele primaire oorzaak of gebeurtenis.",
+  "definition": "<p>Een <b>sequentie</b> is een patroon van meerdere afwijkingen die ontstaan als een cascade uit één primaire aanleg of gebeurtenis (bijv. de Potter-sequentie). Te onderscheiden van malformatie, disruptie en dysplasie.</p>",
+  "image_url": "",
+  "wiki_title": "Sequence (medicine)",
+  "match": "sequentie",
+  "option_only": true
+ },
+ "hemoptoë": {
+  "title": "Hemoptoë",
+  "short": "Het ophoesten van bloed uit de lagere luchtwegen; kan een symptoom zijn van een pulmonaal-renaal syndroom.",
+  "definition": "<p><b>Hemoptoë</b> is het ophoesten van bloed afkomstig uit de longen of lagere luchtwegen. In combinatie met nierinsufficiëntie kan het wijzen op een pulmonaal-renaal syndroom (anti-GBM-ziekte of ANCA-vasculitis).</p>",
+  "image_url": "",
+  "wiki_title": "Hemoptysis",
+  "match": "hemoptoë",
+  "option_only": true
+ },
+ "sabr (stereotactic ablative body radiotherapy)": {
+  "title": "SABR",
+  "short": "Stereotactische ablatieve radiotherapie; nauwkeurige bestraling, o.a. bij vroeg-stadium NSCLC.",
+  "definition": "<p><b>SABR</b> (stereotactische ablatieve radiotherapie, ook SBRT of stereotactische radiotherapie) geeft in enkele fracties een hoge, nauwkeurige stralingsdosis. Bij stadium 1 NSCLC is het een alternatief voor lobectomie, vooral bij hoog operatierisico.</p>",
+  "image_url": "",
+  "wiki_title": "Stereotactic body radiation therapy",
+  "match": "sabr (stereotactic ablative body radiotherapy)",
+  "option_only": true
+ },
+ "targeted therapy": {
+  "title": "Targeted therapy",
+  "short": "Doelgerichte behandeling gericht op een specifieke moleculaire afwijking van de tumor.",
+  "definition": "<p><b>Targeted therapy</b> grijpt aan op een specifieke moleculaire driver (bijv. EGFR, ALK, ROS1, BRAF) in plaats van op alle delende cellen. Voorwaarde is dat die afwijking bij moleculair onderzoek is aangetoond.</p>",
+  "image_url": "",
+  "wiki_title": "Targeted therapy",
+  "match": "targeted therapy",
+  "option_only": true
+ },
+ "corticobasale degeneratie (cbd)": {
+  "title": "Corticobasale degeneratie (CBD)",
+  "short": "Atypisch parkinsonisme, meestal asymmetrisch, met apraxie en corticale sensibele stoornissen.",
+  "definition": "<p>Zeldzaam atypisch parkinsonsyndroom met sterk asymmetrische rigiditeit, apraxie, corticale sensibele uitval en soms het alien-limb fenomeen.</p>",
+  "image_url": "",
+  "wiki_title": "Corticobasal degeneration",
+  "match": "corticobasale degeneratie (cbd)",
+  "option_only": true
+ },
+ "rivastigmine": {
+  "title": "Rivastigmine",
+  "short": "Cholinesteraseremmer voor de ziekte van Alzheimer en de dementie bij de ziekte van Parkinson.",
+  "definition": "<p><b>Rivastigmine</b> remt zowel acetylcholinesterase als butyrylcholinesterase en is ook als pleister verkrijgbaar. Cholinerge bijwerkingen zoals misselijkheid en braken komen vaak voor.</p>",
+  "image_url": "",
+  "wiki_title": "Rivastigmine",
+  "match": "rivastigmine",
+  "option_only": true
+ },
+ "carbamazepine": {
+  "title": "Carbamazepine",
+  "short": "Carbamazepine is een anti-epilepticum dat ook tegen neuropathische pijn wordt ingezet; het wordt gemetaboliseerd door CYP3A4 en is gevoelig voor interacties.",
+  "definition": "<p><strong>Carbamazepine</strong> is een anti-epilepticum en stemmingsstabilisator dat ook bij neuropathische pijn wordt gebruikt. Het wordt voornamelijk afgebroken door het lever-enzym <em>CYP3A4</em>. Remmers van CYP3A4 (zoals macrolide-antibiotica) verlagen de afbraak, waardoor de bloedspiegel en de kans op bijwerkingen stijgen.</p>",
+  "image_url": "",
+  "wiki_title": "Carbamazepine",
+  "match": "carbamazepine",
+  "option_only": true
+ },
+ "donepezil": {
+  "title": "Donepezil",
+  "short": "Cholinesteraseremmer voor de symptomatische behandeling van de ziekte van Alzheimer.",
+  "definition": "<p><b>Donepezil</b>, galantamine en rivastigmine remmen de afbraak van acetylcholine. Donepezil wordt eenmaal daags als tablet ingenomen. Bijwerkingen zijn cholinerg: misselijkheid, braken, bradycardie en slapeloosheid.</p>",
+  "image_url": "",
+  "wiki_title": "Donepezil",
+  "match": "donepezil",
+  "option_only": true
+ },
+ "ectropion": {
+  "title": "Ectropion",
+  "short": "Naar buiten gekantelde stand van het (onder)ooglid, waardoor het oog niet goed sluit en gaat tranen.",
+  "definition": "<p><b>Ectropion</b> is een uitwaartse rotatie van de ooglidrand, meestal senieel/atonisch. Het geeft epifora (tranen), expositiekeratopathie en irritatie.</p>",
+  "image_url": "",
+  "wiki_title": "Ectropion",
+  "match": "ectropion",
+  "option_only": true
+ },
+ "ulcus corneae": {
+  "title": "Ulcus corneae",
+  "short": "Defect (zweer) van het hoornvlies-epitheel, vaak infectieus. Riscofactor is contactlensdracht; toont aankleuring met fluoresceïne.",
+  "definition": "<p>Een <b>ulcus corneae</b> is een pijnlijk, rood oog met een fluoresceïne-aankleurend corneadefect; een oogheelkundige spoedsituatie bij contactlensdragers.</p>",
+  "image_url": "",
+  "wiki_title": "Corneal ulcer",
+  "match": "ulcus corneae",
+  "option_only": true
+ },
+ "drop attack": {
+  "title": "Drop attack",
+  "short": "Plotselinge val zonder bewustzijnsverlies door een korte verslapping van de benen. Meestal bij oudere vrouwen, oorzaak vaak onduidelijk.",
+  "definition": "<p>Een <b>drop attack</b> is een onverwachte val op de knieën zonder bewustzijnsverlies of prodromen; de patiënt kan direct weer opstaan. Het onderscheidt zich van syncope door het ontbreken van bewustzijnsverlies.</p>",
+  "image_url": "",
+  "wiki_title": "Drop attack",
+  "match": "drop attack",
+  "option_only": true
+ },
+ "syndroom van wallenberg": {
+  "title": "Syndroom van Wallenberg",
+  "short": "Lateraal medullair infarct met o.a. gekruiste sensibiliteitsuitval van gelaat en lichaam.",
+  "definition": "<p>Het <b>syndroom van Wallenberg</b> (lateraal medullair infarct) geeft ipsilaterale gelaatsuitval van pijn/temperatuur en contralaterale uitval van het lichaam, plus vertigo, dysfagie en Horner.</p>",
+  "image_url": "",
+  "wiki_title": "Lateral medullary syndrome",
+  "match": "syndroom van wallenberg",
+  "option_only": true
+ },
+ "dermatomyositis": {
+  "title": "Dermatomyositis",
+  "short": "Dermatomyositis is een auto-immune ontsteking van spieren en huid, met proximale spierzwakte, een heliotrope rash rond de ogen en Gottron-papels op de vingers.",
+  "definition": "<p><strong>Dermatomyositis</strong> is een idiopathische inflammatoire myopathie. Kenmerkend zijn symmetrische proximale spierzwakte, verhoogde spierenzymen (CK, aldolase, LDH) en typische huidafwijkingen: <em>heliotrope rash</em> (paars-rood rond de ogen) en <em>Gottron-papels</em> op de knokkels.</p>",
+  "image_url": "",
+  "wiki_title": "Dermatomyositis",
+  "match": "dermatomyositis",
+  "option_only": true
+ },
+ "multipele sclerose": {
+  "title": "Multipele sclerose (MS)",
+  "short": "Chronische inflammatoire demyeliniserende ziekte van het centrale zenuwstelsel met haarden verspreid in tijd en plaats.",
+  "definition": "<p>Auto-immuunziekte met demyelinisatie in hersenen en ruggenmerg. Diagnose berust op dissociatie in tijd en plaats (MRI-lesies: periventriculair, juxtacorticaal, infratentorieel, spinaal). Beloopsvormen: relapsing-remitting, secundair progressief, primair progressief.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis",
+  "match": "multipele sclerose",
+  "option_only": true
+ },
+ "ulcus cornea": {
+  "title": "Ulcus cornea (cornea-ulcus)",
+  "short": "Defect van het hoornvliesepitheel met onderliggende infiltratie/infectie. Geeft een rood, pijnlijk oog met pus en visusdaling; spoedeisend.",
+  "definition": "<p><b>Ulcus cornea</b> is een (vaak bacterieel) infiltraat met epitheeldefect, aankleurend met fluoresceïne. Risico's zijn contactlensdracht en trauma. Onbehandeld dreigt perforatie en blijvende litteken/visusverlies.</p>",
+  "image_url": "",
+  "wiki_title": "Corneal ulcer",
+  "match": "ulcus cornea",
+  "option_only": true
+ },
+ "cataract": {
+  "title": "Cataract",
+  "short": "Vertroebeling van de ooglens (staar), een behandelbare (reversibele) oorzaak van slechtziendheid.",
+  "definition": "<p>Cataract (staar) is een vertroebeling van de ooglens, waardoor het zicht geleidelijk verslechtert. Het is de meest voorkomende, maar goed behandelbare (reversibele) oorzaak van slechtziendheid; een staaroperatie herstelt het zicht.</p>",
+  "image_url": "",
+  "wiki_title": "Cataract",
+  "match": "cataract",
+  "option_only": true
+ },
+ "multipele sclerose (ms)": {
+  "title": "Multipele sclerose (MS)",
+  "short": "Chronische inflammatoire demyeliniserende ziekte van het centrale zenuwstelsel met haarden verspreid in tijd en plaats.",
+  "definition": "<p>Auto-immuunziekte met demyelinisatie in hersenen en ruggenmerg. Diagnose berust op dissociatie in tijd en plaats (MRI-lesies: periventriculair, juxtacorticaal, infratentorieel, spinaal). Beloopsvormen: relapsing-remitting, secundair progressief, primair progressief.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis",
+  "match": "multipele sclerose (ms)",
+  "option_only": true
+ },
+ "natte maculadegeneratie": {
+  "title": "Leeftijdsgebonden maculadegeneratie",
+  "short": "Bij maculadegeneratie raakt de gele vlek (het centrum van het netvlies) beschadigd, met verlies van het centrale zien.",
+  "definition": "<p>Bij <strong>LMD</strong> is er een droge vorm (drusen en atrofie) en een natte vorm (nieuwvorming van lekkende vaatjes onder het netvlies). Klachten zijn vervormd zien (rechte lijnen lijken krom), een vlek in het centrum en moeite met lezen en gezichten herkennen; het perifere zien blijft bewaard. Risicofactoren: leeftijd, roken en erfelijkheid. De natte vorm wordt met anti-VEGF-injecties behandeld.</p>",
+  "image_url": "",
+  "wiki_title": "Macular degeneration",
+  "match": "natte maculadegeneratie",
+  "option_only": true
+ },
+ "ankervene": {
+  "title": "Ankervene (brugvene)",
+  "short": "Overbruggende venen die van het hersenoppervlak door de subdurale ruimte naar de durale sinussen lopen.",
+  "definition": "<p><b>Ankervenen</b> (brugvenen) voeren bloed van de corticale venen naar de sinus sagittalis superior en andere durale sinussen. Ze zijn dunwandig en worden opgerekt bij bewegingen van het brein ten opzichte van de schedel, vooral bij ouderen met hersenatrofie, alcoholisten en jonge kinderen.</p>",
+  "image_url": "",
+  "wiki_title": "Bridging vein",
+  "match": "ankervene",
+  "option_only": true
+ },
+ "bellse parese": {
+  "title": "Bellse parese",
+  "short": "Idiopathische perifere aangezichtsverlamming; diagnose per exclusionem van andere oorzaken van facialisparese.",
+  "definition": "<p>Een <b>Bellse parese</b> is een acute, <b>idiopathische</b> perifere verlamming van de nervus facialis (aangezichtszenuw). Het is een uitsluitingsdiagnose: andere oorzaken zoals herpes zoster (Ramsay Hunt), CVA, borreliose en tumoren moeten zijn uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "Bell's palsy",
+  "match": "bellse parese",
+  "option_only": true
+ },
+ "neovasculair glaucoom": {
+  "title": "Neovasculair glaucoom",
+  "short": "Secundair glaucoom door nieuwvatvorming in de kamerhoek, vaak na ischemische retina-aandoeningen.",
+  "definition": "<p>Ernstige, pijnlijke vorm van glaucoom waarbij ischemie (bv. diabetes, veneuze occlusie) neovascularisatie van iris en kamerhoek uitlokt, met sterk verhoogde oogdruk en visusdaling.</p>",
+  "image_url": "",
+  "wiki_title": "Neovascular glaucoma",
+  "match": "neovasculair glaucoom",
+  "option_only": true
+ },
+ "status epilepticus": {
+  "title": "Status epilepticus",
+  "short": "Langdurige of opeenvolgende epileptische aanvallen zonder herstel tussendoor.",
+  "definition": "<p><b>Status epilepticus</b> is een neurologische spoedsituatie; behandeling verloopt o.a. via benzodiazepinen zoals midazolam.</p>",
+  "image_url": "",
+  "wiki_title": "Status epilepticus",
+  "match": "status epilepticus",
+  "option_only": true
+ },
+ "metoclopramide": {
+  "title": "Metoclopramide",
+  "short": "Dopamine-antagonist met anti-emetische en prokinetische werking; bij migraine ingezet tegen misselijkheid en om opname van pijnstillers te bevorderen.",
+  "definition": "<p>Metoclopramide blokkeert dopamine-D2-receptoren, remt misselijkheid/braken en versnelt de maaglediging. Bij een migraineaanval verbetert het de resorptie van orale analgetica.</p>",
+  "image_url": "",
+  "wiki_title": "Metoclopramide",
+  "match": "metoclopramide",
+  "option_only": true
+ },
+ "cmv-retinitis": {
+  "title": "CMV-retinitis",
+  "short": "CMV-retinitis is een cytomegalovirus-infectie van het netvlies bij ernstig immuungecompromitteerden (aids, lage CD4), die onbehandeld tot blindheid leidt.",
+  "definition": "<p><b>CMV-retinitis</b> is een aids-definiërende opportunistische infectie; een patiënt met CMV-pneumonie loopt ook risico op retinitis.</p>",
+  "image_url": "",
+  "wiki_title": "Cytomegalovirus_retinitis",
+  "match": "cmv-retinitis",
+  "option_only": true
+ },
+ "metamorfopsie": {
+  "title": "Metamorfopsie",
+  "short": "Vervormd zien van rechte lijnen; klassiek symptoom van maculapathologie.",
+  "definition": "<p><b>Metamorfopsie</b> is het waarnemen van rechte lijnen als golvend of vervormd, opgespoord met het Amslerkaartje.</p>",
+  "image_url": "",
+  "wiki_title": "Metamorphopsia",
+  "match": "metamorfopsie",
+  "option_only": true
+ },
+ "bloedonderzoek (calcium)": {
+  "title": "Calcium",
+  "short": "Mineraal dat essentieel is voor botmineralisatie, spiercontractie en zenuwgeleiding. Opname in de darm wordt bevorderd door 1,25-OH-vitamine D (calcitriol).",
+  "definition": "<p><strong>Calcium</strong> wordt in de dunne darm actief opgenomen onder invloed van 1,25-dihydroxyvitamine D. Het grootste deel van het lichaamscalcium ligt opgeslagen in het skelet als hydroxyapatiet.</p>",
+  "image_url": "",
+  "wiki_title": "Calcium in biology",
+  "match": "bloedonderzoek (calcium)",
+  "option_only": true
+ },
+ "sinus cavernosustrombose": {
+  "title": "Sinus-cavernosustrombose",
+  "short": "Sinus-cavernosustrombose is een zeldzame, levensbedreigende trombose van de sinus cavernosus, o.a. als complicatie van gezichtsinfecties (furunkels rond de neus).",
+  "definition": "<p><strong>Sinus-cavernosustrombose</strong> is een stolsel in de veneuze sinus aan de schedelbasis, vaak septisch na een gezichtsinfectie. Kenmerken zijn koorts, oogklachten (proptose, oftalmoplegie) en uitval van hersenzenuwen die door de sinus lopen.</p>",
+  "image_url": "",
+  "wiki_title": "Cavernous sinus thrombosis",
+  "match": "sinus cavernosustrombose",
+  "option_only": true
+ },
+ "foramen van luschka": {
+  "title": "Foramen van Luschka",
+  "short": "Paarsgewijze laterale opening van het vierde ventrikel waardoor liquor de subarachnoïdale ruimte bereikt.",
+  "definition": "<p>De <b>foramina van Luschka</b> (lateraal) en het <b>foramen van Magendie</b> (mediaan) verbinden het vierde ventrikel met de subarachnoïdale ruimte; hierlangs verlaat de liquor het ventrikelsysteem.</p>",
+  "image_url": "",
+  "wiki_title": "Lateral aperture",
+  "match": "foramen van luschka",
+  "option_only": true
+ },
+ "kniepeesreflex": {
+  "title": "Kniepeesreflex",
+  "short": "Monosynaptische rekkingsreflex van de m. quadriceps femoris (wortel L3-L4), opgewekt door slaan op de patellapees.",
+  "definition": "De <b>kniepeesreflex</b> is een monosynaptische reflex: rek van spierspoeltjes in de m. quadriceps femoris leidt direct tot contractie.",
+  "image_url": "",
+  "wiki_title": "Patellar reflex",
+  "match": "kniepeesreflex",
+  "option_only": true
+ },
+ "n infraorbitalis": {
+  "title": "N. infraorbitalis",
+  "short": "De n. infraorbitalis is een tak van de n. maxillaris (V2) die de huid van wang, onderooglid, zijkant neus en bovenlip verzorgt.",
+  "definition": "<p>De <strong>n. infraorbitalis</strong> loopt over de orbitabodem door de canalis infraorbitalis en komt via het foramen infraorbitale op het gezicht. Bij een orbitabodemfractuur (blow-out) kan de zenuw beschadigd raken, met gevoelloosheid van wang en bovenlip als gevolg.</p>",
+  "image_url": "",
+  "wiki_title": "Infraorbital nerve",
+  "match": "n infraorbitalis",
+  "option_only": true
+ },
+ "hooggradig glioom": {
+  "title": "Hooggradig glioom",
+  "short": "Agressieve hersentumor uit gliacellen (o.a. glioblastoom, WHO graad III-IV) met slechte prognose.",
+  "definition": "Een <b>hooggradig glioom</b> (bv. glioblastoom) heeft van de genoemde hersentumoren de slechtste overlevingsprognose.",
+  "image_url": "",
+  "wiki_title": "Glioma",
+  "match": "hooggradig glioom",
+  "option_only": true
+ },
+ "tubereuze sclerose": {
+  "title": "Tubereuze sclerose",
+  "short": "Erfelijke aandoening met goedaardige tumoren in meerdere organen; geassocieerd met lymfangioleiomyomatose.",
+  "definition": "<p>Tubereuze sclerose is een autosomaal dominante multisysteemziekte (TSC1/TSC2) met hamartomen in hersenen, huid, nieren en longen. In de long kan het lymfangioleiomyomatose veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberous sclerosis",
+  "match": "tubereuze sclerose",
+  "option_only": true
+ },
+ "cotton wool spots": {
+  "title": "Cotton wool spots",
+  "short": "Witte, wollige vlekjes in de retina door micro-infarcten van de zenuwvezellaag.",
+  "definition": "<p><b>Cotton wool spots</b> zijn ophopingen van geblokkeerd axoplasmatisch transport door ischemie van de retinale zenuwvezellaag. Ze komen o.a. voor bij (pre)proliferatieve diabetische retinopathie en hypertensie.</p>",
+  "image_url": "",
+  "wiki_title": "Cotton wool spots",
+  "match": "cotton wool spots",
+  "option_only": true
+ },
+ "microaneurysmata": {
+  "title": "Microaneurysmata",
+  "short": "Kleine uitstulpingen van retinale capillairen; vroeg kenmerk van non-proliferatieve diabetische retinopathie.",
+  "definition": "<p>Microaneurysmata zijn de eerste zichtbare afwijkingen bij diabetische retinopathie: kleine puntvormige verwijdingen van de netvliescapillairen, die kunnen lekken en bloeden.</p>",
+  "image_url": "",
+  "wiki_title": "Microaneurysm",
+  "match": "microaneurysmata",
+  "option_only": true
+ },
+ "brughoektumor (schwannoom)": {
+  "title": "Acusticusneurinoom (vestibulair schwannoom)",
+  "short": "Een acusticusneurinoom is een goedaardige tumor van de Schwann-cellen van de n. vestibularis, in de inwendige gehoorgang of brughoek.",
+  "definition": "<p>Een <strong>vestibulair schwannoom</strong> groeit langzaam vanuit de n. vestibularis (VIII). Klassiek begint het met eenzijdig, geleidelijk perceptief gehoorverlies en oorsuizen; grotere tumoren in de brughoek kunnen de n. facialis, n. trigeminus en het cerebellum en de hersenstam drukken. Dubbelzijdige schwannomen passen bij neurofibromatose type 2. Diagnose met MRI.</p>",
+  "image_url": "",
+  "wiki_title": "Vestibular schwannoma",
+  "match": "brughoektumor (schwannoom)",
+  "option_only": true
+ },
+ "vitamine b-12 deficiëntie": {
+  "title": "Vitamine B12-deficiëntie",
+  "short": "Een vitamine B12-tekort geeft een macrocytaire anemie en neurologische schade, zoals polyneuropathie en een gecombineerde strengziekte.",
+  "definition": "<p>Oorzaken van een <strong>B12-tekort</strong> zijn auto-immuungastritis (pernicieuze anemie, antistoffen tegen intrinsieke factor), maag- of ileumresectie, ziekte van Crohn, metformine, langdurig PPI-gebruik en veganistisch eten. Naast anemie ontstaan neuropathie, degeneratie van achterstrengen en piramidebanen, cognitieve stoornissen en glossitis. Methylmalonzuur en homocysteïne zijn verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin B12 deficiency",
+  "match": "vitamine b-12 deficiëntie",
+  "option_only": true
+ },
+ "multipele systeem atrofie (msa)": {
+  "title": "Multipele systeem atrofie (MSA)",
+  "short": "Atypisch parkinsonisme met vroege, ernstige autonome uitval (orthostatische hypotensie, blaasstoornissen) en/of cerebellaire kenmerken.",
+  "definition": "<p>MSA is een alfa-synucleïnopathie waarbij parkinsonisme wordt gecombineerd met prominente autonome dysfunctie en/of ataxie. De respons op levodopa is beperkt.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple system atrophy",
+  "match": "multipele systeem atrofie (msa)",
+  "option_only": true
+ },
+ "immuunglobulines": {
+  "title": "Immuunglobulines (IVIG)",
+  "short": "Intraveneuze immuunglobulines zijn gepoolde antistoffen van donoren, gebruikt als immuunmodulerende therapie, o.a. bij de ziekte van Kawasaki.",
+  "definition": "<p><strong>Immuunglobulines (IVIG)</strong> zijn geconcentreerde IgG-antistoffen uit donorplasma. Bij de ziekte van Kawasaki dempen ze de vaatontsteking en verlagen ze het risico op coronaire aneurysmata.</p>",
+  "image_url": "",
+  "wiki_title": "Immunoglobulin therapy",
+  "match": "immuunglobulines",
+  "option_only": true
+ },
+ "plasmaferese": {
+  "title": "Plasmaferese",
+  "short": "Techniek waarbij plasma van de patiënt wordt gescheiden en vervangen; gebruikt bij o.a. TTP.",
+  "definition": "<p>Bij plasmaferese wordt patiëntenplasma verwijderd en vervangen door donorplasma; essentieel bij trombotische trombocytopenische purpura (aanvulling van ADAMTS-13).</p>",
+  "image_url": "",
+  "wiki_title": "Plasmapheresis",
+  "match": "plasmaferese",
+  "option_only": true
+ },
+ "fingolimod": {
+  "title": "Fingolimod",
+  "short": "Oraal immunomodulerend middel (sfingosine-1-fosfaatreceptormodulator) voor relapsing-remitting MS. Voorkeur boven natalizumab bij JC-virusdragers vanwege lager PML-risico.",
+  "definition": "<p><b>Fingolimod</b> houdt lymfocyten vast in de lymfeklieren en vermindert zo MS-exacerbaties. Bij een JC-virus-positieve patiënt is het een veiliger tweedelijnskeuze dan natalizumab, dat progressieve multifocale leuko-encefalopathie (PML) kan geven.</p>",
+  "image_url": "",
+  "wiki_title": "Fingolimod",
+  "match": "fingolimod",
+  "option_only": true
+ },
+ "hla-b27+": {
+  "title": "HLA-B27",
+  "short": "HLA-B27 is een MHC klasse I-variant die sterk geassocieerd is met spondyloartritiden zoals de ziekte van Bechterew.",
+  "definition": "<p>Dragers van <strong>HLA-B27</strong> hebben een sterk verhoogd risico op axiale spondyloartritis, reactieve artritis, uveïtis anterior en artritis bij IBD of psoriasis. Toch krijgt de grote meerderheid van de dragers nooit een van deze ziekten, en een deel van de patiënten is HLA-B27-negatief: de test ondersteunt de diagnose, maar bewijst haar niet.</p>",
+  "image_url": "",
+  "wiki_title": "HLA-B27",
+  "match": "hla-b27+",
+  "option_only": true
+ },
+ "vitamine b-12 deficientie": {
+  "title": "Vitamine B12-deficiëntie",
+  "short": "Een vitamine B12-tekort geeft een macrocytaire anemie en neurologische schade, zoals polyneuropathie en een gecombineerde strengziekte.",
+  "definition": "<p>Oorzaken van een <strong>B12-tekort</strong> zijn auto-immuungastritis (pernicieuze anemie, antistoffen tegen intrinsieke factor), maag- of ileumresectie, ziekte van Crohn, metformine, langdurig PPI-gebruik en veganistisch eten. Naast anemie ontstaan neuropathie, degeneratie van achterstrengen en piramidebanen, cognitieve stoornissen en glossitis. Methylmalonzuur en homocysteïne zijn verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin B12 deficiency",
+  "match": "vitamine b-12 deficientie",
+  "option_only": true
+ },
+ "bumetanide": {
+  "title": "Lisdiureticum",
+  "short": "Lisdiuretica remmen de NKCC2-cotransporter in de lis van Henle en zijn de krachtigste plasmiddelen.",
+  "definition": "<p><strong>Lisdiuretica</strong> zoals furosemide remmen de Na⁺/K⁺/2Cl⁻-cotransporter in het dikke opstijgende deel van de lis van Henle. Ze worden gebruikt bij oedeem door hartfalen, nierziekte of levercirrose en bij longoedeem. Bijwerkingen: hypokaliëmie, hyponatriëmie, hypomagnesiëmie, metabole alkalose, uitdroging en ototoxiciteit; anders dan thiaziden verhogen ze de calciumuitscheiding.</p>",
+  "image_url": "",
+  "wiki_title": "Loop diuretic",
+  "match": "bumetanide",
+  "option_only": true
+ },
+ "aortaklep stenose": {
+  "title": "Aortaklepstenose",
+  "short": "Bij aortaklepstenose opent de aortaklep onvoldoende, waardoor de linkerventrikel tegen verhoogde weerstand moet pompen.",
+  "definition": "<p><strong>Aortaklepstenose</strong> ontstaat meestal door degeneratieve verkalking op oudere leeftijd of bij een aangeboren bicuspide klep. De linkerventrikel hypertrofieert. Bij auscultatie is er een systolisch ejectiegeruis aan de basis, vaak uitstralend naar de carotiden. Klachten (angina, syncope bij inspanning, hartfalen) wijzen op een ernstige stenose; behandeling is klepvervanging (chirurgisch of TAVI).</p>",
+  "image_url": "",
+  "wiki_title": "Aortic stenosis",
+  "match": "aortaklep stenose",
+  "option_only": true
+ },
+ "aortaklep insufficiëntie": {
+  "title": "Aortaklepinsufficiëntie",
+  "short": "Bij aortaklepinsufficiëntie sluit de aortaklep niet goed, waardoor bloed in de diastole terugstroomt naar de linkerventrikel.",
+  "definition": "<p>Bij <strong>aortaklepinsufficiëntie</strong> ontstaat volumebelasting van de linkerventrikel, die verwijdt. Oorzaken zijn o.a. een bicuspide klep, endocarditis, verwijding van de aortawortel (hypertensie, Marfan, dissectie). Kenmerkend zijn een diastolisch decrescendo-geruis langs de linker sternumrand en een grote polsdruk (snel stijgende en dalende pols).</p>",
+  "image_url": "",
+  "wiki_title": "Aortic insufficiency",
+  "match": "aortaklep insufficiëntie",
+  "option_only": true
+ },
+ "mitralisklep insufficiëntie": {
+  "title": "Mitralisinsufficiëntie",
+  "short": "Bij mitralisinsufficiëntie sluit de mitralisklep onvoldoende, waardoor bloed in de systole terugstroomt naar het linkeratrium.",
+  "definition": "<p><strong>Mitralisinsufficiëntie</strong> kan primair zijn (klepprolaps, endocarditis, reumatische klepziekte) of secundair aan verwijding of ischemie van de linkerventrikel. Het linkeratrium raakt overbelast, met risico op boezemfibrilleren en longstuwing. Bij auscultatie hoort men een holosystolisch geruis aan de apex, uitstralend naar de oksel.</p>",
+  "image_url": "",
+  "wiki_title": "Mitral insufficiency",
+  "match": "mitralisklep insufficiëntie",
+  "option_only": true
+ },
+ "pulmonalisklep insufficiëntie": {
+  "title": "Pulmonalisklepinsufficiëntie",
+  "short": "Bij pulmonalisklepinsufficiëntie lekt bloed in de diastole terug van de longslagader naar de rechterventrikel.",
+  "definition": "<p>Een lichte lekkage is vaak fysiologisch. Ernstige <strong>pulmonalisinsufficiëntie</strong> komt vooral voor na chirurgische correctie van een tetralogie van Fallot en bij pulmonale hypertensie; het kan leiden tot verwijding en falen van de rechterventrikel.</p>",
+  "image_url": "",
+  "wiki_title": "Pulmonary valve insufficiency",
+  "match": "pulmonalisklep insufficiëntie",
+  "option_only": true
+ },
+ "thiazidediureticum": {
+  "title": "Hydrochloorthiazide",
+  "short": "Hydrochloorthiazide is een thiazidediureticum dat de Na⁺/Cl⁻-cotransporter in de distale tubulus remt; eerste keus bij hypertensie.",
+  "definition": "<p><strong>Hydrochloorthiazide</strong> remt de <em>Na⁺/Cl⁻-cotransporter</em> (NCC) in de distale convoluut. Daardoor wordt meer natrium en water uitgescheiden; op de lange termijn daalt ook de perifere weerstand.</p><p>Het is een veelgebruikt eerstelijns antihypertensivum. Bijwerkingen: hypokaliëmie, hyponatriëmie, hypomagnesiëmie, hyperurikemie (jicht) en hyperglykemie; de calciumuitscheiding neemt juist af.</p>",
+  "image_url": "",
+  "wiki_title": "Hydrochlorothiazide",
+  "match": "thiazidediureticum",
+  "option_only": true
+ },
+ "diuretica": {
+  "title": "Diuretica",
+  "short": "Plasmiddelen die de urineproductie verhogen; gebruikt bij overvulling, hartfalen en hypertensie.",
+  "definition": "<p>Diuretica verhogen de uitscheiding van water en zouten door de nier. Ze worden gebruikt bij hartfalen, hypertensie en oedeem. Staken kan de bloeddruk en GFR doen stijgen, maar geeft bij hartfalen risico op longstuwing en overvulling.</p>",
+  "image_url": "",
+  "wiki_title": "Diuretic",
+  "match": "diuretica",
+  "option_only": true
+ },
+ "a.carotis": {
+  "title": "A. carotis communis",
+  "short": "De a. carotis communis loopt in de hals omhoog en splitst ter hoogte van het schildkraakbeen in de a. carotis interna en externa.",
+  "definition": "<p>Rechts komt de <strong>a. carotis communis</strong> uit de truncus brachiocephalicus, links rechtstreeks uit de aortaboog. Bij de splitsing liggen de sinus caroticus (baroreceptoren) en het glomus caroticum (chemoreceptoren). De carotispols is lateraal van het strottenhoofd voelbaar.</p>",
+  "image_url": "",
+  "wiki_title": "Common carotid artery",
+  "match": "a.carotis",
+  "option_only": true
+ },
+ "primaire ciliaire dyskinesie (pcd)": {
+  "title": "Primaire ciliaire dyskinesie",
+  "short": "Bij primaire ciliaire dyskinesie werken de trilharen niet goed, met chronische luchtweginfecties, bronchiëctasieën en onvruchtbaarheid.",
+  "definition": "<p><strong>PCD</strong> erft meestal autosomaal recessief over. Klachten beginnen vaak al bij de geboorte (benauwdheid, chronisch loopneus) en omvatten recidiverende otitis en sinusitis. Bij ongeveer de helft is er een situs inversus (syndroom van Kartagener). Mannen zijn vaak onvruchtbaar door onbeweeglijke zaadcellen.</p>",
+  "image_url": "",
+  "wiki_title": "Primary ciliary dyskinesia",
+  "match": "primaire ciliaire dyskinesie (pcd)",
+  "option_only": true
+ },
+ "non-coding rna": {
+  "title": "Non-coding RNA",
+  "short": "Non-coding RNA is RNA dat niet voor een eiwit codeert maar regulerende of structurele functies vervult, zoals Xist bij X-inactivatie.",
+  "definition": "<p><strong>Non-coding RNA</strong> (ncRNA) wordt wel getranscribeerd maar niet vertaald naar eiwit. Er zijn korte ncRNA's (microRNA, siRNA) en lange ncRNA's (lncRNA, bv. <em>Xist</em>). Ze reguleren genexpressie, chromatinestructuur en RNA-verwerking.</p>",
+  "image_url": "",
+  "wiki_title": "Non-coding RNA",
+  "match": "non-coding rna",
+  "option_only": true
+ },
+ "aanwezigheid van hla b27 antigeen": {
+  "title": "HLA-B27",
+  "short": "HLA-B27 is een MHC klasse I-variant die sterk geassocieerd is met spondyloartritiden zoals de ziekte van Bechterew.",
+  "definition": "<p>Dragers van <strong>HLA-B27</strong> hebben een sterk verhoogd risico op axiale spondyloartritis, reactieve artritis, uveïtis anterior en artritis bij IBD of psoriasis. Toch krijgt de grote meerderheid van de dragers nooit een van deze ziekten, en een deel van de patiënten is HLA-B27-negatief: de test ondersteunt de diagnose, maar bewijst haar niet.</p>",
+  "image_url": "",
+  "wiki_title": "HLA-B27",
+  "match": "aanwezigheid van hla b27 antigeen",
+  "option_only": true
+ },
+ "s. epidermidis": {
+  "title": "Staphylococcus epidermidis",
+  "short": "S. epidermidis is een coagulasenegatieve stafylokok van de normale huidflora; berucht om infecties van lijnen en prothesen.",
+  "definition": "<p><strong><em>Staphylococcus epidermidis</em></strong> is een grampositieve, <em>coagulase-negatieve</em> stafylokok die normaal op de huid leeft.</p><p>Hij is weinig virulent, maar kan een <em>biofilm</em> vormen op kunstmateriaal. Daardoor is hij een belangrijke verwekker van infecties van intravasculaire katheters, kunstkleppen en gewrichtsprothesen. In een bloedkweek is hij ook vaak een verontreiniging vanuit de huid.</p>",
+  "image_url": "",
+  "wiki_title": "Staphylococcus epidermidis",
+  "match": "s. epidermidis",
+  "option_only": true
+ },
+ "risicospreiding": {
+  "title": "Risicosolidariteit",
+  "short": "Bij risicosolidariteit betalen gezonde mensen mee voor de zorgkosten van zieken, doordat iedereen dezelfde premie betaalt.",
+  "definition": "<p>Het verbod op premiedifferentiatie en de acceptatieplicht in de basisverzekering zorgen voor <strong>risicosolidariteit</strong>. Bij aanvullende verzekeringen is die beperkter, omdat verzekeraars daar mogen selecteren.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "risicospreiding",
+  "option_only": true
+ },
+ "vetzuuroxidatie": {
+  "title": "Vetzuren",
+  "short": "Vetzuren zijn koolstofketens met een carboxylgroep; ze worden via bèta-oxidatie in de mitochondriën verbrand en leveren veel ATP, maar alleen aeroob.",
+  "definition": "<p><strong>Vetzuren</strong> zijn lange koolwaterstofketens met een carboxylgroep, verzadigd of onverzadigd. Ze worden opgeslagen als triglyceriden in vetweefsel en bij behoefte door lipolyse vrijgemaakt.</p><p>In de cel worden ze met carnitine de mitochondriën in getransporteerd en via <em>bèta-oxidatie</em> afgebroken tot acetyl-CoA, dat de citroenzuurcyclus in gaat. Vetzuren leveren per gram veel meer energie dan glucose, maar alleen via zuurstofafhankelijke stofwisseling en relatief langzaam. In de lever kunnen ze ketonlichamen vormen.</p>",
+  "image_url": "",
+  "wiki_title": "Fatty acid",
+  "match": "vetzuuroxidatie",
+  "option_only": true
+ },
+ "oropharynx": {
+  "title": "Nasofarynx (neuskeelholte)",
+  "short": "De farynx bestaat uit nasofarynx, orofarynx en hypofarynx (laryngofarynx).",
+  "definition": "<p>In de <strong>nasofarynx</strong> liggen de neusamandel en de opening van de buis van Eustachius. De orofarynx bevat de keelamandelen en de tongbasis; de hypofarynx ligt achter het strottenhoofd. Het nasofarynxcarcinoom is geassocieerd met EBV.</p>",
+  "image_url": "",
+  "wiki_title": "Pharynx",
+  "match": "oropharynx",
+  "option_only": true
+ },
+ "hepatocyt": {
+  "title": "Hepatocyten",
+  "short": "Hepatocyten zijn de levercellen die vrijwel alle metabole, synthetiserende en ontgiftende functies van de lever uitvoeren.",
+  "definition": "<p><strong>Hepatocyten</strong> vormen ±80% van het levervolume. Ze liggen in balkjes langs de sinusoïden en hebben veel mitochondriën, glad en ruw ER en Golgi.</p><p>Ze maken plasma-eiwitten (albumine, stollingsfactoren), gal, glucose (gluconeogenese) en ureum, slaan glycogeen, vet en vitamines op en ontgiften stoffen via het cytochroom P450-systeem. Tussen naburige hepatocyten liggen de galcanaliculi.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatocyte",
+  "match": "hepatocyt",
+  "option_only": true
+ },
+ "informatiebias (measurement bias)": {
+  "title": "Informatiebias",
+  "short": "Informatiebias is een systematische fout in een onderzoek doordat blootstelling of uitkomst verkeerd wordt gemeten of gerapporteerd.",
+  "definition": "<p>Bij <strong>informatiebias</strong> worden deelnemers verkeerd ingedeeld (misclassificatie). Voorbeelden zijn recall bias (patiënten herinneren zich blootstelling beter dan controles), interviewerbias en meetfouten. Als de fout in beide groepen gelijk is (non-differentieel), wordt een verband meestal onderschat; als ze verschilt (differentieel), kan het verband in beide richtingen vertekend raken.</p>",
+  "image_url": "",
+  "wiki_title": "Information bias (epidemiology)",
+  "match": "informatiebias (measurement bias)",
+  "option_only": true
+ },
+ "processus spinosus": {
+  "title": "Processus spinosus",
+  "short": "Het doornuitsteeksel dat dorsaal en in de mediaanlijn uit de wervelboog steekt; palpabel op de rug.",
+  "definition": "<p>De <b>processus spinosus</b> is het dorsale doornuitsteeksel van een wervel, aanhechtingsplaats voor spieren en ligamenten en op de rug voelbaar.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "processus spinosus",
+  "option_only": true
+ },
+ "processus transversus": {
+  "title": "Processus transversus",
+  "short": "Het dwarsuitsteeksel dat aan weerszijden lateraal uit de wervelboog steekt; aanhechtingsplaats voor spieren en ribben.",
+  "definition": "<p>De <b>processus transversus</b> (dwarsuitsteeksel) steekt lateraal uit de wervelboog en dient als aanhechting voor rugspieren en (thoracaal) voor de ribben.</p>",
+  "image_url": "",
+  "wiki_title": "Transverse process",
+  "match": "processus transversus",
+  "option_only": true
+ },
+ "urobiline": {
+  "title": "Urobiline",
+  "short": "Geel afbraakproduct van bilirubine dat de urine kleurt.",
+  "definition": "<p><b>Urobiline</b> ontstaat uit urobilinogeen dat in de darm door bacteriën wordt gevormd en deels via de nier wordt uitgescheiden.</p>",
+  "image_url": "",
+  "wiki_title": "Urobilin",
+  "match": "urobiline",
+  "option_only": true
+ },
+ "osmotische diarree": {
+  "title": "Osmotische diarree",
+  "short": "Diarree doordat niet-opgenomen, osmotisch actieve stoffen in het darmlumen water aantrekken. Voorbeeld: coeliakie met malabsorptie.",
+  "definition": "<p><strong>Osmotische diarree</strong> ontstaat wanneer slecht geabsorbeerde, osmotisch actieve stoffen in het darmlumen water vasthouden. Ze verdwijnt bij vasten. Voorbeelden zijn lactase-deficiëntie en malabsorptie bij coeliakie.</p>",
+  "image_url": "",
+  "wiki_title": "Diarrhea",
+  "match": "osmotische diarree",
+  "option_only": true
+ },
+ "secretoire diarree": {
+  "title": "Secretoire diarree",
+  "short": "Diarree door actieve vocht- en elektrolytsecretie in de darm; houdt aan ondanks vasten.",
+  "definition": "<p><b>Secretoire diarree</b> ontstaat door toegenomen secretie (bv. door toxines) en stopt, in tegenstelling tot osmotische diarree, niet bij vasten.</p>",
+  "image_url": "",
+  "wiki_title": "Secretory diarrhea",
+  "match": "secretoire diarree",
+  "option_only": true
+ },
+ "zetmeel": {
+  "title": "zetmeel",
+  "short": "Polysacharide opslagvorm van glucose in planten, opgebouwd uit amylose en amylopectine; heeft nauwelijks vrije reducerende groepen.",
+  "definition": "<p><b>Zetmeel</b> is de belangrijkste opslagkoolhydraat van planten en bestaat uit lange ketens glucose (amylose en amylopectine). Doordat de glucose-eenheden onderling gekoppeld zijn, heeft zetmeel nauwelijks vrije reducerende aldehydegroepen.</p>",
+  "image_url": "",
+  "wiki_title": "Starch",
+  "match": "zetmeel",
+  "option_only": true
+ },
+ "kupffer-cel": {
+  "title": "Kupffer-cel",
+  "short": "Levermacrofaag in de sinusoïden die bacteriën en celresten opruimt.",
+  "definition": "<p><b>Kupffer-cellen</b> zijn de vaste macrofagen van de lever. Ze liggen in de sinusoïden en fagocyteren micro-organismen en verouderde erytrocyten uit het poortaderbloed.</p>",
+  "image_url": "",
+  "wiki_title": "Kupffer cell",
+  "match": "kupffer-cel",
+  "option_only": true
+ },
+ "nefropathie": {
+  "title": "Nefropathie",
+  "short": "Nefropathie is nierschade; diabetische nefropathie is een gevolg van microangiopathie en een belangrijke oorzaak van nierfalen.",
+  "definition": "<p><strong>Nefropathie</strong> uit zich onder meer in albuminurie en een dalende nierfunctie.</p>",
+  "image_url": "",
+  "wiki_title": "Kidney disease",
+  "match": "nefropathie",
+  "option_only": true
+ },
+ "informed consent": {
+  "title": "Informed consent",
+  "short": "Toestemming voor een behandeling nadat de patiënt volledig is geïnformeerd over aard, doel, gevolgen, risico's en alternatieven.",
+  "definition": "<p><b>Informed consent</b> is de geïnformeerde toestemming van de patiënt. Volgens de WGBO moet de arts informeren over: (1) aard en doel van onderzoek/behandeling, (2) te verwachten gevolgen en risico's, (3) alternatieve methoden, en (4) de gezondheidstoestand en vooruitzichten.</p>",
+  "image_url": "",
+  "wiki_title": "Informed consent",
+  "match": "informed consent",
+  "option_only": true
+ },
+ "beroepsgeheim": {
+  "title": "Beroepsgeheim",
+  "short": "De plicht van de hulpverlener om gegevens over de patiënt geheim te houden; slechts in specifieke situaties te doorbreken.",
+  "definition": "<p>Het <b>beroepsgeheim</b> (medisch geheim/zwijgplicht) verplicht de hulpverlener alles wat hem in zijn beroep wordt toevertrouwd geheim te houden. Doorbreken mag alleen bij toestemming van de patiënt, een wettelijke plicht, of een conflict van plichten (noodsituatie).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "beroepsgeheim",
+  "option_only": true
+ },
+ "bevolkingsonderzoek": {
+  "title": "Bevolkingsonderzoek",
+  "short": "Systematische screening van een gezonde populatie op (voorstadia van) een ziekte.",
+  "definition": "<p>Een bevolkingsonderzoek (screeningsprogramma) biedt een gedefinieerde doelgroep een test aan om ziekte vroeg op te sporen, zoals bij baarmoederhalskanker, borstkanker en darmkanker.</p>",
+  "image_url": "",
+  "wiki_title": "Screening (medicine)",
+  "match": "bevolkingsonderzoek",
+  "option_only": true
+ },
+ "nk-cellen": {
+  "title": "NK-cellen",
+  "short": "Cytotoxische cellen van de aangeboren afweer die geïnfecteerde of tumorcellen doden zonder voorafgaande sensibilisatie.",
+  "definition": "<p><b>Natural killer (NK)-cellen</b> herkennen cellen met afwijkende of afwezige MHC-I ('missing self') en beklede doelwitten via ADCC. Ze doden zonder eerdere sensibilisatie en zijn belangrijk tegen virussen en tumoren.</p>",
+  "image_url": "",
+  "wiki_title": "Natural killer cell",
+  "match": "nk-cellen",
+  "option_only": true
+ },
+ "nk (naturalkiller)-cel": {
+  "title": "NK-cel",
+  "short": "Natural killer-cel van het aangeboren immuunsysteem die geïnfecteerde of tumorcellen doodt; wordt geremd door MHC-I via inhiberende receptoren.",
+  "definition": "<p>De <b>NK-cel</b> herkent cellen met verminderde MHC-I-expressie ('missing self'). Binding van inhiberende receptoren aan MHC-I remt de killing; verlies van MHC-I heft die remming op.</p>",
+  "image_url": "",
+  "wiki_title": "Natural killer cell",
+  "match": "nk (naturalkiller)-cel",
+  "option_only": true
+ },
+ "kupffercel": {
+  "title": "Kupffer-cel",
+  "short": "Levermacrofaag in de sinusoïden die bacteriën en celresten opruimt.",
+  "definition": "<p><b>Kupffer-cellen</b> zijn de vaste macrofagen van de lever. Ze liggen in de sinusoïden en fagocyteren micro-organismen en verouderde erytrocyten uit het poortaderbloed.</p>",
+  "image_url": "",
+  "wiki_title": "Kupffer cell",
+  "match": "kupffercel",
+  "option_only": true
+ },
+ "schwann cel": {
+  "title": "Schwann-cel",
+  "short": "Gliacel die myeline vormt in het perifere zenuwstelsel.",
+  "definition": "<p>De <b>Schwann-cel</b> myeliniseert axonen buiten het centrale zenuwstelsel (perifere zenuwen).</p>",
+  "image_url": "",
+  "wiki_title": "Schwann cell",
+  "match": "schwann cel",
+  "option_only": true
+ },
+ "bursitis subacromialis": {
+  "title": "Bursitis subacromialis",
+  "short": "Bursitis subacromialis is een ontsteking van de slijmbeurs onder het acromion in de schouder, met pijn bij bewegen.",
+  "definition": "<p><strong>Bursitis subacromialis</strong> is ontsteking van de subacromiale slijmbeurs. Na een corticosteroïdinjectie moet bij hernieuwde, koortsende pijn een septische artritis worden uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "bursitis subacromialis",
+  "option_only": true
+ },
+ "humaan papilloma virus": {
+  "title": "Humaan papillomavirus (HPV)",
+  "short": "HPV is een DNA-virus dat wratten veroorzaakt; hoog-risicotypes (o.a. 16 en 18) veroorzaken baarmoederhalskanker en andere kankers.",
+  "definition": "<p>Het <strong>humaan papillomavirus</strong> infecteert basale cellen van huid en slijmvlies. Laag-risicotypes (6, 11) geven wratten en condylomata acuminata. Hoog-risicotypes maken de eiwitten E6 en E7, die p53 en Rb uitschakelen; persisterende infectie kan leiden tot cervixcarcinoom en kankers van anus, vulva, penis en orofarynx. Er is een vaccin en een bevolkingsonderzoek met hrHPV-test.</p>",
+  "image_url": "",
+  "wiki_title": "Human papillomavirus infection",
+  "match": "humaan papilloma virus",
+  "option_only": true
+ },
+ "kleincellig longcarcinoom": {
+  "title": "Kleincellig longcarcinoom (SCLC)",
+  "short": "Een agressief, snelgroeiend type longkanker dat vroeg metastaseert en sterk samenhangt met roken.",
+  "definition": "<p>Reageert aanvankelijk goed op chemotherapie maar recidiveert vaak.</p>",
+  "image_url": "",
+  "wiki_title": "Small-cell carcinoma",
+  "match": "kleincellig longcarcinoom",
+  "option_only": true
+ },
+ "confounding": {
+  "title": "Confounding",
+  "short": "Vertekening van een verband doordat een derde factor zowel met de determinant als met de uitkomst samenhangt.",
+  "definition": "<p><b>Confounding</b> is de vertekening van het verband tussen determinant en uitkomst door een verstorende variabele (confounder) die met beide samenhangt en niet in het causale pad ligt. In de multivitamine-casus is de ongezondere leefstijl de confounder.</p>",
+  "image_url": "",
+  "wiki_title": "Confounding",
+  "match": "confounding",
+  "option_only": true
+ },
+ "effectmodificatie": {
+  "title": "effectmodificatie",
+  "short": "Effectmodificatie betekent dat het effect van de blootstelling verschilt tussen strata van een derde variabele.",
+  "definition": "<p><b>Effectmodificatie</b> (interactie) treedt op als de effectmaat verschilt per stratum van een andere variabele. In tegenstelling tot confounding is het een reëel fenomeen dat je per stratum rapporteert.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "effectmodificatie",
+  "option_only": true
+ },
+ "proportional hazards": {
+  "title": "Proportional hazards-assumptie",
+  "short": "De aanname in Cox-regressie dat de hazard ratio tussen groepen constant is over de hele follow-up.",
+  "definition": "<p>De <b>proportional hazards-assumptie</b> houdt in dat het relatieve effect (hazard ratio) constant blijft over de tijd. Ze kan getoetst worden met een tijdsafhankelijke covariaat (interactie met de tijd); een significante interactieterm wijst op schending.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "proportional hazards",
+  "option_only": true
+ },
+ "trombotische trombocytopenische purpura": {
+  "title": "Trombotische trombocytopenische purpura (TTP)",
+  "short": "Levensbedreigende microangiopathie met trombocytopenie, hemolytische anemie en neurologische verschijnselen.",
+  "definition": "<p>TTP berust op ADAMTS13-deficiëntie met microtrombi. Kenmerken zijn anemie met sterk verhoogd LDH, trombocytopenie en verwardheid; het vereist directe verwijzing en plasmaferese.</p>",
+  "image_url": "",
+  "wiki_title": "Thrombotic thrombocytopenic purpura",
+  "match": "trombotische trombocytopenische purpura",
+  "option_only": true
+ },
+ "papiloedeem": {
+  "title": "Papiloedeem",
+  "short": "Zwelling van de oogzenuwkop door verhoogde intracraniële druk; zichtbaar bij fundoscopie en teken van maligne hypertensie.",
+  "definition": "<p><b>Papiloedeem</b> is zwelling van de papil (oogzenuwkop) door verhoogde hersendruk. Bij zeer hoge bloeddruk (maligne hypertensie) is het een teken van eindorgaanschade.</p>",
+  "image_url": "",
+  "wiki_title": "Papilledema",
+  "match": "papiloedeem",
+  "option_only": true
+ },
+ "varenicline": {
+  "title": "Varenicline",
+  "short": "Partiële agonist van de α4β2-nicotine-acetylcholinereceptor.",
+  "definition": "<p><strong>Varenicline</strong> stimuleert de nicotinereceptor gedeeltelijk en verdringt tegelijk nicotine van de receptor. Bijwerkingen zijn misselijkheid, levendige dromen en slaapstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Varenicline",
+  "match": "varenicline",
+  "option_only": true
+ },
+ "acamprosaat": {
+  "title": "Acamprosaat",
+  "short": "Middel dat de craving (hunkering) naar alcohol vermindert; werkt vermoedelijk via antagonisme van glutamaatreceptoren.",
+  "definition": "<p><strong>Acamprosaat</strong> wordt gebruikt om de kans op terugval bij alcoholverslaving te verkleinen door de hunkering (craving) naar alcohol te verminderen. Het werkingsmechanisme berust vermoedelijk op modulatie/antagonisme van glutamaterge (NMDA-)neurotransmissie, waardoor de bij onthouding ontstane glutamaat-overactiviteit wordt gedempt.</p>",
+  "image_url": "",
+  "wiki_title": "Acamprosate",
+  "match": "acamprosaat",
+  "option_only": true
+ },
+ "risperidone": {
+  "title": "Risperidon",
+  "short": "Atypisch antipsychoticum; kan door dopamineblokkade prolactinestijging met lactatie en libidoverlies geven.",
+  "definition": "<p><strong>Risperidon</strong> is een atypisch antipsychoticum dat onder meer dopamine-D2-receptoren blokkeert. Blokkade in de tubero-infundibulaire baan verhoogt prolactine, wat kan leiden tot lactatie, menstruatiestoornissen en libidoverlies. Verkrijgbaar als depotpreparaat.</p>",
+  "image_url": "",
+  "wiki_title": "Risperidone",
+  "match": "risperidone",
+  "option_only": true
+ },
+ "moclobemide": {
+  "title": "Moclobemide",
+  "short": "Moclobemide is een reversibele MAO-A-remmer die de afbraak van monoamines zoals noradrenaline remt.",
+  "definition": "<p><b>Moclobemide</b> is een reversibele remmer van monoamine oxidase A (RIMA), gebruikt als antidepressivum. Door remming van MAO neemt de afbraak van noradrenaline (en andere monoamines) af.</p>",
+  "image_url": "",
+  "wiki_title": "Moclobemide",
+  "match": "moclobemide",
+  "option_only": true
+ },
+ "betablokkers": {
+  "title": "Bètablokker",
+  "short": "Bètablokkers blokkeren bèta-adrenerge receptoren en verlagen hartfrequentie, contractiekracht en reninesecretie.",
+  "definition": "<p><strong>Bètablokkers</strong> worden gebruikt bij hypertensie, angina pectoris, na een hartinfarct, bij hartfalen, ritmestoornissen, tremor en migraineprofylaxe. Cardioselectieve middelen (metoprolol, bisoprolol) werken vooral op β1; niet-selectieve (propranolol) ook op β2, wat bronchospasme kan geven. Bijwerkingen: bradycardie, vermoeidheid, koude extremiteiten en het maskeren van hypoglykemieverschijnselen.</p>",
+  "image_url": "",
+  "wiki_title": "Beta blocker",
+  "match": "betablokkers",
+  "option_only": true
+ },
+ "cingulaire cortex": {
+  "title": "Cingulaire cortex",
+  "short": "Deel van de mediale cortex, betrokken bij emotie en het limbische systeem.",
+  "definition": "<p>De <b>cingulaire cortex</b> ligt boven het corpus callosum en maakt deel uit van het limbische systeem.</p>",
+  "image_url": "",
+  "wiki_title": "Cingulate cortex",
+  "match": "cingulaire cortex",
+  "option_only": true
+ },
+ "antisociale persoonlijkheidsstoornis": {
+  "title": "Antisociale persoonlijkheidsstoornis",
+  "short": "Cluster B-persoonlijkheidsstoornis met een patroon van minachting voor en schending van de rechten van anderen.",
+  "definition": "<p>De <strong>antisociale persoonlijkheidsstoornis</strong> wordt gekenmerkt door een doorgaand patroon van het negeren en schenden van de rechten van anderen, met impulsiviteit, prikkelbaarheid, gebrek aan berouw en normoverschrijdend gedrag. Ze valt onder cluster B.</p>",
+  "image_url": "",
+  "wiki_title": "Antisocial personality disorder",
+  "match": "antisociale persoonlijkheidsstoornis",
+  "option_only": true
+ },
+ "persisterende depressieve stoornis": {
+  "title": "Persisterende depressieve stoornis (dysthymie)",
+  "short": "Chronisch sombere stemming die het grootste deel van de dag aanwezig is gedurende minstens twee jaar (bij kinderen een jaar).",
+  "definition": "<p>De <strong>persisterende depressieve stoornis (dysthymie)</strong> is een chronische stemmingsstoornis met een gedrukte stemming gedurende het merendeel van de dag, meer dagen wel dan niet, gedurende minstens twee jaar (bij kinderen en adolescenten minstens één jaar). Bijkomende klachten zijn onder meer slaap- en eetstoornissen, weinig energie en concentratieproblemen.</p>",
+  "image_url": "",
+  "wiki_title": "Dysthymia",
+  "match": "persisterende depressieve stoornis",
+  "option_only": true
+ },
+ "disulfiram": {
+  "title": "Disulfiram (Antabus®)",
+  "short": "Middel bij alcoholverslaving dat de afbraak van alcohol remt (aldehydedehydrogenase), waardoor bij drinken een zeer onaangename reactie ontstaat.",
+  "definition": "<p><strong>Disulfiram</strong> remt het enzym aldehydedehydrogenase, waardoor bij alcoholgebruik aceetaldehyde ophoopt en een heftige, onaangename reactie (blozen, misselijkheid, hartkloppingen) ontstaat. Zo werkt het als aversiemiddel bij alcoholverslaving door remming van het metabolisme van alcohol.</p>",
+  "image_url": "",
+  "wiki_title": "Disulfiram",
+  "match": "disulfiram",
+  "option_only": true
+ },
+ "narcistische persoonlijkheidsstoornis": {
+  "title": "Narcistische persoonlijkheidsstoornis",
+  "short": "Persoonlijkheidsstoornis met een patroon van grandiositeit, behoefte aan bewondering en gebrek aan empathie.",
+  "definition": "<p>De <strong>narcistische persoonlijkheidsstoornis</strong> kenmerkt zich door een doorgaand patroon van grandiositeit (in fantasie of gedrag), een sterke behoefte aan bewondering en een gebrek aan empathie. Ze behoort tot cluster B van de persoonlijkheidsstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Narcissistic personality disorder",
+  "match": "narcistische persoonlijkheidsstoornis",
+  "option_only": true
+ },
+ "oppositioneel opstandige (gedrags)stoornis": {
+  "title": "Oppositioneel-opstandige stoornis (ODD)",
+  "short": "Gedragsstoornis bij kinderen met een patroon van boze/prikkelbare stemming, opstandig gedrag en wraakzucht tegenover gezagsfiguren.",
+  "definition": "<p>De <strong>oppositioneel-opstandige stoornis (ODD)</strong> is een gedragsstoornis met een aanhoudend patroon van prikkelbare/boze stemming, ruziënd en tegendraads gedrag en wraakzucht, vooral gericht op gezagsfiguren. Bij kinderen met ODD stijgt de cortisolspiegel bij stress minder dan normaal.</p>",
+  "image_url": "",
+  "wiki_title": "Oppositional defiant disorder",
+  "match": "oppositioneel opstandige (gedrags)stoornis",
+  "option_only": true
+ },
+ "autisme spectrum stoornis": {
+  "title": "Autismespectrumstoornis",
+  "short": "Autismespectrumstoornis is een neurologische ontwikkelingsstoornis met beperkingen in sociale communicatie en beperkte, repetitieve gedragspatronen en interesses.",
+  "definition": "<p>Bij een <strong>autismespectrumstoornis</strong> zijn er vanaf de vroege ontwikkeling problemen met sociaal-emotionele wederkerigheid, non-verbale communicatie en het aangaan van relaties, gecombineerd met stereotiep gedrag, star vasthouden aan routines, beperkte interesses en afwijkende reacties op zintuiglijke prikkels. Het verloop en de ernst variëren sterk; er is een grote erfelijke component.</p>",
+  "image_url": "",
+  "wiki_title": "Autism spectrum",
+  "match": "autisme spectrum stoornis",
+  "option_only": true
+ },
+ "apathie": {
+  "title": "Apathie",
+  "short": "Verlies van motivatie, initiatief en interesse, zonder dat de patiënt dit zelf als lijden ervaart; veel voorkomend bij dementie en depressie.",
+  "definition": "<p><strong>Apathie</strong> is een toestand van verminderde motivatie, initiatiefverlies en emotionele vervlakking. Bij dementie is apathie vaak de grootste belasting voor mantelzorgers.</p>",
+  "image_url": "",
+  "wiki_title": "Apathy",
+  "match": "apathie",
+  "option_only": true
+ },
+ "hallucinaties": {
+  "title": "Hallucinaties",
+  "short": "Zintuiglijke waarnemingen zonder externe prikkel, bijv. stemmen horen; kenmerkend voor psychose.",
+  "definition": "<p><b>Hallucinaties</b> zijn waarnemingen zonder werkelijke prikkel, bijvoorbeeld het horen van stemmen. Ze zijn een kernsymptoom van <b>psychose</b>.</p>",
+  "image_url": "",
+  "wiki_title": "Hallucination",
+  "match": "hallucinaties",
+  "option_only": true
+ },
+ "atypische depressie": {
+  "title": "atypische depressie",
+  "short": "Subtype depressie met stemmingsreactiviteit en ‘omgekeerde’ vegetatieve symptomen: veel slapen, toegenomen eetlust/gewicht, loodzwaar gevoel en gevoeligheid voor afwijzing.",
+  "definition": "<p>De <strong>atypische depressie</strong> onderscheidt zich door stemmingsreactiviteit (opklaren bij positieve gebeurtenissen) en ‘omgekeerde’ vegetatieve kenmerken: hypersomnie, toegenomen eetlust en gewicht, loodzwaar gevoel in de ledematen en een langdurige gevoeligheid voor interpersoonlijke afwijzing. Klassieke MAO-remmers zijn hierbij relatief effectief.</p>",
+  "image_url": "",
+  "wiki_title": "Atypical depression",
+  "match": "atypische depressie",
+  "option_only": true
+ },
+ "peri-partum depressie": {
+  "title": "Peri-partumdepressie",
+  "short": "Depressieve episode die optreedt tijdens de zwangerschap of kort na de bevalling.",
+  "definition": "<p>Een <strong>peri-partumdepressie</strong> is een depressie in de periode rond de bevalling. Belangrijke voorspellers zijn onder andere neuroticisme bij de moeder en een ongewenste zwangerschap.</p>",
+  "image_url": "",
+  "wiki_title": "Postpartum depression",
+  "match": "peri-partum depressie",
+  "option_only": true
+ },
+ "afhankelijke persoonlijkheidsstoornis": {
+  "title": "Afhankelijke persoonlijkheidsstoornis",
+  "short": "Cluster C-persoonlijkheidsstoornis met een buitensporige behoefte verzorgd te worden, onderdanig en klampend gedrag.",
+  "definition": "<p>De <strong>afhankelijke persoonlijkheidsstoornis</strong> (cluster C) betreft een overmatige behoefte aan steun en geruststelling, moeite zelfstandig beslissingen te nemen en angst om alleen te zijn.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "afhankelijke persoonlijkheidsstoornis",
+  "option_only": true
+ },
+ "respons preventie": {
+  "title": "Responspreventie",
+  "short": "Onderdeel van exposurebehandeling bij OCS: de patiënt stelt zich bloot aan de angstprikkel én laat het dwangmatige neutraliserende gedrag (ritueel) bewust achterwege.",
+  "definition": "<p><b>Responspreventie</b> betekent het achterwege laten van de compulsieve/neutraliserende handeling tijdens exposure. Bij exposure met responspreventie (ERP) leert de patiënt dat de gevreesde ramp uitblijft zonder het ritueel.</p>",
+  "image_url": "",
+  "wiki_title": "Exposure and response prevention",
+  "match": "respons preventie",
+  "option_only": true
+ },
+ "zolpidem": {
+  "title": "Zolpidem",
+  "short": "Kortwerkend hypnoticum (Z-drug) dat aangrijpt op de GABA-A-receptor. Het hypnotische effect kan worden geantagoneerd met flumazenil.",
+  "definition": "<p><strong>Zolpidem</strong> is een niet-benzodiazepine slaapmiddel dat selectief bindt aan de α1-subunit van de GABA-A-receptor. Bij overdosis kan het effect worden opgeheven met de competitieve antagonist flumazenil.</p>",
+  "image_url": "",
+  "wiki_title": "Zolpidem",
+  "match": "zolpidem",
+  "option_only": true
+ },
+ "waanachtige gedachte": {
+  "title": "Waanachtige gedachte",
+  "short": "Een overtuiging met waankarakter die (nog) niet volledig onwrikbaar is; de patiënt kan er soms nog enigszins afstand van nemen.",
+  "definition": "<p>Een <strong>waanachtige gedachte</strong> heeft de inhoud van een waan maar mist de volledige onwrikbaarheid; de patiënt twijfelt soms nog of laat zich deels corrigeren. Het is een minder uitgekristalliseerde vorm dan een echte waan.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "waanachtige gedachte",
+  "option_only": true
+ },
+ "schizo-affectieve stoornis": {
+  "title": "Schizoaffectieve stoornis",
+  "short": "Bij een schizoaffectieve stoornis komen psychotische symptomen van schizofrenie samen voor met episoden van depressie of manie.",
+  "definition": "<p>Voor de diagnose moeten er ook periodes van minstens twee weken met wanen of hallucinaties zonder stemmingsstoornis zijn geweest. Behandeling combineert antipsychotica met stemmingsstabilisatoren of antidepressiva.</p>",
+  "image_url": "",
+  "wiki_title": "Schizoaffective disorder",
+  "match": "schizo-affectieve stoornis",
+  "option_only": true
+ },
+ "somatisch-symptoom stoornis": {
+  "title": "Somatisatie",
+  "short": "Somatisatie is de neiging om psychische spanning te ervaren en te uiten als lichamelijke klachten.",
+  "definition": "<p>Bij een <strong>somatisch-symptoomstoornis</strong> zijn er lichamelijke klachten die veel zorgen, gedachten en gedrag oproepen en het functioneren beperken, ongeacht of er een medische verklaring is. Behandeling richt zich op uitleg, het doorbreken van vicieuze cirkels en geleidelijk opbouwen van activiteiten, vaak met cognitieve gedragstherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Somatic symptom disorder",
+  "match": "somatisch-symptoom stoornis",
+  "option_only": true
+ },
+ "post-traumatische stress-stoornis": {
+  "title": "Posttraumatische stressstoornis (PTSS)",
+  "short": "PTSS ontstaat na een schokkende gebeurtenis, met herbelevingen, vermijding, negatieve stemming en verhoogde prikkelbaarheid.",
+  "definition": "<p>Bij <strong>PTSS</strong> duren de klachten langer dan een maand: herbelevingen (nachtmerries, flashbacks), vermijding van herinneringen, negatieve veranderingen in denken en stemming, en verhoogde waakzaamheid en schrikreacties. Behandeling met traumagerichte therapie (EMDR, cognitieve gedragstherapie), eventueel SSRI's.</p>",
+  "image_url": "",
+  "wiki_title": "Posttraumatic stress disorder",
+  "match": "post-traumatische stress-stoornis",
+  "option_only": true
+ },
+ "hormoontherapie": {
+  "title": "Hormoontherapie",
+  "short": "Behandeling met (vrouwelijke) geslachtshormonen om overgangsklachten te verlichten.",
+  "definition": "<p>Bij hormoontherapie in de overgang worden oestrogenen (soms met progestageen) toegediend om klachten als opvliegers te verminderen. Er zijn afwegingen rond risico's en indicaties.</p>",
+  "image_url": "",
+  "wiki_title": "Hormone replacement therapy (menopause)",
+  "match": "hormoontherapie",
+  "option_only": true
+ },
+ "oppositioneel-opstandige gedragsstoornis": {
+  "title": "Oppositioneel-opstandige gedragsstoornis (ODD)",
+  "short": "Kinderpsychiatrisch beeld met een patroon van boze/prikkelbare stemming, ruziënd en opstandig gedrag.",
+  "definition": "<p>De <strong>oppositioneel-opstandige gedragsstoornis (ODD)</strong> kenmerkt zich door een aanhoudend patroon van prikkelbaarheid, opstandigheid en dwars gedrag tegenover gezagsfiguren. De symptomen zijn minder ernstig dan bij de normoverschrijdend-gedragsstoornis; behandeling bestaat vooral uit oudertraining.</p>",
+  "image_url": "",
+  "wiki_title": "Oppositional defiant disorder",
+  "match": "oppositioneel-opstandige gedragsstoornis",
+  "option_only": true
+ },
+ "persoonlijkheidsstoornis": {
+  "title": "Persoonlijkheidsstoornis",
+  "short": "Duurzaam, inflexibel patroon van beleven en gedrag dat afwijkt van de norm en lijden of disfunctioneren veroorzaakt.",
+  "definition": "<p>Een <strong>persoonlijkheidsstoornis</strong> is een duurzaam en star patroon van innerlijke ervaring en gedrag dat sterk afwijkt van de culturele verwachting en leidt tot lijden of beperkingen. In de DSM-5 worden clusters A (excentriek), B (dramatisch/impulsief) en C (angstig) onderscheiden. Persoonlijkheidsstoornissen komen vaak voor als comorbiditeit bij psychiatrische aandoeningen.</p>",
+  "image_url": "",
+  "wiki_title": "Personality disorder",
+  "match": "persoonlijkheidsstoornis",
+  "option_only": true
+ },
+ "selectieve serotonineheropnameremmers (ssri)": {
+  "title": "SSRI",
+  "short": "Selectieve serotonineheropnameremmer; antidepressivum dat ook een trombocytopathie kan veroorzaken.",
+  "definition": "<p>Een <b>SSRI</b> (selectieve serotonineheropnameremmer) is een veelgebruikt antidepressivum. SSRI’s remmen de heropname van serotonine, ook in de bloedplaatjes, waardoor een <b>trombocytopathie</b> ontstaat en het risico op maag-/bloedingscomplicaties toeneemt, zeker samen met NSAIDs.</p>",
+  "image_url": "",
+  "wiki_title": "Selective serotonin reuptake inhibitor",
+  "match": "selectieve serotonineheropnameremmers (ssri)",
+  "option_only": true
+ },
+ "tricyclische antidepressiva (tca)": {
+  "title": "Tricyclische antidepressiva",
+  "short": "Tricyclische antidepressiva remmen de heropname van noradrenaline en serotonine en hebben veel anticholinerge bijwerkingen.",
+  "definition": "<p><strong>TCA's</strong> (zoals amitriptyline, nortriptyline, clomipramine) worden gebruikt bij depressie en in lage dosis bij neuropathische pijn. Bijwerkingen: droge mond, obstipatie, urineretentie, sufheid, orthostatische hypotensie en gewichtstoename. Bij overdosering zijn ze gevaarlijk door natriumkanaalblokkade (breed QRS, aritmieën) en insulten.</p>",
+  "image_url": "",
+  "wiki_title": "Tricyclic antidepressant",
+  "match": "tricyclische antidepressiva (tca)",
+  "option_only": true
+ },
+ "cognitieve functies": {
+  "title": "Cognitieve functies",
+  "short": "Verstandelijke functies zoals bewustzijn, aandacht, geheugen, denken en concentratie.",
+  "definition": "<p><b>Cognitieve functies</b> omvatten onder meer bewustzijn, oriëntatie, aandacht, concentratie, geheugen en het denken. Stoornissen hierin uiten zich bijvoorbeeld als verminderde concentratie of piekeren.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "cognitieve functies",
+  "option_only": true
+ },
+ "affectieve functies": {
+  "title": "Affectieve functies",
+  "short": "Functies die de stemming en gevoelens betreffen, zoals angst, somberheid en stemmingsschommelingen.",
+  "definition": "<p><b>Affectieve functies</b> betreffen de stemming en het gevoelsleven. Stoornissen hierin uiten zich als bijvoorbeeld angstige of sombere stemming, lusteloosheid of een labiel affect.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "affectieve functies",
+  "option_only": true
+ },
+ "acute stressstoornis": {
+  "title": "Acute stressstoornis",
+  "short": "Kortdurende stressreactie na een traumatische gebeurtenis, met o.a. herbelevingen en dissociatieve symptomen.",
+  "definition": "<p>Een <b>acute stressstoornis</b> ontstaat na een duidelijke traumatische gebeurtenis en kenmerkt zich door herbelevingen, vermijding en dissociatieve symptomen (derealisatie, depersonalisatie, dissociatieve amnesie) binnen enkele weken na het trauma.</p>",
+  "image_url": "",
+  "wiki_title": "Acute stress disorder",
+  "match": "acute stressstoornis",
+  "option_only": true
+ },
+ "obsessieve compulsieve stoornis": {
+  "title": "Obsessies en compulsies (OCS)",
+  "short": "Bij een obsessieve-compulsieve stoornis zijn er dwanggedachten (obsessies) en/of dwanghandelingen (compulsies) die veel tijd kosten en lijden geven.",
+  "definition": "<p>Bij <strong>OCS</strong> roepen obsessies (bijv. over besmetting, schade, symmetrie) angst op, die met compulsies (wassen, controleren, ordenen, tellen) tijdelijk wordt verminderd. De persoon ziet meestal in dat de gedachten overdreven zijn. Behandeling met exposure en responspreventie en/of SSRI's.</p>",
+  "image_url": "",
+  "wiki_title": "Obsessive–compulsive disorder",
+  "match": "obsessieve compulsieve stoornis",
+  "option_only": true
+ },
+ "genderdysforie": {
+  "title": "Genderdysforie",
+  "short": "Aanhoudend onwelbevinden door incongruentie tussen de ervaren genderidentiteit en het bij de geboorte toegewezen geslacht.",
+  "definition": "<p><strong>Genderdysforie</strong> is het lijden dat ontstaat door een discrepantie tussen de beleefde genderidentiteit en het toegewezen geslacht. Bij kinderen persisteert de dysforie lang niet altijd tot op latere leeftijd.</p>",
+  "image_url": "",
+  "wiki_title": "Gender dysphoria",
+  "match": "genderdysforie",
+  "option_only": true
+ },
+ "labiel affect": {
+  "title": "Labiel affect",
+  "short": "Sterk wisselende, moeilijk te beheersen gevoelsuitingen.",
+  "definition": "<p>Een <b>labiel affect</b> is een snel wisselende en moeilijk te reguleren gevoelsuiting, waarbij iemand bijvoorbeeld gemakkelijk in huilen of boosheid uitbarst. Het wordt beoordeeld bij het psychiatrisch onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "labiel affect",
+  "option_only": true
+ },
+ "rumineren": {
+  "title": "Rumineren",
+  "short": "Het herhaaldelijk en piekerend blijven stilstaan bij (negatieve) gedachten; onderscheiden van cognitieve functiestoornissen.",
+  "definition": "<p><strong>Rumineren</strong> is aanhoudend piekeren waarbij dezelfde (vaak sombere) gedachten steeds terugkeren. Het is een denkinhoud/proces en wordt in het psychiatrisch onderzoek niet gerekend tot de cognitieve functies zoals oriëntatie of praxis.</p>",
+  "image_url": "",
+  "wiki_title": "Rumination (psychology)",
+  "match": "rumineren",
+  "option_only": true
+ },
+ "anticipatieangst": {
+  "title": "Anticipatieangst",
+  "short": "Angst voorafgaand aan een gevreesde situatie of aan het krijgen van een volgende paniekaanval.",
+  "definition": "<p><strong>Anticipatieangst</strong> is de angst die optreedt bij het vooruitdenken aan een gevreesde gebeurtenis of een mogelijke nieuwe paniekaanval. Deze verwachtingsangst kan zelf al klachten en vermijding uitlokken.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "anticipatieangst",
+  "option_only": true
+ },
+ "somatische waan": {
+  "title": "Somatische waan",
+  "short": "Onterechte, onwrikbare overtuiging over het eigen lichaam (bv. bestraald of aangetast worden), zonder feitelijke waarneming.",
+  "definition": "<p>Een <strong>somatische waan</strong> is een waanovertuiging die het lichaam betreft (bv. de overtuiging bestraald of vergiftigd te worden). Het betreft een stoornis in de <em>inhoud van het denken</em>, in tegenstelling tot een somatische hallucinatie (een lichamelijke gewaarwording zonder externe prikkel).</p>",
+  "image_url": "",
+  "wiki_title": "Delusion",
+  "match": "somatische waan",
+  "option_only": true
+ },
+ "burn-out": {
+  "title": "Burn-out",
+  "short": "Toestand van overspanning die langer dan 6 maanden bestaat en waarbij moeheid en uitputting sterk op de voorgrond staan.",
+  "definition": "<p><b>Burn-out</b> vereist: (a) er is sprake van overspanning, (b) de klachten zijn meer dan 6 maanden geleden begonnen, en (c) gevoelens van moeheid en uitputting staan sterk op de voorgrond.</p>",
+  "image_url": "",
+  "wiki_title": "Occupational burnout",
+  "match": "burn-out",
+  "option_only": true
+ },
+ "ziekteangststoornis": {
+  "title": "Ziekte-angststoornis",
+  "short": "Aanhoudende preoccupatie met de angst een ernstige ziekte te hebben of te krijgen, ondanks geruststelling.",
+  "definition": "<p>Bij de <strong>ziekte-angststoornis</strong> (voorheen hypochondrie) staat de angst om een ernstige aandoening te hebben of te krijgen centraal, meestal met weinig of geen lichamelijke klachten, en zonder dat somatisch onderzoek dit ondersteunt.</p>",
+  "image_url": "",
+  "wiki_title": "Hypochondriasis",
+  "match": "ziekteangststoornis",
+  "option_only": true
+ },
+ "obsessief-compulsieve stoornis": {
+  "title": "Obsessief-compulsieve stoornis (OCS)",
+  "short": "Stoornis met dwanggedachten (obsessies) en/of dwanghandelingen (compulsies) die veel tijd kosten en lijden veroorzaken.",
+  "definition": "<p>De <strong>obsessief-compulsieve stoornis (OCS/OCD)</strong> kenmerkt zich door <em>obsessies</em> (opdringende, angstwekkende gedachten) en <em>compulsies</em> (repeterende handelingen of rituelen om de angst te verminderen). Het corticostriatothalamocorticale circuit speelt een rol in de pathofysiologie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "obsessief-compulsieve stoornis",
+  "option_only": true
+ },
+ "interpersoonlijke psychotherapie": {
+  "title": "Interpersoonlijke psychotherapie (IPT)",
+  "short": "Kortdurende, gestructureerde psychotherapie voor depressie die zich richt op actuele problemen in relaties en rollen (rouw, rolverandering, conflicten, tekorten).",
+  "definition": "<p><strong>Interpersoonlijke psychotherapie (IPT)</strong> is een kortdurende (12&ndash;16 sessies) evidence-based behandeling voor depressie. Ze richt zich op het verband tussen depressieve klachten en interpersoonlijke problemen: rouw, rolveranderingen, interpersoonlijke conflicten en interpersoonlijke tekorten. Een sociogram wordt gebruikt om het sociale netwerk in kaart te brengen. Anders dan CGT gebruikt IPT geen dagboeken of huiswerkopdrachten.</p>",
+  "image_url": "",
+  "wiki_title": "Interpersonal psychotherapy",
+  "match": "interpersoonlijke psychotherapie",
+  "option_only": true
+ },
+ "schemagerichte psychotherapie": {
+  "title": "Schemagerichte psychotherapie",
+  "short": "Op persoonlijkheidsproblematiek gerichte therapie die vroeg ontstane, disfunctionele schema's identificeert en bewerkt.",
+  "definition": "<p><strong>Schemagerichte (schema)therapie</strong> richt zich vooral op persoonlijkheidsstoornissen (o.a. borderline). Ze integreert cognitieve gedragstherapie met technieken uit hechtings- en experiëntiële therapie om vroegkinderlijke <em>maladaptieve schema's</em> te doorbreken.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "schemagerichte psychotherapie",
+  "option_only": true
+ },
+ "mirtazapine": {
+  "title": "Mirtazapine",
+  "short": "Antidepressivum (NaSSA) met sterk antihistaminerge (H1) werking; de belangrijkste bijwerkingen zijn sedatie en gewichtstoename.",
+  "definition": "<p><strong>Mirtazapine</strong> is een noradrenerg en specifiek serotonerg antidepressivum (NaSSA). Door zijn sterke antagonisme van de histamine-H1-receptor veroorzaakt het vooral sedatie en toename van eetlust en gewicht. Het heeft nagenoeg geen anticholinerge werking.</p>",
+  "image_url": "",
+  "wiki_title": "Mirtazapine",
+  "match": "mirtazapine",
+  "option_only": true
+ },
+ "globus pallidus, pars externa": {
+  "title": "Globus pallidus pars externa (GPe)",
+  "short": "De GPe is onderdeel van de basale kernen en vormt een schakel in de indirecte route; hij remt de nucleus subthalamicus.",
+  "definition": "<p>De <strong>globus pallidus pars externa</strong> is het laterale deel van de globus pallidus. Hij ontvangt remmende (GABA-erge) input van het striatum en stuurt zelf remmende projecties naar de nucleus subthalamicus.</p><p>Hij is een kernschakel van de <em>indirecte route</em> van de basale kernen (cortex → striatum → GPe → nucleus subthalamicus → GPi/SNr → thalamus), die beweging per saldo afremt.</p>",
+  "image_url": "",
+  "wiki_title": "Globus pallidus",
+  "match": "globus pallidus, pars externa",
+  "option_only": true
+ },
+ "globus pallidus, pars interna": {
+  "title": "Globus pallidus pars interna (GPi)",
+  "short": "De GPi is de belangrijkste uitgangskern van de basale kernen; hij remt (GABA-erg) de motorische thalamus.",
+  "definition": "<p>De <strong>globus pallidus pars interna</strong> is samen met de substantia nigra pars reticulata de <em>uitgangskern</em> van de basale kernen. Hij geeft tonisch remmende GABA-erge output naar de motorische kernen van de thalamus.</p><p>De directe route (striatum → GPi) remt de GPi en ontremt zo de thalamus (meer beweging); de indirecte route versterkt via de nucleus subthalamicus juist de remming. De GPi is een doelwit bij diepe hersenstimulatie (o.a. dystonie, Parkinson).</p>",
+  "image_url": "",
+  "wiki_title": "Globus pallidus",
+  "match": "globus pallidus, pars interna",
+  "option_only": true
+ },
+ "commisura anterior": {
+  "title": "Commissura anterior",
+  "short": "Kleine witte-stofbundel die o.a. de temporaalkwabben en reukgebieden verbindt.",
+  "definition": "<p>De <b>commissura anterior</b> verbindt onder meer de amygdala en de tractus olfactorius van beide zijden.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior commissure",
+  "match": "commisura anterior",
+  "option_only": true
+ },
+ "hallucinatie": {
+  "title": "Hallucinatie",
+  "short": "Zintuiglijke waarneming zonder externe prikkel, bijvoorbeeld stemmen horen die er niet zijn; een stoornis van het waarnemen.",
+  "definition": "<p>Een <b>hallucinatie</b> is een zintuiglijke waarneming zonder bijbehorende prikkel uit de buitenwereld, zoals het horen van stemmen (auditieve hallucinatie). Het is een stoornis van het <i>waarnemen</i> en komt voor bij psychose.</p>",
+  "image_url": "",
+  "wiki_title": "Hallucination",
+  "match": "hallucinatie",
+  "option_only": true
+ },
+ "waan": {
+  "title": "Waan",
+  "short": "Onwrikbare, niet met de realiteit overeenkomende overtuiging; een stoornis in de inhoud van het denken.",
+  "definition": "<p>Een <b>waan</b> is een onjuiste, onwrikbare overtuiging die niet strookt met de werkelijkheid en niet corrigeerbaar is door logische argumenten. Het is een stoornis van de <i>inhoud van het denken</i> en komt voor bij psychotische stoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Delusion",
+  "match": "waan",
+  "option_only": true
+ },
+ "sociale fobie": {
+  "title": "Sociale fobie",
+  "short": "Angststoornis met een aanhoudende, overmatige angst voor situaties waarin men door anderen beoordeeld of gadegeslagen kan worden, met vermijding als gevolg.",
+  "definition": "<p><b>Sociale fobie</b> (sociale-angststoornis) is een uitgesproken angst voor sociale of prestatiesituaties waarin iemand negatief beoordeeld kan worden. Dit leidt tot vermijdingsgedrag en somatische angstverschijnselen (blozen, trillen, misselijkheid) in die situaties.</p>",
+  "image_url": "",
+  "wiki_title": "Social anxiety disorder",
+  "match": "sociale fobie",
+  "option_only": true
+ },
+ "obsessief compulsieve stoornis": {
+  "title": "Obsessief-compulsieve stoornis (OCS)",
+  "short": "Stoornis met dwanggedachten (obsessies) en/of dwanghandelingen (compulsies) die veel tijd kosten en lijden veroorzaken.",
+  "definition": "<p>De <strong>obsessief-compulsieve stoornis (OCS/OCD)</strong> kenmerkt zich door <em>obsessies</em> (opdringende, angstwekkende gedachten) en <em>compulsies</em> (repeterende handelingen of rituelen om de angst te verminderen). Het corticostriatothalamocorticale circuit speelt een rol in de pathofysiologie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "obsessief compulsieve stoornis",
+  "option_only": true
+ },
+ "tgfβ": {
+  "title": "TGF-β",
+  "short": "TGF-β is een cytokine dat de afweer remt, wondgenezing en fibrose bevordert en celgroei reguleert.",
+  "definition": "<p><strong>TGF-β</strong> stimuleert fibroblasten tot collageenproductie (fibrose), helpt bij het ontstaan van regulatoire en Th17-cellen en de klasseswitch naar IgA. Een te actieve TGF-β-signalering speelt een rol bij het syndroom van Marfan.</p>",
+  "image_url": "",
+  "wiki_title": "Transforming growth factor beta",
+  "match": "tgfβ",
+  "option_only": true
+ },
+ "cd59": {
+  "title": "CD59",
+  "short": "CD59 (protectine) is een GPI-verankerd complementregulerend eiwit op lichaamseigen cellen.",
+  "definition": "<p><b>CD59</b> bindt aan C8 en C9 van het complementsysteem. Bij paroxismale nachtelijke hemoglobinurie (PNH) ontbreken GPI-verankerde eiwitten zoals CD55 (DAF) en CD59, met hemolyse als gevolg.</p>",
+  "image_url": "",
+  "wiki_title": "CD59",
+  "match": "cd59",
+  "option_only": true
+ },
+ "vasculogenese": {
+  "title": "Vasculogenese",
+  "short": "Vasculogenese is de aanleg van nieuwe bloedvaten uit endotheel-voorlopers (angioblasten) tijdens de embryonale ontwikkeling.",
+  "definition": "<p><strong>Vasculogenese</strong> is de de-novo vorming van bloedvaten door aggregatie en differentiatie van angioblasten in het embryo, in tegenstelling tot angiogenese die uit bestaande vaten vertrekt.</p>",
+  "image_url": "",
+  "wiki_title": "Vasculogenesis",
+  "match": "vasculogenese",
+  "option_only": true
+ },
+ "cytotoxines": {
+  "title": "Cytotoxines",
+  "short": "Effectormoleculen (o.a. perforine en granzymen) in de granula van CD8+ T-cellen en NK-cellen die doelcellen doden.",
+  "definition": "<p><b>Cytotoxines</b> zijn dodende effectormoleculen die zijn opgeslagen in de granula van cytotoxische CD8+ T-cellen en NK-cellen. Perforine maakt poriën en granzymen induceren apoptose in de doelcel.</p>",
+  "image_url": "",
+  "wiki_title": "Cytotoxic T cell",
+  "match": "cytotoxines",
+  "option_only": true
+ },
+ "cytokines": {
+  "title": "Cytokines",
+  "short": "Oplosbare signaaleiwitten (o.a. interleukines en interferonen) waarmee immuuncellen elkaar reguleren.",
+  "definition": "<p><b>Cytokines</b> zijn kleine signaaleiwitten die celgroei, differentiatie en immuunreacties sturen. Interleukines en interferonen behoren tot de cytokines; ze werken vaak lokaal en op korte afstand.</p>",
+  "image_url": "",
+  "wiki_title": "Cytokine",
+  "match": "cytokines",
+  "option_only": true
+ },
+ "sjögren syndroom": {
+  "title": "Sjögren-syndroom",
+  "short": "Auto-immuunziekte met lymfocytaire infiltratie van speeksel- en traanklieren; kenmerkend zijn een droge mond en droge ogen (sicca).",
+  "definition": "<p>Het <b>syndroom van Sjögren</b> is een auto-immuunziekte gericht tegen exocriene klieren. Aantasting van traan- en speekselklieren geeft het kenmerkende <b>sicca-syndroom</b>: droge ogen en droge mond. Vaak zijn SS-A- en SS-B-antistoffen aanwezig.</p>",
+  "image_url": "",
+  "wiki_title": "Sjögren syndrome",
+  "match": "sjögren syndroom",
+  "option_only": true
+ },
+ "aid": {
+  "title": "AID (activation-induced cytidine deaminase)",
+  "short": "Enzym dat essentieel is voor isotypeswitch en somatische hypermutatie in B-cellen.",
+  "definition": "<p><b>AID</b> (activation-induced cytidine deaminase) deamineert cytosine in het immunoglobulinegen-DNA en initieert zo zowel <b>isotype switching</b> als somatische hypermutatie. Zonder AID blijven B-cellen alleen IgM maken (hyper-IgM syndroom type 2).</p>",
+  "image_url": "",
+  "wiki_title": "Activation-induced cytidine deaminase",
+  "match": "aid",
+  "option_only": true
+ },
+ "chemotaxis": {
+  "title": "Chemotaxis",
+  "short": "Gerichte migratie van cellen (zoals leukocyten) langs een concentratiegradiënt van chemische lokstoffen richting de hoogste concentratie.",
+  "definition": "<p><b>Chemotaxis</b> is de beweging van cellen in de richting van (of weg van) een chemische stof. Bij ontsteking migreren neutrofielen en monocyten langs een gradiënt van chemokines en complementfactoren (o.a. C5a) naar de plaats van infectie.</p>",
+  "image_url": "",
+  "wiki_title": "Chemotaxis",
+  "match": "chemotaxis",
+  "option_only": true
+ },
+ "eosinofiele granulocyten": {
+  "title": "Eosinofiele granulocyt",
+  "short": "Witte bloedcel met rood-kleurende korrels, actief bij afweer tegen parasieten en bij allergie.",
+  "definition": "<p>De <b>eosinofiele granulocyt</b> heeft korrels die met eosine roodroze aankleuren en meestal een tweelobbige kern.</p><p>Hij is betrokken bij de afweer tegen wormparasieten en bij allergische processen zoals astma en eczeem; het aantal is dan vaak verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Eosinophil",
+  "match": "eosinofiele granulocyten",
+  "option_only": true
+ },
+ "lymfadenitis colli": {
+  "title": "Lymfadenitis colli",
+  "short": "Lymfadenitis colli is een ontsteking van de lymfeklieren in de hals, o.a. bij tuberculose of kattenkrabziekte.",
+  "definition": "<p><strong>Lymfadenitis colli</strong> is een halsklierontsteking die kan verkleven met de huid en abcederen; ze komt onder meer voor bij tuberculose en de kattenkrabziekte.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "lymfadenitis colli",
+  "option_only": true
+ },
+ "thromboxanen": {
+  "title": "Thromboxanen",
+  "short": "Uit arachidonzuur gevormde eicosanoïden die bloedplaatjesaggregatie en vaatvernauwing bevorderen.",
+  "definition": "<p><b>Thromboxaan A2</b> wordt door bloedplaatjes gemaakt via cyclo-oxygenase en stimuleert plaatjesaggregatie en vasoconstrictie; aspirine remt dit.</p>",
+  "image_url": "",
+  "wiki_title": "Thromboxane",
+  "match": "thromboxanen",
+  "option_only": true
+ },
+ "paf": {
+  "title": "PAF (platelet activating factor)",
+  "short": "PAF is een lipide-mediator die o.a. bronchoconstrictie en vasodilatatie veroorzaakt bij ontsteking.",
+  "definition": "<p><strong>Platelet activating factor</strong> is een fosfolipide-mediator die bloedplaatjes activeert en in de ontsteking bronchoconstrictie, verhoogde vaatpermeabiliteit en vasodilatatie induceert.</p>",
+  "image_url": "",
+  "wiki_title": "Platelet-activating factor",
+  "match": "paf",
+  "option_only": true
+ },
+ "aa-proteïne": {
+  "title": "AA-proteïne",
+  "short": "Amyloïdeiwit afkomstig van serum-amyloïd A, kenmerkend voor secundaire (reactieve) amyloïdose.",
+  "definition": "<p><b>AA-amyloïd</b> ontstaat uit het acute-fase-eiwit serum-amyloïd A (SAA). Langdurige ontsteking of auto-immuunziekte houdt SAA-productie hoog, wat leidt tot AA-amyloïdose.</p>",
+  "image_url": "",
+  "wiki_title": "AA amyloidosis",
+  "match": "aa-proteïne",
+  "option_only": true
+ },
+ "tlr-4": {
+  "title": "TLR4 (Toll-like receptor 4)",
+  "short": "Patroonherkenningsreceptor van aangeboren immuuncellen die vooral LPS van gram-negatieve bacteriën herkent en de cel aanzet tot productie van pro-inflammatoire mediatoren.",
+  "definition": "<p><b>TLR4</b> is een Toll-like receptor op o.a. macrofagen die bacterieel lipopolysaccharide (LPS) herkent. Signaaltransductie via TLR4 zet de cel aan tot aanmaak van cytokines en andere ontstekingsmediatoren; bij een defect blijft deze respons uit.</p>",
+  "image_url": "",
+  "wiki_title": "TLR4",
+  "match": "tlr-4",
+  "option_only": true
+ },
+ "anergie": {
+  "title": "Anergie",
+  "short": "Gebrek aan (fysieke) energie en verhoogde vermoeidheid; veelvoorkomend symptoom bij depressie.",
+  "definition": "<p><strong>Anergie</strong> verwijst naar een aanhoudend gebrek aan energie en verhoogde moeheid. Het is een frequent symptoom bij depressieve stoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "anergie",
+  "option_only": true
+ },
+ "purulente (suppuratieve) ontsteking": {
+  "title": "Purulente ontsteking",
+  "short": "Ontsteking met vorming van pus (etter): dode neutrofielen, weefseldebris en oedeemvocht, meestal door pyogene bacteriën.",
+  "definition": "<p><b>Purulente (etterige) ontsteking</b> wordt gekenmerkt door productie van pus, bestaande uit grote aantallen neutrofielen, necrotisch weefsel en vocht. Een afgekapselde purulente haard heet een abces.</p>",
+  "image_url": "",
+  "wiki_title": "Pus",
+  "match": "purulente (suppuratieve) ontsteking",
+  "option_only": true
+ },
+ "clemastine": {
+  "title": "Clemastine",
+  "short": "Klassiek antihistaminicum (H1-blokker) dat de directe, histamine-gemedieerde verschijnselen van een allergische reactie snel dempt.",
+  "definition": "<p><b>Clemastine</b> is een H1-antihistaminicum dat de werking van door mestcellen afgegeven histamine blokkeert. Daardoor heeft het snel effect op de acute symptomen (jeuk, urticaria) van een allergische reactie, in tegenstelling tot het traag werkende corticosteroïd.</p>",
+  "image_url": "",
+  "wiki_title": "Clemastine",
+  "match": "clemastine",
+  "option_only": true
+ },
+ "b lymfocyten": {
+  "title": "B-cellen",
+  "short": "B-cellen zijn lymfocyten die na activatie uitrijpen tot plasmacellen die antilichamen maken; ze rijpen in het beenmerg.",
+  "definition": "<p><strong>B-cellen</strong> ontstaan en rijpen in het beenmerg. Elke B-cel draagt een unieke B-celreceptor (membraangebonden antilichaam).</p><p>Na binding van een antigeen en meestal hulp van een T-helpercel (in de kiemcentra van lymfeklieren) prolifereren ze en differentiëren ze tot <em>plasmacellen</em> (antilichaamproductie) en geheugen-B-cellen. Daarbij vinden klasseswitch en affiniteitsrijping plaats. B-cellen kunnen ook antigeen presenteren.</p>",
+  "image_url": "",
+  "wiki_title": "B cell",
+  "match": "b lymfocyten",
+  "option_only": true
+ },
+ "t lymfocyten": {
+  "title": "T-cellen",
+  "short": "T-cellen zijn lymfocyten die in de thymus rijpen en antigeen herkennen dat via MHC wordt gepresenteerd; CD4-cellen helpen, CD8-cellen doden geïnfecteerde cellen.",
+  "definition": "<p><strong>T-cellen</strong> ontstaan in het beenmerg en rijpen in de <em>thymus</em>, waar positieve en negatieve selectie plaatsvindt. Hun T-celreceptor herkent alleen peptiden die door MHC-moleculen worden gepresenteerd.</p><p><em>CD4⁺ T-helpercellen</em> herkennen MHC-II en sturen de afweer met cytokines (Th1, Th2, Th17, Tfh); <em>CD8⁺ cytotoxische T-cellen</em> herkennen MHC-I en doden geïnfecteerde of tumorcellen; regulatoire T-cellen remmen de afweer. Ze vormen de cellulaire adaptieve immuniteit.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "t lymfocyten",
+  "option_only": true
+ },
+ "eilandjes van langerhans": {
+  "title": "Eilandjes van Langerhans",
+  "short": "Endocriene celgroepen in de pancreas met α-cellen (glucagon), β-cellen (insuline) en δ-cellen (somatostatine).",
+  "definition": "<p>De <b>eilandjes van Langerhans</b> reguleren de glucosehuishouding; bij diabetes type 2 tonen ze hyperplasie en later amyloïd-depositie.</p>",
+  "image_url": "",
+  "wiki_title": "Pancreatic islets",
+  "match": "eilandjes van langerhans",
+  "option_only": true
+ },
+ "toll like receptoren": {
+  "title": "Toll-like receptoren",
+  "short": "Toll-like receptoren zijn receptoren van de aangeboren afweer die vaste patronen van micro-organismen herkennen (PAMPs).",
+  "definition": "<p>Er zijn verschillende <strong>TLR's</strong>: bijv. TLR4 herkent LPS van gramnegatieve bacteriën, TLR2 lipoproteïnen en teichoïnezuur, TLR5 flagelline, en TLR3, 7, 8 en 9 virale en bacteriële nucleïnezuren. Activatie leidt via NF-κB tot productie van cytokines en activatie van de verworven afweer.</p>",
+  "image_url": "",
+  "wiki_title": "Toll-like receptor",
+  "match": "toll like receptoren",
+  "option_only": true
+ },
+ "creactive protein": {
+  "title": "C-reactive protein (CRP)",
+  "short": "Een acute-fase eiwit dat aan pathogeenoppervlakken (fosfocholine) bindt en zo als opsonine dient en de klassieke complementroute kan starten.",
+  "definition": "<p><b>C-reactive protein (CRP)</b> is een pentameer acute-fase eiwit dat door de lever wordt gemaakt onder invloed van IL-6. Het bindt aan fosfocholine op micro-organismen en beschadigde cellen, werkt als opsonine en activeert het complementsysteem via de klassieke route (C1q). Het bloedgehalte stijgt snel bij ontsteking en wordt klinisch als ontstekingsmarker gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "C-reactive protein",
+  "match": "creactive protein",
+  "option_only": true
+ },
+ "arachidonzuur": {
+  "title": "Arachidonzuur",
+  "short": "Vetzuur dat de grondstof vormt voor prostaglandinen (via COX) en leukotriënen (via lipoxygenase).",
+  "definition": "<p><b>Arachidonzuur</b> is een meervoudig onverzadigd vetzuur dat als uitgangsstof dient voor twee routes: via <b>COX</b> naar prostaglandinen en via <b>lipoxygenase</b> naar leukotriënen. Remming van de COX-route (door NSAID's) kan de arachidonzuurstroom naar de leukotriënenroute verschuiven.</p>",
+  "image_url": "",
+  "wiki_title": "Arachidonic acid",
+  "match": "arachidonzuur",
+  "option_only": true
+ },
+ "nk cellen": {
+  "title": "NK-cellen",
+  "short": "Cytotoxische cellen van de aangeboren afweer die geïnfecteerde of tumorcellen doden zonder voorafgaande sensibilisatie.",
+  "definition": "<p><b>Natural killer (NK)-cellen</b> herkennen cellen met afwijkende of afwezige MHC-I ('missing self') en beklede doelwitten via ADCC. Ze doden zonder eerdere sensibilisatie en zijn belangrijk tegen virussen en tumoren.</p>",
+  "image_url": "",
+  "wiki_title": "Natural killer cell",
+  "match": "nk cellen",
+  "option_only": true
+ },
+ "prostaglandines": {
+  "title": "Prostaglandines",
+  "short": "Lipide-signaalmoleculen die uit arachidonzuur worden gemaakt via cyclo-oxygenase en o.a. ontsteking, pijn en vaattonus reguleren.",
+  "definition": "<p><b>Prostaglandines</b> zijn eicosanoïden die uit arachidonzuur ontstaan via COX-enzymen en lokaal werken op vaatwand, bloedstelping en ontstekingsreacties.</p>",
+  "image_url": "",
+  "wiki_title": "Prostaglandin",
+  "match": "prostaglandines",
+  "option_only": true
+ },
+ "superoxide dismutase": {
+  "title": "Superoxide dismutase (SOD1)",
+  "short": "Antioxidant-enzym; mutaties erin zijn een oorzaak van (familiaire) ALS.",
+  "definition": "<p>Enzym dat superoxide-radicalen onschadelijk maakt. Mutaties in het SOD1-gen veroorzaken een deel van de erfelijke vormen van amyotrofische laterale sclerose.</p>",
+  "image_url": "",
+  "wiki_title": "Superoxide dismutase",
+  "match": "superoxide dismutase",
+  "option_only": true
+ },
+ "anti-nucleaire factor": {
+  "title": "Antinucleaire antistoffen (ANA)",
+  "short": "Antinucleaire antistoffen zijn auto-antistoffen tegen kerncomponenten; een positieve ANA past bij SLE en andere bindweefselziekten, maar is weinig specifiek.",
+  "definition": "<p>De <strong>ANA</strong> wordt bepaald met immunofluorescentie. Ze is bijna altijd positief bij SLE (gevoelig), maar ook bij Sjögren, systemische sclerose, geneesmiddel-lupus en bij een deel van de gezonde mensen (vooral ouderen). Daarom wordt bij een positieve ANA verder gekeken naar specifieke antistoffen (dsDNA, Sm, SSA, SSB, Scl-70).</p>",
+  "image_url": "",
+  "wiki_title": "Antinuclear antibody",
+  "match": "anti-nucleaire factor",
+  "option_only": true
+ },
+ "ductus arteriosus": {
+  "title": "Ductus arteriosus (Botalli)",
+  "short": "Foetaal bloedvat tussen longslagader en aorta dat de longcirculatie omzeilt; sluit normaal na de geboorte.",
+  "definition": "<p>De <b>ductus arteriosus</b> verbindt in de foetus de a. pulmonalis met de aorta (long → aorta), zodat de longen worden omzeild. Blijft hij open (persisterende ductus arteriosus), dan ontstaat een links-rechtsshunt.</p>",
+  "image_url": "",
+  "wiki_title": "Ductus arteriosus",
+  "match": "ductus arteriosus",
+  "option_only": true
+ },
+ "auto immuun hepatitis": {
+  "title": "Auto-immuunhepatitis",
+  "short": "Auto-immuunhepatitis is een chronische leverontsteking waarbij het afweersysteem de hepatocyten aanvalt.",
+  "definition": "<p><strong>Auto-immuunhepatitis</strong> komt vaker voor bij vrouwen. Kenmerken zijn verhoogde transaminasen, een verhoogd IgG, auto-antistoffen (ANA, anti-SMA of anti-LKM1) en in het biopt een interfacehepatitis met plasmacellen. Zonder behandeling kan het tot cirrose leiden; het reageert meestal goed op prednison en azathioprine.</p>",
+  "image_url": "",
+  "wiki_title": "Autoimmune hepatitis",
+  "match": "auto immuun hepatitis",
+  "option_only": true
+ },
+ "klatskin tumor": {
+  "title": "Klatskin-tumor",
+  "short": "Perihilair cholangiocarcinoom ter hoogte van de leverhilus, ingedeeld volgens de Bismuth-classificatie.",
+  "definition": "<p>Cholangiocarcinoom gelokaliseerd bij de <b>samenvloeiing van de galwegen</b> in de leverhilus. De uitbreiding wordt ingedeeld volgens de <b>Bismuth-Corlette</b>-classificatie.</p>",
+  "image_url": "",
+  "wiki_title": "Klatskin tumor",
+  "match": "klatskin tumor",
+  "option_only": true
+ },
+ "primair scleroserende cholangitis": {
+  "title": "Primair Scleroserende Cholangitis (PSC)",
+  "short": "Chronische ontsteking en fibrose van de galwegen, sterk geassocieerd met colitis ulcerosa (IBD).",
+  "definition": "<p>Progressieve inflammatie en verlittekening van de intra- en extrahepatische galwegen, leidend tot stricturen en cholestase. Sterke associatie met <b>colitis ulcerosa</b> en verhoogd risico op cholangiocarcinoom.</p>",
+  "image_url": "",
+  "wiki_title": "Primary sclerosing cholangitis",
+  "match": "primair scleroserende cholangitis",
+  "option_only": true
+ },
+ "bolle buik (ascites)": {
+  "title": "Ascites",
+  "short": "Abnormale ophoping van vocht in de buikholte.",
+  "definition": "<p>Ascites is vrij vocht in de peritoneale holte, o.a. door levercirrose, hartfalen of maligniteit (zoals ovariumcarcinoom met peritoneale uitzaaiing).</p>",
+  "image_url": "",
+  "wiki_title": "Ascites",
+  "match": "bolle buik (ascites)",
+  "option_only": true
+ },
+ "hartmann procedure": {
+  "title": "Hartmann procedure",
+  "short": "Sigmoïdresectie waarbij het proximale colon als eindstandig stoma wordt uitgeleid en de rectumstomp gesloten; bij gecompliceerde diverticulitis/perforatie.",
+  "definition": "<p>De <b>Hartmann-procedure</b> verwijdert het zieke sigmoïd, sluit de rectumstomp en legt een eindstandig colostoma aan. Toegepast bij o.a. geperforeerde diverticulitis.</p>",
+  "image_url": "",
+  "wiki_title": "Hartmann's operation",
+  "match": "hartmann procedure",
+  "option_only": true
+ },
+ "carcinoïd (neuroendocriene tumor)": {
+  "title": "Neuro-endocriene tumor",
+  "short": "Neuro-endocriene tumoren gaan uit van hormoonproducerende cellen, vooral in het maag-darmkanaal, de pancreas en de long.",
+  "definition": "<p><strong>Neuro-endocriene neoplasmata</strong> variëren van goed gedifferentieerde, langzaam groeiende tumoren (vroeger carcinoïden) tot agressieve, slecht gedifferentieerde carcinomen (zoals het kleincellig longcarcinoom). Ze kleuren aan met chromogranine en synaptofysine. Sommige maken hormonen; bij levermetastasen van een dunnedarm-NET kan een carcinoïdsyndroom ontstaan (flushing, diarree).</p>",
+  "image_url": "",
+  "wiki_title": "Neuroendocrine tumor",
+  "match": "carcinoïd (neuroendocriene tumor)",
+  "option_only": true
+ },
+ "refluxoesophagitis": {
+  "title": "Gastro-oesofageale reflux",
+  "short": "Bij refluxklachten stroomt maaginhoud terug in de slokdarm, met zuurbranden en oprispingen.",
+  "definition": "<p><strong>Gastro-oesofageale refluxziekte</strong> ontstaat bij een tekortschietende onderste slokdarmsfincter, een hiatus hernia of verhoogde druk in de buik (overgewicht, zwangerschap). Klachten zijn zuurbranden achter het borstbeen en zure oprispingen, soms hoesten of heesheid. Complicaties: oesofagitis, stenose en Barrett-slokdarm. Behandeling met leefstijladviezen en protonpompremmers.</p>",
+  "image_url": "",
+  "wiki_title": "Gastroesophageal reflux disease",
+  "match": "refluxoesophagitis",
+  "option_only": true
+ },
+ "zenker’s divertikel": {
+  "title": "Zenkers divertikel",
+  "short": "Uitstulping van de farynxmucosa net boven de bovenste slokdarmsfincter, met slikklachten, regurgitatie, geborrel en foetor ex ore.",
+  "definition": "<p>Een <b>Zenkers divertikel</b> is een pulsie-divertikel in de zwakke plek (driehoek van Killian) boven de bovenste oesofagussfincter. Klachten zijn dysfagie, regurgitatie van onverteerd voedsel, geborrel bij slikken en slechte adem.</p>",
+  "image_url": "",
+  "wiki_title": "Zenker's diverticulum",
+  "match": "zenker’s divertikel",
+  "option_only": true
+ },
+ "gastric sleeve": {
+  "title": "Gastric sleeve",
+  "short": "Bariatrische operatie waarbij een groot deel van de maag verwijderd wordt tot een buisvormige maag: restrictie.",
+  "definition": "<p>Sleeve-gastrectomie: het grootste deel van de maag wordt verwijderd, waardoor een smalle buisvormige maag overblijft. Vooral <b>restrictief</b>, met ook hormonale effecten (ghreline-daling).</p>",
+  "image_url": "",
+  "wiki_title": "Sleeve gastrectomy",
+  "match": "gastric sleeve",
+  "option_only": true
+ },
+ "bilirubine": {
+  "title": "Bilirubine",
+  "short": "Geel afbraakproduct van heem dat via de gal wordt uitgescheiden.",
+  "definition": "<p><b>Bilirubine</b> ontstaat bij afbraak van erytrocyten. Een galwegafsluiting geeft verhoogd (geconjugeerd) bilirubine in het bloed, donkere urine en lichte ontlasting.</p>",
+  "image_url": "",
+  "wiki_title": "Bilirubin",
+  "match": "bilirubine",
+  "option_only": true
+ },
+ "encefalopathie": {
+  "title": "Encefalopathie",
+  "short": "Diffuse stoornis van de hersenfunctie, zich uitend in verminderd bewustzijn of gedragsverandering.",
+  "definition": "<p><b>Encefalopathie</b> is een verzamelterm voor een diffuse verstoring van het hersenfunctioneren. Samen met subdurale hematomen en retinabloedingen vormt het de trias van inflicted Traumatic Brain Injury.</p>",
+  "image_url": "",
+  "wiki_title": "Encephalopathy",
+  "match": "encefalopathie",
+  "option_only": true
+ },
+ "gamma gt": {
+  "title": "γ-GT",
+  "short": "γ-GT is een leverenzym dat stijgt bij cholestase en door alcoholgebruik en sommige geneesmiddelen.",
+  "definition": "<p><strong>γ-glutamyltransferase</strong> is gevoelig maar niet specifiek. Samen met een verhoogd alkalisch fosfatase bevestigt het een leveroorsprong (cholestase). Een geïsoleerd verhoogd γ-GT past vaak bij alcoholgebruik of enzyminducerende middelen.</p>",
+  "image_url": "",
+  "wiki_title": "Gamma-glutamyltransferase",
+  "match": "gamma gt",
+  "option_only": true
+ },
+ "gender (man)": {
+  "title": "Gender",
+  "short": "Het sociaal-culturele proces van rollen, taken en eigenschappen die aan mannen en vrouwen worden toegeschreven.",
+  "definition": "<p><b>Gender</b> is een sociaal-cultureel begrip: de waarden, attitudes, taken en rollen die als ‘masculien’ of ‘feminien’ worden beschouwd en (ook) worden geïnternaliseerd. Anders dan <b>sekse</b> is gender niet biologisch bepaald.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "gender (man)",
+  "option_only": true
+ },
+ "ige": {
+  "title": "IgE (immunoglobuline E)",
+  "short": "Antilichaamklasse die centraal staat bij allergische reacties en de afweer tegen parasieten.",
+  "definition": "<p><b>IgE</b> is de antistofklasse die bindt aan mestcellen en basofielen. Bij hernieuwd contact met een allergeen leidt kruisbinding van IgE tot degranulatie en de symptomen van een allergische reactie.</p>",
+  "image_url": "",
+  "wiki_title": "Immunoglobulin E",
+  "match": "ige",
+  "option_only": true
+ },
+ "gastric band": {
+  "title": "Gastric band",
+  "short": "Bariatrische ingreep waarbij een verstelbare band rond de bovenmaag wordt gelegd (restrictie); het minste lange-termijn gewichtsverlies van de standaardingrepen.",
+  "definition": "<p>De <b>maagband</b> (gastric band) knijpt de bovenmaag af (puur restrictief). Van de bariatrische ingrepen geeft hij het <b>minste</b> lange-termijn gewichtsverlies (sleeve &lt; bypass geven meer).</p>",
+  "image_url": "",
+  "wiki_title": "Adjustable gastric band",
+  "match": "gastric band",
+  "option_only": true
+ },
+ "retinol zuur": {
+  "title": "Retinolzuur",
+  "short": "Actieve metaboliet van vitamine A; stuurt lymfocyten aan om naar de darm te migreren (gut-homing).",
+  "definition": "<p>Actieve vorm van <b>vitamine A</b>. Speelt een sleutelrol in het darmimmuunsysteem door de expressie van homing-receptoren op lymfocyten te induceren, zodat deze naar de <b>darm</b> migreren.</p>",
+  "image_url": "",
+  "wiki_title": "Retinoic acid",
+  "match": "retinol zuur",
+  "option_only": true
+ },
+ "stenose": {
+  "title": "Stenose",
+  "short": "Vernauwing van een vat of klepopening; ter plaatse neemt de stroomsnelheid toe terwijl de volumestroom gelijk blijft.",
+  "definition": "<p>Bij een <b>stenose</b> zonder zijtakken blijft de volumetrische stroom constant, waardoor de stroomsnelheid in de vernauwing stijgt (continuïteitswet).</p>",
+  "image_url": "",
+  "wiki_title": "Stenosis",
+  "match": "stenose",
+  "option_only": true
+ },
+ "abces": {
+  "title": "Abces",
+  "short": "Afgekapselde holte gevuld met pus (etter), een ernstige vorm van purulente ontsteking.",
+  "definition": "<p>Een <b>abces</b> is een lokale ophoping van pus in een door ontsteking gevormde holte, veroorzaakt door pyogene (etterverwekkende) bacteriën. Het is een purulente ontsteking.</p>",
+  "image_url": "",
+  "wiki_title": "Abscess",
+  "match": "abces",
+  "option_only": true
+ },
+ "vena portae": {
+  "title": "Vena portae",
+  "short": "De poortader die het veneuze, voedingrijke bloed van de darmen, milt en pancreas naar de lever transporteert.",
+  "definition": "<p>De <strong>vena portae</strong> (poortader) verzamelt het veneuze bloed van de tractus digestivus, milt en pancreas (o.a. via de v. mesenterica superior en v. lienalis) en voert het naar de lever, waar het door de sinusoïden stroomt vóór het via de venae hepaticae naar de v. cava inferior gaat.</p>",
+  "image_url": "",
+  "wiki_title": "Portal vein",
+  "match": "vena portae",
+  "option_only": true
+ },
+ "ascites": {
+  "title": "Ascites",
+  "short": "Abnormale ophoping van vocht in de buikholte.",
+  "definition": "<p>Ascites is vrij vocht in de peritoneale holte, o.a. door levercirrose, hartfalen of maligniteit (zoals ovariumcarcinoom met peritoneale uitzaaiing).</p>",
+  "image_url": "",
+  "wiki_title": "Ascites",
+  "match": "ascites",
+  "option_only": true
+ },
+ "cholangitis": {
+  "title": "cholangitis",
+  "short": "Een (meestal bacteriele) ontsteking van de galwegen, klassiek door obstructie (steen, stenose). De trias van Charcot bestaat uit koorts, icterus en pijn in de rechterbovenbuik.",
+  "definition": "<p><b>Cholangitis</b> is een ontsteking van het galwegsysteem, vaak door obstructie met opstijgende bacteriele infectie. De <i>trias van Charcot</i> (koorts/rillingen, icterus, RBB-pijn) is klassiek; uitgebreid met verwardheid en shock vormt dit de pentade van Reynolds. Behandeling: antibiotica en galwegdrainage (ERCP).</p>",
+  "image_url": "",
+  "wiki_title": "Ascending cholangitis",
+  "match": "cholangitis",
+  "option_only": true
+ },
+ "colon carcinoom": {
+  "title": "Coloncarcinoom (darmkanker)",
+  "short": "Coloncarcinoom is een kwaadaardige tumor van de dikke darm, meestal een adenocarcinoom dat ontstaat uit een poliep.",
+  "definition": "<p>Het <strong>colorectaal carcinoom</strong> ontstaat meestal via de adenoom-carcinoomsequentie, waarbij mutaties (o.a. in APC, KRAS, p53) zich opstapelen. Risicofactoren zijn leeftijd, familiaire belasting (FAP, Lynch-syndroom), IBD, rood en bewerkt vlees, alcohol en roken. Klachten: veranderd ontlastingspatroon, bloed bij de ontlasting en ijzergebreksanemie. In Nederland is er een bevolkingsonderzoek met de FIT-test.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal cancer",
+  "match": "colon carcinoom",
+  "option_only": true
+ },
+ "achalasie": {
+  "title": "Achalasie",
+  "short": "Achalasie is een slokdarmmotiliteitsstoornis waarbij de onderste slokdarmsfincter niet goed ontspant, met passageklachten tot gevolg.",
+  "definition": "<p><strong>Achalasie</strong> ontstaat door verlies van remmende neuronen in de slokdarmwand: de onderste sfincter (LES) blijft te strak en peristaltiek ontbreekt. Gevolg: dysfagie en voedselstase.</p>",
+  "image_url": "",
+  "wiki_title": "Esophageal achalasia",
+  "match": "achalasie",
+  "option_only": true
+ },
+ "oesofagusvarices": {
+  "title": "Oesofagusvarices",
+  "short": "Verwijde submuceuze venen in de distale slokdarm door portale hypertensie; kunnen levensbedreigend bloeden (hematemesis).",
+  "definition": "<p><b>Oesofagusvarices</b> zijn portosystemische collateralen in de distale slokdarm bij portale hypertensie. Ruptuur geeft massale hematemesis.</p>",
+  "image_url": "",
+  "wiki_title": "Esophageal varices",
+  "match": "oesofagusvarices",
+  "option_only": true
+ },
+ "galwegletsel": {
+  "title": "Galwegletsel",
+  "short": "Beschadiging van de galwegen, meestal als complicatie van een cholecystectomie; geclassificeerd volgens de Amsterdam-classificatie (type A–D).",
+  "definition": "<p><b>Galwegletsel</b> is een gevreesde complicatie van galblaasverwijdering. De <b>Amsterdam-classificatie</b> (type A–D) beschrijft de ernst; type A = lekkage uit de ductus cysticus of kleine gangetjes.</p>",
+  "image_url": "",
+  "wiki_title": "Bile duct injury",
+  "match": "galwegletsel",
+  "option_only": true
+ },
+ "urineweg infectie": {
+  "title": "Urineweginfectie",
+  "short": "Infectie van de urinewegen, meestal bacterieel; kan leucocyturie en een positieve nitriettest geven.",
+  "definition": "<p>Een <b>urineweginfectie</b> is meestal een bacteriële infectie van blaas of hogere urinewegen, gekenmerkt door leucocyturie, bacteriurie en vaak een positieve nitriettest.</p>",
+  "image_url": "",
+  "wiki_title": "Urinary tract infection",
+  "match": "urineweg infectie",
+  "option_only": true
+ },
+ "ct-abdomen, met oraal contrast": {
+  "title": "CT abdomen",
+  "short": "Een CT abdomen is een röntgenscan in dwarsdoorsneden van de buik, vaak met contrast; goed voor acute buik, tumoren, abcessen en trauma.",
+  "definition": "<p>Bij een <strong>CT abdomen</strong> worden met röntgenstraling dunne dwarsdoorsneden van de buik gemaakt, meestal met intraveneus (en soms oraal) contrast.</p><p>Het geeft een overzichtelijk beeld van alle buikorganen, de darm en het retroperitoneum en wordt gebruikt bij een acute buik (bijv. perforatie, diverticulitis, appendicitis bij volwassenen), bij het stadiëren van tumoren, het opsporen van abcessen en bij trauma. Nadelen zijn de stralingsbelasting en het contrastmiddel (nierfunctie, allergie).</p>",
+  "image_url": "",
+  "wiki_title": "CT scan",
+  "match": "ct-abdomen, met oraal contrast",
+  "option_only": true
+ },
+ "galzouten": {
+  "title": "Galzouten",
+  "short": "Uit cholesterol gevormde stoffen die vetten emulgeren voor de vertering en opname.",
+  "definition": "<p><b>Galzouten</b> worden door de lever aangemaakt, in de gal uitgescheiden en grotendeels in het ileum heropgenomen (enterohepatische kringloop).</p>",
+  "image_url": "",
+  "wiki_title": "Bile acid",
+  "match": "galzouten",
+  "option_only": true
+ },
+ "papil van vater": {
+  "title": "papil van Vater",
+  "short": "De uitmonding van de gemeenschappelijke galgang en de pancreasgang in het duodenum (ampulla hepatopancreatica). Een carcinoom hier geeft een double duct sign.",
+  "definition": "<p>De <b>papil van Vater</b> (ampulla van Vater) is de gezamenlijke uitmonding van de ductus choledochus en de ductus pancreaticus in het duodenum. Een <i>papil van Vater-carcinoom</i> obstrueert beide gangen en geeft daardoor het radiologische <b>double duct sign</b> (verwijde galweg en pancreasgang).</p>",
+  "image_url": "",
+  "wiki_title": "Ampulla of Vater",
+  "match": "papil van vater",
+  "option_only": true
+ },
+ "eosinofiele oesophagitis": {
+  "title": "Eosinofiele oesophagitis",
+  "short": "Chronische, allergisch/immuun-gemedieerde ontsteking van de slokdarm met eosinofiele infiltratie; frequente oorzaak van voedselimpactie bij jongvolwassenen.",
+  "definition": "<p><b>Eosinofiele oesophagitis</b> (EoE) is een chronische ontsteking van de slokdarm door eosinofiele infiltratie. Het presenteert zich vaak met dysfagie en <i>voedselimpactie</i> bij jongvolwassenen. Behandeling: <i>protonpompremmers</i>, topicale corticosteroïden en eliminatiedieet.</p>",
+  "image_url": "",
+  "wiki_title": "Eosinophilic esophagitis",
+  "match": "eosinofiele oesophagitis",
+  "option_only": true
+ },
+ "giardia": {
+  "title": "Giardiasis",
+  "short": "Giardiasis is een darminfectie met de protozo Giardia lamblia, met langdurige diarree, opgeblazen gevoel en vetrijke ontlasting.",
+  "definition": "<p><strong><em>Giardia lamblia</em></strong> wordt via cysten in besmet water of voedsel opgelopen. De trofozoïeten hechten aan het dunnedarmepitheel zonder het te binnendringen. Klachten: waterige, vettige, stinkende ontlasting, buikkrampen, winderigheid en gewichtsverlies, soms wekenlang. Diagnose met PCR of microscopie van ontlasting; behandeling met metronidazol of tinidazol.</p>",
+  "image_url": "",
+  "wiki_title": "Giardiasis",
+  "match": "giardia",
+  "option_only": true
+ },
+ "sondevoeding": {
+  "title": "Sondevoeding",
+  "short": "Toediening van vloeibare voeding via een sonde direct in maag of darm.",
+  "definition": "<p>Sondevoeding levert voeding via een neus-maagsonde of PEG-sonde bij patiënten die onvoldoende via de mond kunnen eten. Bij gevorderde dementie geeft het geen levensverlenging of betere kwaliteit van leven en kan het complicaties geven.</p>",
+  "image_url": "",
+  "wiki_title": "Feeding tube",
+  "match": "sondevoeding",
+  "option_only": true
+ },
+ "mesalazine": {
+  "title": "Mesalazine (5-ASA)",
+  "short": "Ontstekingsremmend middel (5-aminosalicylzuur) voor onderhoudsbehandeling van colitis ulcerosa.",
+  "definition": "<p><b>Mesalazine</b> (5-aminosalicylzuur, 5-ASA) is een lokaal ontstekingsremmend middel dat als eerste keus wordt gebruikt voor inductie en onderhoud van remissie bij milde tot matige colitis ulcerosa.</p>",
+  "image_url": "",
+  "wiki_title": "Mesalazine",
+  "match": "mesalazine",
+  "option_only": true
+ },
+ "urine weg infectie": {
+  "title": "Urineweginfectie",
+  "short": "Infectie van de urinewegen, meestal bacterieel; kan leucocyturie en een positieve nitriettest geven.",
+  "definition": "<p>Een <b>urineweginfectie</b> is meestal een bacteriële infectie van blaas of hogere urinewegen, gekenmerkt door leucocyturie, bacteriurie en vaak een positieve nitriettest.</p>",
+  "image_url": "",
+  "wiki_title": "Urinary tract infection",
+  "match": "urine weg infectie",
+  "option_only": true
+ },
+ "zenker's divertikel": {
+  "title": "Zenkers divertikel",
+  "short": "Uitstulping van de farynxmucosa net boven de bovenste slokdarmsfincter, met slikklachten, regurgitatie, geborrel en foetor ex ore.",
+  "definition": "<p>Een <b>Zenkers divertikel</b> is een pulsie-divertikel in de zwakke plek (driehoek van Killian) boven de bovenste oesofagussfincter. Klachten zijn dysfagie, regurgitatie van onverteerd voedsel, geborrel bij slikken en slechte adem.</p>",
+  "image_url": "",
+  "wiki_title": "Zenker's diverticulum",
+  "match": "zenker's divertikel",
+  "option_only": true
+ },
+ "autoimmuun hepatitis": {
+  "title": "Auto-immuunhepatitis",
+  "short": "Auto-immuunhepatitis is een chronische leverontsteking waarbij het afweersysteem de hepatocyten aanvalt.",
+  "definition": "<p><strong>Auto-immuunhepatitis</strong> komt vaker voor bij vrouwen. Kenmerken zijn verhoogde transaminasen, een verhoogd IgG, auto-antistoffen (ANA, anti-SMA of anti-LKM1) en in het biopt een interfacehepatitis met plasmacellen. Zonder behandeling kan het tot cirrose leiden; het reageert meestal goed op prednison en azathioprine.</p>",
+  "image_url": "",
+  "wiki_title": "Autoimmune hepatitis",
+  "match": "autoimmuun hepatitis",
+  "option_only": true
+ },
+ "primair scleroserende cholangitis (psc)": {
+  "title": "Primair Scleroserende Cholangitis (PSC)",
+  "short": "Chronische ontsteking en fibrose van de galwegen, sterk geassocieerd met colitis ulcerosa (IBD).",
+  "definition": "<p>Progressieve inflammatie en verlittekening van de intra- en extrahepatische galwegen, leidend tot stricturen en cholestase. Sterke associatie met <b>colitis ulcerosa</b> en verhoogd risico op cholangiocarcinoom.</p>",
+  "image_url": "",
+  "wiki_title": "Primary sclerosing cholangitis",
+  "match": "primair scleroserende cholangitis (psc)",
+  "option_only": true
+ },
+ "ca19,9": {
+  "title": "CA 19-9",
+  "short": "Tumormarker geassocieerd met pancreas- en galwegcarcinoom (cholangiocarcinoom).",
+  "definition": "<p>Koolhydraatantigeen 19-9, tumormarker die verhoogd is bij pancreas- en galwegcarcinoom (cholangiocarcinoom).</p>",
+  "image_url": "",
+  "wiki_title": "CA19-9",
+  "match": "ca19,9",
+  "option_only": true
+ },
+ "primaire scleroserende cholangitis": {
+  "title": "primaire scleroserende cholangitis",
+  "short": "Primaire scleroserende cholangitis (PSC) is een chronische ontsteking met fibrose van de galwegen, sterk geassocieerd met colitis ulcerosa; kenmerkend zijn strengvormige galgangvernauwingen ('kralensnoer').",
+  "definition": "<p><b>Primaire scleroserende cholangitis</b> (PSC) is een progressieve ontsteking en fibrose van de intra- en extrahepatische galwegen, met multifocale stricturen ('kralensnoer' op MRCP). Sterk geassocieerd met <b>colitis ulcerosa</b>. Verhoogt het risico op cholangiocarcinoom. Presenteert met cholestase (verhoogd bilirubine, γGT, AF).</p>",
+  "image_url": "",
+  "wiki_title": "Primary sclerosing cholangitis",
+  "match": "primaire scleroserende cholangitis",
+  "option_only": true
+ },
+ "bèta-blokker": {
+  "title": "Bètablokker",
+  "short": "Bètablokkers blokkeren bèta-adrenerge receptoren en verlagen hartfrequentie, contractiekracht en reninesecretie.",
+  "definition": "<p><strong>Bètablokkers</strong> worden gebruikt bij hypertensie, angina pectoris, na een hartinfarct, bij hartfalen, ritmestoornissen, tremor en migraineprofylaxe. Cardioselectieve middelen (metoprolol, bisoprolol) werken vooral op β1; niet-selectieve (propranolol) ook op β2, wat bronchospasme kan geven. Bijwerkingen: bradycardie, vermoeidheid, koude extremiteiten en het maskeren van hypoglykemieverschijnselen.</p>",
+  "image_url": "",
+  "wiki_title": "Beta blocker",
+  "match": "bèta-blokker",
+  "option_only": true
+ },
+ "dysmenorroe": {
+  "title": "Dysmenorroe",
+  "short": "Pijnlijke menstruatie, vaak krampend onder in de buik.",
+  "definition": "<p><b>Dysmenorroe</b> is pijn tijdens de menstruatie. Primaire dysmenorroe berust op prostaglandine-gemedieerde uteruscontracties; secundaire dysmenorroe wijst op onderliggende pathologie zoals endometriose.</p>",
+  "image_url": "",
+  "wiki_title": "Dysmenorrhea",
+  "match": "dysmenorroe",
+  "option_only": true
+ },
+ "wet lungs": {
+  "title": "Wet lungs (transiënte tachypneu)",
+  "short": "Voorbijgaande snelle ademhaling bij de pasgeborene door vertraagde resorptie van longvocht, vooral na een sectio.",
+  "definition": "<p><b>Wet lungs</b> (transiënte tachypneu van de neonaat) ontstaat doordat het foetale longvocht onvoldoende is geresorbeerd, vaker na een keizersnede. Het beeld is mild en zelflimiterend.</p>",
+  "image_url": "",
+  "wiki_title": "Transient tachypnea of the newborn",
+  "match": "wet lungs",
+  "option_only": true
+ },
+ "pid": {
+  "title": "Salpingitis",
+  "short": "Salpingitis is een ontsteking van de eileiders, meestal door een opstijgende seksueel overdraagbare infectie.",
+  "definition": "<p><strong>Salpingitis</strong> maakt deel uit van pelvic inflammatory disease (PID) en wordt vaak veroorzaakt door <em>Chlamydia trachomatis</em> of gonokokken. Klachten: onderbuikpijn, koorts, abnormale afscheiding en slingerpijn bij vaginaal toucher. Complicaties zijn tubo-ovarieel abces, verklevingen, buitenbaarmoederlijke zwangerschap en subfertiliteit.</p>",
+  "image_url": "",
+  "wiki_title": "Salpingitis",
+  "match": "pid",
+  "option_only": true
+ },
+ "oxytocine": {
+  "title": "Oxytocine",
+  "short": "Oxytocine is een hormoon uit de neurohypofyse dat de melkuitdrijving (toeschietreflex) en uteruscontracties regelt. Het onderscheidt zich van prolactine, dat de melkproductie stuurt.",
+  "definition": "<p>Hormoon dat wordt afgegeven door de achterkwab van de hypofyse. Het veroorzaakt de melkejectie tijdens borstvoeding en samentrekking van de baarmoeder tijdens de bevalling.</p>",
+  "image_url": "",
+  "wiki_title": "Oxytocin",
+  "match": "oxytocine",
+  "option_only": true
+ },
+ "hypoblast": {
+  "title": "Hypoblast",
+  "short": "Het onderste kiemblad van de tweelagige kiemschijf, grenzend aan de dooierzakholte.",
+  "definition": "<p>De <strong>hypoblast</strong> draagt bij aan extra-embryonale structuren en wordt tijdens de gastrulatie grotendeels vervangen door definitief endoderm.</p>",
+  "image_url": "",
+  "wiki_title": "Hypoblast",
+  "match": "hypoblast",
+  "option_only": true
+ },
+ "epiblast": {
+  "title": "Epiblast",
+  "short": "Het bovenste kiemblad van de tweelagige kiemschijf; hieruit ontstaan tijdens de gastrulatie alle drie de kiembladen.",
+  "definition": "<p>Cellen van de <strong>epiblast</strong> migreren via de primitiefstreep naar binnen en vormen ecto-, meso- en endoderm.</p>",
+  "image_url": "",
+  "wiki_title": "Epiblast",
+  "match": "epiblast",
+  "option_only": true
+ },
+ "neurale buis": {
+  "title": "Neurale buis",
+  "short": "Buisvormige structuur uit de neurale plaat waaruit hersenen en ruggenmerg ontstaan.",
+  "definition": "<p>Sluiting van de <strong>neurale buis</strong> gebeurt van midden naar craniaal en caudaal; falen geeft neuralebuisdefecten.</p>",
+  "image_url": "",
+  "wiki_title": "Neural tube",
+  "match": "neurale buis",
+  "option_only": true
+ },
+ "combinatietest": {
+  "title": "Combinatietest",
+  "short": "Prenatale kansbepaling op trisomie 21 met nekplooimeting plus serum-B-hCG en PAPP-A.",
+  "definition": "<p>De <strong>combinatietest</strong> combineert echografie (nekplooi) met serologie; een verhoogd B-hCG en verlaagd PAPP-A verhogen de kans op trisomie 21.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "combinatietest",
+  "option_only": true
+ },
+ "vlokkentest": {
+  "title": "Vlokkentest (CVS)",
+  "short": "Invasieve prenatale diagnostiek waarbij chorionvlokken worden afgenomen voor genetisch onderzoek.",
+  "definition": "<p>De <strong>vlokkentest</strong> (chorionic villus sampling) geeft vroeg (vanaf ~11 weken) zekerheid en is sneller uitvoerbaar dan de vruchtwaterpunctie.</p>",
+  "image_url": "",
+  "wiki_title": "Chorionic villus sampling",
+  "match": "vlokkentest",
+  "option_only": true
+ },
+ "hyaline membraanziekte": {
+  "title": "Hyaline membraan ziekte (IRDS)",
+  "short": "Ademnoodsyndroom van de premature neonaat door surfactanttekort.",
+  "definition": "<p><strong>Hyaline membraan ziekte</strong> (infant respiratory distress syndrome) geeft kreunende ademhaling en intrekkingen; corticosteroïden antenataal verminderen het risico.</p>",
+  "image_url": "",
+  "wiki_title": "Infant respiratory distress syndrome",
+  "match": "hyaline membraanziekte",
+  "option_only": true
+ },
+ "sertoli-cel": {
+  "title": "Sertoli-cel",
+  "short": "Steuncel in de wand van de tubulus seminiferus die de spermatogenese ondersteunt en de bloed-testisbarrière vormt.",
+  "definition": "<p>De <strong>Sertoli-cellen</strong> reiken van de basale membraan tot het lumen van de tubulus seminiferus en verzorgen en beschermen de zich ontwikkelende kiemcellen.</p>",
+  "image_url": "",
+  "wiki_title": "Sertoli cell",
+  "match": "sertoli-cel",
+  "option_only": true
+ },
+ "granulosacellen": {
+  "title": "Granulosacellen",
+  "short": "Hormoonproducerende cellen die de follikelholte bekleden; zetten androgenen om in oestrogenen.",
+  "definition": "<p><strong>Granulosacellen</strong> reageren op FSH en vormen na de ovulatie het corpus luteum.</p>",
+  "image_url": "",
+  "wiki_title": "Granulosa cell",
+  "match": "granulosacellen",
+  "option_only": true
+ },
+ "pericyten": {
+  "title": "Pericyten",
+  "short": "Contractiele cellen rond capillairen en kleine venulen die de doorbloeding en vaatwand mede reguleren.",
+  "definition": "<p><b>Pericyten</b> omhullen het endotheel van capillairen en postcapillaire venulen en dragen bij aan de vaatstabiliteit.</p>",
+  "image_url": "",
+  "wiki_title": "Pericyte",
+  "match": "pericyten",
+  "option_only": true
+ },
+ "gastrulatie": {
+  "title": "Gastrulatie",
+  "short": "Proces waarbij uit de tweelagige kiemschijf de drie kiembladen (ecto-, meso-, endoderm) ontstaan.",
+  "definition": "<p>Tijdens de <strong>gastrulatie</strong> migreren epiblastcellen via de primitiefstreep naar binnen en vormen de drie kiembladen.</p>",
+  "image_url": "",
+  "wiki_title": "Gastrulation",
+  "match": "gastrulatie",
+  "option_only": true
+ },
+ "pelvic inflammatory disease": {
+  "title": "Salpingitis",
+  "short": "Salpingitis is een ontsteking van de eileiders, meestal door een opstijgende seksueel overdraagbare infectie.",
+  "definition": "<p><strong>Salpingitis</strong> maakt deel uit van pelvic inflammatory disease (PID) en wordt vaak veroorzaakt door <em>Chlamydia trachomatis</em> of gonokokken. Klachten: onderbuikpijn, koorts, abnormale afscheiding en slingerpijn bij vaginaal toucher. Complicaties zijn tubo-ovarieel abces, verklevingen, buitenbaarmoederlijke zwangerschap en subfertiliteit.</p>",
+  "image_url": "",
+  "wiki_title": "Salpingitis",
+  "match": "pelvic inflammatory disease",
+  "option_only": true
+ },
+ "v. umbilicalis": {
+  "title": "Vena umbilicalis",
+  "short": "Foetale navelstrengader; het obliterende restant vormt het ligamentum teres hepatis.",
+  "definition": "<p>De <b>vena umbilicalis</b> voert in de foetus zuurstofrijk bloed van de placenta naar de foetus. Na de geboorte obliteert zij tot het <i>ligamentum teres hepatis</i> (rond ligament van de lever).</p>",
+  "image_url": "",
+  "wiki_title": "Umbilical vein",
+  "match": "v. umbilicalis",
+  "option_only": true
+ },
+ "primordiale follikel": {
+  "title": "Primaire follikel",
+  "short": "Een primaire follikel is een vroeg stadium van de ovariële follikel, met één laag kubische granulosacellen rond de oöcyt.",
+  "definition": "<p>Uit de <strong>primordiale follikel</strong> (afgeplatte cellen) ontstaat de primaire follikel, daarna de secundaire (meerlagig) en tertiaire (met antrum). Bij de geboorte is de voorraad primordiale follikels al aangelegd en daalt die levenslang.</p>",
+  "image_url": "",
+  "wiki_title": "Ovarian follicle",
+  "match": "primordiale follikel",
+  "option_only": true
+ },
+ "ctg": {
+  "title": "CTG (cardiotocografie)",
+  "short": "Gelijktijdige registratie van de foetale hartfrequentie en de weeënactiviteit om de foetale conditie te beoordelen.",
+  "definition": "<p>Het <b>cardiotocogram (CTG)</b> registreert de foetale hartslag en uteruscontracties. Beoordeeld worden basisfrequentie, variabiliteit, acceleraties en deceleraties.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiotocography",
+  "match": "ctg",
+  "option_only": true
+ },
+ "wet lung": {
+  "title": "Wet lung (TTN)",
+  "short": "Transient tachypneu van de pasgeborene door vertraagde resorptie van longvocht, vooral na een sectio.",
+  "definition": "<p><strong>Wet lung</strong> (transient tachypnea of the newborn) geeft kortdurende tachypneu en intrekkingen; het herstelt doorgaans binnen enkele uren tot dagen spontaan.</p>",
+  "image_url": "",
+  "wiki_title": "Transient tachypnea of the newborn",
+  "match": "wet lung",
+  "option_only": true
+ },
+ "chorionholte": {
+  "title": "Chorionholte",
+  "short": "De extra-embryonale coeloomholte tussen het chorion en de amnion/dooierzak; verdwijnt naarmate de amnionholte groeit.",
+  "definition": "<p>De <b>chorionholte</b> (extra-embryonale coeloom) omgeeft aanvankelijk de amnionholte en dooierzak. Ze wordt geleidelijk opgevuld door de zich uitzettende amnionholte.</p>",
+  "image_url": "",
+  "wiki_title": "Chorionic cavity",
+  "match": "chorionholte",
+  "option_only": true
+ },
+ "foetale groeivertraging": {
+  "title": "Foetale groeivertraging (IUGR)",
+  "short": "Onvoldoende foetale groei voor de zwangerschapsduur, vaak door placenta-insufficiëntie.",
+  "definition": "<p>Bij <strong>foetale groeivertraging</strong> is de groei (buikomtrek/femurlengte) te laag; dopplermetingen van de a. umbilicalis helpen de placentafunctie te beoordelen.</p>",
+  "image_url": "",
+  "wiki_title": "Intrauterine growth restriction",
+  "match": "foetale groeivertraging",
+  "option_only": true
+ },
+ "crh": {
+  "title": "CRH",
+  "short": "Corticotropin-releasing hormone uit de hypothalamus dat de hypofyse aanzet tot ACTH-afgifte.",
+  "definition": "<p><b>CRH</b> (corticotropin-releasing hormone) is het eerste hormoon van de HPA-as: het stimuleert de hypofyse tot ACTH-afgifte. Een hoog cortisol remt CRH en ACTH via negatieve feedback.</p>",
+  "image_url": "",
+  "wiki_title": "Corticotropin-releasing hormone",
+  "match": "crh",
+  "option_only": true
+ },
+ "persisterende pulmonale hypertensie": {
+  "title": "Persisterende pulmonale hypertensie (PPHN)",
+  "short": "Uitblijven van de normale daling van de pulmonale vaatweerstand na de geboorte, met rechts-links shunt en cyanose.",
+  "definition": "<p>Bij <strong>PPHN</strong> blijft de druk in de longcirculatie hoog, waardoor bloed via foramen ovale en ductus arteriosus naar links shunt.</p>",
+  "image_url": "",
+  "wiki_title": "Persistent pulmonary hypertension of the newborn",
+  "match": "persisterende pulmonale hypertensie",
+  "option_only": true
+ },
+ "doppleronderzoek": {
+  "title": "Doppleronderzoek",
+  "short": "Echografische meting van de bloedstroomsnelheid, bijv. in de a. umbilicalis. Een afwezige/omgekeerde einddiastolische flow wijst op ernstige placentaire insufficiëntie.",
+  "definition": "<p><strong>Echoscopisch doppleronderzoek</strong> van de a. umbilicalis beoordeelt de placentaire weerstand; <em>afwezige of reversed einddiastolische flow</em> duidt op foetale nood.</p>",
+  "image_url": "",
+  "wiki_title": "Doppler ultrasonography",
+  "match": "doppleronderzoek",
+  "option_only": true
+ },
+ "stuwing": {
+  "title": "Stuwing (borst)",
+  "short": "Bilaterale, gespannen en pijnlijke borsten door melkophoping rond dag 3-4 post partum; niet infectieus.",
+  "definition": "<p><strong>Stuwing</strong> is meestal dubbelzijdig zonder duidelijke koorts, in tegenstelling tot de eenzijdige, ontstoken borst bij mastitis.</p>",
+  "image_url": "",
+  "wiki_title": "Breast engorgement",
+  "match": "stuwing",
+  "option_only": true
+ },
+ "parametritis": {
+  "title": "Parametritis",
+  "short": "Ontsteking van het bindweefsel naast de uterus (parametrium), vaak als kraambedinfectie.",
+  "definition": "<p><b>Parametritis</b> is een ontsteking van het parametrium, het bindweefsel lateraal van de uterus. Als kraambedkoorts treedt ze doorgaans wat later op (na ongeveer 6-7 dagen post partum).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "parametritis",
+  "option_only": true
+ },
+ "persisterende ductus van botalli (ductus arteriosus)": {
+  "title": "Ductus arteriosus (Botalli)",
+  "short": "Foetaal bloedvat tussen longslagader en aorta dat de longcirculatie omzeilt; sluit normaal na de geboorte.",
+  "definition": "<p>De <b>ductus arteriosus</b> verbindt in de foetus de a. pulmonalis met de aorta (long → aorta), zodat de longen worden omzeild. Blijft hij open (persisterende ductus arteriosus), dan ontstaat een links-rechtsshunt.</p>",
+  "image_url": "",
+  "wiki_title": "Ductus arteriosus",
+  "match": "persisterende ductus van botalli (ductus arteriosus)",
+  "option_only": true
+ },
+ "leydigcel": {
+  "title": "Leydig-cel",
+  "short": "Cel in het interstitium van de testis, tussen de zaadbuisjes, die onder invloed van LH testosteron produceert.",
+  "definition": "<p>De <b>Leydig-cellen</b> liggen in het bindweefsel tussen de tubuli seminiferi en zijn verantwoordelijk voor de productie van testosteron, gestimuleerd door luteïniserend hormoon (LH).</p>",
+  "image_url": "",
+  "wiki_title": "Leydig cell",
+  "match": "leydigcel",
+  "option_only": true
+ },
+ "abo antagonisme": {
+  "title": "AB0-antagonisme",
+  "short": "Bij AB0-antagonisme breken maternale anti-A- of anti-B-antistoffen (IgG) de rode bloedcellen van het kind af; meestal bij een moeder met bloedgroep O en een kind met A of B.",
+  "definition": "<p>Bij <strong>AB0-antagonisme</strong> heeft de moeder meestal <em>bloedgroep O</em> en het kind bloedgroep A of B. Mensen met bloedgroep O maken van nature anti-A- en anti-B-antistoffen, waarvan een deel IgG is en de placenta kan passeren.</p><p>Die antistoffen veroorzaken hemolyse van de foetale erytrocyten, wat bij de pasgeborene leidt tot een ongeconjugeerde hyperbilirubinemie. Het verloopt meestal milder dan rhesusantagonisme en kan ook bij een eerste zwangerschap voorkomen. De directe antiglobulinetest (Coombs) bij het kind is vaak (zwak) positief.</p>",
+  "image_url": "",
+  "wiki_title": "Hemolytic disease of the newborn (ABO)",
+  "match": "abo antagonisme",
+  "option_only": true
+ },
+ "prikkelbare darmsyndroom": {
+  "title": "Prikkelbare darm syndroom",
+  "short": "Functionele darmstoornis met buikpijn en wisselend ontlastingspatroon zonder aantoonbare afwijkingen.",
+  "definition": "<p>Het <b>prikkelbare darm syndroom</b> (PDS/IBS) is een diagnose per uitsluiting: buikpijn en veranderd defecatiepatroon zonder alarmsymptomen of afwijkend onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "Irritable bowel syndrome",
+  "match": "prikkelbare darmsyndroom",
+  "option_only": true
+ },
+ "leptine": {
+  "title": "Leptine",
+  "short": "Verzadigingshormoon uit vetweefsel dat de eetlust remt.",
+  "definition": "<p><b>Leptine</b> wordt door adipocyten afgegeven in verhouding tot de vetmassa en onderdrukt via de hypothalamus het hongergevoel.</p>",
+  "image_url": "",
+  "wiki_title": "Leptin",
+  "match": "leptine",
+  "option_only": true
+ },
+ "meckel’s divertikel": {
+  "title": "Divertikel van Meckel",
+  "short": "Het divertikel van Meckel is een restant van de ductus omphaloentericus aan het ileum; het kan bloeden, ontsteken of een obstructie veroorzaken.",
+  "definition": "<p>De ‘regel van 2’: komt bij ongeveer 2% van de mensen voor, ligt ongeveer 60 cm (2 voet) van de ileocaecaalklep, is ongeveer 5 cm lang en geeft vaak klachten vóór het 2e jaar. Het kan maagslijmvlies bevatten, met ulceratie en pijnloos rectaal bloedverlies, of als leidpunt voor invaginatie dienen.</p>",
+  "image_url": "",
+  "wiki_title": "Meckel's diverticulum",
+  "match": "meckel’s divertikel",
+  "option_only": true
+ },
+ "ventilatie/perfusie scan": {
+  "title": "Ventilatie-perfusiescan",
+  "short": "Een ventilatie-perfusiescan vergelijkt met radioactieve stoffen de luchtverdeling en de doorbloeding van de longen, bijv. bij verdenking op longembolie.",
+  "definition": "<p>Bij een longembolie toont de <strong>V/Q-scan</strong> gebieden met normale ventilatie maar uitgevallen perfusie (‘mismatch’). Het wordt gebruikt als CT-angiografie niet kan (contrastallergie, nierfunctie, zwangerschap) en bij chronische trombo-embolische pulmonale hypertensie.</p>",
+  "image_url": "",
+  "wiki_title": "Ventilation/perfusion scan",
+  "match": "ventilatie/perfusie scan",
+  "option_only": true
+ },
+ "pre- eclampsie": {
+  "title": "Pre-eclampsie",
+  "short": "Zwangerschapshypertensie ná 20 weken mét proteïnurie of orgaanschade. Kan overgaan in eclampsie (convulsies).",
+  "definition": "<p><strong>Pre-eclampsie</strong> is een zwangerschapscomplicatie met nieuw ontstane hypertensie na 20 weken samen met proteïnurie of tekenen van orgaanschade. Onbehandeld kan het leiden tot eclampsie (insulten) en HELLP-syndroom.</p>",
+  "image_url": "",
+  "wiki_title": "Pre-eclampsia",
+  "match": "pre- eclampsie",
+  "option_only": true
+ },
+ "groeivertraging": {
+  "title": "Intra-uteriene groeivertraging",
+  "short": "Foetus die achterblijft in groei; symmetrisch (vroeg, o.a. infectie/chromosomaal) of asymmetrisch (laat, placenta-insufficiëntie).",
+  "definition": "<p><b>Intra-uteriene groeivertraging (IUGR)</b> betekent dat de foetale groei onder de verwachting blijft. Symmetrische vormen ontstaan vroeg (infecties, genetische oorzaken), asymmetrische later door placenta-insufficiëntie.</p>",
+  "image_url": "",
+  "wiki_title": "Intrauterine growth restriction",
+  "match": "groeivertraging",
+  "option_only": true
+ },
+ "sertolicel": {
+  "title": "Sertoli-cel",
+  "short": "Steuncel in de wand van de tubulus seminiferus die de spermatogenese ondersteunt en de bloed-testisbarrière vormt.",
+  "definition": "<p>De <strong>Sertoli-cellen</strong> reiken van de basale membraan tot het lumen van de tubulus seminiferus en verzorgen en beschermen de zich ontwikkelende kiemcellen.</p>",
+  "image_url": "",
+  "wiki_title": "Sertoli cell",
+  "match": "sertolicel",
+  "option_only": true
+ },
+ "pelvic inflamatory disease (pid)": {
+  "title": "Pelvic Inflammatory Disease (PID)",
+  "short": "Opstijgende infectie van de bovenste genitale tractus (endometrium, tubae, ovaria en peritoneum).",
+  "definition": "<p><strong>PID</strong> geeft onderbuikpijn, afscheiding en koorts; complicaties zijn een <em>tubo-ovarieel abces</em>, subfertiliteit en EUG.</p>",
+  "image_url": "",
+  "wiki_title": "Pelvic inflammatory disease",
+  "match": "pelvic inflamatory disease (pid)",
+  "option_only": true
+ },
+ "diverticulose": {
+  "title": "Diverticulose",
+  "short": "Aanwezigheid van uitstulpingen (divertikels) in de colonwand, vooral in het sigmoïd; kan ontsteken tot diverticulitis.",
+  "definition": "<p><b>Diverticulose</b> zijn asymptomatische uitstulpingen van de mucosa door de colonwand (vooral sigmoïd). Ontsteking hiervan heet diverticulitis.</p>",
+  "image_url": "",
+  "wiki_title": "Diverticulosis",
+  "match": "diverticulose",
+  "option_only": true
+ },
+ "dunne darmobstructie": {
+  "title": "Dunne darm obstructie",
+  "short": "Belemmering van de darmpassage in de dunne darm, met een bolle buik, braken en hyperactieve (klinkende) peristaltiek.",
+  "definition": "<p>Een <strong>dunne darm obstructie</strong> geeft koliekpijn, opgezette buik en aanvankelijk levendige, gootsteengeluid-achtige peristaltiek.</p>",
+  "image_url": "",
+  "wiki_title": "Bowel obstruction",
+  "match": "dunne darmobstructie",
+  "option_only": true
+ },
+ "groep-a-streptokok": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "groep-a-streptokok",
+  "option_only": true
+ },
+ "extra uteriene graviditeit": {
+  "title": "Extra-uteriene graviditeit (EUG)",
+  "short": "Bij een extra-uteriene graviditeit nestelt het embryo zich buiten de baarmoederholte, meestal in de eileider.",
+  "definition": "<p>Risicofactoren voor een <strong>EUG</strong> zijn eerdere salpingitis (chlamydia), eerdere EUG of tubachirurgie, IUD en IVF. Klachten: amenorroe, vaginaal bloedverlies en buikpijn; bij een ruptuur een acute buik en shock. Diagnose met hCG en transvaginale echo (geen intra-uteriene zwangerschap). Behandeling: afwachten, methotrexaat of laparoscopie.</p>",
+  "image_url": "",
+  "wiki_title": "Ectopic pregnancy",
+  "match": "extra uteriene graviditeit",
+  "option_only": true
+ },
+ "lig. teres uteri": {
+  "title": "Lig. teres uteri",
+  "short": "Ronde moederband; loopt van de laterale uterushoek via het lieskanaal naar de labia majora. Een restant van het gubernaculum.",
+  "definition": "<p>Het <strong>lig. teres uteri</strong> (ligamentum rotundum) verloopt van de uterushoek door het canalis inguinalis naar de labium majus en houdt de uterus in anteflexie/anteversie.</p>",
+  "image_url": "",
+  "wiki_title": "Round ligament of uterus",
+  "match": "lig. teres uteri",
+  "option_only": true
+ },
+ "dooierzak": {
+  "title": "Dooierzak",
+  "short": "Vroeg-embryonale structuur betrokken bij voeding en de eerste bloedvorming; bron van de primordiale kiemcellen.",
+  "definition": "<p>De <b>dooierzak</b> speelt een rol bij de eerste hematopoëse en levert de primordiale kiemcellen. De primaire dooierzak wordt vervangen door de definitieve (secundaire) dooierzak.</p>",
+  "image_url": "",
+  "wiki_title": "Yolk sac",
+  "match": "dooierzak",
+  "option_only": true
+ },
+ "primipariteit": {
+  "title": "Primipariteit",
+  "short": "Het voor de eerste keer een kind ter wereld brengen (P0 → eerste bevalling).",
+  "definition": "<p><strong>Primipariteit</strong> is op zichzelf geen oorzaak van foetale groeivertraging.</p>",
+  "image_url": "",
+  "wiki_title": "Gravidity and parity",
+  "match": "primipariteit",
+  "option_only": true
+ },
+ "groep-a- streptokok": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "groep-a- streptokok",
+  "option_only": true
+ },
+ "schatzi ring": {
+  "title": "Schatzki-ring",
+  "short": "Een Schatzki-ring is een dunne, ringvormige vernauwing van het slijmvlies onderin de slokdarm, vlak boven de overgang naar de maag.",
+  "definition": "<p>Een <strong>Schatzki-ring</strong> geeft periodiek slikklachten voor vast voedsel, soms met een vastzittende voedselbrok (‘steakhouse syndrome’). Op een slikfoto is een smalle ring te zien. Behandeling met endoscopische dilatatie.</p>",
+  "image_url": "",
+  "wiki_title": "Schatzki ring",
+  "match": "schatzi ring|schatzki-ring|schatzki ring",
+  "option_only": true
+ },
+ "m. constrictor pharyngeus": {
+  "title": "Mm. constrictores pharyngis",
+  "short": "De mm. constrictores pharyngis (superior, medius en inferior) vormen de spierwand van de keel en duwen tijdens het slikken de voedselbrok naar beneden.",
+  "definition": "<p>De constrictoren worden geïnnerveerd door de n. vagus via de plexus pharyngeus. Tussen het onderste deel van de m. constrictor inferior en de m. cricopharyngeus ligt een zwakke plek (driehoek van Killian), waar een Zenker-divertikel kan ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Pharyngeal constrictor muscles",
+  "match": "m. constrictor pharyngeus|constrictores pharyngis",
+  "option_only": true
+ },
+ "palatum molle": {
+  "title": "Palatum molle (zachte gehemelte)",
+  "short": "Het palatum molle is het beweeglijke achterste deel van het gehemelte, dat tijdens slikken en spreken de neuskeelholte afsluit.",
+  "definition": "<p>Het <strong>zachte gehemelte</strong> eindigt in de huig (uvula). Bij uitval van de n. vagus aan één kant trekt de huig naar de gezonde kant. Een slecht sluitend gehemelte (bijv. bij een schisis) geeft een nasale spraak en terugvloed van voedsel naar de neus.</p>",
+  "image_url": "",
+  "wiki_title": "Soft palate",
+  "match": "palatum molle|zachte gehemelte|velum",
+  "option_only": true
+ },
+ "cisterna chyli": {
+  "title": "Cisterna chyli",
+  "short": "De cisterna chyli is een verwijde lymfezak achter de aorta ter hoogte van L1–L2, waaruit de ductus thoracicus ontspringt.",
+  "definition": "<p>In de <strong>cisterna chyli</strong> komt lymfe uit de benen en de darmen samen; de darmlymfe (chylus) is melkachtig door vetten in chylomicronen. Beschadiging van de ductus thoracicus kan een chylothorax geven.</p>",
+  "image_url": "",
+  "wiki_title": "Cisterna chyli",
+  "match": "cisterna chyli",
+  "option_only": true
+ },
+ "linea pectinata": {
+  "title": "Linea pectinata (linea dentata)",
+  "short": "De linea pectinata is de getande grens in het anaalkanaal tussen het deel dat uit de einddarm en het deel dat uit de huid is ontstaan.",
+  "definition": "<p>Boven de <strong>linea pectinata</strong> is het slijmvlies cilinderepitheel, met autonome innervatie (pijnloos) en afvoer naar de v. portae; eronder plaveiselepitheel met somatische innervatie (gevoelig) en afvoer naar de systemische circulatie. Daarom zijn inwendige aambeien pijnloos en uitwendige pijnlijk. De linea anocutanea is de overgang naar de gewone huid.</p>",
+  "image_url": "",
+  "wiki_title": "Pectinate line",
+  "match": "linea pectinata|linea dentata|linea anocutanea",
+  "option_only": true
+ },
+ "terminale bronchiolus": {
+  "title": "Terminale bronchiolus",
+  "short": "De terminale bronchiolus is de laatste vertakking van het geleidende deel van de luchtwegen, zonder alveoli in de wand.",
+  "definition": "<p>Na de <strong>terminale bronchiolus</strong> volgen de respiratoire bronchioli, alveolaire gangen en alveoli, waar gaswisseling plaatsvindt. Bronchioli hebben geen kraakbeen, maar wel gladde spieren.</p>",
+  "image_url": "",
+  "wiki_title": "Bronchiole",
+  "match": "terminale bronchiolus|bronchiolus terminalis",
+  "option_only": true
+ },
+ "clara-cel": {
+  "title": "Clubcel (Clara-cel)",
+  "short": "Clubcellen (vroeger Clara-cellen) zijn niet-trilhaardragende cellen in de bronchioli die beschermende eiwitten uitscheiden en als stamcel kunnen dienen.",
+  "definition": "<p><strong>Clubcellen</strong> maken o.a. surfactantachtige eiwitten en ontgiften stoffen via cytochroom P450. Ze kunnen delen om beschadigd epitheel van de bronchioli te herstellen.</p>",
+  "image_url": "",
+  "wiki_title": "Club cell",
+  "match": "clara-cel|clubcel|club cell",
+  "option_only": true
+ },
+ "trilhaarepitheelcel": {
+  "title": "Trilhaarepitheel",
+  "short": "Trilhaarepitheelcellen hebben trilharen die slijm met daarin gevangen deeltjes richting keel bewegen (mucociliaire klaring).",
+  "definition": "<p>Het luchtwegepitheel is meerrijig cilindrisch <strong>trilhaarepitheel</strong> met slijmbekercellen. Roken beschadigt de trilharen. Bij primaire ciliaire dyskinesie werken de trilharen niet goed, met recidiverende luchtweginfecties.</p>",
+  "image_url": "",
+  "wiki_title": "Respiratory epithelium",
+  "match": "trilhaarepitheelcel|trilhaarepitheel|ciliën",
+  "option_only": true
+ },
+ "pneumocyt ii": {
+  "title": "Pneumocyten type I en II",
+  "short": "Type I-pneumocyten zijn platte cellen voor de gaswisseling; type II-pneumocyten maken surfactant en kunnen delen om het alveolaire epitheel te herstellen.",
+  "definition": "<p><strong>Type I-pneumocyten</strong> bedekken ongeveer 95% van het alveolaire oppervlak. <strong>Type II-pneumocyten</strong> zijn kubisch en bevatten lamellaire lichaampjes met surfactant. Bij prematuren is de surfactantproductie nog onvoldoende (IRDS).</p>",
+  "image_url": "",
+  "wiki_title": "Pulmonary alveolus",
+  "match": "pneumocyt ii|type ii pneumocyt|pneumocyt type i|type i pneumocyt",
+  "option_only": true
+ },
+ "borstelcel": {
+  "title": "Borstelcel (tuft cell)",
+  "short": "Borstelcellen zijn zeldzame cellen met korte microvilli in het epitheel van luchtwegen en darm, met een sensorische functie.",
+  "definition": "<p><strong>Borstelcellen</strong> reageren o.a. op parasieten en kunnen een type 2-immuunreactie (IL-25) op gang brengen. Hun functie in de luchtwegen is nog niet volledig bekend.</p>",
+  "image_url": "",
+  "wiki_title": "Tuft cell",
+  "match": "borstelcel|tuft cell",
+  "option_only": true
+ },
+ "kleine korrelcel": {
+  "title": "Kleine korrelcel (neuro-endocriene cel)",
+  "short": "Kleine korrelcellen (Kulchitsky-cellen) zijn neuro-endocriene cellen in het luchtwegepitheel, met hormoonhoudende korrels.",
+  "definition": "<p>Uit deze neuro-endocriene cellen kunnen carcinoïden en het kleincellig longcarcinoom ontstaan. Dat verklaart waarom die tumoren soms hormonen maken (paraneoplastische syndromen, zoals SIADH en ectopisch ACTH).</p>",
+  "image_url": "",
+  "wiki_title": "Neuroendocrine cell",
+  "match": "kleine korrelcel|kulchitsky-cel|neuro-endocriene cel",
+  "option_only": true
+ },
+ "basale cellen": {
+  "title": "Basale cellen (luchtweg)",
+  "short": "Basale cellen liggen op de basaalmembraan van het luchtwegepitheel en zijn de stamcellen waaruit andere epitheelcellen ontstaan.",
+  "definition": "<p>Uit <strong>basale cellen</strong> kunnen trilhaarcellen en slijmbekercellen ontstaan. Bij chronische prikkeling (roken) kan het epitheel omzetten in plaveiselepitheel (squameuze metaplasie).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "basale cellen|basale cel",
+  "option_only": true
+ },
+ "alveolaire macrofaag": {
+  "title": "Alveolaire macrofaag",
+  "short": "Alveolaire macrofagen ruimen in de longblaasjes stofdeeltjes, micro-organismen en surfactantresten op.",
+  "definition": "<p><strong>Alveolaire macrofagen</strong> (stofcellen) zijn de eerste afweer in de alveoli. Bij hartfalen kunnen ze ijzerpigment uit rode bloedcellen bevatten (hartfaalcellen).</p>",
+  "image_url": "",
+  "wiki_title": "Alveolar macrophage",
+  "match": "alveolaire macrofaag|stofcel",
+  "option_only": true
+ },
+ "pharynx": {
+  "title": "Farynx (keelholte)",
+  "short": "De farynx is de spierbuis achter neus- en mondholte die lucht naar het strottenhoofd en voedsel naar de slokdarm leidt.",
+  "definition": "<p>De <strong>farynx</strong> wordt verdeeld in nasofarynx, orofarynx en hypofarynx. In de wand liggen de lymfoïde organen van de ring van Waldeyer (keel-, neus- en tongamandelen).</p>",
+  "image_url": "",
+  "wiki_title": "Pharynx",
+  "match": "pharynx|farynx|keelholte",
+  "option_only": true
+ },
+ "peritoneum visceralis": {
+  "title": "Peritoneum viscerale en parietale",
+  "short": "Het buikvlies bestaat uit het pariëtale blad, dat de buikwand bekleedt, en het viscerale blad, dat de organen bedekt.",
+  "definition": "<p>Het <strong>pariëtale peritoneum</strong> is somatisch geïnnerveerd en goed lokaliseerbaar pijngevoelig (loslaatpijn, défense bij peritonitis). Het <strong>viscerale peritoneum</strong> is autonoom geïnnerveerd en geeft vage, slecht lokaliseerbare pijn.</p>",
+  "image_url": "",
+  "wiki_title": "Peritoneum",
+  "match": "peritoneum visceralis|peritoneum viscerale|peritoneum parietale|buikvlies",
+  "option_only": true
+ },
+ "colon transversum": {
+  "title": "Colon transversum",
+  "short": "Het colon transversum is het dwarslopende deel van de dikke darm tussen de flexura hepatica en de flexura lienalis.",
+  "definition": "<p>Het <strong>colon transversum</strong> hangt aan het mesocolon transversum en is daardoor beweeglijk. De eerste twee derde wordt verzorgd door de a. mesenterica superior (a. colica media), het laatste derde door de a. mesenterica inferior.</p>",
+  "image_url": "",
+  "wiki_title": "Transverse colon",
+  "match": "colon transversum|dwarse colon",
+  "option_only": true
+ },
+ "pylorus": {
+  "title": "Pylorus (maagportier)",
+  "short": "De pylorus is de gespierde overgang van de maag naar het duodenum, die de lediging van de maag regelt.",
+  "definition": "<p>De <strong>pylorus</strong> laat de maaginhoud in kleine porties door. Bij zuigelingen kan de spier verdikken (hypertrofische pylorusstenose). Bij volwassenen kan een ulcus of tumor bij de pylorus een maaguitgangsstenose geven.</p>",
+  "image_url": "",
+  "wiki_title": "Pylorus",
+  "match": "pylorus|maagportier|pylorussfincter",
+  "option_only": true
+ },
+ "waterstofademtest": {
+  "title": "Waterstofademtest",
+  "short": "Bij een waterstofademtest wordt na het drinken van een suiker gemeten of er waterstof in de uitademingslucht verschijnt, als teken van bacteriële vergisting.",
+  "definition": "<p>De <strong>waterstofademtest</strong> wordt gebruikt bij verdenking op lactose- of fructosemalabsorptie en bacteriële overgroei in de dunne darm.</p>",
+  "image_url": "",
+  "wiki_title": "Hydrogen breath test",
+  "match": "waterstofademtest|h2-ademtest",
+  "option_only": true
+ },
+ "aminopeptidases": {
+  "title": "Peptidasen van de borstelzoom",
+  "short": "Aminopeptidasen in de borstelzoom van de dunne darm knippen aminozuren één voor één af van het uiteinde van peptiden.",
+  "definition": "<p>Eiwitvertering begint in de maag (pepsine), gaat verder in het duodenum met <strong>trypsine en chymotrypsine</strong> uit de pancreas en eindigt met peptidasen in de borstelzoom. Aminozuren en kleine peptiden worden daarna opgenomen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "aminopeptidases|aminopeptidase|dipeptidases",
+  "option_only": true
+ },
+ "chymotrypsine": {
+  "title": "Chymotrypsine",
+  "short": "Chymotrypsine is een eiwitsplitsend enzym uit de pancreas, dat als inactief chymotrypsinogeen wordt afgegeven en door trypsine wordt geactiveerd.",
+  "definition": "<p>Trypsinogeen wordt in het duodenum door enterokinase omgezet in trypsine, dat vervolgens <strong>chymotrypsinogeen</strong> en andere pancreasenzymen activeert. Voortijdige activatie in de pancreas zelf speelt een rol bij pancreatitis.</p>",
+  "image_url": "",
+  "wiki_title": "Chymotrypsin",
+  "match": "chymotrypsine|chymotrypsinogeen",
+  "option_only": true
+ },
+ "disaccharidases": {
+  "title": "Disaccharidasen",
+  "short": "Disaccharidasen in de borstelzoom van de dunne darm splitsen disachariden (lactose, sucrose, maltose) in monosachariden.",
+  "definition": "<p>Koolhydraten worden eerst door <strong>amylase</strong> (speeksel, pancreas) afgebroken tot di- en oligosachariden en daarna door disaccharidasen (lactase, sucrase-isomaltase, maltase) tot glucose, galactose en fructose, die opgenomen kunnen worden. Bij vlokatrofie (coeliakie) is de activiteit verminderd.</p>",
+  "image_url": "",
+  "wiki_title": "Disaccharidase",
+  "match": "disaccharidases|disaccharidasen|sucrase|maltase",
+  "option_only": true
+ },
+ "ductus hepaticus dexter": {
+  "title": "Ductus hepaticus dexter en sinister",
+  "short": "De ductus hepaticus dexter en sinister voeren gal af uit de rechter en linker leverhelft en vormen samen de ductus hepaticus communis.",
+  "definition": "<p>De ductus hepaticus communis vormt samen met de ductus cysticus (van de galblaas) de ductus choledochus. Een tumor op de splitsing heet een Klatskin-tumor.</p>",
+  "image_url": "",
+  "wiki_title": "Common hepatic duct",
+  "match": "ductus hepaticus dexter|ductus hepaticus sinister",
+  "option_only": true
+ },
+ "proctodeum": {
+  "title": "Proctodeum",
+  "short": "Het proctodeum is een instulping van het ectoderm bij het embryo waaruit het onderste deel van het anaalkanaal ontstaat.",
+  "definition": "<p>Het <strong>proctodeum</strong> komt samen met de einddarm (endoderm); de grens is later de linea pectinata. Als de anale membraan niet opengaat, ontstaat een anusatresie.</p>",
+  "image_url": "",
+  "wiki_title": "Proctodeum",
+  "match": "proctodeum|anale membraan",
+  "option_only": true
+ },
+ "flexura coli dextra": {
+  "title": "Flexura coli dextra en sinistra",
+  "short": "De flexura coli dextra (hepatica) en sinistra (lienalis) zijn de bochten van het colon bij de lever en de milt.",
+  "definition": "<p>De <strong>flexura lienalis</strong> ligt op de grens van de stroomgebieden van de a. mesenterica superior en inferior (punt van Griffiths) en is daardoor gevoelig voor ischemie. Het ligt hoger dan de flexura hepatica.</p>",
+  "image_url": "",
+  "wiki_title": "Splenic flexure",
+  "match": "flexura coli dextra|flexura hepatica|flexura lienalis|flexura coli sinistra",
+  "option_only": true
+ },
+ "vena lienalis": {
+  "title": "Vena lienalis (v. splenica)",
+  "short": "De v. lienalis voert bloed af uit de milt en loopt achter de pancreas naar de v. portae, waarin ze samenkomt met de v. mesenterica superior.",
+  "definition": "<p>Trombose van de <strong>v. lienalis</strong> (bijv. na pancreatitis) kan geïsoleerde maagvarices veroorzaken (linkszijdige portale hypertensie).</p>",
+  "image_url": "",
+  "wiki_title": "Splenic vein",
+  "match": "vena lienalis|v. lienalis|vena splenica",
+  "option_only": true
+ },
+ "vena gastrica sinistra": {
+  "title": "V. gastrica sinistra (v. coronaria ventriculi)",
+  "short": "De v. gastrica sinistra voert bloed van de kleine curvatuur van de maag af naar de v. portae en staat in verbinding met slokdarmvenen.",
+  "definition": "<p>Bij portale hypertensie wordt de verbinding tussen de <strong>v. gastrica sinistra</strong> en de slokdarmvenen een belangrijke portocavale shunt, waardoor slokdarmvarices ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Left gastric vein",
+  "match": "vena gastrica sinistra|v. gastrica sinistra|vena gastrica dextra",
+  "option_only": true
+ },
+ "aldolase b": {
+  "title": "Aldolase B",
+  "short": "Aldolase B splitst in de lever fructose-1-fosfaat; een erfelijk tekort geeft erfelijke fructose-intolerantie.",
+  "definition": "<p>Bij een tekort aan <strong>aldolase B</strong> hoopt fructose-1-fosfaat zich op, wat fosfaat vastlegt en de glycogenolyse en gluconeogenese remt. Na het eten van fructose of sucrose ontstaan hypoglykemie, braken, leverschade en nierproblemen. Behandeling: fructose, sucrose en sorbitol vermijden.</p>",
+  "image_url": "",
+  "wiki_title": "Hereditary fructose intolerance",
+  "match": "aldolase b|erfelijke fructose-intolerantie",
+  "option_only": true
+ },
+ "udp-glucose epimerase": {
+  "title": "UDP-galactose-4-epimerase",
+  "short": "Dit enzym zet UDP-galactose om in UDP-glucose en is een van de stappen in de afbraak van galactose.",
+  "definition": "<p>De galactoseafbraak verloopt via galactokinase, galactose-1-fosfaat-uridyltransferase (GALT) en de <strong>epimerase</strong>. Een tekort aan GALT geeft klassieke galactosemie bij pasgeborenen (braken, icterus, leverfalen, cataract en E. coli-sepsis); daar wordt in de hielprik op gescreend.</p>",
+  "image_url": "",
+  "wiki_title": "Galactosemia",
+  "match": "udp-glucose epimerase|udp-galactose-4-epimerase|galactosemie",
+  "option_only": true
+ },
+ "bacteroides spp": {
+  "title": "Bacteroides",
+  "short": "Bacteroides zijn gramnegatieve, anaerobe staven en de belangrijkste bacteriën in de dikke darm.",
+  "definition": "<p><strong><em>Bacteroides fragilis</em></strong> is een belangrijke verwekker van intra-abdominale abcessen en peritonitis, vaak samen met aerobe darmbacteriën. Effectieve middelen zijn metronidazol, amoxicilline/clavulaanzuur en carbapenems.</p>",
+  "image_url": "",
+  "wiki_title": "Bacteroides",
+  "match": "bacteroides spp|bacteroides|bacteroides fragilis",
+  "option_only": true
+ },
+ "mozaïcisme": {
+  "title": "Mozaïcisme",
+  "short": "Bij mozaïcisme hebben niet alle cellen van een persoon dezelfde genetische samenstelling, door een fout na de bevruchting.",
+  "definition": "<p>Bij <strong>mozaïcisme</strong> (bijv. mozaïek-Turner of -Down) zijn de klinische kenmerken vaak milder. Placentamozaïcisme kan een afwijkende vlokkentest of NIPT geven terwijl de foetus normaal is.</p>",
+  "image_url": "",
+  "wiki_title": "Mosaicism",
+  "match": "mozaïcisme|mozaiek",
+  "option_only": true
+ },
+ "variabele anticipatie": {
+  "title": "Variabele expressie, penetrantie en anticipatie",
+  "short": "Penetrantie is het percentage dragers van een mutatie dat de ziekte krijgt; expressie is hoe ernstig de ziekte is; anticipatie is een vroeger begin en ernstiger beloop in volgende generaties.",
+  "definition": "<p><strong>Anticipatie</strong> komt voor bij repeatziekten zoals de ziekte van Huntington, myotone dystrofie en fragiele-X, waarbij een herhaalde DNA-sequentie bij doorgeven langer wordt. <strong>Onvolledige penetrantie</strong> zie je bijv. bij BRCA-mutaties.</p>",
+  "image_url": "",
+  "wiki_title": "Penetrance",
+  "match": "variabele anticipatie|anticipatie|variabele expressie|penetrantie",
+  "option_only": true
+ },
+ "criterium validiteit": {
+  "title": "Criteriumvaliditeit",
+  "short": "Criteriumvaliditeit is de mate waarin een meting overeenkomt met een gouden standaard.",
+  "definition": "<p>Bij <strong>criteriumvaliditeit</strong> wordt onderscheid gemaakt tussen concurrente (meting en gouden standaard tegelijk) en predictieve validiteit (voorspelt een latere uitkomst). Andere vormen zijn inhouds- en constructvaliditeit.</p>",
+  "image_url": "",
+  "wiki_title": "Criterion validity",
+  "match": "criterium validiteit|criteriumvaliditeit",
+  "option_only": true
+ },
+ "hematothorax": {
+  "title": "Hematothorax",
+  "short": "Een hematothorax is een ophoping van bloed in de pleuraholte, meestal door een thoraxtrauma.",
+  "definition": "<p>Een grote <strong>hematothorax</strong> geeft hypovolemie en verdrukking van de long, met gedempte percussie en verminderd ademgeruis. Behandeling met een thoraxdrain; bij veel bloedverlies via de drain een thoracotomie.</p>",
+  "image_url": "",
+  "wiki_title": "Hemothorax",
+  "match": "hematothorax|hemothorax",
+  "option_only": true
+ },
+ "wortel l4": {
+  "title": "Wortel L4",
+  "short": "Een L4-radiculopathie geeft pijn en gevoelsstoornis aan de voorkant van de dij en de binnenkant van het onderbeen, met een verlaagde kniepeesreflex.",
+  "definition": "<p>Bij uitval van de <strong>wortel L4</strong> is vooral de m. quadriceps en m. tibialis anterior zwak. Een hernia op niveau L3–L4 of een laterale hernia L4–L5 kan deze wortel aantasten.</p>",
+  "image_url": "",
+  "wiki_title": "Radiculopathy",
+  "match": "wortel l4|l4-radiculopathie",
+  "option_only": true
+ },
+ "wortel c7": {
+  "title": "Wortel C7",
+  "short": "Een C7-radiculopathie geeft uitstraling naar de middelvinger, zwakte van de triceps en een verlaagde tricepspeesreflex.",
+  "definition": "<p>Een cervicale radiculopathie ontstaat door een hernia of artrose van de halswervels. Kenmerken per wortel: <strong>C6</strong> duim, biceps/brachioradialis en bicepspeesreflex; <strong>C7</strong> middelvinger, triceps; <strong>C8</strong> pink en zwakte van de handspieren.</p>",
+  "image_url": "",
+  "wiki_title": "Radiculopathy",
+  "match": "wortel c7|c7-radiculopathie|wortel c6",
+  "option_only": true
+ },
+ "n. plantaris": {
+  "title": "N. plantaris medialis en lateralis",
+  "short": "De nn. plantares zijn eindtakken van de n. tibialis in de voetzool, voor de voetspieren en het gevoel van de voetzool.",
+  "definition": "<p>De n. tibialis loopt achter de mediale malleolus door de tarsale tunnel en splitst zich dan in de <strong>n. plantaris medialis en lateralis</strong>. Beknelling in de tunnel geeft het tarsaletunnelsyndroom, met tintelingen in de voetzool.</p>",
+  "image_url": "",
+  "wiki_title": "Medial plantar nerve",
+  "match": "n. plantaris|nervus plantaris",
+  "option_only": true
+ },
+ "4-aminopyridine": {
+  "title": "4-aminopyridine (fampridine)",
+  "short": "4-aminopyridine blokkeert kaliumkanalen in gedemyeliniseerde zenuwvezels, waardoor de geleiding verbetert.",
+  "definition": "<p><strong>Fampridine</strong> wordt gebruikt om de loopsnelheid bij MS te verbeteren. Een belangrijke bijwerking is een verlaagde drempel voor epileptische aanvallen.</p>",
+  "image_url": "",
+  "wiki_title": "Fampridine",
+  "match": "4-aminopyridine|fampridine",
+  "option_only": true
+ },
+ "ependymoom": {
+  "title": "Ependymoom",
+  "short": "Een ependymoom is een tumor uitgaande van de ependymcellen die de ventrikels en het centraal kanaal bekleden.",
+  "definition": "<p>Bij kinderen zit een <strong>ependymoom</strong> vaak in de vierde ventrikel (met hydrocefalus), bij volwassenen vaker in het ruggenmerg. Behandeling: chirurgie en radiotherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Ependymoma",
+  "match": "ependymoom",
+  "option_only": true
+ },
+ "indomethacine": {
+  "title": "Indometacine",
+  "short": "Indometacine is een sterk NSAID, o.a. gebruikt bij jicht, bepaalde hoofdpijnsyndromen en vroeger om een open ductus arteriosus bij prematuren te sluiten.",
+  "definition": "<p>Bepaalde hoofdpijnsoorten (paroxismale hemicranie, hemicrania continua) reageren per definitie op <strong>indometacine</strong>. Bijwerkingen zijn die van NSAID's: maag-darmklachten, nierfunctiestoornis en vochtretentie.</p>",
+  "image_url": "",
+  "wiki_title": "Indometacin",
+  "match": "indomethacine|indometacine",
+  "option_only": true
+ },
+ "syndroom van west": {
+  "title": "Syndroom van West",
+  "short": "Het syndroom van West is een epilepsiesyndroom bij zuigelingen met salaamkrampjes, een hypsaritmie op het EEG en een ontwikkelingsachterstand.",
+  "definition": "<p>Het <strong>syndroom van West</strong> begint meestal tussen 3 en 12 maanden. Een bekende oorzaak is tubereuze sclerose. Behandeling met ACTH, prednisolon of vigabatrine. Het kan overgaan in het syndroom van Lennox-Gastaut.</p>",
+  "image_url": "",
+  "wiki_title": "Infantile spasms",
+  "match": "syndroom van west|infantiele spasmen",
+  "option_only": true
+ },
+ "stenose arteria basilaris": {
+  "title": "Basilaris- en vertebralisstenose",
+  "short": "Vernauwingen van de a. vertebralis of a. basilaris verminderen de bloedtoevoer naar hersenstam, cerebellum en occipitaalkwab.",
+  "definition": "<p>Klachten van het <strong>vertebrobasilaire</strong> stroomgebied zijn duizeligheid, dubbelzien, dysartrie, ataxie, gezichtsvelduitval en uitval aan beide kanten. Een basilaristrombose is levensbedreigend.</p>",
+  "image_url": "",
+  "wiki_title": "Vertebrobasilar insufficiency",
+  "match": "stenose arteria basilaris|stenose arteria vertebralis links|vertebrobasilaire insufficiëntie",
+  "option_only": true
+ },
+ "ziekte van pompe": {
+  "title": "Ziekte van Pompe",
+  "short": "De ziekte van Pompe is een erfelijke stapelingsziekte door een tekort aan het lysosomale enzym zure α-glucosidase, met stapeling van glycogeen in spieren.",
+  "definition": "<p>De infantiele vorm van de <strong>ziekte van Pompe</strong> geeft hypotonie en cardiomyopathie; bij latere vormen staan spierzwakte en ademhalingsproblemen op de voorgrond. Er is enzymvervangingstherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Glycogen storage disease type II",
+  "match": "ziekte van pompe|glycogeenstapelingsziekte type ii",
+  "option_only": true
+ },
+ "galantamine": {
+  "title": "Galantamine",
+  "short": "Galantamine is een cholinesteraseremmer die ook de nicotinereceptor moduleert; gebruikt bij de ziekte van Alzheimer.",
+  "definition": "<p><strong>Galantamine</strong> hoort met donepezil en rivastigmine bij de cholinesteraseremmers. Bijwerkingen zijn cholinerg: misselijkheid, braken, diarree en bradycardie.</p>",
+  "image_url": "",
+  "wiki_title": "Galantamine",
+  "match": "galantamine",
+  "option_only": true
+ },
+ "tacrine": {
+  "title": "Tacrine",
+  "short": "Tacrine was de eerste cholinesteraseremmer voor de ziekte van Alzheimer, maar is door leverschade van de markt gehaald.",
+  "definition": "<p><strong>Tacrine</strong> moest vaak per dag worden ingenomen en gaf bij veel patiënten verhoogde leverenzymen. Het is vervangen door donepezil, rivastigmine en galantamine.</p>",
+  "image_url": "",
+  "wiki_title": "Tacrine",
+  "match": "tacrine",
+  "option_only": true
+ },
+ "mitoxantron": {
+  "title": "Mitoxantron",
+  "short": "Mitoxantron is een cytostaticum (topo-isomerase II-remmer), vroeger ook gebruikt bij agressieve MS.",
+  "definition": "<p><strong>Mitoxantron</strong> kan cardiotoxiciteit en secundaire leukemie veroorzaken, waardoor de cumulatieve dosis beperkt is.</p>",
+  "image_url": "",
+  "wiki_title": "Mitoxantrone",
+  "match": "mitoxantron",
+  "option_only": true
+ },
+ "relapsing remitting ms": {
+  "title": "Beloopsvormen van MS",
+  "short": "MS kan verlopen in aanvallen met (gedeeltelijk) herstel (relapsing-remitting), of met geleidelijke achteruitgang vanaf het begin (primair progressief) of na een periode met aanvallen (secundair progressief).",
+  "definition": "<p>De meeste patiënten beginnen met <strong>relapsing-remitting MS</strong>; een deel gaat na jaren over in een secundair progressieve vorm. Ziektemodulerende middelen werken vooral goed bij de vorm met aanvallen. Primair progressieve MS begint vaak later en gaat vaak met een progressieve paraparese gepaard.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis",
+  "match": "relapsing remitting ms|rrms|primair progressieve ms|secundair progressieve ms",
+  "option_only": true
+ },
+ "gliadine": {
+  "title": "Gliadine",
+  "short": "Gliadine is een deel van het glutene-eiwit in tarwe; bij coeliakie lokt het een T-celreactie uit tegen de dunne darm.",
+  "definition": "<p>Bij <strong>coeliakie</strong> wordt gliadine door het enzym weefseltransglutaminase gedeamideerd en gepresenteerd via HLA-DQ2/DQ8. De diagnose wordt gesteld met anti-tTG-antistoffen en zo nodig een dunnedarmbiopt (vlokatrofie).</p>",
+  "image_url": "",
+  "wiki_title": "Gliadin",
+  "match": "gliadine|gluten",
+  "option_only": true
+ },
+ "ganglioside": {
+  "title": "Gangliosiden",
+  "short": "Gangliosiden zijn glycosfingolipiden in zenuwmembranen; antistoffen ertegen spelen een rol bij varianten van het Guillain-Barré-syndroom.",
+  "definition": "<p>Antistoffen tegen <strong>GQ1b</strong> passen bij het Miller-Fisher-syndroom (oftalmoplegie, ataxie, areflexie), tegen <strong>GM1</strong> bij axonale vormen van Guillain-Barré en multifocale motorische neuropathie. Stapeling van gangliosiden komt voor bij de ziekte van Tay-Sachs.</p>",
+  "image_url": "",
+  "wiki_title": "Ganglioside",
+  "match": "ganglioside|gangliosiden|anti-gm1",
+  "option_only": true
+ },
+ "trombose arteria spinalis anterior": {
+  "title": "Arteria spinalis anterior-syndroom",
+  "short": "Bij afsluiting van de a. spinalis anterior vallen de voorste twee derde van het ruggenmerg uit: verlamming en pijn- en temperatuurverlies, maar behouden gevoel van tast en positie.",
+  "definition": "<p>Het <strong>spinalis anterior-syndroom</strong> ontstaat o.a. na aortachirurgie of door hypotensie. De achterstrengen (fijne tast, positiezin) worden apart verzorgd door de aa. spinales posteriores en blijven gespaard.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior spinal artery syndrome",
+  "match": "trombose arteria spinalis anterior|arteria spinalis anterior syndroom",
+  "option_only": true
+ },
+ "interferon-bèta": {
+  "title": "Interferon-bèta",
+  "short": "Interferon-bèta is een immuunmodulerend middel dat bij relapsing-remitting MS het aantal aanvallen vermindert.",
+  "definition": "<p><strong>Interferon-bèta</strong> wordt subcutaan of intramusculair gespoten. Bijwerkingen zijn griepachtige klachten, reacties op de injectieplaats, depressie en verhoogde leverenzymen.</p>",
+  "image_url": "",
+  "wiki_title": "Interferon beta",
+  "match": "interferon-bèta|interferon beta",
+  "option_only": true
+ },
+ "albinisme": {
+  "title": "Albinisme",
+  "short": "Albinisme is een erfelijke stoornis in de aanmaak van melanine, met een lichte huid, haar en ogen, verminderd zicht en nystagmus.",
+  "definition": "<p>Bij oculocutaan <strong>albinisme</strong> is de aanmaak van melanine door een enzymdefect (vaak tyrosinase) verstoord. De melanocyten zelf zijn er wel. Er is een sterk verhoogd risico op zonverbranding en huidkanker.</p>",
+  "image_url": "",
+  "wiki_title": "Albinism",
+  "match": "albinisme",
+  "option_only": true
+ },
+ "congenitaal cataract": {
+  "title": "Congenitaal cataract",
+  "short": "Bij een congenitaal cataract is de ooglens bij de geboorte troebel, met een witte pupil en het risico op een lui oog.",
+  "definition": "<p>Oorzaken zijn o.a. erfelijkheid, intra-uteriene infecties (rubella, toxoplasmose, CMV), galactosemie en chromosomale afwijkingen. Daarom wordt bij pasgeborenen de rode fundusreflex gecontroleerd. Snel opereren is nodig om amblyopie te voorkomen.</p>",
+  "image_url": "",
+  "wiki_title": "Congenital cataract",
+  "match": "congenitaal cataract|aangeboren staar",
+  "option_only": true
+ },
+ "retinoblastoom": {
+  "title": "Retinoblastoom",
+  "short": "Een retinoblastoom is een kwaadaardige netvliestumor bij jonge kinderen, vaak door een mutatie in het RB1-gen.",
+  "definition": "<p>Het eerste teken is vaak een witte pupilreflex (leukocorie) of scheelzien. Bij een erfelijke vorm (kiembaanmutatie) zijn vaak beide ogen betrokken en is er later een verhoogd risico op andere tumoren (o.a. osteosarcoom). RB1 is het klassieke voorbeeld van Knudsons ‘two-hit’-hypothese.</p>",
+  "image_url": "",
+  "wiki_title": "Retinoblastoma",
+  "match": "retinoblastoom|rb1",
+  "option_only": true
+ },
+ "lasercoagulatie": {
+  "title": "Lasercoagulatie (oog)",
+  "short": "Bij lasercoagulatie wordt met een laser netvliesweefsel dichtgeschroeid, bijv. rond een scheur of bij nieuwe vaatvorming.",
+  "definition": "<p><strong>Panretinale fotocoagulatie</strong> remt de vaatnieuwvorming bij proliferatieve diabetische retinopathie en na veneuze afsluitingen. Rond een netvliesscheur voorkomt laser een netvliesloslating.</p>",
+  "image_url": "",
+  "wiki_title": "Photocoagulation",
+  "match": "lasercoagulatie|panretinale fotocoagulatie|laserbehandeling",
+  "option_only": true
+ },
+ "bradykinesie": {
+  "title": "Bradykinesie",
+  "short": "Bradykinesie is traagheid van bewegingen met een afnemende amplitude bij herhaling, het kernsymptoom van parkinsonisme.",
+  "definition": "<p>Voor de diagnose <strong>parkinsonisme</strong> moet er bradykinesie zijn, met rigiditeit en/of rusttremor. Voorbeelden van bradykinesie zijn een maskergelaat, micrografie, kleinere passen en minder meebewegen van de armen.</p>",
+  "image_url": "",
+  "wiki_title": "Bradykinesia",
+  "match": "bradykinesie|hypokinesie|akinesie",
+  "option_only": true
+ },
+ "houdingsinstabiliteit": {
+  "title": "Houdingsinstabiliteit",
+  "short": "Houdingsinstabiliteit is het niet goed kunnen corrigeren van een verstoring van het evenwicht, met valneiging.",
+  "definition": "<p>Bij de <strong>trektest</strong> trekt de onderzoeker de patiënt aan de schouders naar achteren. Bij de ziekte van Parkinson ontstaat houdingsinstabiliteit meestal pas later; vroege instabiliteit en vallen passen eerder bij atypisch parkinsonisme (PSP, MSA).</p>",
+  "image_url": "",
+  "wiki_title": "Postural instability",
+  "match": "houdingsinstabiliteit|posturale instabiliteit|retropulsie",
+  "option_only": true
+ },
+ "get up and go-test": {
+  "title": "Timed Up and Go-test",
+  "short": "Bij de Timed Up and Go-test staat iemand op uit een stoel, loopt 3 meter, draait om en gaat weer zitten; de tijd voorspelt het valrisico.",
+  "definition": "<p>Een tijd van meer dan 12–14 seconden wijst bij ouderen op een verhoogd <strong>valrisico</strong>. De test wordt gebruikt in de geriatrie en de huisartsenpraktijk.</p>",
+  "image_url": "",
+  "wiki_title": "Timed Up and Go test",
+  "match": "get up and go-test|timed up and go|tug",
+  "option_only": true
+ },
+ "test van romberg": {
+  "title": "Test van Romberg",
+  "short": "Bij de test van Romberg staat de patiënt met de voeten bij elkaar; als hij met de ogen dicht gaat vallen, wijst dat op een stoornis van de positiezin.",
+  "definition": "<p>Een positieve <strong>Romberg</strong> past bij een sensibele ataxie (achterstrengen, polyneuropathie, vitamine B12-tekort). Bij een cerebellaire ataxie is het evenwicht ook met de ogen open slecht. Bij de <strong>test van Unterberger</strong> stapt de patiënt met gesloten ogen op de plaats; draaien naar één kant wijst op een vestibulaire uitval aan die kant.</p>",
+  "image_url": "",
+  "wiki_title": "Romberg's test",
+  "match": "test van romberg|romberg|test van unterberger",
+  "option_only": true
+ },
+ "ergotamine": {
+  "title": "Ergotamine",
+  "short": "Ergotamine is een oud migrainemiddel dat bloedvaten vernauwt via serotonine- en andere receptoren.",
+  "definition": "<p><strong>Ergotamine</strong> is grotendeels vervangen door triptanen. Bij overmatig gebruik kunnen ernstige vaatvernauwing (ergotisme) en medicatieafhankelijke hoofdpijn ontstaan. Het is gecontra-indiceerd bij zwangerschap en hart- en vaatziekten.</p>",
+  "image_url": "",
+  "wiki_title": "Ergotamine",
+  "match": "ergotamine|ergotalkaloïden",
+  "option_only": true
+ },
+ "rotatoire nystagmus": {
+  "title": "Nystagmus",
+  "short": "Nystagmus is een ritmische beweging van de ogen met een langzame en een snelle fase; de richting wordt benoemd naar de snelle fase.",
+  "definition": "<p>Een perifere (vestibulaire) <strong>nystagmus</strong> is horizontaal-rotatoir, slaat één kant op en wordt minder bij fixatie. Een zuiver verticale of richtingveranderende nystagmus wijst op een centrale oorzaak. Bij BPPV van het achterste kanaal is er een rotatoire nystagmus in de Dix-Hallpike-positie.</p>",
+  "image_url": "",
+  "wiki_title": "Nystagmus",
+  "match": "rotatoire nystagmus|horizontale nystagmus|verticale nystagmus",
+  "option_only": true
+ },
+ "lichtstijve pupil": {
+  "title": "Lichtstijve pupil",
+  "short": "Een lichtstijve pupil reageert niet meer op licht; dat kan liggen aan de aanvoer (n. opticus) of de afvoer (n. oculomotorius) van de reflex.",
+  "definition": "<p>Bij een afwijking in de <strong>afvoer</strong> (bijv. een oculomotoriusparese) is de pupil wijd en lichtstijf. Bij een afwijking van de <strong>aanvoer</strong> aan één kant zijn de pupillen even groot, maar is er een relatief afferent pupildefect bij de swinging-flashlighttest.</p>",
+  "image_url": "",
+  "wiki_title": "Pupillary light reflex",
+  "match": "lichtstijve pupil|pupilreflex|relatief afferent pupildefect",
+  "option_only": true
+ },
+ "retinale vasculaire occlusie": {
+  "title": "Retinale vaatafsluiting",
+  "short": "Bij een afsluiting van een netvliesader of -slagader ontstaat plotseling pijnloos verlies van zicht in (een deel van) het gezichtsveld.",
+  "definition": "<p>Bij een <strong>arterieafsluiting</strong> is het netvlies bleek met een kersrode vlek; bij arteriitis temporalis moet direct prednison worden gestart. Bij een <strong>veneuze afsluiting</strong> zijn er veel bloedingen. Risicofactoren zijn hypertensie, diabetes en atherosclerose.</p>",
+  "image_url": "",
+  "wiki_title": "Retinal vein occlusion",
+  "match": "retinale vasculaire occlusie|retinale arterieafsluiting|retinale veneuze occlusie|centrale arterie occlusie",
+  "option_only": true
+ },
+ "proliferatieve diabetische retinopathie": {
+  "title": "Diabetische retinopathie",
+  "short": "Bij proliferatieve diabetische retinopathie groeien door zuurstofgebrek nieuwe, kwetsbare bloedvaten in het netvlies.",
+  "definition": "<p>De niet-proliferatieve vorm geeft microaneurysmata, puntbloedinkjes, harde exsudaten en cotton-wool spots. Bij de <strong>proliferatieve vorm</strong> dreigen glasvochtbloedingen, tractie-netvliesloslating en neovasculair glaucoom. Behandeling met laser en anti-VEGF. Jaarlijkse screening bij diabetes is nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Diabetic retinopathy",
+  "match": "proliferatieve diabetische retinopathie|diabetische retinopathie",
+  "option_only": true
+ },
+ "een neerwaartse verticale blikparese": {
+  "title": "Verticale blikparese",
+  "short": "Bij een verticale blikparese kunnen beide ogen niet goed omhoog of omlaag kijken, door een afwijking in het mesencephalon.",
+  "definition": "<p>Een beperking van het <strong>naar beneden kijken</strong> is vroeg kenmerkend voor progressieve supranucleaire parese (PSP). Een beperking van het omhoog kijken past bij het syndroom van Parinaud (bijv. een pinealistumor).</p>",
+  "image_url": "",
+  "wiki_title": "Progressive supranuclear palsy",
+  "match": "een neerwaartse verticale blikparese|verticale blikparese",
+  "option_only": true
+ },
+ "medicatie-afhankelijke hoofdpijn": {
+  "title": "Medicatieovergebruikshoofdpijn",
+  "short": "Medicatieovergebruikshoofdpijn is chronische hoofdpijn door te vaak gebruiken van pijnstillers of migrainemiddelen.",
+  "definition": "<p>Er is sprake van overgebruik bij gewone pijnstillers op 15 of meer dagen per maand, of triptanen, opiaten of combinatiepreparaten op 10 of meer dagen per maand. Behandeling: stoppen met de middelen (onttrekking), daarna eventueel profylaxe.</p>",
+  "image_url": "",
+  "wiki_title": "Medication overuse headache",
+  "match": "medicatie-afhankelijke hoofdpijn|medicatieovergebruikshoofdpijn",
+  "option_only": true
+ },
+ "ct-angiografie hersenen": {
+  "title": "CT-angiografie",
+  "short": "Bij een CT-angiografie worden bloedvaten met contrast in beeld gebracht, bijv. om een afsluiting of aneurysma op te sporen.",
+  "definition": "<p>Bij een acuut herseninfarct toont <strong>CTA</strong> of er een groot vat is afgesloten dat in aanmerking komt voor trombectomie. Bij een subarachnoïdale bloeding wordt met CTA naar een aneurysma gezocht.</p>",
+  "image_url": "",
+  "wiki_title": "CT angiography",
+  "match": "ct-angiografie hersenen|cta|ct-angiografie",
+  "option_only": true
+ },
+ "kanteltafeltest (tilt table test)": {
+  "title": "Kanteltafeltest",
+  "short": "Bij een kanteltafeltest wordt iemand liggend op een tafel rechtop gekanteld, terwijl bloeddruk en hartslag worden gemeten, om de oorzaak van wegrakingen te onderzoeken.",
+  "definition": "<p>De <strong>kanteltafeltest</strong> kan vasovagale syncope, orthostatische hypotensie en POTS aantonen.</p>",
+  "image_url": "",
+  "wiki_title": "Tilt table test",
+  "match": "kanteltafeltest (tilt table test)|kanteltafeltest|tilt table test",
+  "option_only": true
+ },
+ "stabilometrie": {
+  "title": "Posturografie (stabilometrie)",
+  "short": "Bij stabilometrie wordt met een krachtplaat gemeten hoeveel iemand in stand zwaait, om het evenwicht objectief te beoordelen.",
+  "definition": "<p>Met <strong>posturografie</strong> kan de bijdrage van zicht, gevoel en evenwichtsorgaan aan de balans worden onderzocht.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "stabilometrie|posturografie",
+  "option_only": true
+ },
+ "virale conjunctivitis": {
+  "title": "Conjunctivitis",
+  "short": "Conjunctivitis is een ontsteking van het bindvlies met een rood oog, waterig, slijmerig of etterig vocht, en een normale visus.",
+  "definition": "<p>Een <strong>virale conjunctivitis</strong> (vaak adenovirus) is zeer besmettelijk, met waterig vocht en een gezwollen klier voor het oor. Een bacteriële vorm geeft meer pus en dichtgeplakte ogen; een allergische vorm jeuk. Pijn, lichtschuwheid en verminderde visus wijzen op een ernstigere oorzaak.</p>",
+  "image_url": "",
+  "wiki_title": "Conjunctivitis",
+  "match": "virale conjunctivitis|bacteriële conjunctivitis|allergische conjunctivitis",
+  "option_only": true
+ },
+ "natriumkanaalblokkers": {
+  "title": "Natriumkanaalblokkers",
+  "short": "Natriumkanaalblokkers remmen spanningsafhankelijke natriumkanalen; ze worden gebruikt als anti-epileptica, lokale anesthetica en antiaritmica.",
+  "definition": "<p>Voorbeelden zijn <strong>carbamazepine, fenytoïne, lamotrigine</strong> (epilepsie), lidocaïne (lokaal anestheticum en antiaritmicum klasse I) en flecaïnide. Bij absences en myoclonieën kunnen sommige natriumkanaalblokkers aanvallen juist verergeren.</p>",
+  "image_url": "",
+  "wiki_title": "Sodium channel blocker",
+  "match": "natriumkanaalblokkers|natriumkanaalblokker",
+  "option_only": true
+ },
+ "barbituraten": {
+  "title": "Barbituraten",
+  "short": "Barbituraten versterken de werking van GABA op de GABA-A-receptor en werken sederend en anti-epileptisch.",
+  "definition": "<p><strong>Fenobarbital</strong> wordt nog gebruikt bij status epilepticus en neonatale aanvallen. Barbituraten hebben een smalle therapeutische breedte, geven ademhalingsdepressie en sterke enzyminductie, en zijn als slaapmiddel vervangen door benzodiazepinen.</p>",
+  "image_url": "",
+  "wiki_title": "Barbiturate",
+  "match": "barbituraten|fenobarbital",
+  "option_only": true
+ },
+ "essentiële tremor": {
+  "title": "Essentiële tremor",
+  "short": "Een essentiële tremor is een vaak erfelijke houdings- en bewegingstremor van handen en soms hoofd of stem, die verbetert met alcohol.",
+  "definition": "<p>Een <strong>essentiële tremor</strong> is symmetrisch en treedt op bij handelingen (bekertje vasthouden, schrijven). Een parkinsontremor is juist een rusttremor. Een <strong>cerebellaire tremor</strong> is een intentietremor die toeneemt naarmate het doel dichterbij komt; een <strong>dystone tremor</strong> is onregelmatig en gaat samen met dystonie. Behandeling van essentiële tremor: propranolol of primidon.</p>",
+  "image_url": "",
+  "wiki_title": "Essential tremor",
+  "match": "essentiële tremor|cerebellaire tremor|dystone tremor",
+  "option_only": true
+ },
+ "bicepspeesreflex": {
+  "title": "Peesreflexen van de arm",
+  "short": "De bicepspeesreflex test C5–C6, de brachioradialisreflex C6 en de tricepspeesreflex C7.",
+  "definition": "<p>Verlaagde <strong>peesreflexen</strong> wijzen op een stoornis in de perifere zenuw of zenuwwortel; verhoogde reflexen op een centrale (eerste motorneuron) stoornis.</p>",
+  "image_url": "",
+  "wiki_title": "Biceps reflex",
+  "match": "bicepspeesreflex|tricepspeesreflex|brachioradialisreflex",
+  "option_only": true
+ },
+ "exoforie": {
+  "title": "Heteroforie (exoforie, esoforie)",
+  "short": "Een heteroforie is een latente afwijking van de oogstand, die alleen zichtbaar wordt als de ogen niet samen kijken (afdektest).",
+  "definition": "<p>Bij <strong>exoforie</strong> wijkt het afgedekte oog naar buiten, bij esoforie naar binnen. Een heteroforie is meestal onschuldig, maar kan bij vermoeidheid klachten geven. Een manifeste afwijking heet een heterotropie (scheelzien).</p>",
+  "image_url": "",
+  "wiki_title": "Heterophoria",
+  "match": "exoforie|esoforie|heteroforie",
+  "option_only": true
+ },
+ "tumarkin aanvallen": {
+  "title": "Tumarkin-aanvallen",
+  "short": "Tumarkin-aanvallen zijn plotselinge valpartijen zonder bewustzijnsverlies bij de ziekte van Ménière, door een plotselinge prikkeling van het otolietorgaan.",
+  "definition": "<p>Patiënten met <strong>Tumarkin-aanvallen</strong> hebben het gevoel geduwd te worden en vallen zonder waarschuwing. Ze komen vooral in een later stadium van de ziekte van Ménière voor.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "tumarkin aanvallen|tumarkin",
+  "option_only": true
+ },
+ "dunnevezelneuropathie": {
+  "title": "Dunnevezelneuropathie",
+  "short": "Bij een dunnevezelneuropathie zijn de dunne zenuwvezels voor pijn, temperatuur en autonome functies aangedaan, met brandende pijn in de voeten.",
+  "definition": "<p>Een EMG is bij een <strong>dunnevezelneuropathie</strong> vaak normaal, omdat alleen dikke vezels worden gemeten; de diagnose wordt gesteld met een huidbiopt (vezeldichtheid) of temperatuurdrempelonderzoek. Oorzaken zijn o.a. diabetes, sarcoïdose en de ziekte van Fabry.</p>",
+  "image_url": "",
+  "wiki_title": "Small fiber peripheral neuropathy",
+  "match": "dunnevezelneuropathie|small fiber neuropathy",
+  "option_only": true
+ },
+ "lumbaalpunctie": {
+  "title": "Lumbaalpunctie",
+  "short": "Bij een lumbaalpunctie wordt met een naald tussen de lendenwervels liquor afgenomen, voor onderzoek of drukmeting.",
+  "definition": "<p>Een <strong>lumbaalpunctie</strong> wordt gedaan bij verdenking op meningitis, een subarachnoïdale bloeding met normale CT, Guillain-Barré, MS en idiopathische intracraniële hypertensie. Bij tekenen van verhoogde druk of een ruimte-innemend proces moet eerst een CT worden gemaakt. Een bekende complicatie is postpunctionele hoofdpijn.</p>",
+  "image_url": "",
+  "wiki_title": "Lumbar puncture",
+  "match": "lumbaalpunctie|liquoronderzoek|ruggenprik",
+  "option_only": true
+ },
+ "liquorkweek": {
+  "title": "Liquorkweek",
+  "short": "Bij een liquorkweek wordt liquor op voedingsbodems gezet om bacteriën of schimmels aan te tonen en hun gevoeligheid voor antibiotica te bepalen.",
+  "definition": "<p>Bij bacteriële meningitis is de liquor troebel, met veel granulocyten, een hoog eiwit en een laag glucose. De <strong>kweek</strong> kan negatief zijn als al antibiotica zijn gegeven; een Gramkleuring en PCR geven sneller een uitslag.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "liquorkweek",
+  "option_only": true
+ },
+ "bloedkweek": {
+  "title": "Bloedkweek",
+  "short": "Een bloedkweek onderzoekt of er bacteriën of schimmels in het bloed zitten (bacteriëmie).",
+  "definition": "<p>Bij verdenking op sepsis of endocarditis worden minimaal twee sets <strong>bloedkweken</strong> afgenomen vóór het starten van antibiotica. Een kweek met huidbacteriën (bijv. coagulasenegatieve stafylokokken) in één fles is vaak een verontreiniging.</p>",
+  "image_url": "",
+  "wiki_title": "Blood culture",
+  "match": "bloedkweek|bloedkweken",
+  "option_only": true
+ },
+ "mimetherapie": {
+  "title": "Mimetherapie",
+  "short": "Mimetherapie is oefentherapie voor de gezichtsspieren bij een aangezichtsverlamming, om de functie en symmetrie te verbeteren.",
+  "definition": "<p><strong>Mimetherapie</strong> wordt gegeven door een gespecialiseerde fysiotherapeut, bijv. bij een onvolledig herstel na een perifere aangezichtsverlamming, en helpt ook tegen synkinesieën.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "mimetherapie",
+  "option_only": true
+ },
+ "operatie volgens jannetta": {
+  "title": "Microvasculaire decompressie (operatie van Jannetta)",
+  "short": "Bij de operatie van Jannetta wordt een bloedvat dat tegen een hersenzenuw drukt van de zenuw losgemaakt, bijv. bij trigeminusneuralgie.",
+  "definition": "<p><strong>Microvasculaire decompressie</strong> is een behandeling voor trigeminusneuralgie of hemifaciale spasmen die niet op medicatie (carbamazepine) reageren. Er wordt een stukje teflon tussen vat en zenuw gelegd.</p>",
+  "image_url": "",
+  "wiki_title": "Microvascular decompression",
+  "match": "operatie volgens jannetta|microvasculaire decompressie|jannetta",
+  "option_only": true
+ },
+ "dyschromatopsie": {
+  "title": "Dyschromatopsie (kleurzienstoornis)",
+  "short": "Dyschromatopsie is een stoornis in het zien van kleuren, aangeboren of verworven.",
+  "definition": "<p>Aangeboren rood-groen<strong>kleurenblindheid</strong> is X-gebonden en komt bij ongeveer 8% van de mannen voor. Een verworven kleurzienstoornis, vooral voor rood, is een vroeg teken van een aandoening van de n. opticus (bijv. neuritis optica of ethambutoltoxiciteit). Onderzoek met Ishihara-kaarten.</p>",
+  "image_url": "",
+  "wiki_title": "Color blindness",
+  "match": "dyschromatopsie|kleurzienstoornis|kleurenblindheid",
+  "option_only": true
+ },
+ "apoplexie van de hypofyse": {
+  "title": "Hypofyse-apoplexie",
+  "short": "Bij een hypofyse-apoplexie ontstaat een plotselinge bloeding of infarct in (meestal) een hypofyseadenoom.",
+  "definition": "<p>Er is plotseling hevige hoofdpijn, dubbelzien en gezichtsvelduitval, en vaak acute bijnierinsufficiëntie door uitval van ACTH. Behandeling: direct hydrocortison, zo nodig chirurgische decompressie. Na een bevalling met groot bloedverlies kan een vergelijkbaar infarct optreden (syndroom van Sheehan).</p>",
+  "image_url": "",
+  "wiki_title": "Pituitary apoplexy",
+  "match": "apoplexie van de hypofyse|hypofyse-apoplexie|hypofyseapoplexie",
+  "option_only": true
+ },
+ "chemosis van de conjunctiva": {
+  "title": "Chemosis",
+  "short": "Chemosis is zwelling van het bindvlies door oedeem, waardoor het als een glazig blaasje over het oogwit ligt.",
+  "definition": "<p><strong>Chemosis</strong> komt voor bij allergische reacties, ernstige conjunctivitis, orbitale cellulitis, sinus cavernosustrombose en de oogziekte van Graves.</p>",
+  "image_url": "",
+  "wiki_title": "Chemosis",
+  "match": "chemosis van de conjunctiva|chemosis",
+  "option_only": true
+ },
+ "harde exsudaten": {
+  "title": "Harde exsudaten",
+  "short": "Harde exsudaten zijn scherp begrensde gele vlekjes in het netvlies door lekkage van eiwit en vet uit beschadigde vaten.",
+  "definition": "<p><strong>Harde exsudaten</strong> en puntbloedinkjes passen bij diabetische en hypertensieve retinopathie. Liggen ze in de macula, dan kan de visus afnemen (maculaoedeem).</p>",
+  "image_url": "",
+  "wiki_title": "Hard exudate",
+  "match": "harde exsudaten|puntbloedinkjes|retinale bloedingen",
+  "option_only": true
+ },
+ "functioneel herstel": {
+  "title": "Herstel in de psychiatrie",
+  "short": "In de psychiatrie wordt onderscheid gemaakt tussen symptomatisch herstel (minder klachten), functioneel herstel (weer kunnen functioneren), maatschappelijk herstel en persoonlijk herstel (zingeving en een eigen identiteit).",
+  "definition": "<p>Volgens de <strong>herstelvisie</strong> kan iemand persoonlijk herstellen en een betekenisvol leven leiden, ook als er nog klachten zijn. Ervaringsdeskundigen spelen hierin een rol.</p>",
+  "image_url": "",
+  "wiki_title": "Recovery approach",
+  "match": "functioneel herstel|persoonlijk herstel|symptomatisch herstel|individueel herstel|maatschappelijk herstel",
+  "option_only": true
+ },
+ "allergisch astma": {
+  "title": "Astmafenotypen",
+  "short": "Astma wordt ingedeeld in fenotypen, zoals allergisch astma (met sensibilisatie, vaak beginnend in de jeugd), eosinofiel astma en niet-allergisch astma.",
+  "definition": "<p>Bij <strong>allergisch astma</strong> zijn er IgE-antistoffen tegen bijv. huisstofmijt, pollen of dierhaar, en een type 2-ontsteking. Bronchiale hyperreactiviteit (overgevoeligheid van de luchtwegen) is kenmerkend voor alle vormen van astma.</p>",
+  "image_url": "",
+  "wiki_title": "Asthma",
+  "match": "allergisch astma|hyperreactief astma|eosinofiel astma|niet-allergisch astma",
+  "option_only": true
+ },
+ "dose-response relation": {
+  "title": "Criteria van Bradford Hill",
+  "short": "De criteria van Bradford Hill helpen te beoordelen of een gevonden verband oorzakelijk is.",
+  "definition": "<p>De criteria zijn o.a. sterkte van het verband, consistentie, specificiteit, tijdsvolgorde (oorzaak vóór gevolg, het enige noodzakelijke criterium), <strong>dosis-responsrelatie</strong>, biologische plausibiliteit, samenhang met bestaande kennis, experimenteel bewijs (reversibiliteit) en analogie.</p>",
+  "image_url": "",
+  "wiki_title": "Bradford Hill criteria",
+  "match": "dose-response relation|reversibility|specificity|biologic plausibility|bradford hill",
+  "option_only": true
+ },
+ "hmg-coa synthase": {
+  "title": "HMG-CoA-synthase",
+  "short": "HMG-CoA-synthase maakt HMG-CoA uit acetyl-CoA en acetoacetyl-CoA; een stap in de aanmaak van cholesterol en ketonlichamen.",
+  "definition": "<p>In het cytoplasma wordt HMG-CoA door <strong>HMG-CoA-reductase</strong> (het snelheidsbepalende enzym, geremd door statines) omgezet in mevalonaat voor de cholesterolsynthese. In de mitochondriën van de lever wordt HMG-CoA gebruikt om ketonlichamen te maken.</p>",
+  "image_url": "",
+  "wiki_title": "HMG-CoA synthase",
+  "match": "hmg-coa synthase",
+  "option_only": true
+ },
+ "squalene monooxygenase": {
+  "title": "Squaleenmonooxygenase",
+  "short": "Squaleenmonooxygenase (squaleenepoxidase) is een enzym in de sterolsynthese; bij schimmels wordt het geremd door terbinafine.",
+  "definition": "<p>Bij de mens is het een stap in de cholesterolsynthese. Schimmels maken ergosterol; <strong>terbinafine</strong> remt hun squaleenepoxidase en azolen remmen een latere stap (lanosterol-14α-demethylase).</p>",
+  "image_url": "",
+  "wiki_title": "Squalene monooxygenase",
+  "match": "squalene monooxygenase|squaleenepoxidase",
+  "option_only": true
+ },
+ "endoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "endoderm|ectoderm|mesoderm|zijplaatmesoderm|paraxiaal mesoderm|intermediair mesoderm",
+  "option_only": true
+ },
+ "micrognatie": {
+  "title": "Micrognathie",
+  "short": "Micrognathie is een te kleine onderkaak, die bij pasgeborenen ademhalings- en voedingsproblemen kan geven.",
+  "definition": "<p><strong>Micrognathie</strong> komt voor bij de Pierre Robin-sequentie (met terugvallende tong en gespleten gehemelte) en bij chromosomale afwijkingen zoals trisomie 18.</p>",
+  "image_url": "",
+  "wiki_title": "Micrognathism",
+  "match": "micrognatie|micrognathie|retrognathie",
+  "option_only": true
+ },
+ "rds": {
+  "title": "Respiratory distress syndrome (IRDS)",
+  "short": "IRDS is ademnood bij prematuren door een tekort aan surfactant, waardoor de longblaasjes samenvallen.",
+  "definition": "<p>Bij <strong>IRDS</strong> zijn er kreunen, intrekkingen, tachypneu en een korrelig longbeeld op de foto. Corticosteroïden aan de moeder voor de bevalling versnellen de longrijping. Behandeling: CPAP en surfactant.</p>",
+  "image_url": "",
+  "wiki_title": "Infant respiratory distress syndrome",
+  "match": "rds|irds|hyaliene membraanziekte",
+  "option_only": true
+ },
+ "tubulus seminiferi": {
+  "title": "Tubuli seminiferi",
+  "short": "In de tubuli seminiferi van de testis vindt de spermatogenese plaats, ondersteund door Sertolicellen.",
+  "definition": "<p><strong>Sertolicellen</strong> vormen de bloed-testisbarrière, worden aangestuurd door FSH en maken inhibine en anti-Müllerhormoon.</p>",
+  "image_url": "",
+  "wiki_title": "Seminiferous tubule",
+  "match": "tubulus seminiferi|tubuli seminiferi|sertolicel",
+  "option_only": true
+ },
+ "niet-vorderende uitdrijving": {
+  "title": "Niet-vorderende uitdrijving",
+  "short": "Bij een niet-vorderende uitdrijving daalt het hoofd ondanks volledige ontsluiting en persen onvoldoende in.",
+  "definition": "<p>Oorzaken zijn zwakke weeën, een ongunstige ligging van het hoofd (bijv. achterhoofdsligging achter) of een wanverhouding. Afhankelijk van de stand kan worden gekozen voor oxytocine, een vaginale kunstverlossing (vacuüm, forceps) of een keizersnede.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "niet-vorderende uitdrijving|niet-vorderende ontsluiting|stagnatie van de baring",
+  "option_only": true
+ },
+ "manuele placentaverwijdering": {
+  "title": "Manuele placentaverwijdering",
+  "short": "Bij een manuele placentaverwijdering haalt de arts de placenta met de hand uit de baarmoeder als deze niet vanzelf loskomt.",
+  "definition": "<p>Bij een <strong>retentio placentae</strong> (geen geboorte van de placenta binnen 30–60 minuten) of veel bloedverlies wordt de placenta onder verdoving manueel verwijderd. Een risicofactor is een placenta accreta.</p>",
+  "image_url": "",
+  "wiki_title": "Retained placenta",
+  "match": "manuele placentaverwijdering|retentio placentae",
+  "option_only": true
+ },
+ "overloopdiarree": {
+  "title": "Overloopdiarree",
+  "short": "Bij overloopdiarree lekt dunne ontlasting langs een harde ophoping van feces in het rectum (fecale impactie).",
+  "definition": "<p><strong>Overloopdiarree</strong> komt vooral voor bij ouderen, bedlegerigen en bij gebruik van opiaten. Bij rectaal toucher is een harde massa te voelen. Behandeling: het rectum leegmaken (klysma) en daarna laxeren.</p>",
+  "image_url": "",
+  "wiki_title": "Fecal impaction",
+  "match": "overloopdiarree|paradoxale diarree",
+  "option_only": true
+ },
+ "x-linked recessief": {
+  "title": "Overervingspatronen",
+  "short": "Een X-gebonden recessieve ziekte treft vooral mannen en wordt via draagster-moeders doorgegeven; een mitochondriale ziekte wordt alleen via de moeder doorgegeven.",
+  "definition": "<p>Bij <strong>X-gebonden recessief</strong> (bijv. hemofilie, Duchenne) is er geen overdracht van vader op zoon. Bij <strong>mitochondriale overerving</strong> geeft de moeder de ziekte aan al haar kinderen, met wisselende ernst door heteroplasmie.</p>",
+  "image_url": "",
+  "wiki_title": "Mendelian inheritance",
+  "match": "x-linked recessief|x-gebonden recessief|mitochondriale overerving|autosomaal dominant|autosomaal recessief",
+  "option_only": true
+ },
+ "myofibroblast": {
+  "title": "Myofibroblast",
+  "short": "Myofibroblasten zijn fibroblasten met contractiele eigenschappen die bij wondgenezing de wond samentrekken.",
+  "definition": "<p><strong>Myofibroblasten</strong> bevatten α-gladdespieractine. Bij een overmatige activiteit ontstaan fibrose en contracturen, zoals bij de ziekte van Dupuytren, hypertrofische littekens en leverfibrose (stellaatcellen).</p>",
+  "image_url": "",
+  "wiki_title": "Myofibroblast",
+  "match": "myofibroblast|myofibroblasten",
+  "option_only": true
+ },
+ "ctl": {
+  "title": "T-cellen (cytotoxisch en helper)",
+  "short": "Cytotoxische T-cellen (CD8) doden virus-geïnfecteerde cellen en tumorcellen die via MHC I een vreemd peptide tonen; T-helpercellen (CD4) sturen de afweerreactie via cytokines.",
+  "definition": "<p><strong>CD4-helpercellen</strong> herkennen antigeen op MHC II en splitsen zich in o.a. Th1 (macrofaagactivatie, intracellulaire bacteriën), Th2 (IgE, eosinofielen, parasieten), Th17 (neutrofielen, schimmels) en regulatoire T-cellen. Bij hiv daalt het aantal CD4-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "ctl|cytotoxische t-cel|t helper cel|cd8-t-cel|cd4-t-cel",
+  "option_only": true
+ },
+ "supraspinatus tendinitis": {
+  "title": "Supraspinatustendinopathie",
+  "short": "Bij een supraspinatustendinopathie is de pees van de m. supraspinatus overbelast of gedegenereerd, met pijn bij het heffen van de arm.",
+  "definition": "<p>Het is de meest voorkomende oorzaak van schouderpijn (subacromiale pijn). Een pijnlijke boog tussen 60° en 120° abductie is typisch. Soms zijn er kalkafzettingen (tendinitis calcarea).</p>",
+  "image_url": "",
+  "wiki_title": "Supraspinatus tendinopathy",
+  "match": "supraspinatus tendinitis|supraspinatustendinopathie|rotatorcufftendinopathie",
+  "option_only": true
+ },
+ "uroflowmetrie": {
+  "title": "Uroflowmetrie",
+  "short": "Bij uroflowmetrie plast de patiënt in een meettoestel dat de urinestraal in ml per seconde registreert.",
+  "definition": "<p>Een lage maximale flow met een afgevlakte curve wijst op een obstructie (bijv. prostaatvergroting of urethrastrictuur) of een zwakke blaasspier. Samen met het residu (bladderscan) helpt <strong>uroflowmetrie</strong> bij mictieklachten.</p>",
+  "image_url": "",
+  "wiki_title": "Uroflowmetry",
+  "match": "uroflowmetrie|flowmeting",
+  "option_only": true
+ },
+ "urine dipstick": {
+  "title": "Urinestick",
+  "short": "Een urinestick test met kleurveldjes op o.a. nitriet, leukocyten, bloed, eiwit en glucose in de urine.",
+  "definition": "<p>Bij verdenking op een urineweginfectie is een positieve nitriettest specifiek. Een positieve test op leukocyten of erytrocyten is minder specifiek. Bij twijfel volgt een sediment of een kweek.</p>",
+  "image_url": "",
+  "wiki_title": "Urine test strip",
+  "match": "urine dipstick|urinestick|stickonderzoek",
+  "option_only": true
+ },
+ "psa": {
+  "title": "PSA (prostaatspecifiek antigeen)",
+  "short": "PSA is een eiwit dat door prostaatcellen wordt gemaakt; een verhoogde waarde kan wijzen op prostaatkanker, maar ook op prostaatvergroting of ontsteking.",
+  "definition": "<p>Het <strong>PSA</strong> is weinig specifiek. Daarom volgt bij een verhoogde waarde eerst een risicocalculator en een MRI, en zo nodig een biopsie. Screening van alle mannen geeft veel overdiagnostiek. Na behandeling van prostaatkanker wordt PSA gebruikt om een recidief op te sporen.</p>",
+  "image_url": "",
+  "wiki_title": "Prostate-specific antigen",
+  "match": "psa|prostaatspecifiek antigeen",
+  "option_only": true
+ },
+ "cytonucleaire atypie": {
+  "title": "Kenmerken van maligniteit (histologie)",
+  "short": "Kenmerken van een kwaadaardige tumor onder de microscoop zijn atypische kernen, veel (afwijkende) delingsfiguren, infiltratieve groei en uitzaaiing.",
+  "definition": "<p>Bij <strong>cytonucleaire atypie</strong> zijn de kernen vergroot, onregelmatig, donker en wisselend van vorm. Alleen infiltratie in het omliggende weefsel en metastasering bewijzen kwaadaardigheid; atypie en mitosen kunnen ook bij een goedaardige of reactieve afwijking voorkomen.</p>",
+  "image_url": "",
+  "wiki_title": "Nuclear atypia",
+  "match": "cytonucleaire atypie|talrijke mitosefiguren|atypie|infiltratie|metastasering",
+  "option_only": true
+ },
+ "diverticulosis/itis": {
+  "title": "Diverticulose en diverticulitis",
+  "short": "Bij diverticulose zijn er uitstulpingen van het slijmvlies door de wand van het colon; als zo'n divertikel ontsteekt, heet het diverticulitis.",
+  "definition": "<p><strong>Diverticulose</strong> komt in westerse landen vooral voor in het sigmoïd, bij ouderen en bij een vezelarm dieet. Diverticulitis geeft pijn linksonder en koorts; complicaties zijn een abces, perforatie en fistels. Divertikels kunnen ook pijnloos een forse bloeding geven.</p>",
+  "image_url": "",
+  "wiki_title": "Diverticular disease",
+  "match": "diverticulosis/itis|diverticulose|diverticulitis|divertikelbloeding in het colon",
+  "option_only": true
+ },
+ "fibro-adenoom": {
+  "title": "Fibroadenoom",
+  "short": "Een fibroadenoom is een goedaardige, goed beweeglijke knobbel in de borst, vooral bij jonge vrouwen.",
+  "definition": "<p>Een <strong>fibroadenoom</strong> bestaat uit klier- en bindweefsel, voelt rond, glad en rubberachtig aan en is goed verschuifbaar. Diagnose met echo en zo nodig een biopt. Verwijderen is meestal niet nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Fibroadenoma",
+  "match": "fibro-adenoom|fibroadenoom",
+  "option_only": true
+ },
+ "mastopathie": {
+  "title": "Mastopathie (fibrocysteuze veranderingen)",
+  "short": "Mastopathie is een verzamelnaam voor goedaardige veranderingen in het borstweefsel, met knobbeligheid, cysten en pijn die met de cyclus wisselen.",
+  "definition": "<p><strong>Mastopathie</strong> komt veel voor tussen 30 en 50 jaar. De meeste vormen geven geen verhoogd risico op borstkanker; alleen proliferatieve vormen met atypie wel.</p>",
+  "image_url": "",
+  "wiki_title": "Fibrocystic breast changes",
+  "match": "mastopathie|fibrocysteuze mastopathie",
+  "option_only": true
+ },
+ "cox regressieanalyse": {
+  "title": "Regressieanalyse",
+  "short": "Regressieanalyse beschrijft het verband tussen een uitkomst en een of meer determinanten; het type hangt af van de uitkomst.",
+  "definition": "<p>Bij een continue uitkomst wordt <strong>lineaire regressie</strong> gebruikt, bij een dichotome uitkomst logistische regressie, en bij tijd tot een gebeurtenis <strong>Cox-regressie</strong> (met hazard ratio's, onder de aanname van proportionele hazards). ANOVA vergelijkt de gemiddelden van meer dan twee groepen.</p>",
+  "image_url": "",
+  "wiki_title": "Regression analysis",
+  "match": "cox regressieanalyse|lineaire regressieanalyse|logistische regressie|variantieanalyse (anova)",
+  "option_only": true
+ },
+ "pearson-correlatiecoëfficiënt": {
+  "title": "Correlatiecoëfficiënt",
+  "short": "Een correlatiecoëfficiënt (−1 tot +1) geeft aan hoe sterk twee variabelen samenhangen.",
+  "definition": "<p>De <strong>Pearson</strong>-coëfficiënt meet een lineair verband tussen normaal verdeelde continue variabelen. De <strong>Spearman</strong>-coëfficiënt gebruikt rangordes en is geschikt bij scheve verdelingen of ordinale data. Correlatie zegt niets over oorzaak en gevolg of over overeenstemming.</p>",
+  "image_url": "",
+  "wiki_title": "Pearson correlation coefficient",
+  "match": "pearson-correlatiecoëfficiënt|spearman-correlatiecoëfficiënt|correlatiecoëfficiënt",
+  "option_only": true
+ },
+ "h2-receptor antagonisten": {
+  "title": "H2-receptorantagonisten",
+  "short": "H2-receptorantagonisten (zoals famotidine) remmen de zuurproductie in de maag door histaminereceptoren op de pariëtale cellen te blokkeren.",
+  "definition": "<p><strong>H2-antagonisten</strong> zijn minder krachtig dan protonpompremmers en worden nog gebruikt bij lichte refluxklachten. Ranitidine is van de markt gehaald vanwege verontreiniging met een kankerverwekkende stof.</p>",
+  "image_url": "",
+  "wiki_title": "H2 receptor antagonist",
+  "match": "h2-receptor antagonisten|h2-antagonist|ranitidine|famotidine",
+  "option_only": true
+ },
+ "overwaardige denkbeelden": {
+  "title": "Overwaardig denkbeeld",
+  "short": "Een overwaardig denkbeeld is een overtuiging die het denken en handelen sterk beheerst, maar niet zo vast en onwrikbaar is als een waan.",
+  "definition": "<p>Bij een <strong>overwaardig denkbeeld</strong> kan de persoon twijfel nog enigszins toelaten. Voorbeelden zijn overtuigingen over het eigen uiterlijk (morfodysfore stoornis) of gewicht (anorexia nervosa).</p>",
+  "image_url": "",
+  "wiki_title": "Overvalued idea",
+  "match": "overwaardige denkbeelden|overwaardig denkbeeld",
+  "option_only": true
+ },
+ "verlengd qt-interval": {
+  "title": "Verlengd QT-interval",
+  "short": "Een verlengd QT-interval op het ECG betekent een vertraagde repolarisatie van de kamers, met een risico op torsade de pointes.",
+  "definition": "<p>Oorzaken van <strong>QT-verlenging</strong> zijn erfelijke ionkanaalafwijkingen (lang-QT-syndroom), hypokaliëmie, hypomagnesiëmie, hypocalciëmie en geneesmiddelen (o.a. antipsychotica, citalopram, methadon, macroliden, antiaritmica). Het QT wordt gecorrigeerd voor de hartfrequentie (QTc).</p>",
+  "image_url": "",
+  "wiki_title": "Long QT syndrome",
+  "match": "verlengd qt-interval|qt-verlenging|qtc",
+  "option_only": true
+ },
+ "orbitofrontale cortex": {
+  "title": "Orbitofrontale cortex",
+  "short": "De orbitofrontale cortex ligt aan de onderkant van de frontaalkwab boven de oogkassen en is betrokken bij beloning, besluitvorming en sociaal gedrag.",
+  "definition": "<p>Schade aan de <strong>orbitofrontale cortex</strong> (bijv. door trauma of frontotemporale dementie) geeft ontremming, impulsiviteit, sociaal ongepast gedrag en een veranderde persoonlijkheid, met behouden intelligentie.</p>",
+  "image_url": "",
+  "wiki_title": "Orbitofrontal cortex",
+  "match": "orbitofrontale cortex",
+  "option_only": true
+ },
+ "hypersomnia": {
+  "title": "Hypersomnie",
+  "short": "Bij hypersomnie is iemand overdag overmatig slaperig, ondanks voldoende nachtslaap.",
+  "definition": "<p>Oorzaken zijn o.a. slaapapneu, <strong>narcolepsie</strong> (met slaapaanvallen, kataplexie, hypnagoge hallucinaties en slaapverlamming), idiopathische hypersomnie, depressie en medicatie.</p>",
+  "image_url": "",
+  "wiki_title": "Hypersomnia",
+  "match": "hypersomnia|hypersomnie|narcolepsie",
+  "option_only": true
+ },
+ "circadiane slaapstoornis": {
+  "title": "Circadiane ritmestoornis",
+  "short": "Bij een circadiane ritmestoornis loopt de biologische klok niet gelijk met het gewenste slaap-waakritme.",
+  "definition": "<p>Voorbeelden zijn het <strong>uitgestelde slaapfasesyndroom</strong> (laat inslapen en laat wakker worden, vaak bij adolescenten), ploegendienststoornis en jetlag. Behandeling met lichttherapie in de ochtend en melatonine in de avond.</p>",
+  "image_url": "",
+  "wiki_title": "Circadian rhythm sleep disorder",
+  "match": "circadiane slaapstoornis|circadiane ritmestoornis|delayed sleep phase",
+  "option_only": true
+ },
+ "applied tension": {
+  "title": "Applied tension",
+  "short": "Applied tension is een techniek waarbij iemand met bloed-injectie-letselfobie de spieren aanspant om de bloeddruk hoog te houden en flauwvallen te voorkomen.",
+  "definition": "<p>Bij een <strong>bloed-injectie-letselfobie</strong> daalt de bloeddruk na een eerste stijging (vasovagale reactie), anders dan bij andere fobieën. Applied tension wordt gecombineerd met blootstelling.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "applied tension",
+  "option_only": true
+ },
+ "grimasseren": {
+  "title": "Grimasseren",
+  "short": "Grimasseren is het maken van vreemde, onwillekeurig of zinloos ogende gelaatsuitdrukkingen.",
+  "definition": "<p><strong>Grimasseren</strong> kan voorkomen bij katatonie en schizofrenie, maar ook bij bewegingsstoornissen zoals tardieve dyskinesie door antipsychotica.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "grimasseren",
+  "option_only": true
+ },
+ "bupropion": {
+  "title": "Bupropion",
+  "short": "Bupropion remt de heropname van dopamine en noradrenaline en wordt gebruikt als antidepressivum en bij stoppen met roken.",
+  "definition": "<p><strong>Bupropion</strong> geeft weinig seksuele bijwerkingen en gewichtstoename. Het verlaagt de drempel voor epileptische aanvallen en is daarom gecontra-indiceerd bij epilepsie en eetstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Bupropion",
+  "match": "bupropion",
+  "option_only": true
+ },
+ "competitive memory training": {
+  "title": "Competitive Memory Training (COMET)",
+  "short": "COMET is een training die een negatief zelfbeeld verbetert door positieve herinneringen en eigenschappen sterker te laten ‘concurreren’ met negatieve.",
+  "definition": "<p>Bij <strong>COMET</strong> worden positieve eigenschappen gekoppeld aan beelden, houding en muziek, zodat ze beter oproepbaar worden. Het wordt gebruikt bij een laag zelfbeeld, depressie en persoonlijkheidsproblematiek.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "competitive memory training|comet",
+  "option_only": true
+ },
+ "dopamine-dysregulatie-stoornis": {
+  "title": "Dopamine-dysregulatiesyndroom",
+  "short": "Bij het dopamine-dysregulatiesyndroom gebruiken patiënten met de ziekte van Parkinson dwangmatig meer dopaminerge medicatie dan nodig.",
+  "definition": "<p>Dopaminerge middelen, vooral <strong>dopamineagonisten</strong>, kunnen ook impulscontrolestoornissen geven: gokken, koopwoede, hyperseksualiteit en eetbuien. Patiënten en naasten moeten hier vooraf voor worden gewaarschuwd.</p>",
+  "image_url": "",
+  "wiki_title": "Dopamine dysregulation syndrome",
+  "match": "dopamine-dysregulatie-stoornis|dopamine-dysregulatiesyndroom|impulscontrolestoornis",
+  "option_only": true
+ },
+ "catecholamine": {
+  "title": "Catecholaminen",
+  "short": "Catecholaminen zijn dopamine, noradrenaline en adrenaline, die uit tyrosine worden gemaakt.",
+  "definition": "<p>De aanmaak verloopt van tyrosine via L-DOPA naar dopamine, noradrenaline en (in het bijniermerg) adrenaline. Ze worden afgebroken door MAO en COMT. Een feochromocytoom maakt een overmaat aan <strong>catecholaminen</strong>, aantoonbaar via metanefrines.</p>",
+  "image_url": "",
+  "wiki_title": "Catecholamine",
+  "match": "catecholamine|catecholaminen",
+  "option_only": true
+ },
+ "paniekstoornis met agorafobie": {
+  "title": "Paniekstoornis en agorafobie",
+  "short": "Bij een paniekstoornis zijn er onverwachte paniekaanvallen en aanhoudende angst voor nieuwe aanvallen; bij agorafobie vermijdt iemand situaties waaruit ontsnappen moeilijk is.",
+  "definition": "<p>Een <strong>paniekaanval</strong> geeft hartkloppingen, benauwdheid, duizeligheid en angst om dood te gaan of gek te worden. Behandeling: cognitieve gedragstherapie met interoceptieve en situationele blootstelling, eventueel een SSRI.</p>",
+  "image_url": "",
+  "wiki_title": "Panic disorder",
+  "match": "paniekstoornis met agorafobie|paniekstoornis|agorafobie",
+  "option_only": true
+ },
+ "nucleus ruber": {
+  "title": "Nucleus ruber",
+  "short": "De nucleus ruber is een kern in het mesencephalon die betrokken is bij motoriek en ontvangt input uit het cerebellum.",
+  "definition": "<p>Een laesie rond de <strong>nucleus ruber</strong> kan een grove, langzame tremor geven (rubrale of Holmes-tremor), soms met een oculomotoriusparese aan dezelfde kant (syndroom van Benedikt).</p>",
+  "image_url": "",
+  "wiki_title": "Red nucleus",
+  "match": "nucleus ruber|rode kern",
+  "option_only": true
+ },
+ "incoherent denken": {
+  "title": "Formele denkstoornissen",
+  "short": "Formele denkstoornissen zijn stoornissen in het tempo of de samenhang van het denken, zoals incoherentie, gedachtenvlucht en zijsporigheid.",
+  "definition": "<p>Bij <strong>incoherentie</strong> is de samenhang tussen zinnen en woorden verloren (‘woordsalade’), wat past bij een psychose of een delier. <strong>Gedachtenvlucht</strong> (versneld denken met snelle overgangen tussen onderwerpen) past bij een manie.</p>",
+  "image_url": "",
+  "wiki_title": "Thought disorder",
+  "match": "incoherent denken|incoherentie|gedachtenvlucht|desorganisatie",
+  "option_only": true
+ },
+ "een granuloom": {
+  "title": "Granuloom",
+  "short": "Een granuloom is een ophoping van geactiveerde macrofagen (epitheloïde cellen), vaak met reuscellen, rond een moeilijk afbreekbare prikkel.",
+  "definition": "<p><strong>Granulomen</strong> ontstaan bij tuberculose (met centrale verkazing), sarcoïdose, de ziekte van Crohn, schimmelinfecties en reacties op vreemd materiaal. Ze ontstaan via Th1-cellen en IFN-γ. Een abces bestaat juist uit granulocyten en pus.</p>",
+  "image_url": "",
+  "wiki_title": "Granuloma",
+  "match": "een granuloom|granuloom|granulomateuze ontsteking",
+  "option_only": true
+ },
+ "prostaglandine d2": {
+  "title": "Eicosanoïden",
+  "short": "Eicosanoïden (prostaglandinen, tromboxanen en leukotriënen) zijn ontstekingsmediatoren die uit arachidonzuur ontstaan.",
+  "definition": "<p>Via <strong>cyclo-oxygenase</strong> ontstaan prostaglandinen (PGE2: koorts, pijn; PGI2: vaatverwijding) en tromboxaan (plaatjesaggregatie). Via <strong>lipoxygenase</strong> ontstaan leukotriënen: LTB4 trekt neutrofielen aan, LTC4/D4/E4 geven bronchoconstrictie. PGD2 komt vrij uit mestcellen bij allergie.</p>",
+  "image_url": "",
+  "wiki_title": "Eicosanoid",
+  "match": "prostaglandine d2|leukotriënen|leukotrieën b4|prostaglandine e2|tromboxaan a2",
+  "option_only": true
+ },
+ "interleukine 4": {
+  "title": "IL-4, IL-5 en IL-13 (type 2-cytokines)",
+  "short": "IL-4, IL-5 en IL-13 zijn cytokines van Th2-cellen die allergische ontsteking en de afweer tegen wormen sturen.",
+  "definition": "<p><strong>IL-4</strong> laat B-cellen overschakelen naar IgE, <strong>IL-5</strong> stimuleert eosinofielen, en IL-13 geeft slijmproductie en luchtweghyperreactiviteit. Biologicals tegen IL-5 (mepolizumab) en de IL-4-receptor (dupilumab) worden gebruikt bij ernstig astma en eczeem.</p>",
+  "image_url": "",
+  "wiki_title": "Interleukin 4",
+  "match": "interleukine 4|il-4|interleukine 5|il-5|il-13",
+  "option_only": true
+ },
+ "calor": {
+  "title": "Klassieke ontstekingsverschijnselen",
+  "short": "De klassieke verschijnselen van een acute ontsteking zijn rubor (roodheid), calor (warmte), tumor (zwelling), dolor (pijn) en functio laesa (functieverlies).",
+  "definition": "<p>Roodheid en warmte komen door vaatverwijding, zwelling door toegenomen vaatdoorlaatbaarheid (oedeem), en pijn door mediatoren zoals bradykinine en prostaglandinen.</p>",
+  "image_url": "",
+  "wiki_title": "Inflammation",
+  "match": "calor|rubor|tumor|dolor|functio laesa",
+  "option_only": true
+ },
+ "α1-antitrypsine": {
+  "title": "Alfa-1-antitrypsine",
+  "short": "Alfa-1-antitrypsine is een eiwit uit de lever dat elastase van neutrofielen remt; een erfelijk tekort geeft longemfyseem en leverziekte.",
+  "definition": "<p>Bij een <strong>alfa-1-antitrypsinedeficiëntie</strong> (vooral het PiZZ-genotype) ontstaat op jonge leeftijd een panlobulair emfyseem in de onderkwabben, versneld door roken. Het afwijkende eiwit stapelt in de lever, met cirrose. Het is ook een acutefase-eiwit.</p>",
+  "image_url": "",
+  "wiki_title": "Alpha-1 antitrypsin deficiency",
+  "match": "α1-antitrypsine|alfa-1-antitrypsine|a1at",
+  "option_only": true
+ },
+ "complementfixatie": {
+  "title": "Complementactivatie",
+  "short": "Bij complementactivatie (fixatie) binden complementeiwitten aan antistoffen of microben, met opsonisatie, aantrekking van afweercellen en lysis.",
+  "definition": "<p>Het complement kan via drie routes worden geactiveerd: de <strong>klassieke</strong> route (via IgM en IgG), de lectineroute en de alternatieve route. C3b werkt als opsonine, C5a lokt ontsteking uit en C5b-9 vormt het membrane attack complex.</p>",
+  "image_url": "",
+  "wiki_title": "Complement system",
+  "match": "complementfixatie|complement eiwitten|complementactivatie",
+  "option_only": true
+ },
+ "scavenger receptor": {
+  "title": "Patroonherkennende receptoren",
+  "short": "Scavenger- en mannosereceptoren op macrofagen herkennen moleculen op microben en beschadigde cellen en helpen ze op te nemen.",
+  "definition": "<p>Ze horen bij de <strong>patroonherkennende receptoren</strong> van de aangeboren afweer, net als Toll-like receptoren. Scavengerreceptoren nemen ook geoxideerd LDL op, waardoor bij atherosclerose schuimcellen ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Scavenger receptor",
+  "match": "scavenger receptor|mannosereceptor|mannose receptoren|toll-like receptor",
+  "option_only": true
+ },
+ "a. facialis": {
+  "title": "A. facialis, a. temporalis superficialis en a. maxillaris",
+  "short": "De a. facialis, a. temporalis superficialis en a. maxillaris zijn slagaders van gezicht, schedel en kaak.",
+  "definition": "<p>De <strong>a. facialis</strong> is voelbaar aan de rand van de onderkaak voor de m. masseter. De <strong>a. temporalis superficialis</strong> is voelbaar voor het oor en is bij arteriitis temporalis verdikt en drukpijnlijk. De a. maxillaris geeft o.a. de a. meningea media af.</p>",
+  "image_url": "",
+  "wiki_title": "External carotid artery",
+  "match": "a. facialis|a. temporalis superficialis|a. maxillaris|a. lingualis",
+  "option_only": true
+ },
+ "lymfe endotheel cellen": {
+  "title": "Hoogendotheel-venulen (HEV)",
+  "short": "Hoogendotheel-venulen zijn speciale bloedvaten in lymfeklieren waardoor naïeve lymfocyten vanuit het bloed de klier binnengaan.",
+  "definition": "<p>Lymfocyten herkennen het endotheel van de <strong>HEV</strong> via L-selectine en chemokines (CCR7). Lymfatisch endotheel bekleedt daarentegen de lymfevaten die lymfe en dendritische cellen naar de klier voeren.</p>",
+  "image_url": "",
+  "wiki_title": "High endothelial venules",
+  "match": "lymfe endotheel cellen|hoog endotheel cellen|hoogendotheel venulen|hev",
+  "option_only": true
+ },
+ "dermatofibroom": {
+  "title": "Dermatofibroom",
+  "short": "Een dermatofibroom is een goedaardig, hard knobbeltje in de huid, vaak op de benen, dat bij knijpen naar binnen zakt.",
+  "definition": "<p>Het positieve <strong>‘dimple sign’</strong> is kenmerkend. Een dermatofibroom ontstaat soms na een insectenbeet of klein wondje en hoeft niet te worden behandeld.</p>",
+  "image_url": "",
+  "wiki_title": "Dermatofibroma",
+  "match": "dermatofibroom",
+  "option_only": true
+ },
+ "hypertrofisch littekenweefsel": {
+  "title": "Hypertrofisch litteken en keloïd",
+  "short": "Een hypertrofisch litteken is verdikt en rood maar blijft binnen de grenzen van de oorspronkelijke wond; een keloïd groeit daar juist buiten.",
+  "definition": "<p><strong>Hypertrofische littekens</strong> ontstaan vaak na brandwonden en wonden onder spanning en worden in de loop van de tijd vaak vlakker. Keloïden komen vaker voor bij een donkere huid en recidiveren na excisie. Behandeling: drukkleding, siliconen en corticosteroïdinjecties.</p>",
+  "image_url": "",
+  "wiki_title": "Hypertrophic scar",
+  "match": "hypertrofisch littekenweefsel|hypertrofisch litteken|keloïd",
+  "option_only": true
+ },
+ "adhesiemoleculen": {
+  "title": "Adhesiemoleculen",
+  "short": "Adhesiemoleculen (selectines, integrines en ICAM's) zorgen ervoor dat leukocyten aan het endotheel binden en de bloedbaan kunnen verlaten.",
+  "definition": "<p>De migratie van leukocyten verloopt in stappen: rollen via <strong>selectines</strong>, stevig vasthechten via integrines aan ICAM-1/VCAM-1, en daarna diapedese door de vaatwand richting chemokines (chemotaxie). Bij een tekort aan integrines (LAD) ontstaan ernstige bacteriële infecties zonder pus.</p>",
+  "image_url": "",
+  "wiki_title": "Cell adhesion molecule",
+  "match": "adhesiemoleculen|selectines|integrines|icam-1",
+  "option_only": true
+ },
+ "chemotaxie": {
+  "title": "Chemotaxie",
+  "short": "Chemotaxie is de gerichte beweging van cellen langs een concentratieverschil van een lokstof, zoals chemokines.",
+  "definition": "<p>Neutrofielen worden o.a. aangetrokken door <strong>IL-8</strong> (CXCL8), C5a, LTB4 en bacteriële peptiden. Zo komen afweercellen op de plek van een infectie terecht.</p>",
+  "image_url": "",
+  "wiki_title": "Chemotaxis",
+  "match": "chemotaxie|chemokines",
+  "option_only": true
+ },
+ "klasse switching van b-cellen": {
+  "title": "Klassenswitch (isotypeswitch)",
+  "short": "Bij een klassenswitch gaat een B-cel van IgM over op het maken van IgG, IgA of IgE met dezelfde specificiteit.",
+  "definition": "<p>De <strong>klassenswitch</strong> vindt plaats in kiemcentra en vereist hulp van T-cellen (CD40-CD40L) en cytokines. Bij een defect in CD40L (hyper-IgM-syndroom) is het IgM hoog en ontbreken IgG, IgA en IgE.</p>",
+  "image_url": "",
+  "wiki_title": "Immunoglobulin class switching",
+  "match": "klasse switching van b-cellen|klassenswitch|isotypeswitch",
+  "option_only": true
+ },
+ "m1 macrofagen": {
+  "title": "M1- en M2-macrofagen",
+  "short": "M1-macrofagen (klassiek geactiveerd, via IFN-γ) doden microben en geven ontsteking; M2-macrofagen (alternatief geactiveerd, via IL-4/IL-13) helpen bij weefselherstel en fibrose.",
+  "definition": "<p>Deze indeling is een vereenvoudiging van een spectrum aan <strong>macrofaagactivatie</strong>. Tumorgeassocieerde macrofagen lijken vaak op M2-macrofagen en kunnen de tumorgroei bevorderen.</p>",
+  "image_url": "",
+  "wiki_title": "Macrophage polarization",
+  "match": "m1 macrofagen|m2 macrofagen",
+  "option_only": true
+ },
+ "weefselgebonden antigenen": {
+  "title": "Overgevoeligheidsreacties type II en III",
+  "short": "Bij een type II-overgevoeligheid richten antistoffen zich tegen antigenen op cellen of in weefsel; bij type III slaan immuuncomplexen uit de circulatie neer in vaatwanden.",
+  "definition": "<p>Voorbeelden van <strong>type II</strong> zijn auto-immuunhemolyse, Goodpasture en de ziekte van Graves. Voorbeelden van <strong>type III</strong> zijn SLE, poststreptokokken-glomerulonefritis en serumziekte. Type I is IgE-gemedieerd (allergie), type IV T-celgemedieerd (contactallergie).</p>",
+  "image_url": "",
+  "wiki_title": "Hypersensitivity",
+  "match": "weefselgebonden antigenen|circulerende immuuncomplexen|type ii overgevoeligheid|type iii overgevoeligheid",
+  "option_only": true
+ },
+ "thiopurinederivaat": {
+  "title": "Thiopurines",
+  "short": "Thiopurines (azathioprine, mercaptopurine, tioguanine) zijn immunosuppressiva die de aanmaak van purines remmen, o.a. gebruikt bij IBD.",
+  "definition": "<p>Voor de start van <strong>thiopurines</strong> wordt de TPMT/NUDT15-activiteit bepaald, omdat een laag enzymniveau ernstige beenmergsuppressie geeft. Andere bijwerkingen zijn pancreatitis, leverschade en een verhoogd risico op huidkanker en lymfomen. Allopurinol remt de afbraak en versterkt de werking.</p>",
+  "image_url": "",
+  "wiki_title": "Thiopurine",
+  "match": "thiopurinederivaat|thiopurines|mercaptopurine|tioguanine",
+  "option_only": true
+ },
+ "brachytherapie met iridiumnaalden": {
+  "title": "Brachytherapie",
+  "short": "Bij brachytherapie wordt een radioactieve bron in of vlak naast de tumor geplaatst, zodat een hoge dosis lokaal wordt gegeven.",
+  "definition": "<p><strong>Brachytherapie</strong> wordt o.a. gebruikt bij baarmoederhals-, prostaat- en slokdarmkanker, vaak in combinatie met uitwendige bestraling.</p>",
+  "image_url": "",
+  "wiki_title": "Brachytherapy",
+  "match": "brachytherapie met iridiumnaalden|brachytherapie|inwendige bestraling",
+  "option_only": true
+ },
+ "alfa foeto proteïne bepalen": {
+  "title": "Alfa-foetoproteïne (AFP)",
+  "short": "AFP is een eiwit dat de foetus maakt; bij volwassenen is een verhoogd AFP een tumormarker voor levercelkanker en sommige kiemceltumoren.",
+  "definition": "<p>Een verhoogd <strong>AFP</strong> past bij het hepatocellulair carcinoom en niet-seminomateuze kiemceltumoren (dooierzaktumor). In de zwangerschap wijst een hoog AFP op een open neuraalbuisdefect of buikwanddefect, een laag AFP op het syndroom van Down.</p>",
+  "image_url": "",
+  "wiki_title": "Alpha-fetoprotein",
+  "match": "alfa foeto proteïne bepalen|afp|alfa-foetoproteïne",
+  "option_only": true
+ },
+ "sofosbuvir": {
+  "title": "Sofosbuvir (DAA's)",
+  "short": "Sofosbuvir is een direct werkend antiviraal middel dat het RNA-polymerase van het hepatitis C-virus remt.",
+  "definition": "<p>Combinaties van <strong>DAA's</strong> (bijv. sofosbuvir met velpatasvir) genezen hepatitis C in meer dan 95% van de gevallen in 8–12 weken, met weinig bijwerkingen.</p>",
+  "image_url": "",
+  "wiki_title": "Sofosbuvir",
+  "match": "sofosbuvir|direct werkende antivirale middelen|daa",
+  "option_only": true
+ },
+ "tenofovir": {
+  "title": "Tenofovir",
+  "short": "Tenofovir is een nucleotide-reverse-transcriptaseremmer, gebruikt bij hiv en chronische hepatitis B.",
+  "definition": "<p><strong>Tenofovir</strong> wordt ook gebruikt als PrEP tegen hiv. De oudere vorm (TDF) kan de nierfunctie en botdichtheid aantasten; de nieuwere vorm (TAF) minder.</p>",
+  "image_url": "",
+  "wiki_title": "Tenofovir",
+  "match": "tenofovir",
+  "option_only": true
+ },
+ "mrcp": {
+  "title": "MRCP",
+  "short": "MRCP is een MRI-onderzoek dat galwegen en pancreasgang in beeld brengt zonder contrast of ingreep.",
+  "definition": "<p><strong>MRCP</strong> wordt gebruikt bij verdenking op galwegstenen, PSC en tumoren. Als er een behandeling nodig is (steen verwijderen, stent plaatsen), volgt een ERCP.</p>",
+  "image_url": "",
+  "wiki_title": "Magnetic resonance cholangiopancreatography",
+  "match": "mrcp|mr-cholangiopancreaticografie",
+  "option_only": true
+ },
+ "steenextractie middels ercp": {
+  "title": "ERCP",
+  "short": "Bij een ERCP wordt via een endoscoop in het duodenum de papil van Vater opgezocht, waarna galwegen en pancreasgang met contrast kunnen worden afgebeeld en behandeld.",
+  "definition": "<p>Met een <strong>ERCP</strong> kunnen na een papillotomie galstenen worden verwijderd en stents worden geplaatst. De belangrijkste complicatie is een post-ERCP-pancreatitis; daarnaast bloeding, perforatie en cholangitis.</p>",
+  "image_url": "",
+  "wiki_title": "Endoscopic retrograde cholangiopancreatography",
+  "match": "steenextractie middels ercp|ercp|endoscopische retrograde cholangiopancreaticografie",
+  "option_only": true
+ },
+ "fibroscan": {
+  "title": "Fibroscan (transiënte elastografie)",
+  "short": "Een Fibroscan meet met een echografische techniek de stijfheid van de lever, als maat voor leverfibrose.",
+  "definition": "<p>De <strong>Fibroscan</strong> wordt gebruikt om fibrose en cirrose op te sporen bij chronische leverziekten (NAFLD, hepatitis B en C), zodat vaak geen leverbiopt nodig is.</p>",
+  "image_url": "",
+  "wiki_title": "Transient elastography",
+  "match": "fibroscan|elastografie",
+  "option_only": true
+ },
+ "loperamide": {
+  "title": "Loperamide",
+  "short": "Loperamide is een opioïd dat via µ-receptoren in de darmwand de peristaltiek remt, zonder centrale werking in normale doseringen.",
+  "definition": "<p><strong>Loperamide</strong> wordt gebruikt bij diarree zonder koorts of bloed. Bij invasieve diarree (bloed, hoge koorts) of <em>C. difficile</em> wordt het afgeraden, vanwege het risico op een toxisch megacolon.</p>",
+  "image_url": "",
+  "wiki_title": "Loperamide",
+  "match": "loperamide",
+  "option_only": true
+ },
+ "galzure zouten diarree": {
+  "title": "Galzuurdiarree",
+  "short": "Bij galzuurdiarree komen te veel galzuren in het colon, waar ze water- en zoutsecretie geven.",
+  "definition": "<p><strong>Galzuurdiarree</strong> komt voor na een resectie van het terminale ileum, bij de ziekte van Crohn van het ileum en na een cholecystectomie. Behandeling met galzuurbinders (colestyramine).</p>",
+  "image_url": "",
+  "wiki_title": "Bile acid malabsorption",
+  "match": "galzure zouten diarree|galzuurdiarree|galzuurmalabsorptie",
+  "option_only": true
+ },
+ "squameuze metaplasie": {
+  "title": "Squameuze metaplasie",
+  "short": "Bij squameuze metaplasie wordt cilinder- of trilhaarepitheel vervangen door plaveiselepitheel, als aanpassing aan chronische prikkeling.",
+  "definition": "<p>Voorbeelden zijn <strong>squameuze metaplasie</strong> in de bronchi bij rokers en in de transformatiezone van de baarmoederhals. Metaplasie is omkeerbaar, maar kan overgaan in dysplasie en kanker.</p>",
+  "image_url": "",
+  "wiki_title": "Squamous metaplasia",
+  "match": "squameuze metaplasie|plaveiselcelmetaplasie",
+  "option_only": true
+ },
+ "a. cystica": {
+  "title": "A. cystica",
+  "short": "De a. cystica voorziet de galblaas van bloed en is meestal een tak van de a. hepatica dextra.",
+  "definition": "<p>Bij een cholecystectomie worden de <strong>a. cystica</strong> en de ductus cysticus in de driehoek van Calot geclipt. Variaties in de anatomie van deze vaten en galwegen geven het risico op galwegletsel.</p>",
+  "image_url": "",
+  "wiki_title": "Cystic artery",
+  "match": "a. cystica|arteria cystica",
+  "option_only": true
+ },
+ "a. hepatica dextra": {
+  "title": "A. hepatica propria, dextra en sinistra",
+  "short": "De a. hepatica propria splitst zich in een rechter- en linkertak die de leverhelften van zuurstofrijk bloed voorzien.",
+  "definition": "<p>De lever krijgt ongeveer 25% van het bloed via de <strong>a. hepatica</strong> (zuurstofrijk) en 75% via de v. portae. Galwegen zijn voor hun bloedvoorziening vrijwel alleen van de a. hepatica afhankelijk, waardoor trombose na een levertransplantatie galwegschade geeft.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatic artery proper",
+  "match": "a. hepatica dextra|a. hepatica sinistra|a. hepatica propria",
+  "option_only": true
+ },
+ "a. pancreaticoduodenalis": {
+  "title": "Aa. pancreaticoduodenales",
+  "short": "De aa. pancreaticoduodenales voorzien de pancreaskop en het duodenum en verbinden het stroomgebied van de truncus coeliacus met dat van de a. mesenterica superior.",
+  "definition": "<p>De bovenste takken komen uit de a. gastroduodenalis (truncus coeliacus), de onderste uit de a. mesenterica superior. Een ulcus aan de achterwand van het duodenum kan in de a. gastroduodenalis eroderen, met een ernstige bloeding.</p>",
+  "image_url": "",
+  "wiki_title": "Pancreaticoduodenal arteries",
+  "match": "a. pancreaticoduodenalis|aa. pancreaticoduodenales",
+  "option_only": true
+ },
+ "antireflux chirurgie": {
+  "title": "Antirefluxchirurgie (fundoplicatie)",
+  "short": "Bij een fundoplicatie wordt de maagfundus om de onderkant van de slokdarm gevouwen, om reflux te voorkomen.",
+  "definition": "<p>Een <strong>fundoplicatie volgens Nissen</strong> is een optie bij ernstige refluxziekte die niet goed reageert op protonpompremmers, of bij een grote hiatus hernia. Bijwerkingen zijn slikklachten en niet kunnen boeren of braken (gas bloat).</p>",
+  "image_url": "",
+  "wiki_title": "Nissen fundoplication",
+  "match": "antireflux chirurgie|fundoplicatie|nissen",
+  "option_only": true
+ },
+ "partiële tromboplastinetijd": {
+  "title": "Stollingstijden (PT en aPTT)",
+  "short": "De protrombinetijd (PT/INR) meet de extrinsieke route en de aPTT de intrinsieke route van de stolling.",
+  "definition": "<p>Een verlengde <strong>PT/INR</strong> komt voor bij vitamine K-antagonisten, vitamine K-tekort en leverziekte (factor VII heeft de kortste halfwaardetijd, dus PT is een goede maat voor de leversyntheefunctie). Een verlengde <strong>aPTT</strong> past bij heparine, hemofilie A en B, en het lupusanticoagulans.</p>",
+  "image_url": "",
+  "wiki_title": "Prothrombin time",
+  "match": "partiële tromboplastinetijd|aptt|prothrombinetijd|protrombinetijd|pt|inr",
+  "option_only": true
+ },
+ "slokdarmvarices": {
+  "title": "Slokdarmvarices",
+  "short": "Slokdarmvarices zijn verwijde venen onderin de slokdarm door portale hypertensie, meestal bij levercirrose.",
+  "definition": "<p>Een bloeding uit <strong>varices</strong> is levensbedreigend. Behandeling: vasoactieve middelen (terlipressine of octreotide), antibiotica, en endoscopisch rubberbandligatie. Preventie met niet-selectieve bètablokkers (propranolol, carvedilol) of ligatie. Bij falen een TIPS.</p>",
+  "image_url": "",
+  "wiki_title": "Esophageal varices",
+  "match": "slokdarmvarices|oesofagusvarices|maagvarices",
+  "option_only": true
+ },
+ "hyperplastische poliep": {
+  "title": "Poliepen van het colon",
+  "short": "Darmpoliepen worden ingedeeld in adenomen (voorstadium van kanker), hyperplastische en serrated poliepen, inflammatoire en juveniele (hamartomateuze) poliepen.",
+  "definition": "<p>De meeste darmkankers ontstaan uit een <strong>adenoom</strong> (adenoom-carcinoomsequentie). Kleine hyperplastische poliepen in het rectosigmoïd zijn onschuldig; sessiele serrated laesies kunnen wel ontaarden. Juveniele poliepen zijn hamartomen; bij meerdere poliepen is een erfelijk syndroom mogelijk.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal polyp",
+  "match": "hyperplastische poliep|inflammatoire poliep|juveniele poliep|adenomateuze poliep|adenoom",
+  "option_only": true
+ },
+ "retinal": {
+  "title": "Retinal (vitamine A)",
+  "short": "Retinal is de vorm van vitamine A die in het oog aan opsine bindt en zo het lichtgevoelige rodopsine vormt.",
+  "definition": "<p>Een tekort aan <strong>vitamine A</strong> geeft nachtblindheid, droge ogen (xeroftalmie) en een verhoogde kans op infecties. Vitamine A en zijn derivaten (isotretinoïne) zijn in hoge doses teratogeen.</p>",
+  "image_url": "",
+  "wiki_title": "Retinal",
+  "match": "retinal|retinol|vitamine a",
+  "option_only": true
+ },
+ "metamucil": {
+  "title": "Psylliumvezels (Metamucil)",
+  "short": "Psylliumvezels zijn volumevormende laxantia die water binden en zo de ontlasting zachter en volumineuzer maken.",
+  "definition": "<p>Volumevormers zoals <strong>psyllium</strong> (ispaghula) zijn een eerste stap bij obstipatie en worden ook gebruikt bij het prikkelbaredarmsyndroom. Voldoende drinken is nodig; ze werken pas na enkele dagen.</p>",
+  "image_url": "",
+  "wiki_title": "Psyllium",
+  "match": "metamucil|psyllium|vezels|volumevormend laxans",
+  "option_only": true
+ },
+ "parotitis": {
+  "title": "Parotitis",
+  "short": "Parotitis is een ontsteking van de oorspeekselklier, viraal (bof) of bacterieel.",
+  "definition": "<p><strong>Bof</strong> (mumps) geeft een pijnlijke zwelling van de parotis aan een of beide kanten; complicaties zijn orchitis, meningitis en pancreatitis. Een bacteriële parotitis (vaak <em>S. aureus</em>) komt vooral voor bij uitgedroogde ouderen, met pus uit de afvoergang.</p>",
+  "image_url": "",
+  "wiki_title": "Parotitis",
+  "match": "parotitis|bof",
+  "option_only": true
+ },
+ "asat": {
+  "title": "ASAT en ALAT",
+  "short": "ASAT en ALAT zijn enzymen die vrijkomen bij beschadiging van levercellen; ALAT is specifieker voor de lever.",
+  "definition": "<p>Zeer hoge <strong>transaminasen</strong> (&gt; 1000) passen bij virale hepatitis, ischemische hepatitis en paracetamolvergiftiging. Een ASAT/ALAT-ratio boven 2 past bij alcoholische leverziekte. ASAT komt ook vrij bij spier- en hartspierschade.</p>",
+  "image_url": "",
+  "wiki_title": "Aspartate transaminase",
+  "match": "asat|alat|transaminasen|levertransaminasen",
+  "option_only": true
+ },
+ "propanolol": {
+  "title": "Propranolol",
+  "short": "Propranolol is een niet-selectieve bètablokker, o.a. gebruikt bij portale hypertensie, migraineprofylaxe, essentiële tremor en de lichamelijke kant van angst.",
+  "definition": "<p>Door blokkade van β1 en β2 verlaagt <strong>propranolol</strong> de hartminuutvolume en vernauwt het de splanchnische vaten, wat de poortaderdruk verlaagt. Het kan bronchospasmen geven bij astma en de symptomen van een hypoglykemie maskeren.</p>",
+  "image_url": "",
+  "wiki_title": "Propranolol",
+  "match": "propanolol|propranolol",
+  "option_only": true
+ },
+ "cholesterolstenen": {
+  "title": "Galstenen",
+  "short": "De meeste galstenen zijn cholesterolstenen; pigmentstenen ontstaan bij hemolyse (zwart) of infecties van de galwegen (bruin).",
+  "definition": "<p>Risicofactoren voor <strong>cholesterolstenen</strong> zijn vrouw zijn, leeftijd boven 40, overgewicht, zwangerschap, snel afvallen en bepaalde etnische achtergronden. De meeste galstenen geven geen klachten; complicaties zijn koliek, cholecystitis, choledocholithiasis, cholangitis en pancreatitis.</p>",
+  "image_url": "",
+  "wiki_title": "Gallstone",
+  "match": "cholesterolstenen|pigmentstenen|galstenen|cholelithiasis",
+  "option_only": true
+ },
+ "medium-chain triglyceriden": {
+  "title": "Middellangeketen-triglyceriden (MCT)",
+  "short": "MCT-vetten worden zonder gal en lipase grotendeels direct via de poortader opgenomen, zonder chylomicronen.",
+  "definition": "<p><strong>MCT</strong> wordt gebruikt als energiebron bij vetmalabsorptie, chylothorax, korte darm en bepaalde stofwisselingsziekten (bijv. LCHAD-deficiëntie).</p>",
+  "image_url": "",
+  "wiki_title": "Medium-chain triglyceride",
+  "match": "medium-chain triglyceriden|mct|mct-vetten",
+  "option_only": true
+ },
+ "adhesies": {
+  "title": "Adhesies (verklevingen)",
+  "short": "Adhesies zijn bindweefselstrengen tussen organen of tussen organen en de buikwand, meestal na een buikoperatie of ontsteking.",
+  "definition": "<p><strong>Adhesies</strong> zijn de meest voorkomende oorzaak van een dunnedarmobstructie. Ze kunnen ook chronische buikpijn en verminderde vruchtbaarheid veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Adhesion (medicine)",
+  "match": "adhesies|verklevingen|adhesieileus",
+  "option_only": true
+ },
+ "galsteenileus": {
+  "title": "Galsteenileus",
+  "short": "Bij een galsteenileus is een grote galsteen via een fistel van galblaas naar duodenum in de darm terechtgekomen, waar hij de dunne darm afsluit, meestal bij de ileocaecale klep.",
+  "definition": "<p>Een <strong>galsteenileus</strong> komt vooral voor bij oudere vrouwen. Op de foto of CT zijn lucht in de galwegen (pneumobilie), een dunnedarmobstructie en soms een verkalkte steen te zien (trias van Rigler).</p>",
+  "image_url": "",
+  "wiki_title": "Gallstone ileus",
+  "match": "galsteenileus",
+  "option_only": true
+ },
+ "low anterior resectie": {
+  "title": "Low anterior resectie (LAR)",
+  "short": "Bij een low anterior resectie wordt het rectum met een deel van het sigmoïd verwijderd en wordt de darm opnieuw aan de anus verbonden.",
+  "definition": "<p>Een <strong>LAR</strong> wordt gedaan bij rectumtumoren boven de sluitspier, vaak met een tijdelijk beschermend stoma. Na de operatie kan het ‘LARS’ (low anterior resection syndrome) optreden: aandrang, frequentie en incontinentie.</p>",
+  "image_url": "",
+  "wiki_title": "Low anterior resection",
+  "match": "low anterior resectie|lar|lage anterior resectie",
+  "option_only": true
+ },
+ "calprotectine": {
+  "title": "Fecaal calprotectine",
+  "short": "Calprotectine is een eiwit uit neutrofielen; een verhoogde waarde in de ontlasting wijst op een ontsteking van de darm.",
+  "definition": "<p>Met <strong>fecaal calprotectine</strong> kan onderscheid worden gemaakt tussen een prikkelbaredarmsyndroom (normaal) en IBD (verhoogd). Het wordt ook gebruikt om de activiteit van IBD te volgen. Het is niet specifiek: ook infecties en NSAID's verhogen het.</p>",
+  "image_url": "",
+  "wiki_title": "Calprotectin",
+  "match": "calprotectine|fecaal calprotectine",
+  "option_only": true
+ },
+ "octreotide": {
+  "title": "Octreotide",
+  "short": "Octreotide is een somatostatineanaloog dat de afgifte van veel hormonen remt en de splanchnische doorbloeding vermindert.",
+  "definition": "<p><strong>Octreotide</strong> wordt gebruikt bij varicesbloedingen, neuro-endocriene tumoren (carcinoïdsyndroom), acromegalie en bepaalde vormen van diarree. Het kan galstenen veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Octreotide",
+  "match": "octreotide|somatostatine-analoog",
+  "option_only": true
+ },
+ "protonpompremmer": {
+  "title": "Protonpompremmer (PPI)",
+  "short": "Protonpompremmers remmen de H⁺/K⁺-ATPase van de pariëtale cellen en zijn de krachtigste remmers van de maagzuurproductie.",
+  "definition": "<p><strong>PPI's</strong> worden gebruikt bij refluxziekte, ulcera, H. pylori-eradicatie, maagbescherming bij NSAID's en een bloedend ulcus (intraveneus). Langdurig gebruik hangt samen met hypomagnesiëmie, vitamine B12-tekort, fracturen en infecties (<em>C. difficile</em>).</p>",
+  "image_url": "",
+  "wiki_title": "Proton-pump inhibitor",
+  "match": "protonpompremmer|ppi|omeprazol|pantoprazol|esomeprazol",
+  "option_only": true
+ },
+ "totale colectomie met pouch": {
+  "title": "Proctocolectomie met ileo-anale pouch (IPAA)",
+  "short": "Bij een proctocolectomie met pouch worden colon en rectum verwijderd en wordt van het laatste stuk dunne darm een reservoir gemaakt dat aan de anus wordt verbonden.",
+  "definition": "<p>Een <strong>IPAA</strong> wordt gedaan bij colitis ulcerosa die niet op medicatie reageert of met dysplasie, en bij familiaire adenomateuze polyposis. Een bekende complicatie is pouchitis. Bij een acute ernstige colitis wordt eerst een subtotale colectomie met tijdelijk stoma gedaan.</p>",
+  "image_url": "",
+  "wiki_title": "Ileo-anal pouch",
+  "match": "totale colectomie met pouch|ileo-anale pouch|ipaa|subtotale colectomie",
+  "option_only": true
+ },
+ "x colon inloop": {
+  "title": "Colon-inloopfoto",
+  "short": "Bij een colon-inloopfoto wordt het colon met contrast via de anus gevuld en op röntgenfoto's afgebeeld.",
+  "definition": "<p>Een <strong>colon-inloop</strong> is grotendeels vervangen door coloscopie en CT-colografie, maar wordt nog gebruikt om fistels, stricturen of naadlekkage in beeld te brengen (met wateroplosbaar contrast).</p>",
+  "image_url": "",
+  "wiki_title": "Lower gastrointestinal series",
+  "match": "x colon inloop|colon inloop|x-colon",
+  "option_only": true
+ },
+ "een toxisch megacolon": {
+  "title": "Toxisch megacolon",
+  "short": "Een toxisch megacolon is een acute, sterke verwijding van het colon bij een ernstige colitis, met systemische ziekte; risico op perforatie.",
+  "definition": "<p>Een <strong>toxisch megacolon</strong> komt voor bij colitis ulcerosa, de ziekte van Crohn en <em>C. difficile</em>-infectie. Het colon transversum is meer dan 6 cm breed op de foto. Opiaten en anticholinergica kunnen het uitlokken. Behandeling: intensieve medische therapie, zo nodig een spoedcolectomie.</p>",
+  "image_url": "",
+  "wiki_title": "Toxic megacolon",
+  "match": "een toxisch megacolon|toxisch megacolon",
+  "option_only": true
+ },
+ "primaire biliaire cholangitis": {
+  "title": "Primaire biliaire cholangitis (PBC)",
+  "short": "PBC is een auto-immuunziekte waarbij de kleine galgangen in de lever worden vernietigd, vooral bij vrouwen van middelbare leeftijd.",
+  "definition": "<p>Kenmerken van <strong>PBC</strong> zijn vermoeidheid, jeuk, een verhoogd alkalisch fosfatase en antimitochondriale antistoffen (AMA). Behandeling met ursodeoxycholzuur, dat het beloop vertraagt.</p>",
+  "image_url": "",
+  "wiki_title": "Primary biliary cholangitis",
+  "match": "primaire biliaire cholangitis|pbc|primaire biliaire cirrose",
+  "option_only": true
+ },
+ "nash": {
+  "title": "NAFLD en NASH (MASLD/MASH)",
+  "short": "Bij NAFLD (nu MASLD) is er vet in de lever zonder overmatig alcoholgebruik; bij NASH (MASH) gaat dat samen met ontsteking en levercelschade.",
+  "definition": "<p><strong>NAFLD</strong> hangt sterk samen met overgewicht, diabetes type 2 en het metabool syndroom. NASH kan overgaan in fibrose, cirrose en levercelkanker. De belangrijkste behandeling is gewichtsverlies.</p>",
+  "image_url": "",
+  "wiki_title": "Non-alcoholic fatty liver disease",
+  "match": "nash|nafld|masld|mash|niet-alcoholische steatohepatitis",
+  "option_only": true
+ },
+ "child-pugh score": {
+  "title": "Child-Pugh-score",
+  "short": "De Child-Pugh-score beoordeelt de ernst van levercirrose aan de hand van bilirubine, albumine, INR, ascites en encefalopathie.",
+  "definition": "<p>De <strong>Child-Pugh</strong>-klasse (A, B of C) voorspelt de overleving en het operatierisico. Voor de wachtlijst voor levertransplantatie wordt de MELD-score gebruikt (bilirubine, INR, creatinine en natrium).</p>",
+  "image_url": "",
+  "wiki_title": "Child–Pugh score",
+  "match": "child-pugh score|child-pugh|meld-score",
+  "option_only": true
+ },
+ "levercyste": {
+  "title": "Levercyste",
+  "short": "Een levercyste is een met vocht gevulde holte in de lever, meestal goedaardig en zonder klachten.",
+  "definition": "<p>Eenvoudige <strong>levercysten</strong> zijn een toevalsbevinding bij echo of CT. Grote cysten of polycysteuze leverziekte (vaak samen met cystenieren) kunnen klachten geven door hun omvang. Een echinococcuscyste (lintworm) heeft vaak tussenschotten en verkalkingen.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatic cyst",
+  "match": "levercyste|levercysten|polycysteuze leverziekte",
+  "option_only": true
+ },
+ "lactulose": {
+  "title": "Lactulose",
+  "short": "Lactulose is een niet-opneembare suiker die als osmotisch laxans werkt en bij hepatische encefalopathie de ammoniakspiegel verlaagt.",
+  "definition": "<p>In het colon wordt <strong>lactulose</strong> door bacteriën afgebroken tot zuren. Daardoor wordt ammoniak (NH₃) omgezet in ammonium (NH₄⁺), dat niet wordt opgenomen. Bijwerkingen zijn winderigheid en krampen.</p>",
+  "image_url": "",
+  "wiki_title": "Lactulose",
+  "match": "lactulose",
+  "option_only": true
+ },
+ "mri enteroclyse": {
+  "title": "MR-enterografie",
+  "short": "Bij MR-enterografie wordt de dunne darm met MRI afgebeeld na het drinken (of via een sonde inlopen) van contrastvloeistof.",
+  "definition": "<p><strong>MR-enterografie</strong> is het standaardonderzoek om de uitgebreidheid en activiteit van de ziekte van Crohn in de dunne darm vast te stellen, zonder stralingsbelasting.</p>",
+  "image_url": "",
+  "wiki_title": "Magnetic resonance enterography",
+  "match": "mri enteroclyse|mr-enterografie|mr-enteroclyse",
+  "option_only": true
+ },
+ "excavatio rectovesicalis": {
+  "title": "Excavatio rectovesicalis en rectouterina",
+  "short": "De excavatio rectovesicalis (man) en rectouterina (vrouw, cavum van Douglas) zijn het laagste punt van de buikholte, waar zich vocht, bloed of pus kan verzamelen.",
+  "definition": "<p>In het <strong>cavum van Douglas</strong> is bij een echo vrij vocht te zien bij bijv. een gebarsten buitenbaarmoederlijke zwangerschap of een ovariumcyste. Een abces hier kan bij rectaal toucher pijnlijk zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Rectouterine pouch",
+  "match": "excavatio rectovesicalis|excavatio rectouterina|cavum douglasi",
+  "option_only": true
+ },
+ "nipt": {
+  "title": "NIPT",
+  "short": "De NIPT onderzoekt DNA van de placenta in het bloed van de zwangere op trisomie 21, 18 en 13.",
+  "definition": "<p>De <strong>NIPT</strong> is zeer gevoelig en specifiek, maar blijft een screening: een afwijkende uitslag moet worden bevestigd met een vlokkentest of vruchtwaterpunctie. De test kan vanaf 10 weken.</p>",
+  "image_url": "",
+  "wiki_title": "Non-invasive prenatal testing",
+  "match": "nipt|niet-invasieve prenatale test",
+  "option_only": true
+ },
+ "hsg": {
+  "title": "Hysterosalpingografie (HSG)",
+  "short": "Bij een HSG wordt contrast via de baarmoederhals ingebracht om de baarmoederholte en de doorgankelijkheid van de eileiders op röntgenfoto's te beoordelen.",
+  "definition": "<p>Een <strong>HSG</strong> wordt gebruikt in het fertiliteitsonderzoek. Een alternatief zonder straling is een echo met schuim (HyFoSy).</p>",
+  "image_url": "",
+  "wiki_title": "Hysterosalpingography",
+  "match": "hsg|hysterosalpingografie",
+  "option_only": true
+ },
+ "downslant": {
+  "title": "Dysmorfe kenmerken van het gezicht",
+  "short": "Dysmorfe kenmerken zijn afwijkingen in vorm of maat, zoals de stand van de oogspleten (up- of downslant) en de afstand tussen de ogen (hypo- of hypertelorisme).",
+  "definition": "<p>Een <strong>upslant</strong> (oogspleten schuin omhoog) en epicanthus passen bij het syndroom van Down; een downslant komt bij andere syndromen voor. Een enkel dysmorf kenmerk komt ook bij gezonde mensen voor; een combinatie kan op een syndroom wijzen.</p>",
+  "image_url": "",
+  "wiki_title": "Dysmorphic feature",
+  "match": "downslant|upslant|hypotelorisme|hypertelorisme|epicanthus",
+  "option_only": true
+ },
+ "klinefelter syndroom": {
+  "title": "Klinefeltersyndroom",
+  "short": "Bij het Klinefeltersyndroom (47,XXY) hebben mannen een extra X-chromosoom, met kleine testes, onvruchtbaarheid en een laag testosteron.",
+  "definition": "<p>Kenmerken van <strong>Klinefelter</strong> zijn een lange gestalte, gynaecomastie, weinig lichaamsbeharing en soms leer- en gedragsproblemen. Het FSH en LH zijn hoog (hypergonadotroop hypogonadisme). Behandeling met testosteron.</p>",
+  "image_url": "",
+  "wiki_title": "Klinefelter syndrome",
+  "match": "klinefelter syndroom|klinefeltersyndroom|47,xxy",
+  "option_only": true
+ },
+ "niersteen": {
+  "title": "Nierstenen (urolithiasis)",
+  "short": "Nierstenen ontstaan als stoffen in de urine uitkristalliseren; een steen in de ureter geeft een hevige koliekpijn.",
+  "definition": "<p>De meeste <strong>nierstenen</strong> bestaan uit calciumoxalaat. Andere soorten zijn urinezuur- (niet zichtbaar op een gewone röntgenfoto), struviet- (bij infectie met ureasevormers) en cystinestenen. Diagnose met CT zonder contrast. Stenen tot 5 mm gaan meestal vanzelf; bij koorts met een afgesloten nier is drainage een spoedgeval.</p>",
+  "image_url": "",
+  "wiki_title": "Kidney stone disease",
+  "match": "niersteen|nierstenen|urolithiasis|nefrolithiasis",
+  "option_only": true
+ },
+ "positief teken van mcburney": {
+  "title": "Buikonderzoekstekens (McBurney, Murphy)",
+  "short": "Drukpijn op het punt van McBurney (rechtsonder) past bij appendicitis; bij het teken van Murphy stopt de patiënt met inademen bij druk rechtsboven, passend bij cholecystitis.",
+  "definition": "<p>Andere tekens bij <strong>appendicitis</strong> zijn loslaatpijn, het teken van Rovsing (pijn rechtsonder bij druk linksonder) en het psoas- en obturatorteken. Bij <strong>cholecystitis</strong> is het teken van Murphy positief, vaak met koorts.</p>",
+  "image_url": "",
+  "wiki_title": "McBurney's point",
+  "match": "positief teken van mcburney|teken van mcburney|teken van murphy|mcburney",
+  "option_only": true
+ },
+ "foley-ballonkatheter": {
+  "title": "Foley-katheter",
+  "short": "Een Foley-katheter is een katheter met een opblaasbaar ballonnetje aan het uiteinde; in de verloskunde wordt hij gebruikt om de baarmoederhals mechanisch rijp te maken.",
+  "definition": "<p>Bij de <strong>inleiding van de baring</strong> wordt een ballonkatheter in de cervix gebracht, die door druk ontsluiting op gang brengt. Een alternatief zijn prostaglandinen (misoprostol, dinoproston). Als blaaskatheter blijft hij met de ballon in de blaas zitten.</p>",
+  "image_url": "",
+  "wiki_title": "Foley catheter",
+  "match": "foley-ballonkatheter|foley-katheter|ballonkatheter",
+  "option_only": true
+ },
+ "dreigende partus prematurus": {
+  "title": "Dreigende vroeggeboorte",
+  "short": "Bij een dreigende vroeggeboorte zijn er vóór 37 weken weeën of andere tekenen dat de bevalling op gang komt.",
+  "definition": "<p>Bij een <strong>dreigende vroeggeboorte</strong> vóór 34 weken worden corticosteroïden (longrijping) en weeënremmers (nifedipine, atosiban) gegeven, en vóór 32 weken ook magnesiumsulfaat (neuroprotectie). Een korte cervix en een positieve fibronectinetest voorspellen een vroeggeboorte.</p>",
+  "image_url": "",
+  "wiki_title": "Preterm birth",
+  "match": "dreigende partus prematurus|dreigende vroeggeboorte|partus prematurus",
+  "option_only": true
+ },
+ "thecaluteïnecellen": {
+  "title": "Granulosa- en thecacellen",
+  "short": "Thecacellen maken onder invloed van LH androgenen, die granulosacellen onder invloed van FSH omzetten in oestrogenen (twee-cellen-twee-gonadotrofinenmodel).",
+  "definition": "<p>Na de ovulatie worden ze <strong>luteïnecellen</strong> van het corpus luteum, dat progesteron maakt. Hoge hCG-spiegels (bijv. bij een molazwangerschap) kunnen thecaluteïnecysten geven.</p>",
+  "image_url": "",
+  "wiki_title": "Theca of follicle",
+  "match": "thecaluteïnecellen|thecacellen|granulosacellen|granulosaluteïnecellen",
+  "option_only": true
+ },
+ "grensstrengganglia": {
+  "title": "Grensstreng (truncus sympathicus)",
+  "short": "De grensstreng is een keten van sympathische ganglia aan beide kanten van de wervelkolom, waarin preganglionaire vezels overschakelen.",
+  "definition": "<p>De preganglionaire sympathische neuronen liggen in het ruggenmerg van T1 tot L2. Een onderbreking van de <strong>sympathische keten</strong> in de hals (bijv. door een Pancoast-tumor) geeft het syndroom van Horner.</p>",
+  "image_url": "",
+  "wiki_title": "Sympathetic trunk",
+  "match": "grensstrengganglia|grensstreng|truncus sympathicus|paravertebrale ganglia",
+  "option_only": true
+ },
+ "sclerotomen": {
+  "title": "Somieten (sclerotoom, myotoom, dermatoom)",
+  "short": "Somieten delen zich in een sclerotoom (wervels en ribben), myotoom (skeletspieren) en dermatoom (dermis van de rug).",
+  "definition": "<p>Het <strong>sclerotoom</strong> omgeeft de chorda dorsalis en het neurale buis en vormt de wervels; elk wervellichaam ontstaat uit de helften van twee aangrenzende sclerotomen. Daardoor treden de spinale zenuwen tussen de wervels uit.</p>",
+  "image_url": "",
+  "wiki_title": "Somite",
+  "match": "sclerotomen|sclerotoom|somieten|myotoom",
+  "option_only": true
+ },
+ "episiotomie": {
+  "title": "Episiotomie en perineumruptuur",
+  "short": "Een episiotomie is een knip in het perineum tijdens de bevalling; een perineumruptuur is een spontane scheur, ingedeeld in vier graden.",
+  "definition": "<p>Bij een <strong>derde- of vierdegraads ruptuur</strong> (totaalruptuur) is de anale sluitspier, en bij de vierde graad ook het anaalslijmvlies, betrokken; dit moet zorgvuldig worden gehecht om incontinentie te voorkomen. Een mediolaterale episiotomie wordt gedaan bij foetale nood of een kunstverlossing.</p>",
+  "image_url": "",
+  "wiki_title": "Episiotomy",
+  "match": "episiotomie|perineumruptuur|totaalruptuur",
+  "option_only": true
+ },
+ "secundaire dooierzakholte": {
+  "title": "Dooierzak",
+  "short": "De dooierzak is een embryonaal vliesje dat in de eerste weken de bloedvorming en de aanleg van de oergeslachtscellen verzorgt.",
+  "definition": "<p>De <strong>primaire dooierzak</strong> wordt vervangen door de kleinere secundaire dooierzak. Op een vroege echo is de dooierzak een van de eerste tekenen van een intra-uteriene zwangerschap. Een restant (ductus omphaloentericus) kan een divertikel van Meckel geven.</p>",
+  "image_url": "",
+  "wiki_title": "Yolk sac",
+  "match": "secundaire dooierzakholte|primaire dooierzakholte|dooierzak",
+  "option_only": true
+ },
+ "afgenomen variabiliteit": {
+  "title": "CTG-kenmerken",
+  "short": "Op een CTG worden de basale hartfrequentie, de variabiliteit, acceleraties en deceleraties van het foetale hart beoordeeld.",
+  "definition": "<p><strong>Vroege deceleraties</strong> vallen samen met de wee en komen door hoofdcompressie (onschuldig). <strong>Variabele deceleraties</strong> komen door navelstrengcompressie, <strong>late deceleraties</strong> (na de top van de wee) wijzen op placentaire insufficiëntie. Een verminderde variabiliteit kan wijzen op hypoxie, maar ook op slaap of medicatie.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiotocography",
+  "match": "afgenomen variabiliteit|toegenomen variabiliteit|vroege deceleraties|late deceleraties|variabele deceleraties",
+  "option_only": true
+ },
+ "cellen van leydig": {
+  "title": "Leydigcellen",
+  "short": "Leydigcellen liggen in het interstitium van de testis en maken onder invloed van LH testosteron.",
+  "definition": "<p>Al in de foetale periode maken <strong>Leydigcellen</strong> testosteron, nodig voor de mannelijke ontwikkeling van de geslachtsorganen. Een Leydigceltumor kan vroege puberteit of gynaecomastie geven.</p>",
+  "image_url": "",
+  "wiki_title": "Leydig cell",
+  "match": "cellen van leydig|leydigcellen",
+  "option_only": true
+ },
+ "erythromycine": {
+  "title": "Erytromycine (macroliden)",
+  "short": "Erytromycine is een macrolide-antibioticum dat de eiwitsynthese remt via het 50S-ribosoom.",
+  "definition": "<p><strong>Macroliden</strong> werken tegen streptokokken, atypische verwekkers (Mycoplasma, Chlamydia, Legionella) en kinkhoest. Erytromycine stimuleert ook de maaglediging (motilinereceptor). Bijwerkingen: maag-darmklachten, QT-verlenging en interacties via CYP3A4 (vooral erytromycine en claritromycine).</p>",
+  "image_url": "",
+  "wiki_title": "Erythromycin",
+  "match": "erythromycine|erytromycine|macroliden|azitromycine|claritromycine",
+  "option_only": true
+ },
+ "gentamicine": {
+  "title": "Gentamicine (aminoglycosiden)",
+  "short": "Gentamicine is een aminoglycoside dat werkt tegen gramnegatieve bacteriën door de eiwitsynthese via het 30S-ribosoom te verstoren.",
+  "definition": "<p><strong>Aminoglycosiden</strong> werken concentratieafhankelijk en worden vaak eenmaal daags gegeven, met spiegelbepalingen. Bijwerkingen zijn nefrotoxiciteit en (blijvende) ototoxiciteit. Ze werken niet tegen anaeroben.</p>",
+  "image_url": "",
+  "wiki_title": "Gentamicin",
+  "match": "gentamicine|aminoglycosiden|tobramycine|amikacine",
+  "option_only": true
+ },
+ "levofloxacine": {
+  "title": "Fluorochinolonen",
+  "short": "Levofloxacine en ciprofloxacine zijn fluorochinolonen, die bacterieel DNA-gyrase en topo-isomerase IV remmen.",
+  "definition": "<p><strong>Fluorochinolonen</strong> werken breed, ook bij gramnegatieve bacteriën en (levofloxacine, moxifloxacine) bij luchtwegpathogenen. Ze hebben ernstige bijwerkingen: peesrupturen, QT-verlenging, aneurysma's en neuropathie, en worden daarom terughoudend gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Fluoroquinolone",
+  "match": "levofloxacine|ciprofloxacine|moxifloxacine|fluorochinolonen",
+  "option_only": true
+ },
+ "anti mullerian-hormoon": {
+  "title": "Anti-Müllerhormoon (AMH)",
+  "short": "AMH wordt gemaakt door Sertolicellen bij de mannelijke foetus en door granulosacellen van kleine follikels bij de vrouw.",
+  "definition": "<p>Bij de mannelijke foetus zorgt <strong>AMH</strong> ervoor dat de buizen van Müller (eileiders, baarmoeder) verdwijnen. Bij vrouwen is het AMH een maat voor de eicelreserve; het is hoog bij PCOS en laag bij een verminderde reserve.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-Müllerian hormone",
+  "match": "anti mullerian-hormoon|amh|anti-müllerhormoon",
+  "option_only": true
+ },
+ "ectopia cordis": {
+  "title": "Ectopia cordis",
+  "short": "Bij ectopia cordis ligt het hart (gedeeltelijk) buiten de borstkas door een sluitingsdefect van de borstwand.",
+  "definition": "<p><strong>Ectopia cordis</strong> is zeer zeldzaam, gaat vaak samen met andere afwijkingen (pentalogie van Cantrell) en heeft een slechte prognose.</p>",
+  "image_url": "",
+  "wiki_title": "Ectopia cordis",
+  "match": "ectopia cordis",
+  "option_only": true
+ },
+ "sirenomelie (“zeemeerminnensyndroom”)": {
+  "title": "Sirenomelie",
+  "short": "Bij sirenomelie zijn de benen van de foetus samengegroeid, door een ernstig ontwikkelingsdefect van het caudale deel van het embryo.",
+  "definition": "<p><strong>Sirenomelie</strong> gaat meestal samen met afwezige nieren en is vrijwel altijd dodelijk. Het hoort bij het spectrum van het caudale-regressiesyndroom, dat vaker voorkomt bij diabetes van de moeder.</p>",
+  "image_url": "",
+  "wiki_title": "Sirenomelia",
+  "match": "sirenomelie (“zeemeerminnensyndroom”)|sirenomelie",
+  "option_only": true
+ },
+ "d-dimeer bepalen": {
+  "title": "D-dimeer",
+  "short": "D-dimeer is een afbraakproduct van fibrine; een normale waarde maakt trombose of longembolie onwaarschijnlijk bij een laag klinisch risico.",
+  "definition": "<p><strong>D-dimeer</strong> is gevoelig maar niet specifiek: het is ook verhoogd na operaties, bij infecties, kanker, zwangerschap en ouderdom. Daarom wordt het alleen gebruikt in combinatie met een beslisregel (Wells, YEARS).</p>",
+  "image_url": "",
+  "wiki_title": "D-dimer",
+  "match": "d-dimeer bepalen|d-dimeer|d-dimeren",
+  "option_only": true
+ },
+ "sua": {
+  "title": "Single umbilical artery (SUA)",
+  "short": "Bij een SUA heeft de navelstreng maar één arterie in plaats van twee.",
+  "definition": "<p>Een <strong>SUA</strong> komt bij ongeveer 1% van de zwangerschappen voor. Meestal is het een geïsoleerde bevinding, maar het gaat vaker samen met afwijkingen van nieren en hart en met groeivertraging; daarom volgt uitgebreid echoscopisch onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "Single umbilical artery",
+  "match": "sua|single umbilical artery|enkele navelstrengarterie",
+  "option_only": true
+ },
+ "fysiologische icterus": {
+  "title": "Icterus neonatorum",
+  "short": "Fysiologische icterus is een lichte geelzucht bij pasgeborenen vanaf dag 2–3, door een snelle afbraak van rode bloedcellen en een onrijpe leverconjugatie.",
+  "definition": "<p>Een <strong>icterus in de eerste 24 uur</strong> is nooit fysiologisch (denk aan bloedgroepantagonisme). Moedermelkicterus kan weken aanhouden en is meestal onschuldig. Bij een icterus na twee weken moet een geconjugeerde hyperbilirubinemie (galgangatresie) worden uitgesloten. Behandeling met fototherapie volgens de bilirubinecurven.</p>",
+  "image_url": "",
+  "wiki_title": "Neonatal jaundice",
+  "match": "fysiologische icterus|icterus neonatorum|borstvoedingsicterus|moedermelkicterus",
+  "option_only": true
+ },
+ "glandula bulbo-urethales": {
+  "title": "Glandulae bulbourethrales (klieren van Cowper)",
+  "short": "De klieren van Cowper liggen onder de prostaat en maken een helder slijm dat de urethra vóór de zaadlozing smeert en neutraliseert.",
+  "definition": "<p>Bij de vrouw zijn de <strong>klieren van Bartholin</strong> het equivalent; afsluiting daarvan geeft een bartholinicyste of -abces.</p>",
+  "image_url": "",
+  "wiki_title": "Bulbourethral gland",
+  "match": "glandula bulbo-urethales|glandulae bulbourethrales|klieren van cowper",
+  "option_only": true
+ },
+ "torsie van een adnex": {
+  "title": "Adnextorsie",
+  "short": "Bij een adnextorsie draait het ovarium (met eileider) om zijn steel, waardoor de bloedtoevoer afknelt; een gynaecologisch spoedgeval.",
+  "definition": "<p>Een <strong>adnextorsie</strong> geeft plotselinge, hevige eenzijdige onderbuikpijn met misselijkheid en braken, vaak bij een vergroot ovarium (cyste, tumor). Behandeling: snelle laparoscopie om het ovarium terug te draaien en te sparen.</p>",
+  "image_url": "",
+  "wiki_title": "Ovarian torsion",
+  "match": "torsie van een adnex|adnextorsie|ovariumtorsie",
+  "option_only": true
+ },
+ "primitieve knoop": {
+  "title": "Primitieve streep en knoop",
+  "short": "De primitieve streep met de primitieve knoop verschijnt in de derde week op de kiemschijf; hier begint de gastrulatie.",
+  "definition": "<p>Via de <strong>primitieve streep</strong> migreren cellen naar binnen om mesoderm en endoderm te vormen. Uit de primitieve knoop ontstaat de chorda dorsalis. Restanten van de primitieve streep kunnen een sacrococcygeaal teratoom geven.</p>",
+  "image_url": "",
+  "wiki_title": "Primitive streak",
+  "match": "primitieve knoop|primitieve streep|knoop van hensen",
+  "option_only": true
+ },
+ "amnion": {
+  "title": "Amnion",
+  "short": "Het amnion is het binnenste vruchtvlies dat de amnionholte met vruchtwater rond het embryo vormt.",
+  "definition": "<p>Het <strong>amnion</strong> ligt tegen het buitenste vlies, het chorion. Het vruchtwater beschermt de foetus en is nodig voor de ontwikkeling van longen en ledematen. Losgescheurde strengen van het amnion kunnen ledematen afknellen (amniotische strengen).</p>",
+  "image_url": "",
+  "wiki_title": "Amnion",
+  "match": "amnion|amnionholte|vruchtvliezen",
+  "option_only": true
+ },
+ "groep- b- streptokok": {
+  "title": "Groep B-streptokok (GBS)",
+  "short": "De groep B-streptokok (Streptococcus agalactiae) komt bij veel vrouwen in vagina en darm voor en kan bij pasgeborenen sepsis en meningitis veroorzaken.",
+  "definition": "<p>Bij risicofactoren (vroeggeboorte, langdurig gebroken vliezen, koorts tijdens de bevalling, een eerder kind met GBS-ziekte) krijgt de moeder antibiotica tijdens de bevalling. Bij volwassenen geeft <strong>GBS</strong> soms urineweginfecties en huidinfecties.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus agalactiae",
+  "match": "groep- b- streptokok|groep b-streptokok|streptococcus agalactiae",
+  "option_only": true
+ },
+ "tunica albuginea": {
+  "title": "Tunica albuginea",
+  "short": "De tunica albuginea is een stevig bindweefselkapsel rond de testis, het ovarium en de zwellichamen van de penis.",
+  "definition": "<p>Bij een <strong>peniele fractuur</strong> scheurt de tunica albuginea rond het corpus cavernosum. Bij de ziekte van Peyronie ontstaan bindweefselplaques in deze laag, met een kromstand.</p>",
+  "image_url": "",
+  "wiki_title": "Tunica albuginea",
+  "match": "tunica albuginea",
+  "option_only": true
+ },
+ "lig. sacrouterina": {
+  "title": "Ligamenta van de uterus",
+  "short": "De uterus wordt op zijn plaats gehouden door o.a. de ligg. sacrouterina, de ligg. cardinalia en het bekkenbodemspierstelsel.",
+  "definition": "<p>Het <strong>lig. cardinale</strong> (Mackenrodt) bevat de a. uterina. Het lig. teres uteri loopt door het lieskanaal. Verzwakking van deze steunstructuren draagt bij aan een prolaps.</p>",
+  "image_url": "",
+  "wiki_title": "Uterosacral ligament",
+  "match": "lig. sacrouterina|lig. sacrouterinum|lig. cardinale|lig. teres uteri|lig. latum",
+  "option_only": true
+ },
+ "meningocele": {
+  "title": "Meningokèle en spina bifida",
+  "short": "Bij een meningokèle puilen alleen de hersenvliezen uit door een defect in de wervelboog; bij een myelomeningokèle ook het ruggenmerg en de zenuwwortels.",
+  "definition": "<p>Een <strong>myelomeningokèle</strong> geeft verlamming en gevoelsverlies van de benen, blaas- en darmstoornissen en vaak hydrocefalus (Arnold-Chiari II). Foliumzuur rond de conceptie verlaagt het risico op neuraalbuisdefecten. Een spina bifida occulta geeft meestal geen klachten.</p>",
+  "image_url": "",
+  "wiki_title": "Spina bifida",
+  "match": "meningocele|meningokèle|myelomeningokèle|spina bifida",
+  "option_only": true
+ },
+ "sectio caesarea": {
+  "title": "Sectio caesarea (keizersnede)",
+  "short": "Bij een sectio caesarea wordt het kind via een snede in buikwand en baarmoeder geboren.",
+  "definition": "<p>Na een eerdere <strong>keizersnede</strong> is er bij een volgende vaginale bevalling een klein risico op een uterusruptuur en is er een verhoogd risico op placenta praevia en accreta. Complicaties van de ingreep zelf zijn bloeding, infectie en trombose.</p>",
+  "image_url": "",
+  "wiki_title": "Caesarean section",
+  "match": "sectio caesarea|keizersnede|sectio in voorgeschiedenis",
+  "option_only": true
+ },
+ "dhea": {
+  "title": "DHEA (dehydro-epiandrosteron)",
+  "short": "DHEA is een zwak androgeen uit de zona reticularis van de bijnierschors, dat in de weefsels kan worden omgezet in testosteron en oestrogeen.",
+  "definition": "<p>Een sterk verhoogd <strong>DHEA-S</strong> wijst bij hirsutisme op een androgene bron in de bijnier (tumor of congenitale bijnierhyperplasie). In de zwangerschap levert DHEA-S van de foetus de grondstof voor oestriol in de placenta.</p>",
+  "image_url": "",
+  "wiki_title": "Dehydroepiandrosterone",
+  "match": "dhea|dhea-s|dehydro-epiandrosteron",
+  "option_only": true
+ },
+ "overstimulatie": {
+  "title": "Ovarieel hyperstimulatiesyndroom (OHSS)",
+  "short": "OHSS is een complicatie van hormoonbehandeling bij IVF, met vergrote ovaria en vochtlekkage naar de buikholte.",
+  "definition": "<p>Bij <strong>OHSS</strong> zijn er buikpijn, een opgezette buik, ascites, hemoconcentratie en een verhoogd risico op trombose. Het wordt uitgelokt door hCG. Risicofactoren zijn PCOS, een jonge leeftijd en een hoog AMH.</p>",
+  "image_url": "",
+  "wiki_title": "Ovarian hyperstimulation syndrome",
+  "match": "overstimulatie|hyperstimulatie|ohss|ovarieel hyperstimulatiesyndroom",
+  "option_only": true
+ },
+ "strippen": {
+  "title": "Strippen van de vliezen",
+  "short": "Bij strippen maakt de verloskundige met een vinger de vliezen los van de onderkant van de baarmoeder, om de bevalling op gang te helpen.",
+  "definition": "<p>Door <strong>strippen</strong> komen prostaglandinen vrij. Het wordt vanaf 39–41 weken aangeboden om een inleiding te voorkomen en kan wat ongemak en bloedverlies geven.</p>",
+  "image_url": "",
+  "wiki_title": "Membrane sweep",
+  "match": "strippen|membraanstrippen",
+  "option_only": true
+ },
+ "randvenebloeding": {
+  "title": "Randsinusbloeding",
+  "short": "Een randsinusbloeding is een bloeding uit de rand van de placenta, met (meestal) pijnloos vaginaal bloedverlies.",
+  "definition": "<p>Een <strong>randsinusbloeding</strong> wordt vaak achteraf vastgesteld; eerst moeten een placenta praevia en een abruptio placentae worden uitgesloten. Het risico op vroeggeboorte is iets verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "randvenebloeding|randsinusbloeding|marginale bloeding",
+  "option_only": true
+ },
+ "innestelingsbloeding": {
+  "title": "Innestelingsbloeding",
+  "short": "Een innestelingsbloeding is licht bloedverlies rond het moment van de verwachte menstruatie, als de bevruchte eicel zich in het baarmoederslijmvlies nestelt.",
+  "definition": "<p>Een <strong>innestelingsbloeding</strong> is onschuldig, maar kan tot een verkeerd geschatte zwangerschapsduur leiden. Daarom wordt de termijn bepaald met een vroege echo.</p>",
+  "image_url": "",
+  "wiki_title": "Implantation bleeding",
+  "match": "innestelingsbloeding|nidatiebloeding",
+  "option_only": true
+ },
+ "stuitligging": {
+  "title": "Stuitligging",
+  "short": "Bij een stuitligging ligt het kind met de billen of voeten naar beneden in plaats van met het hoofd.",
+  "definition": "<p>Rond 35–36 weken wordt bij een <strong>stuitligging</strong> een uitwendige versie aangeboden. Lukt dat niet, dan kan worden gekozen tussen een vaginale stuitbevalling en een geplande keizersnede. Een stuitligging is een risicofactor voor heupdysplasie; daarom volgt een echo van de heupen bij het kind.</p>",
+  "image_url": "",
+  "wiki_title": "Breech birth",
+  "match": "stuitligging|uitwendige versie",
+  "option_only": true
+ },
+ "cervixpoliep": {
+  "title": "Cervixpoliep",
+  "short": "Een cervixpoliep is een goedaardig uitgroeisel van het slijmvlies van de baarmoederhals, dat contactbloedingen kan geven.",
+  "definition": "<p>Een <strong>cervixpoliep</strong> is bij speculumonderzoek te zien als een rood, glad uitsteeksel uit de cervixopening. Meestal wordt hij eenvoudig weggedraaid en histologisch onderzocht.</p>",
+  "image_url": "",
+  "wiki_title": "Cervical polyp",
+  "match": "cervixpoliep",
+  "option_only": true
+ },
+ "a. ovarica": {
+  "title": "A. ovarica en a. uterina",
+  "short": "De a. ovarica ontspringt direct uit de aorta en loopt via het lig. suspensorium ovarii; de a. uterina is een tak van de a. iliaca interna.",
+  "definition": "<p>In de zwangerschap verwijden de spiraalarteriën zich sterk; een gestoorde ombouw hangt samen met pre-eclampsie en groeivertraging (afwijkende doppler van de a. uterina). De a. vesicalis inferior voorziet blaas en prostaat.</p>",
+  "image_url": "",
+  "wiki_title": "Ovarian artery",
+  "match": "a. ovarica|a. uterina|maternale a. uterina|a. vesicalis inferior",
+  "option_only": true
+ },
+ "vaginale cerclage": {
+  "title": "Cerclage",
+  "short": "Bij een cerclage wordt een hechting rond de baarmoederhals gelegd om te voorkomen dat die voortijdig opengaat.",
+  "definition": "<p>Een <strong>cerclage</strong> wordt gedaan bij cervixinsufficiëntie, bijv. bij eerdere vroeggeboorten met een korte cervix. Rond 36–37 weken of bij weeën wordt de hechting verwijderd.</p>",
+  "image_url": "",
+  "wiki_title": "Cervical cerclage",
+  "match": "vaginale cerclage|cerclage",
+  "option_only": true
+ },
+ "meconium houdend vruchtwater": {
+  "title": "Meconiumhoudend vruchtwater",
+  "short": "Meconiumhoudend vruchtwater is groen gekleurd door de eerste ontlasting van het kind, vaak bij een serotiene zwangerschap of foetale nood.",
+  "definition": "<p>Bij <strong>meconium</strong> in het vruchtwater wordt de baring nauwkeuriger bewaakt (CTG). Het kind kan meconium inademen (meconiumaspiratiesyndroom), met ademnood en pulmonale hypertensie.</p>",
+  "image_url": "",
+  "wiki_title": "Meconium aspiration syndrome",
+  "match": "meconium houdend vruchtwater|meconiumhoudend vruchtwater|meconiumaspiratie",
+  "option_only": true
+ },
+ "lactose": {
+  "title": "Lactose (melksuiker)",
+  "short": "Lactose is een disacharide van glucose en galactose, die door het enzym lactase in de dunne darm wordt gesplitst.",
+  "definition": "<p>Bij <strong>lactose-intolerantie</strong> komt onverteerde lactose in het colon, waar bacteriën het vergisten, met winderigheid, buikpijn en diarree. Primaire lactasedeficiëntie (afname na het spenen) is wereldwijd het meest voorkomend; secundaire vormen ontstaan na darmbeschadiging.</p>",
+  "image_url": "",
+  "wiki_title": "Lactose",
+  "match": "lactose|melksuiker",
+  "option_only": true
+ },
+ "fructose": {
+  "title": "Fructose",
+  "short": "Fructose is een monosacharide uit fruit, honing en suiker, die vooral in de lever wordt omgezet via fructokinase en aldolase B.",
+  "definition": "<p><strong>Fructose</strong> wordt in de darm opgenomen via GLUT5. Fructose wordt in de lever buiten de belangrijkste reguleringsstap van de glycolyse om omgezet, wat bij veel inname leververvetting bevordert. Fructosemalabsorptie geeft buikklachten; erfelijke fructose-intolerantie (aldolase B-tekort) is zeldzaam en ernstiger.</p>",
+  "image_url": "",
+  "wiki_title": "Fructose",
+  "match": "fructose|vruchtensuiker",
+  "option_only": true
+ },
+ "α-amylase": {
+  "title": "Amylase",
+  "short": "Amylase is een enzym uit speekselklieren en pancreas dat zetmeel afbreekt; een verhoogde bloedwaarde past o.a. bij pancreatitis.",
+  "definition": "<p><strong>Amylase</strong> splitst α-1,4-bindingen in zetmeel. Bij acute pancreatitis stijgt het, maar het is minder specifiek dan lipase (ook verhoogd bij o.a. parotitis, darmperforatie en nierfalen) en normaliseert sneller.</p>",
+  "image_url": "",
+  "wiki_title": "Amylase",
+  "match": "α-amylase",
+  "option_only": true
+ },
+ "kleincellig carcinoom": {
+  "title": "Kleincellig longcarcinoom (SCLC)",
+  "short": "Een agressief, snelgroeiend type longkanker dat vroeg metastaseert en sterk samenhangt met roken.",
+  "definition": "<p>Reageert aanvankelijk goed op chemotherapie maar recidiveert vaak.</p>",
+  "image_url": "",
+  "wiki_title": "Small-cell carcinoma",
+  "match": "kleincellig carcinoom",
+  "option_only": true
+ },
+ "floaters": {
+  "title": "Mouches volantes",
+  "short": "Mouches volantes zijn zwevende vlekjes of draadjes in het gezichtsveld, door troebelingen in het glasvocht.",
+  "definition": "<p>Mouches volantes zijn meestal onschuldig. Een plotselinge toename, vooral met lichtflitsen of een schaduw, kan wijzen op een glasvochtloslating met netvliesscheur en vraagt om onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "Floater",
+  "match": "floaters",
+  "option_only": true
+ },
+ "anti-tnf-medicatie": {
+  "title": "Infliximab",
+  "short": "Infliximab is een monoklonaal antilichaam tegen TNF-α, gebruikt bij o.a. de ziekte van Crohn, colitis ulcerosa en reumatoïde artritis.",
+  "definition": "<p><strong>TNF-α-remmers</strong> zoals infliximab, adalimumab en etanercept remmen een centraal pro-inflammatoir cytokine. Ze worden gebruikt bij IBD, reumatoïde artritis, spondyloartritis en psoriasis. Doordat ze de cellulaire afweer verzwakken, kan latente tuberculose reactiveren; daarom wordt vooraf gescreend. Ook het risico op andere infecties is verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Infliximab",
+  "match": "anti-tnf-medicatie",
+  "option_only": true
+ },
+ "aspergillus spp": {
+  "title": "Aspergillus fumigatus",
+  "short": "Aspergillus fumigatus is een schimmel waarvan de sporen overal in de lucht zijn; bij neutropenie kan hij een invasieve longinfectie geven.",
+  "definition": "<p><strong><em>Aspergillus</em></strong> kan verschillende ziektebeelden geven: allergische bronchopulmonale aspergillose (bij astma en CF), een aspergilloom (schimmelbal in een bestaande holte) en invasieve aspergillose bij ernstig afweergestoorde patiënten, met invasie van bloedvaten. Diagnostiek met CT, galactomannan en kweek; behandeling met voriconazol.</p>",
+  "image_url": "",
+  "wiki_title": "Aspergillus fumigatus",
+  "match": "aspergillus spp",
+  "option_only": true
+ },
+ "clara cel": {
+  "title": "Clubcel (Clara-cel)",
+  "short": "Clubcellen (vroeger Clara-cellen) zijn niet-trilhaardragende cellen in de bronchioli die beschermende eiwitten uitscheiden en als stamcel kunnen dienen.",
+  "definition": "<p><strong>Clubcellen</strong> maken o.a. surfactantachtige eiwitten en ontgiften stoffen via cytochroom P450. Ze kunnen delen om beschadigd epitheel van de bronchioli te herstellen.</p>",
+  "image_url": "",
+  "wiki_title": "Club cell",
+  "match": "clara cel",
+  "option_only": true
+ },
+ "borstel cellen": {
+  "title": "Borstelcel (tuft cell)",
+  "short": "Borstelcellen zijn zeldzame cellen met korte microvilli in het epitheel van luchtwegen en darm, met een sensorische functie.",
+  "definition": "<p><strong>Borstelcellen</strong> reageren o.a. op parasieten en kunnen een type 2-immuunreactie (IL-25) op gang brengen. Hun functie in de luchtwegen is nog niet volledig bekend.</p>",
+  "image_url": "",
+  "wiki_title": "Tuft cell",
+  "match": "borstel cellen",
+  "option_only": true
+ },
+ "kleine korrelcellen": {
+  "title": "Kleine korrelcel (neuro-endocriene cel)",
+  "short": "Kleine korrelcellen (Kulchitsky-cellen) zijn neuro-endocriene cellen in het luchtwegepitheel, met hormoonhoudende korrels.",
+  "definition": "<p>Uit deze neuro-endocriene cellen kunnen carcinoïden en het kleincellig longcarcinoom ontstaan. Dat verklaart waarom die tumoren soms hormonen maken (paraneoplastische syndromen, zoals SIADH en ectopisch ACTH).</p>",
+  "image_url": "",
+  "wiki_title": "Neuroendocrine cell",
+  "match": "kleine korrelcellen",
+  "option_only": true
+ },
+ "pneumocyt": {
+  "title": "Pneumocyten type I en II",
+  "short": "Type I-pneumocyten zijn platte cellen voor de gaswisseling; type II-pneumocyten maken surfactant en kunnen delen om het alveolaire epitheel te herstellen.",
+  "definition": "<p><strong>Type I-pneumocyten</strong> bedekken ongeveer 95% van het alveolaire oppervlak. <strong>Type II-pneumocyten</strong> zijn kubisch en bevatten lamellaire lichaampjes met surfactant. Bij prematuren is de surfactantproductie nog onvoldoende (IRDS).</p>",
+  "image_url": "",
+  "wiki_title": "Pulmonary alveolus",
+  "match": "pneumocyt",
+  "option_only": true
+ },
+ "peritoneum parietalis": {
+  "title": "Peritoneum viscerale en parietale",
+  "short": "Het buikvlies bestaat uit het pariëtale blad, dat de buikwand bekleedt, en het viscerale blad, dat de organen bedekt.",
+  "definition": "<p>Het <strong>pariëtale peritoneum</strong> is somatisch geïnnerveerd en goed lokaliseerbaar pijngevoelig (loslaatpijn, défense bij peritonitis). Het <strong>viscerale peritoneum</strong> is autonoom geïnnerveerd en geeft vage, slecht lokaliseerbare pijn.</p>",
+  "image_url": "",
+  "wiki_title": "Peritoneum",
+  "match": "peritoneum parietalis",
+  "option_only": true
+ },
+ "viscerale en pariëtale peritoneum": {
+  "title": "Peritoneum viscerale en parietale",
+  "short": "Het buikvlies bestaat uit het pariëtale blad, dat de buikwand bekleedt, en het viscerale blad, dat de organen bedekt.",
+  "definition": "<p>Het <strong>pariëtale peritoneum</strong> is somatisch geïnnerveerd en goed lokaliseerbaar pijngevoelig (loslaatpijn, défense bij peritonitis). Het <strong>viscerale peritoneum</strong> is autonoom geïnnerveerd en geeft vage, slecht lokaliseerbare pijn.</p>",
+  "image_url": "",
+  "wiki_title": "Peritoneum",
+  "match": "viscerale en pariëtale peritoneum",
+  "option_only": true
+ },
+ "ductus hepaticus sinister": {
+  "title": "Ductus hepaticus dexter en sinister",
+  "short": "De ductus hepaticus dexter en sinister voeren gal af uit de rechter en linker leverhelft en vormen samen de ductus hepaticus communis.",
+  "definition": "<p>De ductus hepaticus communis vormt samen met de ductus cysticus (van de galblaas) de ductus choledochus. Een tumor op de splitsing heet een Klatskin-tumor.</p>",
+  "image_url": "",
+  "wiki_title": "Common hepatic duct",
+  "match": "ductus hepaticus sinister",
+  "option_only": true
+ },
+ "flexura coli sinistra (lienalis)": {
+  "title": "Flexura coli dextra en sinistra",
+  "short": "De flexura coli dextra (hepatica) en sinistra (lienalis) zijn de bochten van het colon bij de lever en de milt.",
+  "definition": "<p>De <strong>flexura lienalis</strong> ligt op de grens van de stroomgebieden van de a. mesenterica superior en inferior (punt van Griffiths) en is daardoor gevoelig voor ischemie. Het ligt hoger dan de flexura hepatica.</p>",
+  "image_url": "",
+  "wiki_title": "Splenic flexure",
+  "match": "flexura coli sinistra (lienalis)",
+  "option_only": true
+ },
+ "vena gastrica dextra": {
+  "title": "V. gastrica sinistra (v. coronaria ventriculi)",
+  "short": "De v. gastrica sinistra voert bloed van de kleine curvatuur van de maag af naar de v. portae en staat in verbinding met slokdarmvenen.",
+  "definition": "<p>Bij portale hypertensie wordt de verbinding tussen de <strong>v. gastrica sinistra</strong> en de slokdarmvenen een belangrijke portocavale shunt, waardoor slokdarmvarices ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Left gastric vein",
+  "match": "vena gastrica dextra",
+  "option_only": true
+ },
+ "disacchariden": {
+  "title": "Disaccharidasen",
+  "short": "Disaccharidasen in de borstelzoom van de dunne darm splitsen disachariden (lactose, sucrose, maltose) in monosachariden.",
+  "definition": "<p>Koolhydraten worden eerst door <strong>amylase</strong> (speeksel, pancreas) afgebroken tot di- en oligosachariden en daarna door disaccharidasen (lactase, sucrase-isomaltase, maltase) tot glucose, galactose en fructose, die opgenomen kunnen worden. Bij vlokatrofie (coeliakie) is de activiteit verminderd.</p>",
+  "image_url": "",
+  "wiki_title": "Disaccharidase",
+  "match": "disacchariden",
+  "option_only": true
+ },
+ "polysacchariden": {
+  "title": "Disaccharidasen",
+  "short": "Disaccharidasen in de borstelzoom van de dunne darm splitsen disachariden (lactose, sucrose, maltose) in monosachariden.",
+  "definition": "<p>Koolhydraten worden eerst door <strong>amylase</strong> (speeksel, pancreas) afgebroken tot di- en oligosachariden en daarna door disaccharidasen (lactase, sucrase-isomaltase, maltase) tot glucose, galactose en fructose, die opgenomen kunnen worden. Bij vlokatrofie (coeliakie) is de activiteit verminderd.</p>",
+  "image_url": "",
+  "wiki_title": "Disaccharidase",
+  "match": "polysacchariden",
+  "option_only": true
+ },
+ "wisselende penetrantie": {
+  "title": "Variabele expressie, penetrantie en anticipatie",
+  "short": "Penetrantie is het percentage dragers van een mutatie dat de ziekte krijgt; expressie is hoe ernstig de ziekte is; anticipatie is een vroeger begin en ernstiger beloop in volgende generaties.",
+  "definition": "<p><strong>Anticipatie</strong> komt voor bij repeatziekten zoals de ziekte van Huntington, myotone dystrofie en fragiele-X, waarbij een herhaalde DNA-sequentie bij doorgeven langer wordt. <strong>Onvolledige penetrantie</strong> zie je bijv. bij BRCA-mutaties.</p>",
+  "image_url": "",
+  "wiki_title": "Penetrance",
+  "match": "wisselende penetrantie",
+  "option_only": true
+ },
+ "primair progressieve ms": {
+  "title": "Beloopsvormen van MS",
+  "short": "MS kan verlopen in aanvallen met (gedeeltelijk) herstel (relapsing-remitting), of met geleidelijke achteruitgang vanaf het begin (primair progressief) of na een periode met aanvallen (secundair progressief).",
+  "definition": "<p>De meeste patiënten beginnen met <strong>relapsing-remitting MS</strong>; een deel gaat na jaren over in een secundair progressieve vorm. Ziektemodulerende middelen werken vooral goed bij de vorm met aanvallen. Primair progressieve MS begint vaak later en gaat vaak met een progressieve paraparese gepaard.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis",
+  "match": "primair progressieve ms",
+  "option_only": true
+ },
+ "secundair progressieve ms": {
+  "title": "Beloopsvormen van MS",
+  "short": "MS kan verlopen in aanvallen met (gedeeltelijk) herstel (relapsing-remitting), of met geleidelijke achteruitgang vanaf het begin (primair progressief) of na een periode met aanvallen (secundair progressief).",
+  "definition": "<p>De meeste patiënten beginnen met <strong>relapsing-remitting MS</strong>; een deel gaat na jaren over in een secundair progressieve vorm. Ziektemodulerende middelen werken vooral goed bij de vorm met aanvallen. Primair progressieve MS begint vaak later en gaat vaak met een progressieve paraparese gepaard.</p>",
+  "image_url": "",
+  "wiki_title": "Multiple sclerosis",
+  "match": "secundair progressieve ms",
+  "option_only": true
+ },
+ "wortel c8": {
+  "title": "Wortel C7",
+  "short": "Een C7-radiculopathie geeft uitstraling naar de middelvinger, zwakte van de triceps en een verlaagde tricepspeesreflex.",
+  "definition": "<p>Een cervicale radiculopathie ontstaat door een hernia of artrose van de halswervels. Kenmerken per wortel: <strong>C6</strong> duim, biceps/brachioradialis en bicepspeesreflex; <strong>C7</strong> middelvinger, triceps; <strong>C8</strong> pink en zwakte van de handspieren.</p>",
+  "image_url": "",
+  "wiki_title": "Radiculopathy",
+  "match": "wortel c8",
+  "option_only": true
+ },
+ "tricepspeesreflex": {
+  "title": "Peesreflexen van de arm",
+  "short": "De bicepspeesreflex test C5–C6, de brachioradialisreflex C6 en de tricepspeesreflex C7.",
+  "definition": "<p>Verlaagde <strong>peesreflexen</strong> wijzen op een stoornis in de perifere zenuw of zenuwwortel; verhoogde reflexen op een centrale (eerste motorneuron) stoornis.</p>",
+  "image_url": "",
+  "wiki_title": "Biceps reflex",
+  "match": "tricepspeesreflex",
+  "option_only": true
+ },
+ "test van unterberger": {
+  "title": "Test van Romberg",
+  "short": "Bij de test van Romberg staat de patiënt met de voeten bij elkaar; als hij met de ogen dicht gaat vallen, wijst dat op een stoornis van de positiezin.",
+  "definition": "<p>Een positieve <strong>Romberg</strong> past bij een sensibele ataxie (achterstrengen, polyneuropathie, vitamine B12-tekort). Bij een cerebellaire ataxie is het evenwicht ook met de ogen open slecht. Bij de <strong>test van Unterberger</strong> stapt de patiënt met gesloten ogen op de plaats; draaien naar één kant wijst op een vestibulaire uitval aan die kant.</p>",
+  "image_url": "",
+  "wiki_title": "Romberg's test",
+  "match": "test van unterberger",
+  "option_only": true
+ },
+ "dystone tremor": {
+  "title": "Essentiële tremor",
+  "short": "Een essentiële tremor is een vaak erfelijke houdings- en bewegingstremor van handen en soms hoofd of stem, die verbetert met alcohol.",
+  "definition": "<p>Een <strong>essentiële tremor</strong> is symmetrisch en treedt op bij handelingen (bekertje vasthouden, schrijven). Een parkinsontremor is juist een rusttremor. Een <strong>cerebellaire tremor</strong> is een intentietremor die toeneemt naarmate het doel dichterbij komt; een <strong>dystone tremor</strong> is onregelmatig en gaat samen met dystonie. Behandeling van essentiële tremor: propranolol of primidon.</p>",
+  "image_url": "",
+  "wiki_title": "Essential tremor",
+  "match": "dystone tremor",
+  "option_only": true
+ },
+ "cerebellaire tremor": {
+  "title": "Essentiële tremor",
+  "short": "Een essentiële tremor is een vaak erfelijke houdings- en bewegingstremor van handen en soms hoofd of stem, die verbetert met alcohol.",
+  "definition": "<p>Een <strong>essentiële tremor</strong> is symmetrisch en treedt op bij handelingen (bekertje vasthouden, schrijven). Een parkinsontremor is juist een rusttremor. Een <strong>cerebellaire tremor</strong> is een intentietremor die toeneemt naarmate het doel dichterbij komt; een <strong>dystone tremor</strong> is onregelmatig en gaat samen met dystonie. Behandeling van essentiële tremor: propranolol of primidon.</p>",
+  "image_url": "",
+  "wiki_title": "Essential tremor",
+  "match": "cerebellaire tremor",
+  "option_only": true
+ },
+ "analgetica afhankelijke hoofdpijn": {
+  "title": "Medicatieovergebruikshoofdpijn",
+  "short": "Medicatieovergebruikshoofdpijn is chronische hoofdpijn door te vaak gebruiken van pijnstillers of migrainemiddelen.",
+  "definition": "<p>Er is sprake van overgebruik bij gewone pijnstillers op 15 of meer dagen per maand, of triptanen, opiaten of combinatiepreparaten op 10 of meer dagen per maand. Behandeling: stoppen met de middelen (onttrekking), daarna eventueel profylaxe.</p>",
+  "image_url": "",
+  "wiki_title": "Medication overuse headache",
+  "match": "analgetica afhankelijke hoofdpijn",
+  "option_only": true
+ },
+ "reversibility": {
+  "title": "Criteria van Bradford Hill",
+  "short": "De criteria van Bradford Hill helpen te beoordelen of een gevonden verband oorzakelijk is.",
+  "definition": "<p>De criteria zijn o.a. sterkte van het verband, consistentie, specificiteit, tijdsvolgorde (oorzaak vóór gevolg, het enige noodzakelijke criterium), <strong>dosis-responsrelatie</strong>, biologische plausibiliteit, samenhang met bestaande kennis, experimenteel bewijs (reversibiliteit) en analogie.</p>",
+  "image_url": "",
+  "wiki_title": "Bradford Hill criteria",
+  "match": "reversibility",
+  "option_only": true
+ },
+ "specificity": {
+  "title": "Criteria van Bradford Hill",
+  "short": "De criteria van Bradford Hill helpen te beoordelen of een gevonden verband oorzakelijk is.",
+  "definition": "<p>De criteria zijn o.a. sterkte van het verband, consistentie, specificiteit, tijdsvolgorde (oorzaak vóór gevolg, het enige noodzakelijke criterium), <strong>dosis-responsrelatie</strong>, biologische plausibiliteit, samenhang met bestaande kennis, experimenteel bewijs (reversibiliteit) en analogie.</p>",
+  "image_url": "",
+  "wiki_title": "Bradford Hill criteria",
+  "match": "specificity",
+  "option_only": true
+ },
+ "biologic plausibility": {
+  "title": "Criteria van Bradford Hill",
+  "short": "De criteria van Bradford Hill helpen te beoordelen of een gevonden verband oorzakelijk is.",
+  "definition": "<p>De criteria zijn o.a. sterkte van het verband, consistentie, specificiteit, tijdsvolgorde (oorzaak vóór gevolg, het enige noodzakelijke criterium), <strong>dosis-responsrelatie</strong>, biologische plausibiliteit, samenhang met bestaande kennis, experimenteel bewijs (reversibiliteit) en analogie.</p>",
+  "image_url": "",
+  "wiki_title": "Bradford Hill criteria",
+  "match": "biologic plausibility",
+  "option_only": true
+ },
+ "ectoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "ectoderm",
+  "option_only": true
+ },
+ "zijplaat mesoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "zijplaat mesoderm",
+  "option_only": true
+ },
+ "zijplaatmesoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "zijplaatmesoderm",
+  "option_only": true
+ },
+ "axiale mesoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "axiale mesoderm",
+  "option_only": true
+ },
+ "intermediaire mesoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "intermediaire mesoderm",
+  "option_only": true
+ },
+ "oesophagus mesoderm": {
+  "title": "Kiembladen",
+  "short": "Bij de gastrulatie ontstaan drie kiembladen: ectoderm, mesoderm en endoderm, waaruit alle weefsels ontstaan.",
+  "definition": "<p>Uit het <strong>ectoderm</strong> ontstaan o.a. de opperhuid en het zenuwstelsel; uit het <strong>endoderm</strong> het epitheel van darm, luchtwegen, lever en pancreas. Het <strong>mesoderm</strong> wordt verdeeld in axiaal (chorda), paraxiaal (somieten: spieren, wervels, dermis), intermediair (nieren en geslachtsorganen) en zijplaatmesoderm (lichaamswand, hart en bloedvaten, wand van de darm).</p>",
+  "image_url": "",
+  "wiki_title": "Germ layer",
+  "match": "oesophagus mesoderm",
+  "option_only": true
+ },
+ "hyaliene mebraanziekte": {
+  "title": "Respiratory distress syndrome (IRDS)",
+  "short": "IRDS is ademnood bij prematuren door een tekort aan surfactant, waardoor de longblaasjes samenvallen.",
+  "definition": "<p>Bij <strong>IRDS</strong> zijn er kreunen, intrekkingen, tachypneu en een korrelig longbeeld op de foto. Corticosteroïden aan de moeder voor de bevalling versnellen de longrijping. Behandeling: CPAP en surfactant.</p>",
+  "image_url": "",
+  "wiki_title": "Infant respiratory distress syndrome",
+  "match": "hyaliene mebraanziekte",
+  "option_only": true
+ },
+ "neonatale wet lung": {
+  "title": "Respiratory distress syndrome (IRDS)",
+  "short": "IRDS is ademnood bij prematuren door een tekort aan surfactant, waardoor de longblaasjes samenvallen.",
+  "definition": "<p>Bij <strong>IRDS</strong> zijn er kreunen, intrekkingen, tachypneu en een korrelig longbeeld op de foto. Corticosteroïden aan de moeder voor de bevalling versnellen de longrijping. Behandeling: CPAP en surfactant.</p>",
+  "image_url": "",
+  "wiki_title": "Infant respiratory distress syndrome",
+  "match": "neonatale wet lung",
+  "option_only": true
+ },
+ "mitochondriaal": {
+  "title": "Overervingspatronen",
+  "short": "Een X-gebonden recessieve ziekte treft vooral mannen en wordt via draagster-moeders doorgegeven; een mitochondriale ziekte wordt alleen via de moeder doorgegeven.",
+  "definition": "<p>Bij <strong>X-gebonden recessief</strong> (bijv. hemofilie, Duchenne) is er geen overdracht van vader op zoon. Bij <strong>mitochondriale overerving</strong> geeft de moeder de ziekte aan al haar kinderen, met wisselende ernst door heteroplasmie.</p>",
+  "image_url": "",
+  "wiki_title": "Mendelian inheritance",
+  "match": "mitochondriaal",
+  "option_only": true
+ },
+ "t helper cel": {
+  "title": "T-cellen (cytotoxisch en helper)",
+  "short": "Cytotoxische T-cellen (CD8) doden virus-geïnfecteerde cellen en tumorcellen die via MHC I een vreemd peptide tonen; T-helpercellen (CD4) sturen de afweerreactie via cytokines.",
+  "definition": "<p><strong>CD4-helpercellen</strong> herkennen antigeen op MHC II en splitsen zich in o.a. Th1 (macrofaagactivatie, intracellulaire bacteriën), Th2 (IgE, eosinofielen, parasieten), Th17 (neutrofielen, schimmels) en regulatoire T-cellen. Bij hiv daalt het aantal CD4-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "t helper cel",
+  "option_only": true
+ },
+ "cd8+ cellen": {
+  "title": "T-cellen (cytotoxisch en helper)",
+  "short": "Cytotoxische T-cellen (CD8) doden virus-geïnfecteerde cellen en tumorcellen die via MHC I een vreemd peptide tonen; T-helpercellen (CD4) sturen de afweerreactie via cytokines.",
+  "definition": "<p><strong>CD4-helpercellen</strong> herkennen antigeen op MHC II en splitsen zich in o.a. Th1 (macrofaagactivatie, intracellulaire bacteriën), Th2 (IgE, eosinofielen, parasieten), Th17 (neutrofielen, schimmels) en regulatoire T-cellen. Bij hiv daalt het aantal CD4-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "cd8+ cellen",
+  "option_only": true
+ },
+ "cd8-cellen": {
+  "title": "T-cellen (cytotoxisch en helper)",
+  "short": "Cytotoxische T-cellen (CD8) doden virus-geïnfecteerde cellen en tumorcellen die via MHC I een vreemd peptide tonen; T-helpercellen (CD4) sturen de afweerreactie via cytokines.",
+  "definition": "<p><strong>CD4-helpercellen</strong> herkennen antigeen op MHC II en splitsen zich in o.a. Th1 (macrofaagactivatie, intracellulaire bacteriën), Th2 (IgE, eosinofielen, parasieten), Th17 (neutrofielen, schimmels) en regulatoire T-cellen. Bij hiv daalt het aantal CD4-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "cd8-cellen",
+  "option_only": true
+ },
+ "th1 lymfocyten": {
+  "title": "T-cellen (cytotoxisch en helper)",
+  "short": "Cytotoxische T-cellen (CD8) doden virus-geïnfecteerde cellen en tumorcellen die via MHC I een vreemd peptide tonen; T-helpercellen (CD4) sturen de afweerreactie via cytokines.",
+  "definition": "<p><strong>CD4-helpercellen</strong> herkennen antigeen op MHC II en splitsen zich in o.a. Th1 (macrofaagactivatie, intracellulaire bacteriën), Th2 (IgE, eosinofielen, parasieten), Th17 (neutrofielen, schimmels) en regulatoire T-cellen. Bij hiv daalt het aantal CD4-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "T cell",
+  "match": "th1 lymfocyten",
+  "option_only": true
+ },
+ "lineaire regressieanalyse": {
+  "title": "Regressieanalyse",
+  "short": "Regressieanalyse beschrijft het verband tussen een uitkomst en een of meer determinanten; het type hangt af van de uitkomst.",
+  "definition": "<p>Bij een continue uitkomst wordt <strong>lineaire regressie</strong> gebruikt, bij een dichotome uitkomst logistische regressie, en bij tijd tot een gebeurtenis <strong>Cox-regressie</strong> (met hazard ratio's, onder de aanname van proportionele hazards). ANOVA vergelijkt de gemiddelden van meer dan twee groepen.</p>",
+  "image_url": "",
+  "wiki_title": "Regression analysis",
+  "match": "lineaire regressieanalyse",
+  "option_only": true
+ },
+ "variantieanalyse (anova)": {
+  "title": "Regressieanalyse",
+  "short": "Regressieanalyse beschrijft het verband tussen een uitkomst en een of meer determinanten; het type hangt af van de uitkomst.",
+  "definition": "<p>Bij een continue uitkomst wordt <strong>lineaire regressie</strong> gebruikt, bij een dichotome uitkomst logistische regressie, en bij tijd tot een gebeurtenis <strong>Cox-regressie</strong> (met hazard ratio's, onder de aanname van proportionele hazards). ANOVA vergelijkt de gemiddelden van meer dan twee groepen.</p>",
+  "image_url": "",
+  "wiki_title": "Regression analysis",
+  "match": "variantieanalyse (anova)",
+  "option_only": true
+ },
+ "spearman-correlatiecoëfficiënt": {
+  "title": "Correlatiecoëfficiënt",
+  "short": "Een correlatiecoëfficiënt (−1 tot +1) geeft aan hoe sterk twee variabelen samenhangen.",
+  "definition": "<p>De <strong>Pearson</strong>-coëfficiënt meet een lineair verband tussen normaal verdeelde continue variabelen. De <strong>Spearman</strong>-coëfficiënt gebruikt rangordes en is geschikt bij scheve verdelingen of ordinale data. Correlatie zegt niets over oorzaak en gevolg of over overeenstemming.</p>",
+  "image_url": "",
+  "wiki_title": "Pearson correlation coefficient",
+  "match": "spearman-correlatiecoëfficiënt",
+  "option_only": true
+ },
+ "een abces": {
+  "title": "Granuloom",
+  "short": "Een granuloom is een ophoping van geactiveerde macrofagen (epitheloïde cellen), vaak met reuscellen, rond een moeilijk afbreekbare prikkel.",
+  "definition": "<p><strong>Granulomen</strong> ontstaan bij tuberculose (met centrale verkazing), sarcoïdose, de ziekte van Crohn, schimmelinfecties en reacties op vreemd materiaal. Ze ontstaan via Th1-cellen en IFN-γ. Een abces bestaat juist uit granulocyten en pus.</p>",
+  "image_url": "",
+  "wiki_title": "Granuloma",
+  "match": "een abces",
+  "option_only": true
+ },
+ "een ulcus": {
+  "title": "Granuloom",
+  "short": "Een granuloom is een ophoping van geactiveerde macrofagen (epitheloïde cellen), vaak met reuscellen, rond een moeilijk afbreekbare prikkel.",
+  "definition": "<p><strong>Granulomen</strong> ontstaan bij tuberculose (met centrale verkazing), sarcoïdose, de ziekte van Crohn, schimmelinfecties en reacties op vreemd materiaal. Ze ontstaan via Th1-cellen en IFN-γ. Een abces bestaat juist uit granulocyten en pus.</p>",
+  "image_url": "",
+  "wiki_title": "Granuloma",
+  "match": "een ulcus",
+  "option_only": true
+ },
+ "een necrosehaard": {
+  "title": "Granuloom",
+  "short": "Een granuloom is een ophoping van geactiveerde macrofagen (epitheloïde cellen), vaak met reuscellen, rond een moeilijk afbreekbare prikkel.",
+  "definition": "<p><strong>Granulomen</strong> ontstaan bij tuberculose (met centrale verkazing), sarcoïdose, de ziekte van Crohn, schimmelinfecties en reacties op vreemd materiaal. Ze ontstaan via Th1-cellen en IFN-γ. Een abces bestaat juist uit granulocyten en pus.</p>",
+  "image_url": "",
+  "wiki_title": "Granuloma",
+  "match": "een necrosehaard",
+  "option_only": true
+ },
+ "tuberculeuze granulomen": {
+  "title": "Granuloom",
+  "short": "Een granuloom is een ophoping van geactiveerde macrofagen (epitheloïde cellen), vaak met reuscellen, rond een moeilijk afbreekbare prikkel.",
+  "definition": "<p><strong>Granulomen</strong> ontstaan bij tuberculose (met centrale verkazing), sarcoïdose, de ziekte van Crohn, schimmelinfecties en reacties op vreemd materiaal. Ze ontstaan via Th1-cellen en IFN-γ. Een abces bestaat juist uit granulocyten en pus.</p>",
+  "image_url": "",
+  "wiki_title": "Granuloma",
+  "match": "tuberculeuze granulomen",
+  "option_only": true
+ },
+ "interleukine 5": {
+  "title": "IL-4, IL-5 en IL-13 (type 2-cytokines)",
+  "short": "IL-4, IL-5 en IL-13 zijn cytokines van Th2-cellen die allergische ontsteking en de afweer tegen wormen sturen.",
+  "definition": "<p><strong>IL-4</strong> laat B-cellen overschakelen naar IgE, <strong>IL-5</strong> stimuleert eosinofielen, en IL-13 geeft slijmproductie en luchtweghyperreactiviteit. Biologicals tegen IL-5 (mepolizumab) en de IL-4-receptor (dupilumab) worden gebruikt bij ernstig astma en eczeem.</p>",
+  "image_url": "",
+  "wiki_title": "Interleukin 4",
+  "match": "interleukine 5",
+  "option_only": true
+ },
+ "leukotrieën b4": {
+  "title": "Eicosanoïden",
+  "short": "Eicosanoïden (prostaglandinen, tromboxanen en leukotriënen) zijn ontstekingsmediatoren die uit arachidonzuur ontstaan.",
+  "definition": "<p>Via <strong>cyclo-oxygenase</strong> ontstaan prostaglandinen (PGE2: koorts, pijn; PGI2: vaatverwijding) en tromboxaan (plaatjesaggregatie). Via <strong>lipoxygenase</strong> ontstaan leukotriënen: LTB4 trekt neutrofielen aan, LTC4/D4/E4 geven bronchoconstrictie. PGD2 komt vrij uit mestcellen bij allergie.</p>",
+  "image_url": "",
+  "wiki_title": "Eicosanoid",
+  "match": "leukotrieën b4",
+  "option_only": true
+ },
+ "12-lipoxygenase": {
+  "title": "Eicosanoïden",
+  "short": "Eicosanoïden (prostaglandinen, tromboxanen en leukotriënen) zijn ontstekingsmediatoren die uit arachidonzuur ontstaan.",
+  "definition": "<p>Via <strong>cyclo-oxygenase</strong> ontstaan prostaglandinen (PGE2: koorts, pijn; PGI2: vaatverwijding) en tromboxaan (plaatjesaggregatie). Via <strong>lipoxygenase</strong> ontstaan leukotriënen: LTB4 trekt neutrofielen aan, LTC4/D4/E4 geven bronchoconstrictie. PGD2 komt vrij uit mestcellen bij allergie.</p>",
+  "image_url": "",
+  "wiki_title": "Eicosanoid",
+  "match": "12-lipoxygenase",
+  "option_only": true
+ },
+ "mannose receptoren": {
+  "title": "Patroonherkennende receptoren",
+  "short": "Scavenger- en mannosereceptoren op macrofagen herkennen moleculen op microben en beschadigde cellen en helpen ze op te nemen.",
+  "definition": "<p>Ze horen bij de <strong>patroonherkennende receptoren</strong> van de aangeboren afweer, net als Toll-like receptoren. Scavengerreceptoren nemen ook geoxideerd LDL op, waardoor bij atherosclerose schuimcellen ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Scavenger receptor",
+  "match": "mannose receptoren",
+  "option_only": true
+ },
+ "a. temporalis superficialis": {
+  "title": "A. facialis, a. temporalis superficialis en a. maxillaris",
+  "short": "De a. facialis, a. temporalis superficialis en a. maxillaris zijn slagaders van gezicht, schedel en kaak.",
+  "definition": "<p>De <strong>a. facialis</strong> is voelbaar aan de rand van de onderkaak voor de m. masseter. De <strong>a. temporalis superficialis</strong> is voelbaar voor het oor en is bij arteriitis temporalis verdikt en drukpijnlijk. De a. maxillaris geeft o.a. de a. meningea media af.</p>",
+  "image_url": "",
+  "wiki_title": "External carotid artery",
+  "match": "a. temporalis superficialis",
+  "option_only": true
+ },
+ "a. maxillaris": {
+  "title": "A. facialis, a. temporalis superficialis en a. maxillaris",
+  "short": "De a. facialis, a. temporalis superficialis en a. maxillaris zijn slagaders van gezicht, schedel en kaak.",
+  "definition": "<p>De <strong>a. facialis</strong> is voelbaar aan de rand van de onderkaak voor de m. masseter. De <strong>a. temporalis superficialis</strong> is voelbaar voor het oor en is bij arteriitis temporalis verdikt en drukpijnlijk. De a. maxillaris geeft o.a. de a. meningea media af.</p>",
+  "image_url": "",
+  "wiki_title": "External carotid artery",
+  "match": "a. maxillaris",
+  "option_only": true
+ },
+ "hoog endotheel cellen": {
+  "title": "Hoogendotheel-venulen (HEV)",
+  "short": "Hoogendotheel-venulen zijn speciale bloedvaten in lymfeklieren waardoor naïeve lymfocyten vanuit het bloed de klier binnengaan.",
+  "definition": "<p>Lymfocyten herkennen het endotheel van de <strong>HEV</strong> via L-selectine en chemokines (CCR7). Lymfatisch endotheel bekleedt daarentegen de lymfevaten die lymfe en dendritische cellen naar de klier voeren.</p>",
+  "image_url": "",
+  "wiki_title": "High endothelial venules",
+  "match": "hoog endotheel cellen",
+  "option_only": true
+ },
+ "opregulatie van selectines": {
+  "title": "Adhesiemoleculen",
+  "short": "Adhesiemoleculen (selectines, integrines en ICAM's) zorgen ervoor dat leukocyten aan het endotheel binden en de bloedbaan kunnen verlaten.",
+  "definition": "<p>De migratie van leukocyten verloopt in stappen: rollen via <strong>selectines</strong>, stevig vasthechten via integrines aan ICAM-1/VCAM-1, en daarna diapedese door de vaatwand richting chemokines (chemotaxie). Bij een tekort aan integrines (LAD) ontstaan ernstige bacteriële infecties zonder pus.</p>",
+  "image_url": "",
+  "wiki_title": "Cell adhesion molecule",
+  "match": "opregulatie van selectines",
+  "option_only": true
+ },
+ "adhesie moleculen": {
+  "title": "Adhesiemoleculen",
+  "short": "Adhesiemoleculen (selectines, integrines en ICAM's) zorgen ervoor dat leukocyten aan het endotheel binden en de bloedbaan kunnen verlaten.",
+  "definition": "<p>De migratie van leukocyten verloopt in stappen: rollen via <strong>selectines</strong>, stevig vasthechten via integrines aan ICAM-1/VCAM-1, en daarna diapedese door de vaatwand richting chemokines (chemotaxie). Bij een tekort aan integrines (LAD) ontstaan ernstige bacteriële infecties zonder pus.</p>",
+  "image_url": "",
+  "wiki_title": "Cell adhesion molecule",
+  "match": "adhesie moleculen",
+  "option_only": true
+ },
+ "adhesie moleculen en chemokines": {
+  "title": "Adhesiemoleculen",
+  "short": "Adhesiemoleculen (selectines, integrines en ICAM's) zorgen ervoor dat leukocyten aan het endotheel binden en de bloedbaan kunnen verlaten.",
+  "definition": "<p>De migratie van leukocyten verloopt in stappen: rollen via <strong>selectines</strong>, stevig vasthechten via integrines aan ICAM-1/VCAM-1, en daarna diapedese door de vaatwand richting chemokines (chemotaxie). Bij een tekort aan integrines (LAD) ontstaan ernstige bacteriële infecties zonder pus.</p>",
+  "image_url": "",
+  "wiki_title": "Cell adhesion molecule",
+  "match": "adhesie moleculen en chemokines",
+  "option_only": true
+ },
+ "m17 macrofagen": {
+  "title": "M1- en M2-macrofagen",
+  "short": "M1-macrofagen (klassiek geactiveerd, via IFN-γ) doden microben en geven ontsteking; M2-macrofagen (alternatief geactiveerd, via IL-4/IL-13) helpen bij weefselherstel en fibrose.",
+  "definition": "<p>Deze indeling is een vereenvoudiging van een spectrum aan <strong>macrofaagactivatie</strong>. Tumorgeassocieerde macrofagen lijken vaak op M2-macrofagen en kunnen de tumorgroei bevorderen.</p>",
+  "image_url": "",
+  "wiki_title": "Macrophage polarization",
+  "match": "m17 macrofagen",
+  "option_only": true
+ },
+ "circulerende immuuncomplexen": {
+  "title": "Overgevoeligheidsreacties type II en III",
+  "short": "Bij een type II-overgevoeligheid richten antistoffen zich tegen antigenen op cellen of in weefsel; bij type III slaan immuuncomplexen uit de circulatie neer in vaatwanden.",
+  "definition": "<p>Voorbeelden van <strong>type II</strong> zijn auto-immuunhemolyse, Goodpasture en de ziekte van Graves. Voorbeelden van <strong>type III</strong> zijn SLE, poststreptokokken-glomerulonefritis en serumziekte. Type I is IgE-gemedieerd (allergie), type IV T-celgemedieerd (contactallergie).</p>",
+  "image_url": "",
+  "wiki_title": "Hypersensitivity",
+  "match": "circulerende immuuncomplexen",
+  "option_only": true
+ },
+ "inflammatoire poliep": {
+  "title": "Poliepen van het colon",
+  "short": "Darmpoliepen worden ingedeeld in adenomen (voorstadium van kanker), hyperplastische en serrated poliepen, inflammatoire en juveniele (hamartomateuze) poliepen.",
+  "definition": "<p>De meeste darmkankers ontstaan uit een <strong>adenoom</strong> (adenoom-carcinoomsequentie). Kleine hyperplastische poliepen in het rectosigmoïd zijn onschuldig; sessiele serrated laesies kunnen wel ontaarden. Juveniele poliepen zijn hamartomen; bij meerdere poliepen is een erfelijk syndroom mogelijk.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal polyp",
+  "match": "inflammatoire poliep",
+  "option_only": true
+ },
+ "juveniele poliep": {
+  "title": "Poliepen van het colon",
+  "short": "Darmpoliepen worden ingedeeld in adenomen (voorstadium van kanker), hyperplastische en serrated poliepen, inflammatoire en juveniele (hamartomateuze) poliepen.",
+  "definition": "<p>De meeste darmkankers ontstaan uit een <strong>adenoom</strong> (adenoom-carcinoomsequentie). Kleine hyperplastische poliepen in het rectosigmoïd zijn onschuldig; sessiele serrated laesies kunnen wel ontaarden. Juveniele poliepen zijn hamartomen; bij meerdere poliepen is een erfelijk syndroom mogelijk.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal polyp",
+  "match": "juveniele poliep",
+  "option_only": true
+ },
+ "prothrombinetijd": {
+  "title": "Stollingstijden (PT en aPTT)",
+  "short": "De protrombinetijd (PT/INR) meet de extrinsieke route en de aPTT de intrinsieke route van de stolling.",
+  "definition": "<p>Een verlengde <strong>PT/INR</strong> komt voor bij vitamine K-antagonisten, vitamine K-tekort en leverziekte (factor VII heeft de kortste halfwaardetijd, dus PT is een goede maat voor de leversyntheefunctie). Een verlengde <strong>aPTT</strong> past bij heparine, hemofilie A en B, en het lupusanticoagulans.</p>",
+  "image_url": "",
+  "wiki_title": "Prothrombin time",
+  "match": "prothrombinetijd",
+  "option_only": true
+ },
+ "a. hepatica sinister": {
+  "title": "A. hepatica propria, dextra en sinistra",
+  "short": "De a. hepatica propria splitst zich in een rechter- en linkertak die de leverhelften van zuurstofrijk bloed voorzien.",
+  "definition": "<p>De lever krijgt ongeveer 25% van het bloed via de <strong>a. hepatica</strong> (zuurstofrijk) en 75% via de v. portae. Galwegen zijn voor hun bloedvoorziening vrijwel alleen van de a. hepatica afhankelijk, waardoor trombose na een levertransplantatie galwegschade geeft.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatic artery proper",
+  "match": "a. hepatica sinister",
+  "option_only": true
+ },
+ "a. hepatica sinistra": {
+  "title": "A. hepatica propria, dextra en sinistra",
+  "short": "De a. hepatica propria splitst zich in een rechter- en linkertak die de leverhelften van zuurstofrijk bloed voorzien.",
+  "definition": "<p>De lever krijgt ongeveer 25% van het bloed via de <strong>a. hepatica</strong> (zuurstofrijk) en 75% via de v. portae. Galwegen zijn voor hun bloedvoorziening vrijwel alleen van de a. hepatica afhankelijk, waardoor trombose na een levertransplantatie galwegschade geeft.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatic artery proper",
+  "match": "a. hepatica sinistra",
+  "option_only": true
+ },
+ "upslant": {
+  "title": "Dysmorfe kenmerken van het gezicht",
+  "short": "Dysmorfe kenmerken zijn afwijkingen in vorm of maat, zoals de stand van de oogspleten (up- of downslant) en de afstand tussen de ogen (hypo- of hypertelorisme).",
+  "definition": "<p>Een <strong>upslant</strong> (oogspleten schuin omhoog) en epicanthus passen bij het syndroom van Down; een downslant komt bij andere syndromen voor. Een enkel dysmorf kenmerk komt ook bij gezonde mensen voor; een combinatie kan op een syndroom wijzen.</p>",
+  "image_url": "",
+  "wiki_title": "Dysmorphic feature",
+  "match": "upslant",
+  "option_only": true
+ },
+ "hypotelorisme": {
+  "title": "Dysmorfe kenmerken van het gezicht",
+  "short": "Dysmorfe kenmerken zijn afwijkingen in vorm of maat, zoals de stand van de oogspleten (up- of downslant) en de afstand tussen de ogen (hypo- of hypertelorisme).",
+  "definition": "<p>Een <strong>upslant</strong> (oogspleten schuin omhoog) en epicanthus passen bij het syndroom van Down; een downslant komt bij andere syndromen voor. Een enkel dysmorf kenmerk komt ook bij gezonde mensen voor; een combinatie kan op een syndroom wijzen.</p>",
+  "image_url": "",
+  "wiki_title": "Dysmorphic feature",
+  "match": "hypotelorisme",
+  "option_only": true
+ },
+ "excavatio recto-vesicalis": {
+  "title": "Excavatio rectovesicalis en rectouterina",
+  "short": "De excavatio rectovesicalis (man) en rectouterina (vrouw, cavum van Douglas) zijn het laagste punt van de buikholte, waar zich vocht, bloed of pus kan verzamelen.",
+  "definition": "<p>In het <strong>cavum van Douglas</strong> is bij een echo vrij vocht te zien bij bijv. een gebarsten buitenbaarmoederlijke zwangerschap of een ovariumcyste. Een abces hier kan bij rectaal toucher pijnlijk zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Rectouterine pouch",
+  "match": "excavatio recto-vesicalis",
+  "option_only": true
+ },
+ "positief teken van murphy": {
+  "title": "Buikonderzoekstekens (McBurney, Murphy)",
+  "short": "Drukpijn op het punt van McBurney (rechtsonder) past bij appendicitis; bij het teken van Murphy stopt de patiënt met inademen bij druk rechtsboven, passend bij cholecystitis.",
+  "definition": "<p>Andere tekens bij <strong>appendicitis</strong> zijn loslaatpijn, het teken van Rovsing (pijn rechtsonder bij druk linksonder) en het psoas- en obturatorteken. Bij <strong>cholecystitis</strong> is het teken van Murphy positief, vaak met koorts.</p>",
+  "image_url": "",
+  "wiki_title": "McBurney's point",
+  "match": "positief teken van murphy",
+  "option_only": true
+ },
+ "primaire dooierzakholte": {
+  "title": "Dooierzak",
+  "short": "De dooierzak is een embryonaal vliesje dat in de eerste weken de bloedvorming en de aanleg van de oergeslachtscellen verzorgt.",
+  "definition": "<p>De <strong>primaire dooierzak</strong> wordt vervangen door de kleinere secundaire dooierzak. Op een vroege echo is de dooierzak een van de eerste tekenen van een intra-uteriene zwangerschap. Een restant (ductus omphaloentericus) kan een divertikel van Meckel geven.</p>",
+  "image_url": "",
+  "wiki_title": "Yolk sac",
+  "match": "primaire dooierzakholte",
+  "option_only": true
+ },
+ "vroege deceleraties": {
+  "title": "CTG-kenmerken",
+  "short": "Op een CTG worden de basale hartfrequentie, de variabiliteit, acceleraties en deceleraties van het foetale hart beoordeeld.",
+  "definition": "<p><strong>Vroege deceleraties</strong> vallen samen met de wee en komen door hoofdcompressie (onschuldig). <strong>Variabele deceleraties</strong> komen door navelstrengcompressie, <strong>late deceleraties</strong> (na de top van de wee) wijzen op placentaire insufficiëntie. Een verminderde variabiliteit kan wijzen op hypoxie, maar ook op slaap of medicatie.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiotocography",
+  "match": "vroege deceleraties",
+  "option_only": true
+ },
+ "toegenomen variabiliteit": {
+  "title": "CTG-kenmerken",
+  "short": "Op een CTG worden de basale hartfrequentie, de variabiliteit, acceleraties en deceleraties van het foetale hart beoordeeld.",
+  "definition": "<p><strong>Vroege deceleraties</strong> vallen samen met de wee en komen door hoofdcompressie (onschuldig). <strong>Variabele deceleraties</strong> komen door navelstrengcompressie, <strong>late deceleraties</strong> (na de top van de wee) wijzen op placentaire insufficiëntie. Een verminderde variabiliteit kan wijzen op hypoxie, maar ook op slaap of medicatie.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiotocography",
+  "match": "toegenomen variabiliteit",
+  "option_only": true
+ },
+ "cel van leydig": {
+  "title": "Leydigcellen",
+  "short": "Leydigcellen liggen in het interstitium van de testis en maken onder invloed van LH testosteron.",
+  "definition": "<p>Al in de foetale periode maken <strong>Leydigcellen</strong> testosteron, nodig voor de mannelijke ontwikkeling van de geslachtsorganen. Een Leydigceltumor kan vroege puberteit of gynaecomastie geven.</p>",
+  "image_url": "",
+  "wiki_title": "Leydig cell",
+  "match": "cel van leydig",
+  "option_only": true
+ },
+ "groep-b-streptokok": {
+  "title": "Groep B-streptokok (GBS)",
+  "short": "De groep B-streptokok (Streptococcus agalactiae) komt bij veel vrouwen in vagina en darm voor en kan bij pasgeborenen sepsis en meningitis veroorzaken.",
+  "definition": "<p>Bij risicofactoren (vroeggeboorte, langdurig gebroken vliezen, koorts tijdens de bevalling, een eerder kind met GBS-ziekte) krijgt de moeder antibiotica tijdens de bevalling. Bij volwassenen geeft <strong>GBS</strong> soms urineweginfecties en huidinfecties.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus agalactiae",
+  "match": "groep-b-streptokok",
+  "option_only": true
+ },
+ "episiotomie of perineumruptuur": {
+  "title": "Episiotomie en perineumruptuur",
+  "short": "Een episiotomie is een knip in het perineum tijdens de bevalling; een perineumruptuur is een spontane scheur, ingedeeld in vier graden.",
+  "definition": "<p>Bij een <strong>derde- of vierdegraads ruptuur</strong> (totaalruptuur) is de anale sluitspier, en bij de vierde graad ook het anaalslijmvlies, betrokken; dit moet zorgvuldig worden gehecht om incontinentie te voorkomen. Een mediolaterale episiotomie wordt gedaan bij foetale nood of een kunstverlossing.</p>",
+  "image_url": "",
+  "wiki_title": "Episiotomy",
+  "match": "episiotomie of perineumruptuur",
+  "option_only": true
+ },
+ "perineum letsel": {
+  "title": "Episiotomie en perineumruptuur",
+  "short": "Een episiotomie is een knip in het perineum tijdens de bevalling; een perineumruptuur is een spontane scheur, ingedeeld in vier graden.",
+  "definition": "<p>Bij een <strong>derde- of vierdegraads ruptuur</strong> (totaalruptuur) is de anale sluitspier, en bij de vierde graad ook het anaalslijmvlies, betrokken; dit moet zorgvuldig worden gehecht om incontinentie te voorkomen. Een mediolaterale episiotomie wordt gedaan bij foetale nood of een kunstverlossing.</p>",
+  "image_url": "",
+  "wiki_title": "Episiotomy",
+  "match": "perineum letsel",
+  "option_only": true
+ },
+ "geconjugeerd hyperbilirubinemie": {
+  "title": "Geconjugeerd bilirubine",
+  "short": "Geconjugeerd bilirubine is het in de lever aan glucuronzuur gekoppelde, in water oplosbare bilirubine dat via de gal wordt uitgescheiden.",
+  "definition": "<p>Een verhoogd <strong>geconjugeerd bilirubine</strong> past bij leverziekte of galwegobstructie. Omdat het in water oplosbaar is, komt het in de urine (donkere urine). Bij pasgeborenen is een verhoogd geconjugeerd bilirubine altijd afwijkend en vraagt het om onderzoek naar bijv. galgangatresie.</p>",
+  "image_url": "",
+  "wiki_title": "Bilirubin",
+  "match": "geconjugeerd hyperbilirubinemie",
+  "option_only": true
+ },
+ "icterus prolongatus door moedermelk": {
+  "title": "Icterus neonatorum",
+  "short": "Fysiologische icterus is een lichte geelzucht bij pasgeborenen vanaf dag 2–3, door een snelle afbraak van rode bloedcellen en een onrijpe leverconjugatie.",
+  "definition": "<p>Een <strong>icterus in de eerste 24 uur</strong> is nooit fysiologisch (denk aan bloedgroepantagonisme). Moedermelkicterus kan weken aanhouden en is meestal onschuldig. Bij een icterus na twee weken moet een geconjugeerde hyperbilirubinemie (galgangatresie) worden uitgesloten. Behandeling met fototherapie volgens de bilirubinecurven.</p>",
+  "image_url": "",
+  "wiki_title": "Neonatal jaundice",
+  "match": "icterus prolongatus door moedermelk",
+  "option_only": true
+ },
+ "gentamycine": {
+  "title": "Gentamicine (aminoglycosiden)",
+  "short": "Gentamicine is een aminoglycoside dat werkt tegen gramnegatieve bacteriën door de eiwitsynthese via het 30S-ribosoom te verstoren.",
+  "definition": "<p><strong>Aminoglycosiden</strong> werken concentratieafhankelijk en worden vaak eenmaal daags gegeven, met spiegelbepalingen. Bijwerkingen zijn nefrotoxiciteit en (blijvende) ototoxiciteit. Ze werken niet tegen anaeroben.</p>",
+  "image_url": "",
+  "wiki_title": "Gentamicin",
+  "match": "gentamycine",
+  "option_only": true
+ },
+ "alcoholische levercirrose": {
+  "title": "Levercirrose",
+  "short": "Bij levercirrose is het leverweefsel vervangen door bindweefsel en regeneratieknobbels, met verlies van leverfunctie en portale hypertensie.",
+  "definition": "<p>Oorzaken van <strong>cirrose</strong> zijn o.a. alcohol, NASH, chronische hepatitis B en C, auto-immuunziekten en hemochromatose. Gevolgen: ascites, varices met bloedingen, hepatische encefalopathie, icterus, stollingsstoornissen en een verhoogd risico op hepatocellulair carcinoom. Ernst wordt ingedeeld met Child-Pugh of MELD.</p>",
+  "image_url": "",
+  "wiki_title": "Cirrhosis",
+  "match": "alcoholische levercirrose",
+  "option_only": true
+ },
+ "ercp met papillotomie": {
+  "title": "ERCP",
+  "short": "Bij een ERCP wordt via een endoscoop in het duodenum de papil van Vater opgezocht, waarna galwegen en pancreasgang met contrast kunnen worden afgebeeld en behandeld.",
+  "definition": "<p>Met een <strong>ERCP</strong> kunnen na een papillotomie galstenen worden verwijderd en stents worden geplaatst. De belangrijkste complicatie is een post-ERCP-pancreatitis; daarnaast bloeding, perforatie en cholangitis.</p>",
+  "image_url": "",
+  "wiki_title": "Endoscopic retrograde cholangiopancreatography",
+  "match": "ercp met papillotomie",
+  "option_only": true
+ },
+ "verwijzing radioloog voor mrcp": {
+  "title": "MRCP",
+  "short": "MRCP is een MRI-onderzoek dat galwegen en pancreasgang in beeld brengt zonder contrast of ingreep.",
+  "definition": "<p><strong>MRCP</strong> wordt gebruikt bij verdenking op galwegstenen, PSC en tumoren. Als er een behandeling nodig is (steen verwijderen, stent plaatsen), volgt een ERCP.</p>",
+  "image_url": "",
+  "wiki_title": "Magnetic resonance cholangiopancreatography",
+  "match": "verwijzing radioloog voor mrcp",
+  "option_only": true
+ },
+ "colon inloop foto (x-colon)": {
+  "title": "Colon-inloopfoto",
+  "short": "Bij een colon-inloopfoto wordt het colon met contrast via de anus gevuld en op röntgenfoto's afgebeeld.",
+  "definition": "<p>Een <strong>colon-inloop</strong> is grotendeels vervangen door coloscopie en CT-colografie, maar wordt nog gebruikt om fistels, stricturen of naadlekkage in beeld te brengen (met wateroplosbaar contrast).</p>",
+  "image_url": "",
+  "wiki_title": "Lower gastrointestinal series",
+  "match": "colon inloop foto (x-colon)",
+  "option_only": true
+ },
+ "pantoprazol bolusinjectie": {
+  "title": "Protonpompremmer (PPI)",
+  "short": "Protonpompremmers remmen de H⁺/K⁺-ATPase van de pariëtale cellen en zijn de krachtigste remmers van de maagzuurproductie.",
+  "definition": "<p><strong>PPI's</strong> worden gebruikt bij refluxziekte, ulcera, H. pylori-eradicatie, maagbescherming bij NSAID's en een bloedend ulcus (intraveneus). Langdurig gebruik hangt samen met hypomagnesiëmie, vitamine B12-tekort, fracturen en infecties (<em>C. difficile</em>).</p>",
+  "image_url": "",
+  "wiki_title": "Proton-pump inhibitor",
+  "match": "pantoprazol bolusinjectie",
+  "option_only": true
+ },
+ "octreotide bolusinjectie": {
+  "title": "Octreotide",
+  "short": "Octreotide is een somatostatineanaloog dat de afgifte van veel hormonen remt en de splanchnische doorbloeding vermindert.",
+  "definition": "<p><strong>Octreotide</strong> wordt gebruikt bij varicesbloedingen, neuro-endocriene tumoren (carcinoïdsyndroom), acromegalie en bepaalde vormen van diarree. Het kan galstenen veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Octreotide",
+  "match": "octreotide bolusinjectie",
+  "option_only": true
+ },
+ "non-alcoholische steato-hepatitis": {
+  "title": "NAFLD en NASH (MASLD/MASH)",
+  "short": "Bij NAFLD (nu MASLD) is er vet in de lever zonder overmatig alcoholgebruik; bij NASH (MASH) gaat dat samen met ontsteking en levercelschade.",
+  "definition": "<p><strong>NAFLD</strong> hangt sterk samen met overgewicht, diabetes type 2 en het metabool syndroom. NASH kan overgaan in fibrose, cirrose en levercelkanker. De belangrijkste behandeling is gewichtsverlies.</p>",
+  "image_url": "",
+  "wiki_title": "Non-alcoholic fatty liver disease",
+  "match": "non-alcoholische steato-hepatitis",
+  "option_only": true
+ },
+ "vitamine b12 suppletie": {
+  "title": "Vitamine B12-deficiëntie",
+  "short": "Een vitamine B12-tekort geeft een macrocytaire anemie en neurologische schade, zoals polyneuropathie en een gecombineerde strengziekte.",
+  "definition": "<p>Oorzaken van een <strong>B12-tekort</strong> zijn auto-immuungastritis (pernicieuze anemie, antistoffen tegen intrinsieke factor), maag- of ileumresectie, ziekte van Crohn, metformine, langdurig PPI-gebruik en veganistisch eten. Naast anemie ontstaan neuropathie, degeneratie van achterstrengen en piramidebanen, cognitieve stoornissen en glossitis. Methylmalonzuur en homocysteïne zijn verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin B12 deficiency",
+  "match": "vitamine b12 suppletie",
+  "option_only": true
+ },
+ "bloedonderzoek: vitamine b12": {
+  "title": "Vitamine B12-deficiëntie",
+  "short": "Een vitamine B12-tekort geeft een macrocytaire anemie en neurologische schade, zoals polyneuropathie en een gecombineerde strengziekte.",
+  "definition": "<p>Oorzaken van een <strong>B12-tekort</strong> zijn auto-immuungastritis (pernicieuze anemie, antistoffen tegen intrinsieke factor), maag- of ileumresectie, ziekte van Crohn, metformine, langdurig PPI-gebruik en veganistisch eten. Naast anemie ontstaan neuropathie, degeneratie van achterstrengen en piramidebanen, cognitieve stoornissen en glossitis. Methylmalonzuur en homocysteïne zijn verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin B12 deficiency",
+  "match": "bloedonderzoek: vitamine b12",
+  "option_only": true
+ },
+ "verlenging van qtc tijd": {
+  "title": "Verlengd QT-interval",
+  "short": "Een verlengd QT-interval op het ECG betekent een vertraagde repolarisatie van de kamers, met een risico op torsade de pointes.",
+  "definition": "<p>Oorzaken van <strong>QT-verlenging</strong> zijn erfelijke ionkanaalafwijkingen (lang-QT-syndroom), hypokaliëmie, hypomagnesiëmie, hypocalciëmie en geneesmiddelen (o.a. antipsychotica, citalopram, methadon, macroliden, antiaritmica). Het QT wordt gecorrigeerd voor de hartfrequentie (QTc).</p>",
+  "image_url": "",
+  "wiki_title": "Long QT syndrome",
+  "match": "verlenging van qtc tijd",
+  "option_only": true
+ },
+ "ziekeangststoornis": {
+  "title": "Ziekte-angststoornis",
+  "short": "Aanhoudende preoccupatie met de angst een ernstige ziekte te hebben of te krijgen, ondanks geruststelling.",
+  "definition": "<p>Bij de <strong>ziekte-angststoornis</strong> (voorheen hypochondrie) staat de angst om een ernstige aandoening te hebben of te krijgen centraal, meestal met weinig of geen lichamelijke klachten, en zonder dat somatisch onderzoek dit ondersteunt.</p>",
+  "image_url": "",
+  "wiki_title": "Hypochondriasis",
+  "match": "ziekeangststoornis",
+  "option_only": true
+ },
+ "gabapentin": {
+  "title": "Pregabaline",
+  "short": "Pregabaline is een middel tegen neuropathische pijn, epilepsie en gegeneraliseerde angst; het remt calciumkanalen in zenuwuiteinden.",
+  "definition": "<p><strong>Pregabaline</strong> en gabapentine binden aan de α2δ-subeenheid van calciumkanalen en verminderen de afgifte van prikkelende neurotransmitters. Bijwerkingen: sufheid, duizeligheid en oedeem; er is risico op misbruik en afhankelijkheid. Bij nierfunctiestoornis is een lagere dosis nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Pregabalin",
+  "match": "gabapentin",
+  "option_only": true
+ },
+ "de ziekte van parkinson": {
+  "title": "Ziekte van Parkinson",
+  "short": "De ziekte van Parkinson is een neurodegeneratieve ziekte door verlies van dopaminerge neuronen in de substantia nigra, met rusttremor, bradykinesie en rigiditeit.",
+  "definition": "<p>Bij de <strong>ziekte van Parkinson</strong> gaan dopaminerge neuronen in de substantia nigra pars compacta verloren, met Lewy-lichaampjes (alfa-synucleïne). Kernsymptomen zijn bradykinesie, rigiditeit, rusttremor en later houdingsinstabiliteit; vaak ook niet-motorische klachten zoals reukverlies, obstipatie, depressie en slaapstoornissen. Behandeling met levodopa en dopamine-agonisten.</p>",
+  "image_url": "",
+  "wiki_title": "Parkinson's disease",
+  "match": "de ziekte van parkinson",
+  "option_only": true
+ },
+ "alzheimer’s dementie": {
+  "title": "Ziekte van Alzheimer",
+  "short": "De ziekte van Alzheimer is de meest voorkomende oorzaak van dementie, met geleidelijk verlies van vooral het episodisch geheugen.",
+  "definition": "<p>Bij <strong>Alzheimer</strong> stapelen zich amyloïdplaques en neurofibrillaire tangles (tau) op, met verlies van neuronen, beginnend in de mediale temporaalkwab. Later volgen problemen met taal, oriëntatie, uitvoerende functies en gedrag. Cholinesteraseremmers en memantine geven een bescheiden symptomatisch effect.</p>",
+  "image_url": "",
+  "wiki_title": "Alzheimer's disease",
+  "match": "alzheimer’s dementie",
+  "option_only": true
+ },
+ "herpes simplex virus-2": {
+  "title": "Herpes simplexvirus (HSV)",
+  "short": "Het herpes simplexvirus veroorzaakt blaasjes op huid en slijmvliezen en blijft daarna latent in sensibele ganglia.",
+  "definition": "<p>Er zijn twee typen: <strong>HSV-1</strong> (vooral oraal, koortslip, gingivostomatitis) en <strong>HSV-2</strong> (vooral genitaal), al overlappen ze. Na de primaire infectie blijft het virus latent in sensibele ganglia en kan het reactiveren. Ernstige vormen zijn herpesencefalitis, keratitis, eczema herpeticum en neonatale herpes. Behandeling met (val)aciclovir.</p>",
+  "image_url": "",
+  "wiki_title": "Herpes simplex virus",
+  "match": "herpes simplex virus-2",
+  "option_only": true
+ },
+ "bloedkweken": {
+  "title": "Bloedkweek",
+  "short": "Een bloedkweek onderzoekt of er bacteriën of schimmels in het bloed zitten (bacteriëmie).",
+  "definition": "<p>Bij verdenking op sepsis of endocarditis worden minimaal twee sets <strong>bloedkweken</strong> afgenomen vóór het starten van antibiotica. Een kweek met huidbacteriën (bijv. coagulasenegatieve stafylokokken) in één fles is vaak een verontreiniging.</p>",
+  "image_url": "",
+  "wiki_title": "Blood culture",
+  "match": "bloedkweken",
+  "option_only": true
+ },
+ "sepsis door groep-a-streptokokken": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "sepsis door groep-a-streptokokken",
+  "option_only": true
+ },
+ "sepsis door een groep-a-streptokok": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "sepsis door een groep-a-streptokok",
+  "option_only": true
+ },
+ "groep a streptococci": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "groep a streptococci",
+  "option_only": true
+ },
+ "kweek op groep a-streptokokkeninfectie": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "kweek op groep a-streptokokkeninfectie",
+  "option_only": true
+ },
+ "bacteriele tonsillitis": {
+  "title": "Tonsillitis",
+  "short": "Tonsillitis is een ontsteking van de keelamandelen, meestal viraal, soms door groep A-streptokokken.",
+  "definition": "<p>Bij <strong>tonsillitis</strong> zijn de amandelen rood en gezwollen, soms met beslag, en zijn er keelpijn, slikklachten en koorts. Meestal gaat het om een virus (ook EBV). Bij een bacteriële oorzaak gaat het vaak om groep A-streptokokken. Complicaties zijn een peritonsillair abces (met trismus en uitpuilen van het gehemelte) en zelden acuut reuma.</p>",
+  "image_url": "",
+  "wiki_title": "Tonsillitis",
+  "match": "bacteriele tonsillitis",
+  "option_only": true
+ },
+ "stafylokok": {
+  "title": "Staphylococcus aureus",
+  "short": "S. aureus is een grampositieve kok in trosjes, coagulasepositief, die huid- en wondinfecties, abcessen en ernstige systemische infecties veroorzaakt.",
+  "definition": "<p><strong><em>Staphylococcus aureus</em></strong> is een grampositieve kok die in trosjes groeit en <em>coagulase-positief</em> is (onderscheid met andere stafylokokken). Ongeveer een derde van de mensen draagt hem in de neus.</p><p>Hij veroorzaakt huid- en wekedeleninfecties (impetigo, furunkels, abcessen, wondinfecties), maar ook osteomyelitis, septische artritis, endocarditis en sepsis. Via toxines kan hij voedselvergiftiging en het toxischeshocksyndroom veroorzaken. MRSA is een methicillineresistente variant.</p>",
+  "image_url": "",
+  "wiki_title": "Staphylococcus aureus",
+  "match": "stafylokok",
+  "option_only": true
+ },
+ "streptokok": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "streptokok",
+  "option_only": true
+ },
+ "primaire biliaire cirrhose (pbc)": {
+  "title": "Primaire biliaire cholangitis (PBC)",
+  "short": "PBC is een auto-immuunziekte waarbij de kleine galgangen in de lever worden vernietigd, vooral bij vrouwen van middelbare leeftijd.",
+  "definition": "<p>Kenmerken van <strong>PBC</strong> zijn vermoeidheid, jeuk, een verhoogd alkalisch fosfatase en antimitochondriale antistoffen (AMA). Behandeling met ursodeoxycholzuur, dat het beloop vertraagt.</p>",
+  "image_url": "",
+  "wiki_title": "Primary biliary cholangitis",
+  "match": "primaire biliaire cirrhose (pbc)",
+  "option_only": true
+ },
+ "psc": {
+  "title": "primaire scleroserende cholangitis",
+  "short": "Primaire scleroserende cholangitis (PSC) is een chronische ontsteking met fibrose van de galwegen, sterk geassocieerd met colitis ulcerosa; kenmerkend zijn strengvormige galgangvernauwingen ('kralensnoer').",
+  "definition": "<p><b>Primaire scleroserende cholangitis</b> (PSC) is een progressieve ontsteking en fibrose van de intra- en extrahepatische galwegen, met multifocale stricturen ('kralensnoer' op MRCP). Sterk geassocieerd met <b>colitis ulcerosa</b>. Verhoogt het risico op cholangiocarcinoom. Presenteert met cholestase (verhoogd bilirubine, γGT, AF).</p>",
+  "image_url": "",
+  "wiki_title": "Primary sclerosing cholangitis",
+  "match": "psc",
+  "option_only": true
+ },
+ "appendicits": {
+  "title": "Appendicitis",
+  "short": "Appendicitis is een ontsteking van de appendix, met buikpijn die vaak rond de navel begint en naar rechtsonder trekt.",
+  "definition": "<p>Bij <strong>appendicitis</strong> raakt het lumen van de appendix afgesloten (bijv. door een fecoliet of lymfoïde hyperplasie), waarna ontsteking en infectie volgen. Klachten: pijn eerst rond de navel, later rechtsonder (McBurney), misselijkheid, koorts en lokale peritoneale prikkeling. Zonder behandeling kan perforatie optreden. Diagnose met echo en/of CT; behandeling meestal appendectomie.</p>",
+  "image_url": "",
+  "wiki_title": "Appendicitis",
+  "match": "appendicits",
+  "option_only": true
+ },
+ "de sectio caesarea (keizersnede)": {
+  "title": "Sectio caesarea (keizersnede)",
+  "short": "Bij een sectio caesarea wordt het kind via een snede in buikwand en baarmoeder geboren.",
+  "definition": "<p>Na een eerdere <strong>keizersnede</strong> is er bij een volgende vaginale bevalling een klein risico op een uterusruptuur en is er een verhoogd risico op placenta praevia en accreta. Complicaties van de ingreep zelf zijn bloeding, infectie en trombose.</p>",
+  "image_url": "",
+  "wiki_title": "Caesarean section",
+  "match": "de sectio caesarea (keizersnede)",
+  "option_only": true
+ },
+ "de vlokkentest": {
+  "title": "Vlokkentest (CVS)",
+  "short": "Invasieve prenatale diagnostiek waarbij chorionvlokken worden afgenomen voor genetisch onderzoek.",
+  "definition": "<p>De <strong>vlokkentest</strong> (chorionic villus sampling) geeft vroeg (vanaf ~11 weken) zekerheid en is sneller uitvoerbaar dan de vruchtwaterpunctie.</p>",
+  "image_url": "",
+  "wiki_title": "Chorionic villus sampling",
+  "match": "de vlokkentest",
+  "option_only": true
+ },
+ "de nipt": {
+  "title": "NIPT",
+  "short": "De NIPT onderzoekt DNA van de placenta in het bloed van de zwangere op trisomie 21, 18 en 13.",
+  "definition": "<p>De <strong>NIPT</strong> is zeer gevoelig en specifiek, maar blijft een screening: een afwijkende uitslag moet worden bevestigd met een vlokkentest of vruchtwaterpunctie. De test kan vanaf 10 weken.</p>",
+  "image_url": "",
+  "wiki_title": "Non-invasive prenatal testing",
+  "match": "de nipt",
+  "option_only": true
+ },
+ "geboren in stuitligging": {
+  "title": "Stuitligging",
+  "short": "Bij een stuitligging ligt het kind met de billen of voeten naar beneden in plaats van met het hoofd.",
+  "definition": "<p>Rond 35–36 weken wordt bij een <strong>stuitligging</strong> een uitwendige versie aangeboden. Lukt dat niet, dan kan worden gekozen tussen een vaginale stuitbevalling en een geplande keizersnede. Een stuitligging is een risicofactor voor heupdysplasie; daarom volgt een echo van de heupen bij het kind.</p>",
+  "image_url": "",
+  "wiki_title": "Breech birth",
+  "match": "geboren in stuitligging",
+  "option_only": true
+ },
+ "amoxicilline met clavulaanzuur": {
+  "title": "Amoxicilline-clavulaanzuur",
+  "short": "Amoxicilline-clavulaanzuur combineert een penicilline met een bètalactamaseremmer, waardoor ook bètalactamasevormende bacteriën worden gedekt.",
+  "definition": "<p>Clavulaanzuur heeft zelf nauwelijks antibacteriële werking maar remt veel <em>bètalactamasen</em>, zodat amoxicilline niet wordt afgebroken. De combinatie werkt daardoor ook tegen o.a. <em>S. aureus</em> (geen MRSA), <em>H. influenzae</em>, <em>Moraxella</em>, veel <em>E. coli</em> en anaeroben zoals <em>Bacteroides</em>. Bijwerkingen: diarree en (zelden) cholestatische hepatitis.</p>",
+  "image_url": "",
+  "wiki_title": "Amoxicillin/clavulanic acid",
+  "match": "amoxicilline met clavulaanzuur",
+  "option_only": true
+ },
+ "hemorrhoiden": {
+  "title": "Aambeien (hemorroïden)",
+  "short": "Aambeien zijn verwijde vaatkussentjes in het anaalkanaal die kunnen bloeden, uitzakken of jeuken.",
+  "definition": "<p>Bij <strong>inwendige hemorroïden</strong> (boven de linea dentata) is helderrood bloed op de ontlasting de belangrijkste klacht, meestal zonder pijn. Uitwendige aambeien kunnen trombose geven met hevige pijn. Risicofactoren: obstipatie, persen, zwangerschap. Bij rectaal bloedverlies boven ongeveer 50 jaar moet een coloncarcinoom worden uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "Hemorrhoid",
+  "match": "hemorrhoiden",
+  "option_only": true
+ },
+ "refluxoesophagus": {
+  "title": "Gastro-oesofageale reflux",
+  "short": "Bij refluxklachten stroomt maaginhoud terug in de slokdarm, met zuurbranden en oprispingen.",
+  "definition": "<p><strong>Gastro-oesofageale refluxziekte</strong> ontstaat bij een tekortschietende onderste slokdarmsfincter, een hiatus hernia of verhoogde druk in de buik (overgewicht, zwangerschap). Klachten zijn zuurbranden achter het borstbeen en zure oprispingen, soms hoesten of heesheid. Complicaties: oesofagitis, stenose en Barrett-slokdarm. Behandeling met leefstijladviezen en protonpompremmers.</p>",
+  "image_url": "",
+  "wiki_title": "Gastroesophageal reflux disease",
+  "match": "refluxoesophagus",
+  "option_only": true
+ },
+ "acute hepatitis c": {
+  "title": "Hepatitis C",
+  "short": "Hepatitis C is een via bloed overgedragen RNA-virus dat vaak chronisch wordt en tot cirrose en levercelkanker kan leiden.",
+  "definition": "<p>Het <strong>hepatitis C-virus</strong> (flavivirus) wordt vooral via bloed overgedragen (drugsgebruik met naalden, vroeger transfusies). Een acute infectie verloopt meestal zonder klachten, maar wordt in de meerderheid chronisch. Na jaren kunnen fibrose, cirrose en hepatocellulair carcinoom ontstaan. Er is geen vaccin, maar direct werkende antivirale middelen genezen de infectie in vrijwel alle gevallen.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatitis C",
+  "match": "acute hepatitis c",
+  "option_only": true
+ },
+ "hepatitis a infectie": {
+  "title": "Hepatitis A",
+  "short": "Hepatitis A is een fecaal-oraal overgedragen virale leverontsteking die acuut verloopt en nooit chronisch wordt.",
+  "definition": "<p><strong>Hepatitis A</strong> wordt veroorzaakt door het hepatitis A-virus, een niet-omhuld RNA-virus dat fecaal-oraal wordt overgedragen (besmet water en voedsel, reizen).</p><p>Het geeft een acute hepatitis met moeheid, misselijkheid, geelzucht en verhoogde transaminasen; bij jonge kinderen vaak zonder klachten. Hepatitis A wordt <em>niet chronisch</em> en geeft levenslange immuniteit. Er is een vaccin.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatitis A",
+  "match": "hepatitis a infectie",
+  "option_only": true
+ },
+ "gastro-enteritis, mogelijk het norovirus": {
+  "title": "Norovirus",
+  "short": "Norovirus is een zeer besmettelijk RNA-virus dat acute gastro-enteritis veroorzaakt met plotseling braken en diarree, vaak in uitbraken.",
+  "definition": "<p>Het <strong>norovirus</strong> is een niet-omhuld RNA-virus (calicivirus). Er zijn maar weinig deeltjes nodig voor infectie en het overleeft lang in de omgeving.</p><p>Het veroorzaakt acute gastro-enteritis met plotseling braken, waterige diarree en buikkrampen, die 1 à 3 dagen duurt. Uitbraken komen vooral voor in verpleeghuizen, ziekenhuizen en op cruiseschepen; handhygiëne is de belangrijkste maatregel.</p>",
+  "image_url": "",
+  "wiki_title": "Norovirus",
+  "match": "gastro-enteritis, mogelijk het norovirus",
+  "option_only": true
+ },
+ "arterosclerose": {
+  "title": "Atherosclerose",
+  "short": "Atherosclerose is een chronisch ontstekingsproces in de vaatwand waarbij plaques met vet, ontstekingscellen en bindweefsel ontstaan.",
+  "definition": "<p>Bij <strong>atherosclerose</strong> dringt LDL de intima binnen en wordt het geoxideerd; monocyten worden macrofagen en schuimcellen (fatty streak). Gladde spiercellen migreren en vormen een fibreuze kap over een lipidenkern. Scheuren van een plaque met trombose veroorzaakt een acuut coronair syndroom of herseninfarct. Risicofactoren: roken, hypertensie, LDL, diabetes, leeftijd en familiaire belasting.</p>",
+  "image_url": "",
+  "wiki_title": "Atherosclerosis",
+  "match": "arterosclerose",
+  "option_only": true
+ },
+ "werkgerelateerd astma": {
+  "title": "Beroepsastma",
+  "short": "Beroepsastma is astma dat door stoffen op het werk ontstaat, zoals meelstof bij bakkers of isocyanaten bij spuiters.",
+  "definition": "<p>Typisch voor <strong>beroepsastma</strong> zijn klachten die verbeteren in het weekend en de vakanties. Vroeg stoppen met blootstelling geeft de beste kans op herstel. Het is een beroepsziekte die moet worden gemeld.</p>",
+  "image_url": "",
+  "wiki_title": "Occupational asthma",
+  "match": "werkgerelateerd astma",
+  "option_only": true
+ },
+ "lymfeadenitis colli": {
+  "title": "Lymfadenitis colli",
+  "short": "Lymfadenitis colli is een ontsteking van de lymfeklieren in de hals, o.a. bij tuberculose of kattenkrabziekte.",
+  "definition": "<p><strong>Lymfadenitis colli</strong> is een halsklierontsteking die kan verkleven met de huid en abcederen; ze komt onder meer voor bij tuberculose en de kattenkrabziekte.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "lymfeadenitis colli",
+  "option_only": true
+ },
+ "primair openkamerhoekglaucoom": {
+  "title": "Primair openkamerhoekglaucoom",
+  "short": "Bij primair openkamerhoekglaucoom wordt de oogzenuw langzaam beschadigd, meestal bij een verhoogde oogdruk, met sluipend verlies van het gezichtsveld.",
+  "definition": "<p>Het <strong>openkamerhoekglaucoom</strong> geeft lang geen klachten; het centrale zien blijft tot laat behouden. Risicofactoren zijn leeftijd, familie, myopie en een hoge oogdruk. Bij oogspiegelen is een vergrote excavatie van de papil te zien. Behandeling met druppels (prostaglandineanaloga, bètablokkers), laser of een operatie.</p>",
+  "image_url": "",
+  "wiki_title": "Primary open-angle glaucoma",
+  "match": "primair openkamerhoekglaucoom|primair open kamerhoek glaucoom|poag",
+  "option_only": true
+ },
+ "rolandische epilepsie": {
+  "title": "Rolandische epilepsie (benigne epilepsie met centrotemporale pieken)",
+  "short": "Rolandische epilepsie is een goedaardige kinderepilepsie met aanvallen tijdens de slaap, waarbij één kant van gezicht en mond trekt en het kind niet kan praten.",
+  "definition": "<p>De aanvallen beginnen tussen 3 en 13 jaar en verdwijnen meestal in de puberteit. Het EEG toont centrotemporale pieken, vooral tijdens de slaap. Behandeling is vaak niet nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Benign Rolandic epilepsy",
+  "match": "rolandische epilepsie|benigne rolandische epilepsie|selflimited epilepsy with centrotemporal spikes",
+  "option_only": true
+ },
+ "lennox-gastaut syndroom": {
+  "title": "Syndroom van Lennox-Gastaut",
+  "short": "Lennox-Gastaut is een ernstig epilepsiesyndroom bij kinderen met meerdere aanvalstypen (vooral tonische aanvallen en valaanvallen) en een verstandelijke beperking.",
+  "definition": "<p>Het EEG toont trage piek-golfcomplexen. Het syndroom kan ontstaan na het syndroom van West. De aanvallen zijn vaak moeilijk te behandelen; middelen zijn o.a. valproaat, lamotrigine, rufinamide en clobazam, soms een ketogeen dieet of nervus vagusstimulatie.</p>",
+  "image_url": "",
+  "wiki_title": "Lennox–Gastaut syndrome",
+  "match": "lennox-gastaut syndroom|syndroom van lennox-gastaut|syndroom van lennox-gastaux",
+  "option_only": true
+ },
+ "endo-echografie": {
+  "title": "Endo-echografie (EUS)",
+  "short": "Bij een endo-echografie zit een echokop op een endoscoop, waardoor organen vlak naast slokdarm, maag en duodenum van dichtbij kunnen worden afgebeeld en zo nodig gepuncteerd.",
+  "definition": "<p>Met <strong>EUS</strong> wordt o.a. de doorgroei van slokdarm-, maag- en pancreastumoren beoordeeld, worden kleine galstenen opgespoord en kunnen biopten en drainages van cysten worden uitgevoerd.</p>",
+  "image_url": "",
+  "wiki_title": "Endoscopic ultrasound",
+  "match": "endo-echografie|eus|eus, endoechografie|endoscopische echografie",
+  "option_only": true
+ },
+ "sociale angststoornis": {
+  "title": "Sociale-angststoornis",
+  "short": "Bij een sociale-angststoornis is er een sterke angst om door anderen negatief beoordeeld te worden, met vermijding van sociale situaties.",
+  "definition": "<p>De <strong>sociale-angststoornis</strong> begint meestal in de adolescentie. Er zijn lichamelijke klachten zoals blozen, trillen en zweten. Behandeling: cognitieve gedragstherapie met blootstelling, eventueel een SSRI.</p>",
+  "image_url": "",
+  "wiki_title": "Social anxiety disorder",
+  "match": "sociale angststoornis|sociale-angststoornis|sociale fobie",
+  "option_only": true
+ },
+ "normoverschrijdend-gedragsstoornis": {
+  "title": "Normoverschrijdend-gedragsstoornis",
+  "short": "Bij een normoverschrijdend-gedragsstoornis schendt een kind of jongere herhaaldelijk de rechten van anderen en belangrijke sociale normen.",
+  "definition": "<p>Voorbeelden zijn agressie tegen mensen of dieren, vernieling, liegen, stelen en ernstige regelovertredingen. Begint het vóór de leeftijd van 10 jaar, dan is de prognose ongunstiger; het kan overgaan in een antisociale persoonlijkheidsstoornis op volwassen leeftijd.</p>",
+  "image_url": "",
+  "wiki_title": "Conduct disorder",
+  "match": "normoverschrijdend-gedragsstoornis|normoverschrijdend gedragsstoornis|conduct disorder",
+  "option_only": true
+ },
+ "naloxon": {
+  "title": "Naloxon",
+  "short": "Naloxon is een opioïdantagonist die een opiaatintoxicatie snel opheft.",
+  "definition": "<p><strong>Naloxon</strong> werkt korter dan de meeste opioïden, waardoor de ademhalingsdepressie kan terugkeren; herhaalde toediening of een infuus kan nodig zijn. Bij opiaatafhankelijke patiënten kan het een acute onttrekking uitlokken.</p>",
+  "image_url": "",
+  "wiki_title": "Naloxone",
+  "match": "naloxon|nalexon",
+  "option_only": true
+ },
+ "delier": {
+  "title": "Delier",
+  "short": "Een delier is een acute, wisselende stoornis van aandacht en bewustzijn, met verwardheid, door een lichamelijke oorzaak.",
+  "definition": "<p>Een <strong>delier</strong> komt veel voor bij ouderen in het ziekenhuis, na operaties en bij infecties, medicatie, onttrekking (alcohol) en metabole stoornissen. Er is een hypoactieve en een hyperactieve vorm. Behandeling: de oorzaak behandelen, oriëntatie bieden, en zo nodig haloperidol.</p>",
+  "image_url": "",
+  "wiki_title": "Delirium",
+  "match": "delier|een delier|delirium",
+  "option_only": true
+ },
+ "ziekte van waldenström": {
+  "title": "Ziekte van Waldenström",
+  "short": "De ziekte van Waldenström is een lymfoplasmacytair lymfoom dat een monoklonaal IgM maakt.",
+  "definition": "<p>Het hoge <strong>IgM</strong> kan een hyperviscositeitssyndroom geven (hoofdpijn, gezichtsstoornissen, bloedingen), en daarnaast neuropathie, cryoglobulinemie en koude-agglutinatie. Een MYD88-mutatie is kenmerkend.</p>",
+  "image_url": "",
+  "wiki_title": "Waldenström macroglobulinemia",
+  "match": "ziekte van waldenström|de ziekte van waldenström|macroglobulinemie",
+  "option_only": true
+ },
+ "crest-syndroom": {
+  "title": "CREST-syndroom (gelimiteerde systemische sclerose)",
+  "short": "Het CREST-syndroom is een vorm van systemische sclerose met calcinose, Raynaud, slokdarmstoornissen, sclerodactylie en teleangiëctasieën.",
+  "definition": "<p>Bij deze <strong>gelimiteerde vorm</strong> zijn anticentromeerantistoffen kenmerkend. Er is een risico op pulmonale arteriële hypertensie. Bij de diffuse vorm (anti-Scl-70) staan longfibrose en nierproblemen meer op de voorgrond.</p>",
+  "image_url": "",
+  "wiki_title": "CREST syndrome",
+  "match": "crest-syndroom|het crest syndroom|crest",
+  "option_only": true
+ },
+ "bence-jonesproteïne": {
+  "title": "Bence Jones-eiwit",
+  "short": "Bence Jones-eiwit bestaat uit vrije lichte ketens van immunoglobulinen in de urine, vooral bij een multipel myeloom.",
+  "definition": "<p>Lichte ketens worden gefiltreerd en kunnen in de tubuli neerslaan (myeloomnier). Ze worden niet altijd gezien met een gewone urinestick, maar wel met elektroforese of een bepaling van vrije lichte ketens in serum.</p>",
+  "image_url": "",
+  "wiki_title": "Bence Jones protein",
+  "match": "bence-jonesproteïne|bence jones|de ziekte van bence-jones|vrije lichte ketens",
+  "option_only": true
+ },
+ "koolmonoxidevergiftiging": {
+  "title": "Koolmonoxidevergiftiging",
+  "short": "Bij een koolmonoxidevergiftiging bindt CO veel sterker dan zuurstof aan hemoglobine, met weefselhypoxie.",
+  "definition": "<p>Klachten zijn hoofdpijn, duizeligheid, misselijkheid en verwardheid, vaak bij meerdere huisgenoten tegelijk (kachel, geiser). De pulsoxymeter geeft een normale saturatie; het COHb moet in het bloedgas worden gemeten. Behandeling: 100% zuurstof, bij ernstige gevallen hyperbare zuurstof.</p>",
+  "image_url": "",
+  "wiki_title": "Carbon monoxide poisoning",
+  "match": "koolmonoxidevergiftiging|kool-monoxide vergiftiging|co-intoxicatie",
+  "option_only": true
+ },
+ "pneumoconiose": {
+  "title": "Pneumoconiose (stoflong)",
+  "short": "Een pneumoconiose is een longziekte door het langdurig inademen van anorganisch stof, zoals kolen, kwarts of asbest.",
+  "definition": "<p>Bekende vormen zijn <strong>silicose</strong>, asbestose en de kolenmijnwerkerslong. Het stof wordt opgenomen door macrofagen, wat ontsteking en fibrose geeft. Het is een beroepsziekte; preventie bestaat uit stofbeheersing en beschermingsmiddelen.</p>",
+  "image_url": "",
+  "wiki_title": "Pneumoconiosis",
+  "match": "pneumoconiose|stoflong|mijnwerkerslong",
+  "option_only": true
+ },
+ "huisstofmijt": {
+  "title": "Huisstofmijt",
+  "short": "De huisstofmijt is een klein spinachtig diertje in beddengoed en stof; allergie voor zijn uitwerpselen is een belangrijke oorzaak van allergisch astma en rhinitis.",
+  "definition": "<p>Klachten van een <strong>huisstofmijtallergie</strong> zijn vaak het hele jaar aanwezig en 's ochtends erger. De diagnose wordt gesteld met een huidpriktest of specifiek IgE. Hoesjes om het matras hebben weinig effect; immunotherapie kan helpen.</p>",
+  "image_url": "",
+  "wiki_title": "House dust mite",
+  "match": "huisstofmijt|huisstofmijt allergie",
+  "option_only": true
+ },
+ "myasthenia gravis": {
+  "title": "Myasthenia gravis",
+  "short": "Myasthenia gravis is een auto-immuunziekte waarbij antistoffen de acetylcholinereceptoren van de motorische eindplaat blokkeren, met een spierzwakte die toeneemt bij inspanning.",
+  "definition": "<p>Vaak begint <strong>myasthenia gravis</strong> met ptosis en dubbelzien; later kunnen slikken, praten en ademhalen zwak worden (myasthene crisis). Naast anti-AChR komen anti-MuSK-antistoffen voor. Er is een samenhang met een thymoom. Behandeling: pyridostigmine, immunosuppressie, thymectomie.</p>",
+  "image_url": "",
+  "wiki_title": "Myasthenia gravis",
+  "match": "myasthenia gravis|antistoffen tegen acetylcholinereceptor|anti-achr",
+  "option_only": true
+ },
+ "antistoffen tegen aquaporine-4": {
+  "title": "Neuromyelitis optica",
+  "short": "Neuromyelitis optica is een auto-immuunziekte met ernstige ontsteking van oogzenuwen en ruggenmerg, door antistoffen tegen aquaporine-4.",
+  "definition": "<p>Bij <strong>NMO</strong> ontstaan ernstige opticus-neuritiden en een uitgebreide myelitis over drie of meer segmenten, soms een area postrema-syndroom (onbedwingbaar braken en hikken). Het onderscheid met MS is belangrijk, omdat sommige MS-middelen NMO verergeren.</p>",
+  "image_url": "",
+  "wiki_title": "Neuromyelitis optica",
+  "match": "antistoffen tegen aquaporine-4",
+  "option_only": true
+ },
+ "neuromyelitis optica spectrum disease": {
+  "title": "Neuromyelitis optica",
+  "short": "Neuromyelitis optica is een auto-immuunziekte met ernstige ontsteking van oogzenuwen en ruggenmerg, door antistoffen tegen aquaporine-4.",
+  "definition": "<p>Bij <strong>NMO</strong> ontstaan ernstige opticus-neuritiden en een uitgebreide myelitis over drie of meer segmenten, soms een area postrema-syndroom (onbedwingbaar braken en hikken). Het onderscheid met MS is belangrijk, omdat sommige MS-middelen NMO verergeren.</p>",
+  "image_url": "",
+  "wiki_title": "Neuromyelitis optica",
+  "match": "neuromyelitis optica spectrum disease",
+  "option_only": true
+ },
+ "wegener granulomatose": {
+  "title": "Granulomatose met polyangiitis (GPA)",
+  "short": "GPA is een ANCA-geassocieerde vasculitis van kleine vaten met granulomen, vooral in bovenste luchtwegen, longen en nieren.",
+  "definition": "<p>Bij <strong>GPA</strong> zijn er klachten van neus en bijholten (korsten, bloedingen, zadelneus), longnoduli of -bloedingen en een snel progressieve glomerulonefritis. Meestal zijn er c-ANCA (anti-PR3). Behandeling met hoge dosis corticosteroïden en rituximab of cyclofosfamide.</p>",
+  "image_url": "",
+  "wiki_title": "Granulomatosis with polyangiitis",
+  "match": "wegener granulomatose",
+  "option_only": true
+ },
+ "somatische symptoomstoornis": {
+  "title": "Somatisatie",
+  "short": "Somatisatie is de neiging om psychische spanning te ervaren en te uiten als lichamelijke klachten.",
+  "definition": "<p>Bij een <strong>somatisch-symptoomstoornis</strong> zijn er lichamelijke klachten die veel zorgen, gedachten en gedrag oproepen en het functioneren beperken, ongeacht of er een medische verklaring is. Behandeling richt zich op uitleg, het doorbreken van vicieuze cirkels en geleidelijk opbouwen van activiteiten, vaak met cognitieve gedragstherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Somatic symptom disorder",
+  "match": "somatische symptoomstoornis",
+  "option_only": true
+ },
+ "een ssri": {
+  "title": "SSRI",
+  "short": "Selectieve serotonineheropnameremmer; antidepressivum dat ook een trombocytopathie kan veroorzaken.",
+  "definition": "<p>Een <b>SSRI</b> (selectieve serotonineheropnameremmer) is een veelgebruikt antidepressivum. SSRI’s remmen de heropname van serotonine, ook in de bloedplaatjes, waardoor een <b>trombocytopathie</b> ontstaat en het risico op maag-/bloedingscomplicaties toeneemt, zeker samen met NSAIDs.</p>",
+  "image_url": "",
+  "wiki_title": "Selective serotonin reuptake inhibitor",
+  "match": "een ssri",
+  "option_only": true
+ },
+ "ssri-medicatie": {
+  "title": "SSRI",
+  "short": "Selectieve serotonineheropnameremmer; antidepressivum dat ook een trombocytopathie kan veroorzaken.",
+  "definition": "<p>Een <b>SSRI</b> (selectieve serotonineheropnameremmer) is een veelgebruikt antidepressivum. SSRI’s remmen de heropname van serotonine, ook in de bloedplaatjes, waardoor een <b>trombocytopathie</b> ontstaat en het risico op maag-/bloedingscomplicaties toeneemt, zeker samen met NSAIDs.</p>",
+  "image_url": "",
+  "wiki_title": "Selective serotonin reuptake inhibitor",
+  "match": "ssri-medicatie",
+  "option_only": true
+ },
+ "een tricyclisch antidepressivum": {
+  "title": "Tricyclische antidepressiva",
+  "short": "Tricyclische antidepressiva remmen de heropname van noradrenaline en serotonine en hebben veel anticholinerge bijwerkingen.",
+  "definition": "<p><strong>TCA's</strong> (zoals amitriptyline, nortriptyline, clomipramine) worden gebruikt bij depressie en in lage dosis bij neuropathische pijn. Bijwerkingen: droge mond, obstipatie, urineretentie, sufheid, orthostatische hypotensie en gewichtstoename. Bij overdosering zijn ze gevaarlijk door natriumkanaalblokkade (breed QRS, aritmieën) en insulten.</p>",
+  "image_url": "",
+  "wiki_title": "Tricyclic antidepressant",
+  "match": "een tricyclisch antidepressivum",
+  "option_only": true
+ },
+ "een klassieke mao-remmer": {
+  "title": "Monoamineoxidase (MAO)",
+  "short": "Monoamineoxidase is een enzym in de buitenmembraan van mitochondriën dat monoamines zoals serotonine, noradrenaline en dopamine afbreekt.",
+  "definition": "<p>Er zijn twee vormen: <strong>MAO-A</strong> (vooral serotonine en noradrenaline, ook tyramine in de darm) en <strong>MAO-B</strong> (vooral dopamine). MAO-remmers worden gebruikt bij depressie (MAO-A) en de ziekte van Parkinson (MAO-B, bijv. selegiline, rasagiline). Bij niet-selectieve remmers kan tyraminerijk voedsel (oude kaas) een hypertensieve crisis geven.</p>",
+  "image_url": "",
+  "wiki_title": "Monoamine oxidase",
+  "match": "een klassieke mao-remmer",
+  "option_only": true
+ },
+ "irritable bowel syndrome": {
+  "title": "Prikkelbare darm syndroom",
+  "short": "Functionele darmstoornis met buikpijn en wisselend ontlastingspatroon zonder aantoonbare afwijkingen.",
+  "definition": "<p>Het <b>prikkelbare darm syndroom</b> (PDS/IBS) is een diagnose per uitsluiting: buikpijn en veranderd defecatiepatroon zonder alarmsymptomen of afwijkend onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "Irritable bowel syndrome",
+  "match": "irritable bowel syndrome",
+  "option_only": true
+ },
+ "bulleus pemphigoid": {
+  "title": "Bulleus pemfigoïd",
+  "short": "Bulleus pemfigoïd is een auto-immuunblaarziekte bij ouderen, met jeukende, strakke blaren door antistoffen tegen hemidesmosomen.",
+  "definition": "<p>Bij <strong>bulleus pemfigoïd</strong> (antistoffen tegen BP180 en BP230) ligt de splijting onder de epidermis, waardoor de blaren stevig zijn. Er gaat vaak een lange jeukende fase vooraf. Het slijmvlies is meestal gespaard, anders dan bij pemphigus vulgaris. Behandeling met sterke lokale of systemische corticosteroïden.</p>",
+  "image_url": "",
+  "wiki_title": "Bullous pemphigoid",
+  "match": "bulleus pemphigoid",
+  "option_only": true
+ },
+ "trombose": {
+  "title": "Trombosebeen (diepveneuze trombose)",
+  "short": "Een trombosebeen is een stolsel in een diepe vene van het been, met een dik, pijnlijk, warm been.",
+  "definition": "<p>Bij een <strong>diepveneuze trombose</strong> ontstaat een stolsel in de diepe venen, meestal in de kuit of bovenbeen. Risicofactoren volgen de trias van Virchow: stase, hypercoagulabiliteit en vaatwandschade (bijv. operatie, immobilisatie, kanker, zwangerschap, oestrogenen). Diagnostiek met een beslisregel (Wells), D-dimeer en compressie-echografie. De belangrijkste complicatie is een longembolie; behandeling met antistolling.</p>",
+  "image_url": "",
+  "wiki_title": "Deep vein thrombosis",
+  "match": "trombose",
+  "option_only": true
+ },
+ "primair open kamerhoek glaucoom": {
+  "title": "Primair openkamerhoekglaucoom",
+  "short": "Bij primair openkamerhoekglaucoom wordt de oogzenuw langzaam beschadigd, meestal bij een verhoogde oogdruk, met sluipend verlies van het gezichtsveld.",
+  "definition": "<p>Het <strong>openkamerhoekglaucoom</strong> geeft lang geen klachten; het centrale zien blijft tot laat behouden. Risicofactoren zijn leeftijd, familie, myopie en een hoge oogdruk. Bij oogspiegelen is een vergrote excavatie van de papil te zien. Behandeling met druppels (prostaglandineanaloga, bètablokkers), laser of een operatie.</p>",
+  "image_url": "",
+  "wiki_title": "Primary open-angle glaucoma",
+  "match": "primair open kamerhoek glaucoom",
+  "option_only": true
+ },
+ "benigne rolandische epilepsie": {
+  "title": "Rolandische epilepsie (benigne epilepsie met centrotemporale pieken)",
+  "short": "Rolandische epilepsie is een goedaardige kinderepilepsie met aanvallen tijdens de slaap, waarbij één kant van gezicht en mond trekt en het kind niet kan praten.",
+  "definition": "<p>De aanvallen beginnen tussen 3 en 13 jaar en verdwijnen meestal in de puberteit. Het EEG toont centrotemporale pieken, vooral tijdens de slaap. Behandeling is vaak niet nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Benign Rolandic epilepsy",
+  "match": "benigne rolandische epilepsie",
+  "option_only": true
+ },
+ "syndroom van lennox-gastaux": {
+  "title": "Syndroom van Lennox-Gastaut",
+  "short": "Lennox-Gastaut is een ernstig epilepsiesyndroom bij kinderen met meerdere aanvalstypen (vooral tonische aanvallen en valaanvallen) en een verstandelijke beperking.",
+  "definition": "<p>Het EEG toont trage piek-golfcomplexen. Het syndroom kan ontstaan na het syndroom van West. De aanvallen zijn vaak moeilijk te behandelen; middelen zijn o.a. valproaat, lamotrigine, rufinamide en clobazam, soms een ketogeen dieet of nervus vagusstimulatie.</p>",
+  "image_url": "",
+  "wiki_title": "Lennox–Gastaut syndrome",
+  "match": "syndroom van lennox-gastaux",
+  "option_only": true
+ },
+ "eus, endoechografie": {
+  "title": "Endo-echografie (EUS)",
+  "short": "Bij een endo-echografie zit een echokop op een endoscoop, waardoor organen vlak naast slokdarm, maag en duodenum van dichtbij kunnen worden afgebeeld en zo nodig gepuncteerd.",
+  "definition": "<p>Met <strong>EUS</strong> wordt o.a. de doorgroei van slokdarm-, maag- en pancreastumoren beoordeeld, worden kleine galstenen opgespoord en kunnen biopten en drainages van cysten worden uitgevoerd.</p>",
+  "image_url": "",
+  "wiki_title": "Endoscopic ultrasound",
+  "match": "eus, endoechografie",
+  "option_only": true
+ },
+ "sociale-angststoornis": {
+  "title": "Sociale-angststoornis",
+  "short": "Bij een sociale-angststoornis is er een sterke angst om door anderen negatief beoordeeld te worden, met vermijding van sociale situaties.",
+  "definition": "<p>De <strong>sociale-angststoornis</strong> begint meestal in de adolescentie. Er zijn lichamelijke klachten zoals blozen, trillen en zweten. Behandeling: cognitieve gedragstherapie met blootstelling, eventueel een SSRI.</p>",
+  "image_url": "",
+  "wiki_title": "Social anxiety disorder",
+  "match": "sociale-angststoornis",
+  "option_only": true
+ },
+ "normoverschrijdend gedragsstoornis": {
+  "title": "Normoverschrijdend-gedragsstoornis",
+  "short": "Bij een normoverschrijdend-gedragsstoornis schendt een kind of jongere herhaaldelijk de rechten van anderen en belangrijke sociale normen.",
+  "definition": "<p>Voorbeelden zijn agressie tegen mensen of dieren, vernieling, liegen, stelen en ernstige regelovertredingen. Begint het vóór de leeftijd van 10 jaar, dan is de prognose ongunstiger; het kan overgaan in een antisociale persoonlijkheidsstoornis op volwassen leeftijd.</p>",
+  "image_url": "",
+  "wiki_title": "Conduct disorder",
+  "match": "normoverschrijdend gedragsstoornis",
+  "option_only": true
+ },
+ "nalexon": {
+  "title": "Naloxon",
+  "short": "Naloxon is een opioïdantagonist die een opiaatintoxicatie snel opheft.",
+  "definition": "<p><strong>Naloxon</strong> werkt korter dan de meeste opioïden, waardoor de ademhalingsdepressie kan terugkeren; herhaalde toediening of een infuus kan nodig zijn. Bij opiaatafhankelijke patiënten kan het een acute onttrekking uitlokken.</p>",
+  "image_url": "",
+  "wiki_title": "Naloxone",
+  "match": "nalexon",
+  "option_only": true
+ },
+ "een delier": {
+  "title": "Delier",
+  "short": "Een delier is een acute, wisselende stoornis van aandacht en bewustzijn, met verwardheid, door een lichamelijke oorzaak.",
+  "definition": "<p>Een <strong>delier</strong> komt veel voor bij ouderen in het ziekenhuis, na operaties en bij infecties, medicatie, onttrekking (alcohol) en metabole stoornissen. Er is een hypoactieve en een hyperactieve vorm. Behandeling: de oorzaak behandelen, oriëntatie bieden, en zo nodig haloperidol.</p>",
+  "image_url": "",
+  "wiki_title": "Delirium",
+  "match": "een delier",
+  "option_only": true
+ },
+ "de ziekte van waldenström": {
+  "title": "Ziekte van Waldenström",
+  "short": "De ziekte van Waldenström is een lymfoplasmacytair lymfoom dat een monoklonaal IgM maakt.",
+  "definition": "<p>Het hoge <strong>IgM</strong> kan een hyperviscositeitssyndroom geven (hoofdpijn, gezichtsstoornissen, bloedingen), en daarnaast neuropathie, cryoglobulinemie en koude-agglutinatie. Een MYD88-mutatie is kenmerkend.</p>",
+  "image_url": "",
+  "wiki_title": "Waldenström macroglobulinemia",
+  "match": "de ziekte van waldenström",
+  "option_only": true
+ },
+ "het crest syndroom": {
+  "title": "CREST-syndroom (gelimiteerde systemische sclerose)",
+  "short": "Het CREST-syndroom is een vorm van systemische sclerose met calcinose, Raynaud, slokdarmstoornissen, sclerodactylie en teleangiëctasieën.",
+  "definition": "<p>Bij deze <strong>gelimiteerde vorm</strong> zijn anticentromeerantistoffen kenmerkend. Er is een risico op pulmonale arteriële hypertensie. Bij de diffuse vorm (anti-Scl-70) staan longfibrose en nierproblemen meer op de voorgrond.</p>",
+  "image_url": "",
+  "wiki_title": "CREST syndrome",
+  "match": "het crest syndroom",
+  "option_only": true
+ },
+ "de ziekte van bence-jones": {
+  "title": "Bence Jones-eiwit",
+  "short": "Bence Jones-eiwit bestaat uit vrije lichte ketens van immunoglobulinen in de urine, vooral bij een multipel myeloom.",
+  "definition": "<p>Lichte ketens worden gefiltreerd en kunnen in de tubuli neerslaan (myeloomnier). Ze worden niet altijd gezien met een gewone urinestick, maar wel met elektroforese of een bepaling van vrije lichte ketens in serum.</p>",
+  "image_url": "",
+  "wiki_title": "Bence Jones protein",
+  "match": "de ziekte van bence-jones",
+  "option_only": true
+ },
+ "kool-monoxide vergiftiging": {
+  "title": "Koolmonoxidevergiftiging",
+  "short": "Bij een koolmonoxidevergiftiging bindt CO veel sterker dan zuurstof aan hemoglobine, met weefselhypoxie.",
+  "definition": "<p>Klachten zijn hoofdpijn, duizeligheid, misselijkheid en verwardheid, vaak bij meerdere huisgenoten tegelijk (kachel, geiser). De pulsoxymeter geeft een normale saturatie; het COHb moet in het bloedgas worden gemeten. Behandeling: 100% zuurstof, bij ernstige gevallen hyperbare zuurstof.</p>",
+  "image_url": "",
+  "wiki_title": "Carbon monoxide poisoning",
+  "match": "kool-monoxide vergiftiging",
+  "option_only": true
+ },
+ "stoflong": {
+  "title": "Pneumoconiose (stoflong)",
+  "short": "Een pneumoconiose is een longziekte door het langdurig inademen van anorganisch stof, zoals kolen, kwarts of asbest.",
+  "definition": "<p>Bekende vormen zijn <strong>silicose</strong>, asbestose en de kolenmijnwerkerslong. Het stof wordt opgenomen door macrofagen, wat ontsteking en fibrose geeft. Het is een beroepsziekte; preventie bestaat uit stofbeheersing en beschermingsmiddelen.</p>",
+  "image_url": "",
+  "wiki_title": "Pneumoconiosis",
+  "match": "stoflong",
+  "option_only": true
+ },
+ "huisstofmijt allergie": {
+  "title": "Huisstofmijt",
+  "short": "De huisstofmijt is een klein spinachtig diertje in beddengoed en stof; allergie voor zijn uitwerpselen is een belangrijke oorzaak van allergisch astma en rhinitis.",
+  "definition": "<p>Klachten van een <strong>huisstofmijtallergie</strong> zijn vaak het hele jaar aanwezig en 's ochtends erger. De diagnose wordt gesteld met een huidpriktest of specifiek IgE. Hoesjes om het matras hebben weinig effect; immunotherapie kan helpen.</p>",
+  "image_url": "",
+  "wiki_title": "House dust mite",
+  "match": "huisstofmijt allergie",
+  "option_only": true
+ },
+ "antistoffen tegen acetylcholinereceptor": {
+  "title": "Myasthenia gravis",
+  "short": "Myasthenia gravis is een auto-immuunziekte waarbij antistoffen de acetylcholinereceptoren van de motorische eindplaat blokkeren, met een spierzwakte die toeneemt bij inspanning.",
+  "definition": "<p>Vaak begint <strong>myasthenia gravis</strong> met ptosis en dubbelzien; later kunnen slikken, praten en ademhalen zwak worden (myasthene crisis). Naast anti-AChR komen anti-MuSK-antistoffen voor. Er is een samenhang met een thymoom. Behandeling: pyridostigmine, immunosuppressie, thymectomie.</p>",
+  "image_url": "",
+  "wiki_title": "Myasthenia gravis",
+  "match": "antistoffen tegen acetylcholinereceptor",
+  "option_only": true
+ },
+ "incongruent affect": {
+  "title": "Affect (psychiatrisch onderzoek)",
+  "short": "Het affect is de zichtbare uiting van de stemming; het wordt beoordeeld op modulatie (variatie), stabiliteit en congruentie met de inhoud van het gesprek.",
+  "definition": "<p>Bij een <strong>vlak affect</strong> is er weinig variatie, bij een <strong>labiel affect</strong> wisselt het snel en heftig, en bij een <strong>incongruent affect</strong> past het niet bij wat iemand vertelt (bijv. lachen bij iets verdrietigs), wat bij schizofrenie voorkomt. Een goed modulerend affect is normaal.</p>",
+  "image_url": "",
+  "wiki_title": "Affect (psychology)",
+  "match": "incongruent affect|modulerend affect|vlak affect|labiel affect",
+  "option_only": true
+ },
+ "dysforie": {
+  "title": "Dysforie",
+  "short": "Dysforie is een sombere, prikkelbare of ontstemde stemming.",
+  "definition": "<p><strong>Dysforie</strong> komt voor bij depressie, persoonlijkheidsstoornissen, onthouding en een gemengde episode bij de bipolaire stoornis. Het is iets anders dan genderdysforie, de last van een mismatch tussen ervaren gender en toegewezen geslacht.</p>",
+  "image_url": "",
+  "wiki_title": "Dysphoria",
+  "match": "dysforie|dysfore stemming",
+  "option_only": true
+ },
+ "hypomanische episode": {
+  "title": "Hypomanie",
+  "short": "Een hypomane episode is een periode van minstens vier dagen met een verhoogde of prikkelbare stemming en meer energie, zonder ernstige ontregeling van het functioneren.",
+  "definition": "<p>Bij een <strong>hypomanie</strong> zijn er geen psychotische kenmerken en is er geen opname nodig; anders is het een manie. Een depressie met minstens één hypomanie heet een bipolaire II-stoornis.</p>",
+  "image_url": "",
+  "wiki_title": "Hypomania",
+  "match": "hypomanische episode|hypomanie",
+  "option_only": true
+ },
+ "interoceptieve angst": {
+  "title": "Interoceptieve angst en blootstelling",
+  "short": "Interoceptieve angst is angst voor lichamelijke sensaties, zoals hartkloppingen of duizeligheid, die bij een paniekstoornis als gevaarlijk worden geïnterpreteerd.",
+  "definition": "<p>Bij <strong>interoceptieve blootstelling</strong> wekt de patiënt deze sensaties bewust op (bijv. door snel te ademen of rond te draaien), om te leren dat ze onschuldig zijn.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "interoceptieve angst|interoceptieve blootstelling",
+  "option_only": true
+ },
+ "chronische slapeloosheid": {
+  "title": "Insomnie",
+  "short": "Insomnie is moeite met in- of doorslapen of te vroeg wakker worden, minstens drie nachten per week gedurende drie maanden, met klachten overdag.",
+  "definition": "<p>De eerste keus bij <strong>chronische insomnie</strong> is CGT voor insomnie (slaaprestrictie, stimuluscontrole, slaaphygiëne, cognitieve technieken). Slaapmiddelen zijn alleen kortdurend zinvol, vanwege gewenning, afhankelijkheid en valrisico.</p>",
+  "image_url": "",
+  "wiki_title": "Insomnia",
+  "match": "chronische slapeloosheid|insomnie|slapeloosheid",
+  "option_only": true
+ },
+ "selectieve aandacht": {
+  "title": "Selectieve aandacht",
+  "short": "Selectieve aandacht is het richten van de aandacht op bepaalde prikkels en het negeren van andere.",
+  "definition": "<p>Bij angststoornissen is er vaak een <strong>aandachtsbias</strong>: dreigende prikkels worden sneller opgemerkt, wat de angst in stand houdt. Bij hypochondrie wordt de aandacht vaak op lichamelijke sensaties gericht.</p>",
+  "image_url": "",
+  "wiki_title": "Attentional bias",
+  "match": "selectieve aandacht|aandachtsbias",
+  "option_only": true
+ },
+ "anabole steroïden": {
+  "title": "Anabole steroïden",
+  "short": "Anabole steroïden zijn synthetische varianten van testosteron die spiergroei bevorderen.",
+  "definition": "<p>Misbruik van <strong>anabole steroïden</strong> geeft o.a. acne, testisatrofie en onvruchtbaarheid, gynaecomastie, leverschade, een ongunstig cholesterolprofiel, polycytemie, hart- en vaatziekten en stemmingsstoornissen (agressie, depressie bij stoppen).</p>",
+  "image_url": "",
+  "wiki_title": "Anabolic steroid",
+  "match": "anabole steroïden|anabolica",
+  "option_only": true
+ },
+ "hepatotoxiciteit": {
+  "title": "Hepatotoxiciteit",
+  "short": "Hepatotoxiciteit is leverschade door geneesmiddelen of andere stoffen.",
+  "definition": "<p>Bekende oorzaken zijn <strong>paracetamol</strong> (dosisafhankelijk), amoxicilline/clavulaanzuur, isoniazide, methotrexaat, valproaat, statines (zelden) en kruidenmiddelen. Het patroon kan hepatocellulair (hoog ALAT), cholestatisch (hoog AF) of gemengd zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatotoxicity",
+  "match": "hepatotoxiciteit|drug-induced liver injury|dili",
+  "option_only": true
+ },
+ "galblaascarcinoom": {
+  "title": "Galblaascarcinoom",
+  "short": "Het galblaascarcinoom is een zeldzame, agressieve tumor van de galblaas, vaak pas laat ontdekt.",
+  "definition": "<p>Risicofactoren zijn langdurige galstenen, een porseleingalblaas en grote galblaaspoliepen (&gt; 1 cm). Soms wordt het toevallig gevonden na een cholecystectomie.</p>",
+  "image_url": "",
+  "wiki_title": "Gallbladder cancer",
+  "match": "galblaascarcinoom",
+  "option_only": true
+ },
+ "colorectaal carcinoom": {
+  "title": "Colorectaal carcinoom",
+  "short": "Het colorectaal carcinoom is een adenocarcinoom van de dikke darm, meestal ontstaan uit een adenoom.",
+  "definition": "<p>Een tumor <strong>links</strong> geeft vaak een veranderd ontlastingspatroon en bloed bij de ontlasting; een tumor <strong>rechts</strong> vaker een ijzergebreksanemie. Risicofactoren: leeftijd, familie, IBD, Lynch-syndroom en FAP. In Nederland is er een bevolkingsonderzoek met een FIT-test.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal cancer",
+  "match": "colorectaal carcinoom|darmkanker|coloncarcinoom|rectumcarcinoom",
+  "option_only": true
+ },
+ "tuberculeuze colitis": {
+  "title": "Darmtuberculose",
+  "short": "Darmtuberculose treft vooral het ileocaecale gebied en kan sterk lijken op de ziekte van Crohn.",
+  "definition": "<p>Bij <strong>abdominale tuberculose</strong> zijn er buikpijn, koorts, gewichtsverlies en soms ascites. Het onderscheid met Crohn is belangrijk, omdat behandeling met immunosuppressie bij tbc gevaarlijk is.</p>",
+  "image_url": "",
+  "wiki_title": "Abdominal tuberculosis",
+  "match": "tuberculeuze colitis|darmtuberculose|abdominale tuberculose",
+  "option_only": true
+ },
+ "leukemie": {
+  "title": "Leukemie",
+  "short": "Leukemie is een kwaadaardige ziekte van bloedvormende cellen, met afwijkende cellen in beenmerg en bloed.",
+  "definition": "<p>Bij <strong>acute leukemie</strong> (AML, ALL) verdringen onrijpe blasten de normale bloedaanmaak, met anemie, infecties en bloedingen. Chronische vormen (CML, CLL) verlopen langzamer. ALL is de meest voorkomende kanker bij kinderen.</p>",
+  "image_url": "",
+  "wiki_title": "Leukemia",
+  "match": "leukemie|acute leukemie|chronische leukemie",
+  "option_only": true
+ },
+ "hoofd-halstumor": {
+  "title": "Hoofd-halskanker",
+  "short": "Hoofd-halskanker zijn meestal plaveiselcelcarcinomen van mond, keel, strottenhoofd of neusbijholten.",
+  "definition": "<p>De belangrijkste risicofactoren zijn <strong>roken en alcohol</strong>; voor orofarynxtumoren ook HPV (betere prognose). Aanhoudende heesheid, een niet-genezende wond in de mond, slikklachten of een halszwelling moeten worden onderzocht.</p>",
+  "image_url": "",
+  "wiki_title": "Head and neck cancer",
+  "match": "hoofd-halstumor|hoofd-halskanker|hoofd-halscarcinoom",
+  "option_only": true
+ },
+ "hersenstaminfarct": {
+  "title": "Hersenstaminfarct",
+  "short": "Een hersenstaminfarct ontstaat door afsluiting van een tak van de a. vertebralis of a. basilaris en geeft vaak ‘gekruiste’ uitval.",
+  "definition": "<p>Kenmerkend is uitval van hersenzenuwen aan de ene kant met verlamming of gevoelsstoornis van het lichaam aan de andere kant, en vaak dubbelzien, duizeligheid, slikstoornissen en ataxie. Voorbeelden zijn het syndroom van Wallenberg en een locked-in syndroom.</p>",
+  "image_url": "",
+  "wiki_title": "Brainstem stroke",
+  "match": "hersenstaminfarct|hersenstamberoerte",
+  "option_only": true
+ },
+ "cervicogene duizeligheid": {
+  "title": "Cervicogene duizeligheid",
+  "short": "Cervicogene duizeligheid is een onvast gevoel dat samenhangt met nekklachten, door een verstoorde informatie uit de nekreceptoren.",
+  "definition": "<p>Het is een diagnose bij uitsluiting: eerst moeten vestibulaire en centrale oorzaken, zoals BPPV en vertebrobasilaire problemen, worden uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "cervicogene duizeligheid",
+  "option_only": true
+ },
+ "postcoïtale hoofdpijn": {
+  "title": "Hoofdpijn bij seksuele activiteit",
+  "short": "Hoofdpijn bij seksuele activiteit kan dof opbouwen of plotseling heftig zijn rond het orgasme.",
+  "definition": "<p>Bij een eerste <strong>plotselinge, heftige hoofdpijn</strong> moet altijd een subarachnoïdale bloeding of een reversibel vasoconstrictiesyndroom worden uitgesloten, ook als de context seksuele activiteit is.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "postcoïtale hoofdpijn|orgasmehoofdpijn",
+  "option_only": true
+ },
+ "audiologisch onderzoek": {
+  "title": "Audiologisch onderzoek",
+  "short": "Bij audiologisch onderzoek wordt het gehoor gemeten, o.a. met een toonaudiogram en spraakaudiometrie.",
+  "definition": "<p>Een <strong>toonaudiogram</strong> onderscheidt geleidingsverlies (verschil tussen lucht- en beengeleiding) van perceptief verlies. Een eenzijdig perceptief verlies of oorsuizen vraagt om een MRI om een brughoektumor uit te sluiten.</p>",
+  "image_url": "",
+  "wiki_title": "Audiometry",
+  "match": "audiologisch onderzoek|audiogram|toonaudiogram",
+  "option_only": true
+ },
+ "zinksulfaat": {
+  "title": "Zink",
+  "short": "Zink is een spoorelement dat nodig is voor veel enzymen, wondgenezing en de afweer.",
+  "definition": "<p>Een <strong>zinktekort</strong> geeft huidafwijkingen rond mond en anus (acrodermatitis enteropathica), haaruitval, diarree, smaakstoornissen en slechte wondgenezing. Het komt voor bij malabsorptie, alcoholisme en langdurige parenterale voeding.</p>",
+  "image_url": "",
+  "wiki_title": "Zinc deficiency",
+  "match": "zinksulfaat|zink|zinktekort",
+  "option_only": true
+ },
+ "lood in het drinkwater": {
+  "title": "Loodvergiftiging",
+  "short": "Lood is een giftig zwaar metaal; bij kinderen geeft blootstelling (oude verf, loden waterleidingen) al bij lage spiegels ontwikkelingsachterstand.",
+  "definition": "<p>Bij <strong>loodvergiftiging</strong> zijn er buikpijn, obstipatie, anemie met basofiele stippeling, neuropathie (dropshand) en een blauwe lijn langs het tandvlees. Lood remt de heemsynthese. Behandeling: blootstelling stoppen, eventueel chelatietherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Lead poisoning",
+  "match": "lood in het drinkwater|loodvergiftiging|lood",
+  "option_only": true
+ },
+ "traumatherapie": {
+  "title": "Traumagerichte therapie",
+  "short": "Traumagerichte therapieën bij PTSS zijn o.a. EMDR, imaginaire exposure en traumagerichte cognitieve gedragstherapie.",
+  "definition": "<p>Bij <strong>EMDR</strong> denkt de patiënt aan de traumatische herinnering terwijl de werkgeheugenbelasting wordt verhoogd (oogbewegingen, geluiden), waardoor de herinnering minder emotioneel geladen wordt. Medicatie (SSRI) is een tweede keus.</p>",
+  "image_url": "",
+  "wiki_title": "Eye movement desensitization and reprocessing",
+  "match": "traumatherapie|emdr|imaginaire exposure",
+  "option_only": true
+ },
+ "relatietherapie": {
+  "title": "Systeem- en relatietherapie",
+  "short": "Bij relatie- en systeemtherapie wordt niet alleen de patiënt, maar het hele systeem (partner, gezin) bij de behandeling betrokken.",
+  "definition": "<p><strong>Systeemtherapie</strong> wordt gebruikt bij relatieproblemen, problemen in gezinnen met kinderen en jongeren, en als aanvulling bij o.a. eetstoornissen en verslaving.</p>",
+  "image_url": "",
+  "wiki_title": "Family therapy",
+  "match": "relatietherapie|systeemtherapie|gezinstherapie",
+  "option_only": true
+ },
+ "modulerend affect": {
+  "title": "Affect (psychiatrisch onderzoek)",
+  "short": "Het affect is de zichtbare uiting van de stemming; het wordt beoordeeld op modulatie (variatie), stabiliteit en congruentie met de inhoud van het gesprek.",
+  "definition": "<p>Bij een <strong>vlak affect</strong> is er weinig variatie, bij een <strong>labiel affect</strong> wisselt het snel en heftig, en bij een <strong>incongruent affect</strong> past het niet bij wat iemand vertelt (bijv. lachen bij iets verdrietigs), wat bij schizofrenie voorkomt. Een goed modulerend affect is normaal.</p>",
+  "image_url": "",
+  "wiki_title": "Affect (psychology)",
+  "match": "modulerend affect",
+  "option_only": true
+ },
+ "cognitieve therapie": {
+  "title": "Cognitieve gedragstherapie",
+  "short": "Cognitieve gedragstherapie richt zich op het veranderen van niet-helpende gedachten en gedrag.",
+  "definition": "<p>In <strong>cognitieve gedragstherapie</strong> leert iemand automatische negatieve gedachten te herkennen en te toetsen, en nieuw gedrag uit te proberen (bijv. exposure bij angst, activering bij depressie). Het is een kortdurende, gestructureerde therapie met bewezen effect bij o.a. depressie, angststoornissen, OCS, slapeloosheid en eetstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Cognitive behavioral therapy",
+  "match": "cognitieve therapie",
+  "option_only": true
+ },
+ "cgt voor depressie": {
+  "title": "Cognitieve gedragstherapie",
+  "short": "Cognitieve gedragstherapie richt zich op het veranderen van niet-helpende gedachten en gedrag.",
+  "definition": "<p>In <strong>cognitieve gedragstherapie</strong> leert iemand automatische negatieve gedachten te herkennen en te toetsen, en nieuw gedrag uit te proberen (bijv. exposure bij angst, activering bij depressie). Het is een kortdurende, gestructureerde therapie met bewezen effect bij o.a. depressie, angststoornissen, OCS, slapeloosheid en eetstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Cognitive behavioral therapy",
+  "match": "cgt voor depressie",
+  "option_only": true
+ },
+ "cognitieve gedragstherapie voor patiënt": {
+  "title": "Cognitieve gedragstherapie",
+  "short": "Cognitieve gedragstherapie richt zich op het veranderen van niet-helpende gedachten en gedrag.",
+  "definition": "<p>In <strong>cognitieve gedragstherapie</strong> leert iemand automatische negatieve gedachten te herkennen en te toetsen, en nieuw gedrag uit te proberen (bijv. exposure bij angst, activering bij depressie). Het is een kortdurende, gestructureerde therapie met bewezen effect bij o.a. depressie, angststoornissen, OCS, slapeloosheid en eetstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Cognitive behavioral therapy",
+  "match": "cognitieve gedragstherapie voor patiënt",
+  "option_only": true
+ },
+ "geagiteerde depressie": {
+  "title": "atypische depressie",
+  "short": "Subtype depressie met stemmingsreactiviteit en ‘omgekeerde’ vegetatieve symptomen: veel slapen, toegenomen eetlust/gewicht, loodzwaar gevoel en gevoeligheid voor afwijzing.",
+  "definition": "<p>De <strong>atypische depressie</strong> onderscheidt zich door stemmingsreactiviteit (opklaren bij positieve gebeurtenissen) en ‘omgekeerde’ vegetatieve kenmerken: hypersomnie, toegenomen eetlust en gewicht, loodzwaar gevoel in de ledematen en een langdurige gevoeligheid voor interpersoonlijke afwijzing. Klassieke MAO-remmers zijn hierbij relatief effectief.</p>",
+  "image_url": "",
+  "wiki_title": "Atypical depression",
+  "match": "geagiteerde depressie",
+  "option_only": true
+ },
+ "sigmoidcarcinoom": {
+  "title": "Colorectaal carcinoom",
+  "short": "Het colorectaal carcinoom is een adenocarcinoom van de dikke darm, meestal ontstaan uit een adenoom.",
+  "definition": "<p>Een tumor <strong>links</strong> geeft vaak een veranderd ontlastingspatroon en bloed bij de ontlasting; een tumor <strong>rechts</strong> vaker een ijzergebreksanemie. Risicofactoren: leeftijd, familie, IBD, Lynch-syndroom en FAP. In Nederland is er een bevolkingsonderzoek met een FIT-test.</p>",
+  "image_url": "",
+  "wiki_title": "Colorectal cancer",
+  "match": "sigmoidcarcinoom",
+  "option_only": true
  }
 };
