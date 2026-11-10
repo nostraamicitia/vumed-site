@@ -19192,5 +19192,4055 @@ window.ANSWER_TERMS = {
   "wiki_title": "Polydipsia",
   "match": "psychogene polidipsie",
   "option_only": true
+ },
+ "prevalentie": {
+  "title": "Prevalentie",
+  "short": "Prevalentie is het aantal bestaande gevallen van een ziekte in een populatie op een bepaald moment of in een periode.",
+  "definition": "<p>De <strong>prevalentie</strong> hangt af van de incidentie (nieuwe gevallen) en de ziekteduur: prevalentie ≈ incidentie × duur. Een betere behandeling die mensen langer in leven houdt zonder ze te genezen, verhoogt dus de prevalentie. De voorspellende waarde van een test hangt sterk af van de prevalentie.</p>",
+  "image_url": "",
+  "wiki_title": "Prevalence",
+  "match": "prevalentie|puntprevalentie",
+  "option_only": true
+ },
+ "wortel l5": {
+  "title": "Wortel L5",
+  "short": "Een L5-radiculopathie geeft pijn en gevoelsstoornis over de buitenkant van het onderbeen en de voetrug en zwakte van de grote-teenextensie.",
+  "definition": "<p>Bij uitval van de <strong>wortel L5</strong> (vaak door een hernia L4–L5) zijn de m. extensor hallucis longus en de voetheffers zwak, en soms de heupabductoren. De reflexen zijn meestal normaal. Bij een S1-radiculopathie zijn juist de achillespeesreflex en de plantairflexie verminderd, met gevoelsstoornis aan de buitenkant van de voet.</p>",
+  "image_url": "",
+  "wiki_title": "Radiculopathy",
+  "match": "wortel l5|l5-radiculopathie",
+  "option_only": true
+ },
+ "wortel s1": {
+  "title": "Wortel S1",
+  "short": "Een S1-radiculopathie geeft pijn over de achterkant van het been naar de buitenkant van de voet, zwakte van de plantairflexie en een verlaagde achillespeesreflex.",
+  "definition": "<p>Uitval van de <strong>wortel S1</strong> ontstaat meestal door een hernia L5–S1. Patiënten kunnen moeilijk op de tenen lopen. Bij uitval van meerdere sacrale wortels met blaasstoornis en rijbroekanesthesie moet aan een caudasyndroom worden gedacht (spoed).</p>",
+  "image_url": "",
+  "wiki_title": "Radiculopathy",
+  "match": "wortel s1|s1-radiculopathie",
+  "option_only": true
+ },
+ "omgekeerde lasègue": {
+  "title": "Omgekeerde Lasègue (femoralis-rektest)",
+  "short": "Bij de omgekeerde Lasègue wordt in buikligging de knie gebogen; pijn aan de voorkant van de dij wijst op prikkeling van een hoge lumbale wortel (L2–L4).",
+  "definition": "<p>De <strong>omgekeerde Lasègue</strong> rekt de n. femoralis en de wortels L2–L4. Een positieve test past bij een hoge lumbale hernia; de gewone Lasègue test vooral L5 en S1.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "omgekeerde lasègue|femoralis-rektest",
+  "option_only": true
+ },
+ "processus uncinatus": {
+  "title": "Processus uncinatus",
+  "short": "De processus uncinatus is een haakvormig uitsteeksel, o.a. van de pancreaskop achter de vasa mesenterica superiora en van het zeefbeen.",
+  "definition": "<p>Het <strong>processus uncinatus van de pancreas</strong> ligt achter de a. en v. mesenterica superior. Ook het zeefbeen en de halswervels (unco-vertebrale gewrichten) hebben een processus uncinatus.</p>",
+  "image_url": "",
+  "wiki_title": "Uncinate process of pancreas",
+  "match": "processus uncinatus",
+  "option_only": true
+ },
+ "tuberculum majus": {
+  "title": "Tuberculum majus en minus",
+  "short": "Het tuberculum majus en minus zijn knobbels aan de humeruskop waaraan de rotatorcuffspieren aanhechten.",
+  "definition": "<p>Aan het <strong>tuberculum majus</strong> hechten de m. supraspinatus, infraspinatus en teres minor; aan het <strong>tuberculum minus</strong> de m. subscapularis. Tussen beide loopt de sulcus intertubercularis met de lange bicepspees. Een avulsiefractuur van het tuberculum majus komt voor bij schouderluxaties.</p>",
+  "image_url": "",
+  "wiki_title": "Greater tubercle",
+  "match": "tuberculum majus|tuberculum minus",
+  "option_only": true
+ },
+ "humerusschacht": {
+  "title": "Humerusschacht",
+  "short": "De schacht van de humerus; bij een fractuur hiervan kan de n. radialis beschadigd raken.",
+  "definition": "<p>De n. radialis loopt in een groeve spiraalsgewijs om de achterkant van de <strong>humerusschacht</strong>. Bij een schachtfractuur ontstaat daardoor soms een dropshand. De meeste schachtfracturen genezen goed met een brace.</p>",
+  "image_url": "",
+  "wiki_title": "Humerus",
+  "match": "humerusschacht|humerusschachtfractuur",
+  "option_only": true
+ },
+ "collum chirurgicum": {
+  "title": "Collum chirurgicum (humerus)",
+  "short": "Het collum chirurgicum is de vernauwing net onder de humeruskop; een veelvoorkomende plaats voor fracturen bij ouderen.",
+  "definition": "<p>Rond het <strong>collum chirurgicum</strong> lopen de n. axillaris en de a. circumflexa humeri posterior. Bij een fractuur hier moet het gevoel op de buitenkant van de schouder (n. axillaris) worden gecontroleerd.</p>",
+  "image_url": "",
+  "wiki_title": "Surgical neck of the humerus",
+  "match": "collum chirurgicum",
+  "option_only": true
+ },
+ "angina abdominalis bij atherosclerose": {
+  "title": "Angina abdominalis (chronische mesenteriale ischemie)",
+  "short": "Bij angina abdominalis ontstaat buikpijn na de maaltijd door vernauwing van de darmslagaders, met angst om te eten en gewichtsverlies.",
+  "definition": "<p>Bij <strong>chronische mesenteriale ischemie</strong> zijn meestal twee of drie darmslagaders (truncus coeliacus, a. mesenterica superior en inferior) vernauwd door atherosclerose. Behandeling met revascularisatie (stent of bypass).</p>",
+  "image_url": "",
+  "wiki_title": "Chronic mesenteric ischemia",
+  "match": "angina abdominalis bij atherosclerose|angina abdominalis",
+  "option_only": true
+ },
+ "antitrombine deficientie": {
+  "title": "Antitrombinedeficiëntie",
+  "short": "Antitrombine remt trombine en factor Xa; een erfelijk tekort geeft een hoog risico op veneuze trombose.",
+  "definition": "<p><strong>Antitrombine</strong> wordt in de lever gemaakt; heparine versterkt de werking ervan sterk. Bij een tekort (erfelijk, of verworven bij nefrotisch syndroom, leverziekte of DIS) werkt heparine minder goed.</p>",
+  "image_url": "",
+  "wiki_title": "Antithrombin III deficiency",
+  "match": "antitrombine deficientie|antitrombinedeficiëntie|antitrombine",
+  "option_only": true
+ },
+ "capecitabine": {
+  "title": "Capecitabine",
+  "short": "Capecitabine is een oraal voorstadium van 5-fluorouracil, een antimetaboliet die de DNA-synthese remt.",
+  "definition": "<p><strong>Capecitabine</strong> wordt gebruikt bij colorectaal-, maag- en borstkanker. Bijwerkingen: hand-voetsyndroom, diarree en beenmergsuppressie. Bij een tekort aan het enzym DPD (DPYD-variant) kan ernstige toxiciteit optreden; daarom wordt vooraf getest.</p>",
+  "image_url": "",
+  "wiki_title": "Capecitabine",
+  "match": "capecitabine|5-fluorouracil|5-fu",
+  "option_only": true
+ },
+ "sikkelceltrait": {
+  "title": "Sikkelceldragerschap",
+  "short": "Bij sikkelceldragerschap (HbAS) heeft iemand één afwijkend hemoglobinegen; meestal zonder klachten.",
+  "definition": "<p>Dragers van het <strong>sikkelcelgen</strong> zijn gedeeltelijk beschermd tegen ernstige malaria. Onder extreme omstandigheden (grote hoogte, uitdroging, zware inspanning) kunnen zeldzame complicaties optreden. Twee dragers hebben samen een kans van 25% op een kind met sikkelcelziekte.</p>",
+  "image_url": "",
+  "wiki_title": "Sickle cell trait",
+  "match": "sikkelceltrait|sikkelceldragerschap|hbas",
+  "option_only": true
+ },
+ "secundaire polyglobulie door roken": {
+  "title": "Secundaire polycytemie",
+  "short": "Bij secundaire polycytemie stijgt de aanmaak van rode bloedcellen door een verhoogd EPO, bijvoorbeeld bij roken, COPD of een EPO-producerende tumor.",
+  "definition": "<p>Bij roken verhoogt koolmonoxide het percentage geblokkeerd hemoglobine, wat via weefselhypoxie de EPO-productie stimuleert. Andere oorzaken: chronische hypoxie (COPD, hoogte, slaapapneu), niertumoren en testosterongebruik. Het EPO is (normaal tot) verhoogd, anders dan bij polycytemia vera.</p>",
+  "image_url": "",
+  "wiki_title": "Secondary polycythemia",
+  "match": "secundaire polyglobulie door roken|secundaire polyglobulie|secundaire polycytemie",
+  "option_only": true
+ },
+ "eeg": {
+  "title": "EEG (elektro-encefalogram)",
+  "short": "Een EEG registreert de elektrische activiteit van de hersenen via elektroden op de hoofdhuid.",
+  "definition": "<p>Een <strong>EEG</strong> wordt vooral gebruikt bij epilepsie (epileptiforme afwijkingen, type epilepsie), bij onverklaarde bewustzijnsstoornissen (non-convulsieve status, encefalopathie) en bij slaaponderzoek. Een normaal EEG tussen aanvallen sluit epilepsie niet uit.</p>",
+  "image_url": "",
+  "wiki_title": "Electroencephalography",
+  "match": "eeg|elektro-encefalogram",
+  "option_only": true
+ },
+ "lichttherapie": {
+  "title": "Lichttherapie",
+  "short": "Lichttherapie gebruikt licht ter behandeling: UV-licht bij huidziekten of fel licht bij winterdepressie en slaapritmestoornissen.",
+  "definition": "<p>Bij <strong>huidziekten</strong> (psoriasis, eczeem, vitiligo) wordt smalspectrum-UVB of PUVA gebruikt, met op lange termijn een verhoogd risico op huidkanker. Bij een <strong>seizoensgebonden depressie</strong> helpt dagelijkse blootstelling aan fel licht in de ochtend.</p>",
+  "image_url": "",
+  "wiki_title": "Light therapy",
+  "match": "lichttherapie|uvb-therapie|smalspectrum uvb fototherapie",
+  "option_only": true
+ },
+ "faalangst": {
+  "title": "Faalangst",
+  "short": "Faalangst is angst om te falen in situaties waarin iemand wordt beoordeeld, met spanning, blokkeren en vermijding.",
+  "definition": "<p>Bij <strong>faalangst</strong> kan iemand door spanning slechter presteren dan hij kan, wat de angst weer versterkt. Het hangt samen met perfectionisme en negatieve gedachten. Cognitieve gedragstherapie en training helpen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "faalangst|prestatieangst",
+  "option_only": true
+ },
+ "problematische hechting": {
+  "title": "Hechtingsproblematiek",
+  "short": "Bij een problematische hechting heeft een kind geen veilige band met een verzorger kunnen opbouwen, met gevolgen voor emotionele en sociale ontwikkeling.",
+  "definition": "<p>Volgens de <strong>hechtingstheorie</strong> (Bowlby, Ainsworth) ontwikkelen kinderen een veilige of onveilige (vermijdende, ambivalente, gedesorganiseerde) hechtingsstijl, afhankelijk van de sensitiviteit van verzorgers. Ernstige verwaarlozing kan een reactieve hechtingsstoornis geven.</p>",
+  "image_url": "",
+  "wiki_title": "Attachment disorder",
+  "match": "problematische hechting|hechtingsstoornis|onveilige hechting",
+  "option_only": true
+ },
+ "levercirrose": {
+  "title": "Levercirrose",
+  "short": "Bij levercirrose is het leverweefsel vervangen door bindweefsel en regeneratieknobbels, met verlies van leverfunctie en portale hypertensie.",
+  "definition": "<p>Oorzaken van <strong>cirrose</strong> zijn o.a. alcohol, NASH, chronische hepatitis B en C, auto-immuunziekten en hemochromatose. Gevolgen: ascites, varices met bloedingen, hepatische encefalopathie, icterus, stollingsstoornissen en een verhoogd risico op hepatocellulair carcinoom. Ernst wordt ingedeeld met Child-Pugh of MELD.</p>",
+  "image_url": "",
+  "wiki_title": "Cirrhosis",
+  "match": "levercirrose|cirrose|cirrhose",
+  "option_only": true
+ },
+ "q-koorts (coxiella burnetii)": {
+  "title": "Q-koorts (Coxiella burnetii)",
+  "short": "Q-koorts is een zoönose door Coxiella burnetii, verspreid via stof van besmette geiten en schapen.",
+  "definition": "<p><strong>Q-koorts</strong> geeft vaak een griepachtig beeld, pneumonie of hepatitis; chronische Q-koorts kan endocarditis en vaatinfecties geven, vooral bij klepafwijkingen of vaatprothesen. In 2007–2010 was er in Nederland een grote epidemie rond geitenhouderijen. Behandeling met doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Q fever",
+  "match": "q-koorts (coxiella burnetii)|q-koorts|coxiella burnetii",
+  "option_only": true
+ },
+ "psittacose": {
+  "title": "Psittacose",
+  "short": "Psittacose is een longontsteking door Chlamydia psittaci, opgelopen via (stof van) besmette vogels.",
+  "definition": "<p>Bij <strong>psittacose</strong> zijn er hoge koorts, hoofdpijn, droge hoest en spierpijn, soms met een relatief trage pols. Contact met vogels (papegaaien, duiven) is de belangrijkste aanwijzing. Behandeling met doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Psittacosis",
+  "match": "psittacose|papegaaienziekte|ornithose",
+  "option_only": true
+ },
+ "sinus maxillaris": {
+  "title": "Sinus maxillaris (kaakholte)",
+  "short": "De sinus maxillaris is de grootste bijholte, in het bovenkaakbeen; de afvoer ligt hoog, wat infecties bevordert.",
+  "definition": "<p>De bijholten zijn de <strong>sinus maxillaris</strong>, sinus frontalis, de zeefbeencellen (sinus ethmoidalis) en de sinus sphenoidalis. Ze monden uit in de neusholte. Wortels van de bovenste kiezen liggen vlak onder de kaakholte, waardoor tandinfecties een sinusitis kunnen geven.</p>",
+  "image_url": "",
+  "wiki_title": "Maxillary sinus",
+  "match": "sinus maxillaris|kaakholte|sinus ethmoidalis|sinus sfenoidalis",
+  "option_only": true
+ },
+ "ductus nasolacrimalis": {
+  "title": "Ductus nasolacrimalis (traanbuis)",
+  "short": "De ductus nasolacrimalis voert traanvocht van de traanzak naar de onderste neusgang.",
+  "definition": "<p>Bij pasgeborenen is de <strong>traanbuis</strong> soms nog afgesloten, met een tranend oog en slijm, wat meestal vanzelf overgaat; anders volgt sondage. Bij volwassenen kan een afsluiting tot een ontsteking van de traanzak (dacryocystitis) leiden.</p>",
+  "image_url": "",
+  "wiki_title": "Nasolacrimal duct",
+  "match": "ductus nasolacrimalis|traanbuis|traanwegen",
+  "option_only": true
+ },
+ "tuba eustachii": {
+  "title": "Buis van Eustachius",
+  "short": "De buis van Eustachius verbindt het middenoor met de neuskeelholte en zorgt voor drukvereffening en afvoer van vocht.",
+  "definition": "<p>Bij jonge kinderen is de <strong>buis van Eustachius</strong> korter en horizontaler, waardoor middenoorontstekingen vaker voorkomen. Een slecht werkende buis geeft otitis media met effusie. Bij volwassenen met eenzijdig aanhoudend vocht achter het trommelvlies moet een nasofarynxtumor worden uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "Eustachian tube",
+  "match": "tuba eustachii|buis van eustachius|tuba auditiva",
+  "option_only": true
+ },
+ "fysiotherapeut": {
+  "title": "Fysiotherapeut",
+  "short": "Een fysiotherapeut behandelt klachten van het bewegingsapparaat en helpt mensen beter te bewegen, met oefentherapie, advies en manuele technieken.",
+  "definition": "<p><strong>Fysiotherapie</strong> wordt o.a. ingezet bij rug- en nekklachten, na operaties en blessures, bij artrose, COPD en na een beroerte. Het is direct toegankelijk, zonder verwijzing van de huisarts.</p>",
+  "image_url": "",
+  "wiki_title": "Physical therapy",
+  "match": "fysiotherapeut|fysiotherapie",
+  "option_only": true
+ },
+ "praktijkondersteuner ouderenzorg": {
+  "title": "Praktijkondersteuner (POH)",
+  "short": "Een praktijkondersteuner ondersteunt de huisarts bij de zorg voor bijvoorbeeld chronisch zieken, kwetsbare ouderen en psychische klachten.",
+  "definition": "<p>Er zijn <strong>POH's</strong> voor somatiek (diabetes, astma/COPD, hart- en vaatziekten), GGZ en ouderenzorg. Ze voeren controles uit volgens protocollen en verwijzen zo nodig terug naar de huisarts.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "praktijkondersteuner ouderenzorg|praktijkondersteuner|poh",
+  "option_only": true
+ },
+ "specialistisch verpleegkundige": {
+  "title": "Verpleegkundig specialist",
+  "short": "Een verpleegkundig specialist is een verpleegkundige met een masteropleiding die zelfstandig bepaalde medische taken mag uitvoeren.",
+  "definition": "<p>Een <strong>verpleegkundig specialist</strong> mag binnen het eigen deskundigheidsgebied o.a. diagnosen stellen, behandelingen starten en geneesmiddelen voorschrijven. Ze werken vaak in de chronische zorg, oncologie en spoedzorg.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "specialistisch verpleegkundige|verpleegkundig specialist",
+  "option_only": true
+ },
+ "anti-fosfolipase a2 receptor antistoffen": {
+  "title": "Anti-PLA2R-antistoffen",
+  "short": "Anti-PLA2R-antistoffen zijn auto-antistoffen tegen een receptor op podocyten en de belangrijkste oorzaak van primaire membraneuze glomerulopathie.",
+  "definition": "<p>De hoogte van de <strong>anti-PLA2R</strong>-titer correleert met de ziekteactiviteit en kan worden gebruikt om de behandeling te volgen; bij een positieve test is een nierbiopt soms niet nodig.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "anti-fosfolipase a2 receptor antistoffen|anti-pla2r",
+  "option_only": true
+ },
+ "stressincontinentie": {
+  "title": "Stressincontinentie",
+  "short": "Bij stressincontinentie verliest iemand urine bij een drukverhoging in de buik, zoals hoesten, niezen of tillen.",
+  "definition": "<p><strong>Stressincontinentie</strong> komt vooral bij vrouwen voor, door een zwakke bekkenbodem of sfincter na bevallingen, overgewicht en ouderdom; bij mannen na een prostatectomie. Behandeling met bekkenfysiotherapie, eventueel een pessarium of een operatie (bandje).</p>",
+  "image_url": "",
+  "wiki_title": "Stress incontinence",
+  "match": "stressincontinentie|inspanningsincontinentie",
+  "option_only": true
+ },
+ "overloopincontinentie": {
+  "title": "Overloopincontinentie",
+  "short": "Bij overloopincontinentie loopt urine ongewild weg doordat de blaas overvol is, door een obstructie of een slap werkende blaasspier.",
+  "definition": "<p>Oorzaken van <strong>overloopincontinentie</strong> zijn prostaatvergroting, urethrastrictuur, diabetische neuropathie, anticholinergica en neurologische aandoeningen. Na het plassen blijft er een groot residu achter (bladderscan). Behandeling van de oorzaak, soms katheteriseren.</p>",
+  "image_url": "",
+  "wiki_title": "Overflow incontinence",
+  "match": "overloopincontinentie",
+  "option_only": true
+ },
+ "corpus vertebrae": {
+  "title": "Wervellichaam",
+  "short": "Het corpus vertebrae is het dragende, cilindervormige voorste deel van een wervel.",
+  "definition": "<p>Het <strong>wervellichaam</strong> draagt het grootste deel van de belasting en bestaat vooral uit spongieus bot met rood beenmerg; daardoor is het een plaats voor osteoporotische inzakkingen en metastasen. Aan de achterkant vormen de pediculi en laminae de wervelboog.</p>",
+  "image_url": "",
+  "wiki_title": "Vertebra",
+  "match": "corpus vertebrae|wervellichaam",
+  "option_only": true
+ },
+ "pediculus arcus vertebrae": {
+  "title": "Pediculus (wervelboogvoet)",
+  "short": "De pediculus verbindt het wervellichaam met de wervelboog en begrenst het foramen intervertebrale.",
+  "definition": "<p>De <strong>pediculi</strong> worden bij spondylodese gebruikt om pedikelschroeven in te plaatsen. Op een röntgenfoto kan het verdwijnen van een pediculus (‘winking owl sign’) op een metastase wijzen. In de lendenwervels heet het dwarsuitsteeksel processus costalis.</p>",
+  "image_url": "",
+  "wiki_title": "Vertebral pedicle",
+  "match": "pediculus arcus vertebrae|pediculus|processus costalis",
+  "option_only": true
+ },
+ "mibi-scan voor ischemiedetectie": {
+  "title": "Myocardperfusiescintigrafie (MIBI-scan)",
+  "short": "Een MIBI-scan brengt met een radioactieve stof de doorbloeding van de hartspier in rust en bij inspanning in beeld.",
+  "definition": "<p>Bij een <strong>myocardperfusiescintigrafie</strong> wijst een perfusiedefect bij inspanning dat in rust verdwijnt op ischemie; een defect in rust en bij inspanning op een litteken. Inspanning kan ook farmacologisch worden nagebootst (adenosine, dobutamine).</p>",
+  "image_url": "",
+  "wiki_title": "Myocardial perfusion imaging",
+  "match": "mibi-scan voor ischemiedetectie|mibi-scan|myocardperfusiescintigrafie",
+  "option_only": true
+ },
+ "'fatty streaks'": {
+  "title": "Fatty streaks",
+  "short": "Fatty streaks zijn de vroegste zichtbare afwijkingen van atherosclerose: gele strepen in de vaatwand door schuimcellen.",
+  "definition": "<p><strong>Fatty streaks</strong> bestaan uit opeenhopingen van met lipiden gevulde macrofagen (schuimcellen) in de intima. Ze komen al bij kinderen voor en kunnen uitgroeien tot fibreuze plaques.</p>",
+  "image_url": "",
+  "wiki_title": "Fatty streak",
+  "match": "'fatty streaks'|fatty streaks|fatty streak",
+  "option_only": true
+ },
+ "bloedgas": {
+  "title": "Bloedgas",
+  "short": "Een arterieel bloedgas meet pH, pCO₂, pO₂, bicarbonaat en vaak lactaat en elektrolyten, om ademhaling en zuur-base-evenwicht te beoordelen.",
+  "definition": "<p>Bij het interpreteren van een <strong>bloedgas</strong> bepaal je eerst of er een acidose of alkalose is, daarna of de oorzaak respiratoir (pCO₂) of metabool (bicarbonaat, base excess) is, en of er compensatie is. De pO₂ (in relatie tot de toegediende zuurstof) en de A-a-gradiënt zeggen iets over de gaswisseling.</p>",
+  "image_url": "",
+  "wiki_title": "Arterial blood gas test",
+  "match": "bloedgas|arterieel bloedgas|astrup",
+  "option_only": true
+ },
+ "nucleïnezuur": {
+  "title": "Nucleïnezuren",
+  "short": "Nucleïnezuren (DNA en RNA) zijn ketens van nucleotiden die erfelijke informatie opslaan en overbrengen.",
+  "definition": "<p>Een nucleotide bestaat uit een suiker (deoxyribose of ribose), een fosfaatgroep en een base (A, G, C en T of U). DNA is dubbelstrengs met basenparing A-T en G-C; RNA is meestal enkelstrengs en gebruikt uracil in plaats van thymine.</p>",
+  "image_url": "",
+  "wiki_title": "Nucleic acid",
+  "match": "nucleïnezuur|nucleïnezuren",
+  "option_only": true
+ },
+ "transductie": {
+  "title": "Transductie",
+  "short": "Transductie is de overdracht van bacterieel DNA van de ene bacterie naar de andere via een bacteriofaag.",
+  "definition": "<p>Bij <strong>transductie</strong> neemt een virus van bacteriën bij het verpakken per ongeluk een stukje bacterieel DNA mee. Andere manieren van horizontale genoverdracht zijn transformatie (opname van vrij DNA) en conjugatie (via een pilus). Zo verspreiden zich o.a. resistentie- en toxinegenen.</p>",
+  "image_url": "",
+  "wiki_title": "Transduction (genetics)",
+  "match": "transductie",
+  "option_only": true
+ },
+ "thromboflebitis": {
+  "title": "Tromboflebitis",
+  "short": "Bij tromboflebitis is een oppervlakkige ader ontstoken met een stolsel, met een pijnlijke, rode, harde streng onder de huid.",
+  "definition": "<p>Een <strong>oppervlakkige tromboflebitis</strong> komt voor bij varices, na een infuus en bij hypercoagulabiliteit. Bij uitbreiding tot vlak bij de liesovergang of bij een recidiverend migrerend beeld (soms bij kanker) is verder onderzoek nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Thrombophlebitis",
+  "match": "thromboflebitis|tromboflebitis|oppervlakkige tromboflebitis",
+  "option_only": true
+ },
+ "compartimentsyndroom": {
+  "title": "Compartimentsyndroom",
+  "short": "Bij een compartimentsyndroom stijgt de druk in een spierloge zo hoog dat de doorbloeding van spieren en zenuwen in gevaar komt.",
+  "definition": "<p>Een acuut <strong>compartimentsyndroom</strong> ontstaat vooral na fracturen van het onderbeen of de onderarm, crushletsel of een te strak gips. Het belangrijkste teken is pijn die buiten proportie is, verergerend bij passief rekken van de spieren. Het is een spoedgeval: fasciotomie.</p>",
+  "image_url": "",
+  "wiki_title": "Compartment syndrome",
+  "match": "compartimentsyndroom",
+  "option_only": true
+ },
+ "hypospadie": {
+  "title": "Hypospadie",
+  "short": "Bij hypospadie mondt de urethra aan de onderkant van de penis uit in plaats van op de top.",
+  "definition": "<p><strong>Hypospadie</strong> gaat vaak samen met een kromstand van de penis en een onvolledige voorhuid aan de onderzijde. Besnijdenis wordt uitgesteld, omdat de voorhuid nodig kan zijn voor de correctie, die meestal in het eerste levensjaar wordt gedaan.</p>",
+  "image_url": "",
+  "wiki_title": "Hypospadias",
+  "match": "hypospadie",
+  "option_only": true
+ },
+ "bacteriële laryngotracheitis": {
+  "title": "Bacteriële tracheïtis",
+  "short": "Bacteriële tracheïtis is een ernstige infectie van de trachea, vaak na een virale pseudokroep, met hoge koorts en dik pus in de luchtweg.",
+  "definition": "<p>Kinderen met <strong>bacteriële tracheïtis</strong> zijn ernstig ziek en reageren niet op de behandeling voor pseudokroep. Verwekkers zijn vaak <em>S. aureus</em> en streptokokken. Er kan een luchtwegobstructie ontstaan die intubatie vereist.</p>",
+  "image_url": "",
+  "wiki_title": "Bacterial tracheitis",
+  "match": "bacteriële laryngotracheitis|bacteriële tracheïtis",
+  "option_only": true
+ },
+ "inhalatiesteroïd": {
+  "title": "Inhalatiecorticosteroïd (ICS)",
+  "short": "Inhalatiecorticosteroïden remmen de ontsteking in de luchtwegen; ze zijn de basis van de onderhoudsbehandeling van astma.",
+  "definition": "<p><strong>ICS</strong> verminderen ontsteking, hyperreactiviteit en aanvallen. Lokale bijwerkingen zijn heesheid en spruw (mond spoelen na gebruik). Bij COPD worden ze vooral gegeven bij frequente exacerbaties en eosinofilie, omdat ze het pneumonierisico verhogen.</p>",
+  "image_url": "",
+  "wiki_title": "Inhaled corticosteroid",
+  "match": "inhalatiesteroïd|inhalatiecorticosteroïd|ics|budesonide|fluticason|beclometason",
+  "option_only": true
+ },
+ "leukotrieenreceptorantagonist": {
+  "title": "Leukotrieenreceptorantagonist (montelukast)",
+  "short": "Montelukast blokkeert de receptor voor cysteinyl-leukotriënen en wordt als aanvullend middel bij astma gebruikt.",
+  "definition": "<p><strong>Montelukast</strong> is een tablet, wat handig is bij jonge kinderen en inspanningsastma. Het is minder effectief dan inhalatiecorticosteroïden. Een bekende bijwerking zijn stemmings- en gedragsveranderingen en nachtmerries.</p>",
+  "image_url": "",
+  "wiki_title": "Montelukast",
+  "match": "leukotrieenreceptorantagonist|montelukast",
+  "option_only": true
+ },
+ "anticholinergicum": {
+  "title": "Anticholinergicum (luchtwegen)",
+  "short": "Inhalatie-anticholinergica (ipratropium, tiotropium) blokkeren muscarinereceptoren in de luchtwegen en geven bronchodilatatie.",
+  "definition": "<p>Langwerkende <strong>anticholinergica</strong> (LAMA, bijv. tiotropium) zijn een basismiddel bij COPD; kortwerkend ipratropium wordt bij exacerbaties gebruikt. Bijwerkingen: droge mond en zelden urineretentie of glaucoom.</p>",
+  "image_url": "",
+  "wiki_title": "Anticholinergic",
+  "match": "anticholinergicum|ipratropium|tiotropium|lama|parasympathicolyticum",
+  "option_only": true
+ },
+ "coagulase-negatieve stafylokokken": {
+  "title": "Coagulase-negatieve stafylokokken",
+  "short": "Coagulase-negatieve stafylokokken (o.a. S. epidermidis) horen bij de huidflora en veroorzaken vooral infecties van lijnen en prothesen.",
+  "definition": "<p><strong>CNS</strong> zijn weinig virulent maar kunnen biofilms vormen op kunststof. In een bloedkweek zijn ze vaak een verontreiniging; meerdere positieve kweken bij een patiënt met een lijn of kunstklep wijzen op een echte infectie. <em>S. saprophyticus</em> geeft urineweginfecties bij jonge vrouwen.</p>",
+  "image_url": "",
+  "wiki_title": "Coagulase-negative staphylococci",
+  "match": "coagulase-negatieve stafylokokken|cns",
+  "option_only": true
+ },
+ "schaamluis": {
+  "title": "Schaamluis",
+  "short": "De schaamluis is een luis die vooral in het schaamhaar leeft en via seksueel contact wordt overgedragen.",
+  "definition": "<p>Bij <strong>schaamluis</strong> is er jeuk in het schaamgebied en zijn luizen en neten op de haren te zien, soms ook in wimpers of okselhaar. Behandeling met permetrine of malathion, inclusief partners; onderzoek naar andere soa's is aan te raden.</p>",
+  "image_url": "",
+  "wiki_title": "Pubic lice",
+  "match": "schaamluis|phthirus pubis|platjes",
+  "option_only": true
+ },
+ "immuunglobulinepreparaat": {
+  "title": "Immunoglobulinepreparaat",
+  "short": "Een immunoglobulinepreparaat bevat antistoffen uit donorplasma en geeft directe, maar tijdelijke bescherming (passieve immunisatie).",
+  "definition": "<p>Specifieke <strong>immunoglobulinen</strong> worden gegeven na blootstelling aan bijv. hepatitis B (aan pasgeborenen van draagsters), rabiës, tetanus en varicella (bij risicogroepen). Breed IgG wordt gebruikt bij antistofdeficiënties en als immuunmodulatie.</p>",
+  "image_url": "",
+  "wiki_title": "Immunoglobulin therapy",
+  "match": "immuunglobulinepreparaat|immunoglobuline|passieve immunisatie",
+  "option_only": true
+ },
+ "ribavirine": {
+  "title": "Ribavirine",
+  "short": "Ribavirine is een breed antiviraal middel (nucleosideanaloog), vroeger veel gebruikt bij hepatitis C en soms bij ernstige RSV en Lassakoorts.",
+  "definition": "<p><strong>Ribavirine</strong> remt de vermenigvuldiging van RNA-virussen. Belangrijke bijwerkingen zijn hemolytische anemie en teratogeniteit. Bij hepatitis C is het grotendeels vervangen door direct werkende antivirale middelen.</p>",
+  "image_url": "",
+  "wiki_title": "Ribavirin",
+  "match": "ribavirine|ribavirin",
+  "option_only": true
+ },
+ "siaalzuurreceptor": {
+  "title": "Siaalzuur (influenzareceptor)",
+  "short": "Siaalzuur op het oppervlak van luchtwegcellen is de receptor waaraan het hemagglutinine van influenzavirussen bindt.",
+  "definition": "<p>Menselijke influenzavirussen binden vooral aan α-2,6-gebonden <strong>siaalzuur</strong> in de bovenste luchtwegen, vogelgriepvirussen aan α-2,3-siaalzuur, dat dieper in de long voorkomt. Neuraminidase knipt siaalzuur weg om nieuwe virussen vrij te laten.</p>",
+  "image_url": "",
+  "wiki_title": "Sialic acid",
+  "match": "siaalzuurreceptor|siaalzuur",
+  "option_only": true
+ },
+ "permissief": {
+  "title": "Opvoedingsstijlen",
+  "short": "Opvoedingsstijlen worden ingedeeld op twee assen: warmte/betrokkenheid en controle/structuur.",
+  "definition": "<p>Volgens Baumrind en Maccoby combineert een <strong>autoritatieve</strong> stijl warmte met duidelijke regels (gunstigste uitkomst); een <strong>autoritaire</strong> stijl veel controle met weinig warmte; een <strong>permissieve</strong> stijl veel warmte met weinig regels; en een <strong>verwaarlozende</strong> stijl weinig van beide.</p>",
+  "image_url": "",
+  "wiki_title": "Parenting styles",
+  "match": "permissief|autoritatief|autoritair|verwaarlozend",
+  "option_only": true
+ },
+ "asystolie": {
+  "title": "Asystolie",
+  "short": "Asystolie is het ontbreken van elektrische activiteit van het hart: een ‘vlakke lijn’ en een circulatiestilstand.",
+  "definition": "<p><strong>Asystolie</strong> is een niet-schokbaar ritme. Behandeling: reanimatie, adrenaline en het zoeken naar behandelbare oorzaken (de 4 H's en 4 T's, zoals hypoxie, hypovolemie, hyperkaliëmie, tamponnade, trombose). De prognose is slecht.</p>",
+  "image_url": "",
+  "wiki_title": "Asystole",
+  "match": "asystolie",
+  "option_only": true
+ },
+ "polsloze elektrische activiteit": {
+  "title": "Polsloze elektrische activiteit (PEA)",
+  "short": "Bij PEA is er elektrische activiteit op de monitor, maar geen voelbare pols: een circulatiestilstand.",
+  "definition": "<p><strong>PEA</strong> is een niet-schokbaar ritme. Het ontstaat vaak door een behandelbare oorzaak: hypovolemie, hypoxie, spanningspneumothorax, harttamponnade, longembolie, elektrolytstoornissen of intoxicaties. Behandeling: reanimatie, adrenaline en het opheffen van de oorzaak.</p>",
+  "image_url": "",
+  "wiki_title": "Pulseless electrical activity",
+  "match": "polsloze elektrische activiteit|pea",
+  "option_only": true
+ },
+ "ventrikeltachycardie": {
+  "title": "Ventrikeltachycardie (VT)",
+  "short": "Een ventrikeltachycardie is een snel ritme uit de kamers, met brede QRS-complexen; ze kan overgaan in ventrikelfibrilleren.",
+  "definition": "<p><strong>VT</strong> ontstaat vaak in een litteken na een infarct of bij cardiomyopathie. Een polsloze VT wordt behandeld als circulatiestilstand (defibrilleren). Bij een stabiele patiënt: medicatie (amiodaron) of elektrische cardioversie. Bij een breedcomplextachycardie moet altijd aan VT worden gedacht.</p>",
+  "image_url": "",
+  "wiki_title": "Ventricular tachycardia",
+  "match": "ventrikeltachycardie|vt",
+  "option_only": true
+ },
+ "mictiecystogram": {
+  "title": "Mictiecysto-urethrogram (MCUG)",
+  "short": "Bij een MCUG wordt contrast in de blaas gebracht en tijdens het plassen gefotografeerd, om vesico-ureterale reflux en urethraafwijkingen aan te tonen.",
+  "definition": "<p>Het <strong>MCUG</strong> wordt vooral bij kinderen gebruikt na recidiverende of gecompliceerde urineweginfecties of bij afwijkingen op de echo, bijv. om reflux of urethrakleppen bij jongens aan te tonen.</p>",
+  "image_url": "",
+  "wiki_title": "Voiding cystourethrography",
+  "match": "mictiecystogram|standaard mictiecysto-urethrogram (mcug)|mcug",
+  "option_only": true
+ },
+ "dmsa-scan": {
+  "title": "DMSA-scan",
+  "short": "Een DMSA-scan is een nucleair onderzoek dat littekens en de verdeling van de functie tussen beide nieren laat zien.",
+  "definition": "<p>Met een <strong>DMSA-scan</strong> worden nierlittekens na pyelonefritis opgespoord en de relatieve functie van elke nier gemeten. Een MAG3-renogram laat daarnaast de afvoer zien (bij verdenking op obstructie).</p>",
+  "image_url": "",
+  "wiki_title": "DMSA scan",
+  "match": "dmsa-scan|dmsa",
+  "option_only": true
+ },
+ "renografie": {
+  "title": "Renografie (MAG3-scan)",
+  "short": "Bij renografie wordt met een radioactieve stof gemeten hoe de nieren de stof opnemen en uitscheiden, om obstructie en de verdeling van de nierfunctie te beoordelen.",
+  "definition": "<p>Een <strong>MAG3-renogram</strong> wordt o.a. gebruikt bij hydronefrose, om te onderscheiden of er een echte afvoerbelemmering is, en om de bijdrage van elke nier te bepalen.</p>",
+  "image_url": "",
+  "wiki_title": "Renal scintigraphy",
+  "match": "renografie|renogram|mag3",
+  "option_only": true
+ },
+ "hydrocele": {
+  "title": "Hydrokèle",
+  "short": "Een hydrokèle is vocht rond de testis in de tunica vaginalis; de zwelling licht op bij doorschijnen met een lampje.",
+  "definition": "<p>Bij baby's is een <strong>hydrokèle</strong> vaak het gevolg van een open processus vaginalis en verdwijnt ze meestal vanzelf; als de zwelling in grootte wisselt, is er een verbinding met de buikholte (risico op liesbreuk). Bij volwassenen kan een hydrokèle reactief zijn bij een infectie of tumor.</p>",
+  "image_url": "",
+  "wiki_title": "Hydrocele",
+  "match": "hydrocele|hydrokèle",
+  "option_only": true
+ },
+ "torsio testis": {
+  "title": "Torsio testis",
+  "short": "Bij een torsio testis draait de zaadbal om de zaadstreng, waardoor de bloedtoevoer afknelt; een urologisch spoedgeval.",
+  "definition": "<p>Een <strong>torsio testis</strong> komt vooral voor bij pasgeborenen en adolescenten. Er is plotseling hevige pijn in het scrotum, vaak met misselijkheid; de testis staat hoog en dwars en de cremasterreflex is afwezig. Binnen zes uur opereren geeft de beste kans om de testis te redden.</p>",
+  "image_url": "",
+  "wiki_title": "Testicular torsion",
+  "match": "torsio testis|testistorsie",
+  "option_only": true
+ },
+ "gallig braken": {
+  "title": "Gallig braken",
+  "short": "Gallig (groen) braken bij een pasgeborene wijst op een obstructie voorbij de papil van Vater en is een spoedgeval.",
+  "definition": "<p>Bij een baby met <strong>gallig braken</strong> moet direct een malrotatie met volvulus worden uitgesloten; ook duodenum- of dunnedarmatresie en de ziekte van Hirschsprung zijn mogelijke oorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Bilious vomiting",
+  "match": "gallig braken|galbraken",
+  "option_only": true
+ },
+ "oesofagusatresie": {
+  "title": "Oesofagusatresie",
+  "short": "Bij oesofagusatresie is de slokdarm bij de geboorte onderbroken, meestal met een fistel naar de trachea.",
+  "definition": "<p>Een baby met <strong>oesofagusatresie</strong> kwijlt veel en verslikt en hoest bij de eerste voeding; een maagsonde kan niet worden opgevoerd. Prenataal kan een polyhydramnion zijn opgevallen. Het maakt soms deel uit van de VACTERL-associatie. Behandeling is chirurgisch.</p>",
+  "image_url": "",
+  "wiki_title": "Esophageal atresia",
+  "match": "oesofagusatresie|slokdarmatresie",
+  "option_only": true
+ },
+ "duodenumatresie": {
+  "title": "Duodenumatresie",
+  "short": "Bij duodenumatresie is het duodenum bij de geboorte afgesloten, met (gallig) braken en een ‘double bubble’ op de röntgenfoto.",
+  "definition": "<p><strong>Duodenumatresie</strong> komt vaak voor bij kinderen met het syndroom van Down. Prenataal kan er een polyhydramnion zijn. Behandeling is chirurgisch.</p>",
+  "image_url": "",
+  "wiki_title": "Duodenal atresia",
+  "match": "duodenumatresie",
+  "option_only": true
+ },
+ "hypertrofische pylorusstenose": {
+  "title": "Hypertrofische pylorusstenose",
+  "short": "Bij hypertrofische pylorusstenose verdikt de sluitspier van de maag bij zuigelingen, met projectielbraken.",
+  "definition": "<p><strong>Pylorusstenose</strong> komt vooral voor bij jongens van 2–8 weken. Er is niet-gallig projectielbraken na de voeding, een hongerige baby, soms een voelbaar ‘olijfje’ en een hypochloremische, hypokaliëmische metabole alkalose. Diagnose met echo; behandeling met een pyloromyotomie na correctie van de elektrolyten.</p>",
+  "image_url": "",
+  "wiki_title": "Pyloric stenosis",
+  "match": "hypertrofische pylorusstenose|pylorusstenose|pylorushypertrofie",
+  "option_only": true
+ },
+ "idiopathische kleine lengte": {
+  "title": "Idiopathische kleine lengte",
+  "short": "Bij idiopathische kleine lengte is een kind duidelijk kleiner dan leeftijdsgenoten zonder aanwijsbare oorzaak.",
+  "definition": "<p>Bij de beoordeling van <strong>kleine lengte</strong> wordt gekeken naar de groeicurve (groeisnelheid), de ouderlengte (target height) en de botleeftijd. Familiaire kleine lengte en een constitutionele groeivertraging zijn het meest voorkomend; afwijkend zijn o.a. een afbuigende groeicurve, disproportie en dysmorfe kenmerken (bijv. Turner, groeihormoontekort, coeliakie).</p>",
+  "image_url": "",
+  "wiki_title": "Idiopathic short stature",
+  "match": "idiopathische kleine lengte|kleine lengte",
+  "option_only": true
+ },
+ "eosinofilie": {
+  "title": "Eosinofilie",
+  "short": "Eosinofilie is een verhoogd aantal eosinofiele granulocyten in het bloed, vaak door allergie, parasieten of geneesmiddelen.",
+  "definition": "<p>Oorzaken van <strong>eosinofilie</strong> zijn o.a. allergische aandoeningen (astma, eczeem), wormen (vooral bij weefselinvasie), geneesmiddelreacties (DRESS), EGPA, bijnierinsufficiëntie en hematologische ziekten. Langdurige sterke eosinofilie kan orgaanschade geven (o.a. hart).</p>",
+  "image_url": "",
+  "wiki_title": "Eosinophilia",
+  "match": "eosinofilie",
+  "option_only": true
+ },
+ "monocytose": {
+  "title": "Monocytose",
+  "short": "Monocytose is een verhoogd aantal monocyten in het bloed, bijv. bij chronische infecties of herstel van een infectie.",
+  "definition": "<p>Oorzaken van <strong>monocytose</strong> zijn o.a. tuberculose, endocarditis, herstel na een acute infectie, IBD, sarcoïdose en hematologische ziekten (chronische myelomonocytaire leukemie).</p>",
+  "image_url": "",
+  "wiki_title": "Monocytosis",
+  "match": "monocytose",
+  "option_only": true
+ },
+ "toxocara spp": {
+  "title": "Toxocara (hondenspoelworm)",
+  "short": "Toxocara is een spoelworm van honden en katten; bij mensen kunnen de larven door organen of het oog zwerven.",
+  "definition": "<p>Kinderen raken besmet door eitjes uit grond of zandbakken. <strong>Toxocariasis</strong> verloopt vaak zonder klachten, maar kan eosinofilie, koorts en hepatomegalie geven (visceral larva migrans) of een ontsteking in het oog (ocular larva migrans).</p>",
+  "image_url": "",
+  "wiki_title": "Toxocariasis",
+  "match": "toxocara spp|toxocara|toxocariasis",
+  "option_only": true
+ },
+ "trichuris trichiura": {
+  "title": "Trichuris trichiura (zweepworm)",
+  "short": "Trichuris trichiura is een zweepworm die via eitjes in besmette grond wordt opgelopen en in het colon leeft.",
+  "definition": "<p>Zware infecties met <strong>Trichuris</strong> geven diarree, bloedverlies, anemie en bij kinderen soms een rectumprolaps en groeiachterstand. Behandeling met mebendazol of albendazol.</p>",
+  "image_url": "",
+  "wiki_title": "Trichuriasis",
+  "match": "trichuris trichiura|zweepworm",
+  "option_only": true
+ },
+ "elefantiasis": {
+  "title": "Elefantiasis (lymfatische filariasis)",
+  "short": "Elefantiasis is een ernstige zwelling van ledematen of genitaliën door blokkade van lymfevaten, vaak door filariawormen.",
+  "definition": "<p>Bij <strong>lymfatische filariasis</strong> brengen muggen de larven van <em>Wuchereria bancrofti</em> over; de volwassen wormen beschadigen lymfevaten, met lymfoedeem en hydrokèle. Wereldwijd wordt de ziekte bestreden met massabehandeling.</p>",
+  "image_url": "",
+  "wiki_title": "Lymphatic filariasis",
+  "match": "elefantiasis|filariasis|lymfatische filariasis",
+  "option_only": true
+ },
+ "lassa-koorts": {
+  "title": "Lassakoorts",
+  "short": "Lassakoorts is een virale hemorragische koorts in West-Afrika, overgedragen via urine en uitwerpselen van ratten.",
+  "definition": "<p><strong>Lassakoorts</strong> verloopt vaak mild, maar kan ernstige bloedingen, shock en doofheid geven. Overdracht van mens op mens via lichaamsvloeistoffen is mogelijk, vooral in ziekenhuizen. Vroeg gegeven ribavirine kan helpen.</p>",
+  "image_url": "",
+  "wiki_title": "Lassa fever",
+  "match": "lassa-koorts|lassakoorts",
+  "option_only": true
+ },
+ "histoplasmose": {
+  "title": "Histoplasmose",
+  "short": "Histoplasmose is een schimmelinfectie door Histoplasma capsulatum, opgelopen via stof met vogel- of vleermuisuitwerpselen (o.a. in grotten).",
+  "definition": "<p>Meestal verloopt <strong>histoplasmose</strong> mild of met een griepachtige longontsteking. Bij afweergestoorden kan een gedissemineerde vorm ontstaan. De schimmel leeft in macrofagen.</p>",
+  "image_url": "",
+  "wiki_title": "Histoplasmosis",
+  "match": "histoplasmose|histoplasma",
+  "option_only": true
+ },
+ "pregabaline": {
+  "title": "Pregabaline",
+  "short": "Pregabaline is een middel tegen neuropathische pijn, epilepsie en gegeneraliseerde angst; het remt calciumkanalen in zenuwuiteinden.",
+  "definition": "<p><strong>Pregabaline</strong> en gabapentine binden aan de α2δ-subeenheid van calciumkanalen en verminderen de afgifte van prikkelende neurotransmitters. Bijwerkingen: sufheid, duizeligheid en oedeem; er is risico op misbruik en afhankelijkheid. Bij nierfunctiestoornis is een lagere dosis nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Pregabalin",
+  "match": "pregabaline|gabapentine",
+  "option_only": true
+ },
+ "aderlating": {
+  "title": "Aderlating (flebotomie)",
+  "short": "Bij een aderlating wordt een hoeveelheid bloed afgenomen om het aantal rode bloedcellen of de ijzervoorraad te verlagen.",
+  "definition": "<p><strong>Aderlatingen</strong> zijn de behandeling van hemochromatose (ijzer verwijderen) en polycytemia vera (hematocriet verlagen, risico op trombose verminderen).</p>",
+  "image_url": "",
+  "wiki_title": "Phlebotomy",
+  "match": "aderlating|flebotomie",
+  "option_only": true
+ },
+ "neutropenie": {
+  "title": "Neutropenie",
+  "short": "Neutropenie is een te laag aantal neutrofielen in het bloed, met een verhoogd risico op bacteriële en schimmelinfecties.",
+  "definition": "<p>Oorzaken van <strong>neutropenie</strong> zijn o.a. chemotherapie, geneesmiddelen (bijv. clozapine, thyreostatica, metamizol: agranulocytose), virale infecties, beenmergziekten, vitamine B12-tekort en auto-immuniteit. Bij een aantal onder 0,5 × 10⁹/L is koorts een spoedgeval.</p>",
+  "image_url": "",
+  "wiki_title": "Neutropenia",
+  "match": "neutropenie|agranulocytose",
+  "option_only": true
+ },
+ "melanocytaire nevus": {
+  "title": "Melanocytaire naevus (moedervlek)",
+  "short": "Een melanocytaire naevus is een goedaardige moedervlek, ontstaan uit een opeenhoping van melanocyten.",
+  "definition": "<p><strong>Moedervlekken</strong> ontstaan vooral in de kinder- en jeugdjaren. Veel naevi of atypische naevi (groot, onregelmatig) verhogen het risico op een melanoom. Een vlek die verandert in vorm, kleur of grootte moet worden beoordeeld (ABCDE-regel).</p>",
+  "image_url": "",
+  "wiki_title": "Melanocytic nevus",
+  "match": "melanocytaire nevus|naevus|moedervlek|atypische naevus",
+  "option_only": true
+ },
+ "falx cerebri": {
+  "title": "Falx cerebri",
+  "short": "De falx cerebri is een sikkelvormige plooi van de dura mater tussen de twee hersenhelften.",
+  "definition": "<p>In de bovenrand van de <strong>falx cerebri</strong> loopt de sinus sagittalis superior, in de onderrand de sinus sagittalis inferior. Een ruimte-innemend proces kan hersenweefsel onder de falx door duwen (subfalcine herniatie), met compressie van de a. cerebri anterior.</p>",
+  "image_url": "",
+  "wiki_title": "Falx cerebri",
+  "match": "falx cerebri",
+  "option_only": true
+ },
+ "tentorium cerebelli": {
+  "title": "Tentorium cerebelli",
+  "short": "Het tentorium cerebelli is een tentvormige plooi van de dura mater tussen de grote hersenen en het cerebellum.",
+  "definition": "<p>Door de opening in het <strong>tentorium</strong> loopt de hersenstam. Bij verhoogde intracraniële druk kan de mediale temporaalkwab door deze opening worden geperst (transtentoriële herniatie), met compressie van de n. oculomotorius (wijde, lichtstijve pupil) en de hersenstam.</p>",
+  "image_url": "",
+  "wiki_title": "Cerebellar tentorium",
+  "match": "tentorium cerebelli",
+  "option_only": true
+ },
+ "confluens sinuum": {
+  "title": "Confluens sinuum",
+  "short": "De confluens sinuum is de plek bij het achterhoofd waar de sinus sagittalis superior, sinus rectus en sinus occipitalis samenkomen.",
+  "definition": "<p>Vanuit de <strong>confluens sinuum</strong> voeren beide sinus transversi het bloed af naar de sinus sigmoidei en de vv. jugulares internae.</p>",
+  "image_url": "",
+  "wiki_title": "Confluence of sinuses",
+  "match": "confluens sinuum",
+  "option_only": true
+ },
+ "cisterna ambiens": {
+  "title": "Cisterna ambiens",
+  "short": "De cisterna ambiens is een ruimte met liquor rond het mesencephalon.",
+  "definition": "<p>Op een CT van het hoofd is het verstrijken van de <strong>cisterna ambiens</strong> een teken van verhoogde intracraniële druk of dreigende herniatie.</p>",
+  "image_url": "",
+  "wiki_title": "Cisterna ambiens",
+  "match": "cisterna ambiens",
+  "option_only": true
+ },
+ "corpora mamillare": {
+  "title": "Corpora mamillaria",
+  "short": "De corpora mamillaria zijn twee kleine kernen aan de onderkant van de hypothalamus, onderdeel van het circuit van Papez (geheugen).",
+  "definition": "<p>De <strong>corpora mamillaria</strong> ontvangen input via de fornix uit de hippocampus en projecteren naar de nucleus anterior van de thalamus. Bij thiaminetekort (Wernicke-Korsakov) raken ze beschadigd, met ernstige geheugenstoornissen.</p>",
+  "image_url": "",
+  "wiki_title": "Mammillary body",
+  "match": "corpora mamillare|corpora mamillaria",
+  "option_only": true
+ },
+ "putamen": {
+  "title": "Putamen",
+  "short": "Het putamen is een kern van de basale ganglia die samen met de nucleus caudatus het striatum vormt.",
+  "definition": "<p>Het <strong>putamen</strong> ontvangt vooral input uit de motorische cortex en speelt een rol in de motoriek. Het ligt lateraal van de globus pallidus; samen heten ze de nucleus lentiformis. Hypertensieve bloedingen ontstaan vaak in het putamen.</p>",
+  "image_url": "",
+  "wiki_title": "Putamen",
+  "match": "putamen",
+  "option_only": true
+ },
+ "globus pallidus": {
+  "title": "Globus pallidus",
+  "short": "De globus pallidus is een kern van de basale ganglia met een externe en interne kern, die vooral remmende (GABA-erge) output geeft.",
+  "definition": "<p>De <strong>globus pallidus interna</strong> is samen met de substantia nigra pars reticulata de uitgangskern van de basale ganglia; de externa is een schakel in de indirecte route.</p>",
+  "image_url": "",
+  "wiki_title": "Globus pallidus",
+  "match": "globus pallidus",
+  "option_only": true
+ },
+ "gyrus cinguli": {
+  "title": "Gyrus cinguli",
+  "short": "De gyrus cinguli ligt boven het corpus callosum en speelt een rol bij emotie, motivatie, pijn en aandacht.",
+  "definition": "<p>De <strong>voorste cingulate cortex</strong> is betrokken bij foutdetectie, motivatie en de emotionele kant van pijn; laesies kunnen apathie en akinetisch mutisme geven.</p>",
+  "image_url": "",
+  "wiki_title": "Cingulate cortex",
+  "match": "gyrus cinguli|cingulate cortex",
+  "option_only": true
+ },
+ "gyrus parahippocampalis": {
+  "title": "Gyrus parahippocampalis",
+  "short": "De gyrus parahippocampalis ligt aan de mediale onderkant van de temporaalkwab en is de belangrijkste toegangspoort naar de hippocampus.",
+  "definition": "<p>Het voorste deel, de entorhinale cortex, verbindt de neocortex met de hippocampus en is betrokken bij geheugen en ruimtelijke oriëntatie. Hier begint de ziekte van Alzheimer vaak.</p>",
+  "image_url": "",
+  "wiki_title": "Parahippocampal gyrus",
+  "match": "gyrus parahippocampalis|parahippocampale cortex",
+  "option_only": true
+ },
+ "gyrus calcarinus": {
+  "title": "Sulcus calcarinus (primaire visuele cortex)",
+  "short": "Rond de sulcus calcarinus in de occipitaalkwab ligt de primaire visuele cortex.",
+  "definition": "<p>De <strong>primaire visuele cortex</strong> ontvangt via de radiatio optica informatie over de tegenovergestelde gezichtshelft. Een occipitaal infarct (a. cerebri posterior) geeft een homonieme hemianopsie, vaak met sparing van de macula.</p>",
+  "image_url": "",
+  "wiki_title": "Visual cortex",
+  "match": "gyrus calcarinus|sulcus calcarinus|primaire visuele cortex",
+  "option_only": true
+ },
+ "cellen van purkinje": {
+  "title": "Purkinjecellen",
+  "short": "Purkinjecellen zijn grote neuronen in de cerebellaire cortex en de enige output van de cortex van het cerebellum (remmend, GABA-erg).",
+  "definition": "<p><strong>Purkinjecellen</strong> projecteren naar de diepe cerebellaire kernen. Ze zijn gevoelig voor alcohol, hypoxie en bepaalde erfelijke en paraneoplastische aandoeningen, die ataxie geven. In het hart verwijst de term ‘purkinjevezels’ naar het geleidingssysteem van de kamers.</p>",
+  "image_url": "",
+  "wiki_title": "Purkinje cell",
+  "match": "cellen van purkinje|purkinjecellen",
+  "option_only": true
+ },
+ "nucleus dentatus": {
+  "title": "Nucleus dentatus",
+  "short": "De nucleus dentatus is de grootste diepe kern van het cerebellum en stuurt via de thalamus signalen naar de motorische cortex.",
+  "definition": "<p>Schade aan de <strong>nucleus dentatus</strong> of zijn uitgang (pedunculus cerebellaris superior) geeft ataxie en een intentietremor van de ledematen aan dezelfde kant.</p>",
+  "image_url": "",
+  "wiki_title": "Dentate nucleus",
+  "match": "nucleus dentatus",
+  "option_only": true
+ },
+ "pituïcyten": {
+  "title": "Pituïcyten",
+  "short": "Pituïcyten zijn gliacellen in de hypofyseachterkwab, tussen de axonen die ADH en oxytocine afgeven.",
+  "definition": "<p>De hypofyseachterkwab bevat geen hormoonmakende cellen; ADH en oxytocine worden in de hypothalamus gemaakt. <strong>Pituïcyten</strong> ondersteunen de axonuiteinden en regelen mede de hormoonafgifte.</p>",
+  "image_url": "",
+  "wiki_title": "Pituicyte",
+  "match": "pituïcyten|pituicyten",
+  "option_only": true
+ },
+ "a. recurrens van heubner": {
+  "title": "A. recurrens van Heubner",
+  "short": "De a. recurrens van Heubner is een tak van de a. cerebri anterior die delen van de basale kernen en de capsula interna voorziet.",
+  "definition": "<p>Een infarct in het gebied van de <strong>a. recurrens van Heubner</strong> kan een zwakte van gezicht en arm geven, omdat de kop van de nucleus caudatus en het voorste deel van de capsula interna betrokken zijn.</p>",
+  "image_url": "",
+  "wiki_title": "Recurrent artery of Heubner",
+  "match": "a. recurrens van heubner|arterie van heubner",
+  "option_only": true
+ },
+ "epineurium": {
+  "title": "Epineurium",
+  "short": "Het epineurium is het bindweefsel rond een hele perifere zenuw; het perineurium omhult de bundels en het endoneurium de afzonderlijke axonen.",
+  "definition": "<p>Bij een zenuwhechting worden de lagen van het <strong>epineurium</strong> of perineurium aan elkaar gehecht. Het perineurium vormt een barrière (bloed-zenuwbarrière).</p>",
+  "image_url": "",
+  "wiki_title": "Epineurium",
+  "match": "epineurium|perineurium|endoneurium",
+  "option_only": true
+ },
+ "bitemporale hemianopsie": {
+  "title": "Bitemporale hemianopsie",
+  "short": "Bij bitemporale hemianopsie vallen de buitenste (temporale) gezichtsvelden van beide ogen uit, door compressie van het chiasma opticum.",
+  "definition": "<p>In het chiasma kruisen de vezels van de nasale netvlieshelften, die het temporale gezichtsveld zien. Een <strong>bitemporale hemianopsie</strong> ontstaat daarom bij druk van onderaf (hypofyseadenoom) of bovenaf (craniofaryngioom).</p>",
+  "image_url": "",
+  "wiki_title": "Bitemporal hemianopsia",
+  "match": "bitemporale hemianopsie",
+  "option_only": true
+ },
+ "mouches volantes": {
+  "title": "Mouches volantes",
+  "short": "Mouches volantes zijn zwevende vlekjes of draadjes in het gezichtsveld, door troebelingen in het glasvocht.",
+  "definition": "<p>Mouches volantes zijn meestal onschuldig. Een plotselinge toename, vooral met lichtflitsen of een schaduw, kan wijzen op een glasvochtloslating met netvliesscheur en vraagt om onderzoek.</p>",
+  "image_url": "",
+  "wiki_title": "Floater",
+  "match": "mouches volantes|glasvochttroebelingen|vliegjes",
+  "option_only": true
+ },
+ "amblyopie": {
+  "title": "Amblyopie (lui oog)",
+  "short": "Amblyopie is een verminderd zicht van een oog door een ontwikkelingsstoornis in de visuele paden in de vroege kindertijd.",
+  "definition": "<p><strong>Amblyopie</strong> ontstaat door scheelzien, een groot sterkteverschil tussen de ogen of een obstakel (bijv. aangeboren staar). Behandeling met een bril en het afplakken van het goede oog werkt alleen op jonge leeftijd; daarom wordt kinderen het zicht gecontroleerd.</p>",
+  "image_url": "",
+  "wiki_title": "Amblyopia",
+  "match": "amblyopie|lui oog",
+  "option_only": true
+ },
+ "adl-schaal": {
+  "title": "ADL-schaal",
+  "short": "ADL-schalen meten hoe zelfstandig iemand dagelijkse activiteiten uitvoert, zoals wassen en aankleden (ADL) of huishouden en financiën (IADL).",
+  "definition": "<p>Een bekende ADL-schaal is de <strong>Barthel-index</strong>; voor instrumentele activiteiten (IADL) de Lawton-schaal. Ze worden o.a. in de geriatrie en revalidatie gebruikt om functieverlies vast te stellen en te volgen.</p>",
+  "image_url": "",
+  "wiki_title": "Activities of daily living",
+  "match": "adl-schaal|adl|iadl-schaal|iadl",
+  "option_only": true
+ },
+ "riedel thyreoiditis": {
+  "title": "Thyreoïditis van Riedel",
+  "short": "Bij thyreoïditis van Riedel wordt de schildklier vervangen door hard bindweefsel dat ingroeit in omliggende structuren.",
+  "definition": "<p>De <strong>thyreoïditis van Riedel</strong> is zeldzaam en kan lijken op een schildkliercarcinoom (harde, vaste klier) en compressie geven van trachea of slokdarm. Ze kan horen bij IgG4-gerelateerde ziekte.</p>",
+  "image_url": "",
+  "wiki_title": "Riedel's thyroiditis",
+  "match": "riedel thyreoiditis|riedel thyreoïditis",
+  "option_only": true
+ },
+ "thyreoiditis": {
+  "title": "Thyreoïditis",
+  "short": "Thyreoïditis is een ontsteking van de schildklier, met vaak eerst een te snelle en daarna een te trage schildklierwerking.",
+  "definition": "<p>Bij <strong>subacute (De Quervain) thyreoïditis</strong> na een virusinfectie is de schildklier pijnlijk, met koorts en een verhoogde BSE; bij <strong>stille of postpartum thyreoïditis</strong> is er geen pijn. In de eerste fase lekt hormoon uit de klier (hyperthyreoïdie met lage opname op de scintigrafie), daarna kan een tijdelijke hypothyreoïdie volgen.</p>",
+  "image_url": "",
+  "wiki_title": "Thyroiditis",
+  "match": "thyreoiditis|thyreoïditis|(subacute) thyreoïditis|subacute thyreoïditis|ziekte van de quervain (schildklier)",
+  "option_only": true
+ },
+ "euthyreoidie": {
+  "title": "Euthyreoïdie",
+  "short": "Euthyreoïdie betekent een normale schildklierfunctie, met normale waarden van TSH en vrij T4.",
+  "definition": "<p>Bij een struma of schildklierknobbel kan iemand <strong>euthyreoot</strong> zijn. Bij ernstig zieke mensen kunnen de schildklierwaarden afwijken zonder schildklierziekte (non-thyroidal illness).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "euthyreoidie|euthyreoïdie|euthyreoot",
+  "option_only": true
+ },
+ "groeischijven": {
+  "title": "Groeischijf (epifysairschijf)",
+  "short": "De groeischijf is een plaat van kraakbeen tussen epifyse en metafyse waar de lengtegroei van botten plaatsvindt.",
+  "definition": "<p>Na de puberteit sluiten de <strong>groeischijven</strong> onder invloed van oestrogeen (ook bij jongens, via aromatase). Fracturen door de groeischijf worden ingedeeld volgens Salter-Harris en kunnen groeistoornissen geven. De botleeftijd wordt bepaald op een handfoto.</p>",
+  "image_url": "",
+  "wiki_title": "Epiphyseal plate",
+  "match": "groeischijven|groeischijf|epifysairschijf",
+  "option_only": true
+ },
+ "arteria carotis interna": {
+  "title": "A. carotis interna",
+  "short": "De a. carotis interna voorziet het grootste deel van de grote hersenen en het oog; ze geeft geen takken af in de hals.",
+  "definition": "<p>De <strong>a. carotis interna</strong> loopt door het rotsbeen en de sinus cavernosus en splitst in de a. cerebri anterior en media; de eerste tak is de a. ophthalmica. Een stenose of dissectie kan een TIA, herseninfarct of amaurosis fugax geven.</p>",
+  "image_url": "",
+  "wiki_title": "Internal carotid artery",
+  "match": "arteria carotis interna|a. carotis interna|carotis interna",
+  "option_only": true
+ },
+ "a. carotis externa": {
+  "title": "A. carotis externa",
+  "short": "De a. carotis externa voorziet gezicht, hals, schedel en dura; ze heeft veel takken in de hals.",
+  "definition": "<p>Takken van de <strong>a. carotis externa</strong> zijn o.a. de a. thyroidea superior, a. lingualis, a. facialis, a. occipitalis, a. temporalis superficialis en a. maxillaris (met de a. meningea media).</p>",
+  "image_url": "",
+  "wiki_title": "External carotid artery",
+  "match": "a. carotis externa|carotis externa",
+  "option_only": true
+ },
+ "metacommunicatie": {
+  "title": "Metacommunicatie",
+  "short": "Metacommunicatie is communiceren over de communicatie zelf: benoemen wat er in het gesprek gebeurt.",
+  "definition": "<p>Bij <strong>metacommunicatie</strong> stapt de arts even uit de inhoud (‘ik merk dat we langs elkaar heen praten’). Het helpt bij weerstand, irritatie of een vastgelopen gesprek. Een voorbeeld is de hier-en-nu-opmerking.</p>",
+  "image_url": "",
+  "wiki_title": "Metacommunication",
+  "match": "metacommunicatie",
+  "option_only": true
+ },
+ "jij-boodschap": {
+  "title": "Jij-boodschap",
+  "short": "Een jij-boodschap legt de nadruk op het gedrag van de ander (‘jij doet altijd…’) en roept vaak verdediging op.",
+  "definition": "<p>Bij weerstand of conflict is een <strong>ik-boodschap</strong> (vanuit de eigen ervaring) meestal effectiever dan een jij-boodschap, omdat die minder beschuldigend overkomt.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "jij-boodschap",
+  "option_only": true
+ },
+ "negatieve terugkoppeling": {
+  "title": "Negatieve terugkoppeling",
+  "short": "Bij negatieve terugkoppeling remt het resultaat van een proces dat proces zelf; het belangrijkste mechanisme van homeostase.",
+  "definition": "<p>Voorbeelden van <strong>negatieve feedback</strong> zijn de regeling van lichaamstemperatuur, bloeddruk (baroreflex) en hormoonassen: cortisol remt CRH en ACTH, schildklierhormoon remt TRH en TSH. Bij positieve terugkoppeling versterkt het resultaat juist het proces.</p>",
+  "image_url": "",
+  "wiki_title": "Negative feedback",
+  "match": "negatieve terugkoppeling",
+  "option_only": true
+ },
+ "inverse agonist": {
+  "title": "Inverse agonist",
+  "short": "Een inverse agonist bindt aan een receptor met spontane activiteit en verlaagt die activiteit tot onder het basisniveau.",
+  "definition": "<p>Een <strong>inverse agonist</strong> heeft een negatieve intrinsieke activiteit. Een neutrale antagonist bindt wel, maar verandert de basisactiviteit niet; hij kan zowel agonisten als inverse agonisten blokkeren.</p>",
+  "image_url": "",
+  "wiki_title": "Inverse agonist",
+  "match": "inverse agonist",
+  "option_only": true
+ },
+ "trh": {
+  "title": "TRH (thyreotropine-releasing hormoon)",
+  "short": "TRH is een hormoon uit de hypothalamus dat de hypofyse aanzet tot afgifte van TSH en ook prolactine.",
+  "definition": "<p><strong>TRH</strong> wordt geremd door schildklierhormoon (negatieve terugkoppeling). Bij primaire hypothyreoïdie stijgen TRH en TSH; doordat TRH ook prolactine stimuleert, kan dan galactorroe ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Thyrotropin-releasing hormone",
+  "match": "trh|thyreotropine-releasing hormoon",
+  "option_only": true
+ },
+ "hypofyse achterkwab": {
+  "title": "Hypofyseachterkwab (neurohypofyse)",
+  "short": "De hypofyseachterkwab geeft ADH en oxytocine af, die in de hypothalamus worden gemaakt.",
+  "definition": "<p>De <strong>neurohypofyse</strong> ontstaat embryonaal uit een uitstulping van het diencephalon en bestaat uit axonen van hypothalame neuronen en pituïcyten. Schade (trauma, operatie) geeft centrale diabetes insipidus.</p>",
+  "image_url": "",
+  "wiki_title": "Posterior pituitary",
+  "match": "hypofyse achterkwab|neurohypofyse|pars nervosa",
+  "option_only": true
+ },
+ "neuropeptide y": {
+  "title": "Neuropeptide Y",
+  "short": "Neuropeptide Y is een neuropeptide in de hypothalamus dat de eetlust sterk stimuleert en het energieverbruik verlaagt.",
+  "definition": "<p><strong>NPY</strong> wordt geremd door leptine en insuline en gestimuleerd door ghreline. Daarnaast wordt het samen met noradrenaline in sympathische zenuwen afgegeven en werkt het vaatvernauwend.</p>",
+  "image_url": "",
+  "wiki_title": "Neuropeptide Y",
+  "match": "neuropeptide y|npy",
+  "option_only": true
+ },
+ "cardiogene shock": {
+  "title": "Cardiogene shock",
+  "short": "Bij cardiogene shock pompt het hart te weinig bloed rond, meestal na een groot myocardinfarct.",
+  "definition": "<p>Bij <strong>cardiogene shock</strong> zijn er hypotensie, tekenen van slechte orgaandoorbloeding (koude huid, oligurie, verwardheid) en vaak longoedeem. Behandeling: revascularisatie, inotropica en eventueel mechanische ondersteuning.</p>",
+  "image_url": "",
+  "wiki_title": "Cardiogenic shock",
+  "match": "cardiogene shock",
+  "option_only": true
+ },
+ "zona glomerulosa": {
+  "title": "Zona glomerulosa",
+  "short": "De zona glomerulosa is de buitenste laag van de bijnierschors en maakt aldosteron.",
+  "definition": "<p>De <strong>zona glomerulosa</strong> wordt vooral gestuurd door angiotensine II en kalium, en veel minder door ACTH. Daarom blijft de aldosteronproductie bij hypofyse-uitval grotendeels behouden, maar bij primaire bijnierinsufficiëntie (Addison) valt ze weg.</p>",
+  "image_url": "",
+  "wiki_title": "Zona glomerulosa",
+  "match": "zona glomerulosa",
+  "option_only": true
+ },
+ "bijschildklier": {
+  "title": "Bijschildklieren",
+  "short": "De bijschildklieren zijn meestal vier kleine kliertjes achter de schildklier die PTH maken.",
+  "definition": "<p>De <strong>bijschildklieren</strong> ontstaan uit de derde (onderste) en vierde (bovenste) kieuwzakjes. Bij een schildklieroperatie kunnen ze beschadigd raken, met hypocalciëmie als gevolg. Een adenoom geeft primaire hyperparathyreoïdie.</p>",
+  "image_url": "",
+  "wiki_title": "Parathyroid gland",
+  "match": "bijschildklier|bijschildklieren|glandulae parathyroideae",
+  "option_only": true
+ },
+ "toxisch multinodulair struma": {
+  "title": "Toxisch multinodulair struma",
+  "short": "Bij een toxisch multinodulair struma maken meerdere knobbels in een vergrote schildklier autonoom schildklierhormoon.",
+  "definition": "<p>Een <strong>toxisch multinodulair struma</strong> komt vooral bij ouderen voor en geeft hyperthyreoïdie, vaak met boezemfibrilleren. Jodiumtoediening (contrast, amiodaron) kan het verergeren. De scintigrafie toont een vlekkerig opnamepatroon. Behandeling met radioactief jodium, operatie of thyreostatica.</p>",
+  "image_url": "",
+  "wiki_title": "Toxic multinodular goitre",
+  "match": "toxisch multinodulair struma|multinodulair struma|struma",
+  "option_only": true
+ },
+ "osteoblasten": {
+  "title": "Osteoblasten",
+  "short": "Osteoblasten zijn de botvormende cellen die osteoïd maken en de mineralisatie regelen.",
+  "definition": "<p><strong>Osteoblasten</strong> ontstaan uit mesenchymale cellen (via RUNX2) en maken collageen type I, alkalisch fosfatase en osteocalcine. Ze sturen via RANKL ook de osteoclasten aan. Ingemetselde osteoblasten worden osteocyten.</p>",
+  "image_url": "",
+  "wiki_title": "Osteoblast",
+  "match": "osteoblasten|osteoblast",
+  "option_only": true
+ },
+ "glycogenolyse": {
+  "title": "Glycogenolyse",
+  "short": "Glycogenolyse is de afbraak van glycogeen tot glucose(-1-fosfaat), gestimuleerd door glucagon en adrenaline.",
+  "definition": "<p>Het sleutelenzym is <strong>glycogeenfosforylase</strong>. In de lever levert glycogenolyse glucose aan het bloed; in spier alleen brandstof voor de spier zelf. Enzymdefecten geven glycogeenstapelingsziekten (bijv. ziekte van McArdle in spier, Von Gierke in lever).</p>",
+  "image_url": "",
+  "wiki_title": "Glycogenolysis",
+  "match": "glycogenolyse|glycogeenafbraak",
+  "option_only": true
+ },
+ "calcitonine gene-related peptide": {
+  "title": "CGRP",
+  "short": "CGRP is een sterk vaatverwijdend neuropeptide uit sensorische zenuwen, met een centrale rol bij migraine.",
+  "definition": "<p>Tijdens een migraineaanval komt <strong>CGRP</strong> vrij uit trigeminusvezels. Er zijn middelen tegen migraine die CGRP of zijn receptor blokkeren (antistoffen ter preventie, gepanten voor aanvallen).</p>",
+  "image_url": "",
+  "wiki_title": "Calcitonin gene-related peptide",
+  "match": "calcitonine gene-related peptide|cgrp|calcitonone gene –related peptide",
+  "option_only": true
+ },
+ "gonadotropin-releasing hormone": {
+  "title": "GnRH",
+  "short": "GnRH is een hormoon uit de hypothalamus dat de afgifte van LH en FSH stimuleert, mits het pulsatiel wordt afgegeven.",
+  "definition": "<p>Continue blootstelling aan <strong>GnRH</strong>(-analogen) leidt juist tot onderdrukking van LH en FSH; dat wordt gebruikt bij prostaatkanker, endometriose en pubertas praecox. Een tekort geeft hypogonadotroop hypogonadisme (bijv. syndroom van Kallmann).</p>",
+  "image_url": "",
+  "wiki_title": "Gonadotropin-releasing hormone",
+  "match": "gonadotropin-releasing hormone|gnrh|gonadotrophin-releasing hormone",
+  "option_only": true
+ },
+ "pro drug": {
+  "title": "Prodrug",
+  "short": "Een prodrug is een geneesmiddel dat in het lichaam pas wordt omgezet in de werkzame vorm.",
+  "definition": "<p>Voorbeelden van <strong>prodrugs</strong> zijn enalapril, clopidogrel (via CYP2C19), codeïne (via CYP2D6 naar morfine), valaciclovir en prednison. Genetische verschillen in de omzettende enzymen kunnen het effect sterk beïnvloeden.</p>",
+  "image_url": "",
+  "wiki_title": "Prodrug",
+  "match": "pro drug|prodrug",
+  "option_only": true
+ },
+ "biotransformatie": {
+  "title": "Biotransformatie",
+  "short": "Biotransformatie is de omzetting van geneesmiddelen in het lichaam, vooral in de lever, zodat ze beter kunnen worden uitgescheiden.",
+  "definition": "<p>In <strong>fase I</strong> worden geneesmiddelen geoxideerd of gereduceerd, vaak door cytochroom P450; in <strong>fase II</strong> gekoppeld aan bijv. glucuronzuur of sulfaat. Enzyminductie (bijv. rifampicine, carbamazepine) en -remming (bijv. claritromycine, fluconazol) geven belangrijke interacties.</p>",
+  "image_url": "",
+  "wiki_title": "Drug metabolism",
+  "match": "biotransformatie|metabolisme van geneesmiddelen",
+  "option_only": true
+ },
+ "renale uitscheiding": {
+  "title": "Renale uitscheiding",
+  "short": "Renale uitscheiding is de verwijdering van stoffen via de nier, door filtratie, tubulaire secretie en terugresorptie.",
+  "definition": "<p>Geneesmiddelen die vooral <strong>renaal</strong> worden geklaard (bijv. metformine, aminoglycosiden, DOAC's, lithium, LMWH) moeten bij een verminderde nierfunctie in een lagere dosis worden gegeven.</p>",
+  "image_url": "",
+  "wiki_title": "Renal clearance",
+  "match": "renale uitscheiding|renale klaring",
+  "option_only": true
+ },
+ "n. olfactorius": {
+  "title": "N. olfactorius (I)",
+  "short": "De n. olfactorius (I) bestaat uit de axonen van reukcellen die door de lamina cribrosa naar de bulbus olfactorius lopen.",
+  "definition": "<p>Verlies van reuk (anosmie) ontstaat o.a. na virale infecties (zoals COVID-19), een schedeltrauma (fractuur van de lamina cribrosa), bij neuspoliepen en vroeg in de ziekte van Parkinson en Alzheimer. Bij het syndroom van Kallmann ontbreekt de reuk aangeboren.</p>",
+  "image_url": "",
+  "wiki_title": "Olfactory nerve",
+  "match": "n. olfactorius|nervus olfactorius|reukzenuw",
+  "option_only": true
+ },
+ "papillair schildklier carcinoom": {
+  "title": "Papillair schildkliercarcinoom",
+  "short": "Het papillair schildkliercarcinoom is de meest voorkomende schildklierkanker, met een uitstekende prognose.",
+  "definition": "<p>Het <strong>papillair carcinoom</strong> zaait vooral uit via de lymfeklieren in de hals. Microscopisch zijn er papillen met kenmerkende kernen (‘Orphan Annie eyes’) en psammoomlichaampjes. Risicofactor: bestraling in de jeugd. Behandeling: (hemi)thyreoïdectomie, eventueel radioactief jodium.</p>",
+  "image_url": "",
+  "wiki_title": "Papillary thyroid cancer",
+  "match": "papillair schildklier carcinoom|papillair schildkliercarcinoom|schildkliercarcinoom",
+  "option_only": true
+ },
+ "receptor tyrosine kinases": {
+  "title": "Receptortyrosinekinasen",
+  "short": "Receptortyrosinekinasen zijn membraanreceptoren die na binding van een groeifactor zichzelf en andere eiwitten fosforyleren.",
+  "definition": "<p>Voorbeelden zijn de <strong>insulinereceptor</strong>, EGFR, HER2 en VEGFR. Activerende mutaties of overexpressie spelen een rol bij kanker; tyrosinekinaseremmers en antistoffen (trastuzumab tegen HER2) grijpen hierop aan.</p>",
+  "image_url": "",
+  "wiki_title": "Receptor tyrosine kinase",
+  "match": "receptor tyrosine kinases|tyrosine kinase receptor|receptortyrosinekinase",
+  "option_only": true
+ },
+ "proteïne kinase a": {
+  "title": "Proteïnekinase A",
+  "short": "Proteïnekinase A wordt geactiveerd door cAMP en fosforyleert eiwitten in de cel; het is een schakel in signalering via Gs-gekoppelde receptoren.",
+  "definition": "<p>Na stimulatie van een Gs-gekoppelde receptor (bijv. β-adrenerg, glucagon) maakt adenylaatcyclase <strong>cAMP</strong>, dat PKA activeert. Fosfodiësterasen breken cAMP af; hun remmers versterken het signaal.</p>",
+  "image_url": "",
+  "wiki_title": "Protein kinase A",
+  "match": "proteïne kinase a|pka|camp",
+  "option_only": true
+ },
+ "jodium deficiëntie": {
+  "title": "Jodiumtekort",
+  "short": "Jodium is nodig voor de aanmaak van schildklierhormoon; een tekort geeft struma en hypothyreoïdie.",
+  "definition": "<p>Een <strong>jodiumtekort</strong> is wereldwijd de belangrijkste oorzaak van struma en van te voorkomen verstandelijke beperking (congenitale hypothyreoïdie). In Nederland wordt jodium aan bakkerszout toegevoegd.</p>",
+  "image_url": "",
+  "wiki_title": "Iodine deficiency",
+  "match": "jodium deficiëntie|jodiumtekort|een tekort aan jodium",
+  "option_only": true
+ },
+ "follikelepitheelcellen": {
+  "title": "Folliculaire cellen van de schildklier",
+  "short": "De folliculaire cellen van de schildklier vormen follikels gevuld met colloïd en maken schildklierhormoon.",
+  "definition": "<p><strong>Thyreocyten</strong> nemen jodide op via de natrium-jodidesymporter, maken thyroglobuline en vormen met thyreoperoxidase T4 en T3. Ze worden gestuurd door TSH. Parafolliculaire C-cellen tussen de follikels maken calcitonine.</p>",
+  "image_url": "",
+  "wiki_title": "Thyroid follicular cell",
+  "match": "follikelepitheelcellen|folliculaire cellen|thyreocyten",
+  "option_only": true
+ },
+ "warmte-intolerantie": {
+  "title": "Warmte-intolerantie",
+  "short": "Warmte-intolerantie (snel last hebben van warmte, zweten) past bij hyperthyreoïdie; koude-intolerantie bij hypothyreoïdie.",
+  "definition": "<p>Schildklierhormoon verhoogt het basaal metabolisme en de warmteproductie. Daarom geeft een overactieve schildklier <strong>warmte-intolerantie</strong> en een trage schildklier koude-intolerantie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "warmte-intolerantie|koude-intolerantie",
+  "option_only": true
+ },
+ "dithranol": {
+  "title": "Dithranol",
+  "short": "Dithranol is een oud, effectief lokaal middel tegen psoriasis, dat de deling van keratinocyten remt.",
+  "definition": "<p><strong>Dithranol</strong> wordt vaak als korte contacttherapie gebruikt. Het kan de huid irriteren en verkleurt huid, kleding en badkamer tijdelijk paarsbruin.</p>",
+  "image_url": "",
+  "wiki_title": "Dithranol",
+  "match": "dithranol",
+  "option_only": true
+ },
+ "furunculosis": {
+  "title": "Furunkel",
+  "short": "Een furunkel (steenpuist) is een diepe infectie van een haarfollikel door S. aureus; een karbunkel is een samenvloeiing van meerdere furunkels.",
+  "definition": "<p>Een <strong>furunkel</strong> is een pijnlijke, rode knobbel die abcedeert. Bij recidiverende furunkels wordt gedacht aan dragerschap van <em>S. aureus</em> (eventueel PVL-producerend), diabetes en slechte hygiëne; dekolonisatie kan helpen.</p>",
+  "image_url": "",
+  "wiki_title": "Boil",
+  "match": "furunculosis|furunkel|furunkels|karbunkel|recidiverende furunkels (steenpuisten)",
+  "option_only": true
+ },
+ "prurigo": {
+  "title": "Prurigo",
+  "short": "Prurigo is een jeukende huidaandoening met knobbeltjes die ontstaan door langdurig krabben.",
+  "definition": "<p>Bij <strong>prurigo nodularis</strong> ontstaan door een jeuk-krabcyclus harde, jeukende knobbels, vaak op de strekzijden. Het komt voor bij atopie, maar ook bij systemische oorzaken van jeuk (nierfalen, leverziekte, hematologische ziekten).</p>",
+  "image_url": "",
+  "wiki_title": "Prurigo",
+  "match": "prurigo|prurigopapels",
+  "option_only": true
+ },
+ "hyperhidrose": {
+  "title": "Hyperhidrose",
+  "short": "Hyperhidrose is overmatig zweten, primair (oksels, handen, voeten) of secundair aan een ziekte of medicatie.",
+  "definition": "<p>Primaire <strong>hyperhidrose</strong> begint vaak in de jeugd en is lokaal. Secundaire, gegeneraliseerde hyperhidrose kan passen bij hyperthyreoïdie, infecties (tbc), lymfomen, menopauze, hypoglykemie of medicatie (antidepressiva). Behandeling: aluminiumchloride, botuline-injecties of iontoforese.</p>",
+  "image_url": "",
+  "wiki_title": "Hyperhidrosis",
+  "match": "hyperhidrose|overmatig zweten",
+  "option_only": true
+ },
+ "natalizumab": {
+  "title": "Natalizumab",
+  "short": "Natalizumab is een antistof tegen het integrine α4, die het binnendringen van lymfocyten in het brein remt; gebruikt bij actieve MS.",
+  "definition": "<p><strong>Natalizumab</strong> is zeer effectief bij MS, maar kan bij dragers van het JC-virus progressieve multifocale leuko-encefalopathie (PML) veroorzaken; daarom wordt het risico vooraf ingeschat.</p>",
+  "image_url": "",
+  "wiki_title": "Natalizumab",
+  "match": "natalizumab",
+  "option_only": true
+ },
+ "anakinra": {
+  "title": "Anakinra",
+  "short": "Anakinra is een IL-1-receptorantagonist, gebruikt bij o.a. de ziekte van Still, auto-inflammatoire syndromen en soms jicht.",
+  "definition": "<p><strong>Anakinra</strong> wordt dagelijks subcutaan gespoten en blokkeert de werking van IL-1α en IL-1β. Het wordt ook ingezet bij het macrofaagactivatiesyndroom.</p>",
+  "image_url": "",
+  "wiki_title": "Anakinra",
+  "match": "anakinra",
+  "option_only": true
+ },
+ "syndroom van cushing": {
+  "title": "Syndroom van Cushing",
+  "short": "Het syndroom van Cushing is het geheel van klachten door langdurig te veel cortisol.",
+  "definition": "<p>Kenmerken van <strong>Cushing</strong>: centrale obesitas, vollemaansgezicht, buffalo hump, paarse striae, dunne huid, spierzwakte, hypertensie, diabetes, osteoporose en stemmingsklachten. De meest voorkomende oorzaak is gebruik van corticosteroïden. Endogene oorzaken: een ACTH-producerend hypofyseadenoom (ziekte van Cushing), ectopische ACTH-productie of een bijniertumor.</p>",
+  "image_url": "",
+  "wiki_title": "Cushing's syndrome",
+  "match": "syndroom van cushing|cushing|hypercortisolisme|morbus cushing|overmatig gebruik van corticosteroïden",
+  "option_only": true
+ },
+ "fotosensibilisatie": {
+  "title": "Fotosensibilisatie",
+  "short": "Bij fotosensibilisatie maakt een stof de huid overgevoelig voor zonlicht, met verbranding of eczeem op aan licht blootgestelde huid.",
+  "definition": "<p>Bekende <strong>fotosensibiliserende</strong> middelen zijn doxycycline, amiodaron, thiaziden, NSAID's en sommige parfums en planten (berenklauw). Ook SLE en porfyrie gaan gepaard met lichtovergevoeligheid.</p>",
+  "image_url": "",
+  "wiki_title": "Photosensitivity",
+  "match": "fotosensibilisatie|fotosensitiviteit",
+  "option_only": true
+ },
+ "ototoxiciteit": {
+  "title": "Ototoxiciteit",
+  "short": "Ototoxiciteit is beschadiging van het binnenoor door geneesmiddelen, met gehoorverlies, oorsuizen of evenwichtsstoornissen.",
+  "definition": "<p>Bekende <strong>ototoxische</strong> middelen zijn aminoglycosiden, cisplatine, lisdiuretica (vooral bij hoge doses intraveneus) en hoge doses salicylaten. Gehoorverlies door aminoglycosiden en cisplatine is vaak blijvend.</p>",
+  "image_url": "",
+  "wiki_title": "Ototoxicity",
+  "match": "ototoxiciteit|ototoxisch",
+  "option_only": true
+ },
+ "triple feces test (tft)": {
+  "title": "Triple feces test",
+  "short": "De triple feces test onderzoekt drie opeenvolgende ontlastingsmonsters op darmparasieten.",
+  "definition": "<p>Met de <strong>TFT</strong> worden protozoën zoals <em>Giardia</em> en <em>Dientamoeba</em> en wormeieren opgespoord. Steeds vaker wordt PCR op ontlasting gebruikt, die gevoeliger is.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "triple feces test (tft)|triple feces test|tft",
+  "option_only": true
+ },
+ "positieve nitriet": {
+  "title": "Nitriettest",
+  "short": "Een positieve nitriettest in de urine wijst op een urineweginfectie met bacteriën die nitraat omzetten in nitriet, zoals E. coli.",
+  "definition": "<p>De <strong>nitriettest</strong> is specifiek maar niet erg gevoelig: enterokokken en stafylokokken maken geen nitriet, en de urine moet enige uren in de blaas hebben gezeten. Een negatieve test sluit een infectie dus niet uit.</p>",
+  "image_url": "",
+  "wiki_title": "Urinalysis",
+  "match": "positieve nitriet|nitriettest|nitriet",
+  "option_only": true
+ },
+ "slagpijn nierloge": {
+  "title": "Slagpijn in de nierloge",
+  "short": "Slagpijn in de nierloge (pijn bij kloppen op de flank) wijst op een ontsteking of stuwing van de nier, zoals pyelonefritis.",
+  "definition": "<p><strong>Slagpijn</strong> wordt onderzocht door met de vuist op de hand in de flank te kloppen. Samen met koorts past het bij pyelonefritis; zonder koorts kan het ook passen bij nierstenen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "slagpijn nierloge|slagpijn",
+  "option_only": true
+ },
+ "tuberculostatica": {
+  "title": "Tuberculostatica",
+  "short": "Tuberculostatica zijn middelen tegen tuberculose, die altijd in combinatie en langdurig worden gegeven om resistentie te voorkomen.",
+  "definition": "<p>De standaardbehandeling bestaat uit twee maanden <strong>isoniazide, rifampicine, pyrazinamide en ethambutol</strong>, gevolgd door vier maanden isoniazide en rifampicine. Bijwerkingen: leverschade (INH, RIF, PZA), neuropathie (INH, voorkomen met vitamine B6), oranje lichaamsvloeistoffen en veel interacties (RIF), en gezichtsstoornissen (ethambutol).</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis treatment",
+  "match": "tuberculostatica|isoniazide|rifampicine|ethambutol|pyrazinamide",
+  "option_only": true
+ },
+ "intertrigineus eczeem": {
+  "title": "Intertrigo",
+  "short": "Intertrigo is een ontsteking van de huid in plooien (liezen, onder de borsten), door wrijving, vocht en warmte, vaak met candida.",
+  "definition": "<p><strong>Intertrigo</strong> komt vaker voor bij overgewicht, diabetes en bij warm weer. Behandeling: plooien droog houden en zo nodig een antimycotische crème.</p>",
+  "image_url": "",
+  "wiki_title": "Intertrigo",
+  "match": "intertrigineus eczeem|intertrigo",
+  "option_only": true
+ },
+ "tetracycline": {
+  "title": "Tetracyclines",
+  "short": "Tetracyclines remmen de bacteriële eiwitsynthese via het 30S-ribosoom; doxycycline is de bekendste.",
+  "definition": "<p><strong>Tetracyclines</strong> werken tegen veel bacteriën, inclusief intracellulaire (Chlamydia, Mycoplasma, Rickettsia, Borrelia). Ze worden ook bij acne en rosacea gebruikt. Ze binden aan calcium in tanden en botten (verkleuring), dus niet bij zwangeren en jonge kinderen, en geven fotosensibilisatie.</p>",
+  "image_url": "",
+  "wiki_title": "Tetracycline antibiotics",
+  "match": "tetracycline|tetracyclines|minocycline",
+  "option_only": true
+ },
+ "psoriasis inversa": {
+  "title": "Psoriasis inversa",
+  "short": "Psoriasis inversa is psoriasis in huidplooien (liezen, oksels, bilnaad, onder de borsten), met glanzende rode plekken zonder veel schilfers.",
+  "definition": "<p>Door het vocht in de plooien ontbreken bij <strong>psoriasis inversa</strong> de typische schilfers, waardoor het op intertrigo of een schimmelinfectie kan lijken.</p>",
+  "image_url": "",
+  "wiki_title": "Inverse psoriasis",
+  "match": "psoriasis inversa",
+  "option_only": true
+ },
+ "asteatotisch eczeem": {
+  "title": "Asteatotisch eczeem (eczéma craquelé)",
+  "short": "Asteatotisch eczeem ontstaat in een zeer droge huid, vooral op de onderbenen van ouderen in de winter, met een barstjespatroon.",
+  "definition": "<p>Bij <strong>asteatotisch eczeem</strong> lijkt de huid op een gebarsten ondergrond. Het verbetert met minder wassen en douchen, geen zeep en dagelijks vette crèmes.</p>",
+  "image_url": "",
+  "wiki_title": "Xerotic eczema",
+  "match": "asteatotisch eczeem|eczema craquelé",
+  "option_only": true
+ },
+ "eczema herpeticum": {
+  "title": "Eczema herpeticum",
+  "short": "Eczema herpeticum is een uitgebreide herpes simplex-infectie in een eczeemhuid, met ‘uitgeponste’ erosies en koorts; een spoedgeval.",
+  "definition": "<p>Bij <strong>eczema herpeticum</strong> verspreidt HSV zich snel over beschadigde huid, vooral bij kinderen met atopisch eczeem. Behandeling met (intraveneus) aciclovir; bij betrokkenheid van de ogen is snel oogheelkundig onderzoek nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Eczema herpeticum",
+  "match": "eczema herpeticum",
+  "option_only": true
+ },
+ "methemoglobulinemie": {
+  "title": "Methemoglobinemie",
+  "short": "Bij methemoglobinemie is het ijzer in hemoglobine geoxideerd tot Fe³⁺, waardoor het geen zuurstof kan binden; de huid wordt grijsblauw.",
+  "definition": "<p>Oorzaken zijn o.a. nitraten/nitrieten (putwater), dapson, lokale anesthetica (benzocaïne) en zelden erfelijke afwijkingen. De pulsoxymeter meet een saturatie rond 85% die niet stijgt met zuurstof; het bloed is chocoladebruin. Behandeling met methyleenblauw.</p>",
+  "image_url": "",
+  "wiki_title": "Methemoglobinemia",
+  "match": "methemoglobulinemie|methemoglobinemie",
+  "option_only": true
+ },
+ "atypische lymfocyten": {
+  "title": "Atypische lymfocyten",
+  "short": "Atypische (reactieve) lymfocyten zijn grote, geactiveerde T-cellen in het bloeduitstrijkje, kenmerkend voor de ziekte van Pfeiffer.",
+  "definition": "<p>Veel <strong>atypische lymfocyten</strong> passen bij mononucleosis infectiosa (EBV), maar komen ook voor bij CMV, acute hiv, toxoplasmose en geneesmiddelreacties.</p>",
+  "image_url": "",
+  "wiki_title": "Atypical lymphocyte",
+  "match": "atypische lymfocyten|reactieve lymfocyten",
+  "option_only": true
+ },
+ "demodex folliculitis": {
+  "title": "Demodexfolliculitis",
+  "short": "Bij demodexfolliculitis veroorzaakt een overmaat aan haarzakjesmijten (Demodex) jeukende puistjes in het gezicht.",
+  "definition": "<p><strong>Demodex</strong>-mijten komen bij vrijwel iedereen voor. Een overgroei (bijv. bij langdurig gebruik van corticosteroïdcrème of verminderde afweer) geeft een rosacea-achtig beeld. Behandeling met ivermectine- of permetrinecrème.</p>",
+  "image_url": "",
+  "wiki_title": "Demodicosis",
+  "match": "demodex folliculitis|demodexfolliculitis|demodex",
+  "option_only": true
+ },
+ "hidradenitis suppurativa": {
+  "title": "Hidradenitis suppurativa (acne inversa)",
+  "short": "Hidradenitis suppurativa is een chronische ontstekingsziekte van haarfollikels in oksels, liezen en bilnaad, met pijnlijke knobbels, abcessen en fistels.",
+  "definition": "<p><strong>Hidradenitis suppurativa</strong> begint na de puberteit; roken en overgewicht verergeren het. Er ontstaan recidiverende abcessen, sinussen en littekens. Behandeling met antibiotica, biologicals (TNF-remmers) en chirurgie.</p>",
+  "image_url": "",
+  "wiki_title": "Hidradenitis suppurativa",
+  "match": "hidradenitis suppurativa|acne inversa",
+  "option_only": true
+ },
+ "pityriasis alba": {
+  "title": "Pityriasis alba",
+  "short": "Pityriasis alba zijn lichte, licht schilferende vlekken op de wangen van kinderen, vaak bij atopie.",
+  "definition": "<p><strong>Pityriasis alba</strong> valt vooral op bij een donkere of gebruinde huid. Het is onschuldig en verdwijnt vanzelf; vette crème en zonbescherming helpen.</p>",
+  "image_url": "",
+  "wiki_title": "Pityriasis alba",
+  "match": "pityriasis alba",
+  "option_only": true
+ },
+ "pityriasis rosea": {
+  "title": "Pityriasis rosea",
+  "short": "Pityriasis rosea is een onschuldige huiduitslag met eerst één grote ‘moederplek’ en daarna kleinere ovale plekken in een kerstboompatroon op de romp.",
+  "definition": "<p><strong>Pityriasis rosea</strong> wordt in verband gebracht met reactivatie van HHV-6/7 en verdwijnt binnen 6–12 weken vanzelf. Secundaire syfilis kan er op lijken.</p>",
+  "image_url": "",
+  "wiki_title": "Pityriasis rosea",
+  "match": "pityriasis rosea",
+  "option_only": true
+ },
+ "milia": {
+  "title": "Milia",
+  "short": "Milia zijn kleine witte cystjes (gerstekorrels) in de huid, vaak op het gezicht van pasgeborenen.",
+  "definition": "<p><strong>Milia</strong> zijn kleine keratinecysten. Bij pasgeborenen verdwijnen ze vanzelf; bij volwassenen kunnen ze na huidbeschadiging ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Milium (dermatology)",
+  "match": "milia|gerstekorrels",
+  "option_only": true
+ },
+ "malassezia folliculitis": {
+  "title": "Malassezia (Pityrosporum)",
+  "short": "Malassezia is een gist op de huid die pityriasis versicolor, seborroïsch eczeem en een jeukende folliculitis kan veroorzaken.",
+  "definition": "<p>Bij <strong>pityriasis versicolor</strong> ontstaan schilferende, licht- of donkergekleurde vlekken op de romp; in een KOH-preparaat is het ‘spaghetti met gehaktballen’-beeld te zien. Behandeling met antimycotische shampoo of crème.</p>",
+  "image_url": "",
+  "wiki_title": "Malassezia",
+  "match": "malassezia folliculitis|malassezia|malessezia furfur|pityriasis versicolor",
+  "option_only": true
+ },
+ "allergische bronchopulmonale alveolitis": {
+  "title": "Allergische bronchopulmonale aspergillose (ABPA)",
+  "short": "ABPA is een overgevoeligheidsreactie op Aspergillus in de luchtwegen, vooral bij astma en cystische fibrose.",
+  "definition": "<p>Bij <strong>ABPA</strong> zijn er moeilijk te behandelen astma, bruine slijmproppen, eosinofilie, een zeer hoog totaal IgE en specifiek IgE tegen <em>Aspergillus</em>, met centrale bronchiëctasieën. Behandeling met prednison en eventueel itraconazol.</p>",
+  "image_url": "",
+  "wiki_title": "Allergic bronchopulmonary aspergillosis",
+  "match": "allergische bronchopulmonale alveolitis|abpa|allergische bronchopulmonale aspergillose",
+  "option_only": true
+ },
+ "aspergilloma": {
+  "title": "Aspergilloom",
+  "short": "Een aspergilloom is een schimmelbal van Aspergillus in een bestaande longholte, bijv. na tuberculose.",
+  "definition": "<p>Een <strong>aspergilloom</strong> geeft vaak weinig klachten, maar kan hemoptoë veroorzaken. Op beeldvorming is een bol in een holte met een luchtsikkel te zien.</p>",
+  "image_url": "",
+  "wiki_title": "Aspergilloma",
+  "match": "aspergilloma|aspergilloom|schimmelbal",
+  "option_only": true
+ },
+ "otomycosis": {
+  "title": "Otomycose",
+  "short": "Otomycose is een schimmelinfectie van de uitwendige gehoorgang, met jeuk en zwarte of witte schimmeldraden.",
+  "definition": "<p><strong>Otomycose</strong> (meestal <em>Aspergillus</em> of <em>Candida</em>) ontstaat vaak na het gebruik van antibiotische oordruppels of in een vochtig klimaat. Behandeling: reinigen en antimycotische druppels.</p>",
+  "image_url": "",
+  "wiki_title": "Otomycosis",
+  "match": "otomycosis|otomycose",
+  "option_only": true
+ },
+ "syndroom van reye": {
+  "title": "Syndroom van Reye",
+  "short": "Het syndroom van Reye is een zeldzame, ernstige combinatie van leverfalen en hersenoedeem bij kinderen na een virale infectie en gebruik van aspirine.",
+  "definition": "<p>Vanwege het <strong>syndroom van Reye</strong> wordt acetylsalicylzuur niet gegeven aan kinderen met koorts of virale infecties (vooral influenza en waterpokken).</p>",
+  "image_url": "",
+  "wiki_title": "Reye syndrome",
+  "match": "syndroom van reye|reye",
+  "option_only": true
+ },
+ "anuscarcinoom": {
+  "title": "Anuscarcinoom",
+  "short": "Het anuscarcinoom is een plaveiselcelcarcinoom van het anaalkanaal, sterk geassocieerd met HPV.",
+  "definition": "<p>Risicofactoren voor <strong>anuscarcinoom</strong> zijn HPV-infectie, hiv, receptief anaal contact en immuunsuppressie. Klachten: bloedverlies, pijn en een zwelling. Behandeling meestal met chemoradiatie.</p>",
+  "image_url": "",
+  "wiki_title": "Anal cancer",
+  "match": "anuscarcinoom|anaal carcinoom",
+  "option_only": true
+ },
+ "dermatitis perioralis": {
+  "title": "Periorale dermatitis",
+  "short": "Periorale dermatitis is een uitslag van rode bultjes en schilfering rond de mond, vaak na gebruik van corticosteroïdcrème.",
+  "definition": "<p>Bij <strong>periorale dermatitis</strong> blijft een smalle zone direct rond het lippenrood vaak vrij. Behandeling: stoppen met corticosteroïdcrème en cosmetica, eventueel metronidazolcrème of een tetracycline.</p>",
+  "image_url": "",
+  "wiki_title": "Perioral dermatitis",
+  "match": "dermatitis perioralis|periorale dermatitis",
+  "option_only": true
+ },
+ "ungus incarnatus (ingegroeide nagel)": {
+  "title": "Unguis incarnatus (ingegroeide teennagel)",
+  "short": "Bij een unguis incarnatus groeit de rand van de teennagel in de nagelwal, met pijn, ontsteking en soms granulatieweefsel.",
+  "definition": "<p>Een <strong>ingegroeide teennagel</strong> komt vooral bij de grote teen voor, door te kort of rond knippen, strakke schoenen of een brede nagel. Behandeling: voetbadjes, een tampon onder de nagelrand of een operatieve wigexcisie met fenolisatie.</p>",
+  "image_url": "",
+  "wiki_title": "Ingrown nail",
+  "match": "ungus incarnatus (ingegroeide nagel)|unguis incarnatus|ingegroeide teennagel",
+  "option_only": true
+ },
+ "erytrogeen toxine": {
+  "title": "Erytrogeen toxine",
+  "short": "Erytrogene (pyrogene) toxines van groep A-streptokokken veroorzaken de huiduitslag bij roodvonk en kunnen als superantigeen een toxischeshocksyndroom geven.",
+  "definition": "<p><strong>Superantigenen</strong> binden buiten de gewone antigeenpresentatie om aan MHC II en de T-celreceptor, waardoor een groot deel van de T-cellen tegelijk wordt geactiveerd, met een cytokinestorm.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcal pyrogenic exotoxin",
+  "match": "erytrogeen toxine|pyrogeen exotoxine",
+  "option_only": true
+ },
+ "streptolysine o": {
+  "title": "Streptolysine O",
+  "short": "Streptolysine O is een toxine van groep A-streptokokken dat rode bloedcellen kapotmaakt; antistoffen ertegen (ASLO) wijzen op een recente infectie.",
+  "definition": "<p>Een verhoogde <strong>ASLO</strong>-titer ondersteunt de diagnose acuut reuma of poststreptokokken-glomerulonefritis. Streptolysine O is zuurstofgevoelig; streptolysine S geeft de bètahemolyse op de bloedagar.</p>",
+  "image_url": "",
+  "wiki_title": "Streptolysin",
+  "match": "streptolysine o|aslo|antistreptolysine",
+  "option_only": true
+ },
+ "trypanosomiasis": {
+  "title": "Trypanosomiasis",
+  "short": "Trypanosomiasis is een infectie met Trypanosoma: in Afrika de slaapziekte (tseetseevlieg), in Latijns-Amerika de ziekte van Chagas (roofwants).",
+  "definition": "<p><strong>Afrikaanse slaapziekte</strong> geeft koorts, lymfeklierzwelling en later neurologische klachten en slaapstoornissen. De <strong>ziekte van Chagas</strong> kan na jaren cardiomyopathie, megaoesofagus en megacolon geven.</p>",
+  "image_url": "",
+  "wiki_title": "Trypanosomiasis",
+  "match": "trypanosomiasis|slaapziekte|ziekte van chagas",
+  "option_only": true
+ },
+ "lipo-oligosaccharide": {
+  "title": "Lipo-oligosacharide (LOS)",
+  "short": "Lipo-oligosacharide is de korte variant van LPS in de buitenmembraan van Neisseria en Haemophilus, met endotoxinewerking.",
+  "definition": "<p>Het <strong>LOS</strong> van meningokokken veroorzaakt de heftige ontstekingsreactie en shock bij een meningokokkensepsis.</p>",
+  "image_url": "",
+  "wiki_title": "Lipooligosaccharide",
+  "match": "lipo-oligosaccharide|lipo-oligosacharide|los",
+  "option_only": true
+ },
+ "enterobacter spp": {
+  "title": "Enterobacter",
+  "short": "Enterobacter-soorten zijn gramnegatieve darmbacteriën die vooral ziekenhuisinfecties veroorzaken.",
+  "definition": "<p><strong>Enterobacter</strong> kan tijdens behandeling resistent worden tegen derdegeneratiecefalosporines door een induceerbaar AmpC-bètalactamase. Het veroorzaakt urineweg-, wond- en bloedbaaninfecties en pneumonie in het ziekenhuis.</p>",
+  "image_url": "",
+  "wiki_title": "Enterobacter",
+  "match": "enterobacter spp|enterobacter|enterobacterales",
+  "option_only": true
+ },
+ "afstervingsfase": {
+  "title": "Bacteriële groeicurve",
+  "short": "De groeicurve van bacteriën in een kweek bestaat uit een lagfase, exponentiële (log)fase, stationaire fase en afstervingsfase.",
+  "definition": "<p>In de <strong>lagfase</strong> passen bacteriën zich aan, in de <strong>logfase</strong> delen ze maximaal (gevoeligst voor celwandantibiotica), in de <strong>stationaire fase</strong> zijn voedingsstoffen op en ontstaan vaak sporen en toxines, en daarna volgt de <strong>afstervingsfase</strong>.</p>",
+  "image_url": "",
+  "wiki_title": "Bacterial growth",
+  "match": "afstervingsfase|lagfase|logfase|stationaire fase|groeicurve",
+  "option_only": true
+ },
+ "schistosomiasis": {
+  "title": "Schistosomiasis (bilharzia)",
+  "short": "Schistosomiasis is een worminfectie via zoet water in de tropen, waarbij larven door de huid binnendringen.",
+  "definition": "<p>Afhankelijk van de soort ontstaan klachten van de blaas (hematurie, later blaaskanker) of darm en lever (portale hypertensie). Een acute vorm (Katayama-koorts) geeft koorts, hoest en eosinofilie. Behandeling met praziquantel.</p>",
+  "image_url": "",
+  "wiki_title": "Schistosomiasis",
+  "match": "schistosomiasis|bilharzia",
+  "option_only": true
+ },
+ "coxiella burnetii": {
+  "title": "Coxiella burnetii",
+  "short": "Coxiella burnetii is de intracellulaire bacterie die Q-koorts veroorzaakt.",
+  "definition": "<p><strong><em>Coxiella</em></strong> is zeer besmettelijk via de lucht, vooral rond het werpen van geiten en schapen. Chronische infectie kan endocarditis en vaatinfecties geven.</p>",
+  "image_url": "",
+  "wiki_title": "Coxiella burnetii",
+  "match": "coxiella burnetii",
+  "option_only": true
+ },
+ "roseolen": {
+  "title": "Roseolen",
+  "short": "Roseolen zijn kleine, roze, wegdrukbare vlekjes op de romp, kenmerkend voor buiktyfus.",
+  "definition": "<p><strong>Roseolen</strong> verschijnen in de tweede week van buiktyfus en zijn vaak moeilijk te zien. Andere kenmerken zijn hoge koorts, relatieve bradycardie, buikpijn en obstipatie of diarree.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "roseolen",
+  "option_only": true
+ },
+ "buiktyfus": {
+  "title": "Buiktyfus",
+  "short": "Buiktyfus is een systemische infectie met Salmonella typhi, met hoge koorts, buikpijn en algemeen ziek-zijn.",
+  "definition": "<p>Bij <strong>buiktyfus</strong> is er een geleidelijk stijgende koorts met relatieve bradycardie, roseolen en hepatosplenomegalie. Complicaties zijn darmbloedingen en perforatie. Diagnose met bloedkweken; behandeling met antibiotica (ceftriaxon, azitromycine). Er is een vaccin voor reizigers.</p>",
+  "image_url": "",
+  "wiki_title": "Typhoid fever",
+  "match": "buiktyfus|tyfus|salmonella typhi",
+  "option_only": true
+ },
+ "splinterbloedingen": {
+  "title": "Splinterbloedingen",
+  "short": "Splinterbloedingen zijn kleine, roodbruine lengtestreepjes onder de nagels, o.a. bij endocarditis.",
+  "definition": "<p><strong>Splinterbloedingen</strong> passen bij endocarditis (samen met Janeway-laesies, Osler-knobbeltjes en Roth-vlekken), maar komen veel vaker voor door een klein trauma van de nagel.</p>",
+  "image_url": "",
+  "wiki_title": "Splinter hemorrhage",
+  "match": "splinterbloedingen",
+  "option_only": true
+ },
+ "tuberculeuze lymfadenitis": {
+  "title": "Tuberculeuze lymfadenitis",
+  "short": "Tuberculeuze lymfadenitis is tuberculose van de lymfeklieren, vaak in de hals, met een pijnloze zwelling die kan fistelen.",
+  "definition": "<p><strong>Tuberculeuze lymfadenitis</strong> is de meest voorkomende vorm van extrapulmonale tbc. Diagnose met een punctie of biopt (granulomen, kweek, PCR).</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculous lymphadenitis",
+  "match": "tuberculeuze lymfadenitis|scrofula",
+  "option_only": true
+ },
+ "artroscopie": {
+  "title": "Artroscopie",
+  "short": "Bij een artroscopie wordt een gewricht via kleine sneetjes met een camera bekeken en zo nodig behandeld.",
+  "definition": "<p><strong>Artroscopieën</strong> worden vooral gedaan aan knie, schouder en enkel, bijv. voor meniscus- of kruisbandletsel en losse delen. Bij degeneratieve knieklachten (artrose, degeneratieve meniscusscheur) heeft een artroscopie weinig meerwaarde.</p>",
+  "image_url": "",
+  "wiki_title": "Arthroscopy",
+  "match": "artroscopie|kijkoperatie van een gewricht",
+  "option_only": true
+ },
+ "werkloosheidwet (ww)": {
+  "title": "Werkloosheidswet (WW)",
+  "short": "De Werkloosheidswet geeft werknemers die hun baan verliezen tijdelijk een uitkering.",
+  "definition": "<p>De <strong>WW</strong> is een werknemersverzekering, uitgevoerd door het UWV. Bij ziekte geldt de Ziektewet of loondoorbetaling door de werkgever, en na twee jaar ziekte eventueel de WIA.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "werkloosheidwet (ww)|werkloosheidswet|ww",
+  "option_only": true
+ },
+ "enthoven stelsel": {
+  "title": "Enthoven-stelsel",
+  "short": "Het Einthoven-stelsel beschrijft de drie standaard-extremiteitsafleidingen (I, II, III) van het ECG, die een driehoek vormen.",
+  "definition": "<p>Met de afleidingen I, II en III (en aVR, aVL, aVF) wordt de <strong>elektrische hartas</strong> in het frontale vlak bepaald. Einthoven ontving voor de uitvinding van het ECG de Nobelprijs.</p>",
+  "image_url": "",
+  "wiki_title": "Willem Einthoven",
+  "match": "enthoven stelsel|einthoven|einthoven-driehoek",
+  "option_only": true
+ },
+ "radiuskop fractuur": {
+  "title": "Radiuskopfractuur",
+  "short": "Een radiuskopfractuur ontstaat na een val op de uitgestrekte hand, met pijn aan de buitenkant van de elleboog en beperkte draaibeweging.",
+  "definition": "<p>Bij een <strong>radiuskopfractuur</strong> is soms alleen een ‘fat pad sign’ (hydrops) op de foto te zien. De meeste worden met vroeg bewegen behandeld; verplaatste fracturen operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Radial head fracture",
+  "match": "radiuskop fractuur|radiuskopfractuur",
+  "option_only": true
+ },
+ "olecranon fractuur": {
+  "title": "Olecranonfractuur",
+  "short": "Een olecranonfractuur is een breuk van de punt van de elleboog, door een val op de gebogen elleboog.",
+  "definition": "<p>Bij een verplaatste <strong>olecranonfractuur</strong> trekt de m. triceps het fragment omhoog en is actief strekken niet mogelijk; meestal is operatieve fixatie nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Olecranon fracture",
+  "match": "olecranon fractuur|olecranonfractuur",
+  "option_only": true
+ },
+ "ligamentum acromioclaviculare": {
+  "title": "Ligamentum acromioclaviculare",
+  "short": "Het ligamentum acromioclaviculare verstevigt het kapsel van het AC-gewricht.",
+  "definition": "<p>Bij een lichte AC-luxatie is alleen het <strong>lig. acromioclaviculare</strong> beschadigd; bij ernstigere vormen ook de coracoclaviculaire banden.</p>",
+  "image_url": "",
+  "wiki_title": "Acromioclavicular ligament",
+  "match": "ligamentum acromioclaviculare",
+  "option_only": true
+ },
+ "scapula": {
+  "title": "Scapula (schouderblad)",
+  "short": "De scapula is het driehoekige schouderblad, dat via de clavicula met de romp verbonden is.",
+  "definition": "<p>Aan de <strong>scapula</strong> hechten 17 spieren aan. Een scapulafractuur ontstaat door groot geweld en gaat vaak samen met letsel van borstkas en long.</p>",
+  "image_url": "",
+  "wiki_title": "Scapula",
+  "match": "scapula|schouderblad|scapula fractuur",
+  "option_only": true
+ },
+ "synthetisch botvulmateriaal": {
+  "title": "Botvervangers en bottransplantaten",
+  "short": "Botdefecten kunnen worden opgevuld met eigen bot (autograft), donorbot (allograft) of synthetisch materiaal (bijv. calciumfosfaat).",
+  "definition": "<p>Een <strong>autograft</strong> bevat levende cellen en groeifactoren en geneest het best, maar geeft een extra wond. Allografts en synthetische materialen dienen als steiger waarlangs nieuw bot ingroeit (osteoconductie).</p>",
+  "image_url": "",
+  "wiki_title": "Bone grafting",
+  "match": "synthetisch botvulmateriaal|botgraft|biograft",
+  "option_only": true
+ },
+ "autoriteit consument en markt": {
+  "title": "Autoriteit Consument & Markt (ACM)",
+  "short": "De ACM is de markttoezichthouder die o.a. toezicht houdt op mededinging, ook tussen zorgaanbieders en -verzekeraars.",
+  "definition": "<p>De <strong>ACM</strong> beoordeelt o.a. fusies van ziekenhuizen. De NZa houdt specifiek toezicht op de zorgmarkten en tarieven.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "autoriteit consument en markt|acm",
+  "option_only": true
+ },
+ "integratie": {
+  "title": "Integratie (acculturatie)",
+  "short": "Integratie is de acculturatiestrategie waarbij iemand de eigen cultuur behoudt én contact zoekt met de nieuwe cultuur.",
+  "definition": "<p>In het <strong>model van Berry</strong> gaat integratie meestal samen met het beste welzijn; andere strategieën zijn assimilatie, separatie en marginalisatie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "integratie",
+  "option_only": true
+ },
+ "a. obturatoria": {
+  "title": "A. obturatoria",
+  "short": "De a. obturatoria is een tak van de a. iliaca interna die met de n. obturatorius door het canalis obturatorius naar de adductoren loopt.",
+  "definition": "<p>Een variant waarbij de <strong>a. obturatoria</strong> uit de a. epigastrica inferior komt (‘corona mortis’) kan bij lies- en bekkenoperaties tot ernstige bloedingen leiden.</p>",
+  "image_url": "",
+  "wiki_title": "Obturator artery",
+  "match": "a. obturatoria",
+  "option_only": true
+ },
+ "ligamentum tibiofibulare": {
+  "title": "Syndesmose (lig. tibiofibulare)",
+  "short": "De syndesmose verbindt tibia en fibula vlak boven de enkel en houdt de enkelvork stabiel.",
+  "definition": "<p>Een <strong>syndesmoseletsel</strong> (‘hoge enkelverstuiking’) ontstaat bij exorotatie van de voet en herstelt trager dan een gewone enkelverstuiking. Bij instabiliteit (Weber C-fracturen) is operatieve fixatie nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Syndesmosis",
+  "match": "ligamentum tibiofibulare|syndesmose",
+  "option_only": true
+ },
+ "botscintigrafie": {
+  "title": "Botscan (skeletscintigrafie)",
+  "short": "Een botscan toont met een radioactieve stof plaatsen met verhoogde botombouw, zoals metastasen, fracturen en infecties.",
+  "definition": "<p>Een <strong>botscan</strong> is gevoelig maar weinig specifiek. Hij wordt vooral gebruikt bij verdenking op botmetastasen (o.a. prostaat- en borstkanker) en occulte stressfracturen. Bij een multipel myeloom is de scan vaak negatief, omdat er weinig osteoblastactiviteit is.</p>",
+  "image_url": "",
+  "wiki_title": "Bone scintigraphy",
+  "match": "botscintigrafie|botscan",
+  "option_only": true
+ },
+ "wet publieke gezondheid (wpg)": {
+  "title": "Wet publieke gezondheid (Wpg)",
+  "short": "De Wet publieke gezondheid regelt de taken van gemeenten en GGD's, o.a. infectieziektebestrijding, jeugdgezondheidszorg en ouderengezondheidszorg.",
+  "definition": "<p>Onder de <strong>Wpg</strong> vallen de meldingsplicht voor infectieziekten (groepen A, B en C), bron- en contactonderzoek en de maatregelen die de burgemeester kan nemen bij uitbraken.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wet publieke gezondheid (wpg)|wet publieke gezondheid|wpg",
+  "option_only": true
+ },
+ "beroepsastma": {
+  "title": "Beroepsastma",
+  "short": "Beroepsastma is astma dat door stoffen op het werk ontstaat, zoals meelstof bij bakkers of isocyanaten bij spuiters.",
+  "definition": "<p>Typisch voor <strong>beroepsastma</strong> zijn klachten die verbeteren in het weekend en de vakanties. Vroeg stoppen met blootstelling geeft de beste kans op herstel. Het is een beroepsziekte die moet worden gemeld.</p>",
+  "image_url": "",
+  "wiki_title": "Occupational asthma",
+  "match": "beroepsastma|door werk verergerd astma",
+  "option_only": true
+ },
+ "correctie osteotomie": {
+  "title": "Correctieosteotomie",
+  "short": "Bij een correctieosteotomie wordt een bot doorgezaagd en in een betere stand vastgezet, om een standsafwijking te corrigeren.",
+  "definition": "<p>Een <strong>osteotomie</strong> wordt o.a. gedaan bij een O- of X-beenstand met beginnende knieartrose (om de belasting naar het gezonde compartiment te verplaatsen) en bij scheef genezen fracturen.</p>",
+  "image_url": "",
+  "wiki_title": "Osteotomy",
+  "match": "correctie osteotomie|correctieosteotomie|osteotomie",
+  "option_only": true
+ },
+ "stress fractuur": {
+  "title": "Stressfractuur",
+  "short": "Een stressfractuur ontstaat door herhaalde overbelasting van een bot, bijvoorbeeld bij hardlopers of rekruten.",
+  "definition": "<p><strong>Stressfracturen</strong> zitten vaak in de middenvoetsbeentjes (marsfractuur), tibia of collum femoris. Op de eerste röntgenfoto zijn ze vaak niet zichtbaar; MRI of een botscan toont ze eerder. Bij vrouwelijke sporters moet aan een energietekort met amenorroe en lage botdichtheid worden gedacht.</p>",
+  "image_url": "",
+  "wiki_title": "Stress fracture",
+  "match": "stress fractuur|stressfractuur|marsfractuur",
+  "option_only": true
+ },
+ "osteonecrose": {
+  "title": "Osteonecrose (avasculaire necrose)",
+  "short": "Osteonecrose is afsterven van botweefsel door een onderbroken bloedvoorziening, vaak in de femurkop.",
+  "definition": "<p>Risicofactoren voor <strong>avasculaire necrose</strong> zijn corticosteroïden, alcohol, een mediale collumfractuur of heupluxatie, sikkelcelziekte en duikziekte. Later zakt het bot in, met secundaire artrose. Bisfosfonaten en denosumab kunnen zelden osteonecrose van de kaak geven.</p>",
+  "image_url": "",
+  "wiki_title": "Avascular necrosis",
+  "match": "osteonecrose|avasculaire necrose|osteonecrose van de kaak",
+  "option_only": true
+ },
+ "subchondrale sclerose": {
+  "title": "Röntgenkenmerken van artrose",
+  "short": "De klassieke röntgenkenmerken van artrose zijn gewrichtsspleetversmalling, osteofyten, subchondrale sclerose en subchondrale cysten.",
+  "definition": "<p>Bij <strong>artrose</strong> is de gewrichtsspleet asymmetrisch versmald op de meest belaste plek. Bij ontstekingsziekten zoals reumatoïde artritis zijn er juist symmetrische versmalling, periarticulaire osteoporose en erosies, zonder osteofyten.</p>",
+  "image_url": "",
+  "wiki_title": "Osteoarthritis",
+  "match": "subchondrale sclerose|subchondrale cysten|gewrichtspleet versmalling|osteofytvorming|osteofyten",
+  "option_only": true
+ },
+ "zondagsarmpje": {
+  "title": "Zondagsarmpje (pronatio dolorosa)",
+  "short": "Een zondagsarmpje is een subluxatie van de radiuskop bij jonge kinderen, na trekken aan de gestrekte arm.",
+  "definition": "<p>Het kind (meestal 1–5 jaar) houdt bij een <strong>zondagsarmpje</strong> de arm in pronatie langs het lichaam en wil hem niet gebruiken. Repositie door supinatie en flexie (of hyperpronatie) geeft direct herstel.</p>",
+  "image_url": "",
+  "wiki_title": "Pulled elbow",
+  "match": "zondagsarmpje|pronatio dolorosa|nursemaid's elbow",
+  "option_only": true
+ },
+ "artrolyse": {
+  "title": "Artrolyse",
+  "short": "Bij een artrolyse worden verklevingen in een stijf gewricht chirurgisch losgemaakt om de beweeglijkheid te verbeteren.",
+  "definition": "<p>Een <strong>artrolyse</strong> wordt o.a. gedaan bij een stijve elleboog of knie na trauma of operatie, open of artroscopisch, gevolgd door intensieve oefentherapie.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "artrolyse",
+  "option_only": true
+ },
+ "reumanoduli": {
+  "title": "Reumanoduli",
+  "short": "Reumanoduli zijn stevige, pijnloze knobbels onder de huid, vaak aan de strekzijde van de onderarm, bij reumatoïde artritis.",
+  "definition": "<p><strong>Reumanoduli</strong> komen vooral voor bij seropositieve, ernstigere reumatoïde artritis. Ze kunnen ook in longen en andere organen voorkomen. Methotrexaat kan juist de vorming van kleine noduli bevorderen.</p>",
+  "image_url": "",
+  "wiki_title": "Rheumatoid nodule",
+  "match": "reumanoduli|reumaknobbels",
+  "option_only": true
+ },
+ "de test van mcmurray": {
+  "title": "Test van McMurray",
+  "short": "De test van McMurray onderzoekt meniscusletsel door de knie onder rotatie te buigen en te strekken; een klik of pijn op de gewrichtsspleet is positief.",
+  "definition": "<p>De <strong>McMurray-test</strong> is matig betrouwbaar. Een combinatie van anamnese (draaitrauma, slotklachten) en lichamelijk onderzoek, eventueel aangevuld met MRI, geeft meer zekerheid.</p>",
+  "image_url": "",
+  "wiki_title": "McMurray test",
+  "match": "de test van mcmurray|test van mcmurray|mcmurray",
+  "option_only": true
+ },
+ "plasmodium ovale": {
+  "title": "Plasmodium vivax en ovale",
+  "short": "P. vivax en P. ovale veroorzaken een mildere malaria, maar kunnen slapende vormen (hypnozoïeten) in de lever achterlaten, met recidieven.",
+  "definition": "<p>Na behandeling van <strong>vivax- of ovalemalaria</strong> wordt primaquine gegeven om de hypnozoïeten te doden (eerst G6PD-deficiëntie uitsluiten). <em>P. knowlesi</em> komt uit Zuidoost-Azië (apen) en kan ernstig verlopen.</p>",
+  "image_url": "",
+  "wiki_title": "Plasmodium vivax",
+  "match": "plasmodium ovale|plasmodium vivax|plasmodium knowlesi",
+  "option_only": true
+ },
+ "wet individuele gezondheidszorg": {
+  "title": "Wet BIG",
+  "short": "De Wet BIG regelt beroepen in de individuele gezondheidszorg: registratie, titelbescherming, voorbehouden handelingen en tuchtrecht.",
+  "definition": "<p>Onder de <strong>Wet BIG</strong> mogen alleen bevoegde zorgverleners voorbehouden handelingen (bijv. operaties, injecties, voorschrijven) zelfstandig verrichten. Artsen moeten in het BIG-register staan en zich elke vijf jaar herregistreren.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wet individuele gezondheidszorg|wet big|big-register",
+  "option_only": true
+ },
+ "aneurysma a. poplitea": {
+  "title": "Aneurysma van de a. poplitea",
+  "short": "Een aneurysma van de a. poplitea is een verwijding van de knieholteslagader, het meest voorkomende perifere aneurysma.",
+  "definition": "<p>Een <strong>popliteaal aneurysma</strong> is vaak dubbelzijdig en gaat vaak samen met een aneurysma van de aorta abdominalis. Het scheurt zelden, maar geeft trombose en embolieën naar het onderbeen, met acute ischemie.</p>",
+  "image_url": "",
+  "wiki_title": "Popliteal artery aneurysm",
+  "match": "aneurysma a. poplitea|popliteaal aneurysma",
+  "option_only": true
+ },
+ "crista iliaca": {
+  "title": "Crista iliaca (bekkenkam)",
+  "short": "De crista iliaca is de bovenrand van het os ilium, goed voelbaar in de flank.",
+  "definition": "<p>Een lijn tussen beide <strong>cristae iliacae</strong> (lijn van Tuffier) loopt ongeveer ter hoogte van L4, een oriëntatiepunt bij lumbaalpuncties. De bekkenkam wordt gebruikt voor beenmergonderzoek en als bron van botgrafts.</p>",
+  "image_url": "",
+  "wiki_title": "Iliac crest",
+  "match": "crista iliaca|bekkenkam",
+  "option_only": true
+ },
+ "m. biceps brachii": {
+  "title": "M. biceps brachii",
+  "short": "De m. biceps brachii buigt de elleboog en is een sterke supinator van de onderarm.",
+  "definition": "<p>De <strong>biceps</strong> heeft een lange kop (van boven de kom) en korte kop (van het processus coracoideus) en hecht aan de tuberositas radii. Een scheur van de lange kop geeft een ‘Popeye’-bult; een distale ruptuur verzwakt de supinatie. Bicepspeesreflex: C5–C6. Innervatie: n. musculocutaneus.</p>",
+  "image_url": "",
+  "wiki_title": "Biceps",
+  "match": "m. biceps brachii|musculus biceps brachii|biceps",
+  "option_only": true
+ },
+ "m. triceps brachii": {
+  "title": "M. triceps brachii",
+  "short": "De m. triceps brachii is de strekker van de elleboog, geïnnerveerd door de n. radialis.",
+  "definition": "<p>De <strong>triceps</strong> hecht aan het olecranon. De tricepspeesreflex test C7. Bij een letsel van de n. radialis hoog in de oksel is de triceps ook zwak; bij een letsel ter hoogte van de humerusschacht meestal niet.</p>",
+  "image_url": "",
+  "wiki_title": "Triceps",
+  "match": "m. triceps brachii|musculus triceps brachii|triceps",
+  "option_only": true
+ },
+ "m. brachialis": {
+  "title": "M. brachialis en m. coracobrachialis",
+  "short": "De m. brachialis is de belangrijkste buiger van de elleboog; de m. coracobrachialis helpt bij anteflexie en adductie van de arm.",
+  "definition": "<p>Beide spieren worden geïnnerveerd door de n. musculocutaneus. De <strong>m. brachialis</strong> hecht aan de ulna en buigt in elke stand van de onderarm.</p>",
+  "image_url": "",
+  "wiki_title": "Brachialis muscle",
+  "match": "m. brachialis|m. coracobrachialis",
+  "option_only": true
+ },
+ "m. gluteus maximus": {
+  "title": "M. gluteus maximus",
+  "short": "De m. gluteus maximus is de grote bilspier, de belangrijkste strekker van de heup.",
+  "definition": "<p>De <strong>m. gluteus maximus</strong> is vooral actief bij opstaan, traplopen en rennen. Innervatie: n. gluteus inferior. Intramusculaire injecties in de bil worden in het bovenste-buitenste kwadrant gegeven om de n. ischiadicus te sparen.</p>",
+  "image_url": "",
+  "wiki_title": "Gluteus maximus",
+  "match": "m. gluteus maximus|musculus gluteus maximus",
+  "option_only": true
+ },
+ "m. semimembranosus": {
+  "title": "Hamstrings",
+  "short": "De hamstrings (m. semimembranosus, semitendinosus en biceps femoris) strekken de heup en buigen de knie.",
+  "definition": "<p>Verrekking van de <strong>hamstrings</strong> komt veel voor bij sprinters. De pezen worden ook gebruikt als transplantaat bij een voorste kruisbandreconstructie. Innervatie: n. ischiadicus.</p>",
+  "image_url": "",
+  "wiki_title": "Hamstring",
+  "match": "m. semimembranosus|m. semitendinosus|hamstrings",
+  "option_only": true
+ },
+ "m. adductor longus": {
+  "title": "M. adductor longus",
+  "short": "De m. adductor longus is een van de adductoren van de heup, geïnnerveerd door de n. obturatorius.",
+  "definition": "<p>Overbelasting van de <strong>adductoren</strong> (liesblessure) komt veel voor bij voetballers, met pijn aan de binnenkant van de lies bij adductie tegen weerstand.</p>",
+  "image_url": "",
+  "wiki_title": "Adductor longus muscle",
+  "match": "m. adductor longus",
+  "option_only": true
+ },
+ "m. plantaris": {
+  "title": "M. plantaris",
+  "short": "De m. plantaris is een kleine kuitspier met een lange, dunne pees; bij een deel van de mensen ontbreekt hij.",
+  "definition": "<p>Een scheur van de <strong>m. plantaris</strong> kan plotselinge kuitpijn geven, maar is functioneel weinig belangrijk. De pees wordt soms als transplantaat gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Plantaris muscle",
+  "match": "m. plantaris",
+  "option_only": true
+ },
+ "m. abductor pollicis longus": {
+  "title": "M. abductor pollicis longus en m. extensor pollicis brevis",
+  "short": "Deze twee duimspieren lopen samen door het eerste dorsale compartiment van de pols; ontsteking van hun peesschede heet tendovaginitis van De Quervain.",
+  "definition": "<p>De <strong>m. abductor pollicis longus</strong> abduceert de duim; de <strong>m. extensor pollicis brevis</strong> strekt het basisgewricht. Samen begrenzen ze de anatomische snuifdoos aan de duimzijde. Innervatie: n. radialis (r. profundus).</p>",
+  "image_url": "",
+  "wiki_title": "Abductor pollicis longus muscle",
+  "match": "m. abductor pollicis longus|m. extensor pollicis brevis",
+  "option_only": true
+ },
+ "m. extensor carpi ulnaris": {
+  "title": "Extensoren van de onderarm",
+  "short": "De extensoren van pols en vingers liggen aan de achterkant van de onderarm en worden geïnnerveerd door de n. radialis.",
+  "definition": "<p>Tot de <strong>extensoren</strong> behoren o.a. de m. extensor carpi radialis longus en brevis, m. extensor carpi ulnaris, m. extensor digitorum, m. extensor indicis en m. extensor digiti minimi. Ze ontspringen grotendeels aan de laterale epicondyl (tenniselleboog).</p>",
+  "image_url": "",
+  "wiki_title": "Extensor carpi ulnaris muscle",
+  "match": "m. extensor carpi ulnaris|m. extensor indicis|m. extensor digiti minimi",
+  "option_only": true
+ },
+ "lunatomalacie (ziekte van kienböck)": {
+  "title": "Ziekte van Kienböck",
+  "short": "Bij de ziekte van Kienböck sterft het os lunatum af door een verstoorde bloedvoorziening, met polspijn en stijfheid.",
+  "definition": "<p>De <strong>ziekte van Kienböck</strong> komt vooral bij jonge mannen met zware handarbeid voor en vaker bij een relatief korte ulna. Het lunatum zakt in, met later artrose van de pols.</p>",
+  "image_url": "",
+  "wiki_title": "Kienböck's disease",
+  "match": "lunatomalacie (ziekte van kienböck)|ziekte van kienböck|lunatomalacie",
+  "option_only": true
+ },
+ "habituele patellaluxatie": {
+  "title": "Patellaluxatie",
+  "short": "Bij een patellaluxatie schiet de knieschijf naar buiten uit de groeve; bij een habituele vorm gebeurt dat herhaaldelijk.",
+  "definition": "<p><strong>Patellaluxaties</strong> komen vooral voor bij jonge vrouwen, met risicofactoren als een ondiepe trochleagroeve, een hoogstaande patella en losse banden. Na de eerste luxatie is vaak het mediale patellofemorale ligament gescheurd; bij herhaling volgt soms een operatie.</p>",
+  "image_url": "",
+  "wiki_title": "Patellar dislocation",
+  "match": "habituele patellaluxatie|patellaluxatie|knieschijfluxatie",
+  "option_only": true
+ },
+ "totale knie prothese": {
+  "title": "Totale knieprothese",
+  "short": "Bij een totale knieprothese worden de gewrichtsvlakken van femur en tibia (en soms patella) vervangen door metaal en kunststof.",
+  "definition": "<p>Een <strong>knieprothese</strong> wordt geplaatst bij ernstige artrose die niet meer reageert op conservatieve behandeling. Complicaties zijn infectie, trombose, stijfheid en loslating op termijn.</p>",
+  "image_url": "",
+  "wiki_title": "Knee replacement",
+  "match": "totale knie prothese|totale knieprothese|tkp|heupprothese|arthroplastiek",
+  "option_only": true
+ },
+ "bakerse cyste": {
+  "title": "Bakercyste",
+  "short": "Een bakercyste is een met gewrichtsvocht gevulde zwelling in de knieholte, vaak bij artrose of meniscusletsel.",
+  "definition": "<p>Een <strong>bakercyste</strong> staat in verbinding met het kniegewricht. Als ze scheurt, loopt vocht de kuit in, met een pijnlijke, gezwollen kuit die op een trombosebeen kan lijken.</p>",
+  "image_url": "",
+  "wiki_title": "Baker's cyst",
+  "match": "bakerse cyste|bakercyste|bakerse cyste|poplitea-cyste",
+  "option_only": true
+ },
+ "silicose": {
+  "title": "Silicose",
+  "short": "Silicose is een longfibrose door het langdurig inademen van kwartsstof, bijv. in de bouw, mijnbouw en steenbewerking.",
+  "definition": "<p>Bij <strong>silicose</strong> ontstaan kleine knobbeltjes in de bovenvelden en verkalkte hilusklieren (eierschaalverkalking). Er is een verhoogd risico op tuberculose en longkanker. Het is een beroepsziekte.</p>",
+  "image_url": "",
+  "wiki_title": "Silicosis",
+  "match": "silicose",
+  "option_only": true
+ },
+ "asbestose": {
+  "title": "Asbestose",
+  "short": "Asbestose is longfibrose door het inademen van asbestvezels, vooral in de ondervelden.",
+  "definition": "<p>Naast <strong>asbestose</strong> geeft asbestblootstelling pleurale plaques (zonder klachten), pleuravocht, mesothelioom en longkanker (sterk versterkt door roken). De latentietijd is vaak tientallen jaren.</p>",
+  "image_url": "",
+  "wiki_title": "Asbestosis",
+  "match": "asbestose",
+  "option_only": true
+ },
+ "universele preventie": {
+  "title": "Universele preventie",
+  "short": "Universele preventie richt zich op de hele bevolking of een grote groep, ongeacht risico, zoals vaccinatie of voorlichting aan alle scholieren.",
+  "definition": "<p>De indeling van preventie naar doelgroep is: <strong>universeel</strong> (iedereen), selectief (risicogroepen), geïndiceerd (mensen met beginnende klachten) en zorggerelateerd (mensen met een ziekte).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "universele preventie",
+  "option_only": true
+ },
+ "voorste enkelbandletsel": {
+  "title": "Enkelverstuiking (inversietrauma)",
+  "short": "Bij een enkelverstuiking door inversie scheurt meestal eerst het lig. talofibulare anterius, soms ook het lig. calcaneofibulare.",
+  "definition": "<p>Een <strong>enkeldistorsie</strong> is een van de meest voorkomende sportblessures. Met de Ottawa-enkelregels wordt bepaald of een foto nodig is. Na 4–5 dagen is het onderzoek (voorste schuiflade, drukpijn, hematoom) betrouwbaarder. Behandeling: functioneel, met een brace of tape en oefentherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Sprained ankle",
+  "match": "voorste enkelbandletsel|enkelverstuiking|enkeldistorsie|inversietrauma",
+  "option_only": true
+ },
+ "enkeldislocatie": {
+  "title": "Enkelluxatie",
+  "short": "Bij een enkelluxatie is de talus uit de enkelvork geschoten, meestal samen met fracturen van de malleoli.",
+  "definition": "<p>Een <strong>enkelluxatie</strong> moet snel worden gereponeerd om de huid en de doorbloeding van de voet te sparen, waarna meestal operatieve fixatie volgt.</p>",
+  "image_url": "",
+  "wiki_title": "Ankle dislocation",
+  "match": "enkeldislocatie|enkelluxatie|polsluxatie",
+  "option_only": true
+ },
+ "diabetische neuropathie": {
+  "title": "Diabetische neuropathie",
+  "short": "Diabetische neuropathie is zenuwschade door langdurig hoge bloedglucose, meestal als symmetrische polyneuropathie in de voeten.",
+  "definition": "<p>Bij <strong>diabetische neuropathie</strong> ontstaat verlies van gevoel (risico op ongemerkte wondjes en voetulcera), pijn en tintelingen, en soms autonome neuropathie (orthostatische hypotensie, gastroparese, erectiestoornissen). Jaarlijkse voetcontrole met een monofilament is belangrijk.</p>",
+  "image_url": "",
+  "wiki_title": "Diabetic neuropathy",
+  "match": "diabetische neuropathie|diabetische voet",
+  "option_only": true
+ },
+ "valgustest": {
+  "title": "Valgustest (knie)",
+  "short": "Met de valgustest wordt het mediale collaterale ligament van de knie onderzocht door de onderbeen naar buiten te duwen.",
+  "definition": "<p>De <strong>valgustest</strong> wordt in 0° en 30° flexie gedaan; laxiteit in volledige strekking wijst op bijkomend letsel van de kruisbanden. De varustest onderzoekt het laterale collaterale ligament.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "valgustest|valgusstresstest|varustest",
+  "option_only": true
+ },
+ "jumper's knee": {
+  "title": "Jumper's knee (patellapeestendinopathie)",
+  "short": "Jumper's knee is een overbelasting van de patellapees, met pijn net onder de knieschijf, vooral bij springsporten.",
+  "definition": "<p>Bij <strong>patellatendinopathie</strong> is er drukpijn op de onderpool van de patella en pijn bij springen en traplopen. Behandeling met belastingsmanagement en (excentrische) krachttraining.</p>",
+  "image_url": "",
+  "wiki_title": "Patellar tendinitis",
+  "match": "jumper's knee|patellapeestendinopathie|patellatendinopathie|voetbal knie",
+  "option_only": true
+ },
+ "gemeente": {
+  "title": "Gemeente (in de zorg)",
+  "short": "De gemeente is verantwoordelijk voor o.a. de Wmo, jeugdhulp, de Participatiewet en de publieke gezondheid (via de GGD).",
+  "definition": "<p>Sinds de decentralisaties van 2015 heeft de <strong>gemeente</strong> een grote rol in ondersteuning thuis (Wmo), jeugdhulp (Jeugdwet) en werk en inkomen (Participatiewet).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "gemeente",
+  "option_only": true
+ },
+ "centraal administratiekantoor (cak)": {
+  "title": "CAK (Centraal Administratiekantoor)",
+  "short": "Het CAK int de eigen bijdragen voor zorg uit de Wlz en de Wmo.",
+  "definition": "<p>Het <strong>CAK</strong> berekent en int de eigen bijdrage op basis van inkomen en vermogen, en voert enkele andere regelingen uit, zoals die voor wanbetalers van de zorgverzekering.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "centraal administratiekantoor (cak)|cak",
+  "option_only": true
+ },
+ "bedrijfsarts": {
+  "title": "Bedrijfsarts",
+  "short": "De bedrijfsarts begeleidt werknemers bij ziekte en re-integratie en adviseert over gezond en veilig werken.",
+  "definition": "<p>De <strong>bedrijfsarts</strong> adviseert werkgever en werknemer over verzuim en re-integratie (Wet verbetering poortwachter), stelt beroepsziekten vast en meldt die, en doet preventieve onderzoeken. Medische informatie deelt de bedrijfsarts niet met de werkgever.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "bedrijfsarts|bedrijfsgeneeskunde",
+  "option_only": true
+ },
+ "huis van werkvermogen": {
+  "title": "Huis van werkvermogen",
+  "short": "Het huis van werkvermogen (Ilmarinen) beschrijft werkvermogen als een huis met vier verdiepingen: gezondheid, competenties, waarden en het werk zelf.",
+  "definition": "<p>Het model laat zien dat <strong>werkvermogen</strong> afhangt van de balans tussen wat iemand kan en wil, en wat het werk vraagt, met invloed van familie en omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "huis van werkvermogen",
+  "option_only": true
+ },
+ "optometrist": {
+  "title": "Optometrist",
+  "short": "Een optometrist meet en beoordeelt het gezichtsvermogen en kan oogaandoeningen signaleren en eenvoudige afwijkingen vervolgen.",
+  "definition": "<p>Een <strong>optometrist</strong> doet o.a. oogmetingen, fundusfoto's en oogdrukmetingen en verwijst zo nodig naar de oogarts.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "optometrist",
+  "option_only": true
+ },
+ "gedragsintentie": {
+  "title": "Gedragsintentie",
+  "short": "In de theorie van gepland gedrag is de intentie de belangrijkste voorspeller van gedrag; ze wordt bepaald door attitude, sociale norm en waargenomen gedragscontrole.",
+  "definition": "<p>De <strong>attitude</strong> is de eigen evaluatie van het gedrag (voor- en nadelen), de subjectieve norm wat belangrijke anderen vinden, en waargenomen gedragscontrole of iemand denkt het gedrag te kunnen uitvoeren (vergelijkbaar met eigen-effectiviteit).</p>",
+  "image_url": "",
+  "wiki_title": "Theory of planned behavior",
+  "match": "gedragsintentie|attitude",
+  "option_only": true
+ },
+ "test-hertestbetrouwbaarheid": {
+  "title": "Test-hertestbetrouwbaarheid",
+  "short": "Test-hertestbetrouwbaarheid is de mate waarin een meting bij herhaling onder dezelfde omstandigheden hetzelfde resultaat geeft.",
+  "definition": "<p>Voor <strong>test-hertestbetrouwbaarheid</strong> moet de tijd tussen de metingen lang genoeg zijn om herinnering te voorkomen, maar kort genoeg dat de eigenschap niet verandert. Voor continue uitkomsten wordt vaak de ICC gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Repeatability",
+  "match": "test-hertestbetrouwbaarheid",
+  "option_only": true
+ },
+ "geschillencommissie": {
+  "title": "Geschillencommissie zorg",
+  "short": "Een geschillencommissie doet een bindende uitspraak bij een klacht over zorg die niet naar tevredenheid is opgelost, en kan een schadevergoeding toekennen.",
+  "definition": "<p>Onder de <strong>Wkkgz</strong> moet elke zorgaanbieder een klachtenfunctionaris hebben en aangesloten zijn bij een erkende geschillencommissie. Die kan een schadevergoeding tot een maximumbedrag toekennen.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "geschillencommissie|klachtenfunctionaris van het ziekenhuis",
+  "option_only": true
+ },
+ "patiëntgerichtheid": {
+  "title": "Patiëntgerichtheid",
+  "short": "Patiëntgerichte zorg houdt rekening met de wensen, waarden en situatie van de patiënt en betrekt hem actief bij beslissingen.",
+  "definition": "<p>Kenmerken van <strong>patiëntgerichte zorg</strong> zijn respect voor voorkeuren, goede informatie, gedeelde besluitvorming, aandacht voor lichamelijk comfort en emotionele steun, en betrokkenheid van naasten.</p>",
+  "image_url": "",
+  "wiki_title": "Patient-centered care",
+  "match": "patiëntgerichtheid|patiëntgerichte zorg|patientgerichtheid",
+  "option_only": true
+ },
+ "patientveiligheid": {
+  "title": "Patiëntveiligheid",
+  "short": "Patiëntveiligheid is het voorkomen van onbedoelde schade aan patiënten door de zorg.",
+  "definition": "<p>Bij <strong>patiëntveiligheid</strong> gaat het om het melden en analyseren van incidenten (bijv. met SIRE of PRISMA), het systeemdenken van Reason en maatregelen zoals checklists, time-outs en medicatieverificatie.</p>",
+  "image_url": "",
+  "wiki_title": "Patient safety",
+  "match": "patientveiligheid|patiëntveiligheid",
+  "option_only": true
+ },
+ "allantoïs": {
+  "title": "Allantoïs",
+  "short": "De allantoïs is een embryonale uitstulping van de achterdarm naar de navelstreng; ze wordt later de urachus.",
+  "definition": "<p>De <strong>allantoïs</strong> is bij de mens klein, maar de vaten in haar wand worden de navelvaten. Haar restant, de urachus, verbindt de blaas met de navel en verbindweefselt normaal.</p>",
+  "image_url": "",
+  "wiki_title": "Allantois",
+  "match": "allantoïs|allantois",
+  "option_only": true
+ },
+ "chondrocyten": {
+  "title": "Chondrocyten",
+  "short": "Chondrocyten zijn kraakbeencellen, die in holtes (lacunes) in de kraakbeenmatrix liggen en de matrix maken en onderhouden.",
+  "definition": "<p>Omdat kraakbeen geen bloedvaten heeft, worden <strong>chondrocyten</strong> gevoed via diffusie. Ze delen weinig, waardoor kraakbeenschade slecht herstelt.</p>",
+  "image_url": "",
+  "wiki_title": "Chondrocyte",
+  "match": "chondrocyten|chondrocyt",
+  "option_only": true
+ },
+ "detoxificatie": {
+  "title": "Detoxificatie (lever)",
+  "short": "Detoxificatie is het onschadelijk maken van giftige stoffen en geneesmiddelen, vooral door de lever.",
+  "definition": "<p>In de lever worden stoffen via <strong>fase I</strong> (cytochroom P450) en <strong>fase II</strong> (conjugatie) omgezet, en ammoniak wordt via de ureumcyclus afgevoerd. Bij leverfalen hopen toxines en geneesmiddelen zich op.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "detoxificatie|ontgifting",
+  "option_only": true
+ },
+ "nasopharynx": {
+  "title": "Nasofarynx (neuskeelholte)",
+  "short": "De farynx bestaat uit nasofarynx, orofarynx en hypofarynx (laryngofarynx).",
+  "definition": "<p>In de <strong>nasofarynx</strong> liggen de neusamandel en de opening van de buis van Eustachius. De orofarynx bevat de keelamandelen en de tongbasis; de hypofarynx ligt achter het strottenhoofd. Het nasofarynxcarcinoom is geassocieerd met EBV.</p>",
+  "image_url": "",
+  "wiki_title": "Pharynx",
+  "match": "nasopharynx|nasofarynx|neuskeelholte|laryngopharynx|oropharynx",
+  "option_only": true
+ },
+ "fissura horizontalis": {
+  "title": "Longkwabben en fissuren",
+  "short": "De rechterlong heeft drie kwabben (gescheiden door de fissura obliqua en horizontalis), de linker twee (alleen fissura obliqua).",
+  "definition": "<p>De <strong>longhilus</strong> is de plek waar bronchus, vaten en zenuwen de long in- en uitgaan. De <strong>longtop</strong> reikt tot boven de clavicula; een Pancoast-tumor hier kan de plexus brachialis en de sympathische keten (Horner) aantasten.</p>",
+  "image_url": "",
+  "wiki_title": "Lung",
+  "match": "fissura horizontalis|fissura obliqua|longapex|longhilus",
+  "option_only": true
+ },
+ "barrett-slokdarm": {
+  "title": "Barrett-slokdarm",
+  "short": "Bij een Barrett-slokdarm is het plaveiselepitheel onderin de slokdarm door chronische reflux vervangen door darmachtig cilinderepitheel.",
+  "definition": "<p>Een <strong>Barrett-slokdarm</strong> is een voorstadium van het adenocarcinoom van de slokdarm. Patiënten worden periodiek gecontroleerd met endoscopie en biopten; bij dysplasie volgt endoscopische behandeling.</p>",
+  "image_url": "",
+  "wiki_title": "Barrett's esophagus",
+  "match": "barrett-slokdarm|barrett oesophagus|een barrett slokdarm",
+  "option_only": true
+ },
+ "myelodysplastisch syndroom": {
+  "title": "Myelodysplastisch syndroom (MDS)",
+  "short": "Bij een myelodysplastisch syndroom maakt het beenmerg afwijkende, slecht functionerende bloedcellen, met cytopenieën en een risico op AML.",
+  "definition": "<p><strong>MDS</strong> komt vooral bij ouderen voor en na eerdere chemotherapie of bestraling. Er zijn anemie (vaak macrocytair), soms trombopenie en neutropenie. Het beenmerg is vaak juist celrijk met dysplasie. Behandeling varieert van transfusies tot stamceltransplantatie.</p>",
+  "image_url": "",
+  "wiki_title": "Myelodysplastic syndrome",
+  "match": "myelodysplastisch syndroom|mds",
+  "option_only": true
+ },
+ "fenomeen van raynaud": {
+  "title": "Fenomeen van Raynaud",
+  "short": "Bij het fenomeen van Raynaud verkleuren vingers bij kou of stress wit, daarna blauw en rood, door vaatkramp.",
+  "definition": "<p>Het <strong>primaire</strong> fenomeen van Raynaud komt veel voor bij jonge vrouwen en is onschuldig. <strong>Secundair</strong> Raynaud (later begin, ernstiger, met wondjes) past bij systemische sclerose, SLE, medicatie (bètablokkers) of trilmachines. Behandeling: warm houden, eventueel calciumantagonisten.</p>",
+  "image_url": "",
+  "wiki_title": "Raynaud syndrome",
+  "match": "fenomeen van raynaud|raynaud",
+  "option_only": true
+ },
+ "polyangiitis nodosa (pan)": {
+  "title": "Polyarteriitis nodosa",
+  "short": "Polyarteriitis nodosa is een necrotiserende vasculitis van middelgrote arteriën, zonder ANCA en zonder glomerulonefritis.",
+  "definition": "<p>Bij <strong>polyarteriitis nodosa</strong> raken middelgrote spierarteriën ontstoken, met microaneurysmata en infarcten in o.a. nieren (hypertensie), darm (buikpijn), huid (livedo, ulcera) en zenuwen (mononeuritis multiplex). Een deel van de gevallen hangt samen met hepatitis B. De longen zijn meestal niet aangedaan.</p>",
+  "image_url": "",
+  "wiki_title": "Polyarteritis nodosa",
+  "match": "polyangiitis nodosa (pan)",
+  "option_only": true
+ },
+ "geconjugeerde hyperbilirubinemie": {
+  "title": "Geconjugeerd bilirubine",
+  "short": "Geconjugeerd bilirubine is het in de lever aan glucuronzuur gekoppelde, in water oplosbare bilirubine dat via de gal wordt uitgescheiden.",
+  "definition": "<p>Een verhoogd <strong>geconjugeerd bilirubine</strong> past bij leverziekte of galwegobstructie. Omdat het in water oplosbaar is, komt het in de urine (donkere urine). Bij pasgeborenen is een verhoogd geconjugeerd bilirubine altijd afwijkend en vraagt het om onderzoek naar bijv. galgangatresie.</p>",
+  "image_url": "",
+  "wiki_title": "Bilirubin",
+  "match": "geconjugeerde hyperbilirubinemie",
+  "option_only": true
+ },
+ "ongeconjugeerde hyperbiliribinumie": {
+  "title": "Ongeconjugeerd bilirubine",
+  "short": "Ongeconjugeerd bilirubine is het in vet oplosbare bilirubine dat bij de afbraak van heem ontstaat, voordat de lever het koppelt aan glucuronzuur.",
+  "definition": "<p>Bij afbraak van hemoglobine ontstaat <strong>ongeconjugeerd bilirubine</strong>, dat aan albumine gebonden naar de lever gaat. Daar koppelt UGT1A1 het aan glucuronzuur (geconjugeerd, wateroplosbaar). Een verhoogd ongeconjugeerd bilirubine past bij hemolyse, het syndroom van Gilbert of neonatale icterus; bij pasgeborenen kan het de bloed-hersenbarrière passeren (kernicterus).</p>",
+  "image_url": "",
+  "wiki_title": "Bilirubin",
+  "match": "ongeconjugeerde hyperbiliribinumie",
+  "option_only": true
+ },
+ "voedselintolerantie": {
+  "title": "Lactose-intolerantie",
+  "short": "Bij lactose-intolerantie is er te weinig lactase in de dunne darm, waardoor melksuiker in de dikke darm wordt gefermenteerd.",
+  "definition": "<p>Bij <strong>lactose-intolerantie</strong> geeft melk een opgeblazen gevoel, winderigheid, buikkrampen en osmotische diarree. De primaire vorm (afnemende lactase na de kindertijd) komt wereldwijd bij de meerderheid van de volwassenen voor; secundaire vormen ontstaan bij darmschade (bijv. coeliakie, gastro-enteritis). Diagnose met een waterstofademtest of eliminatie.</p>",
+  "image_url": "",
+  "wiki_title": "Lactose intolerance",
+  "match": "voedselintolerantie",
+  "option_only": true
+ },
+ "salmonella infectie": {
+  "title": "Salmonella",
+  "short": "Salmonella zijn gramnegatieve staven die voedselinfecties (gastro-enteritis) en buiktyfus kunnen veroorzaken.",
+  "definition": "<p>Niet-tyfeuze <strong>salmonellae</strong> komen via onvoldoende verhit voedsel (kip, eieren) binnen en geven koorts, buikkrampen en diarree. <em>S. typhi</em> en <em>S. paratyphi</em> veroorzaken (para)tyfus, een systemische ziekte met hoge koorts, relatieve bradycardie en roseola. Bij sikkelcelziekte kan Salmonella osteomyelitis veroorzaken.</p>",
+  "image_url": "",
+  "wiki_title": "Salmonella",
+  "match": "salmonella infectie",
+  "option_only": true
+ },
+ "ischemische cardiomyopathie": {
+  "title": "Gedilateerde cardiomyopathie",
+  "short": "Bij gedilateerde cardiomyopathie is de linkerventrikel verwijd en pompt hij slecht, met hartfalen en ritmestoornissen.",
+  "definition": "<p>Oorzaken van <strong>gedilateerde cardiomyopathie</strong> zijn erfelijk (o.a. titine- en lamine-mutaties), myocarditis, alcohol, chemotherapie (antracyclines), tachycardie en zwangerschap (peripartum). Het geeft hartfalen met een verminderde ejectiefractie, ventriculaire aritmieën en trombo-embolie.</p>",
+  "image_url": "",
+  "wiki_title": "Dilated cardiomyopathy",
+  "match": "ischemische cardiomyopathie",
+  "option_only": true
+ },
+ "auto-immuunhemolyse": {
+  "title": "Auto-immuun hemolytische anemie",
+  "short": "Bij AIHA maakt het lichaam antistoffen tegen de eigen rode bloedcellen, die daardoor worden afgebroken; de directe antiglobulinetest (Coombs) is positief.",
+  "definition": "<p>Bij <strong>auto-immuun hemolytische anemie</strong> binden auto-antistoffen aan erytrocyten, die vervolgens vooral in de milt worden afgebroken (type II-overgevoeligheid). Bij <em>warme</em> AIHA gaat het om IgG; bij <em>koude</em> AIHA om IgM met complementactivatie.</p><p>Laboratorium: anemie met verhoogde reticulocyten, verhoogd LDH en ongeconjugeerd bilirubine, verlaagd haptoglobine, sferocyten en een positieve directe antiglobulinetest (Coombs). Oorzaken: idiopathisch, lymfoproliferatieve ziekten, SLE, infecties (Mycoplasma, EBV) of geneesmiddelen.</p>",
+  "image_url": "",
+  "wiki_title": "Autoimmune hemolytic anemia",
+  "match": "auto-immuunhemolyse",
+  "option_only": true
+ },
+ "hemolyse door auto-antistoffen": {
+  "title": "Auto-immuun hemolytische anemie",
+  "short": "Bij AIHA maakt het lichaam antistoffen tegen de eigen rode bloedcellen, die daardoor worden afgebroken; de directe antiglobulinetest (Coombs) is positief.",
+  "definition": "<p>Bij <strong>auto-immuun hemolytische anemie</strong> binden auto-antistoffen aan erytrocyten, die vervolgens vooral in de milt worden afgebroken (type II-overgevoeligheid). Bij <em>warme</em> AIHA gaat het om IgG; bij <em>koude</em> AIHA om IgM met complementactivatie.</p><p>Laboratorium: anemie met verhoogde reticulocyten, verhoogd LDH en ongeconjugeerd bilirubine, verlaagd haptoglobine, sferocyten en een positieve directe antiglobulinetest (Coombs). Oorzaken: idiopathisch, lymfoproliferatieve ziekten, SLE, infecties (Mycoplasma, EBV) of geneesmiddelen.</p>",
+  "image_url": "",
+  "wiki_title": "Autoimmune hemolytic anemia",
+  "match": "hemolyse door auto-antistoffen",
+  "option_only": true
+ },
+ "clavicula fractuur": {
+  "title": "Claviculafractuur",
+  "short": "Een claviculafractuur is een breuk van het sleutelbeen, meestal in het middelste derde na een val op de schouder.",
+  "definition": "<p><strong>Claviculafracturen</strong> komen veel voor bij kinderen en jongvolwassenen. Het mediale fragment wordt door de m. sternocleidomastoideus omhoog getrokken. De meeste genezen goed met een mitella; bij grote verplaatsing of verkorting kan operatie nodig zijn. Zelden raken de onderliggende vaten of plexus brachialis beschadigd.</p>",
+  "image_url": "",
+  "wiki_title": "Clavicle fracture",
+  "match": "clavicula fractuur",
+  "option_only": true
+ },
+ "haemophilus influenza type b": {
+  "title": "Haemophilus influenzae",
+  "short": "H. influenzae is een kleine gramnegatieve staaf die luchtweginfecties, otitis en (vroeger vaak) meningitis en epiglottitis bij kinderen veroorzaakt.",
+  "definition": "<p><strong><em>Haemophilus influenzae</em></strong> is een kleine, gramnegatieve coccobacil. Ondanks de naam veroorzaakt hij geen influenza (dat is een virus).</p><p>Onomkapselde stammen veroorzaken otitis media, sinusitis en exacerbaties van COPD. Het omkapselde type b (Hib) veroorzaakte vroeger veel meningitis en epiglottitis bij jonge kinderen; sinds de Hib-vaccinatie is dat zeldzaam.</p>",
+  "image_url": "",
+  "wiki_title": "Haemophilus influenzae",
+  "match": "haemophilus influenza type b",
+  "option_only": true
+ },
+ "haemofilus influenzae": {
+  "title": "Haemophilus influenzae",
+  "short": "H. influenzae is een kleine gramnegatieve staaf die luchtweginfecties, otitis en (vroeger vaak) meningitis en epiglottitis bij kinderen veroorzaakt.",
+  "definition": "<p><strong><em>Haemophilus influenzae</em></strong> is een kleine, gramnegatieve coccobacil. Ondanks de naam veroorzaakt hij geen influenza (dat is een virus).</p><p>Onomkapselde stammen veroorzaken otitis media, sinusitis en exacerbaties van COPD. Het omkapselde type b (Hib) veroorzaakte vroeger veel meningitis en epiglottitis bij jonge kinderen; sinds de Hib-vaccinatie is dat zeldzaam.</p>",
+  "image_url": "",
+  "wiki_title": "Haemophilus influenzae",
+  "match": "haemofilus influenzae",
+  "option_only": true
+ },
+ "tuberculose (mycobacterium tuberculosis)": {
+  "title": "Tuberculose",
+  "short": "Tuberculose is een infectie met Mycobacterium tuberculosis, meestal in de longen, met langdurig hoesten, nachtzweten, gewichtsverlies en granulomen.",
+  "definition": "<p><strong>Tuberculose</strong> wordt veroorzaakt door <em>Mycobacterium tuberculosis</em> en verspreidt zich via aerosolen. Na infectie wordt de bacterie meestal ingekapseld in granulomen (latente tbc); bij verminderde afweer kan actieve ziekte ontstaan.</p><p>Longtuberculose geeft langdurig hoesten (soms met bloed), koorts, nachtzweten en gewichtsverlies; typisch zijn holtevorming in de longtoppen en granulomen met centrale <em>verkazing</em>. Behandeling met een combinatie van tuberculostatica gedurende minstens 6 maanden.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis",
+  "match": "tuberculose (mycobacterium tuberculosis)",
+  "option_only": true
+ },
+ "pulmonale tuberculose": {
+  "title": "Longtuberculose",
+  "short": "Longtuberculose is tuberculose van de longen; de vorm die besmettelijk is via hoesten.",
+  "definition": "<p>Bij een <strong>primaire infectie</strong> ontstaat meestal een kleine haard met lymfeklierbetrokkenheid (Ghon-complex), die tot rust komt (latente tbc). Bij <strong>reactivatie</strong> (verminderde afweer, ouderdom) ontstaan vooral in de longtoppen infiltraten en holtes, met langdurig hoesten, nachtzweten, gewichtsverlies en soms hemoptoë. Latente tbc kan met een tuberculinehuidtest of IGRA worden aangetoond.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis",
+  "match": "pulmonale tuberculose",
+  "option_only": true
+ },
+ "primaire longtuberculose": {
+  "title": "Longtuberculose",
+  "short": "Longtuberculose is tuberculose van de longen; de vorm die besmettelijk is via hoesten.",
+  "definition": "<p>Bij een <strong>primaire infectie</strong> ontstaat meestal een kleine haard met lymfeklierbetrokkenheid (Ghon-complex), die tot rust komt (latente tbc). Bij <strong>reactivatie</strong> (verminderde afweer, ouderdom) ontstaan vooral in de longtoppen infiltraten en holtes, met langdurig hoesten, nachtzweten, gewichtsverlies en soms hemoptoë. Latente tbc kan met een tuberculinehuidtest of IGRA worden aangetoond.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis",
+  "match": "primaire longtuberculose",
+  "option_only": true
+ },
+ "pulmonale tb met cavernes": {
+  "title": "Longtuberculose",
+  "short": "Longtuberculose is tuberculose van de longen; de vorm die besmettelijk is via hoesten.",
+  "definition": "<p>Bij een <strong>primaire infectie</strong> ontstaat meestal een kleine haard met lymfeklierbetrokkenheid (Ghon-complex), die tot rust komt (latente tbc). Bij <strong>reactivatie</strong> (verminderde afweer, ouderdom) ontstaan vooral in de longtoppen infiltraten en holtes, met langdurig hoesten, nachtzweten, gewichtsverlies en soms hemoptoë. Latente tbc kan met een tuberculinehuidtest of IGRA worden aangetoond.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis",
+  "match": "pulmonale tb met cavernes",
+  "option_only": true
+ },
+ "open tuberculose": {
+  "title": "Longtuberculose",
+  "short": "Longtuberculose is tuberculose van de longen; de vorm die besmettelijk is via hoesten.",
+  "definition": "<p>Bij een <strong>primaire infectie</strong> ontstaat meestal een kleine haard met lymfeklierbetrokkenheid (Ghon-complex), die tot rust komt (latente tbc). Bij <strong>reactivatie</strong> (verminderde afweer, ouderdom) ontstaan vooral in de longtoppen infiltraten en holtes, met langdurig hoesten, nachtzweten, gewichtsverlies en soms hemoptoë. Latente tbc kan met een tuberculinehuidtest of IGRA worden aangetoond.</p>",
+  "image_url": "",
+  "wiki_title": "Tuberculosis",
+  "match": "open tuberculose",
+  "option_only": true
+ },
+ "legionellose (legionella pneumophila)": {
+  "title": "Legionella pneumophila",
+  "short": "Legionella is een gramnegatieve staaf uit warm water die een ernstige (atypische) pneumonie kan veroorzaken: de veteranenziekte.",
+  "definition": "<p><strong><em>Legionella pneumophila</em></strong> groeit in warmwatersystemen, koeltorens en bubbelbaden en wordt via aerosolen ingeademd; er is geen overdracht van mens op mens. Risicofactoren zijn hogere leeftijd, roken en immuunsuppressie. Naast pneumonie kunnen diarree, verwardheid en hyponatriëmie optreden. Diagnose met de urine-antigeentest; bètalactamantibiotica werken niet, macroliden en chinolonen wel.</p>",
+  "image_url": "",
+  "wiki_title": "Legionella pneumophila",
+  "match": "legionellose (legionella pneumophila)",
+  "option_only": true
+ },
+ "coronair angiogram": {
+  "title": "Coronairangiografie",
+  "short": "Bij coronairangiografie worden de kransslagaders met contrast en röntgen in beeld gebracht via een katheter in de pols of lies.",
+  "definition": "<p>Een <strong>CAG</strong> toont vernauwingen in de kransslagaders en wordt vaak direct gecombineerd met een PCI (dotteren en stenten). Complicaties zijn bloedingen op de punctieplaats, contrastnefropathie en zelden een beroerte of infarct.</p>",
+  "image_url": "",
+  "wiki_title": "Coronary catheterization",
+  "match": "coronair angiogram",
+  "option_only": true
+ },
+ "candida-infectie": {
+  "title": "Candida albicans",
+  "short": "Candida albicans is een gist die normaal op slijmvliezen voorkomt en bij verminderde weerstand spruw, vaginale schimmelinfectie of invasieve infecties geeft.",
+  "definition": "<p><strong><em>Candida albicans</em></strong> is een gist (schimmel) die bij veel mensen in mond, darm en vagina voorkomt. Hij kan zowel als ronde gistcel als met (pseudo)hyfen groeien.</p><p>Bij een verstoorde flora (antibiotica) of verminderde afweer veroorzaakt hij oppervlakkige infecties zoals spruw (orale candidiasis), vaginale candidiasis en intertrigo. Bij ernstig immuungecompromitteerden of patiënten met lijnen kan een invasieve candidemie ontstaan.</p>",
+  "image_url": "",
+  "wiki_title": "Candida albicans",
+  "match": "candida-infectie",
+  "option_only": true
+ },
+ "respiratoir syncytieelvirus (rsv)": {
+  "title": "Respiratoir syncytieel virus (RSV)",
+  "short": "RSV is een RNA-virus dat in de winter luchtweginfecties geeft, bij zuigelingen vaak bronchiolitis.",
+  "definition": "<p><strong>RSV</strong> geeft bij volwassenen meestal een verkoudheid, maar bij zuigelingen kan het de kleine luchtwegen aantasten, met piepen, benauwdheid en drinkproblemen. Ex-prematuren en kinderen met hart- of longafwijkingen lopen het meeste risico. Er bestaan antistoffen ter preventie (palivizumab, nirsevimab) en een vaccin voor zwangeren en ouderen.</p>",
+  "image_url": "",
+  "wiki_title": "Respiratory syncytial virus",
+  "match": "respiratoir syncytieelvirus (rsv)",
+  "option_only": true
+ },
+ "rs-bronchiolitis": {
+  "title": "Respiratoir syncytieel virus (RSV)",
+  "short": "RSV is een RNA-virus dat in de winter luchtweginfecties geeft, bij zuigelingen vaak bronchiolitis.",
+  "definition": "<p><strong>RSV</strong> geeft bij volwassenen meestal een verkoudheid, maar bij zuigelingen kan het de kleine luchtwegen aantasten, met piepen, benauwdheid en drinkproblemen. Ex-prematuren en kinderen met hart- of longafwijkingen lopen het meeste risico. Er bestaan antistoffen ter preventie (palivizumab, nirsevimab) en een vaccin voor zwangeren en ouderen.</p>",
+  "image_url": "",
+  "wiki_title": "Respiratory syncytial virus",
+  "match": "rs-bronchiolitis",
+  "option_only": true
+ },
+ "rsv bronchiolitis": {
+  "title": "Respiratoir syncytieel virus (RSV)",
+  "short": "RSV is een RNA-virus dat in de winter luchtweginfecties geeft, bij zuigelingen vaak bronchiolitis.",
+  "definition": "<p><strong>RSV</strong> geeft bij volwassenen meestal een verkoudheid, maar bij zuigelingen kan het de kleine luchtwegen aantasten, met piepen, benauwdheid en drinkproblemen. Ex-prematuren en kinderen met hart- of longafwijkingen lopen het meeste risico. Er bestaan antistoffen ter preventie (palivizumab, nirsevimab) en een vaccin voor zwangeren en ouderen.</p>",
+  "image_url": "",
+  "wiki_title": "Respiratory syncytial virus",
+  "match": "rsv bronchiolitis",
+  "option_only": true
+ },
+ "een parasympaticolyticum": {
+  "title": "Anticholinergicum (luchtwegen)",
+  "short": "Inhalatie-anticholinergica (ipratropium, tiotropium) blokkeren muscarinereceptoren in de luchtwegen en geven bronchodilatatie.",
+  "definition": "<p>Langwerkende <strong>anticholinergica</strong> (LAMA, bijv. tiotropium) zijn een basismiddel bij COPD; kortwerkend ipratropium wordt bij exacerbaties gebruikt. Bijwerkingen: droge mond en zelden urineretentie of glaucoom.</p>",
+  "image_url": "",
+  "wiki_title": "Anticholinergic",
+  "match": "een parasympaticolyticum",
+  "option_only": true
+ },
+ "een beta-2-sympaticomimeticum": {
+  "title": "Salbutamol",
+  "short": "Salbutamol is een kortwerkende β2-agonist die binnen minuten de luchtwegen verwijdt; gebruikt bij astma- en COPD-aanvallen.",
+  "definition": "<p><strong>Salbutamol</strong> ontspant de gladde spier van de bronchi via β2-receptoren en cAMP. Het werkt binnen enkele minuten en ongeveer 4–6 uur. Het wordt via een dosisaerosol met voorzetkamer of als verneveling gegeven. Bijwerkingen: tremor, tachycardie en een daling van het kalium (het wordt daarom ook gebruikt bij hyperkaliëmie).</p>",
+  "image_url": "",
+  "wiki_title": "Salbutamol",
+  "match": "een beta-2-sympaticomimeticum",
+  "option_only": true
+ },
+ "kortwerkend beta-2-ympaticomimeticum": {
+  "title": "Salbutamol",
+  "short": "Salbutamol is een kortwerkende β2-agonist die binnen minuten de luchtwegen verwijdt; gebruikt bij astma- en COPD-aanvallen.",
+  "definition": "<p><strong>Salbutamol</strong> ontspant de gladde spier van de bronchi via β2-receptoren en cAMP. Het werkt binnen enkele minuten en ongeveer 4–6 uur. Het wordt via een dosisaerosol met voorzetkamer of als verneveling gegeven. Bijwerkingen: tremor, tachycardie en een daling van het kalium (het wordt daarom ook gebruikt bij hyperkaliëmie).</p>",
+  "image_url": "",
+  "wiki_title": "Salbutamol",
+  "match": "kortwerkend beta-2-ympaticomimeticum",
+  "option_only": true
+ },
+ "een inhalatiesteroïd": {
+  "title": "Inhalatiecorticosteroïd (ICS)",
+  "short": "Inhalatiecorticosteroïden remmen de ontsteking in de luchtwegen; ze zijn de basis van de onderhoudsbehandeling van astma.",
+  "definition": "<p><strong>ICS</strong> verminderen ontsteking, hyperreactiviteit en aanvallen. Lokale bijwerkingen zijn heesheid en spruw (mond spoelen na gebruik). Bij COPD worden ze vooral gegeven bij frequente exacerbaties en eosinofilie, omdat ze het pneumonierisico verhogen.</p>",
+  "image_url": "",
+  "wiki_title": "Inhaled corticosteroid",
+  "match": "een inhalatiesteroïd",
+  "option_only": true
+ },
+ "een leukotrieenreceptorantagonist": {
+  "title": "Leukotrieenreceptorantagonist (montelukast)",
+  "short": "Montelukast blokkeert de receptor voor cysteinyl-leukotriënen en wordt als aanvullend middel bij astma gebruikt.",
+  "definition": "<p><strong>Montelukast</strong> is een tablet, wat handig is bij jonge kinderen en inspanningsastma. Het is minder effectief dan inhalatiecorticosteroïden. Een bekende bijwerking zijn stemmings- en gedragsveranderingen en nachtmerries.</p>",
+  "image_url": "",
+  "wiki_title": "Montelukast",
+  "match": "een leukotrieenreceptorantagonist",
+  "option_only": true
+ },
+ "trichomoniasi": {
+  "title": "Trichomonas vaginalis",
+  "short": "Trichomonas vaginalis is een seksueel overdraagbare protozo die vaginitis met schuimende, groengele afscheiding veroorzaakt.",
+  "definition": "<p><strong>Trichomoniasis</strong> geeft bij vrouwen jeuk, branderigheid en riekende, schuimende afscheiding, soms met een ‘aardbeiencervix’; bij mannen meestal geen klachten. De beweeglijke flagellaten zijn soms te zien in een nat preparaat; PCR is gevoeliger. Behandeling met metronidazol, ook voor de partner.</p>",
+  "image_url": "",
+  "wiki_title": "Trichomoniasis",
+  "match": "trichomoniasi",
+  "option_only": true
+ },
+ "intercellulair adhesie molecuul 1": {
+  "title": "ICAM-1",
+  "short": "ICAM-1 is een adhesiemolecuul op geactiveerd endotheel dat via integrines (LFA-1) leukocyten stevig laat binden.",
+  "definition": "<p><strong>ICAM-1</strong> behoort tot de immunoglobuline-superfamilie en wordt door IL-1 en TNF op endotheel tot expressie gebracht. Het bindt aan integrines zoals LFA-1 en Mac-1 op leukocyten, wat vaste adhesie en transmigratie mogelijk maakt. ICAM-1 is ook de receptor voor de meeste rhinovirussen.</p>",
+  "image_url": "",
+  "wiki_title": "ICAM-1",
+  "match": "intercellulair adhesie molecuul 1",
+  "option_only": true
+ },
+ "icam (intercellulair adhesiemolecuul)": {
+  "title": "ICAM-1",
+  "short": "ICAM-1 is een adhesiemolecuul op geactiveerd endotheel dat via integrines (LFA-1) leukocyten stevig laat binden.",
+  "definition": "<p><strong>ICAM-1</strong> behoort tot de immunoglobuline-superfamilie en wordt door IL-1 en TNF op endotheel tot expressie gebracht. Het bindt aan integrines zoals LFA-1 en Mac-1 op leukocyten, wat vaste adhesie en transmigratie mogelijk maakt. ICAM-1 is ook de receptor voor de meeste rhinovirussen.</p>",
+  "image_url": "",
+  "wiki_title": "ICAM-1",
+  "match": "icam (intercellulair adhesiemolecuul)",
+  "option_only": true
+ },
+ "rotavirusinfectie": {
+  "title": "Rotavirus",
+  "short": "Rotavirus is een dubbelstrengs RNA-virus dat bij jonge kinderen een ernstige gastro-enteritis met braken en waterige diarree veroorzaakt.",
+  "definition": "<p><strong>Rotavirus</strong> wordt fecaal-oraal overgedragen en beschadigt de villi van de dunne darm. Vooral kinderen onder de 2 jaar krijgen koorts, braken en waterige diarree, met risico op uitdroging. Er bestaat een oraal levend vaccin, inmiddels opgenomen in het Rijksvaccinatieprogramma.</p>",
+  "image_url": "",
+  "wiki_title": "Rotavirus",
+  "match": "rotavirusinfectie",
+  "option_only": true
+ },
+ "pneumonie door pneumokokken": {
+  "title": "Streptococcus pneumoniae",
+  "short": "De pneumokok is een grampositieve diplokok met een kapsel; de belangrijkste verwekker van pneumonie, otitis media en bacteriële meningitis.",
+  "definition": "<p><strong><em>Streptococcus pneumoniae</em></strong> (pneumokok) is een grampositieve, lancetvormige diplokok die α-hemolyse geeft op bloedagar. Het polysacharidekapsel is de belangrijkste virulentiefactor: het beschermt tegen fagocytose.</p><p>De pneumokok koloniseert de nasofarynx en is de meest voorkomende verwekker van de buiten het ziekenhuis opgelopen pneumonie, otitis media, sinusitis en bacteriële meningitis bij volwassenen. Kinderen en ouderen worden ertegen gevaccineerd.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pneumoniae",
+  "match": "pneumonie door pneumokokken",
+  "option_only": true
+ },
+ "mycoplasmapneumonie": {
+  "title": "Mycoplasma pneumoniae",
+  "short": "Mycoplasma pneumoniae is een bacterie zonder celwand die bij jongeren een ‘atypische’ pneumonie veroorzaakt.",
+  "definition": "<p><strong><em>Mycoplasma pneumoniae</em></strong> heeft geen peptidoglycaanwand en is daardoor ongevoelig voor bètalactamantibiotica en niet zichtbaar met een gramkleuring. Het veroorzaakt vooral bij schoolkinderen en jongvolwassenen een geleidelijk beginnende luchtweginfectie met droge hoest. Er kunnen koude agglutininen (hemolyse) en extrapulmonale verschijnselen optreden. Behandeling met macroliden of doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Mycoplasma pneumoniae",
+  "match": "mycoplasmapneumonie",
+  "option_only": true
+ },
+ "aspiratie corpus alienum": {
+  "title": "Corpus alienum in de luchtweg",
+  "short": "Een corpus alienum in de luchtweg is een ingeademd vreemd voorwerp; bij jonge kinderen een belangrijke oorzaak van plotselinge benauwdheid.",
+  "definition": "<p>Bij <strong>aspiratie van een vreemd voorwerp</strong> (vaak pinda's, speelgoedonderdelen) ontstaan plotseling hoesten, verslikken en benauwdheid; later kan een eenzijdig piepen, verminderd ademgeruis of een recidiverende pneumonie optreden. Het voorwerp komt vaak in de rechter hoofdbronchus terecht. Verwijdering via een bronchoscopie.</p>",
+  "image_url": "",
+  "wiki_title": "Foreign body aspiration",
+  "match": "aspiratie corpus alienum",
+  "option_only": true
+ },
+ "malaria tropica": {
+  "title": "Malaria",
+  "short": "Malaria is een door muggen overgedragen parasitaire infectie (Plasmodium) van de rode bloedcellen, met koortsaanvallen; P. falciparum kan levensbedreigend zijn.",
+  "definition": "<p><strong>Malaria</strong> wordt veroorzaakt door <em>Plasmodium</em>-parasieten (o.a. <em>P. falciparum</em>, <em>P. vivax</em>) en overgebracht door de <em>Anopheles</em>-mug. De parasiet vermenigvuldigt zich eerst in de lever en daarna in rode bloedcellen.</p><p>Het uiteenvallen van geïnfecteerde erytrocyten geeft koortsaanvallen, hemolytische anemie en splenomegalie. <em>P. falciparum</em> kan cerebrale malaria en orgaanfalen geven. Diagnose met een dikke druppel/uitstrijk of sneltest; koorts na tropenreis is malaria tot het tegendeel bewezen is.</p>",
+  "image_url": "",
+  "wiki_title": "Malaria",
+  "match": "malaria tropica",
+  "option_only": true
+ },
+ "plasmodium falciparum-malaria": {
+  "title": "Malaria",
+  "short": "Malaria is een door muggen overgedragen parasitaire infectie (Plasmodium) van de rode bloedcellen, met koortsaanvallen; P. falciparum kan levensbedreigend zijn.",
+  "definition": "<p><strong>Malaria</strong> wordt veroorzaakt door <em>Plasmodium</em>-parasieten (o.a. <em>P. falciparum</em>, <em>P. vivax</em>) en overgebracht door de <em>Anopheles</em>-mug. De parasiet vermenigvuldigt zich eerst in de lever en daarna in rode bloedcellen.</p><p>Het uiteenvallen van geïnfecteerde erytrocyten geeft koortsaanvallen, hemolytische anemie en splenomegalie. <em>P. falciparum</em> kan cerebrale malaria en orgaanfalen geven. Diagnose met een dikke druppel/uitstrijk of sneltest; koorts na tropenreis is malaria tot het tegendeel bewezen is.</p>",
+  "image_url": "",
+  "wiki_title": "Malaria",
+  "match": "plasmodium falciparum-malaria",
+  "option_only": true
+ },
+ "plasmodium vivax-malaria": {
+  "title": "Malaria",
+  "short": "Malaria is een door muggen overgedragen parasitaire infectie (Plasmodium) van de rode bloedcellen, met koortsaanvallen; P. falciparum kan levensbedreigend zijn.",
+  "definition": "<p><strong>Malaria</strong> wordt veroorzaakt door <em>Plasmodium</em>-parasieten (o.a. <em>P. falciparum</em>, <em>P. vivax</em>) en overgebracht door de <em>Anopheles</em>-mug. De parasiet vermenigvuldigt zich eerst in de lever en daarna in rode bloedcellen.</p><p>Het uiteenvallen van geïnfecteerde erytrocyten geeft koortsaanvallen, hemolytische anemie en splenomegalie. <em>P. falciparum</em> kan cerebrale malaria en orgaanfalen geven. Diagnose met een dikke druppel/uitstrijk of sneltest; koorts na tropenreis is malaria tot het tegendeel bewezen is.</p>",
+  "image_url": "",
+  "wiki_title": "Malaria",
+  "match": "plasmodium vivax-malaria",
+  "option_only": true
+ },
+ "plasmodium spp": {
+  "title": "Malaria",
+  "short": "Malaria is een door muggen overgedragen parasitaire infectie (Plasmodium) van de rode bloedcellen, met koortsaanvallen; P. falciparum kan levensbedreigend zijn.",
+  "definition": "<p><strong>Malaria</strong> wordt veroorzaakt door <em>Plasmodium</em>-parasieten (o.a. <em>P. falciparum</em>, <em>P. vivax</em>) en overgebracht door de <em>Anopheles</em>-mug. De parasiet vermenigvuldigt zich eerst in de lever en daarna in rode bloedcellen.</p><p>Het uiteenvallen van geïnfecteerde erytrocyten geeft koortsaanvallen, hemolytische anemie en splenomegalie. <em>P. falciparum</em> kan cerebrale malaria en orgaanfalen geven. Diagnose met een dikke druppel/uitstrijk of sneltest; koorts na tropenreis is malaria tot het tegendeel bewezen is.</p>",
+  "image_url": "",
+  "wiki_title": "Malaria",
+  "match": "plasmodium spp",
+  "option_only": true
+ },
+ "malariaparasiet": {
+  "title": "Malaria",
+  "short": "Malaria is een door muggen overgedragen parasitaire infectie (Plasmodium) van de rode bloedcellen, met koortsaanvallen; P. falciparum kan levensbedreigend zijn.",
+  "definition": "<p><strong>Malaria</strong> wordt veroorzaakt door <em>Plasmodium</em>-parasieten (o.a. <em>P. falciparum</em>, <em>P. vivax</em>) en overgebracht door de <em>Anopheles</em>-mug. De parasiet vermenigvuldigt zich eerst in de lever en daarna in rode bloedcellen.</p><p>Het uiteenvallen van geïnfecteerde erytrocyten geeft koortsaanvallen, hemolytische anemie en splenomegalie. <em>P. falciparum</em> kan cerebrale malaria en orgaanfalen geven. Diagnose met een dikke druppel/uitstrijk of sneltest; koorts na tropenreis is malaria tot het tegendeel bewezen is.</p>",
+  "image_url": "",
+  "wiki_title": "Malaria",
+  "match": "malariaparasiet",
+  "option_only": true
+ },
+ "ziekte van lyme": {
+  "title": "Borrelia burgdorferi",
+  "short": "Borrelia burgdorferi is de spirocheet die door teken wordt overgebracht en de ziekte van Lyme veroorzaakt.",
+  "definition": "<p><strong><em>Borrelia burgdorferi</em></strong> wordt overgebracht door de schapenteek (<em>Ixodes ricinus</em>), meestal pas na een aanhechting van meer dan 24 uur. Vroege lokale infectie geeft erythema migrans; verspreiding kan leiden tot neuroborreliose, lyme-artritis, carditis (AV-blok) en huidafwijkingen (acrodermatitis). Behandeling met doxycycline of ceftriaxon.</p>",
+  "image_url": "",
+  "wiki_title": "Borrelia burgdorferi",
+  "match": "ziekte van lyme",
+  "option_only": true
+ },
+ "borreliose": {
+  "title": "Borrelia burgdorferi",
+  "short": "Borrelia burgdorferi is de spirocheet die door teken wordt overgebracht en de ziekte van Lyme veroorzaakt.",
+  "definition": "<p><strong><em>Borrelia burgdorferi</em></strong> wordt overgebracht door de schapenteek (<em>Ixodes ricinus</em>), meestal pas na een aanhechting van meer dan 24 uur. Vroege lokale infectie geeft erythema migrans; verspreiding kan leiden tot neuroborreliose, lyme-artritis, carditis (AV-blok) en huidafwijkingen (acrodermatitis). Behandeling met doxycycline of ceftriaxon.</p>",
+  "image_url": "",
+  "wiki_title": "Borrelia burgdorferi",
+  "match": "borreliose",
+  "option_only": true
+ },
+ "kinderverlamming (polio)": {
+  "title": "Poliomyelitis",
+  "short": "Polio is een virale infectie (poliovirus, enterovirus) die bij een klein deel van de patiënten motorische voorhoorncellen beschadigt en slappe verlamming geeft.",
+  "definition": "<p><strong>Poliomyelitis</strong> wordt veroorzaakt door het poliovirus, een niet-omhuld RNA-enterovirus dat fecaal-oraal wordt overgedragen.</p><p>De meeste infecties verlopen zonder of met milde klachten. Bij een klein deel infecteert het virus de motorische <em>voorhoorncellen</em> van het ruggenmerg, met asymmetrische slappe verlamming zonder gevoelsverlies. Door vaccinatie (DKTP) is polio in Nederland vrijwel verdwenen.</p>",
+  "image_url": "",
+  "wiki_title": "Polio",
+  "match": "kinderverlamming (polio)",
+  "option_only": true
+ },
+ "hepatitis-b": {
+  "title": "Hepatitis B",
+  "short": "Hepatitis B is een via bloed en seks overgedragen DNA-virus dat acute en chronische leverontsteking geeft, met risico op cirrose en levercelcarcinoom.",
+  "definition": "<p><strong>Hepatitis B</strong> wordt veroorzaakt door het hepatitis B-virus, een omhuld (gedeeltelijk dubbelstrengs) DNA-virus. Overdracht via bloed, seksueel contact en van moeder op kind rond de geboorte.</p><p>Bij volwassenen geneest de meeste acute infectie; bij pasgeborenen wordt de infectie meestal <em>chronisch</em>. Chronische hepatitis B kan leiden tot levercirrose en hepatocellulair carcinoom. Diagnostiek via serologie (HBsAg, anti-HBc, anti-HBs). Er is een effectief vaccin.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatitis B",
+  "match": "hepatitis-b",
+  "option_only": true
+ },
+ "hepatitis b virus": {
+  "title": "Hepatitis B",
+  "short": "Hepatitis B is een via bloed en seks overgedragen DNA-virus dat acute en chronische leverontsteking geeft, met risico op cirrose en levercelcarcinoom.",
+  "definition": "<p><strong>Hepatitis B</strong> wordt veroorzaakt door het hepatitis B-virus, een omhuld (gedeeltelijk dubbelstrengs) DNA-virus. Overdracht via bloed, seksueel contact en van moeder op kind rond de geboorte.</p><p>Bij volwassenen geneest de meeste acute infectie; bij pasgeborenen wordt de infectie meestal <em>chronisch</em>. Chronische hepatitis B kan leiden tot levercirrose en hepatocellulair carcinoom. Diagnostiek via serologie (HBsAg, anti-HBc, anti-HBs). Er is een effectief vaccin.</p>",
+  "image_url": "",
+  "wiki_title": "Hepatitis B",
+  "match": "hepatitis b virus",
+  "option_only": true
+ },
+ "tachypnoe": {
+  "title": "Tachypneu",
+  "short": "Tachypneu is een te snelle ademhaling, bij volwassenen meer dan ongeveer 20 per minuut.",
+  "definition": "<p><strong>Tachypneu</strong> komt voor bij koorts, pijn, angst, longaandoeningen, hartfalen, sepsis en metabole acidose (compenserend). Een verhoogde ademfrequentie is een belangrijk alarmsignaal in vroege-waarschuwingsscores. Bij kinderen gelden leeftijdsafhankelijke grenzen.</p>",
+  "image_url": "",
+  "wiki_title": "Tachypnea",
+  "match": "tachypnoe",
+  "option_only": true
+ },
+ "chronisch veneuze insufficiëntie": {
+  "title": "Chronische veneuze insufficiëntie",
+  "short": "Bij chronische veneuze insufficiëntie werkt de veneuze terugstroom uit de benen slecht, met oedeem, huidverkleuring en uiteindelijk ulcera.",
+  "definition": "<p>Door lekkende kleppen of een doorgemaakte trombose (posttrombotisch syndroom) stijgt de veneuze druk in de benen. Gevolgen: varices, oedeem, hyperpigmentatie (hemosiderine), eczeem, lipodermatosclerose, atrophie blanche en een ulcus cruris venosum, typisch rond de mediale enkel. Behandeling met compressietherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Chronic venous insufficiency",
+  "match": "chronisch veneuze insufficiëntie",
+  "option_only": true
+ },
+ "astma-aanval": {
+  "title": "Astma",
+  "short": "Astma is een chronische ontsteking van de luchtwegen met wisselende, reversibele luchtwegobstructie en hyperreactiviteit; klachten zijn piepen, benauwdheid en hoesten.",
+  "definition": "<p>Bij <strong>astma</strong> zijn de luchtwegen chronisch ontstoken (vaak eosinofiel/Th2-gemedieerd) en <em>hyperreactief</em>: op prikkels zoals allergenen, inspanning, koude lucht of rook ontstaan bronchoconstrictie, slijmvliesoedeem en slijmproductie.</p><p>De obstructie is variabel en grotendeels <em>reversibel</em> (verbetering van de FEV1 na een luchtwegverwijder). Klachten: aanvallen van piepen, kortademigheid, een beklemd gevoel op de borst en hoesten, vaak ’s nachts. Behandeling met inhalatiecorticosteroïden en luchtwegverwijders.</p>",
+  "image_url": "",
+  "wiki_title": "Asthma",
+  "match": "astma-aanval",
+  "option_only": true
+ },
+ "astma-exacerbatie": {
+  "title": "Astma",
+  "short": "Astma is een chronische ontsteking van de luchtwegen met wisselende, reversibele luchtwegobstructie en hyperreactiviteit; klachten zijn piepen, benauwdheid en hoesten.",
+  "definition": "<p>Bij <strong>astma</strong> zijn de luchtwegen chronisch ontstoken (vaak eosinofiel/Th2-gemedieerd) en <em>hyperreactief</em>: op prikkels zoals allergenen, inspanning, koude lucht of rook ontstaan bronchoconstrictie, slijmvliesoedeem en slijmproductie.</p><p>De obstructie is variabel en grotendeels <em>reversibel</em> (verbetering van de FEV1 na een luchtwegverwijder). Klachten: aanvallen van piepen, kortademigheid, een beklemd gevoel op de borst en hoesten, vaak ’s nachts. Behandeling met inhalatiecorticosteroïden en luchtwegverwijders.</p>",
+  "image_url": "",
+  "wiki_title": "Asthma",
+  "match": "astma-exacerbatie",
+  "option_only": true
+ },
+ "psittacose (chlamydia psittaci)": {
+  "title": "Psittacose",
+  "short": "Psittacose is een longontsteking door Chlamydia psittaci, opgelopen via (stof van) besmette vogels.",
+  "definition": "<p>Bij <strong>psittacose</strong> zijn er hoge koorts, hoofdpijn, droge hoest en spierpijn, soms met een relatief trage pols. Contact met vogels (papegaaien, duiven) is de belangrijkste aanwijzing. Behandeling met doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Psittacosis",
+  "match": "psittacose (chlamydia psittaci)",
+  "option_only": true
+ },
+ "chlamydia psittaci": {
+  "title": "Psittacose",
+  "short": "Psittacose is een longontsteking door Chlamydia psittaci, opgelopen via (stof van) besmette vogels.",
+  "definition": "<p>Bij <strong>psittacose</strong> zijn er hoge koorts, hoofdpijn, droge hoest en spierpijn, soms met een relatief trage pols. Contact met vogels (papegaaien, duiven) is de belangrijkste aanwijzing. Behandeling met doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Psittacosis",
+  "match": "chlamydia psittaci",
+  "option_only": true
+ },
+ "pyloryshypertrofie": {
+  "title": "Hypertrofische pylorusstenose",
+  "short": "Bij hypertrofische pylorusstenose verdikt de sluitspier van de maag bij zuigelingen, met projectielbraken.",
+  "definition": "<p><strong>Pylorusstenose</strong> komt vooral voor bij jongens van 2–8 weken. Er is niet-gallig projectielbraken na de voeding, een hongerige baby, soms een voelbaar ‘olijfje’ en een hypochloremische, hypokaliëmische metabole alkalose. Diagnose met echo; behandeling met een pyloromyotomie na correctie van de elektrolyten.</p>",
+  "image_url": "",
+  "wiki_title": "Pyloric stenosis",
+  "match": "pyloryshypertrofie",
+  "option_only": true
+ },
+ "matrixeiwit": {
+  "title": "Capside",
+  "short": "Het capside is de eiwitmantel die het genetisch materiaal van een virus omsluit.",
+  "definition": "<p>Het <strong>capside</strong> bestaat uit herhaalde eiwiteenheden (capsomeren) en is meestal icosaëdrisch of helixvormig. Samen met het nucleïnezuur vormt het het nucleocapside; omhulde virussen hebben daaromheen nog een lipide-envelop afkomstig van de gastheercel. Niet-omhulde virussen zijn stabieler in de omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "Capsid",
+  "match": "matrixeiwit",
+  "option_only": true
+ },
+ "lipide-envelop": {
+  "title": "Virale envelop",
+  "short": "Een envelop is de lipide-buitenmantel van sommige virussen, afkomstig van de membraan van de gastheercel.",
+  "definition": "<p><strong>Omhulde virussen</strong> (bijv. influenza, hiv, herpes, corona) zijn gevoelig voor uitdroging, zeep, alcohol en detergentia en worden meestal via druppels, bloed of direct contact overgedragen. Niet-omhulde virussen (bijv. norovirus, adenovirus) zijn veel stabieler in de omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "Viral envelope",
+  "match": "lipide-envelop",
+  "option_only": true
+ },
+ "enveloppe eiwit": {
+  "title": "Virale envelop",
+  "short": "Een envelop is de lipide-buitenmantel van sommige virussen, afkomstig van de membraan van de gastheercel.",
+  "definition": "<p><strong>Omhulde virussen</strong> (bijv. influenza, hiv, herpes, corona) zijn gevoelig voor uitdroging, zeep, alcohol en detergentia en worden meestal via druppels, bloed of direct contact overgedragen. Niet-omhulde virussen (bijv. norovirus, adenovirus) zijn veel stabieler in de omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "Viral envelope",
+  "match": "enveloppe eiwit",
+  "option_only": true
+ },
+ "nucleocapside eiwit": {
+  "title": "Capside",
+  "short": "Het capside is de eiwitmantel die het genetisch materiaal van een virus omsluit.",
+  "definition": "<p>Het <strong>capside</strong> bestaat uit herhaalde eiwiteenheden (capsomeren) en is meestal icosaëdrisch of helixvormig. Samen met het nucleïnezuur vormt het het nucleocapside; omhulde virussen hebben daaromheen nog een lipide-envelop afkomstig van de gastheercel. Niet-omhulde virussen zijn stabieler in de omgeving.</p>",
+  "image_url": "",
+  "wiki_title": "Capsid",
+  "match": "nucleocapside eiwit",
+  "option_only": true
+ },
+ "dubbelzijdige nieragenesie": {
+  "title": "Bilaterale nieragenesie",
+  "short": "Bij bilaterale nieragenesie zijn beide nieren niet aangelegd, met ernstig tekort aan vruchtwater en longhypoplasie als gevolg.",
+  "definition": "<p>Bij <strong>bilaterale nieragenesie</strong> ontstaan de nieren niet, doordat de ureterknop niet of verkeerd met het metanefrogene mesoderm in contact komt. Er wordt geen foetale urine gemaakt, met oligo- of anhydramnion. Dat leidt tot de Potter-sequentie: longhypoplasie, een afgeplat gezicht en standsafwijkingen van de ledematen; het is niet met het leven verenigbaar.</p>",
+  "image_url": "",
+  "wiki_title": "Renal agenesis",
+  "match": "dubbelzijdige nieragenesie",
+  "option_only": true
+ },
+ "eenzijdige multicysteuze nierdysplasie": {
+  "title": "Multicysteuze nierdysplasie",
+  "short": "Bij multicysteuze nierdysplasie is een nier aangelegd als een tros niet-functionerende cysten, door een stoornis in de ontwikkeling.",
+  "definition": "<p>Een <strong>eenzijdige</strong> multicysteuze nierdysplasie is vaak een toevalsbevinding op de prenatale echo; de andere nier neemt de functie over en de cysten verdwijnen vaak spontaan. Een <strong>dubbelzijdige</strong> vorm geeft geen urineproductie, oligohydramnion en longhypoplasie (Potter-sequentie).</p>",
+  "image_url": "",
+  "wiki_title": "Multicystic dysplastic kidney",
+  "match": "eenzijdige multicysteuze nierdysplasie",
+  "option_only": true
+ },
+ "beta thalassemie": {
+  "title": "Bèta-thalassemie major",
+  "short": "Bij bèta-thalassemie major worden (vrijwel) geen bèta-globineketens gemaakt, met een ernstige anemie vanaf de eerste levensmaanden.",
+  "definition": "<p>Bij <strong>bèta-thalassemie major</strong> klonteren overtollige alfaketens in de rode voorlopercellen, met ineffectieve erytropoëse, hemolyse, beenmergexpansie (botvervormingen) en hepatosplenomegalie. Patiënten zijn transfusieafhankelijk, met ijzerstapeling als gevolg (chelatie nodig). Dragers hebben een lichte microcytaire anemie met een verhoogd HbA2.</p>",
+  "image_url": "",
+  "wiki_title": "Beta thalassemia",
+  "match": "beta thalassemie",
+  "option_only": true
+ },
+ "sikkelcel ziekte": {
+  "title": "Sikkelcelziekte",
+  "short": "Sikkelcelziekte is een erfelijke hemoglobinopathie waarbij afwijkend hemoglobine (HbS) bij zuurstoftekort polymeriseert en rode bloedcellen sikkelvormig maakt.",
+  "definition": "<p>Bij <strong>sikkelcelziekte</strong> (homozygoot HbS, autosomaal recessief) verstoppen sikkelcellen kleine vaatjes en worden ze snel afgebroken. Gevolgen: pijncrises, hemolytische anemie, acute chest syndrome, herseninfarcten, miltinfarcten (functionele asplenie, infecties met gekapselde bacteriën) en priapisme. Dragerschap beschermt deels tegen malaria. Behandeling o.a. met hydroxycarbamide en transfusies.</p>",
+  "image_url": "",
+  "wiki_title": "Sickle cell disease",
+  "match": "sikkelcel ziekte",
+  "option_only": true
+ },
+ "vitamine b12 deficiëntie": {
+  "title": "Vitamine B12-deficiëntie",
+  "short": "Een vitamine B12-tekort geeft een macrocytaire anemie en neurologische schade, zoals polyneuropathie en een gecombineerde strengziekte.",
+  "definition": "<p>Oorzaken van een <strong>B12-tekort</strong> zijn auto-immuungastritis (pernicieuze anemie, antistoffen tegen intrinsieke factor), maag- of ileumresectie, ziekte van Crohn, metformine, langdurig PPI-gebruik en veganistisch eten. Naast anemie ontstaan neuropathie, degeneratie van achterstrengen en piramidebanen, cognitieve stoornissen en glossitis. Methylmalonzuur en homocysteïne zijn verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Vitamin B12 deficiency",
+  "match": "vitamine b12 deficiëntie",
+  "option_only": true
+ },
+ "folliculair non-hodgkin lymfoom": {
+  "title": "Folliculair lymfoom",
+  "short": "Het folliculair lymfoom is een langzaam groeiend B-cellymfoom met een t(14;18)-translocatie en overexpressie van BCL2.",
+  "definition": "<p>Het <strong>folliculair lymfoom</strong> komt vooral bij ouderen voor en geeft vaak gegeneraliseerde, pijnloze lymfeklierzwelling die jarenlang kan wisselen. Door BCL2-overexpressie ontsnappen de cellen aan apoptose. Het is meestal niet te genezen, maar heeft een lang beloop; behandeling vaak pas bij klachten. Het kan transformeren naar een agressief lymfoom.</p>",
+  "image_url": "",
+  "wiki_title": "Follicular lymphoma",
+  "match": "folliculair non-hodgkin lymfoom",
+  "option_only": true
+ },
+ "humaan papillomavirus 16": {
+  "title": "Humaan papillomavirus (HPV)",
+  "short": "HPV is een DNA-virus dat wratten veroorzaakt; hoog-risicotypes (o.a. 16 en 18) veroorzaken baarmoederhalskanker en andere kankers.",
+  "definition": "<p>Het <strong>humaan papillomavirus</strong> infecteert basale cellen van huid en slijmvlies. Laag-risicotypes (6, 11) geven wratten en condylomata acuminata. Hoog-risicotypes maken de eiwitten E6 en E7, die p53 en Rb uitschakelen; persisterende infectie kan leiden tot cervixcarcinoom en kankers van anus, vulva, penis en orofarynx. Er is een vaccin en een bevolkingsonderzoek met hrHPV-test.</p>",
+  "image_url": "",
+  "wiki_title": "Human papillomavirus infection",
+  "match": "humaan papillomavirus 16",
+  "option_only": true
+ },
+ "skeletfoto’s": {
+  "title": "Skeletstatus (skeletfoto's)",
+  "short": "Bij een skeletstatus worden röntgenfoto's van het hele skelet gemaakt, bijv. bij verdenking op multipel myeloom of kindermishandeling.",
+  "definition": "<p>Een <strong>skeletstatus</strong> wordt o.a. gebruikt om lytische botlaesies op te sporen bij multipel myeloom (tegenwoordig vaak vervangen door low-dose CT of MRI), en bij jonge kinderen bij verdenking op mishandeling, om oude en nieuwe fracturen in beeld te brengen. Ook bij skeletdysplasieën wordt het gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Skeletal survey",
+  "match": "skeletfoto’s",
+  "option_only": true
+ },
+ "paraproteine": {
+  "title": "M-proteïne (paraproteïne)",
+  "short": "Een M-proteïne is een monoklonaal immunoglobuline of een lichte keten, gemaakt door één kloon van plasmacellen of B-cellen.",
+  "definition": "<p>Een <strong>M-proteïne</strong> is te zien als een smalle piek (M-piek) in het eiwitspectrum en wordt getypeerd met immunofixatie. Het komt voor bij MGUS (een voorstadium zonder klachten), het multipel myeloom, AL-amyloïdose en sommige lymfomen. Vrije lichte ketens in de urine heten Bence-Jones-eiwit.</p>",
+  "image_url": "",
+  "wiki_title": "Paraproteinemia",
+  "match": "paraproteine",
+  "option_only": true
+ },
+ "igm monoclonaal proteïne": {
+  "title": "M-proteïne (paraproteïne)",
+  "short": "Een M-proteïne is een monoklonaal immunoglobuline of een lichte keten, gemaakt door één kloon van plasmacellen of B-cellen.",
+  "definition": "<p>Een <strong>M-proteïne</strong> is te zien als een smalle piek (M-piek) in het eiwitspectrum en wordt getypeerd met immunofixatie. Het komt voor bij MGUS (een voorstadium zonder klachten), het multipel myeloom, AL-amyloïdose en sommige lymfomen. Vrije lichte ketens in de urine heten Bence-Jones-eiwit.</p>",
+  "image_url": "",
+  "wiki_title": "Paraproteinemia",
+  "match": "igm monoclonaal proteïne",
+  "option_only": true
+ },
+ "dwarslesie": {
+  "title": "Dwarslaesie",
+  "short": "Bij een dwarslaesie is het ruggenmerg (deels) onderbroken, met uitval van kracht, gevoel en autonome functies onder het niveau van de laesie.",
+  "definition": "<p>Een <strong>dwarslaesie</strong> ontstaat door trauma, compressie (tumor, abces, hernia), ischemie of ontsteking. Acuut kan een spinale shock optreden (slappe verlamming, areflexie), later spasticiteit. Bij hoge laesies kan autonome dysreflexie ontstaan. Een acute compressie is een neurochirurgisch spoedgeval.</p>",
+  "image_url": "",
+  "wiki_title": "Spinal cord injury",
+  "match": "dwarslesie",
+  "option_only": true
+ },
+ "hyperuricemie": {
+  "title": "Urinezuur",
+  "short": "Urinezuur is het eindproduct van de purineafbraak; een te hoge spiegel kan leiden tot jicht en nierstenen.",
+  "definition": "<p><strong>Urinezuur</strong> wordt gevormd door xanthineoxidase en vooral via de nier uitgescheiden. Hyperurikemie ontstaat door verminderde uitscheiding (nierfunctiestoornis, diuretica, alcohol) of verhoogde aanmaak (celafbraak bij chemotherapie, purinerijk voedsel). Uraatkristallen veroorzaken jicht; allopurinol remt de vorming van urinezuur.</p>",
+  "image_url": "",
+  "wiki_title": "Uric acid",
+  "match": "hyperuricemie",
+  "option_only": true
+ },
+ "beeldvorming van het skelet": {
+  "title": "Skeletstatus (skeletfoto's)",
+  "short": "Bij een skeletstatus worden röntgenfoto's van het hele skelet gemaakt, bijv. bij verdenking op multipel myeloom of kindermishandeling.",
+  "definition": "<p>Een <strong>skeletstatus</strong> wordt o.a. gebruikt om lytische botlaesies op te sporen bij multipel myeloom (tegenwoordig vaak vervangen door low-dose CT of MRI), en bij jonge kinderen bij verdenking op mishandeling, om oude en nieuwe fracturen in beeld te brengen. Ook bij skeletdysplasieën wordt het gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Skeletal survey",
+  "match": "beeldvorming van het skelet",
+  "option_only": true
+ },
+ "x-slikfoto": {
+  "title": "Slikfoto (bariumslik)",
+  "short": "Bij een slikfoto drinkt de patiënt contrastvloeistof terwijl röntgenopnamen worden gemaakt van slokdarm en maag.",
+  "definition": "<p>Een <strong>bariumslikfoto</strong> laat de vorm en passage van de slokdarm zien, bijvoorbeeld bij achalasie (vogelbekvorm), vernauwingen, een divertikel van Zenker of slokdarmspasmen (kurkentrekker). Bij verdenking op een perforatie wordt een wateroplosbaar contrast gebruikt.</p>",
+  "image_url": "",
+  "wiki_title": "Upper gastrointestinal series",
+  "match": "x-slikfoto",
+  "option_only": true
+ },
+ "ct-scan van het abdomen": {
+  "title": "CT abdomen",
+  "short": "Een CT abdomen is een röntgenscan in dwarsdoorsneden van de buik, vaak met contrast; goed voor acute buik, tumoren, abcessen en trauma.",
+  "definition": "<p>Bij een <strong>CT abdomen</strong> worden met röntgenstraling dunne dwarsdoorsneden van de buik gemaakt, meestal met intraveneus (en soms oraal) contrast.</p><p>Het geeft een overzichtelijk beeld van alle buikorganen, de darm en het retroperitoneum en wordt gebruikt bij een acute buik (bijv. perforatie, diverticulitis, appendicitis bij volwassenen), bij het stadiëren van tumoren, het opsporen van abcessen en bij trauma. Nadelen zijn de stralingsbelasting en het contrastmiddel (nierfunctie, allergie).</p>",
+  "image_url": "",
+  "wiki_title": "CT scan",
+  "match": "ct-scan van het abdomen",
+  "option_only": true
+ },
+ "pet-ct thorax/abdomen": {
+  "title": "PET-CT",
+  "short": "Een PET-CT combineert een metabole PET-scan (meestal met radioactief glucose, FDG) met een CT voor de anatomie.",
+  "definition": "<p>Bij <strong>FDG-PET</strong> nemen cellen met een hoge glucosestofwisseling, zoals veel tumoren en ontstekingshaarden, meer tracer op. Gecombineerd met CT kan de plaats precies worden bepaald. Het wordt gebruikt voor stadiëring en respons van o.a. lymfomen en longkanker, en bij onverklaarde koorts of vasculitis.</p>",
+  "image_url": "",
+  "wiki_title": "PET-CT",
+  "match": "pet-ct thorax/abdomen",
+  "option_only": true
+ },
+ "choline-pet scan": {
+  "title": "PET-CT",
+  "short": "Een PET-CT combineert een metabole PET-scan (meestal met radioactief glucose, FDG) met een CT voor de anatomie.",
+  "definition": "<p>Bij <strong>FDG-PET</strong> nemen cellen met een hoge glucosestofwisseling, zoals veel tumoren en ontstekingshaarden, meer tracer op. Gecombineerd met CT kan de plaats precies worden bepaald. Het wordt gebruikt voor stadiëring en respons van o.a. lymfomen en longkanker, en bij onverklaarde koorts of vasculitis.</p>",
+  "image_url": "",
+  "wiki_title": "PET-CT",
+  "match": "choline-pet scan",
+  "option_only": true
+ },
+ "psma-pet scan": {
+  "title": "PET-CT",
+  "short": "Een PET-CT combineert een metabole PET-scan (meestal met radioactief glucose, FDG) met een CT voor de anatomie.",
+  "definition": "<p>Bij <strong>FDG-PET</strong> nemen cellen met een hoge glucosestofwisseling, zoals veel tumoren en ontstekingshaarden, meer tracer op. Gecombineerd met CT kan de plaats precies worden bepaald. Het wordt gebruikt voor stadiëring en respons van o.a. lymfomen en longkanker, en bij onverklaarde koorts of vasculitis.</p>",
+  "image_url": "",
+  "wiki_title": "PET-CT",
+  "match": "psma-pet scan",
+  "option_only": true
+ },
+ "nervus abducens parese": {
+  "title": "N. abducens (VI)",
+  "short": "De n. abducens (VI) innerveert de m. rectus lateralis, die het oog naar buiten beweegt.",
+  "definition": "<p>De <strong>n. abducens</strong> ontspringt aan de grens van pons en medulla en heeft een lang intracraniëel verloop, door de sinus cavernosus naar de orbita. Daardoor is hij gevoelig voor verhoogde intracraniële druk. Uitval geeft horizontale dubbelbeelden en een oog dat niet goed naar buiten kan bewegen.</p>",
+  "image_url": "",
+  "wiki_title": "Abducens nerve",
+  "match": "nervus abducens parese",
+  "option_only": true
+ },
+ "creatinekinase verhoging": {
+  "title": "Creatinekinase (CK)",
+  "short": "Creatinekinase is een enzym uit spieren; een verhoogde bloedwaarde wijst op spierschade.",
+  "definition": "<p><strong>CK</strong> zet creatinefosfaat en ADP om in creatine en ATP. Het stijgt bij spierschade: rabdomyolyse, myositis, spierdystrofieën, na intensieve inspanning, trauma of injecties, en door statines. De CK-MB-vorm werd vroeger gebruikt bij hartinfarcten.</p>",
+  "image_url": "",
+  "wiki_title": "Creatine kinase",
+  "match": "creatinekinase verhoging",
+  "option_only": true
+ },
+ "a. carotis interna": {
+  "title": "A. carotis interna",
+  "short": "De a. carotis interna voorziet het grootste deel van de grote hersenen en het oog; ze geeft geen takken af in de hals.",
+  "definition": "<p>De <strong>a. carotis interna</strong> loopt door het rotsbeen en de sinus cavernosus en splitst in de a. cerebri anterior en media; de eerste tak is de a. ophthalmica. Een stenose of dissectie kan een TIA, herseninfarct of amaurosis fugax geven.</p>",
+  "image_url": "",
+  "wiki_title": "Internal carotid artery",
+  "match": "a. carotis interna",
+  "option_only": true
+ },
+ "carotis interna": {
+  "title": "A. carotis interna",
+  "short": "De a. carotis interna voorziet het grootste deel van de grote hersenen en het oog; ze geeft geen takken af in de hals.",
+  "definition": "<p>De <strong>a. carotis interna</strong> loopt door het rotsbeen en de sinus cavernosus en splitst in de a. cerebri anterior en media; de eerste tak is de a. ophthalmica. Een stenose of dissectie kan een TIA, herseninfarct of amaurosis fugax geven.</p>",
+  "image_url": "",
+  "wiki_title": "Internal carotid artery",
+  "match": "carotis interna",
+  "option_only": true
+ },
+ "negatieve feedback": {
+  "title": "Negatieve terugkoppeling",
+  "short": "Bij negatieve terugkoppeling remt het resultaat van een proces dat proces zelf; het belangrijkste mechanisme van homeostase.",
+  "definition": "<p>Voorbeelden van <strong>negatieve feedback</strong> zijn de regeling van lichaamstemperatuur, bloeddruk (baroreflex) en hormoonassen: cortisol remt CRH en ACTH, schildklierhormoon remt TRH en TSH. Bij positieve terugkoppeling versterkt het resultaat juist het proces.</p>",
+  "image_url": "",
+  "wiki_title": "Negative feedback",
+  "match": "negatieve feedback",
+  "option_only": true
+ },
+ "een negatieve feedback": {
+  "title": "Negatieve terugkoppeling",
+  "short": "Bij negatieve terugkoppeling remt het resultaat van een proces dat proces zelf; het belangrijkste mechanisme van homeostase.",
+  "definition": "<p>Voorbeelden van <strong>negatieve feedback</strong> zijn de regeling van lichaamstemperatuur, bloeddruk (baroreflex) en hormoonassen: cortisol remt CRH en ACTH, schildklierhormoon remt TRH en TSH. Bij positieve terugkoppeling versterkt het resultaat juist het proces.</p>",
+  "image_url": "",
+  "wiki_title": "Negative feedback",
+  "match": "een negatieve feedback",
+  "option_only": true
+ },
+ "een positieve feedback": {
+  "title": "Positieve terugkoppeling",
+  "short": "Bij positieve terugkoppeling versterkt de respons de oorspronkelijke prikkel, waardoor een proces zichzelf versnelt tot een eindpunt.",
+  "definition": "<p><strong>Positieve feedback</strong> is relatief zeldzaam in de fysiologie, omdat het de homeostase niet bewaart. Voorbeelden zijn de LH-piek vóór de ovulatie (door stijgend oestrogeen), de weeën tijdens de bevalling (oxytocine, reflex van Ferguson), de stollingscascade en de opening van natriumkanalen tijdens de actiepotentiaal.</p>",
+  "image_url": "",
+  "wiki_title": "Positive feedback",
+  "match": "een positieve feedback",
+  "option_only": true
+ },
+ "auto-immuun destructie van bètacellen": {
+  "title": "Diabetes mellitus type 1",
+  "short": "Bij diabetes type 1 vernietigt het immuunsysteem de insulineproducerende bètacellen, met een absoluut insulinetekort.",
+  "definition": "<p><strong>Diabetes type 1</strong> begint meestal op jonge leeftijd, vaak met dorst, veel plassen, gewichtsverlies en soms een diabetische ketoacidose. Er zijn auto-antistoffen (bijv. tegen GAD of IA-2). Behandeling is levenslang insuline.</p>",
+  "image_url": "",
+  "wiki_title": "Type 1 diabetes",
+  "match": "auto-immuun destructie van bètacellen",
+  "option_only": true
+ },
+ "type 1 diabetes mellitus": {
+  "title": "Diabetes mellitus type 1",
+  "short": "Bij diabetes type 1 vernietigt het immuunsysteem de insulineproducerende bètacellen, met een absoluut insulinetekort.",
+  "definition": "<p><strong>Diabetes type 1</strong> begint meestal op jonge leeftijd, vaak met dorst, veel plassen, gewichtsverlies en soms een diabetische ketoacidose. Er zijn auto-antistoffen (bijv. tegen GAD of IA-2). Behandeling is levenslang insuline.</p>",
+  "image_url": "",
+  "wiki_title": "Type 1 diabetes",
+  "match": "type 1 diabetes mellitus",
+  "option_only": true
+ },
+ "metformine (biguanide)": {
+  "title": "Metformine",
+  "short": "Metformine is het eerstekeusmiddel bij diabetes mellitus type 2; het remt vooral de glucoseproductie door de lever.",
+  "definition": "<p><strong>Metformine</strong> is een biguanide dat de <em>gluconeogenese in de lever</em> remt en de insulinegevoeligheid van spier verbetert. Het stimuleert de insulineafgifte niet en geeft daarom op zichzelf geen hypoglykemie.</p><p>Het is eerste keus bij diabetes type 2 en is gewichtsneutraal. Bijwerkingen zijn vooral maag-darmklachten; zeldzaam is lactaatacidose (risico bij ernstige nierfunctiestoornis). Langdurig gebruik kan vitamine B12-tekort geven.</p>",
+  "image_url": "",
+  "wiki_title": "Metformin",
+  "match": "metformine (biguanide)",
+  "option_only": true
+ },
+ "dapagliflozine (sglt2 remmer)": {
+  "title": "SGLT2-remmer",
+  "short": "SGLT2-remmers laten de nier glucose uitscheiden; ze verlagen de bloedglucose en beschermen hart en nieren.",
+  "definition": "<p><strong>SGLT2-remmers</strong> remmen de glucoseterugresorptie in de proximale tubulus. Naast glucoseverlaging (diabetes type 2) verminderen ze ziekenhuisopnames bij hartfalen en vertragen ze chronische nierschade. Bijwerkingen: genitale schimmelinfecties, volumedepletie en zeldzaam een euglykemische ketoacidose.</p>",
+  "image_url": "",
+  "wiki_title": "SGLT2 inhibitor",
+  "match": "dapagliflozine (sglt2 remmer)",
+  "option_only": true
+ },
+ "mesenterica superior": {
+  "title": "A. mesenterica superior",
+  "short": "De a. mesenterica superior voorziet de dunne darm en het proximale colon van bloed.",
+  "definition": "<p>De <strong>a. mesenterica superior</strong> ontspringt ter hoogte van L1 uit de aorta, achter de pancreas, en loopt vóór het duodenum. Takken: aa. jejunales en ileales, a. ileocolica, a. colica dextra en media. Een acute afsluiting (embolie) geeft mesenteriale ischemie met hevige buikpijn bij weinig afwijkingen aan de buik.</p>",
+  "image_url": "",
+  "wiki_title": "Superior mesenteric artery",
+  "match": "mesenterica superior",
+  "option_only": true
+ },
+ "iliaca externa": {
+  "title": "A. iliaca externa",
+  "short": "De a. iliaca externa loopt van de splitsing van de a. iliaca communis naar het lig. inguinale, waar ze a. femoralis gaat heten.",
+  "definition": "<p>De <strong>a. iliaca externa</strong> loopt langs de m. psoas en geeft vlak boven het lig. inguinale de a. epigastrica inferior en de a. circumflexa ilium profunda af. Bij een niertransplantatie wordt de donornier vaak op deze arterie aangesloten.</p>",
+  "image_url": "",
+  "wiki_title": "External iliac artery",
+  "match": "iliaca externa",
+  "option_only": true
+ },
+ "lienalis": {
+  "title": "A. splenica (lienalis)",
+  "short": "De a. splenica is de grootste tak van de truncus coeliacus; ze loopt kronkelend langs de bovenrand van de pancreas naar de milt.",
+  "definition": "<p>De <strong>a. splenica</strong> voorziet de milt, het grootste deel van de pancreas (corpus en staart) en via de aa. gastricae breves en a. gastro-omentalis sinistra een deel van de maag. Er bestaat geen ‘a. splenica dextra’; de milt ligt links.</p>",
+  "image_url": "",
+  "wiki_title": "Splenic artery",
+  "match": "lienalis",
+  "option_only": true
+ },
+ "carpaaltunnelsyndroom": {
+  "title": "Carpaletunnelsyndroom",
+  "short": "Bij het carpaletunnelsyndroom is de n. medianus bekneld in de carpale tunnel, met tintelingen in duim, wijs- en middelvinger.",
+  "definition": "<p>Het <strong>carpaletunnelsyndroom</strong> is de meest voorkomende zenuwbeknelling. Klachten: tintelingen en doofheid in het gebied van de n. medianus, vaak ’s nachts, verbeterend door schudden met de hand; later zwakte en atrofie van de duimmuis. Risicofactoren zijn zwangerschap, diabetes, hypothyreoïdie, reumatoïde artritis en repetitieve bewegingen. Behandeling met spalk, injectie of klieving van het lig. carpi transversum.</p>",
+  "image_url": "",
+  "wiki_title": "Carpal tunnel syndrome",
+  "match": "carpaaltunnelsyndroom",
+  "option_only": true
+ },
+ "g-eiwit gekoppelde receptoren": {
+  "title": "G-eiwitgekoppelde receptor",
+  "short": "G-eiwitgekoppelde receptoren hebben zeven transmembraandomeinen en geven een signaal door via een G-eiwit (Gs, Gi of Gq).",
+  "definition": "<p><strong>GPCR's</strong> vormen de grootste receptorfamilie en het doelwit van veel geneesmiddelen. Gs verhoogt cAMP (bijv. β-receptoren), Gi verlaagt cAMP (bijv. α2, µ-opioïd), Gq activeert fosfolipase C met IP₃ en calcium (bijv. α1, M1/M3). Voorbeelden zijn adrenerge, muscarinerge, histamine- en dopaminereceptoren.</p>",
+  "image_url": "",
+  "wiki_title": "G protein-coupled receptor",
+  "match": "g-eiwit gekoppelde receptoren",
+  "option_only": true
+ },
+ "hypofyse adenoom": {
+  "title": "Hypofyseadenoom",
+  "short": "Een hypofyseadenoom is een goedaardige tumor van de hypofysevoorkwab, al dan niet hormoonproducerend.",
+  "definition": "<p><strong>Hypofyseadenomen</strong> worden ingedeeld naar grootte (micro- &lt;1 cm, macroadenoom ≥1 cm) en naar hormoonproductie: o.a. prolactinoom, groeihormoon (acromegalie), ACTH (ziekte van Cushing) of niet-functionerend. Grote adenomen kunnen het chiasma opticum drukken (bitemporale hemianopsie) en uitval van andere hypofysehormonen geven.</p>",
+  "image_url": "",
+  "wiki_title": "Pituitary adenoma",
+  "match": "hypofyse adenoom",
+  "option_only": true
+ },
+ "cortisol (een glucocorticoid)": {
+  "title": "Cortisol",
+  "short": "Cortisol is het belangrijkste glucocorticoïd uit de bijnierschors; het is een stresshormoon met effecten op stofwisseling en afweer.",
+  "definition": "<p><strong>Cortisol</strong> wordt gemaakt in de zona fasciculata onder invloed van ACTH, met een dagritme (hoog in de ochtend). Het verhoogt de bloedglucose (gluconeogenese), breekt eiwitten af, remt ontsteking en afweer en ondersteunt de bloeddruk. Overmaat geeft het syndroom van Cushing, tekort bijnierinsufficiëntie (ziekte van Addison).</p>",
+  "image_url": "",
+  "wiki_title": "Cortisol",
+  "match": "cortisol (een glucocorticoid)",
+  "option_only": true
+ },
+ "epinefrine": {
+  "title": "Adrenaline (epinefrine)",
+  "short": "Adrenaline is een catecholamine uit het bijniermerg dat de ‘fight-or-flight’-reactie aanstuurt via alfa- en bèta-receptoren.",
+  "definition": "<p><strong>Adrenaline</strong> wordt door chromaffiene cellen van het bijniermerg afgegeven bij stress. Het verhoogt hartfrequentie en contractiekracht (β1), verwijdt de bronchi (β2), vernauwt vaten in huid en darm (α1) en verhoogt de bloedglucose. Als geneesmiddel is het het middel bij anafylaxie (intramusculair) en wordt het gebruikt bij reanimatie.</p>",
+  "image_url": "",
+  "wiki_title": "Adrenaline",
+  "match": "epinefrine",
+  "option_only": true
+ },
+ "ankylosing spondylitis (m. bechterew)": {
+  "title": "Ziekte van Bechterew (spondylitis ankylopoetica)",
+  "short": "De ziekte van Bechterew is een chronische ontsteking van de wervelkolom en SI-gewrichten, vaak bij jonge mannen met HLA-B27, met ochtendstijfheid en lage rugpijn.",
+  "definition": "<p>De <strong>ziekte van Bechterew</strong> is een axiale spondyloartritis: een chronische ontsteking van de <em>sacro-iliacale gewrichten</em> en de wervelkolom, met name de aanhechtingen van banden en pezen (enthesitis).</p><p>Ze begint meestal voor het 40e jaar met inflammatoire lage rugpijn: ochtendstijfheid, verbetering bij bewegen, ’s nachts pijn. Er is een sterke associatie met <em>HLA-B27</em>. Op termijn kan verbening de wervelkolom verstijven (‘bamboo spine’). Extra-articulair: uveïtis anterior, IBD en psoriasis.</p>",
+  "image_url": "",
+  "wiki_title": "Ankylosing spondylitis",
+  "match": "ankylosing spondylitis (m. bechterew)",
+  "option_only": true
+ },
+ "campylobacter spp": {
+  "title": "Campylobacter jejuni",
+  "short": "Campylobacter jejuni is een gekromde gramnegatieve staaf en een belangrijke oorzaak van bacteriële gastro-enteritis, vaak via kip.",
+  "definition": "<p><strong><em>Campylobacter jejuni</em></strong> wordt opgelopen via onvoldoende verhit gevogelte, rauwe melk of besmet water. Het geeft koorts, buikkrampen en (soms bloederige) diarree. Een bekende late complicatie is het syndroom van Guillain-Barré, door kruisreactie van antistoffen met gangliosiden in zenuwen; ook reactieve artritis komt voor.</p>",
+  "image_url": "",
+  "wiki_title": "Campylobacter jejuni",
+  "match": "campylobacter spp",
+  "option_only": true
+ },
+ "contact allergisch eczeem": {
+  "title": "Contactallergisch eczeem",
+  "short": "Contactallergisch eczeem is een type IV-overgevoeligheidsreactie van de huid op een stof waarvoor iemand gesensibiliseerd is.",
+  "definition": "<p>Bij <strong>allergisch contacteczeem</strong> wordt de huid eerst gesensibiliseerd voor een stof (bijv. nikkel, parfum, rubberchemicaliën, conserveermiddelen). Bij herhaald contact ontstaat na 1–3 dagen een jeukend eczeem, dat zich ook buiten het contactgebied kan uitbreiden. Diagnose met plakproeven (epicutane test); behandeling is vermijden van het allergeen.</p>",
+  "image_url": "",
+  "wiki_title": "Allergic contact dermatitis",
+  "match": "contact allergisch eczeem",
+  "option_only": true
+ },
+ "acuut rheuma (rheumatic fever)": {
+  "title": "Acuut reuma",
+  "short": "Acuut reuma is een ontstekingsziekte enkele weken na een keelinfectie met groep A-streptokokken, door kruisreactie van antistoffen.",
+  "definition": "<p><strong>Acuut reuma</strong> geeft volgens de Jones-criteria o.a. carditis, een migrerende polyartritis, chorea van Sydenham, erythema marginatum en subcutane noduli. De carditis kan leiden tot chronische reumatische klepziekte, vooral van de mitralisklep. Het is in Nederland zeldzaam geworden, maar wereldwijd nog een belangrijke oorzaak van hartziekte.</p>",
+  "image_url": "",
+  "wiki_title": "Rheumatic fever",
+  "match": "acuut rheuma (rheumatic fever)",
+  "option_only": true
+ },
+ "juveniele chronische artritis": {
+  "title": "Juveniele idiopathische artritis (JIA)",
+  "short": "JIA is een chronische artritis die vóór het 16e jaar begint en langer dan zes weken duurt, zonder andere oorzaak.",
+  "definition": "<p><strong>JIA</strong> heeft verschillende vormen: oligoarticulair (vaak jonge meisjes, met risico op stille uveïtis anterior, daarom regelmatige oogcontrole), polyarticulair, systemisch (ziekte van Still), enthesitis-gerelateerd en psoriatisch. Behandeling met NSAID's, gewrichtsinjecties, methotrexaat en biologicals.</p>",
+  "image_url": "",
+  "wiki_title": "Juvenile idiopathic arthritis",
+  "match": "juveniele chronische artritis",
+  "option_only": true
+ },
+ "cyclo-oxygenase inhibitors (cox-remmers)": {
+  "title": "NSAID's",
+  "short": "NSAID's remmen cyclo-oxygenase en daarmee de vorming van prostaglandinen; ze werken pijnstillend, koortsverlagend en ontstekingsremmend.",
+  "definition": "<p><strong>NSAID's</strong> (zoals ibuprofen, naproxen, diclofenac) remmen COX-1 en COX-2. Door remming van beschermende prostaglandinen kunnen ze maagulcera en bloedingen geven, vooral bij ouderen; ook kunnen ze de nierfunctie verslechteren, de bloeddruk verhogen, hartfalen verergeren en het risico op hart- en vaatziekten iets verhogen. Selectieve COX-2-remmers geven minder maagschade.</p>",
+  "image_url": "",
+  "wiki_title": "Nonsteroidal anti-inflammatory drug",
+  "match": "cyclo-oxygenase inhibitors (cox-remmers)",
+  "option_only": true
+ },
+ "secundaire syphilis": {
+  "title": "Syfilis (lues)",
+  "short": "Syfilis is een seksueel overdraagbare infectie door Treponema pallidum, die in stadia verloopt.",
+  "definition": "<p><strong>Syfilis</strong> begint (primair) met een pijnloos ulcus (sjanker) op de plek van besmetting. Weken later volgt het secundaire stadium met huiduitslag (ook op handpalmen en voetzolen), condylomata lata en algemene klachten. Na een latente fase kan na jaren tertiaire syfilis ontstaan (gummata, cardiovasculaire en neurosyfilis). Congenitale syfilis wordt voorkomen door screening in de zwangerschap.</p>",
+  "image_url": "",
+  "wiki_title": "Syphilis",
+  "match": "secundaire syphilis",
+  "option_only": true
+ },
+ "secundaire syfilis": {
+  "title": "Syfilis (lues)",
+  "short": "Syfilis is een seksueel overdraagbare infectie door Treponema pallidum, die in stadia verloopt.",
+  "definition": "<p><strong>Syfilis</strong> begint (primair) met een pijnloos ulcus (sjanker) op de plek van besmetting. Weken later volgt het secundaire stadium met huiduitslag (ook op handpalmen en voetzolen), condylomata lata en algemene klachten. Na een latente fase kan na jaren tertiaire syfilis ontstaan (gummata, cardiovasculaire en neurosyfilis). Congenitale syfilis wordt voorkomen door screening in de zwangerschap.</p>",
+  "image_url": "",
+  "wiki_title": "Syphilis",
+  "match": "secundaire syfilis",
+  "option_only": true
+ },
+ "dermatomycosis corporis": {
+  "title": "Dermatomycose",
+  "short": "Een dermatomycose is een schimmelinfectie van huid, haren of nagels, meestal door dermatofyten.",
+  "definition": "<p>Voorbeelden zijn tinea pedis (zwemmerseczeem), tinea corporis (ringvormig met actieve schilferende rand), tinea cruris, tinea capitis en onychomycose. Diagnose met een KOH-preparaat of kweek; behandeling met lokale of orale antimycotica. Lokale corticosteroïden maskeren het beeld (tinea incognito).</p>",
+  "image_url": "",
+  "wiki_title": "Dermatophytosis",
+  "match": "dermatomycosis corporis",
+  "option_only": true
+ },
+ "aspergillus fumigatis": {
+  "title": "Aspergillus fumigatus",
+  "short": "Aspergillus fumigatus is een schimmel waarvan de sporen overal in de lucht zijn; bij neutropenie kan hij een invasieve longinfectie geven.",
+  "definition": "<p><strong><em>Aspergillus</em></strong> kan verschillende ziektebeelden geven: allergische bronchopulmonale aspergillose (bij astma en CF), een aspergilloom (schimmelbal in een bestaande holte) en invasieve aspergillose bij ernstig afweergestoorde patiënten, met invasie van bloedvaten. Diagnostiek met CT, galactomannan en kweek; behandeling met voriconazol.</p>",
+  "image_url": "",
+  "wiki_title": "Aspergillus fumigatus",
+  "match": "aspergillus fumigatis",
+  "option_only": true
+ },
+ "krentenbaard (impetigo)": {
+  "title": "Impetigo",
+  "short": "Impetigo (krentenbaard) is een oppervlakkige, besmettelijke bacteriële huidinfectie met honinggele korsten.",
+  "definition": "<p><strong>Impetigo</strong> wordt veroorzaakt door <em>S. aureus</em> en/of groep A-streptokokken en komt vooral bij kinderen voor, vaak rond neus en mond. Er zijn blaasjes die openbreken tot korsten. Behandeling met hygiëne en zo nodig fusidinezuurcrème of orale antibiotica.</p>",
+  "image_url": "",
+  "wiki_title": "Impetigo",
+  "match": "krentenbaard (impetigo)",
+  "option_only": true
+ },
+ "impetigo (krentenbaard)": {
+  "title": "Impetigo",
+  "short": "Impetigo (krentenbaard) is een oppervlakkige, besmettelijke bacteriële huidinfectie met honinggele korsten.",
+  "definition": "<p><strong>Impetigo</strong> wordt veroorzaakt door <em>S. aureus</em> en/of groep A-streptokokken en komt vooral bij kinderen voor, vaak rond neus en mond. Er zijn blaasjes die openbreken tot korsten. Behandeling met hygiëne en zo nodig fusidinezuurcrème of orale antibiotica.</p>",
+  "image_url": "",
+  "wiki_title": "Impetigo",
+  "match": "impetigo (krentenbaard)",
+  "option_only": true
+ },
+ "waterpokkenvirus": {
+  "title": "Varicella-zostervirus (VZV)",
+  "short": "Het varicella-zostervirus veroorzaakt waterpokken en blijft daarna latent in sensibele ganglia, van waaruit het als gordelroos kan reactiveren.",
+  "definition": "<p>Het <strong>varicella-zostervirus</strong> (HHV-3) is zeer besmettelijk via aerosolen en blaasjesvocht. De primaire infectie, <em>waterpokken</em>, geeft koorts en jeukende blaasjes in verschillende stadia tegelijk. Het virus nestelt zich in sensibele ganglia; reactivatie geeft <em>herpes zoster</em>. Gevaarlijk is infectie bij zwangeren, pasgeborenen en afweergestoorden (pneumonie, encefalitis).</p>",
+  "image_url": "",
+  "wiki_title": "Varicella zoster virus",
+  "match": "waterpokkenvirus",
+  "option_only": true
+ },
+ "varicella zostervirusinfectie": {
+  "title": "Varicella-zostervirus (VZV)",
+  "short": "Het varicella-zostervirus veroorzaakt waterpokken en blijft daarna latent in sensibele ganglia, van waaruit het als gordelroos kan reactiveren.",
+  "definition": "<p>Het <strong>varicella-zostervirus</strong> (HHV-3) is zeer besmettelijk via aerosolen en blaasjesvocht. De primaire infectie, <em>waterpokken</em>, geeft koorts en jeukende blaasjes in verschillende stadia tegelijk. Het virus nestelt zich in sensibele ganglia; reactivatie geeft <em>herpes zoster</em>. Gevaarlijk is infectie bij zwangeren, pasgeborenen en afweergestoorden (pneumonie, encefalitis).</p>",
+  "image_url": "",
+  "wiki_title": "Varicella zoster virus",
+  "match": "varicella zostervirusinfectie",
+  "option_only": true
+ },
+ "rodehondvirus": {
+  "title": "Rode hond (rubella)",
+  "short": "Rode hond is een milde virale ziekte met huiduitslag en zwollen klieren, maar bij infectie in de vroege zwangerschap ontstaat het congenitaal rubellasyndroom.",
+  "definition": "<p><strong>Rode hond</strong> (rubella) wordt veroorzaakt door het rubellavirus, een omhuld RNA-virus. Bij kinderen verloopt het mild: lichte koorts, kleinvlekkige huiduitslag en gezwollen lymfeklieren (o.a. achter de oren en in de nek).</p><p>Gevaarlijk is infectie van een zwangere in het eerste trimester: het virus kan de foetus besmetten en het <em>congenitaal rubellasyndroom</em> veroorzaken (doofheid, cataract, hartafwijkingen). Vaccinatie gebeurt met het BMR-vaccin.</p>",
+  "image_url": "",
+  "wiki_title": "Rubella",
+  "match": "rodehondvirus",
+  "option_only": true
+ },
+ "denguevirus": {
+  "title": "Dengue (knokkelkoorts)",
+  "short": "Dengue is een door Aedes-muggen overgebrachte virusinfectie met hoge koorts, hevige spier- en gewrichtspijn en huiduitslag.",
+  "definition": "<p><strong>Dengue</strong> wordt veroorzaakt door een flavivirus met vier serotypes. Na een paar dagen incubatie volgen hoge koorts, hoofdpijn achter de ogen, spier- en gewrichtspijn en een rash. Een tweede infectie met een ander serotype geeft een groter risico op ernstige dengue met plasmalekkage, bloedingen en shock (door antistof-afhankelijke versterking). Behandeling is ondersteunend; NSAID's worden vermeden.</p>",
+  "image_url": "",
+  "wiki_title": "Dengue fever",
+  "match": "denguevirus",
+  "option_only": true
+ },
+ "dengue virus": {
+  "title": "Dengue (knokkelkoorts)",
+  "short": "Dengue is een door Aedes-muggen overgebrachte virusinfectie met hoge koorts, hevige spier- en gewrichtspijn en huiduitslag.",
+  "definition": "<p><strong>Dengue</strong> wordt veroorzaakt door een flavivirus met vier serotypes. Na een paar dagen incubatie volgen hoge koorts, hoofdpijn achter de ogen, spier- en gewrichtspijn en een rash. Een tweede infectie met een ander serotype geeft een groter risico op ernstige dengue met plasmalekkage, bloedingen en shock (door antistof-afhankelijke versterking). Behandeling is ondersteunend; NSAID's worden vermeden.</p>",
+  "image_url": "",
+  "wiki_title": "Dengue fever",
+  "match": "dengue virus",
+  "option_only": true
+ },
+ "neiseria meningitidis": {
+  "title": "Neisseria meningitidis (meningokok)",
+  "short": "De meningokok is een gramnegatieve diplokok die meningitis en een snel fataal verlopende sepsis met petechiën kan veroorzaken.",
+  "definition": "<p><strong><em>Neisseria meningitidis</em></strong> koloniseert de nasofarynx en wordt via druppels overgedragen. Het kapsel en endotoxine (LOS) maken hem zeer virulent. Een invasieve infectie geeft meningitis en/of een fulminante sepsis met petechiën en purpura (soms met bijnierbloedingen). Er wordt gevaccineerd tegen serogroepen ACWY en B; contacten krijgen profylaxe.</p>",
+  "image_url": "",
+  "wiki_title": "Neisseria meningitidis",
+  "match": "neiseria meningitidis",
+  "option_only": true
+ },
+ "meningococcen b": {
+  "title": "Neisseria meningitidis (meningokok)",
+  "short": "De meningokok is een gramnegatieve diplokok die meningitis en een snel fataal verlopende sepsis met petechiën kan veroorzaken.",
+  "definition": "<p><strong><em>Neisseria meningitidis</em></strong> koloniseert de nasofarynx en wordt via druppels overgedragen. Het kapsel en endotoxine (LOS) maken hem zeer virulent. Een invasieve infectie geeft meningitis en/of een fulminante sepsis met petechiën en purpura (soms met bijnierbloedingen). Er wordt gevaccineerd tegen serogroepen ACWY en B; contacten krijgen profylaxe.</p>",
+  "image_url": "",
+  "wiki_title": "Neisseria meningitidis",
+  "match": "meningococcen b",
+  "option_only": true
+ },
+ "urinesediment": {
+  "title": "Leukocyturie",
+  "short": "Leukocyturie is de aanwezigheid van witte bloedcellen in de urine, meestal bij een urineweginfectie.",
+  "definition": "<p><strong>Leukocyturie</strong> wordt aangetoond met een teststrook (leukocytenesterase) of microscopie. Meestal past het bij een bacteriële urineweginfectie, eventueel samen met positief nitriet. ‘Steriele’ leukocyturie zonder groei in de kweek komt voor bij o.a. chlamydia, urogenitale tuberculose, tubulo-interstitiële nefritis en na antibioticagebruik.</p>",
+  "image_url": "",
+  "wiki_title": "Pyuria",
+  "match": "urinesediment",
+  "option_only": true
+ },
+ "imipenem/cilastine": {
+  "title": "Imipenem-cilastatine",
+  "short": "Imipenem is een carbapenem met een zeer breed spectrum; cilastatine voorkomt de afbraak ervan in de nier.",
+  "definition": "<p><strong>Imipenem</strong> werkt tegen grampositieve, gramnegatieve (incl. <em>Pseudomonas</em>) en anaerobe bacteriën en is stabiel tegen ESBL. Cilastatine remt een nierenzym (dehydropeptidase) dat imipenem anders zou afbreken. Bijwerking bij hoge doses: insulten.</p>",
+  "image_url": "",
+  "wiki_title": "Imipenem/cilastatin",
+  "match": "imipenem/cilastine",
+  "option_only": true
+ },
+ "fièvre boutonneusi": {
+  "title": "Rickettsia conorii (boutonneuse koorts)",
+  "short": "Rickettsia conorii is een intracellulaire bacterie die door teken wordt overgebracht en boutonneuse koorts veroorzaakt, rond de Middellandse Zee.",
+  "definition": "<p><strong>Rickettsiosen</strong> geven koorts, hoofdpijn en een huiduitslag. Rickettsiae infecteren endotheelcellen. Behandeling met doxycycline.</p>",
+  "image_url": "",
+  "wiki_title": "Boutonneuse fever",
+  "match": "fièvre boutonneusi",
+  "option_only": true
+ },
+ "herpes simplex type 1": {
+  "title": "Herpes simplexvirus (HSV)",
+  "short": "Het herpes simplexvirus veroorzaakt blaasjes op huid en slijmvliezen en blijft daarna latent in sensibele ganglia.",
+  "definition": "<p>Er zijn twee typen: <strong>HSV-1</strong> (vooral oraal, koortslip, gingivostomatitis) en <strong>HSV-2</strong> (vooral genitaal), al overlappen ze. Na de primaire infectie blijft het virus latent in sensibele ganglia en kan het reactiveren. Ernstige vormen zijn herpesencefalitis, keratitis, eczema herpeticum en neonatale herpes. Behandeling met (val)aciclovir.</p>",
+  "image_url": "",
+  "wiki_title": "Herpes simplex virus",
+  "match": "herpes simplex type 1",
+  "option_only": true
+ },
+ "herpes simplexvirusinfectie": {
+  "title": "Herpes simplexvirus (HSV)",
+  "short": "Het herpes simplexvirus veroorzaakt blaasjes op huid en slijmvliezen en blijft daarna latent in sensibele ganglia.",
+  "definition": "<p>Er zijn twee typen: <strong>HSV-1</strong> (vooral oraal, koortslip, gingivostomatitis) en <strong>HSV-2</strong> (vooral genitaal), al overlappen ze. Na de primaire infectie blijft het virus latent in sensibele ganglia en kan het reactiveren. Ernstige vormen zijn herpesencefalitis, keratitis, eczema herpeticum en neonatale herpes. Behandeling met (val)aciclovir.</p>",
+  "image_url": "",
+  "wiki_title": "Herpes simplex virus",
+  "match": "herpes simplexvirusinfectie",
+  "option_only": true
+ },
+ "herpes zosterinfectie": {
+  "title": "Herpes zoster (gordelroos)",
+  "short": "Herpes zoster is de reactivatie van het varicella-zostervirus uit een sensibel ganglion, met pijnlijke blaasjes in één dermatoom.",
+  "definition": "<p>Na waterpokken blijft het <strong>varicella-zostervirus</strong> latent aanwezig in sensibele ganglia (spinale ganglia of hersenzenuwganglia). Bij afnemende cellulaire afweer (ouderdom, immuunsuppressie) kan het reactiveren.</p><p>Dan ontstaan pijnlijke, gegroepeerde blaasjes op een rode ondergrond in één <em>dermatoom</em>, meestal eenzijdig. Complicaties zijn postherpetische neuralgie en, bij de n. ophthalmicus, oogbetrokkenheid (zoster ophthalmicus).</p>",
+  "image_url": "",
+  "wiki_title": "Shingles",
+  "match": "herpes zosterinfectie",
+  "option_only": true
+ },
+ "amoxocilline/clavulaanzuur": {
+  "title": "Amoxicilline-clavulaanzuur",
+  "short": "Amoxicilline-clavulaanzuur combineert een penicilline met een bètalactamaseremmer, waardoor ook bètalactamasevormende bacteriën worden gedekt.",
+  "definition": "<p>Clavulaanzuur heeft zelf nauwelijks antibacteriële werking maar remt veel <em>bètalactamasen</em>, zodat amoxicilline niet wordt afgebroken. De combinatie werkt daardoor ook tegen o.a. <em>S. aureus</em> (geen MRSA), <em>H. influenzae</em>, <em>Moraxella</em>, veel <em>E. coli</em> en anaeroben zoals <em>Bacteroides</em>. Bijwerkingen: diarree en (zelden) cholestatische hepatitis.</p>",
+  "image_url": "",
+  "wiki_title": "Amoxicillin/clavulanic acid",
+  "match": "amoxocilline/clavulaanzuur",
+  "option_only": true
+ },
+ "tnf-alfablokker": {
+  "title": "Infliximab",
+  "short": "Infliximab is een monoklonaal antilichaam tegen TNF-α, gebruikt bij o.a. de ziekte van Crohn, colitis ulcerosa en reumatoïde artritis.",
+  "definition": "<p><strong>TNF-α-remmers</strong> zoals infliximab, adalimumab en etanercept remmen een centraal pro-inflammatoir cytokine. Ze worden gebruikt bij IBD, reumatoïde artritis, spondyloartritis en psoriasis. Doordat ze de cellulaire afweer verzwakken, kan latente tuberculose reactiveren; daarom wordt vooraf gescreend. Ook het risico op andere infecties is verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Infliximab",
+  "match": "tnf-alfablokker",
+  "option_only": true
+ },
+ "tnf-alfaremmers": {
+  "title": "Infliximab",
+  "short": "Infliximab is een monoklonaal antilichaam tegen TNF-α, gebruikt bij o.a. de ziekte van Crohn, colitis ulcerosa en reumatoïde artritis.",
+  "definition": "<p><strong>TNF-α-remmers</strong> zoals infliximab, adalimumab en etanercept remmen een centraal pro-inflammatoir cytokine. Ze worden gebruikt bij IBD, reumatoïde artritis, spondyloartritis en psoriasis. Doordat ze de cellulaire afweer verzwakken, kan latente tuberculose reactiveren; daarom wordt vooraf gescreend. Ook het risico op andere infecties is verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Infliximab",
+  "match": "tnf-alfaremmers",
+  "option_only": true
+ },
+ "tnf-alfaremmer": {
+  "title": "Infliximab",
+  "short": "Infliximab is een monoklonaal antilichaam tegen TNF-α, gebruikt bij o.a. de ziekte van Crohn, colitis ulcerosa en reumatoïde artritis.",
+  "definition": "<p><strong>TNF-α-remmers</strong> zoals infliximab, adalimumab en etanercept remmen een centraal pro-inflammatoir cytokine. Ze worden gebruikt bij IBD, reumatoïde artritis, spondyloartritis en psoriasis. Doordat ze de cellulaire afweer verzwakken, kan latente tuberculose reactiveren; daarom wordt vooraf gescreend. Ook het risico op andere infecties is verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Infliximab",
+  "match": "tnf-alfaremmer",
+  "option_only": true
+ },
+ "biologicals: tnf-remmers": {
+  "title": "Infliximab",
+  "short": "Infliximab is een monoklonaal antilichaam tegen TNF-α, gebruikt bij o.a. de ziekte van Crohn, colitis ulcerosa en reumatoïde artritis.",
+  "definition": "<p><strong>TNF-α-remmers</strong> zoals infliximab, adalimumab en etanercept remmen een centraal pro-inflammatoir cytokine. Ze worden gebruikt bij IBD, reumatoïde artritis, spondyloartritis en psoriasis. Doordat ze de cellulaire afweer verzwakken, kan latente tuberculose reactiveren; daarom wordt vooraf gescreend. Ook het risico op andere infecties is verhoogd.</p>",
+  "image_url": "",
+  "wiki_title": "Infliximab",
+  "match": "biologicals: tnf-remmers",
+  "option_only": true
+ },
+ "groep a bètahemolytische streptokokken": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "groep a bètahemolytische streptokokken",
+  "option_only": true
+ },
+ "bètahemolytische streptokokken groep a": {
+  "title": "Streptococcus pyogenes (groep A-streptokok)",
+  "short": "Groep A-streptokok: grampositieve, bètahemolytische kok in ketens die o.a. keelontsteking, impetigo, erysipelas en roodvonk veroorzaakt.",
+  "definition": "<p><strong><em>Streptococcus pyogenes</em></strong> koloniseert keel en huid. Het M-eiwit beschermt tegen fagocytose; pyrogene exotoxinen veroorzaken roodvonk en het toxischeshocksyndroom. Invasieve infecties zijn o.a. cellulitis en necrotiserende fasciitis. Na een infectie kunnen immunologische complicaties optreden: acuut reuma en poststreptokokken-glomerulonefritis. Penicilline is eerste keus.</p>",
+  "image_url": "",
+  "wiki_title": "Streptococcus pyogenes",
+  "match": "bètahemolytische streptokokken groep a",
+  "option_only": true
+ },
+ "streptokokkenfaryngitis (gas)": {
+  "title": "Faryngitis",
+  "short": "Faryngitis is een ontsteking van de keel, meestal viraal, soms door groep A-streptokokken.",
+  "definition": "<p>De meeste <strong>keelontstekingen</strong> zijn viraal en gaan vanzelf over. Bij een bacteriële oorzaak (Centor-criteria: koorts, beslag, gezwollen pijnlijke halsklieren, geen hoest) kunnen antibiotica worden overwogen, vooral bij ernstige klachten of risicofactoren.</p>",
+  "image_url": "",
+  "wiki_title": "Pharyngitis",
+  "match": "streptokokkenfaryngitis (gas)",
+  "option_only": true
+ },
+ "humaan herpesvirus(hhv)-6 en -7": {
+  "title": "Zesde ziekte (exanthema subitum)",
+  "short": "De zesde ziekte is een infectie met humaan herpesvirus 6 bij jonge kinderen: eerst enkele dagen hoge koorts, daarna, als de koorts zakt, een vlekjesuitslag.",
+  "definition": "<p><strong>Exanthema subitum</strong> treft vooral kinderen van 6 maanden tot 2 jaar. Kenmerkend is dat de huiduitslag pas verschijnt nadat de koorts is verdwenen. Koortsconvulsies kunnen optreden. Het verloopt meestal onschuldig.</p>",
+  "image_url": "",
+  "wiki_title": "Roseola",
+  "match": "humaan herpesvirus(hhv)-6 en -7",
+  "option_only": true
+ },
+ "adenovirusinfectie": {
+  "title": "Adenovirus",
+  "short": "Adenovirussen zijn niet-omhulde DNA-virussen die verkoudheid, keelontsteking, conjunctivitis en gastro-enteritis veroorzaken.",
+  "definition": "<p><strong>Adenovirussen</strong> zijn niet-omhulde, dubbelstrengs DNA-virussen. Omdat ze geen envelop hebben, zijn ze stabiel in de omgeving en lastig te inactiveren.</p><p>Ze veroorzaken vooral bij kinderen infecties van de bovenste luchtwegen (faryngitis), conjunctivitis (o.a. faryngoconjunctivale koorts), gastro-enteritis en soms pneumonie. Ze worden ook gebruikt als vector in vaccins en gentherapie.</p>",
+  "image_url": "",
+  "wiki_title": "Adenoviridae",
+  "match": "adenovirusinfectie",
+  "option_only": true
+ },
+ "azathioprine (purine-antagonist)": {
+  "title": "Azathioprine",
+  "short": "Azathioprine is een immunosuppressivum dat de purinesynthese remt en zo de deling van lymfocyten onderdrukt.",
+  "definition": "<p><strong>Azathioprine</strong> wordt omgezet in 6-mercaptopurine en dan in thioguanine-nucleotiden die in het DNA worden ingebouwd. Het wordt gebruikt bij IBD, auto-immuunhepatitis, vasculitis en na transplantatie. Bijwerkingen zijn beenmergsuppressie, levertoxiciteit en pancreatitis. Bij een TPMT-deficiëntie is het risico op ernstige beenmergsuppressie groot; allopurinol versterkt de werking.</p>",
+  "image_url": "",
+  "wiki_title": "Azathioprine",
+  "match": "azathioprine (purine-antagonist)",
+  "option_only": true
+ },
+ "methotrexaat (foliumzuurantagonist)": {
+  "title": "Methotrexaat",
+  "short": "Methotrexaat is een foliumzuurantagonist; in lage dosis een basismiddel bij reumatoïde artritis en psoriasis, in hoge dosis een cytostaticum.",
+  "definition": "<p><strong>Methotrexaat</strong> remt dihydrofolaatreductase. In lage, wekelijkse dosering werkt het ontstekingsremmend (o.a. via adenosine) en is het een hoeksteen bij reumatoïde artritis, psoriasis en IBD; foliumzuur vermindert bijwerkingen. Bijwerkingen: beenmergsuppressie, levertoxiciteit, mucositis en pneumonitis. Het is teratogeen en wordt via de nier uitgescheiden.</p>",
+  "image_url": "",
+  "wiki_title": "Methotrexate",
+  "match": "methotrexaat (foliumzuurantagonist)",
+  "option_only": true
+ },
+ "epstein-barrvirusinfectie (ebv)": {
+  "title": "Epstein-Barrvirus (EBV)",
+  "short": "EBV is een herpesvirus dat B-cellen infecteert; het veroorzaakt de ziekte van Pfeiffer en is geassocieerd met enkele kankers.",
+  "definition": "<p>Het <strong>Epstein-Barrvirus</strong> wordt via speeksel overgedragen. Op jonge leeftijd verloopt infectie vaak ongemerkt; bij adolescenten geeft het vaak mononucleosis infectiosa. Het virus blijft levenslang latent in B-cellen. EBV is geassocieerd met o.a. het Burkittlymfoom, het nasofarynxcarcinoom, sommige Hodgkinlymfomen en posttransplantatie-lymfoproliferatieve ziekte.</p>",
+  "image_url": "",
+  "wiki_title": "Epstein–Barr virus",
+  "match": "epstein-barrvirusinfectie (ebv)",
+  "option_only": true
+ },
+ "para-influenzavirus 2": {
+  "title": "Para-influenzavirus",
+  "short": "Para-influenzavirussen zijn RNA-virussen die luchtweginfecties geven; ze zijn de belangrijkste verwekker van pseudokroep bij jonge kinderen.",
+  "definition": "<p><strong>Para-influenzavirussen</strong> (paramyxovirussen, type 1–4) veroorzaken vooral bij kinderen van 6 maanden tot 3 jaar een laryngotracheitis (pseudokroep), met een blafhoest, heesheid en inspiratoire stridor, vaak ’s nachts. Behandeling bij ernstige vormen met dexamethason.</p>",
+  "image_url": "",
+  "wiki_title": "Human parainfluenza viruses",
+  "match": "para-influenzavirus 2",
+  "option_only": true
+ },
+ "parvovirus b19 infectie": {
+  "title": "Erythema infectiosum (vijfde ziekte)",
+  "short": "Erythema infectiosum is een kinderziekte door parvovirus B19 met felrode ‘slapwangen’ en daarna een kantachtige uitslag.",
+  "definition": "<p>Parvovirus B19 infecteert erytroïde voorlopercellen. Bij mensen met chronische hemolyse kan het een aplastische crise geven, en in de zwangerschap foetale anemie en hydrops. Bij volwassenen geeft het vaak symmetrische gewrichtsklachten.</p>",
+  "image_url": "",
+  "wiki_title": "Erythema infectiosum",
+  "match": "parvovirus b19 infectie",
+  "option_only": true
+ },
+ "cryptokokkenmenigitis": {
+  "title": "Cryptococcus neoformans",
+  "short": "Cryptococcus neoformans is een gist met een dik kapsel die vooral bij afweergestoorden (hiv) meningitis veroorzaakt.",
+  "definition": "<p><strong><em>Cryptococcus neoformans</em></strong> komt voor in duivenpoep en grond en wordt ingeademd. Bij patiënten met een sterk verminderde cellulaire afweer verspreidt hij zich naar het CZS en veroorzaakt een subacute meningitis met hoofdpijn en verhoogde liquordruk. Diagnose met antigeentest in serum of liquor (vroeger Oost-Indische-inktkleuring); behandeling met amfotericine B en flucytosine.</p>",
+  "image_url": "",
+  "wiki_title": "Cryptococcus neoformans",
+  "match": "cryptokokkenmenigitis",
+  "option_only": true
+ },
+ "buiktyphus": {
+  "title": "Buiktyfus",
+  "short": "Buiktyfus is een systemische infectie met Salmonella typhi, met hoge koorts, buikpijn en algemeen ziek-zijn.",
+  "definition": "<p>Bij <strong>buiktyfus</strong> is er een geleidelijk stijgende koorts met relatieve bradycardie, roseolen en hepatosplenomegalie. Complicaties zijn darmbloedingen en perforatie. Diagnose met bloedkweken; behandeling met antibiotica (ceftriaxon, azitromycine). Er is een vaccin voor reizigers.</p>",
+  "image_url": "",
+  "wiki_title": "Typhoid fever",
+  "match": "buiktyphus",
+  "option_only": true
+ },
+ "pneumocystis jiroveci pneumonie": {
+  "title": "Pneumocystis jirovecii",
+  "short": "Pneumocystis jirovecii is een gistachtige schimmel die bij een sterk verminderde cellulaire afweer een interstitiële longontsteking veroorzaakt.",
+  "definition": "<p><strong>Pneumocystis</strong> groeit niet in standaardkweek en wordt aangetoond met PCR of zilverkleuring op sputum of BAL. Risicogroepen: hiv met laag CD4-getal, transplantatiepatiënten, langdurig hoge dosis corticosteroïden. Behandeling en profylaxe met co-trimoxazol.</p>",
+  "image_url": "",
+  "wiki_title": "Pneumocystis jirovecii",
+  "match": "pneumocystis jiroveci pneumonie",
+  "option_only": true
+ },
+ "immuungemedieerde trombocytopenie": {
+  "title": "Immuuntrombocytopenie (ITP)",
+  "short": "Bij ITP breken auto-antistoffen tegen bloedplaatjes deze af, met een geïsoleerde trombocytopenie.",
+  "definition": "<p>Bij <strong>immuuntrombocytopenie</strong> worden plaatjes met antistoffen beladen en in de milt afgebroken; ook de aanmaak wordt geremd. Bij kinderen volgt het vaak op een virale infectie en herstelt het meestal spontaan; bij volwassenen is het vaker chronisch. Het is een diagnose na uitsluiting van andere oorzaken. Behandeling bij bloedingen of zeer lage waarden: corticosteroïden, immunoglobulinen, TPO-agonisten.</p>",
+  "image_url": "",
+  "wiki_title": "Immune thrombocytopenic purpura",
+  "match": "immuungemedieerde trombocytopenie",
+  "option_only": true
+ },
+ "anterieure schouderdislocatie": {
+  "title": "Schouderluxatie",
+  "short": "Bij een schouderluxatie schiet de humeruskop uit de kom, meestal naar voren-onder.",
+  "definition": "<p>Bij een <strong>anterieure schouderluxatie</strong> (verreweg het meest voorkomend) staat de arm in lichte abductie en exorotatie, met een afgeplatte schouderronding en een leeg gevoel onder het acromion. Controleer altijd de n. axillaris (gevoel op de schouder). Bij jongeren is recidief luxeren vaak; bij ouderen komen cuffscheuren voor. Posterieure luxaties komen voor bij epileptische aanvallen en elektrocutie.</p>",
+  "image_url": "",
+  "wiki_title": "Dislocated shoulder",
+  "match": "anterieure schouderdislocatie",
+  "option_only": true
+ },
+ "een anterieure schouderluxatie": {
+  "title": "Schouderluxatie",
+  "short": "Bij een schouderluxatie schiet de humeruskop uit de kom, meestal naar voren-onder.",
+  "definition": "<p>Bij een <strong>anterieure schouderluxatie</strong> (verreweg het meest voorkomend) staat de arm in lichte abductie en exorotatie, met een afgeplatte schouderronding en een leeg gevoel onder het acromion. Controleer altijd de n. axillaris (gevoel op de schouder). Bij jongeren is recidief luxeren vaak; bij ouderen komen cuffscheuren voor. Posterieure luxaties komen voor bij epileptische aanvallen en elektrocutie.</p>",
+  "image_url": "",
+  "wiki_title": "Dislocated shoulder",
+  "match": "een anterieure schouderluxatie",
+  "option_only": true
+ },
+ "anterieure glenohumerale luxatie": {
+  "title": "Schouderluxatie",
+  "short": "Bij een schouderluxatie schiet de humeruskop uit de kom, meestal naar voren-onder.",
+  "definition": "<p>Bij een <strong>anterieure schouderluxatie</strong> (verreweg het meest voorkomend) staat de arm in lichte abductie en exorotatie, met een afgeplatte schouderronding en een leeg gevoel onder het acromion. Controleer altijd de n. axillaris (gevoel op de schouder). Bij jongeren is recidief luxeren vaak; bij ouderen komen cuffscheuren voor. Posterieure luxaties komen voor bij epileptische aanvallen en elektrocutie.</p>",
+  "image_url": "",
+  "wiki_title": "Dislocated shoulder",
+  "match": "anterieure glenohumerale luxatie",
+  "option_only": true
+ },
+ "posterieure schouderdislocatie": {
+  "title": "Posterieure schouderluxatie",
+  "short": "Een posterieure schouderluxatie is een ontwrichting van de humeruskop naar achteren, vaak na een epileptische aanval of elektrocutie.",
+  "definition": "<p>Bij een <strong>posterieure luxatie</strong> staat de arm in endorotatie en kan hij niet naar buiten worden gedraaid. Op een gewone voorachterwaartse foto wordt ze makkelijk gemist (‘lightbulb sign’); een axiale opname is nodig.</p>",
+  "image_url": "",
+  "wiki_title": "Dislocated shoulder",
+  "match": "posterieure schouderdislocatie",
+  "option_only": true
+ },
+ "humerus fractuur": {
+  "title": "Humerusfractuur",
+  "short": "Een humerusfractuur is een breuk van het opperarmbeen; proximaal vooral bij ouderen, in de schacht met risico op letsel van de n. radialis.",
+  "definition": "<p><strong>Proximale humerusfracturen</strong> komen vooral bij oudere vrouwen met osteoporose voor en worden vaak conservatief behandeld. Bij een fractuur van het collum chirurgicum kan de n. axillaris beschadigd raken, bij een schachtfractuur de n. radialis (dropshand) en bij een suprachondylaire fractuur bij kinderen de a. brachialis en n. medianus.</p>",
+  "image_url": "",
+  "wiki_title": "Humerus fracture",
+  "match": "humerus fractuur",
+  "option_only": true
+ },
+ "subcapitale humerusfractuur": {
+  "title": "Humerusfractuur",
+  "short": "Een humerusfractuur is een breuk van het opperarmbeen; proximaal vooral bij ouderen, in de schacht met risico op letsel van de n. radialis.",
+  "definition": "<p><strong>Proximale humerusfracturen</strong> komen vooral bij oudere vrouwen met osteoporose voor en worden vaak conservatief behandeld. Bij een fractuur van het collum chirurgicum kan de n. axillaris beschadigd raken, bij een schachtfractuur de n. radialis (dropshand) en bij een suprachondylaire fractuur bij kinderen de a. brachialis en n. medianus.</p>",
+  "image_url": "",
+  "wiki_title": "Humerus fracture",
+  "match": "subcapitale humerusfractuur",
+  "option_only": true
+ },
+ "elleboog luxatie": {
+  "title": "Elleboogluxatie",
+  "short": "Bij een elleboogluxatie schieten ulna en radius uit het gewricht met de humerus, meestal naar achteren.",
+  "definition": "<p>Een <strong>posterieure elleboogluxatie</strong> ontstaat bij een val op de uitgestrekte arm. Controleer altijd de doorbloeding (a. brachialis) en de zenuwen (n. ulnaris, n. medianus). Bij jonge kinderen komt vooral de ‘zondagsarmpje’-subluxatie van de radiuskop voor, door trekken aan de gestrekte arm.</p>",
+  "image_url": "",
+  "wiki_title": "Elbow dislocation",
+  "match": "elleboog luxatie",
+  "option_only": true
+ },
+ "luxatie van het ellebooggewricht": {
+  "title": "Elleboogluxatie",
+  "short": "Bij een elleboogluxatie schieten ulna en radius uit het gewricht met de humerus, meestal naar achteren.",
+  "definition": "<p>Een <strong>posterieure elleboogluxatie</strong> ontstaat bij een val op de uitgestrekte arm. Controleer altijd de doorbloeding (a. brachialis) en de zenuwen (n. ulnaris, n. medianus). Bij jonge kinderen komt vooral de ‘zondagsarmpje’-subluxatie van de radiuskop voor, door trekken aan de gestrekte arm.</p>",
+  "image_url": "",
+  "wiki_title": "Elbow dislocation",
+  "match": "luxatie van het ellebooggewricht",
+  "option_only": true
+ },
+ "open boekletsel": {
+  "title": "Open-boekfractuur van het bekken",
+  "short": "Bij een open-boekfractuur van het bekken klappen beide bekkenhelften vooraan open, met scheuring van de symfyse en risico op levensbedreigend bloedverlies.",
+  "definition": "<p>De <strong>open-boekfractuur</strong> ontstaat door een anteroposterieure klap. Het bekkenvolume neemt toe en veneuze plexussen kunnen hevig bloeden. Een bekkenband die de bekkenring sluit is een belangrijke eerste maatregel; daarna eventueel embolisatie of externe fixatie.</p>",
+  "image_url": "",
+  "wiki_title": "Pelvic fracture",
+  "match": "open boekletsel",
+  "option_only": true
+ },
+ "lig. talofibulare posterior (tfp)": {
+  "title": "Ligamentum talofibulare posterius",
+  "short": "Het ligamentum talofibulare posterius is de sterkste laterale enkelband, van de malleolus lateralis naar de achterzijde van de talus.",
+  "definition": "<p>Het <strong>lig. talofibulare posterius</strong> loopt vrijwel horizontaal en raakt bij een gewoon inversietrauma zelden beschadigd; dat gebeurt pas bij ernstige letsels zoals een enkelluxatie.</p>",
+  "image_url": "",
+  "wiki_title": "Posterior talofibular ligament",
+  "match": "lig. talofibulare posterior (tfp)",
+  "option_only": true
+ },
+ "lig. talofibulare posterior": {
+  "title": "Ligamentum talofibulare posterius",
+  "short": "Het ligamentum talofibulare posterius is de sterkste laterale enkelband, van de malleolus lateralis naar de achterzijde van de talus.",
+  "definition": "<p>Het <strong>lig. talofibulare posterius</strong> loopt vrijwel horizontaal en raakt bij een gewoon inversietrauma zelden beschadigd; dat gebeurt pas bij ernstige letsels zoals een enkelluxatie.</p>",
+  "image_url": "",
+  "wiki_title": "Posterior talofibular ligament",
+  "match": "lig. talofibulare posterior",
+  "option_only": true
+ },
+ "lig. calcaneofibulare (cf)": {
+  "title": "Ligamentum calcaneofibulare",
+  "short": "Het ligamentum calcaneofibulare is een laterale enkelband van de malleolus lateralis naar de calcaneus.",
+  "definition": "<p>Het <strong>lig. calcaneofibulare</strong> vormt met het lig. talofibulare anterius en posterius het laterale bandcomplex van de enkel en overspant zowel het bovenste als het onderste spronggewricht.</p>",
+  "image_url": "",
+  "wiki_title": "Calcaneofibular ligament",
+  "match": "lig. calcaneofibulare (cf)",
+  "option_only": true
+ },
+ "lig. deltoïdeum": {
+  "title": "Ligamentum deltoideum",
+  "short": "Het ligamentum deltoideum is de sterke, waaiervormige band aan de binnenzijde van de enkel.",
+  "definition": "<p>Het <strong>lig. deltoideum</strong> loopt van de malleolus medialis naar os naviculare, talus en calcaneus en heeft een oppervlakkige en een diepe laag. Het is veel sterker dan de laterale enkelbanden en stabiliseert de enkel aan de mediale zijde.</p>",
+  "image_url": "",
+  "wiki_title": "Deltoid ligament",
+  "match": "lig. deltoïdeum",
+  "option_only": true
+ },
+ "lig. collaterale tibiale": {
+  "title": "Mediaal collateraal ligament (knie)",
+  "short": "Het mediale collaterale ligament van de knie loopt van de mediale femurcondyl naar de tibia en beschermt tegen valgusbelasting.",
+  "definition": "<p>Het <strong>MCL</strong> is verbonden met het kapsel en de mediale meniscus. Letsels ontstaan bij een klap tegen de buitenkant van de knie en genezen meestal goed conservatief. Bij de ‘unhappy triad’ zijn MCL, voorste kruisband en mediale meniscus samen beschadigd.</p>",
+  "image_url": "",
+  "wiki_title": "Medial collateral ligament",
+  "match": "lig. collaterale tibiale",
+  "option_only": true
+ },
+ "lig. collaterale fibulare": {
+  "title": "Lateraal collateraal ligament (knie)",
+  "short": "Het laterale collaterale ligament van de knie loopt van de femur naar de fibulakop en stabiliseert de knie tegen varusbelasting.",
+  "definition": "<p>Het <strong>LCL</strong> ligt buiten het gewrichtskapsel en is niet verbonden met de meniscus (anders dan het mediale collaterale ligament). Letsel ontstaat bij een klap aan de binnenkant van de knie en gaat soms samen met letsel van de n. fibularis.</p>",
+  "image_url": "",
+  "wiki_title": "Fibular collateral ligament",
+  "match": "lig. collaterale fibulare",
+  "option_only": true
+ },
+ "lig. patellae": {
+  "title": "Ligamentum patellae (patellapees)",
+  "short": "Het ligamentum patellae verbindt de knieschijf met de tuberositas tibiae en is de voortzetting van de quadricepspees.",
+  "definition": "<p>Overbelasting van de <strong>patellapees</strong> geeft een jumper's knee; bij groeiende kinderen een Osgood-Schlatter (tuberositas) of Sinding-Larsen-Johansson (onderpool patella). De kniepeesreflex wordt opgewekt door op de patellapees te tikken (L3–L4).</p>",
+  "image_url": "",
+  "wiki_title": "Patellar ligament",
+  "match": "lig. patellae",
+  "option_only": true
+ },
+ "het informatieve model": {
+  "title": "Informatief model",
+  "short": "In het informatieve model geeft de arts feitelijke informatie en kiest de patiënt zelf, zonder dat de arts een advies geeft.",
+  "definition": "<p>In het <strong>informatieve model</strong> (Emanuel en Emanuel) is de arts een technisch deskundige die alle relevante informatie geeft, terwijl de patiënt volledig autonoom beslist. Andere modellen zijn het paternalistische, het interpretatieve en het deliberatieve model; gedeelde besluitvorming ligt tussen deze uitersten.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "het informatieve model",
+  "option_only": true
+ },
+ "paternalisme model": {
+  "title": "Paternalistisch model",
+  "short": "In het paternalistische model beslist de arts wat goed is voor de patiënt, met weinig inbreng van de patiënt.",
+  "definition": "<p>Het <strong>paternalistische model</strong> (Emanuel en Emanuel) staat tegenover het informatieve model (de patiënt beslist) en gedeelde besluitvorming. Het past soms in acute situaties, maar in de meeste keuzes wordt gedeelde besluitvorming nagestreefd.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "paternalisme model",
+  "option_only": true
+ },
+ "ac luxatie": {
+  "title": "Acromioclaviculair gewricht",
+  "short": "Het AC-gewricht verbindt het acromion met het laterale uiteinde van de clavicula.",
+  "definition": "<p>Een <strong>AC-luxatie</strong> ontstaat bij een val op de schouder; bij ernstige vormen zijn ook de coracoclaviculaire banden gescheurd en staat de clavicula hoog (pianotoetsfenomeen). Artrose van het AC-gewricht geeft pijn bovenop de schouder, vooral bij armheffen boven het hoofd.</p>",
+  "image_url": "",
+  "wiki_title": "Acromioclavicular joint",
+  "match": "ac luxatie",
+  "option_only": true
+ },
+ "painful arc-syndroom": {
+  "title": "Subacromiaal pijnsyndroom (impingement)",
+  "short": "Bij het subacromiaal pijnsyndroom ontstaat pijn bij het heffen van de arm, vaak met een pijnlijk traject tussen ongeveer 60 en 120°.",
+  "definition": "<p>Bij <strong>subacromiale klachten</strong> zijn de supraspinatuspees en de bursa subacromialis geprikkeld in de ruimte onder het acromion. Kenmerkend is een ‘painful arc’ bij abductie. Behandeling: belasting aanpassen, oefentherapie en eventueel een injectie.</p>",
+  "image_url": "",
+  "wiki_title": "Shoulder impingement syndrome",
+  "match": "painful arc-syndroom",
+  "option_only": true
+ },
+ "subacromiaal impingement syndroom": {
+  "title": "Subacromiaal pijnsyndroom (impingement)",
+  "short": "Bij het subacromiaal pijnsyndroom ontstaat pijn bij het heffen van de arm, vaak met een pijnlijk traject tussen ongeveer 60 en 120°.",
+  "definition": "<p>Bij <strong>subacromiale klachten</strong> zijn de supraspinatuspees en de bursa subacromialis geprikkeld in de ruimte onder het acromion. Kenmerkend is een ‘painful arc’ bij abductie. Behandeling: belasting aanpassen, oefentherapie en eventueel een injectie.</p>",
+  "image_url": "",
+  "wiki_title": "Shoulder impingement syndrome",
+  "match": "subacromiaal impingement syndroom",
+  "option_only": true
+ },
+ "een bursitis": {
+  "title": "Bursitis",
+  "short": "Bursitis is een ontsteking van een slijmbeurs, bijvoorbeeld bij elleboog, knie of heup.",
+  "definition": "<p>Een <strong>bursa</strong> is een met vocht gevuld zakje dat wrijving tussen pees, spier, bot en huid vermindert. <strong>Bursitis</strong> ontstaat door overbelasting, druk, trauma, jicht of infectie. Oppervlakkige bursae (bij olecranon en patella) zwellen zichtbaar op; bij een rood, warm en pijnlijk beeld moet aan een septische bursitis worden gedacht.</p>",
+  "image_url": "",
+  "wiki_title": "Bursitis",
+  "match": "een bursitis",
+  "option_only": true
+ },
+ "een artritis": {
+  "title": "Artritis",
+  "short": "Artritis is een ontsteking van een gewricht, met pijn, zwelling, warmte en bewegingsbeperking.",
+  "definition": "<p><strong>Artritis</strong> wordt ingedeeld naar het aantal gewrichten (mono-, oligo-, polyartritis) en de oorzaak: infectieus (septische artritis), kristalgeïnduceerd (jicht, pseudojicht), auto-immuun (reumatoïde artritis, spondyloartritis, SLE) of reactief. Bij een acute monoartritis is een gewrichtspunctie belangrijk om infectie en kristallen aan te tonen.</p>",
+  "image_url": "",
+  "wiki_title": "Arthritis",
+  "match": "een artritis",
+  "option_only": true
+ },
+ "colles fractuur": {
+  "title": "Distale radiusfractuur",
+  "short": "Een distale radiusfractuur is een breuk van het spaakbeen vlak boven de pols, meestal na een val op de uitgestrekte hand.",
+  "definition": "<p>Bij de klassieke <strong>Colles-fractuur</strong> is het distale fragment naar dorsaal gekanteld (‘vorkstand’). Bij ouderen wijst het vaak op osteoporose. Behandeling: repositie en gips of operatieve fixatie. Complicaties zijn standsafwijkingen, ruptuur van de pees van de m. extensor pollicis longus, carpaletunnelsyndroom en complex regionaal pijnsyndroom.</p>",
+  "image_url": "",
+  "wiki_title": "Distal radius fracture",
+  "match": "colles fractuur",
+  "option_only": true
+ },
+ "coxarthrosis duplex": {
+  "title": "Coxartrose (heupartrose)",
+  "short": "Coxartrose is slijtage van het heupgewricht, met pijn in lies of bil en een beperkte (vooral endo)rotatie.",
+  "definition": "<p>Bij <strong>coxartrose</strong> geeft het kraakbeenverlies startpijn, pijn bij belasting en een beperking van de bewegingen, het eerst van endorotatie en flexie. De pijn wordt vaak in de lies gevoeld en kan uitstralen naar de knie. Behandeling begint met oefentherapie, gewichtsverlies en pijnstilling; bij ernstige klachten volgt een totale heupprothese.</p>",
+  "image_url": "",
+  "wiki_title": "Hip osteoarthritis",
+  "match": "coxarthrosis duplex",
+  "option_only": true
+ },
+ "vasculaire claudicatio intermittens": {
+  "title": "Claudicatio intermittens",
+  "short": "Claudicatio intermittens is pijn in de kuit of bil bij lopen die bij stilstaan verdwijnt, door perifeer arterieel vaatlijden.",
+  "definition": "<p>Bij <strong>claudicatio</strong> zijn de beenarteriën vernauwd door atherosclerose. De enkel-armindex is verlaagd (&lt;0,9). Behandeling: stoppen met roken, gesuperviseerde looptraining, een plaatjesremmer en statine; bij ernstige klachten of kritieke ischemie (rustpijn, wonden) revascularisatie.</p>",
+  "image_url": "",
+  "wiki_title": "Intermittent claudication",
+  "match": "vasculaire claudicatio intermittens",
+  "option_only": true
+ },
+ "collumfractuur": {
+  "title": "Femurfractuur",
+  "short": "Een femurfractuur is een breuk van het dijbeen; bij ouderen vooral in het collum (heupfractuur), bij jongeren vaak in de schacht door hoog geweld.",
+  "definition": "<p><strong>Heupfracturen</strong> bij ouderen (mediale collumfractuur of pertrochantere fractuur) ontstaan vaak na een val bij osteoporose; het been staat verkort en naar buiten gedraaid. Ze hebben een hoge sterfte en morbiditeit. Schachtfracturen kunnen veel bloedverlies geven. Behandeling is meestal operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Femoral fracture",
+  "match": "collumfractuur",
+  "option_only": true
+ },
+ "collumfractuur links": {
+  "title": "Femurfractuur",
+  "short": "Een femurfractuur is een breuk van het dijbeen; bij ouderen vooral in het collum (heupfractuur), bij jongeren vaak in de schacht door hoog geweld.",
+  "definition": "<p><strong>Heupfracturen</strong> bij ouderen (mediale collumfractuur of pertrochantere fractuur) ontstaan vaak na een val bij osteoporose; het been staat verkort en naar buiten gedraaid. Ze hebben een hoge sterfte en morbiditeit. Schachtfracturen kunnen veel bloedverlies geven. Behandeling is meestal operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Femoral fracture",
+  "match": "collumfractuur links",
+  "option_only": true
+ },
+ "mediale collumfractuur": {
+  "title": "Femurfractuur",
+  "short": "Een femurfractuur is een breuk van het dijbeen; bij ouderen vooral in het collum (heupfractuur), bij jongeren vaak in de schacht door hoog geweld.",
+  "definition": "<p><strong>Heupfracturen</strong> bij ouderen (mediale collumfractuur of pertrochantere fractuur) ontstaan vaak na een val bij osteoporose; het been staat verkort en naar buiten gedraaid. Ze hebben een hoge sterfte en morbiditeit. Schachtfracturen kunnen veel bloedverlies geven. Behandeling is meestal operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Femoral fracture",
+  "match": "mediale collumfractuur",
+  "option_only": true
+ },
+ "pertrochantere fractuur": {
+  "title": "Femurfractuur",
+  "short": "Een femurfractuur is een breuk van het dijbeen; bij ouderen vooral in het collum (heupfractuur), bij jongeren vaak in de schacht door hoog geweld.",
+  "definition": "<p><strong>Heupfracturen</strong> bij ouderen (mediale collumfractuur of pertrochantere fractuur) ontstaan vaak na een val bij osteoporose; het been staat verkort en naar buiten gedraaid. Ze hebben een hoge sterfte en morbiditeit. Schachtfracturen kunnen veel bloedverlies geven. Behandeling is meestal operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Femoral fracture",
+  "match": "pertrochantere fractuur",
+  "option_only": true
+ },
+ "proximale femurfractuur": {
+  "title": "Femurfractuur",
+  "short": "Een femurfractuur is een breuk van het dijbeen; bij ouderen vooral in het collum (heupfractuur), bij jongeren vaak in de schacht door hoog geweld.",
+  "definition": "<p><strong>Heupfracturen</strong> bij ouderen (mediale collumfractuur of pertrochantere fractuur) ontstaan vaak na een val bij osteoporose; het been staat verkort en naar buiten gedraaid. Ze hebben een hoge sterfte en morbiditeit. Schachtfracturen kunnen veel bloedverlies geven. Behandeling is meestal operatief.</p>",
+  "image_url": "",
+  "wiki_title": "Femoral fracture",
+  "match": "proximale femurfractuur",
+  "option_only": true
+ },
+ "hydrops test": {
+  "title": "Hydropstest",
+  "short": "Met een hydropstest wordt onderzocht of er vocht (hydrops) in het kniegewricht zit.",
+  "definition": "<p>Bij de <strong>hydropstest</strong> wordt het vocht uit de recessus suprapatellaris naar beneden gestreken en daarna op de patella gedrukt (dansende patella) of een vochtgolf opgewekt. Veel vocht na een trauma kan wijzen op een kruisbandletsel of fractuur (hemartros).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "hydrops test",
+  "option_only": true
+ },
+ "intra-beoordelaarsbetrouwbaarheid": {
+  "title": "Intrabeoordelaarsbetrouwbaarheid",
+  "short": "Intrabeoordelaarsbetrouwbaarheid is de mate waarin dezelfde beoordelaar bij herhaling tot dezelfde uitkomst komt.",
+  "definition": "<p>Bij <strong>intrabeoordelaarsbetrouwbaarheid</strong> beoordeelt één persoon dezelfde situatie meerdere keren; bij interbeoordelaarsbetrouwbaarheid vergelijkt men verschillende beoordelaars. Voor categorische uitkomsten wordt vaak Cohens kappa gebruikt, voor continue de ICC.</p>",
+  "image_url": "",
+  "wiki_title": "Intra-rater reliability",
+  "match": "intra-beoordelaarsbetrouwbaarheid",
+  "option_only": true
+ },
+ "inter-beoordelaarsbetrouwbaarheid": {
+  "title": "Intrabeoordelaarsbetrouwbaarheid",
+  "short": "Intrabeoordelaarsbetrouwbaarheid is de mate waarin dezelfde beoordelaar bij herhaling tot dezelfde uitkomst komt.",
+  "definition": "<p>Bij <strong>intrabeoordelaarsbetrouwbaarheid</strong> beoordeelt één persoon dezelfde situatie meerdere keren; bij interbeoordelaarsbetrouwbaarheid vergelijkt men verschillende beoordelaars. Voor categorische uitkomsten wordt vaak Cohens kappa gebruikt, voor continue de ICC.</p>",
+  "image_url": "",
+  "wiki_title": "Intra-rater reliability",
+  "match": "inter-beoordelaarsbetrouwbaarheid",
+  "option_only": true
+ },
+ "zorg-gerelateerde preventie": {
+  "title": "Zorggerelateerde preventie",
+  "short": "Zorggerelateerde preventie richt zich op mensen met een ziekte, om ziektelast, complicaties en verergering te beperken.",
+  "definition": "<p>Bij <strong>zorggerelateerde preventie</strong> gaat het bijvoorbeeld om leefstijlbegeleiding bij diabetes of hart- en vaatziekten, of valpreventie bij ouderen met osteoporose. Het hoort bij de indeling naar doelgroep: universeel, selectief, geïndiceerd en zorggerelateerd.</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "zorg-gerelateerde preventie",
+  "option_only": true
+ },
+ "een ventilatie-perfusie ongelijkheid": {
+  "title": "Ventilatie-perfusiemismatch",
+  "short": "Bij een ventilatie-perfusiemismatch passen luchtstroom en bloedstroom in delen van de long niet bij elkaar; dat is de belangrijkste oorzaak van hypoxemie.",
+  "definition": "<p>Gebieden met wel bloed maar te weinig ventilatie (lage V/Q, ‘relatieve shunt’, bijv. pneumonie, atelectase, astma) leveren zuurstofarm bloed. Gebieden met ventilatie maar weinig bloed (hoge V/Q, dode ruimte, bijv. longembolie) dragen niet bij aan de gaswisseling. Extra zuurstof verbetert hypoxemie door V/Q-mismatch goed, in tegenstelling tot een echte shunt.</p>",
+  "image_url": "",
+  "wiki_title": "Ventilation/perfusion ratio",
+  "match": "een ventilatie-perfusie ongelijkheid",
+  "option_only": true
+ },
+ "een diffusiestoornis": {
+  "title": "Diffusiestoornis",
+  "short": "Bij een diffusiestoornis gaat zuurstof minder goed van de alveoli naar het bloed, door verdikking van de membraan of verlies van oppervlak.",
+  "definition": "<p>Een <strong>diffusiestoornis</strong> wordt gemeten met de DLCO (koolmonoxide-diffusiecapaciteit). Ze komt voor bij interstitiële longziekten (verdikte alveolaire wand), emfyseem (verlies van oppervlak), pulmonale hypertensie en anemie. De hypoxemie wordt vaak pas duidelijk bij inspanning, omdat het bloed dan korter in de capillair verblijft.</p>",
+  "image_url": "",
+  "wiki_title": "Diffusing capacity for carbon monoxide",
+  "match": "een diffusiestoornis",
+  "option_only": true
+ },
+ "barretoesophagus": {
+  "title": "Barrett-slokdarm",
+  "short": "Bij een Barrett-slokdarm is het plaveiselepitheel onderin de slokdarm door chronische reflux vervangen door darmachtig cilinderepitheel.",
+  "definition": "<p>Een <strong>Barrett-slokdarm</strong> is een voorstadium van het adenocarcinoom van de slokdarm. Patiënten worden periodiek gecontroleerd met endoscopie en biopten; bij dysplasie volgt endoscopische behandeling.</p>",
+  "image_url": "",
+  "wiki_title": "Barrett's esophagus",
+  "match": "barretoesophagus",
+  "option_only": true
+ },
+ "glycogeen fosforylase": {
+  "title": "Glycogenolyse",
+  "short": "Glycogenolyse is de afbraak van glycogeen tot glucose(-1-fosfaat), gestimuleerd door glucagon en adrenaline.",
+  "definition": "<p>Het sleutelenzym is <strong>glycogeenfosforylase</strong>. In de lever levert glycogenolyse glucose aan het bloed; in spier alleen brandstof voor de spier zelf. Enzymdefecten geven glycogeenstapelingsziekten (bijv. ziekte van McArdle in spier, Von Gierke in lever).</p>",
+  "image_url": "",
+  "wiki_title": "Glycogenolysis",
+  "match": "glycogeen fosforylase",
+  "option_only": true
+ },
+ "uveitis": {
+  "title": "Uveïtis anterior",
+  "short": "Uveïtis anterior is een ontsteking van iris en corpus ciliare, met een pijnlijk rood oog, lichtschuwheid en wazig zien.",
+  "definition": "<p>Bij <strong>uveïtis anterior</strong> zijn er cellen en flare in de voorste oogkamer, ciliaire injectie en soms een nauwe of onregelmatige pupil (synechieën). Het kan samenhangen met HLA-B27-gerelateerde ziekten, sarcoïdose, JIA of infecties. Behandeling met corticosteroïd- en pupilverwijdende druppels.</p>",
+  "image_url": "",
+  "wiki_title": "Uveitis",
+  "match": "uveitis",
+  "option_only": true
+ },
+ "mupirocinecrème": {
+  "title": "Mupirocine",
+  "short": "Mupirocine is een lokaal antibioticum tegen stafylokokken en streptokokken, o.a. gebruikt bij impetigo en om MRSA-dragerschap in de neus te behandelen.",
+  "definition": "<p><strong>Mupirocine</strong> remt de bacteriële eiwitsynthese. Neuszalf wordt gebruikt voor dekolonisatie van <em>S. aureus</em> vóór bepaalde operaties en bij MRSA-dragerschap. Bij langdurig gebruik ontstaat resistentie.</p>",
+  "image_url": "",
+  "wiki_title": "Mupirocin",
+  "match": "mupirocinecrème",
+  "option_only": true
+ },
+ "eczema seborroicum infantum": {
+  "title": "Seborroïsch eczeem",
+  "short": "Seborroïsch eczeem is een chronisch terugkerend eczeem met roodheid en vettige schilfers in talgklierrijke gebieden.",
+  "definition": "<p><strong>Seborroïsch eczeem</strong> komt voor op het behaarde hoofd, in de wenkbrauwen, nasolabiale plooien, achter de oren en op de borst. De gist <em>Malassezia</em> speelt een rol. Bij zuigelingen kennen we het als berg. Het komt vaker voor bij de ziekte van Parkinson en hiv. Behandeling met antimycotische middelen, eventueel kort met een mild corticosteroïd.</p>",
+  "image_url": "",
+  "wiki_title": "Seborrhoeic dermatitis",
+  "match": "eczema seborroicum infantum",
+  "option_only": true
+ },
+ "eczema seborrhoïcum": {
+  "title": "Seborroïsch eczeem",
+  "short": "Seborroïsch eczeem is een chronisch terugkerend eczeem met roodheid en vettige schilfers in talgklierrijke gebieden.",
+  "definition": "<p><strong>Seborroïsch eczeem</strong> komt voor op het behaarde hoofd, in de wenkbrauwen, nasolabiale plooien, achter de oren en op de borst. De gist <em>Malassezia</em> speelt een rol. Bij zuigelingen kennen we het als berg. Het komt vaker voor bij de ziekte van Parkinson en hiv. Behandeling met antimycotische middelen, eventueel kort met een mild corticosteroïd.</p>",
+  "image_url": "",
+  "wiki_title": "Seborrhoeic dermatitis",
+  "match": "eczema seborrhoïcum",
+  "option_only": true
+ },
+ "acute pyelonefritis": {
+  "title": "Pyelonefritis",
+  "short": "Pyelonefritis is een bacteriële infectie van het nierbekken en de nier, met koorts, flankpijn en vaak klachten van een blaasontsteking.",
+  "definition": "<p><strong>Pyelonefritis</strong> is een opstijgende urineweginfectie die de nier en het nierbekken bereikt, meestal door <em>E. coli</em>.</p><p>Kenmerkend zijn koorts, koude rillingen, flankpijn en slagpijn in de nierloge, eventueel met mictieklachten. Het is een gecompliceerde urineweginfectie die behandeld wordt met antibiotica met goede weefselpenetratie (niet nitrofurantoïne).</p>",
+  "image_url": "",
+  "wiki_title": "Pyelonephritis",
+  "match": "acute pyelonefritis",
+  "option_only": true
+ },
+ "acute osteomyelitis": {
+  "title": "Osteomyelitis",
+  "short": "Osteomyelitis is een infectie van het bot, meestal door Staphylococcus aureus.",
+  "definition": "<p><strong>Osteomyelitis</strong> ontstaat via de bloedbaan (vooral bij kinderen in de metafysen van lange pijpbeenderen), vanuit een nabijgelegen infectie (bijv. diabetische voet, decubitus) of na een open fractuur of operatie. Klachten: pijn, koorts, zwelling. Diagnose met MRI en kweek (bot of bloed). Chronische osteomyelitis met dood bot (sequester) vergt vaak chirurgie naast langdurige antibiotica.</p>",
+  "image_url": "",
+  "wiki_title": "Osteomyelitis",
+  "match": "acute osteomyelitis",
+  "option_only": true
+ },
+ "post-operatieve wondinfectie": {
+  "title": "Wondinfectie",
+  "short": "Een wondinfectie is een infectie van een (operatie)wond, met roodheid, warmte, pijn, zwelling en eventueel pus.",
+  "definition": "<p>Postoperatieve <strong>wondinfecties</strong> worden vaak veroorzaakt door <em>S. aureus</em> of, bij darmchirurgie, door darmbacteriën. Risicofactoren zijn diabetes, obesitas, roken, lange operaties en contaminatie. Behandeling: openen en draineren, eventueel antibiotica.</p>",
+  "image_url": "",
+  "wiki_title": "Surgical site infection",
+  "match": "post-operatieve wondinfectie",
+  "option_only": true
+ },
+ "demodexfolliculitis": {
+  "title": "Demodexfolliculitis",
+  "short": "Bij demodexfolliculitis veroorzaakt een overmaat aan haarzakjesmijten (Demodex) jeukende puistjes in het gezicht.",
+  "definition": "<p><strong>Demodex</strong>-mijten komen bij vrijwel iedereen voor. Een overgroei (bijv. bij langdurig gebruik van corticosteroïdcrème of verminderde afweer) geeft een rosacea-achtig beeld. Behandeling met ivermectine- of permetrinecrème.</p>",
+  "image_url": "",
+  "wiki_title": "Demodicosis",
+  "match": "demodexfolliculitis",
+  "option_only": true
+ },
+ "myelodysplasie": {
+  "title": "Myelodysplastisch syndroom (MDS)",
+  "short": "Bij een myelodysplastisch syndroom maakt het beenmerg afwijkende, slecht functionerende bloedcellen, met cytopenieën en een risico op AML.",
+  "definition": "<p><strong>MDS</strong> komt vooral bij ouderen voor en na eerdere chemotherapie of bestraling. Er zijn anemie (vaak macrocytair), soms trombopenie en neutropenie. Het beenmerg is vaak juist celrijk met dysplasie. Behandeling varieert van transfusies tot stamceltransplantatie.</p>",
+  "image_url": "",
+  "wiki_title": "Myelodysplastic syndrome",
+  "match": "myelodysplasie",
+  "option_only": true
+ },
+ "oog": {
+  "title": "Het oor",
+  "short": "Het oor bestaat uit buiten-, midden- en binnenoor en verzorgt het gehoor en het evenwicht.",
+  "definition": "<p>Het <strong>oor</strong> is opgebouwd uit drie delen. Het <em>buitenoor</em> (oorschelp en gehoorgang) vangt geluid op; het <em>middenoor</em> (trommelvlies en gehoorbeentjes hamer, aambeeld en stijgbeugel) versterkt de trillingen; het <em>binnenoor</em> zet ze om in zenuwsignalen.</p><p>Het binnenoor bevat het slakkenhuis (cochlea) voor het gehoor en het vestibulaire systeem (halfcirkelvormige kanalen, utriculus en sacculus) voor evenwicht. Signalen lopen via de n. vestibulocochlearis (VIII) naar de hersenstam.</p>",
+  "image_url": "",
+  "wiki_title": "Ear",
+  "match": "oog",
+  "option_only": true
+ },
+ "anti-dsdna": {
+  "title": "Anti-dsDNA-antistoffen",
+  "short": "Anti-dsDNA-antistoffen zijn auto-antistoffen tegen dubbelstrengs DNA en zeer specifiek voor systemische lupus erythematodes (SLE).",
+  "definition": "<p>De titer van <strong>anti-dsDNA</strong> stijgt vaak bij ziekteactiviteit, vooral bij lupusnefritis, samen met een daling van complement (C3, C4). Een positieve ANA is gevoelig maar weinig specifiek; anti-dsDNA en anti-Sm zijn juist specifiek.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-dsDNA antibodies",
+  "match": "anti-dsdna|anti-dubbelstrengs dna antistoffen|anti-dsdna-antistoffen",
+  "option_only": true
+ },
+ "anca": {
+  "title": "ANCA",
+  "short": "ANCA zijn auto-antistoffen tegen eiwitten in neutrofielen (PR3, MPO) die horen bij kleinevatenvasculitis.",
+  "definition": "<p><strong>PR3-ANCA</strong> (c-ANCA) past vooral bij granulomatose met polyangiitis; <strong>MPO-ANCA</strong> (p-ANCA) bij microscopische polyangiitis en EGPA. ANCA-vasculitis kan snel progressieve glomerulonefritis en longbloedingen geven.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-neutrophil cytoplasmic antibody",
+  "match": "anca|anca antistoffen|c-anca|p-anca|anti-pr3|anti-mpo",
+  "option_only": true
+ },
+ "coxsackievirus a": {
+  "title": "Coxsackievirus A (hand-voet-mondziekte)",
+  "short": "Coxsackievirus A is een enterovirus dat bij jonge kinderen hand-voet-mondziekte en herpangina veroorzaakt.",
+  "definition": "<p>Bij <strong>hand-voet-mondziekte</strong> ontstaan blaasjes en zweertjes in de mond en blaasjes op handpalmen, voetzolen en billen. Het verloopt meestal mild. Overdracht via feces, speeksel en blaasjesvocht.</p>",
+  "image_url": "",
+  "wiki_title": "Hand, foot, and mouth disease",
+  "match": "coxsackievirus a|hand-voet-mondziekte|hand-mond-voetziekte|herpangina",
+  "option_only": true
+ },
+ "calorische nystagmus": {
+  "title": "Calorische test",
+  "short": "Bij de calorische test wordt de gehoorgang gespoeld met warm of koud water, wat via het evenwichtsorgaan een nystagmus opwekt.",
+  "definition": "<p>Met koud water slaat de snelle fase van de nystagmus naar de andere kant, met warm water naar dezelfde kant (ezelsbrug ‘COWS’). Een verminderde reactie aan één kant wijst op uitval van dat evenwichtsorgaan (bijv. neuritis vestibularis). Bij comateuze patiënten test de koudwaterproef de hersenstam.</p>",
+  "image_url": "",
+  "wiki_title": "Caloric reflex test",
+  "match": "calorische nystagmus|calorische test|calorische prikkeling",
+  "option_only": true
+ },
+ "arteria communicans posterior": {
+  "title": "A. communicans posterior",
+  "short": "De a. communicans posterior verbindt de a. carotis interna met de a. cerebri posterior, als deel van de cirkel van Willis.",
+  "definition": "<p>Een aneurysma van de <strong>a. communicans posterior</strong> kan de n. oculomotorius samendrukken, met een ptosis en een wijde, lichtstijve pupil. Bij zo'n acuut ontstane derde-zenuwparese met pupilbetrokkenheid moet een aneurysma worden uitgesloten.</p>",
+  "image_url": "",
+  "wiki_title": "Posterior communicating artery",
+  "match": "arteria communicans posterior|a. communicans posterior",
+  "option_only": true
+ },
+ "oligodendrocyten": {
+  "title": "Oligodendrocyten",
+  "short": "Oligodendrocyten zijn gliacellen die de myelineschede rond axonen in het centrale zenuwstelsel maken.",
+  "definition": "<p>Eén <strong>oligodendrocyt</strong> kan meerdere axonen myeliniseren. Bij multiple sclerose worden de myeline en oligodendrocyten aangevallen.</p>",
+  "image_url": "",
+  "wiki_title": "Oligodendrocyte",
+  "match": "oligodendrocyten|oligodendrocyt",
+  "option_only": true
+ },
+ "vasopressine": {
+  "title": "Vasopressine (ADH)",
+  "short": "Vasopressine (ADH) wordt in de hypothalamus gemaakt en in de hypofyseachterkwab afgegeven; het laat de nier water terugresorberen.",
+  "definition": "<p><strong>ADH</strong> bouwt via V2-receptoren aquaporine-2 in de verzamelbuizen in, waardoor de urine geconcentreerd wordt. Via V1-receptoren werkt het vaatvernauwend. Afgifte wordt gestimuleerd door een stijgende osmolaliteit en een dalend bloedvolume. Een tekort of ongevoeligheid geeft diabetes insipidus; een overmaat SIADH.</p>",
+  "image_url": "",
+  "wiki_title": "Vasopressin",
+  "match": "vasopressine|adh|antidiuretisch hormoon",
+  "option_only": true
+ },
+ "transsfenoïdale resectie": {
+  "title": "Transsfenoïdale resectie",
+  "short": "Bij een transsfenoïdale resectie wordt een hypofysetumor via de neus en de sinus sphenoidalis verwijderd.",
+  "definition": "<p>Dit is de standaardoperatie voor de meeste <strong>hypofyseadenomen</strong> (behalve prolactinomen, die meestal met dopamineagonisten worden behandeld). Complicaties: liquorlekkage, diabetes insipidus en uitval van hypofysehormonen.</p>",
+  "image_url": "",
+  "wiki_title": "Transsphenoidal surgery",
+  "match": "transsfenoïdale resectie|transsfenoidale chirurgie",
+  "option_only": true
+ },
+ "cellulaire immuniteit": {
+  "title": "Cellulaire immuniteit",
+  "short": "Cellulaire immuniteit is het deel van de verworven afweer dat via T-cellen werkt, vooral tegen intracellulaire ziekteverwekkers.",
+  "definition": "<p>Bij <strong>cellulaire immuniteit</strong> doden cytotoxische CD8-T-cellen geïnfecteerde cellen en activeren CD4-Th1-cellen macrofagen. Stoornissen (bijv. hiv, transplantatiemedicatie) geven infecties met virussen, mycobacteriën, schimmels en <em>Pneumocystis</em>. Humorale immuniteit verloopt via antistoffen van B-cellen.</p>",
+  "image_url": "",
+  "wiki_title": "Cell-mediated immunity",
+  "match": "cellulaire immuniteit|celgemedieerde immuniteit",
+  "option_only": true
+ },
+ "ligamentum talofibulare anterius": {
+  "title": "Lig. talofibulare anterius",
+  "short": "Het lig. talofibulare anterius loopt van de laterale malleolus naar de talus en is de enkelband die het vaakst scheurt.",
+  "definition": "<p>Het <strong>lig. talofibulare anterius</strong> is vooral gespannen in plantairflexie, de stand waarin inversietrauma's meestal optreden. Een positieve voorste schuiflade wijst op een ruptuur.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior talofibular ligament",
+  "match": "ligamentum talofibulare anterius|ligamentum fibulotalare anterius|lig. talofibulare anterior (tfa)|lig. talofibulare anterior|atfl",
+  "option_only": true
+ },
+ "peer education theorie": {
+  "title": "Peer education",
+  "short": "Bij peer education geven leeftijd- of lotgenoten voorlichting, omdat de doelgroep zich met hen identificeert.",
+  "definition": "<p><strong>Peer education</strong> leunt op de sociaal-cognitieve theorie (leren van rolmodellen) en de diffusietheorie. Het wordt o.a. gebruikt bij seksuele voorlichting en preventie van middelengebruik onder jongeren.</p>",
+  "image_url": "",
+  "wiki_title": "Peer education",
+  "match": "peer education theorie|peer education",
+  "option_only": true
+ },
+ "tendovaginitis van de quervain": {
+  "title": "Tendovaginitis van De Quervain",
+  "short": "Bij tendovaginitis van De Quervain is de peesschede van het eerste dorsale compartiment van de pols geprikkeld, met pijn aan de duimzijde.",
+  "definition": "<p>De klachten ontstaan door overbelasting, bijv. bij jonge moeders die hun baby tillen. De <strong>test van Finkelstein</strong> (duim in de vuist en pols naar ulnair) lokt pijn uit. Behandeling: rust, een spalk, een corticosteroïdinjectie of een splijting van de peesschede.</p>",
+  "image_url": "",
+  "wiki_title": "De Quervain syndrome",
+  "match": "tendovaginitis van de quervain|de quervain tenosynovitis|ziekte van de quervain",
+  "option_only": true
+ },
+ "osgood schlatter": {
+  "title": "Ziekte van Osgood-Schlatter",
+  "short": "Osgood-Schlatter is een overbelasting van de aanhechting van de patellapees aan de tuberositas tibiae bij sportende kinderen in de groeispurt.",
+  "definition": "<p>Er is pijn en zwelling onder de knie bij springen, rennen en knielen. De klachten gaan meestal vanzelf over als de groei stopt; een blijvende knobbel is mogelijk. Behandeling: belasting aanpassen.</p>",
+  "image_url": "",
+  "wiki_title": "Osgood–Schlatter disease",
+  "match": "osgood schlatter|osgood-schlatter|ziekte van osgood-schlatter",
+  "option_only": true
+ },
+ "tenniselleboog": {
+  "title": "Tenniselleboog (epicondylalgie lateralis)",
+  "short": "Een tenniselleboog is pijn aan de buitenkant van de elleboog door overbelasting van de aanhechting van de polsstrekkers.",
+  "definition": "<p>Vooral de pees van de m. extensor carpi radialis brevis is betrokken. Pijn wordt uitgelokt door strekken van de pols tegen weerstand en grijpen. Het herstelt meestal vanzelf binnen een jaar; een golferselleboog zit aan de binnenkant (buigers).</p>",
+  "image_url": "",
+  "wiki_title": "Tennis elbow",
+  "match": "tenniselleboog|epicondylitis lateralis|epicondylalgie lateralis",
+  "option_only": true
+ },
+ "wgbo": {
+  "title": "WGBO (Wet op de geneeskundige behandelingsovereenkomst)",
+  "short": "De WGBO regelt de rechten en plichten van patiënt en hulpverlener bij een medische behandeling.",
+  "definition": "<p>Onder de <strong>WGBO</strong> vallen o.a. het recht op informatie, toestemming (informed consent), het medisch dossier (inzage, bewaartermijn) en het beroepsgeheim. Bij wilsonbekwame patiënten beslist een vertegenwoordiger. Voor kinderen gelden leeftijdsgrenzen (12 en 16 jaar).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wgbo|wet geneeskundige behandelovereenkomst|wet op de geneeskundige behandelingsovereenkomst",
+  "option_only": true
+ },
+ "theorie van beredeneerd gedrag": {
+  "title": "Theorie van beredeneerd gedrag",
+  "short": "Volgens de theorie van beredeneerd gedrag (Fishbein en Ajzen) wordt gedrag voorspeld door de intentie, die afhangt van attitude en sociale norm.",
+  "definition": "<p>De latere <strong>theorie van gepland gedrag</strong> voegt daar de waargenomen gedragscontrole aan toe, omdat niet alle gedrag volledig onder eigen controle staat.</p>",
+  "image_url": "",
+  "wiki_title": "Theory of reasoned action",
+  "match": "theorie van beredeneerd gedrag|theory of reasoned action",
+  "option_only": true
+ },
+ "gezondheidsbevordering": {
+  "title": "Gezondheidsbevordering",
+  "short": "Gezondheidsbevordering is het verbeteren van gezondheid door voorlichting, gedragsverandering en het gezonder maken van de omgeving.",
+  "definition": "<p>Volgens het <strong>Ottawa Charter</strong> (WHO) gaat gezondheidsbevordering verder dan voorlichting: ook beleid, een ondersteunende omgeving, gemeenschapsactie en een heroriëntatie van de zorg horen erbij. Planmodellen zoals Intervention Mapping helpen interventies systematisch te ontwikkelen.</p>",
+  "image_url": "",
+  "wiki_title": "Health promotion",
+  "match": "gezondheidsbevordering|health promotion",
+  "option_only": true
+ },
+ "hdl": {
+  "title": "HDL-cholesterol",
+  "short": "HDL vervoert cholesterol uit de weefsels terug naar de lever (reverse cholesterol transport); een hoog HDL hangt samen met minder hart- en vaatziekten.",
+  "definition": "<p>Een laag <strong>HDL</strong> komt voor bij roken, overgewicht, weinig beweging, diabetes type 2 en hypertriglyceridemie. Medicijnen die alleen het HDL verhogen, verminderen het risico op hart- en vaatziekten niet.</p>",
+  "image_url": "",
+  "wiki_title": "High-density lipoprotein",
+  "match": "hdl|high density lipoproteins|hdl-cholesterol",
+  "option_only": true
+ },
+ "diafragma": {
+  "title": "Diafragma (middenrif)",
+  "short": "Het diafragma is de koepelvormige ademhalingsspier tussen borst- en buikholte, geïnnerveerd door de n. phrenicus (C3–C5).",
+  "definition": "<p>Bij inademing trekt het <strong>diafragma</strong> samen en zakt het, waardoor de borstholte groter wordt. Door het diafragma lopen o.a. de aorta, de slokdarm en de v. cava inferior. Uitval van de n. phrenicus geeft een hoogstand van het diafragma aan die kant.</p>",
+  "image_url": "",
+  "wiki_title": "Thoracic diaphragm",
+  "match": "diafragma|diaphragma|middenrif",
+  "option_only": true
+ },
+ "anti-dubbelstrengs dna antistoffen": {
+  "title": "Anti-dsDNA-antistoffen",
+  "short": "Anti-dsDNA-antistoffen zijn auto-antistoffen tegen dubbelstrengs DNA en zeer specifiek voor systemische lupus erythematodes (SLE).",
+  "definition": "<p>De titer van <strong>anti-dsDNA</strong> stijgt vaak bij ziekteactiviteit, vooral bij lupusnefritis, samen met een daling van complement (C3, C4). Een positieve ANA is gevoelig maar weinig specifiek; anti-dsDNA en anti-Sm zijn juist specifiek.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-dsDNA antibodies",
+  "match": "anti-dubbelstrengs dna antistoffen",
+  "option_only": true
+ },
+ "anca antistoffen": {
+  "title": "ANCA",
+  "short": "ANCA zijn auto-antistoffen tegen eiwitten in neutrofielen (PR3, MPO) die horen bij kleinevatenvasculitis.",
+  "definition": "<p><strong>PR3-ANCA</strong> (c-ANCA) past vooral bij granulomatose met polyangiitis; <strong>MPO-ANCA</strong> (p-ANCA) bij microscopische polyangiitis en EGPA. ANCA-vasculitis kan snel progressieve glomerulonefritis en longbloedingen geven.</p>",
+  "image_url": "",
+  "wiki_title": "Anti-neutrophil cytoplasmic antibody",
+  "match": "anca antistoffen",
+  "option_only": true
+ },
+ "hand-mond-voetziekte": {
+  "title": "Coxsackievirus A (hand-voet-mondziekte)",
+  "short": "Coxsackievirus A is een enterovirus dat bij jonge kinderen hand-voet-mondziekte en herpangina veroorzaakt.",
+  "definition": "<p>Bij <strong>hand-voet-mondziekte</strong> ontstaan blaasjes en zweertjes in de mond en blaasjes op handpalmen, voetzolen en billen. Het verloopt meestal mild. Overdracht via feces, speeksel en blaasjesvocht.</p>",
+  "image_url": "",
+  "wiki_title": "Hand, foot, and mouth disease",
+  "match": "hand-mond-voetziekte",
+  "option_only": true
+ },
+ "hand-voet-mond ziekte": {
+  "title": "Coxsackievirus A (hand-voet-mondziekte)",
+  "short": "Coxsackievirus A is een enterovirus dat bij jonge kinderen hand-voet-mondziekte en herpangina veroorzaakt.",
+  "definition": "<p>Bij <strong>hand-voet-mondziekte</strong> ontstaan blaasjes en zweertjes in de mond en blaasjes op handpalmen, voetzolen en billen. Het verloopt meestal mild. Overdracht via feces, speeksel en blaasjesvocht.</p>",
+  "image_url": "",
+  "wiki_title": "Hand, foot, and mouth disease",
+  "match": "hand-voet-mond ziekte",
+  "option_only": true
+ },
+ "oligodendrocyt": {
+  "title": "Oligodendrocyten",
+  "short": "Oligodendrocyten zijn gliacellen die de myelineschede rond axonen in het centrale zenuwstelsel maken.",
+  "definition": "<p>Eén <strong>oligodendrocyt</strong> kan meerdere axonen myeliniseren. Bij multiple sclerose worden de myeline en oligodendrocyten aangevallen.</p>",
+  "image_url": "",
+  "wiki_title": "Oligodendrocyte",
+  "match": "oligodendrocyt",
+  "option_only": true
+ },
+ "ligamentum fibulotalare anterius": {
+  "title": "Lig. talofibulare anterius",
+  "short": "Het lig. talofibulare anterius loopt van de laterale malleolus naar de talus en is de enkelband die het vaakst scheurt.",
+  "definition": "<p>Het <strong>lig. talofibulare anterius</strong> is vooral gespannen in plantairflexie, de stand waarin inversietrauma's meestal optreden. Een positieve voorste schuiflade wijst op een ruptuur.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior talofibular ligament",
+  "match": "ligamentum fibulotalare anterius",
+  "option_only": true
+ },
+ "lig. talofibulare anterior (tfa)": {
+  "title": "Lig. talofibulare anterius",
+  "short": "Het lig. talofibulare anterius loopt van de laterale malleolus naar de talus en is de enkelband die het vaakst scheurt.",
+  "definition": "<p>Het <strong>lig. talofibulare anterius</strong> is vooral gespannen in plantairflexie, de stand waarin inversietrauma's meestal optreden. Een positieve voorste schuiflade wijst op een ruptuur.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior talofibular ligament",
+  "match": "lig. talofibulare anterior (tfa)",
+  "option_only": true
+ },
+ "lig. talofibulare anterior": {
+  "title": "Lig. talofibulare anterius",
+  "short": "Het lig. talofibulare anterius loopt van de laterale malleolus naar de talus en is de enkelband die het vaakst scheurt.",
+  "definition": "<p>Het <strong>lig. talofibulare anterius</strong> is vooral gespannen in plantairflexie, de stand waarin inversietrauma's meestal optreden. Een positieve voorste schuiflade wijst op een ruptuur.</p>",
+  "image_url": "",
+  "wiki_title": "Anterior talofibular ligament",
+  "match": "lig. talofibulare anterior",
+  "option_only": true
+ },
+ "de quervain tenosynovitis": {
+  "title": "Tendovaginitis van De Quervain",
+  "short": "Bij tendovaginitis van De Quervain is de peesschede van het eerste dorsale compartiment van de pols geprikkeld, met pijn aan de duimzijde.",
+  "definition": "<p>De klachten ontstaan door overbelasting, bijv. bij jonge moeders die hun baby tillen. De <strong>test van Finkelstein</strong> (duim in de vuist en pols naar ulnair) lokt pijn uit. Behandeling: rust, een spalk, een corticosteroïdinjectie of een splijting van de peesschede.</p>",
+  "image_url": "",
+  "wiki_title": "De Quervain syndrome",
+  "match": "de quervain tenosynovitis",
+  "option_only": true
+ },
+ "wet geneeskundige behandelovereenkomst": {
+  "title": "WGBO (Wet op de geneeskundige behandelingsovereenkomst)",
+  "short": "De WGBO regelt de rechten en plichten van patiënt en hulpverlener bij een medische behandeling.",
+  "definition": "<p>Onder de <strong>WGBO</strong> vallen o.a. het recht op informatie, toestemming (informed consent), het medisch dossier (inzage, bewaartermijn) en het beroepsgeheim. Bij wilsonbekwame patiënten beslist een vertegenwoordiger. Voor kinderen gelden leeftijdsgrenzen (12 en 16 jaar).</p>",
+  "image_url": "",
+  "wiki_title": "",
+  "match": "wet geneeskundige behandelovereenkomst",
+  "option_only": true
+ },
+ "high density lipoproteins": {
+  "title": "HDL-cholesterol",
+  "short": "HDL vervoert cholesterol uit de weefsels terug naar de lever (reverse cholesterol transport); een hoog HDL hangt samen met minder hart- en vaatziekten.",
+  "definition": "<p>Een laag <strong>HDL</strong> komt voor bij roken, overgewicht, weinig beweging, diabetes type 2 en hypertriglyceridemie. Medicijnen die alleen het HDL verhogen, verminderen het risico op hart- en vaatziekten niet.</p>",
+  "image_url": "",
+  "wiki_title": "High-density lipoprotein",
+  "match": "high density lipoproteins",
+  "option_only": true
+ },
+ "diaphragma": {
+  "title": "Diafragma (middenrif)",
+  "short": "Het diafragma is de koepelvormige ademhalingsspier tussen borst- en buikholte, geïnnerveerd door de n. phrenicus (C3–C5).",
+  "definition": "<p>Bij inademing trekt het <strong>diafragma</strong> samen en zakt het, waardoor de borstholte groter wordt. Door het diafragma lopen o.a. de aorta, de slokdarm en de v. cava inferior. Uitval van de n. phrenicus geeft een hoogstand van het diafragma aan die kant.</p>",
+  "image_url": "",
+  "wiki_title": "Thoracic diaphragm",
+  "match": "diaphragma",
+  "option_only": true
  }
 };
