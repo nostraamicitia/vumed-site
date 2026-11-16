@@ -45,6 +45,7 @@
     <div class="monitor" aria-hidden="true">
       <svg viewBox="0 0 300 70">
         <defs>
+          <path id="scratch" d=""/>
           <clipPath id="clipNew"><rect id="rNew" x="0" y="-10" width="0" height="90"/></clipPath>
           <clipPath id="clipOld"><rect id="rOld" x="300" y="-10" width="300" height="90"/></clipPath>
         </defs>
@@ -91,19 +92,24 @@
         while (x + 64 < W) { d += beat(x); x += 64 + r(26, 40); }
         return d + ' L' + W + ' ' + BASE;
       }
-      // y per x opzoeken voor de cursor
-      var ys = [];
-      function sample() {
-        ys = []; var L = pNew.getTotalLength(), i, pt;
-        for (i = 0; i <= L; i += 0.5) { pt = pNew.getPointAtLength(i); ys[Math.round(pt.x)] = pt.y; }
+      // Volgende meting (pad + y-per-x voor de cursor) vooraf berekenen op een
+      // onzichtbaar hulppad, zodat de wissel aan het eind van een sweep niets
+      // hoeft te rekenen → geen haperinkje.
+      var scratch = document.getElementById('scratch');
+      function prepare() {
+        var d = trace(), ys = [], L, i, pt;
+        scratch.setAttribute('d', d); L = scratch.getTotalLength();
+        for (i = 0; i <= L; i += 0.5) { pt = scratch.getPointAtLength(i); ys[Math.round(pt.x)] = pt.y; }
         for (i = 0; i <= W; i++) if (ys[i] == null) ys[i] = i ? ys[i - 1] : BASE;
+        return { d: d, ys: ys };
       }
+      var cur0 = prepare(), next = prepare(), ys = cur0.ys;
+      pNew.setAttribute('d', cur0.d);
       function set(x) {
         rNew.setAttribute('width', x);
         rOld.setAttribute('x', x + GAP);
-        cur.setAttribute('cx', x); cur.setAttribute('cy', ys[Math.min(W, Math.round(x))]);
+        cur.setAttribute('cx', x); cur.setAttribute('cy', ys[Math.min(W, Math.max(0, Math.round(x)))]);
       }
-      pNew.setAttribute('d', trace()); sample();
       if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
         set(W); cur.style.display = 'none'; return;
       }
@@ -111,10 +117,13 @@
       function frame(t) {
         if (t0 === null) t0 = t;
         var x = (t - t0) / SWEEP_MS * W;
-        if (x >= W) {                       // nieuwe sweep: huidige meting wordt de "oude"
+        if (x >= W) {
+          // Wissel: huidige meting wordt de "oude", de vooraf berekende de nieuwe.
+          // Tijd-overschot meenemen (t0 += SWEEP_MS) zodat de cursor geen frame stilstaat.
           pOld.setAttribute('d', pNew.getAttribute('d'));
-          pNew.setAttribute('d', trace()); sample();
-          t0 = t; x = 0;
+          pNew.setAttribute('d', next.d); ys = next.ys;
+          t0 += SWEEP_MS * Math.floor(x / W); x = x % W;
+          setTimeout(function () { next = prepare(); }, 50);   // buiten het animatieframe
         }
         set(x);
         requestAnimationFrame(frame);
