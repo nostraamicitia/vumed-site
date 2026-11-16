@@ -15,7 +15,7 @@
   <script src="auth_gate.js?v=14"></script>
   <script src="navbar.js?v=53" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="vumed_stats.js?v=25" data-vumed-stats="1"></script>
+  <script src="vumed_stats.js?v=26" data-vumed-stats="1"></script>
   <script src="avatar_render.js?v=28"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -651,6 +651,7 @@ function buy(id) {
     else if (r && r.reason === 'coins') toast('Niet genoeg munten.', true);
     else if (r && r.reason === 'login') toast('Log eerst in om te kopen.', true);
     else if (r && r.reason === 'full') toast('Je hartjes zitten al vol.', true);
+    else toast('Kopen lukte niet — probeer het opnieuw.', true);
     renderAll();
   });
 }

@@ -16,6 +16,27 @@
 (function () {
   'use strict';
 
+  /* Instellingen → focus tijdens toetsen: hartjes en/of de groene voortgangsbalk
+     verbergen (gebruikersverzoek 2026-11-12: afleidend tijdens een toets). Puur
+     weergave — een fout kost nog steeds een hartje en bij 0 blijft de blokkade.
+     Een verborgen balk is ook niet meer klikbaar (geen onzichtbare reset-zone);
+     resetten kan nog via de reset-pill. Ingesteld in instellingen.html. */
+  (function applyFocusPrefs() {
+    try {
+      var hideH = localStorage.getItem('vumed_hide_hearts') === 'on';
+      var hideB = localStorage.getItem('vumed_hide_bar') === 'on';
+      if (!hideH && !hideB) return;
+      var css = '';
+      if (hideH) css += '#streak-wrap #vumed-stats,#vumed-stats.vs-inbar{display:none !important;}';
+      if (hideB) css += '#streak-wrap .streak-bar-wrap{visibility:hidden !important;pointer-events:none !important;}' +
+                        '#streak-wrap .streak-bar-wrap *{pointer-events:none !important;}';
+      var st = document.createElement('style');
+      st.id = 'pd-focus-prefs';
+      st.textContent = css;
+      (document.head || document.documentElement).appendChild(st);
+    } catch (e) {}
+  })();
+
   /* Load the shared persistent stats bar (hearts/streak/coins/gems/XP) on every
      exam page. It self-mounts; the currency hooks below drive it. */
   (function loadStatsBar() {
@@ -23,7 +44,7 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=25'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=26'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();

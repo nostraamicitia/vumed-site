@@ -250,10 +250,12 @@
   function persistHearts() {
     try { localStorage.setItem(LS.hearts, state.hearts); localStorage.setItem(LS.heartsDay, today()); } catch (e) {}
     if (state.uid) {
-      var c = sb();
-      if (c) c.from('user_profiles')
-        .update({ hearts: state.hearts, hearts_day: today(), hearts_updated_at: new Date().toISOString() })
-        .eq('user_id', state.uid).then(function () {}, function () {});
+      var c = sb(), h = state.hearts, uid = state.uid;
+      if (c) heartOp(function () {
+        return c.from('user_profiles')
+          .update({ hearts: h, hearts_day: today(), hearts_updated_at: new Date().toISOString() })
+          .eq('user_id', uid).then(function () {}, function () {});
+      });
     }
   }
   function mirrorLocal() {
@@ -263,7 +265,13 @@
     } catch (e) {}
   }
 
-  async function pull() {
+  var _pullP = null;
+  function pull() {
+    var p = _pullP = pullInner();
+    p.then(function () { if (_pullP === p) _pullP = null; }, function () { if (_pullP === p) _pullP = null; });
+    return p;
+  }
+  async function pullInner() {
     readLocal();
     state.uid = await uid();
     if (state.uid) {
@@ -320,7 +328,11 @@
           } catch (e2) {}
           mirrorLocal();
           mirrorGoal();
-          persistHearts();                            // persists the daily refill
+          // Persist the daily refill — only on a NEW day. Writing back the value we
+          // just read on every pull could overwrite a purchase / lost heart that
+          // landed in between (absolute last-writer-wins write).
+          if (r.data.hearts_day !== today() || r.data.hearts == null) persistHearts();
+          else { try { localStorage.setItem(LS.hearts, state.hearts); localStorage.setItem(LS.heartsDay, today()); } catch (e) {} }
         }
       } catch (e) {}
     }
@@ -355,6 +367,17 @@
     state.hearts = clampH(state.hearts + n);
     persistHearts(); pop('hearts', '+' + n); paint();
   }
+  /* Hearts DB-writes run strictly one after another. Without this a purchase's
+     write and the lose_heart RPC of the next wrong answer raced: when lose_heart
+     landed first (or the purchase write failed silently) it returned the OLD
+     pre-purchase count and the client adopted it — "bought hearts, made one
+     mistake, all hearts gone" (user mail 2026-11-12). */
+  var _heartQ = Promise.resolve();
+  function heartOp(fn) {
+    var p = _heartQ.then(function () { return fn(); });
+    _heartQ = p.then(function () {}, function () {});
+    return p;
+  }
   function loseHeart() {
     if (state.hearts <= 0) { paint(); return 0; }
     state.hearts = clampH(state.hearts - 1);
@@ -368,27 +391,59 @@
     // new-day refill bump a mid-session count back up).
     if (state.uid) {
       var c = sb();
-      if (c) c.rpc('lose_heart', { p_user_id: state.uid }).then(function (r) {
-        if (r && !r.error && typeof r.data === 'number' && r.data <= state.hearts) {
-          state.hearts = clampH(r.data);
-          try { localStorage.setItem(LS.hearts, state.hearts); } catch (e) {}
-          paint();
-        }
-      }, function () {});
+      if (c) heartOp(function () {
+        return c.rpc('lose_heart', { p_user_id: state.uid }).then(function (r) {
+          if (r && !r.error && typeof r.data === 'number' && r.data <= state.hearts) {
+            state.hearts = clampH(r.data);
+            try { localStorage.setItem(LS.hearts, state.hearts); } catch (e) {}
+            paint();
+          }
+        }, function () {});
+      });
     }
     return state.hearts;
   }
-  /* Shop: spend coins on hearts. gain=HEART_MAX acts as "refill to full". */
+  /* Shop: spend coins on hearts. gain=HEART_MAX acts as "refill to full".
+     Preferred path: the atomic buy_hearts RPC (supabase/sql/buy_hearts.sql —
+     coins + hearts in one transaction, prices server-side). Until that exists
+     we fall back to the old pair, but AWAITED and error-checked: the client
+     only shows the new hearts once the DB actually has them. */
+  var OFFER_BY_GAIN = { 1: 'h1', 5: 'h5' };
   async function buyHearts(cost, gain) {
+    if (_pullP) { try { await _pullP; } catch (e) {} }   // don't buy against a half-loaded state
     if (!state.uid) return { ok: false, reason: 'login' };
     if (state.hearts >= HEART_MAX) return { ok: false, reason: 'full' };
     if (state.coins < cost) return { ok: false, reason: 'coins' };
-    state.coins -= cost;
-    state.hearts = Math.min(HEART_MAX, clampH(state.hearts + gain));  // shop never overflows past 20
-    mirrorLocal(); persistHearts(); paint();
     var c = sb();
-    if (c) { try { await c.rpc('add_coins', { p_user_id: state.uid, p_amount: -cost }); } catch (e) {} }
-    return { ok: true };
+    if (!c) return { ok: false, reason: 'error' };
+    var offer = gain >= HEART_MAX ? 'hf' : OFFER_BY_GAIN[gain];
+    return heartOp(async function () {
+      var r = null;
+      if (offer) { try { r = await c.rpc('buy_hearts', { p_offer: offer }); } catch (e) { r = { error: e }; } }
+      if (r && !r.error && r.data && typeof r.data === 'object') {
+        var d = r.data;
+        if (typeof d.hearts === 'number') state.hearts = clampH(d.hearts);
+        if (typeof d.coins === 'number') state.coins = Math.max(0, d.coins);
+        try { localStorage.setItem(LS.hearts, state.hearts); localStorage.setItem(LS.heartsDay, today()); } catch (e) {}
+        mirrorLocal(); paint();
+        return d.ok ? { ok: true } : { ok: false, reason: d.reason || 'error' };
+      }
+      // Fallback (RPC not deployed yet): write hearts first and wait for it.
+      var newHearts = Math.min(HEART_MAX, clampH(state.hearts + gain));  // shop never overflows past 20
+      var u;
+      try {
+        u = await c.from('user_profiles')
+          .update({ hearts: newHearts, hearts_day: today(), hearts_updated_at: new Date().toISOString() })
+          .eq('user_id', state.uid).select('hearts');
+      } catch (e) { u = { error: e }; }
+      if (!u || u.error || !u.data || !u.data.length) return { ok: false, reason: 'error' };
+      try { await c.rpc('add_coins', { p_user_id: state.uid, p_amount: -cost }); } catch (e) {}
+      state.hearts = newHearts;
+      state.coins = Math.max(0, state.coins - cost);
+      try { localStorage.setItem(LS.hearts, state.hearts); localStorage.setItem(LS.heartsDay, today()); } catch (e) {}
+      mirrorLocal(); paint();
+      return { ok: true };
+    });
   }
   /* Shop: spend gems on streak freezers (streakbevriezers). A freezer bridges one
      missed day so the day-streak survives — consumed by progressdots.js

@@ -629,6 +629,22 @@
                 <div class="toggle-thumb"></div>
               </label>
             </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Hartjes tonen in toetsen<span class="goal-hint">Uit = rustiger tijdens een toets. Een fout kost nog steeds een hartje.</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-showhearts">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Voortgangsbalk tonen in toetsen<span class="goal-hint">De groene balk bovenin een toets.</span></span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggle-showbar">
+                <div class="toggle-track"></div>
+                <div class="toggle-thumb"></div>
+              </label>
+            </div>
             <div class="mode-row">
               <span class="toggle-label">Weergave</span>
               <div class="mode-selector">
@@ -962,7 +978,7 @@ async function confirmDeleteAccount() {
     try {
       // Apparaat-voorkeuren (thema, geluid, rondleiding uit) horen niet bij het
       // account en blijven staan; al het andere gaat weg.
-      var KEEP = ['vumed_theme', 'vumed_sound', 'vumed_sidebar_hidden', 'vumed_tut_off', 'vumed_optstars'];
+      var KEEP = ['vumed_theme', 'vumed_sound', 'vumed_sidebar_hidden', 'vumed_tut_off', 'vumed_optstars', 'vumed_hide_hearts', 'vumed_hide_bar'];
       var keep = {};
       KEEP.forEach(function (k) { var v = localStorage.getItem(k); if (v !== null) keep[k] = v; });
       localStorage.clear();
@@ -1340,6 +1356,17 @@ function setMode(mode) {
     try { localStorage.setItem('vumed_optstars', this.checked ? 'on' : 'off'); } catch (e) {}
   });
 })();
+
+// ── Focus tijdens toetsen: hartjes / groene balk verbergen ────────────────
+// progressdots.js (applyFocusPrefs) verbergt ze als de sleutel 'on' is.
+[['toggle-showhearts', 'vumed_hide_hearts'], ['toggle-showbar', 'vumed_hide_bar']].forEach(function (p) {
+  var tog = document.getElementById(p[0]);
+  if (!tog) return;
+  try { tog.checked = localStorage.getItem(p[1]) !== 'on'; } catch (e) { tog.checked = true; }
+  tog.addEventListener('change', function () {
+    try { localStorage.setItem(p[1], this.checked ? 'off' : 'on'); } catch (e) {}
+  });
+});
 
 // ── Dagdoel ───────────────────────────────────────────────────────────────
 // vumed_stats.js owns the goal (user_profiles.daily_goal + a localStorage
