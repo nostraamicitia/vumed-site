@@ -44,7 +44,7 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=26'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=27'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();
@@ -1892,7 +1892,7 @@
         if (!cur.hasOwnProperty(q)) continue;
         if (_pdStatus[q] === cur[q]) continue;      // unchanged
         var v = cur[q];
-        if (v === 'correct') gems += 2;
+        if (v === 'correct') { gems += 2; try { if (window.VumedStats.answerCorrect) window.VumedStats.answerCorrect(); } catch (e) {} }
         else if (v === 'answered') gems += 1;       // dnd/open participation
         else if (v === 'wrong') { try { window.VumedStats.loseHeart(); } catch (e) {} }
       }

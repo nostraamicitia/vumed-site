@@ -367,6 +367,25 @@
     state.hearts = clampH(state.hearts + n);
     persistHearts(); pop('hearts', '+' + n); paint();
   }
+  /* Terugverdienen (Tijmen, 2026-11-16, na gebruikersmail): elke EARN_RUN goede
+     antwoorden op rij = +1 hartje, tot HEART_MAX (verdiend overflowt nooit —
+     alleen kisten mogen dat). Een fout zet de reeks op 0. De reeks staat in
+     localStorage zodat hij over pagina's/toetsen heen doorloopt; progressdots
+     (bumpCurrencies) roept answerCorrect/loseHeart aan. */
+  var EARN_RUN = 5;
+  function earnRun() { try { return parseInt(localStorage.getItem('vumed_heart_run') || '0', 10) || 0; } catch (e) { return 0; } }
+  function setEarnRun(n) { try { localStorage.setItem('vumed_heart_run', String(n)); } catch (e) {} }
+  function answerCorrect() {
+    var n = earnRun() + 1;
+    if (n >= EARN_RUN) {
+      setEarnRun(0);
+      if (state.hearts < HEART_MAX) { awardHearts(1); return true; }
+      return false;
+    }
+    setEarnRun(n);
+    paint();
+    return false;
+  }
   /* Hearts DB-writes run strictly one after another. Without this a purchase's
      write and the lose_heart RPC of the next wrong answer raced: when lose_heart
      landed first (or the purchase write failed silently) it returned the OLD
@@ -379,6 +398,7 @@
     return p;
   }
   function loseHeart() {
+    setEarnRun(0);                                   // a mistake breaks the earn-back run
     if (state.hearts <= 0) { paint(); return 0; }
     state.hearts = clampH(state.hearts - 1);
     // Local mirror + optimistic paint immediately.
@@ -671,7 +691,7 @@
         '<div class="vs-card">' +
         '<svg width="58" height="58" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#E5E5EA"/><path d="M12.6 6.2l-2 4.3 2.9 1.2-2.1 4.6" stroke="#FF4B4B" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
         '<h2>Je hartjes zijn op</h2>' +
-        '<p>Je hebt geen hartjes meer over — elke fout kost er één. Koop nieuwe hartjes in de shop of kom morgen terug: dan begin je weer met ' + HEART_MAX + '.</p>' +
+        '<p>Je hebt geen hartjes meer over — elke fout kost er één, elke ' + EARN_RUN + ' goed op rij levert er één op. Koop nieuwe hartjes in de shop of kom morgen terug: dan begin je weer met ' + HEART_MAX + '.</p>' +
         '<a class="vs-bbtn vs-bshop" href="shop.html">Naar de shop</a>' +
         '<a class="vs-bbtn vs-bback" href="dashboard.html">Terug naar het dashboard</a>' +
         '</div>';
@@ -755,7 +775,8 @@
   }
   function heartsTipText() {
     if (state.hearts >= HEART_MAX) return 'Hartjes vol';
-    return 'Morgen weer ' + HEART_MAX + ' hartjes';
+    var left = EARN_RUN - earnRun();
+    return 'Nog ' + left + ' goed op rij = +1 hartje<br>Morgen weer ' + HEART_MAX + ' hartjes';
   }
   /* ── "Je reeks is bevroren" ───────────────────────────────────────────────
      Duolingo vertelt je dát een bevriezer je gered heeft; zonder die melding
@@ -951,6 +972,7 @@
     HEART_MAX: HEART_MAX, GIFT_HEARTS: GIFT_HEARTS, REFILL_COST: REFILL_COST,
     GOALS: GOALS.slice(), DEFAULT_GOAL: DEFAULT_GOAL, GOAL_TIERS: GOAL_TIERS,
     awardGems: awardGems, awardCoins: awardCoins, awardHearts: awardHearts, loseHeart: loseHeart,
+    answerCorrect: answerCorrect, EARN_RUN: EARN_RUN,
     buyHearts: buyHearts, buyFreezes: buyFreezes, buyStreakItem: buyStreakItem,
     repairStreak: repairStreak, claimGift: claimGift, syncStreak: syncStreak,
     goalInfo: goalInfo, setGoal: setGoal, checkGoalDay: checkGoalDay,
