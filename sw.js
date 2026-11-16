@@ -11,9 +11,12 @@
 //
 // To force-clear every client's cache after a big change, bump CACHE_VERSION.
 
-const CACHE_VERSION = 'vumed-v11';
+const CACHE_VERSION = 'vumed-v12';
 const OFFLINE_FALLBACK = 'dashboard.html';
-const PRECACHE = ['splash.html', 'dashboard.html', 'manifest.json', 'icon-192.png', 'icon-512.png',
+// Eigen storingspagina: bij geen netwerk of een 5xx van de host (bv. GitHub-"unicorn"-
+// storing) en géén gecachete kopie van de opgevraagde pagina.
+const OFFLINE_PAGE = 'offline.html';
+const PRECACHE = ['offline.html', '404.html', 'splash.html', 'dashboard.html', 'manifest.json', 'icon-192.png', 'icon-512.png',
                   'ui_boot.js', 'supabase_config.js', 'openai_config.js', 'supabase-js.min.js'];
 // Trage verbinding (campus-wifi, trein): na zoveel ms de gecachete pagina tonen
 // terwijl de verse op de achtergrond binnenkomt voor het volgende bezoek.
@@ -51,6 +54,9 @@ self.addEventListener('fetch', (event) => {
     event.respondWith((async () => {
       const cache = await caches.open(CACHE_VERSION);
       const network = fetch(req).then((fresh) => {
+        // 5xx = host-storing (GitHub Pages "unicorns"): behandel als offline,
+        // zodat de gecachete pagina of offline.html getoond wordt i.p.v. de foutpagina.
+        if (fresh && fresh.status >= 500) throw new Error('server ' + fresh.status);
         if (fresh && fresh.ok) cache.put(req, fresh.clone());   // copy for offline/slow revisits
         return fresh;
       });
@@ -63,7 +69,8 @@ self.addEventListener('fetch', (event) => {
         event.waitUntil(network.catch(() => {}));                // keep refreshing the cache
         return cached;
       } catch (_e) {
-        return cached || (await cache.match(OFFLINE_FALLBACK)) || Response.error();
+        return cached || (await cache.match(OFFLINE_PAGE)) ||
+               (await cache.match(OFFLINE_FALLBACK)) || Response.error();
       }
     })());
     return;

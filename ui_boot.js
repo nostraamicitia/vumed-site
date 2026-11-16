@@ -20,6 +20,9 @@
  *                Supabase/netwerk-fouten naar nette Nederlandse zinnen.
  *  7. Husselen — meerkeuze-, dropdown- en sleepopties in willekeurige
  *                volgorde bij elke paginalaad (goede antwoord stond vaak boven).
+ *  8. Laadbalk — bij trage verbinding: tik je op een interne link en laat de
+ *                volgende pagina > 350 ms op zich wachten, dan loopt er een
+ *                blauw balkje bovenin zodat je ziet dat er iets gebeurt.
  */
 (function () {
   'use strict';
@@ -303,4 +306,47 @@
   };
   function shuffleOnLoad() { window.vumedShuffleAnswers(d); }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', shuffleOnLoad); else shuffleOnLoad();
+})();
+
+/* ── 8. Laadbalk bij trage navigatie ─────────────────────────────────────── */
+(function () {
+  'use strict';
+  var d = document, timer = null, bar = null;
+  function ensureBar() {
+    if (bar) return bar;
+    var st = d.createElement('style');
+    st.textContent =
+      '#vm-navbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:2147483600;pointer-events:none;' +
+      'background:linear-gradient(90deg,#1CB0F6,#2BBDFF);box-shadow:0 0 8px rgba(28,176,246,.7);' +
+      'transition:width 8s cubic-bezier(.1,.7,.2,1),opacity .2s;opacity:0;padding-top:env(safe-area-inset-top);background-clip:content-box}' +
+      '#vm-navbar.on{opacity:1;width:92%}';
+    (d.head || d.documentElement).appendChild(st);
+    bar = d.createElement('div'); bar.id = 'vm-navbar';
+    d.documentElement.appendChild(bar);
+    return bar;
+  }
+  function start() {
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      var b = ensureBar();
+      b.classList.remove('on'); void b.offsetWidth; b.classList.add('on');
+      timer = setTimeout(stop, 20000);   // vangnet als er toch niet genavigeerd wordt
+    }, 350);
+  }
+  function stop() { clearTimeout(timer); if (bar) bar.classList.remove('on'); }
+  d.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+    if (!a || (a.target && a.target !== '_self') || a.hasAttribute('download')) return;
+    var href = a.getAttribute('href') || '';
+    if (!href || href.charAt(0) === '#' || /^(javascript|mailto|tel):/i.test(href)) return;
+    var u; try { u = new URL(a.href, location.href); } catch (_) { return; }
+    if (u.origin !== location.origin) return;
+    if (u.pathname === location.pathname && u.search === location.search && u.hash) return;
+    // pas starten nadat andere click-handlers konden ingrijpen (preventDefault)
+    setTimeout(function () { if (!e.defaultPrevented) start(); }, 0);
+  }, false);
+  // terug via bfcache / navigatie geannuleerd → balk weg
+  window.addEventListener('pageshow', stop);
+  window.addEventListener('pagehide', function () { clearTimeout(timer); });
 })();

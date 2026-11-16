@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Even geen verbinding – VUmed</title>
+<!-- Getoond door sw.js als het netwerk faalt of de server een 5xx geeft
+     (bv. GitHub-storing) en er geen gecachete kopie van de pagina is.
+     Volledig zelfstandig: geen externe fonts/scripts, want die laden dan ook niet. -->
+<script>
+  try {
+    var t = localStorage.getItem('vumed_theme');
+    var dark = t === 'dark' || (t !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  } catch (e) {}
+</script>
+<style>
+  :root { --bg:#F5F7FA; --card:#fff; --ink:#1C1C1E; --muted:#6E6E73; --line:#E5E5EA; --blue:#1CB0F6; --blue-d:#0E85B5; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#000; --card:#1C1C1E; --ink:#F2F2F7; --muted:#98989D; --line:#2C2C2E; } }
+  :root[data-theme="dark"] { --bg:#000; --card:#1C1C1E; --ink:#F2F2F7; --muted:#98989D; --line:#2C2C2E; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Nunito', -apple-system, system-ui, Arial, sans-serif;
+         display: flex; align-items: center; justify-content: center; min-height: 100vh; min-height: 100dvh;
+         padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .card { width: 100%; max-width: 440px; background: var(--card); border: 1.5px solid var(--line);
+          border-radius: 24px; padding: 32px 24px 26px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+  .monitor { background: linear-gradient(135deg, var(--blue), var(--blue-d)); border-radius: 18px; padding: 18px 0 12px;
+             overflow: hidden; margin-bottom: 24px; }
+  .monitor svg { width: 200%; height: 70px; display: block; animation: scroll 2.4s linear infinite; }
+  .trace { fill: none; stroke: #fff; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+  .readout { color: rgba(255,255,255,.9); font-size: 12px; font-weight: 800; letter-spacing: .6px; margin-top: 6px; }
+  h2 { font-size: 21px; margin: 0 0 8px; font-weight: 900; }
+  p { margin: 0 0 22px; color: var(--muted); font-weight: 600; font-size: 15px; line-height: 1.5; }
+  .btn { display: block; width: 100%; padding: 14px 20px; border-radius: 14px; font-family: inherit; font-weight: 800;
+         font-size: 15px; text-decoration: none; cursor: pointer; border: none; }
+  .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 0 var(--blue-d); }
+  .btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--blue-d); }
+  .hint { margin: 14px 0 0; font-size: 13px; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .monitor svg { animation: none; } }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="monitor" aria-hidden="true">
+      <svg viewBox="0 0 600 70" preserveAspectRatio="none">
+        <path class="trace" d="M0 40 H40 L48 33 L56 40 H70 L78 8 L88 62 L96 40 H114 L124 31 L136 40 H300
+                                M300 40 H340 L348 33 L356 40 H370 L378 8 L388 62 L396 40 H414 L424 31 L436 40 H600"/>
+      </svg>
+      <div class="readout" id="status">VERBINDING ZOEKEN…</div>
+    </div>
+    <h2>Even geen verbinding</h2>
+    <p>VUmed is nu niet bereikbaar. Dat ligt aan je internet of aan een korte storing bij onze hosting. We proberen het automatisch opnieuw.</p>
+    <button class="btn btn-primary" type="button" id="retry">Opnieuw proberen</button>
+    <p class="hint" id="hint">Volgende poging over <span id="sec">10</span> s</p>
+  </main>
+  <script>
+    (function () {
+      var wait = 10, left = wait, secEl = document.getElementById('sec');
+      function go() { document.getElementById('status').textContent = 'OPNIEUW VERBINDEN…'; location.reload(); }
+      document.getElementById('retry').addEventListener('click', go);
+      window.addEventListener('online', go);
+      setInterval(function () {
+        if (!navigator.onLine) { document.getElementById('hint').textContent = 'Je apparaat is offline — we wachten op internet.'; return; }
+        left -= 1;
+        if (left <= 0) { go(); left = wait = Math.min(wait * 2, 60); }
+        if (secEl) secEl.textContent = left;
+      }, 1000);
+    })();
+  </script>
+</body>
+</html>
