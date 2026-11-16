@@ -46,7 +46,7 @@
   // the chest roll, see gift_modal.js HEART_CHANCE). Still exported so a
   // cache-skewed page reading VS().GIFT_HEARTS doesn't render "undefined".
   var GIFT_HEARTS = 3;
-  var REFILL_COST = 350;             // gems to refill hearts to full
+  var REFILL_COST = 250;             // gems to refill hearts to full
   var LS = {
     gems: 'vumed_gems', coins: 'vumed_coins', xp: 'vumed_xp',
     hearts: 'vumed_hearts', heartsDay: 'vumed_hearts_day',

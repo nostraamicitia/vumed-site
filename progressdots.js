@@ -37,6 +37,25 @@
     } catch (e) {}
   })();
 
+  /* Instellingen → 'Geluidseffecten' uit (vumed_sound = 'off'). De toggle
+     bestond al, maar geen toetspagina las hem: alle geluiden (goed/fout, tadaa,
+     chat) gaan via new Audio().play(). Eén haak op play() dekt ze allemaal en
+     leest de instelling live, dus omzetten werkt zonder herladen. */
+  (function muteWhenSoundOff() {
+    try {
+      var P = window.HTMLMediaElement && HTMLMediaElement.prototype;
+      if (!P || P._vumedMute) return;
+      var orig = P.play;
+      P.play = function () {
+        var off = false;
+        try { off = this instanceof HTMLAudioElement && localStorage.getItem('vumed_sound') === 'off'; } catch (e) {}
+        if (off) return Promise.resolve();
+        return orig.apply(this, arguments);
+      };
+      P._vumedMute = true;
+    } catch (e) {}
+  })();
+
   /* Load the shared persistent stats bar (hearts/streak/coins/gems/XP) on every
      exam page. It self-mounts; the currency hooks below drive it. */
   (function loadStatsBar() {
@@ -44,7 +63,7 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=27'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=28'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();

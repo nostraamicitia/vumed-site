@@ -31,7 +31,8 @@
     vumed_theme: 1, vumed_sound: 1, vumed_sidebar_hidden: 1, vumed_splash: 1,
     vumed_skip_splash: 1, vumed_scroll: 1, vumed_return: 1,
     vumed_native_opened: 1, vumed_push_token: 1, vumed_admin_view: 1,
-    vumed_tut_off: 1           // "rondleiding uit" is een toestelkeuze, niet per account
+    vumed_tut_off: 1,          // "rondleiding uit" is een toestelkeuze, niet per account
+    vumed_optstars: 1, vumed_hide_hearts: 1, vumed_hide_bar: 1   // weergave-instellingen
   };
   function scopeWipe() {
     try {
@@ -399,7 +400,7 @@
     try {
       if (!window.VUMED_STATS_OFF && !window.VumedStats && !document.querySelector('script[data-vumed-stats]')) {
         var ss = document.createElement('script');
-        ss.src = 'vumed_stats.js?v=27'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
+        ss.src = 'vumed_stats.js?v=28'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
         (document.head || document.documentElement).appendChild(ss);
       }
     } catch (e) {}

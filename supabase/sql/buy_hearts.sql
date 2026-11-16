@@ -20,9 +20,9 @@ begin
   if v_uid is null then
     return json_build_object('ok', false, 'reason', 'login');
   end if;
-  if p_offer = 'h1' then v_cost := 50;  v_gain := 1;
-  elsif p_offer = 'h5' then v_cost := 200; v_gain := 5;
-  elsif p_offer = 'hf' then v_cost := 350; v_gain := 20;
+  if p_offer = 'h1' then v_cost := 30;  v_gain := 1;
+  elsif p_offer = 'h5' then v_cost := 125; v_gain := 5;
+  elsif p_offer = 'hf' then v_cost := 250; v_gain := 20;
   else return json_build_object('ok', false, 'reason', 'offer');
   end if;
 

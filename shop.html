@@ -13,9 +13,9 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=14"></script>
-  <script src="navbar.js?v=53" data-active="shop"></script>
+  <script src="navbar.js?v=54" data-active="shop"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="vumed_stats.js?v=27" data-vumed-stats="1"></script>
+  <script src="vumed_stats.js?v=28" data-vumed-stats="1"></script>
   <script src="avatar_render.js?v=28"></script>
   <script src="gift_modal.js?v=29"></script>
   <style>
@@ -469,9 +469,10 @@ var NORMLAMP = function (s) {
 
 /* ── Shop items: hearts bought with coins (engine = vumed_stats.js) ── */
 var OFFERS = [
-  { id: 'h1', name: '1 hartje',  gain: 1,  cost: 50,  art: HEART(46),   desc: 'Eén extra kans vandaag.' },
-  { id: 'h5', name: '5 hartjes', gain: 5,  cost: 200, art: MULTIHEART,  desc: 'Vijf hartjes erbij — voordeliger per stuk.' },
-  { id: 'hf', name: 'Volle hartjes', gain: 20, cost: 350, art: FULLHEARTS, desc: 'Vul je hartjes in één keer aan tot 20.' }
+  // Prijzen = spiegel van buy_hearts (supabase/sql/buy_hearts.sql) — server is leidend.
+  { id: 'h1', name: '1 hartje',  gain: 1,  cost: 30,  art: HEART(46),   desc: 'Eén extra kans vandaag.' },
+  { id: 'h5', name: '5 hartjes', gain: 5,  cost: 125, art: MULTIHEART,  desc: 'Vijf hartjes erbij — voordeliger per stuk.' },
+  { id: 'hf', name: 'Volle hartjes', gain: 20, cost: 250, art: FULLHEARTS, desc: 'Vul je hartjes in één keer aan tot 20.' }
 ];
 
 /* ── Streakbescherming: met gems gekocht, 's nachts automatisch verzilverd
