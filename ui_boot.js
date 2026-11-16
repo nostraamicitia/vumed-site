@@ -23,6 +23,10 @@
  *  8. Laadbalk — bij trage verbinding: tik je op een interne link en laat de
  *                volgende pagina > 350 ms op zich wachten, dan loopt er een
  *                blauw balkje bovenin zodat je ziet dat er iets gebeurt.
+ *  9. Bron     — ?src=wa-jaar1 (of utm_source) in de link wordt onthouden
+ *                (eerste bron wint, 30 dagen) en na inloggen één keer naar
+ *                Supabase gestuurd (rpc set_signup_source → signup_sources).
+ *                Alleen accounts van < 3 dagen oud worden toegeschreven.
  */
 (function () {
   'use strict';
@@ -349,4 +353,58 @@
   // terug via bfcache / navigatie geannuleerd → balk weg
   window.addEventListener('pageshow', stop);
   window.addEventListener('pagehide', function () { clearTimeout(timer); });
+})();
+
+/* 9. Bron van aanmelding (campagnemeting) ─────────────────────────────── */
+(function () {
+  'use strict';
+  var KEY = 'vumed_src', MAX_AGE = 30 * 864e5, RE = /^[a-z0-9_-]{1,40}$/;
+  function get() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) { return null; } }
+  function put(v) { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (_) {} }
+
+  // a) vastleggen: eerste bron wint; link daarna opschonen
+  try {
+    var u = new URL(location.href);
+    var s = (u.searchParams.get('src') || u.searchParams.get('utm_source') || '').trim().toLowerCase();
+    if (s && RE.test(s)) {
+      var cur = get();
+      if (!cur || (!cur.done && (Date.now() - cur.t) > MAX_AGE)) put({ s: s, t: Date.now() });
+    }
+    if (u.searchParams.has('src') || u.searchParams.has('utm_source')) {
+      u.searchParams.delete('src'); u.searchParams.delete('utm_source');
+      history.replaceState(history.state, '', u.pathname + u.search + u.hash);
+    }
+  } catch (_) {}
+
+  // b) versturen zodra er een geldige sessie is (polling, want inloggen gebeurt vaak zonder herlaad)
+  function token() {
+    try {
+      var url = window.SUPABASE_URL || '';
+      var ref = (url.match(/^https:\/\/([a-z0-9]+)\.supabase\.co/) || [])[1];
+      if (!ref) return null;
+      var a = JSON.parse(localStorage.getItem('sb-' + ref + '-auth-token') || 'null');
+      if (a && a.access_token && a.expires_at && a.expires_at * 1000 > Date.now() + 10000) return a.access_token;
+    } catch (_) {}
+    return null;
+  }
+  var busy = false, tries = 0, iv = null;
+  function trySend() {
+    var cur = get();
+    if (!cur || cur.done || (Date.now() - cur.t) > MAX_AGE) { if (iv) clearInterval(iv); return; }
+    if (++tries > 120 && iv) { clearInterval(iv); return; }   // max ~10 min per pagina
+    var tk = token();
+    if (!tk || busy || !window.SUPABASE_ANON_KEY) return;
+    busy = true;
+    fetch(window.SUPABASE_URL + '/rest/v1/rpc/set_signup_source', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: window.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + tk },
+      body: JSON.stringify({ p_src: cur.s, p_seen_at: new Date(cur.t).toISOString() })
+    }).then(function (r) {
+      if (r.ok) { cur.done = true; put(cur); if (iv) clearInterval(iv); }
+    }).catch(function () {}).then(function () { busy = false; });
+  }
+  var cur0 = get();
+  if (cur0 && !cur0.done) {
+    window.addEventListener('load', function () { setTimeout(trySend, 1500); iv = setInterval(trySend, 5000); });
+  }
 })();
