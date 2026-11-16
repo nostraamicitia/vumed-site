@@ -25,55 +25,101 @@
          display: flex; align-items: center; justify-content: center; min-height: 100vh; min-height: 100dvh;
          padding: 24px 16px calc(24px + env(safe-area-inset-bottom)); }
   .card { width: 100%; max-width: 440px; text-align: center; }
-  /* ECG los op de pagina: doorlopende blauwe lijn die aan de randen wegvloeit */
-  .monitor { overflow: hidden; margin: 0 -8px 28px;
-             -webkit-mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
-             mask: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent); }
-  .monitor svg { width: 200%; height: 70px; display: block; animation: scroll 2.4s linear infinite; }
-  .trace { fill: none; stroke: var(--blue); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
-  .readout { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 14px; padding: 6px 12px;
-             border-radius: 999px; background: rgba(28,176,246,.1); color: var(--blue);
-             font-size: 12px; font-weight: 900; letter-spacing: .8px; }
-  .readout::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
-                     animation: pulse 1.2s ease-in-out infinite; }
-  @keyframes pulse { 50% { opacity: .25; } }
+  /* ECG als echte monitor-sweep: een cursor tekent de nieuwe meting over de
+     oude heen; vlak vóór de cursor wordt een stukje van de oude lijn gewist. */
+  .monitor { margin: 0 0 28px; }
+  .monitor svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .trace { fill: none; stroke: var(--blue); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .trace.old { opacity: .55; }
+  .cursor { fill: var(--blue); filter: drop-shadow(0 0 4px rgba(28,176,246,.9)); }
   h2 { font-size: 21px; margin: 0 0 8px; font-weight: 900; }
   p { margin: 0 0 22px; color: var(--muted); font-weight: 600; font-size: 15px; line-height: 1.5; }
   .btn { display: block; width: 100%; padding: 14px 20px; border-radius: 14px; font-family: inherit; font-weight: 800;
          font-size: 15px; text-decoration: none; cursor: pointer; border: none; }
   .btn-primary { background: var(--blue); color: #fff; box-shadow: 0 4px 0 var(--blue-d); }
   .btn-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--blue-d); }
-  .hint { margin: 14px 0 0; font-size: 13px; }
-  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .monitor svg { animation: none; } }
 </style>
 </head>
 <body>
   <main class="card">
     <div class="monitor" aria-hidden="true">
-      <svg viewBox="0 0 600 70" preserveAspectRatio="none">
-        <path class="trace" d="M0 40 H40 L48 33 L56 40 H70 L78 8 L88 62 L96 40 H114 L124 31 L136 40 H300
-                                M300 40 H340 L348 33 L356 40 H370 L378 8 L388 62 L396 40 H414 L424 31 L436 40 H600"/>
+      <svg viewBox="0 0 300 70">
+        <defs>
+          <clipPath id="clipNew"><rect id="rNew" x="0" y="-10" width="0" height="90"/></clipPath>
+          <clipPath id="clipOld"><rect id="rOld" x="300" y="-10" width="300" height="90"/></clipPath>
+        </defs>
+        <path id="old" class="trace old" clip-path="url(#clipOld)" d=""/>
+        <path id="new" class="trace" clip-path="url(#clipNew)" d=""/>
+        <circle id="cur" class="cursor" r="3" cx="0" cy="40"/>
       </svg>
     </div>
-    <div class="readout" id="status">VERBINDING ZOEKEN…</div>
     <h2>Even geen verbinding</h2>
     <p>VUmed is nu niet bereikbaar. Dat ligt aan je internet of aan een korte storing bij onze hosting. We proberen het automatisch opnieuw.</p>
     <button class="btn btn-primary" type="button" id="retry">Opnieuw proberen</button>
-    <p class="hint" id="hint">Volgende poging over <span id="sec">10</span> s</p>
   </main>
   <script>
+    // Automatisch opnieuw proberen (stil, met oplopende wachttijd).
     (function () {
-      var wait = 10, left = wait, secEl = document.getElementById('sec');
-      function go() { document.getElementById('status').textContent = 'OPNIEUW VERBINDEN…'; location.reload(); }
+      var wait = 10, left = wait;
+      function go() { location.reload(); }
       document.getElementById('retry').addEventListener('click', go);
       window.addEventListener('online', go);
       setInterval(function () {
-        if (!navigator.onLine) { document.getElementById('hint').textContent = 'Je apparaat is offline — we wachten op internet.'; return; }
-        left -= 1;
-        if (left <= 0) { go(); left = wait = Math.min(wait * 2, 60); }
-        if (secEl) secEl.textContent = left;
+        if (!navigator.onLine) return;
+        if (--left <= 0) { wait = Math.min(wait * 2, 60); left = wait; go(); }
       }, 1000);
+    })();
+
+    // ECG-sweep zoals op een echte monitor.
+    (function () {
+      var W = 300, BASE = 40, GAP = 12, SWEEP_MS = 3200;
+      var pNew = document.getElementById('new'), pOld = document.getElementById('old');
+      var rNew = document.getElementById('rNew'), rOld = document.getElementById('rOld');
+      var cur = document.getElementById('cur');
+      function r(a, b) { return a + Math.random() * (b - a); }
+      // Eén complex: P-top, QRS, T-top — met kleine variatie per slag.
+      function beat(x) {
+        var q = r(0, 2), rr = r(6, 10), s = r(58, 63), t = r(28, 32);
+        return ' L' + x + ' ' + BASE +
+          ' Q' + (x + 5) + ' ' + (BASE - 7) + ' ' + (x + 10) + ' ' + BASE +
+          ' L' + (x + 16) + ' ' + BASE + ' L' + (x + 19) + ' ' + (BASE + 3 + q) +
+          ' L' + (x + 24) + ' ' + rr + ' L' + (x + 30) + ' ' + s + ' L' + (x + 34) + ' ' + BASE +
+          ' L' + (x + 45) + ' ' + BASE + ' Q' + (x + 54) + ' ' + t + ' ' + (x + 63) + ' ' + BASE;
+      }
+      function trace() {
+        var d = 'M0 ' + BASE, x = r(8, 40);
+        while (x + 64 < W) { d += beat(x); x += 64 + r(26, 40); }
+        return d + ' L' + W + ' ' + BASE;
+      }
+      // y per x opzoeken voor de cursor
+      var ys = [];
+      function sample() {
+        ys = []; var L = pNew.getTotalLength(), i, pt;
+        for (i = 0; i <= L; i += 0.5) { pt = pNew.getPointAtLength(i); ys[Math.round(pt.x)] = pt.y; }
+        for (i = 0; i <= W; i++) if (ys[i] == null) ys[i] = i ? ys[i - 1] : BASE;
+      }
+      function set(x) {
+        rNew.setAttribute('width', x);
+        rOld.setAttribute('x', x + GAP);
+        cur.setAttribute('cx', x); cur.setAttribute('cy', ys[Math.min(W, Math.round(x))]);
+      }
+      pNew.setAttribute('d', trace()); sample();
+      if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        set(W); cur.style.display = 'none'; return;
+      }
+      var t0 = null;
+      function frame(t) {
+        if (t0 === null) t0 = t;
+        var x = (t - t0) / SWEEP_MS * W;
+        if (x >= W) {                       // nieuwe sweep: huidige meting wordt de "oude"
+          pOld.setAttribute('d', pNew.getAttribute('d'));
+          pNew.setAttribute('d', trace()); sample();
+          t0 = t; x = 0;
+        }
+        set(x);
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
     })();
   </script>
 </body>
