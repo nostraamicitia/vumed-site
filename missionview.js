@@ -275,6 +275,7 @@
     cur = idx;
     if (idx > maxReached) maxReached = idx;   // legitimate progression extends the frontier
     var next = blocks[idx];
+    if (isOpenBlock(idx) && attempted(idx)) ensureNextBtn(idx);
     if (prev && !instant) {
       prev.classList.add('mv-leave');
       fadeTimer = setTimeout(function () {
@@ -354,7 +355,7 @@
     // Open (essay) questions reveal a model answer to read; only auto-move when
     // answering one completes the whole lesson. Otherwise the student advances
     // them manually (arrows / dots).
-    if (isOpen && !done) return;
+    if (isOpen && !done) { ensureNextBtn(idx); return; }
     userTouched = true;
     var target = done ? -1 : nextToPresent(idx);
     var delay = done ? (isOpen ? 2600 : 1400) : (ok ? ADVANCE_DELAY : WRONG_DELAY);
@@ -364,6 +365,35 @@
       else if (target === idx) show(idx, false, true);   // re-ask the same (last wrong) question
       else show(target);
     }, delay);
+  }
+
+  /* Open questions don't auto-advance (the student reads the model answer
+     first), so they need an explicit way forward. Without this button the
+     student was stuck: the dots/arrows can't go past the furthest question
+     reached, and that frontier IS the open question (bug report 2026-11-18,
+     spijsvertering, "Anemie na totale maagresectie"). */
+  function goOnFrom(idx) {
+    userTouched = true;
+    var target = nextToPresent(idx);
+    if (target === -1) finishLesson();
+    else if (target === idx) show(idx, false, true);
+    else show(target);
+  }
+  function ensureNextBtn(idx) {
+    var block = blocks[idx];
+    if (!block || block.querySelector('.mv-next-btn')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'q-btn-row';
+    wrap.style.marginTop = '16px';
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'check-btn mv-next-btn';
+    b.textContent = 'Volgende vraag \u2192';
+    b.addEventListener('click', function () { goOnFrom(idx); });
+    wrap.appendChild(b);
+    var res = document.getElementById('result-' + qnums[idx]);
+    if (res && res.parentNode === block) block.insertBefore(wrap, res.nextSibling);
+    else block.appendChild(wrap);
   }
 
   var _origResolve = window.resolveCheckBtn;
