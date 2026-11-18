@@ -28,6 +28,7 @@ const variants = {
   streak_saver: T.streakSaverEmail(base, ctx, FN, SB),
   weekrecap: T.weekrecapEmail(base, ctx, FN),
   badge: T.badgeEmail(base, ctx, FN),
+  custom: T.customEmail(base, FN, "Nieuw op VUmed", "Nieuw: hartjes terugverdienen", "Elke 5 vragen goed op rij levert je een hartje op.\n\nProbeer het meteen uit bij je volgende oefensessie.", "Probeer het", "https://vumed.nl/dashboard.html"),
 };
 for (const [k, m] of Object.entries(variants)) {
   writeFileSync(`${out}/${k}.html`, m.html);
