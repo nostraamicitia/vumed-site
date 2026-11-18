@@ -15,7 +15,7 @@
 
 import {
   type BlockCtx, type Candidate, type Mail, SITE,
-  badgeEmail, blockContext, customEmail, nlToday, streakSaverEmail, weekrecapEmail, welcomeEmail, winbackEmail,
+  badgeEmail, blockContext, customEmail, INLINE_IMAGES, nlToday, previewHtml, streakSaverEmail, weekrecapEmail, welcomeEmail, winbackEmail,
 } from "./templates.ts";
 
 const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
@@ -186,6 +186,7 @@ async function sendResend(to: string, subject: string, html: string, unsubUrl: s
     reply_to: REPLY_TO,
     subject,
     html,
+    attachments: INLINE_IMAGES, // mascotte als CID-bijlage: laadt ook in iCloud zonder externe download
     headers: {
       "List-Unsubscribe": `<${unsubUrl}>`,
       "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
@@ -328,7 +329,7 @@ Deno.serve(async (req) => {
 
   if (body.preview === true) {
     const p = render(PREVIEW_SAMPLE, await ctxFor(PREVIEW_SAMPLE));
-    return json({ preview: true, subject: p.subject, html: p.html });
+    return json({ preview: true, subject: p.subject, html: previewHtml(p.html) });
   }
 
   if (live && !RESEND_KEY) return json({ error: "RESEND_API_KEY secret ontbreekt" }, 503);

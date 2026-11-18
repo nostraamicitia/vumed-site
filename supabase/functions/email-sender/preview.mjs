@@ -31,7 +31,7 @@ const variants = {
   custom: T.customEmail(base, FN, "Nieuw op VUmed", "Nieuw: hartjes terugverdienen", "Elke 5 vragen goed op rij levert je een hartje op.\n\nProbeer het meteen uit bij je volgende oefensessie.", "Probeer het", "https://vumed.nl/dashboard.html"),
 };
 for (const [k, m] of Object.entries(variants)) {
-  writeFileSync(`${out}/${k}.html`, m.html);
+  writeFileSync(`${out}/${k}.html`, T.previewHtml(m.html));
   console.log(k.padEnd(20), "|", m.subject);
 }
 console.log("blok:", JSON.stringify(ctx));
