@@ -10,18 +10,14 @@
 //
 // Types: streak_saver / winback / weekrecap / welcome / badge (crons) en custom
 //        (broadcast; {slug, subject, title, message, cta_label?, cta_url?}, dedupe 'custom:<slug>').
-// Templates staan in templates.ts (lokaal te previewen met preview.mjs).
-// Welkom/winback gebruiken het huidige blok van de student (study_year + blockcalendar.json).
-
-import {
-  type BlockCtx, type Candidate, type Mail, SITE,
-  badgeEmail, blockContext, customEmail, INLINE_IMAGES, nlToday, previewHtml, streakSaverEmail, weekrecapEmail, welcomeEmail, winbackEmail,
-} from "./templates.ts";
+// CORS: aan voor de site-origins zodat admin.html dit vanuit de browser kan aanroepen.
+// Streak-mail bevat een LIVE aftel-GIF (edge function `countdown`, telt af tot middernacht NL).
 
 const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
 const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 
+const SITE = "https://vumed.nl";
 const FROM = "VUmed <hallo@mail.vumed.nl>";
 const REPLY_TO = "tijekorteweg@icloud.com";
 const FN_URL = `${SUPABASE_URL}/functions/v1/email-sender`;
@@ -42,6 +38,19 @@ function corsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
+type Candidate = {
+  user_id: string;
+  email: string;
+  display_name: string;
+  login_streak: number;
+  streak_freezes: number;
+  unsub_token: string;
+  xp_week: number | null;
+  lb_rank: number | null;
+  badge_key: string | null;
+  badge_tier: number | null;
+};
+
 const PREVIEW_SAMPLE: Candidate = {
   user_id: "preview",
   email: "student@vumed.nl",
@@ -53,9 +62,11 @@ const PREVIEW_SAMPLE: Candidate = {
   lb_rank: 3,
   badge_key: "anatoom",
   badge_tier: 2,
-  study_year: 1,
 };
 
+function esc(s: string): string {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 function maskEmail(e: string): string {
   const [a, b] = e.split("@");
   return (a || "").slice(0, 1) + "***@" + (b || "");
@@ -121,56 +132,196 @@ async function getCandidates(type: string): Promise<Candidate[]> {
   return await r.json();
 }
 
-// ---------- blokcontext (studiejaar → huidig vak) ----------
+// ---------- badge-namen (sync met profile.html BADGES; flatline krijgt geen mail) ----------
 
-type CalData = { cal: Parameters<typeof blockContext>[0]; idx: Parameters<typeof blockContext>[1] };
-let calCache: Promise<CalData | null> | null = null;
-function loadCal(): Promise<CalData | null> {
-  if (!calCache) {
-    calCache = (async () => {
-      try {
-        const [c, i] = await Promise.all([
-          fetch(`${SITE}/blockcalendar.json`).then((r) => r.json()),
-          fetch(`${SITE}/subject_index.json`).then((r) => r.json()),
-        ]);
-        return { cal: c, idx: i };
-      } catch {
-        return null; // mails werken ook zonder blokinfo (generieke variant)
-      }
-    })();
+const BADGE_META: Record<string, { name: string; unit: string; tiers: number[]; ranks?: string[] }> = {
+  carriere: { name: "Carrière", unit: "XP", tiers: [0, 25000, 50000, 75000, 100000, 125000],
+              ranks: ["Student", "Co-assistent", "Basisarts", "AIOS", "Specialist", "Hoogleraar"] },
+  histo:    { name: "Jack van Horssen", unit: "correct", tiers: [10, 20, 40, 80, 160] },
+  anatoom:  { name: "Anatoom", unit: "correct", tiers: [10, 25, 50, 100, 200] },
+  neuro:    { name: "Neuroloog", unit: "correct", tiers: [10, 25, 50, 100, 200] },
+  farma:    { name: "Farmacoloog", unit: "correct", tiers: [10, 25, 50, 100, 200] },
+  micro:    { name: "Microjager", unit: "correct", tiers: [10, 25, 50, 100] },
+  jurist:   { name: "Witte Toga", unit: "correct", tiers: [10, 25, 50, 100] },
+  opic:     { name: "Op de IC", unit: "op een rij", tiers: [10, 20, 30, 40, 50] },
+  scherp:   { name: "Scherpschutter", unit: "correct", tiers: [25, 100, 500, 2000] },
+  wittejas: { name: "Witte Jas", unit: "vragen", tiers: [50, 250, 1000, 5000] },
+  streak:   { name: "Trouwe Student", unit: "dagen", tiers: [3, 7, 30, 100] },
+  podium:   { name: "Podiumbeest", unit: "finishes", tiers: [1, 5, 10, 25] },
+  nacht:    { name: "Nachtdienst", unit: "nachtvragen", tiers: [10, 20, 30, 40, 50] },
+};
+
+// ---------- templates ----------
+
+const FONT = "'Nunito','Trebuchet MS',Arial,sans-serif";
+
+function shell(inner: string, preheader: string, unsubUrl: string): string {
+  return `<html><body style="margin:0;padding:0;background:#EDF4FA;">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">${esc(preheader)}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EDF4FA;"><tr><td align="center" style="padding:32px 12px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;">
+  <tr><td align="center" style="padding:0 0 18px;">
+    <span style="font:800 26px ${FONT};color:#1CB0F6;letter-spacing:.5px;">VUmed</span>
+  </td></tr>
+  <tr><td align="center" style="background:#ffffff;border-radius:20px;padding:36px 32px;">${inner}</td></tr>
+  <tr><td align="center" style="padding:20px 24px 0;">
+    <div style="font:400 12px ${FONT};color:#8FA8BC;line-height:1.6;">
+      Je ontvangt deze mail omdat je een VUmed-account hebt.<br>
+      <a href="${unsubUrl}" style="color:#8FA8BC;text-decoration:underline;">Afmelden voor dit soort mails</a>
+      &nbsp;·&nbsp; <a href="${SITE}" style="color:#8FA8BC;text-decoration:underline;">vumed.nl</a>
+    </div>
+  </td></tr>
+</table></td></tr></table></body></html>`;
+}
+
+function btn(label: string, href: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px auto 4px;"><tr>
+    <td style="background:#1CB0F6;border-radius:14px;box-shadow:0 3px 0 #0E9DE0;">
+      <a href="${href}" style="display:inline-block;padding:14px 34px;font:800 16px ${FONT};color:#ffffff;text-decoration:none;letter-spacing:.3px;">${esc(label)}</a>
+    </td></tr></table>`;
+}
+
+function unsubOf(c: Candidate): string {
+  return `${FN_URL}?unsub=${c.unsub_token}`;
+}
+
+function streakSaverEmail(c: Candidate): { subject: string; html: string } {
+  const n = c.login_streak;
+  const dag = n === 1 ? "dag" : "dagen";
+  const freezeNote = c.streak_freezes > 0
+    ? `<div style="font:400 13px ${FONT};color:#4FC3FF;margin-top:12px;">Je hebt nog ${c.streak_freezes} streak freeze${c.streak_freezes === 1 ? "" : "s"} als vangnet — maar zelf oefenen is leuker.</div>`
+    : "";
+  // live aftel-GIF: gegenereerd op openmoment; per-ontvanger+dag param tegen proxy-caching
+  const cdUrl = `${SUPABASE_URL}/functions/v1/countdown?r=${(c.unsub_token || "").slice(0, 8)}-${new Date().toISOString().slice(0, 10)}`;
+  const inner = `
+    <img src="${SITE}/images/email_flame.png" width="126" height="168" alt="Vlam" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 68px ${FONT};color:#FF7A00;line-height:1;margin-top:6px;">${n}</div>
+    <div style="font:800 20px ${FONT};color:#3C5A73;margin-top:2px;">${dag} op rij</div>
+    <div style="font:800 12px ${FONT};color:#8FA8BC;letter-spacing:1.2px;margin-top:20px;">ZOVEEL TIJD HEB JE NOG</div>
+    <img src="${cdUrl}" width="198" height="55" alt="Aftellend tot middernacht" style="display:block;margin:8px auto 0;border:0;">
+    <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:18px auto 0;max-width:420px;">
+      Hoi ${esc(c.display_name)}, je reeks van <b>${n} ${dag}</b> staat vanavond op het spel.
+      Eén korte oefensessie is genoeg om hem te redden.
+    </div>
+    ${freezeNote}
+    ${btn("Ga verder met oefenen", `${SITE}/dashboard.html`)}`;
+  return {
+    subject: `Je reeks van ${n} ${dag} staat op het spel \u{1F525}`,
+    html: shell(inner, `Nog even oefenen vandaag en je reeks van ${n} ${dag} blijft staan.`, unsubOf(c)),
+  };
+}
+
+function weekrecapEmail(c: Candidate): { subject: string; html: string } {
+  const xp = c.xp_week ?? 0;
+  const rank = c.lb_rank ?? 0;
+  const rankLine = rank === 1
+    ? `Je staat <b>bovenaan het klassement</b> — verdedig je plek deze week!`
+    : `Nog <b>${rank - 1} ${rank - 1 === 1 ? "plek" : "plekken"}</b> verwijderd van de eerste plaats. Nieuwe week, nieuwe kansen!`;
+  const tile = (bg: string, sh: string, big: string, label: string, lc: string) =>
+    `<td style="background:${bg};border-radius:16px;padding:16px 22px;text-align:center;box-shadow:0 3px 0 ${sh};">
+      <div style="font:800 30px ${FONT};color:#ffffff;">${big}</div>
+      <div style="font:800 12px ${FONT};color:${lc};letter-spacing:.6px;">${label}</div>
+    </td>`;
+  const inner = `
+    <img src="${SITE}/images/email_trophy.png" width="140" height="140" alt="Trofee" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 26px ${FONT};color:#1C3144;margin-top:10px;">Jouw week bij VUmed</div>
+    <div style="font:400 15px ${FONT};color:#5C7A92;margin-top:6px;">Goed bezig, ${esc(c.display_name)} — dit was je week:</div>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px auto 0;"><tr>
+      ${tile("#1CB0F6", "#0E9DE0", String(xp), "XP", "#D9F1FF")}
+      <td style="width:12px;"></td>
+      ${tile("#FFC800", "#E8A400", "#" + rank, "KLASSEMENT", "#FFF3CC")}
+      <td style="width:12px;"></td>
+      ${tile("#FF7A00", "#E05E00", String(c.login_streak), "DAGEN REEKS", "#FFE3CC")}
+    </tr></table>
+    <div style="font:400 15px ${FONT};color:#5C7A92;line-height:1.55;margin:20px auto 0;max-width:420px;">${rankLine}</div>
+    ${btn("Bekijk het klassement", `${SITE}/voortgang.html`)}`;
+  return {
+    subject: `Jouw week: ${xp} XP en plek ${rank} in het klassement \u{1F3C6}`,
+    html: shell(inner, `Je haalde deze week ${xp} XP en staat op plek ${rank}.`, unsubOf(c)),
+  };
+}
+
+function winbackEmail(c: Candidate): { subject: string; html: string } {
+  const inner = `
+    <img src="${SITE}/images/email_flame_sleep.png" width="150" height="150" alt="Slapende vlam" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 26px ${FONT};color:#1C3144;margin-top:10px;">We missen je, ${esc(c.display_name)}!</div>
+    <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:16px auto 0;max-width:420px;">
+      Het is alweer <b>een week</b> geleden dat je een vraag hebt geoefend.
+      Kennis zakt sneller weg dan je denkt — met één korte sessie zit je er weer helemaal in.
+    </div>
+    ${btn("Pak de draad weer op", `${SITE}/dashboard.html`)}`;
+  return {
+    subject: `We missen je bij VUmed \u{1F44B}`,
+    html: shell(inner, "Een week zonder oefenen — pak de draad weer op met een korte sessie.", unsubOf(c)),
+  };
+}
+
+function badgeEmail(c: Candidate): { subject: string; html: string } {
+  const meta = BADGE_META[c.badge_key || ""] || { name: c.badge_key || "Badge", unit: "", tiers: [] };
+  const tier = c.badge_tier ?? 0;
+  const t = meta.tiers[tier];
+  let line: string;
+  if (meta.ranks) {
+    line = `Je bent gepromoveerd tot <b>${esc(meta.ranks[tier] || "")}</b>. Deze badge staat vanaf nu op je profiel — je vrienden kunnen je feliciteren.`;
+  } else {
+    line = `Je hebt <b>${t} ${esc(meta.unit)}</b> gehaald — niveau ${tier + 1} van deze badge.
+      Hij staat vanaf nu op je profiel — je vrienden kunnen je feliciteren.`;
   }
-  return calCache;
+  const inner = `
+    <img src="${SITE}/images/email_badge.png" width="150" height="150" alt="Badge" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 14px ${FONT};color:#B57BF6;letter-spacing:1.5px;margin-top:12px;">NIEUWE PRESTATIE</div>
+    <div style="font:800 30px ${FONT};color:#1C3144;margin-top:4px;">${esc(meta.name)}</div>
+    <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:14px auto 0;max-width:420px;">
+      Gefeliciteerd ${esc(c.display_name)}! ${line}
+    </div>
+    ${btn("Bekijk je prestaties", `${SITE}/profile.html`)}`;
+  return {
+    subject: `Nieuwe prestatie: ${meta.name} \u{1F3C5}`,
+    html: shell(inner, `Je hebt de badge ${meta.name} verdiend.`, unsubOf(c)),
+  };
 }
 
-/** Vult study_year aan (de RPC levert die niet) — één query voor de hele batch. */
-async function attachStudyYear(cands: Candidate[]): Promise<void> {
-  if (!cands.length) return;
-  const ids = cands.map((c) => c.user_id).filter((id) => /^[0-9a-f-]{36}$/i.test(id));
-  if (!ids.length) return;
-  try {
-    const r = await rest(`user_profiles?select=user_id,study_year&user_id=in.(${ids.join(",")})`);
-    if (!r.ok) return;
-    const map = new Map<string, number | null>(
-      ((await r.json()) as { user_id: string; study_year: number | null }[]).map((x) => [x.user_id, x.study_year]),
-    );
-    for (const c of cands) c.study_year = map.get(c.user_id) ?? null;
-  } catch {
-    // zonder studiejaar → generieke variant
-  }
+function welcomeEmail(c: Candidate): { subject: string; html: string } {
+  const bullet = (color: string, text: string) =>
+    `<tr><td style="padding:7px 0;">
+      <span style="display:inline-block;width:10px;height:10px;border-radius:5px;background:${color};margin-right:12px;"></span>
+      <span style="font:600 15px ${FONT};color:#3C5A73;">${text}</span>
+    </td></tr>`;
+  const inner = `
+    <img src="${SITE}/images/email_welkom.png" width="140" height="140" alt="Hart" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 28px ${FONT};color:#1C3144;margin-top:10px;">Welkom bij VUmed!</div>
+    <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:14px auto 0;max-width:430px;">
+      Hoi ${esc(c.display_name)}, je account staat klaar. Dit kun je vanaf nu:
+    </div>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px auto 0;text-align:left;">
+      ${bullet("#1CB0F6", "Oefen met échte oude tentamens van jouw studiejaar")}
+      ${bullet("#FF7A00", "Bouw een dagelijkse reeks op en verdien beloningen")}
+      ${bullet("#F5A623", "Klim in het weekklassement en daag vrienden uit")}
+    </table>
+    ${btn("Begin met oefenen", `${SITE}/dashboard.html`)}`;
+  return {
+    subject: `Welkom bij VUmed \u{1F389}`,
+    html: shell(inner, "Je account staat klaar — begin met oefenen.", unsubOf(c)),
+  };
 }
 
-async function ctxFor(c: Candidate): Promise<BlockCtx> {
-  const d = await loadCal();
-  return d ? blockContext(d.cal, d.idx, c.study_year, nlToday()) : null;
+function customEmail(c: Candidate, subject: string, title: string, message: string, ctaLabel: string, ctaUrl: string): { subject: string; html: string } {
+  const paras = message.split(/\n\s*\n/).map((p) =>
+    `<div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:14px auto 0;max-width:440px;">${esc(p.trim()).replace(/\n/g, "<br>")}</div>`
+  ).join("");
+  const inner = `
+    <div style="font:800 26px ${FONT};color:#1C3144;">${esc(title)}</div>
+    ${paras}
+    ${ctaLabel && ctaUrl ? btn(ctaLabel, ctaUrl) : ""}`;
+  return { subject, html: shell(inner, message.slice(0, 120), unsubOf(c)) };
 }
 
-type Renderer = (c: Candidate, ctx: BlockCtx) => Mail;
-const TEMPLATES: Record<string, Renderer> = {
-  streak_saver: (c, ctx) => streakSaverEmail(c, ctx, FN_URL, SUPABASE_URL),
-  weekrecap: (c, ctx) => weekrecapEmail(c, ctx, FN_URL),
-  winback: (c, ctx) => winbackEmail(c, ctx, FN_URL),
-  badge: (c, ctx) => badgeEmail(c, ctx, FN_URL),
-  welcome: (c, ctx) => welcomeEmail(c, ctx, FN_URL),
+const TEMPLATES: Record<string, (c: Candidate) => { subject: string; html: string }> = {
+  streak_saver: streakSaverEmail,
+  weekrecap: weekrecapEmail,
+  winback: winbackEmail,
+  badge: badgeEmail,
+  welcome: welcomeEmail,
 };
 
 function logTypeOf(type: string, c: Candidate): string {
@@ -186,7 +337,6 @@ async function sendResend(to: string, subject: string, html: string, unsubUrl: s
     reply_to: REPLY_TO,
     subject,
     html,
-    attachments: INLINE_IMAGES, // mascotte als CID-bijlage: laadt ook in iCloud zonder externe download
     headers: {
       "List-Unsubscribe": `<${unsubUrl}>`,
       "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
@@ -221,17 +371,17 @@ async function logSend(rows: { user_id: string; email_type: string; dry_run: boo
 
 function unsubPage(ok: boolean): Response {
   const body = ok
-    ? `<h1 style="margin:0 0 10px;font-size:22px;color:#1C3144;">Je bent afgemeld</h1>
+    ? `<h1 style=\"margin:0 0 10px;font-size:22px;color:#1C3144;\">Je bent afgemeld</h1>
        <p>Je krijgt geen herinnerings- en overzichtsmails meer van VUmed.<br>
        Mails over je account zelf (zoals wachtwoord-reset) blijven gewoon werken.</p>`
-    : `<h1 style="margin:0 0 10px;font-size:22px;color:#1C3144;">Link niet geldig</h1>
+    : `<h1 style=\"margin:0 0 10px;font-size:22px;color:#1C3144;\">Link niet geldig</h1>
        <p>Deze afmeldlink is niet (meer) geldig. Mail gerust naar ${REPLY_TO} als je toch afgemeld wilt worden.</p>`;
-  const html = `<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VUmed</title></head>
-<body style="margin:0;background:#EDF4FA;font-family:'Nunito','Trebuchet MS',Arial,sans-serif;">
-<div style="max-width:460px;margin:80px auto;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;color:#5C7A92;font-size:15px;line-height:1.6;">
-<div style="font-weight:800;font-size:24px;color:#1CB0F6;margin-bottom:18px;">VUmed</div>
+  const html = `<!doctype html><html lang=\"nl\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>VUmed</title></head>
+<body style=\"margin:0;background:#EDF4FA;font-family:'Nunito','Trebuchet MS',Arial,sans-serif;\">
+<div style=\"max-width:460px;margin:80px auto;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;color:#5C7A92;font-size:15px;line-height:1.6;\">
+<div style=\"font-weight:800;font-size:24px;color:#1CB0F6;margin-bottom:18px;\">VUmed</div>
 ${body}
-<p style="margin-top:24px;"><a href="${SITE}" style="color:#1CB0F6;font-weight:800;text-decoration:none;">Terug naar VUmed</a></p>
+<p style=\"margin-top:24px;\"><a href=\"${SITE}\" style=\"color:#1CB0F6;font-weight:800;text-decoration:none;\">Terug naar VUmed</a></p>
 </div></body></html>`;
   return new Response(html, { status: ok ? 200 : 404, headers: { "Content-Type": "text/html; charset=utf-8" } });
 }
@@ -268,7 +418,6 @@ Deno.serve(async (req) => {
       for (const t of Object.keys(TEMPLATES)) counts[t] = (await getCandidates(t)).length;
       counts["custom (alle aangemelde users)"] = (await getCandidates("custom")).length;
       out.candidates = counts;
-      out.block_calendar = (await loadCal()) ? "ok" : "niet geladen";
     } catch (e) {
       out.ok = false;
       out.error = String(e);
@@ -297,7 +446,7 @@ Deno.serve(async (req) => {
   const type = body.type || "streak_saver";
   const live = body.live === true;
 
-  let render: Renderer;
+  let render: (c: Candidate) => { subject: string; html: string };
   let logType: (c: Candidate) => string;
   let getCands: () => Promise<Candidate[]>;
 
@@ -312,7 +461,7 @@ Deno.serve(async (req) => {
     if (!subject || !title || !message) return json({ error: "subject, title en message zijn verplicht" }, 400);
     const ctaLabel = String(body.cta_label || "").trim();
     const ctaUrl = String(body.cta_url || "").trim();
-    render = (c) => customEmail(c, FN_URL, subject, title, message, ctaLabel, ctaUrl);
+    render = (c) => customEmail(c, subject, title, message, ctaLabel, ctaUrl);
     logType = () => "custom:" + slug;
     getCands = async () => {
       const sentR = await rest(`email_log?email_type=eq.${encodeURIComponent("custom:" + slug)}&dry_run=is.false&select=user_id`);
@@ -328,29 +477,27 @@ Deno.serve(async (req) => {
   }
 
   if (body.preview === true) {
-    const p = render(PREVIEW_SAMPLE, await ctxFor(PREVIEW_SAMPLE));
-    return json({ preview: true, subject: p.subject, html: previewHtml(p.html) });
+    const p = render(PREVIEW_SAMPLE);
+    return json({ preview: true, subject: p.subject, html: p.html });
   }
 
   if (live && !RESEND_KEY) return json({ error: "RESEND_API_KEY secret ontbreekt" }, 503);
 
   let cands = await getCands();
   if (body.only_user) cands = cands.filter((c) => c.user_id === body.only_user);
-  await attachStudyYear(cands);
 
-  const results: { user_id: string; email: string; badge?: string | null; block?: string | null; sent: boolean; err?: string }[] = [];
+  const results: { user_id: string; email: string; badge?: string | null; sent: boolean; err?: string }[] = [];
   const sentRows: { user_id: string; email_type: string; dry_run: boolean }[] = [];
 
   for (const c of cands) {
-    const ctx = await ctxFor(c);
-    const { subject, html } = render(c, ctx);
+    const { subject, html } = render(c);
     if (!live) {
-      results.push({ user_id: c.user_id, email: maskEmail(c.email), badge: c.badge_key, block: ctx?.subject ?? null, sent: false });
+      results.push({ user_id: c.user_id, email: maskEmail(c.email), badge: c.badge_key, sent: false });
       sentRows.push({ user_id: c.user_id, email_type: logType(c), dry_run: true });
       continue;
     }
-    const r = await sendResend(c.email, subject, html, `${FN_URL}?unsub=${c.unsub_token}`);
-    results.push({ user_id: c.user_id, email: maskEmail(c.email), badge: c.badge_key, block: ctx?.subject ?? null, sent: r.ok, err: r.err });
+    const r = await sendResend(c.email, subject, html, unsubOf(c));
+    results.push({ user_id: c.user_id, email: maskEmail(c.email), badge: c.badge_key, sent: r.ok, err: r.err });
     if (r.ok) sentRows.push({ user_id: c.user_id, email_type: logType(c), dry_run: false });
   }
 
