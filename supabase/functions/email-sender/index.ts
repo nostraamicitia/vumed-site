@@ -12,6 +12,7 @@
 //        (broadcast; {slug, subject, title, message, cta_label?, cta_url?}, dedupe 'custom:<slug>').
 // CORS: aan voor de site-origins zodat admin.html dit vanuit de browser kan aanroepen.
 // Streak-mail bevat een LIVE aftel-GIF (edge function `countdown`, telt af tot middernacht NL).
+// HUISSTIJL: zie STIJL.md in deze map — nieuwe mails altijd met shell()/btn()/infoBox()/nm().
 
 const RESEND_KEY = Deno.env.get("RESEND_API_KEY");
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL");
@@ -54,7 +55,7 @@ type Candidate = {
 const PREVIEW_SAMPLE: Candidate = {
   user_id: "preview",
   email: "student@vumed.nl",
-  display_name: "Student",
+  display_name: "Sanne de Vries",
   login_streak: 6,
   streak_freezes: 2,
   unsub_token: "00000000-0000-0000-0000-000000000000",
@@ -67,6 +68,22 @@ const PREVIEW_SAMPLE: Candidate = {
 function esc(s: string): string {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
+// Voornaam uit display_name / full_name / mail-prefix ("sanne de vries" -> "Sanne").
+// Onbruikbaar (initiaal, cijfers, "j.devries") -> "" zodat de mail gewoon "Hoi!" zegt.
+function firstName(raw: string | null | undefined): string {
+  let s = String(raw || "").trim().split("@")[0];
+  s = s.split(/\s+/)[0] || "";
+  s = s.split(/[._]/)[0] || "";
+  if (!/^[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ'-]+$/.test(s)) return "";
+  const rest = s.slice(1);
+  return s[0].toUpperCase() + (rest === rest.toUpperCase() ? rest.toLowerCase() : rest);
+}
+// " Sanne" of "" — voor achter "Hoi"/"Gefeliciteerd"
+function nm(c: Candidate): string {
+  const f = firstName(c.display_name);
+  return f ? " " + esc(f) : "";
+}
+
 function maskEmail(e: string): string {
   const [a, b] = e.split("@");
   return (a || "").slice(0, 1) + "***@" + (b || "");
@@ -161,7 +178,10 @@ function shell(inner: string, preheader: string, unsubUrl: string): string {
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EDF4FA;"><tr><td align="center" style="padding:32px 12px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;">
   <tr><td align="center" style="padding:0 0 18px;">
-    <span style="font:800 26px ${FONT};color:#1CB0F6;letter-spacing:.5px;">VUmed</span>
+    <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+      <td style="padding-right:8px;vertical-align:middle;"><img src="${SITE}/images/email_logo.png" width="30" height="30" alt="" style="display:block;border:0;border-radius:8px;"></td>
+      <td style="vertical-align:middle;"><span style="font:800 26px ${FONT};color:#1CB0F6;letter-spacing:.5px;">VUmed</span></td>
+    </tr></table>
   </td></tr>
   <tr><td align="center" style="background:#ffffff;border-radius:20px;padding:36px 32px;">${inner}</td></tr>
   <tr><td align="center" style="padding:20px 24px 0;">
@@ -174,11 +194,33 @@ function shell(inner: string, preheader: string, unsubUrl: string): string {
 </table></td></tr></table></body></html>`;
 }
 
-function btn(label: string, href: string): string {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px auto 4px;"><tr>
-    <td style="background:#1CB0F6;border-radius:14px;box-shadow:0 3px 0 #0E9DE0;">
-      <a href="${href}" style="display:inline-block;padding:14px 34px;font:800 16px ${FONT};color:#ffffff;text-decoration:none;letter-spacing:.3px;">${esc(label)}</a>
+// Knopkleuren: [boven, onder, rand/schaduw, gloed-rgba]
+const BTN_COLORS: Record<string, [string, string, string, string]> = {
+  blue:   ["#45C6FF", "#1CB0F6", "#0B8FD0", "28,176,246"],
+  orange: ["#FF9A3C", "#FF7A00", "#D45F00", "255,122,0"],
+  purple: ["#C79BFA", "#A266F2", "#7E45CF", "162,102,242"],
+};
+
+// CTA-knop: verloop + 3D-rand + zachte gloed + pijl-bolletje. Outlook valt terug op bgcolor.
+function btn(label: string, href: string, color: keyof typeof BTN_COLORS = "blue"): string {
+  const [top, bot, edge, glow] = BTN_COLORS[color];
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px auto 4px;"><tr>
+    <td bgcolor="${bot}" style="background:${bot};background-image:linear-gradient(180deg,${top} 0%,${bot} 100%);border-radius:16px;border-bottom:4px solid ${edge};box-shadow:0 10px 22px rgba(${glow},.30);">
+      <a href="${href}" style="display:inline-block;padding:15px 22px 15px 30px;font:800 16px ${FONT};color:#ffffff;text-decoration:none;letter-spacing:.4px;">
+        ${esc(label)}&nbsp;&nbsp;<span style="display:inline-block;width:26px;height:26px;line-height:26px;border-radius:13px;background:rgba(255,255,255,.25);text-align:center;font:800 15px Arial,sans-serif;vertical-align:middle;">&rarr;</span>
+      </a>
     </td></tr></table>`;
+}
+
+// Grijs-blauw infoblok (tip / stappen) onder de hoofdtekst.
+function infoBox(inner: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px auto 0;max-width:440px;width:100%;"><tr>
+    <td style="background:#F3F8FC;border-radius:14px;padding:16px 20px;text-align:left;">${inner}</td></tr></table>`;
+}
+
+// Volgende mijlpaal van de 'Trouwe Student'-badge (streak-tiers uit BADGE_META).
+function nextStreakMilestone(n: number): number | null {
+  return BADGE_META.streak.tiers.find((t) => t > n) ?? null;
 }
 
 function unsubOf(c: Candidate): string {
@@ -193,18 +235,48 @@ function streakSaverEmail(c: Candidate): { subject: string; html: string } {
     : "";
   // live aftel-GIF: gegenereerd op openmoment; per-ontvanger+dag param tegen proxy-caching
   const cdUrl = `${SUPABASE_URL}/functions/v1/countdown?r=${(c.unsub_token || "").slice(0, 8)}-${new Date().toISOString().slice(0, 10)}`;
+  // Week-strip: de laatste 6 dagen + vandaag (rechts), met daginitialen eronder.
+  // Gehaalde dagen = oranje bol met vinkje-afbeelding (glyph-vinkjes staan per mailapp scheef).
+  const done = Math.min(n, 6);
+  const DAYS = ["zo", "ma", "di", "wo", "do", "vr", "za"];
+  const todayIdx = new Date(new Date().toLocaleString("en-US", { timeZone: "Europe/Amsterdam" })).getDay();
+  const cells: string[] = [];
+  const labels: string[] = [];
+  for (let i = 0; i < 7; i++) {
+    const daysAgo = 6 - i;
+    const isToday = daysAgo === 0;
+    const filled = !isToday && daysAgo <= done;
+    let circle: string;
+    if (filled) {
+      circle = `<td width="30" height="30" align="center" valign="middle" bgcolor="#FF7A00" style="width:30px;height:30px;border-radius:15px;background:#FF7A00;padding:0;"><img src="${SITE}/images/email_check.png" width="16" height="16" alt="&#10003;" style="display:block;margin:0 auto;border:0;"></td>`;
+    } else if (isToday) {
+      circle = `<td width="26" height="26" align="center" valign="middle" style="width:26px;height:26px;border-radius:15px;border:2px dashed #FF7A00;background:#FFF4EA;padding:0;"><div style="width:8px;height:8px;border-radius:4px;background:#FF7A00;margin:0 auto;font-size:0;line-height:0;">&nbsp;</div></td>`;
+    } else {
+      circle = `<td width="30" height="30" style="width:30px;height:30px;border-radius:15px;background:#EDF4FA;padding:0;font-size:0;line-height:0;">&nbsp;</td>`;
+    }
+    cells.push(`<td style="padding:0 4px;"><table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto;"><tr>${circle}</tr></table></td>`);
+    const d = DAYS[(todayIdx - daysAgo + 7) % 7];
+    labels.push(`<td align="center" style="padding:6px 4px 0;font:800 11px ${FONT};color:${isToday ? "#FF7A00" : "#8FA8BC"};text-transform:uppercase;letter-spacing:.5px;">${isToday ? "nu" : d}</td>`);
+  }
+  const dots = `${cells.join("")}</tr><tr>${labels.join("")}`;
+  const ms = nextStreakMilestone(n);
+  const msLine = ms
+    ? `<div style="font:600 13px ${FONT};color:#8FA8BC;margin-top:10px;">Nog <b style="color:#FF7A00;">${ms - n} ${ms - n === 1 ? "dag" : "dagen"}</b> tot de badge <b>Trouwe Student</b> (${ms} dagen)</div>`
+    : "";
   const inner = `
-    <img src="${SITE}/images/email_flame.png" width="126" height="168" alt="Vlam" style="display:block;margin:0 auto;border:0;">
+    <img src="${SITE}/images/email_flame.gif" width="140" height="179" alt="Vlam" style="display:block;margin:0 auto;border:0;">
     <div style="font:800 68px ${FONT};color:#FF7A00;line-height:1;margin-top:6px;">${n}</div>
     <div style="font:800 20px ${FONT};color:#3C5A73;margin-top:2px;">${dag} op rij</div>
+    <table role="presentation" cellpadding="0" cellspacing="0" style="margin:16px auto 0;"><tr>${dots}</tr></table>
+    ${msLine}
     <div style="font:800 12px ${FONT};color:#8FA8BC;letter-spacing:1.2px;margin-top:20px;">ZOVEEL TIJD HEB JE NOG</div>
     <img src="${cdUrl}" width="198" height="55" alt="Aftellend tot middernacht" style="display:block;margin:8px auto 0;border:0;">
     <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:18px auto 0;max-width:420px;">
-      Hoi ${esc(c.display_name)}, je reeks van <b>${n} ${dag}</b> staat vanavond op het spel.
+      Hoi${nm(c)}, je reeks van <b>${n} ${dag}</b> staat vanavond op het spel.
       Eén korte oefensessie is genoeg om hem te redden.
     </div>
     ${freezeNote}
-    ${btn("Ga verder met oefenen", `${SITE}/dashboard.html`)}`;
+    ${btn("Ga verder met oefenen", `${SITE}/dashboard.html`, "orange")}`;
   return {
     subject: `Je reeks van ${n} ${dag} staat op het spel \u{1F525}`,
     html: shell(inner, `Nog even oefenen vandaag en je reeks van ${n} ${dag} blijft staan.`, unsubOf(c)),
@@ -217,23 +289,31 @@ function weekrecapEmail(c: Candidate): { subject: string; html: string } {
   const rankLine = rank === 1
     ? `Je staat <b>bovenaan het klassement</b> — verdedig je plek deze week!`
     : `Nog <b>${rank - 1} ${rank - 1 === 1 ? "plek" : "plekken"}</b> verwijderd van de eerste plaats. Nieuwe week, nieuwe kansen!`;
-  const tile = (bg: string, sh: string, big: string, label: string, lc: string) =>
-    `<td style="background:${bg};border-radius:16px;padding:16px 22px;text-align:center;box-shadow:0 3px 0 ${sh};">
-      <div style="font:800 30px ${FONT};color:#ffffff;">${big}</div>
+  // Tegels in knop-stijl: verloop + 3D-rand + zachte gloed (Outlook: effen bgcolor).
+  const tile = (top: string, bg: string, sh: string, glow: string, big: string, label: string, lc: string) =>
+    `<td bgcolor="${bg}" style="background:${bg};background-image:linear-gradient(180deg,${top} 0%,${bg} 100%);border-radius:16px;border-bottom:4px solid ${sh};box-shadow:0 10px 22px rgba(${glow},.30);padding:16px 22px 14px;text-align:center;">
+      <div style="font:800 30px ${FONT};color:#ffffff;line-height:1.15;">${big}</div>
       <div style="font:800 12px ${FONT};color:${lc};letter-spacing:.6px;">${label}</div>
     </td>`;
   const inner = `
-    <img src="${SITE}/images/email_trophy.png" width="140" height="140" alt="Trofee" style="display:block;margin:0 auto;border:0;">
+    <img src="${SITE}/images/email_trophy.gif" width="140" height="140" alt="Trofee" style="display:block;margin:0 auto;border:0;">
     <div style="font:800 26px ${FONT};color:#1C3144;margin-top:10px;">Jouw week bij VUmed</div>
-    <div style="font:400 15px ${FONT};color:#5C7A92;margin-top:6px;">Goed bezig, ${esc(c.display_name)} — dit was je week:</div>
+    <div style="font:400 15px ${FONT};color:#5C7A92;margin-top:6px;">Goed bezig${nm(c) ? "," + nm(c) : ""}! Dit was je week:</div>
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px auto 0;"><tr>
-      ${tile("#1CB0F6", "#0E9DE0", String(xp), "XP", "#D9F1FF")}
+      ${tile("#45C6FF", "#1CB0F6", "#0B8FD0", "28,176,246", String(xp), "XP", "#E3F6FF")}
       <td style="width:12px;"></td>
-      ${tile("#FFC800", "#E8A400", "#" + rank, "KLASSEMENT", "#FFF3CC")}
+      ${tile("#FFD84D", "#FFC200", "#D99A00", "255,194,0", "#" + rank, "KLASSEMENT", "#FFF6D6")}
       <td style="width:12px;"></td>
-      ${tile("#FF7A00", "#E05E00", String(c.login_streak), "DAGEN REEKS", "#FFE3CC")}
+      ${tile("#FF9A3C", "#FF7A00", "#D45F00", "255,122,0", String(c.login_streak), "DAGEN REEKS", "#FFE9D6")}
     </tr></table>
-    <div style="font:400 15px ${FONT};color:#5C7A92;line-height:1.55;margin:20px auto 0;max-width:420px;">${rankLine}</div>
+    <div style="font:600 13px ${FONT};color:#8FA8BC;margin-top:12px;">Gemiddeld <b style="color:#1CB0F6;">${Math.round(xp / 7)} XP</b> per dag</div>
+    <div style="font:400 15px ${FONT};color:#5C7A92;line-height:1.55;margin:18px auto 0;max-width:420px;">${rankLine}</div>
+    ${(() => {
+      const ms = nextStreakMilestone(c.login_streak);
+      return ms
+        ? infoBox(`<div style="font:600 14px ${FONT};color:#3C5A73;line-height:1.5;">&#128293; Nog <b>${ms - c.login_streak} ${ms - c.login_streak === 1 ? "dag" : "dagen"}</b> oefenen en je verdient de badge <b>Trouwe Student</b> voor een reeks van ${ms} dagen.</div>`)
+        : "";
+    })()}
     ${btn("Bekijk het klassement", `${SITE}/voortgang.html`)}`;
   return {
     subject: `Jouw week: ${xp} XP en plek ${rank} in het klassement \u{1F3C6}`,
@@ -243,12 +323,17 @@ function weekrecapEmail(c: Candidate): { subject: string; html: string } {
 
 function winbackEmail(c: Candidate): { subject: string; html: string } {
   const inner = `
-    <img src="${SITE}/images/email_flame_sleep.png" width="150" height="150" alt="Slapende vlam" style="display:block;margin:0 auto;border:0;">
-    <div style="font:800 26px ${FONT};color:#1C3144;margin-top:10px;">We missen je, ${esc(c.display_name)}!</div>
+    <img src="${SITE}/images/email_flame_sleep.gif" width="150" height="150" alt="Slapende vlam" style="display:block;margin:0 auto;border:0;">
+    <div style="font:800 26px ${FONT};color:#1C3144;margin-top:10px;">We missen je${nm(c) ? "," + nm(c) : ""}!</div>
     <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:16px auto 0;max-width:420px;">
       Het is alweer <b>een week</b> geleden dat je een vraag hebt geoefend.
       Kennis zakt sneller weg dan je denkt — met één korte sessie zit je er weer helemaal in.
     </div>
+    ${infoBox(`<div style="font:800 12px ${FONT};color:#8FA8BC;letter-spacing:1.2px;margin-bottom:8px;">ZO ZIT JE ER IN 5 MINUTEN WEER IN</div>
+      ${[["1", "Open je dashboard"], ["2", "Kies een tentamen van jouw studiejaar"], ["3", "Maak een paar vragen — je reeks start meteen opnieuw"]]
+        .map(([k, t]) => `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:6px 0;"><tr>
+          <td style="vertical-align:top;"><div style="width:22px;height:22px;line-height:22px;border-radius:50%;background:#1CB0F6;color:#fff;font:800 12px ${FONT};text-align:center;">${k}</div></td>
+          <td style="padding-left:10px;font:600 14px ${FONT};color:#3C5A73;line-height:22px;">${t}</td></tr></table>`).join("")}`)}
     ${btn("Pak de draad weer op", `${SITE}/dashboard.html`)}`;
   return {
     subject: `We missen je bij VUmed \u{1F44B}`,
@@ -267,14 +352,35 @@ function badgeEmail(c: Candidate): { subject: string; html: string } {
     line = `Je hebt <b>${t} ${esc(meta.unit)}</b> gehaald — niveau ${tier + 1} van deze badge.
       Hij staat vanaf nu op je profiel — je vrienden kunnen je feliciteren.`;
   }
+  // Niveau-blokjes: behaalde niveaus paars, de rest grijs
+  const total = meta.tiers.length;
+  const pips = total
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:14px auto 0;"><tr>${
+      meta.tiers.map((_, i) =>
+        `<td style="padding:0 3px;"><div style="width:30px;height:8px;border-radius:4px;background:${i <= tier ? "#B57BF6" : "#E6EDF3"};"></div></td>`
+      ).join("")
+    }</tr></table>
+    <div style="font:800 12px ${FONT};color:#8FA8BC;letter-spacing:1px;margin-top:8px;">NIVEAU ${tier + 1} VAN ${total}</div>`
+    : "";
+  let nextLine = "";
+  if (tier + 1 < total) {
+    const next = meta.ranks
+      ? `Volgende rang: <b>${esc(meta.ranks[tier + 1])}</b> bij ${meta.tiers[tier + 1].toLocaleString("nl-NL")} ${esc(meta.unit)}.`
+      : `Volgend niveau: <b>${meta.tiers[tier + 1]} ${esc(meta.unit)}</b>. Zet 'm op!`;
+    nextLine = infoBox(`<div style="font:600 14px ${FONT};color:#3C5A73;line-height:1.5;text-align:center;">${next}</div>`);
+  } else if (total) {
+    nextLine = infoBox(`<div style="font:600 14px ${FONT};color:#3C5A73;line-height:1.5;text-align:center;">Dit is het <b>hoogste niveau</b> van deze badge. Respect!</div>`);
+  }
   const inner = `
-    <img src="${SITE}/images/email_badge.png" width="150" height="150" alt="Badge" style="display:block;margin:0 auto;border:0;">
+    <img src="${SITE}/images/email_badge.gif" width="150" height="150" alt="Badge" style="display:block;margin:0 auto;border:0;">
     <div style="font:800 14px ${FONT};color:#B57BF6;letter-spacing:1.5px;margin-top:12px;">NIEUWE PRESTATIE</div>
     <div style="font:800 30px ${FONT};color:#1C3144;margin-top:4px;">${esc(meta.name)}</div>
+    ${pips}
     <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:14px auto 0;max-width:420px;">
-      Gefeliciteerd ${esc(c.display_name)}! ${line}
+      Gefeliciteerd${nm(c)}! ${line}
     </div>
-    ${btn("Bekijk je prestaties", `${SITE}/profile.html`)}`;
+    ${nextLine}
+    ${btn("Bekijk je prestaties", `${SITE}/profile.html`, "purple")}`;
   return {
     subject: `Nieuwe prestatie: ${meta.name} \u{1F3C5}`,
     html: shell(inner, `Je hebt de badge ${meta.name} verdiend.`, unsubOf(c)),
@@ -288,16 +394,18 @@ function welcomeEmail(c: Candidate): { subject: string; html: string } {
       <span style="font:600 15px ${FONT};color:#3C5A73;">${text}</span>
     </td></tr>`;
   const inner = `
-    <img src="${SITE}/images/email_welkom.png" width="140" height="140" alt="Hart" style="display:block;margin:0 auto;border:0;">
+    <img src="${SITE}/images/email_welkom.gif" width="140" height="152" alt="Hart" style="display:block;margin:0 auto;border:0;">
     <div style="font:800 28px ${FONT};color:#1C3144;margin-top:10px;">Welkom bij VUmed!</div>
     <div style="font:400 16px ${FONT};color:#5C7A92;line-height:1.55;margin:14px auto 0;max-width:430px;">
-      Hoi ${esc(c.display_name)}, je account staat klaar. Dit kun je vanaf nu:
+      Hoi${nm(c)}, je account staat klaar. Dit kun je vanaf nu:
     </div>
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:18px auto 0;text-align:left;">
       ${bullet("#1CB0F6", "Oefen met échte oude tentamens van jouw studiejaar")}
       ${bullet("#FF7A00", "Bouw een dagelijkse reeks op en verdien beloningen")}
       ${bullet("#F5A623", "Klim in het weekklassement en daag vrienden uit")}
     </table>
+    ${infoBox(`<div style="font:800 12px ${FONT};color:#8FA8BC;letter-spacing:1.2px;margin-bottom:6px;">TIP VOOR JE START</div>
+      <div style="font:600 14px ${FONT};color:#3C5A73;line-height:1.5;">Elke dag een paar vragen werkt beter dan één grote sessie voor het tentamen. Na <b>3 dagen op rij</b> verdien je al je eerste badge.</div>`)}
     ${btn("Begin met oefenen", `${SITE}/dashboard.html`)}`;
   return {
     subject: `Welkom bij VUmed \u{1F389}`,
