@@ -429,6 +429,77 @@
     .mk-btn { border: 0; background: rgba(140,160,180,.14); color: inherit; border-radius: 10px; padding: 6px 10px; font: 800 12.5px Nunito, sans-serif; cursor: pointer; }
     .mk-btn.del { color: #FF3B30; }
     @media (max-width: 700px) { .mk-row { flex-wrap: wrap; } .mk-act { width: 100%; justify-content: flex-end; } }
+    .mk-row.editing { background: rgba(255,150,0,.08); border-radius: 12px; }
+    .mk-row.dup-flash { animation: mkFlash 1.2s ease; }
+    @keyframes mkFlash { 0% { background: rgba(88,204,2,.25); } 100% { background: transparent; } }
+    .mk-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+    .mk-tabs { display: inline-flex; background: rgba(140,160,180,.14); border-radius: 12px; padding: 3px; }
+    .mk-tabs button { border: 0; background: transparent; color: var(--muted); font: 800 13px Nunito, sans-serif; padding: 6px 14px; border-radius: 9px; cursor: pointer; }
+    .mk-tabs button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+    .mk-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 12px; }
+    .mk-tools .rev-search { flex: 1; min-width: 180px; }
+    .mk-datewrap { display: flex; flex-direction: column; gap: 6px; }
+    .mk-quick { display: flex; gap: 5px; flex-wrap: wrap; }
+    .mk-quick button { border: 0; background: rgba(28,176,246,.12); color: #1CB0F6; border-radius: 8px; padding: 4px 9px; font: 800 11.5px Nunito, sans-serif; cursor: pointer; text-transform: none; letter-spacing: 0; }
+    .mk-group { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 16px 0 2px; display: flex; gap: 6px; align-items: center; }
+    .mk-group:first-child { margin-top: 0; }
+    .mk-group.late { color: #FF3B30; }
+    .mk-group i { font-style: normal; background: rgba(140,160,180,.18); border-radius: 999px; padding: 0 7px; }
+    .mk-row .mk-main { cursor: pointer; }
+    /* Bord */
+    .mk-board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .mk-col { background: rgba(140,160,180,.09); border-radius: 14px; padding: 10px; min-height: 160px; transition: background .12s, box-shadow .12s; }
+    .mk-col.over { background: rgba(28,176,246,.12); box-shadow: inset 0 0 0 2px #1CB0F6; }
+    .mk-col-h { font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; margin: 2px 4px 10px; display: flex; justify-content: space-between; }
+    .mk-card { background: var(--card); border-radius: 12px; padding: 10px 11px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.08); cursor: grab; border-left: 4px solid var(--mkc, #8E8E93); }
+    .mk-card:active { cursor: grabbing; }
+    .mk-card.dragging { opacity: .4; }
+    .mk-card .t { font-size: 13.5px; font-weight: 800; overflow-wrap: anywhere; }
+    .mk-card .m { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-top: 6px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+    .mk-card .m .late { color: #FF3B30; }
+    .mk-card .nx { margin-left: auto; border: 0; background: rgba(140,160,180,.16); color: inherit; border-radius: 7px; padding: 2px 7px; font: 900 12px Nunito, sans-serif; cursor: pointer; }
+    @media (max-width: 900px) { .mk-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 520px) { .mk-board { grid-template-columns: 1fr; } }
+    /* Kalender */
+    .mk-calnav { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+    .mk-calnav b { font-size: 16px; font-weight: 900; min-width: 150px; text-transform: capitalize; }
+    .mk-cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+    .mk-dow { font-size: 10.5px; font-weight: 900; color: var(--muted); text-transform: uppercase; text-align: center; padding: 2px 0; }
+    .mk-day { min-height: 92px; border-radius: 10px; background: rgba(140,160,180,.08); padding: 5px; cursor: pointer; transition: background .12s, box-shadow .12s; min-width: 0; }
+    .mk-day:hover { background: rgba(28,176,246,.08); }
+    .mk-day.out { opacity: .4; }
+    .mk-day.today { box-shadow: inset 0 0 0 2px #1CB0F6; }
+    .mk-day.over { background: rgba(28,176,246,.18); }
+    .mk-day .n { font-size: 11.5px; font-weight: 900; color: var(--muted); margin-bottom: 3px; }
+    .mk-day.today .n { color: #1CB0F6; }
+    .mk-ev { display: block; font-size: 11px; font-weight: 800; color: #fff; border-radius: 6px; padding: 2px 6px; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: grab; }
+    .mk-ev.done { opacity: .55; text-decoration: line-through; }
+    @media (max-width: 700px) { .mk-day { min-height: 64px; } .mk-ev { font-size: 9.5px; padding: 1px 4px; } }
+    /* Undo-balk */
+    .mk-undo { position: fixed; left: 50%; bottom: 26px; transform: translateX(-50%) translateY(20px); z-index: 950; display: flex; gap: 14px; align-items: center;
+      background: #1C1C1E; color: #fff; padding: 11px 14px 11px 18px; border-radius: 14px; font: 800 14px Nunito, sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+    .mk-undo.show { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+    .mk-undo button { border: 0; background: #1CB0F6; color: #fff; border-radius: 10px; padding: 6px 12px; font: 900 13px Nunito, sans-serif; cursor: pointer; }
+    /* Notities */
+    .mkn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; align-items: start; }
+    .mkn { --nb: #FFF6C7; --nl: #E6D27A; background: var(--nb); border: 2px solid var(--nl); border-radius: 14px; padding: 10px 12px 8px; display: flex; flex-direction: column; gap: 4px; transition: box-shadow .15s; }
+    .mkn:focus-within { box-shadow: 0 6px 18px rgba(0,0,0,.12); }
+    .mkn.c-yellow { --nb: #FFF6C7; --nl: #F0DC7A; } .mkn.c-blue { --nb: #E3F4FD; --nl: #9ED6F5; }
+    .mkn.c-green { --nb: #E7F8D9; --nl: #A9DE84; } .mkn.c-pink { --nb: #FDE7EF; --nl: #F2A9C4; } .mkn.c-grey { --nb: #F1F2F4; --nl: #D3D6DB; }
+    html.dark .mkn { --nb: #2F2C1E; --nl: #5C5226; }
+    html.dark .mkn.c-blue { --nb: #1B2A33; --nl: #2E5D78; } html.dark .mkn.c-green { --nb: #1F2B19; --nl: #3F6A2B; }
+    html.dark .mkn.c-pink { --nb: #33212A; --nl: #74384F; } html.dark .mkn.c-grey { --nb: #2A2A2D; --nl: #48484C; }
+    .mkn input, .mkn textarea { border: 0; background: transparent; color: var(--ink); outline: none; font-family: Nunito, sans-serif; width: 100%; resize: none; }
+    .mkn input { font-size: 15px; font-weight: 900; padding: 2px 0; }
+    .mkn textarea { font-size: 13.5px; font-weight: 600; line-height: 1.5; min-height: 90px; overflow: hidden; }
+    .mkn-foot { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--muted); }
+    .mkn-foot .sp { flex: 1; }
+    .mkn-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(0,0,0,.12); cursor: pointer; padding: 0; }
+    .mkn-dot.on { border-color: var(--ink); }
+    .mkn-ib { border: 0; background: transparent; cursor: pointer; font-size: 14px; padding: 2px 4px; border-radius: 6px; color: var(--muted); }
+    .mkn-ib:hover { background: rgba(0,0,0,.06); }
+    .mkn-ib.pin.on { color: #FF9600; }
 
     /* ═══════════ Staff console shell (2026-07-18) ═══════════ */
     body { display: flex; height: 100vh; overflow: hidden; }
@@ -801,17 +872,21 @@
 
         <!-- ── Marketing ── -->
         <section class="view" id="view-marketing">
-          <div class="card">
+          <div class="card" id="mk-form-card">
             <h2 id="mk-form-title"><span class="h2-dot" style="background:#FF9600"></span>Nieuw content-item</h2>
-            <div class="card-sub">Ideeën, posts, reels, mails: alles wat je wilt maken of al gepost hebt.</div>
+            <div class="card-sub">Typ een titel en druk op <b>Enter</b> om snel een idee toe te voegen. Sneltoets: <b>N</b> = nieuw item, <b>Esc</b> = annuleren.</div>
             <div class="m-grid">
               <label class="m-full">Titel / idee<input id="mk-title" type="text" placeholder="Bijv. Reel: 5 tips voor je eerste tentamen" autocomplete="off"></label>
               <label>Kanaal<select id="mk-channel"></select></label>
               <label>Format<select id="mk-format"></select></label>
               <label>Status<select id="mk-statussel"></select></label>
-              <label>Datum (gepland / gepost)<input id="mk-date" type="date"></label>
+              <label>Datum (gepland / gepost)
+                <div class="mk-datewrap"><input id="mk-date" type="date">
+                  <div class="mk-quick"><button type="button" data-q="0">Vandaag</button><button type="button" data-q="1">Morgen</button><button type="button" data-q="7">+1 week</button><button type="button" data-q="">Geen</button></div>
+                </div>
+              </label>
               <label class="m-full">Link (optioneel)<input id="mk-link" type="text" placeholder="https://instagram.com/p/… of Canva/Drive-link" autocomplete="off"></label>
-              <label class="m-full">Notities<textarea id="mk-notes" rows="3" placeholder="Caption, hook, wie maakt het, resultaten…"></textarea></label>
+              <label class="m-full">Notities<textarea id="mk-notes" rows="3" placeholder="Caption, hook, wie maakt het, resultaten… (Cmd/Ctrl+Enter = opslaan)"></textarea></label>
             </div>
             <div class="m-actions">
               <button class="m-btn m-send" id="mk-save">Toevoegen</button>
@@ -819,11 +894,31 @@
             </div>
           </div>
           <div class="card">
-            <h2><span class="h2-dot" style="background:#1CB0F6"></span>Contentplanning</h2>
-            <div class="card-sub" id="mk-sub"></div>
+            <div class="mk-head">
+              <h2 style="margin:0;"><span class="h2-dot" style="background:#1CB0F6"></span>Contentplanning</h2>
+              <div class="mk-tabs" id="mk-tabs">
+                <button data-v="list">Lijst</button><button data-v="board">Bord</button><button data-v="cal">Kalender</button>
+              </div>
+            </div>
+            <div class="card-sub" id="mk-sub" style="margin-top:6px;"></div>
+            <div class="mk-tools">
+              <input id="mk-q" class="rev-search" type="search" placeholder="Zoek in titel of notities…" autocomplete="off">
+              <select id="mk-chfilter" class="mk-status"></select>
+              <button class="mk-btn" id="mk-csv" title="Download als CSV (Excel/Sheets)">Exporteer CSV</button>
+            </div>
             <div class="subj-chips" id="mk-chips"></div>
             <div id="mk-list"><div class="card-sub">Laden…</div></div>
           </div>
+          <div class="card">
+            <div class="mk-head">
+              <h2 style="margin:0;"><span class="h2-dot" style="background:#FFC800"></span>Notities</h2>
+              <button class="m-btn m-ghost" id="mkn-add">+ Nieuwe notitie</button>
+            </div>
+            <div class="card-sub" style="margin-top:6px;">Brainstorms, captions, contacten, to-do's. Alles slaat vanzelf op terwijl je typt.</div>
+            <input id="mkn-q" class="rev-search" type="search" placeholder="Zoek in notities…" autocomplete="off" style="margin-bottom:12px;width:100%;">
+            <div class="mkn-grid" id="mkn-grid"><div class="card-sub">Laden…</div></div>
+          </div>
+          <div class="mk-undo" id="mk-undo"><span id="mk-undo-txt"></span><button id="mk-undo-btn">Ongedaan maken</button></div>
         </section>
 
         <!-- ── Systeem ── -->
@@ -1993,11 +2088,14 @@ function showView(name) {
   // Items worden in admin_avatar.html bewerkt; opnieuw ophalen bij het openen
   // van de sectie, anders kijk je naar de lijst van vóór die bewerking.
   if (name === 'items') loadItems().catch(console.error);
-  if (name === 'marketing') loadMarketing().catch(console.error);
+  if (name === 'marketing') { loadMarketing().catch(console.error); loadNotes().catch(console.error); }
   const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
 }
 
-/* ══════════════ Marketing-planner (tabel marketing_content, RLS: is_admin) ══════════════ */
+/* ══════════════ Marketing-planner (tabel marketing_content, RLS: is_admin) ══════════════
+   Weergaves: lijst (gegroepeerd per periode), bord (slepen tussen statussen),
+   kalender (slepen naar een andere dag). Wijzigingen zijn optimistisch: eerst
+   lokaal tonen, dan opslaan; bij een fout wordt opnieuw geladen. */
 const MK_CHANNELS = [
   ['instagram', 'Instagram', '#E1306C'], ['tiktok', 'TikTok', '#111'], ['linkedin', 'LinkedIn', '#0A66C2'],
   ['mail', 'Mail', '#58CC02'], ['whatsapp', 'WhatsApp', '#25D366'], ['flyer', 'Flyer / offline', '#FF9600'],
@@ -2005,16 +2103,55 @@ const MK_CHANNELS = [
 ];
 const MK_FORMATS = ['Post', 'Carrousel', 'Reel / video', 'Story', 'Mail', 'Samenwerking', 'Overig'];
 const MK_STATUS = [['idee', 'Idee'], ['in_productie', 'In productie'], ['ingepland', 'Ingepland'], ['gepost', 'Gepost']];
+const MK_STATUS_COL = { idee: '#8E8E93', in_productie: '#FF9600', ingepland: '#1CB0F6', gepost: '#58CC02' };
 const MK_MONTHS = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
-let _mkRows = [], _mkFilter = 'all', _mkEdit = null;
+const MK_MONTHS_FULL = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
+let _mkRows = [], _mkEdit = null, _mkLoaded = false;
+let _mkPrefs = { view: 'list', status: 'all', ch: 'all' };
+try { Object.assign(_mkPrefs, JSON.parse(localStorage.getItem('vumed_admin_mk') || '{}')); } catch (e) {}
+let _mkQ = '', _mkCal = null, _mkUndoTimer = null, _mkUndoRow = null, _mkFlashId = null;
+
+function mkSavePrefs() { try { localStorage.setItem('vumed_admin_mk', JSON.stringify(_mkPrefs)); } catch (e) {} }
+function mkYmd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function mkAddDays(n) { const d = new Date(); d.setDate(d.getDate() + n); return mkYmd(d); }
+function mkCh(id) { return MK_CHANNELS.find(c => c[0] === id) || MK_CHANNELS[MK_CHANNELS.length - 1]; }
+function mkFmtDate(s) { const [, m, d] = s.split('-'); return (+d) + ' ' + MK_MONTHS[+m - 1]; }
+function mkIsLate(r) { return r.status !== 'gepost' && r.publish_date && r.publish_date < mkYmd(new Date()); }
 
 (function mkInit() {
   $('mk-channel').innerHTML = MK_CHANNELS.map(c => '<option value="' + c[0] + '">' + esc(c[1]) + '</option>').join('');
   $('mk-format').innerHTML = MK_FORMATS.map(f => '<option>' + esc(f) + '</option>').join('');
   $('mk-statussel').innerHTML = MK_STATUS.map(s => '<option value="' + s[0] + '">' + esc(s[1]) + '</option>').join('');
+  $('mk-chfilter').innerHTML = '<option value="all">Alle kanalen</option>' + MK_CHANNELS.map(c => '<option value="' + c[0] + '">' + esc(c[1]) + '</option>').join('');
+  $('mk-chfilter').value = _mkPrefs.ch;
   $('mk-save').addEventListener('click', mkSave);
   $('mk-cancel').addEventListener('click', mkResetForm);
+  // Enter in titel/link = opslaan; Cmd/Ctrl+Enter in notities; Esc = annuleren
+  ['mk-title', 'mk-link'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); mkSave(); } }));
+  $('mk-notes').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); mkSave(); } });
+  $('view-marketing').addEventListener('keydown', e => { if (e.key === 'Escape' && _mkEdit) mkResetForm(); });
+  document.querySelectorAll('.mk-quick button').forEach(b => b.addEventListener('click', () => {
+    $('mk-date').value = b.dataset.q === '' ? '' : mkAddDays(+b.dataset.q);
+  }));
+  $('mk-tabs').querySelectorAll('button').forEach(b => b.addEventListener('click', () => { _mkPrefs.view = b.dataset.v; mkSavePrefs(); renderMarketing(); }));
+  $('mk-q').addEventListener('input', () => { _mkQ = $('mk-q').value.trim().toLowerCase(); renderMarketing(); });
+  $('mk-chfilter').addEventListener('change', () => { _mkPrefs.ch = $('mk-chfilter').value; mkSavePrefs(); renderMarketing(); });
+  $('mk-csv').addEventListener('click', mkExportCSV);
+  $('mk-undo-btn').addEventListener('click', mkUndo);
+  // Sneltoets N = nieuw item (alleen in de Marketing-sectie, niet tijdens typen)
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'n' && e.key !== 'N') return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (!$('view-marketing').classList.contains('on')) return;
+    const t = e.target; if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    e.preventDefault(); mkResetForm(); mkFocusForm();
+  });
 })();
+
+function mkFocusForm() {
+  const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => $('mk-title').focus(), 150);
+}
 
 function mkResetForm() {
   _mkEdit = null;
@@ -2022,6 +2159,7 @@ function mkResetForm() {
   $('mk-channel').value = 'instagram'; $('mk-format').value = 'Post'; $('mk-statussel').value = 'idee';
   $('mk-save').textContent = 'Toevoegen'; $('mk-cancel').style.display = 'none';
   $('mk-form-title').lastChild.textContent = 'Nieuw content-item';
+  if (_mkLoaded) renderMarketing();
 }
 
 async function loadMarketing() {
@@ -2029,54 +2167,186 @@ async function loadMarketing() {
   const { data, error } = await sb.from('marketing_content').select('*')
     .order('publish_date', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
   if (error) { $('mk-list').innerHTML = '<div class="note">Kon de planning niet laden: ' + esc(error.message) + '</div>'; return; }
-  _mkRows = data || [];
+  _mkRows = data || []; _mkLoaded = true;
   renderMarketing();
 }
 
-function renderMarketing() {
-  const counts = { all: _mkRows.length };
-  MK_STATUS.forEach(s => { counts[s[0]] = _mkRows.filter(r => r.status === s[0]).length; });
-  $('mk-chips').innerHTML = [['all', 'Alles']].concat(MK_STATUS).map(s =>
-    '<span class="subj-chip click' + (_mkFilter === s[0] ? ' on' : '') + '" data-f="' + s[0] + '">' + esc(s[1]) + ' · ' + counts[s[0]] + '</span>').join('');
-  $('mk-chips').querySelectorAll('.subj-chip').forEach(c => c.addEventListener('click', () => { _mkFilter = c.dataset.f; renderMarketing(); }));
-
-  const today = new Date().toISOString().slice(0, 10);
-  const in7 = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
-  const upcoming = _mkRows.filter(r => r.status !== 'gepost' && r.publish_date && r.publish_date >= today && r.publish_date <= in7).length;
-  $('mk-sub').textContent = _mkRows.length
-    ? counts.gepost + ' gepost · ' + upcoming + ' gepland voor de komende 7 dagen'
-    : 'Nog niks toegevoegd. Begin met een idee hierboven.';
-
-  const rows = _mkRows.filter(r => _mkFilter === 'all' || r.status === _mkFilter);
-  if (!rows.length) { $('mk-list').innerHTML = _mkRows.length ? '<div class="card-sub">Niks in deze categorie.</div>' : ''; return; }
-  $('mk-list').innerHTML = rows.map(r => {
-    const ch = MK_CHANNELS.find(c => c[0] === r.channel) || MK_CHANNELS[MK_CHANNELS.length - 1];
-    let dateHTML = '<div class="mk-date none">—</div>';
-    if (r.publish_date) {
-      const [, m, d] = r.publish_date.split('-');
-      const late = r.status !== 'gepost' && r.publish_date < today;
-      dateHTML = '<div class="mk-date' + (late ? ' late' : '') + '" title="' + (late ? 'Datum is verstreken' : '') + '"><b>' + (+d) + '</b><span>' + MK_MONTHS[+m - 1] + '</span></div>';
-    }
-    let link = '';
-    if (r.link && /^https?:\/\//i.test(r.link)) link = '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">Link ↗</a>';
-    return '<div class="mk-row">' + dateHTML +
-      '<div class="mk-main"><div class="mk-title">' + esc(r.title) + '</div>' +
-        '<div class="mk-meta"><span class="mk-ch" style="background:' + ch[2] + '">' + esc(ch[1]) + '</span>' +
-          (r.format ? '<span>' + esc(r.format) + '</span>' : '') + link + '</div>' +
-        (r.notes ? '<div class="mk-notes">' + esc(r.notes) + '</div>' : '') + '</div>' +
-      '<div class="mk-act">' +
-        '<select class="mk-status s-' + esc(r.status) + '" data-id="' + esc(r.id) + '">' +
-          MK_STATUS.map(s => '<option value="' + s[0] + '"' + (s[0] === r.status ? ' selected' : '') + '>' + esc(s[1]) + '</option>').join('') +
-        '</select>' +
-        '<button class="mk-btn" data-edit="' + esc(r.id) + '">Bewerk</button>' +
-        '<button class="mk-btn del" data-del="' + esc(r.id) + '">Verwijder</button>' +
-      '</div></div>';
-  }).join('');
-  $('mk-list').querySelectorAll('.mk-status').forEach(s => s.addEventListener('change', () => mkSetStatus(s.dataset.id, s.value)));
-  $('mk-list').querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => mkStartEdit(b.dataset.edit)));
-  $('mk-list').querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => mkDelete(b.dataset.del)));
+function mkSort(a, b) {
+  if (a.publish_date && b.publish_date) return a.publish_date < b.publish_date ? -1 : a.publish_date > b.publish_date ? 1 : 0;
+  if (a.publish_date) return -1; if (b.publish_date) return 1;
+  return (b.created_at || '') < (a.created_at || '') ? -1 : 1;
 }
 
+function mkFiltered(ignoreStatus) {
+  return _mkRows.filter(r =>
+    (ignoreStatus || _mkPrefs.status === 'all' || r.status === _mkPrefs.status) &&
+    (_mkPrefs.ch === 'all' || r.channel === _mkPrefs.ch) &&
+    (!_mkQ || (r.title + ' ' + (r.notes || '') + ' ' + (r.format || '')).toLowerCase().includes(_mkQ))
+  ).sort(mkSort);
+}
+
+function renderMarketing() {
+  const view = ['list', 'board', 'cal'].includes(_mkPrefs.view) ? _mkPrefs.view : 'list';
+  $('mk-tabs').querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+
+  const base = mkFiltered(true);
+  const counts = { all: base.length };
+  MK_STATUS.forEach(s => { counts[s[0]] = base.filter(r => r.status === s[0]).length; });
+  // Statusfilter heeft op het bord geen zin (kolommen = statussen)
+  $('mk-chips').style.display = view === 'board' ? 'none' : '';
+  $('mk-chips').innerHTML = [['all', 'Alles']].concat(MK_STATUS).map(s =>
+    '<span class="subj-chip click' + (_mkPrefs.status === s[0] ? ' on' : '') + '" data-f="' + s[0] + '">' + esc(s[1]) + ' · ' + counts[s[0]] + '</span>').join('');
+  $('mk-chips').querySelectorAll('.subj-chip').forEach(c => c.addEventListener('click', () => { _mkPrefs.status = c.dataset.f; mkSavePrefs(); renderMarketing(); }));
+
+  const today = mkYmd(new Date()), in7 = mkAddDays(7);
+  const posted = _mkRows.filter(r => r.status === 'gepost').length;
+  const upcoming = _mkRows.filter(r => r.status !== 'gepost' && r.publish_date && r.publish_date >= today && r.publish_date <= in7).length;
+  const late = _mkRows.filter(mkIsLate).length;
+  $('mk-sub').textContent = _mkRows.length
+    ? posted + ' gepost · ' + upcoming + ' gepland voor de komende 7 dagen' + (late ? ' · ' + late + ' over datum' : '')
+    : 'Nog niks toegevoegd. Begin met een idee hierboven.';
+
+  if (view === 'board') return mkRenderBoard(base);
+  if (view === 'cal') return mkRenderCal(mkFiltered(false));
+  mkRenderList(mkFiltered(false));
+}
+
+/* ── Lijst ── */
+function mkRowHTML(r) {
+  const ch = mkCh(r.channel);
+  let dateHTML = '<div class="mk-date none">—</div>';
+  if (r.publish_date) {
+    const [, m, d] = r.publish_date.split('-');
+    const late = mkIsLate(r);
+    dateHTML = '<div class="mk-date' + (late ? ' late' : '') + '"' + (late ? ' title="Datum is verstreken"' : '') + '><b>' + (+d) + '</b><span>' + MK_MONTHS[+m - 1] + '</span></div>';
+  }
+  const link = r.link && /^https?:\/\//i.test(r.link) ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">Link ↗</a>' : '';
+  return '<div class="mk-row' + (_mkEdit === r.id ? ' editing' : '') + (_mkFlashId === r.id ? ' dup-flash' : '') + '" data-id="' + esc(r.id) + '">' + dateHTML +
+    '<div class="mk-main" data-edit="' + esc(r.id) + '" title="Klik om te bewerken"><div class="mk-title">' + esc(r.title) + '</div>' +
+      '<div class="mk-meta"><span class="mk-ch" style="background:' + ch[2] + '">' + esc(ch[1]) + '</span>' +
+        (r.format ? '<span>' + esc(r.format) + '</span>' : '') + link + '</div>' +
+      (r.notes ? '<div class="mk-notes">' + esc(r.notes) + '</div>' : '') + '</div>' +
+    '<div class="mk-act">' +
+      '<select class="mk-status s-' + esc(r.status) + '" data-id="' + esc(r.id) + '">' +
+        MK_STATUS.map(s => '<option value="' + s[0] + '"' + (s[0] === r.status ? ' selected' : '') + '>' + esc(s[1]) + '</option>').join('') +
+      '</select>' +
+      '<button class="mk-btn" data-dup="' + esc(r.id) + '" title="Dupliceren">Kopie</button>' +
+      '<button class="mk-btn del" data-del="' + esc(r.id) + '">Verwijder</button>' +
+    '</div></div>';
+}
+
+function mkRenderList(rows) {
+  const box = $('mk-list');
+  if (!rows.length) { box.innerHTML = _mkRows.length ? '<div class="card-sub">Niks gevonden met deze filters.</div>' : ''; return; }
+  const today = mkYmd(new Date());
+  const d = new Date(); const dow = (d.getDay() + 6) % 7; // ma = 0
+  const endWeek = mkAddDays(6 - dow), endNext = mkAddDays(13 - dow);
+  const groups = [
+    ['late', 'Over datum', r => mkIsLate(r)],
+    ['week', 'Deze week', r => r.status !== 'gepost' && r.publish_date && r.publish_date >= today && r.publish_date <= endWeek],
+    ['next', 'Volgende week', r => r.status !== 'gepost' && r.publish_date && r.publish_date > endWeek && r.publish_date <= endNext],
+    ['later', 'Later', r => r.status !== 'gepost' && r.publish_date && r.publish_date > endNext],
+    ['nodate', 'Zonder datum', r => r.status !== 'gepost' && !r.publish_date],
+    ['posted', 'Gepost', r => r.status === 'gepost'],
+  ];
+  box.innerHTML = groups.map(g => {
+    let items = rows.filter(g[2]);
+    if (!items.length) return '';
+    if (g[0] === 'posted') items = items.slice().reverse(); // nieuwste eerst
+    return '<div class="mk-group' + (g[0] === 'late' ? ' late' : '') + '">' + g[1] + ' <i>' + items.length + '</i></div>' + items.map(mkRowHTML).join('');
+  }).join('');
+  box.querySelectorAll('.mk-status').forEach(s => s.addEventListener('change', () => mkPatch(s.dataset.id, mkStatusPatch(s.dataset.id, s.value))));
+  mkWireCommon(box);
+  _mkFlashId = null;
+}
+
+function mkWireCommon(box) {
+  box.querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', e => { if (e.target.closest('a,button,select')) return; mkStartEdit(b.dataset.edit); }));
+  box.querySelectorAll('[data-dup]').forEach(b => b.addEventListener('click', () => mkDuplicate(b.dataset.dup)));
+  box.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => mkDelete(b.dataset.del)));
+}
+
+/* Naar 'gepost' zonder datum → vandaag invullen */
+function mkStatusPatch(id, status) {
+  const r = _mkRows.find(x => x.id === id), p = { status };
+  if (status === 'gepost' && r && !r.publish_date) p.publish_date = mkYmd(new Date());
+  return p;
+}
+
+/* ── Bord ── */
+function mkRenderBoard(rows) {
+  const box = $('mk-list');
+  box.innerHTML = '<div class="mk-board">' + MK_STATUS.map((s, i) => {
+    const items = rows.filter(r => r.status === s[0]);
+    return '<div class="mk-col" data-status="' + s[0] + '"><div class="mk-col-h"><span style="color:' + MK_STATUS_COL[s[0]] + '">' + esc(s[1]) + '</span><span>' + items.length + '</span></div>' +
+      items.map(r => {
+        const ch = mkCh(r.channel);
+        return '<div class="mk-card" draggable="true" data-id="' + esc(r.id) + '" data-edit="' + esc(r.id) + '" style="--mkc:' + ch[2] + '">' +
+          '<div class="t">' + esc(r.title) + '</div><div class="m"><span>' + esc(ch[1]) + '</span>' +
+          (r.publish_date ? '<span class="' + (mkIsLate(r) ? 'late' : '') + '">' + mkFmtDate(r.publish_date) + '</span>' : '') +
+          (i < MK_STATUS.length - 1 ? '<button class="nx" data-next="' + esc(r.id) + '" title="Naar ' + esc(MK_STATUS[i + 1][1]) + '">→</button>' : '') +
+          '</div></div>';
+      }).join('') + '</div>';
+  }).join('') + '</div>';
+  mkWireCommon(box);
+  box.querySelectorAll('[data-next]').forEach(b => b.addEventListener('click', () => {
+    const r = _mkRows.find(x => x.id === b.dataset.next); if (!r) return;
+    const i = MK_STATUS.findIndex(s => s[0] === r.status);
+    if (i >= 0 && i < MK_STATUS.length - 1) mkPatch(r.id, mkStatusPatch(r.id, MK_STATUS[i + 1][0]));
+  }));
+  mkWireDrag(box, '.mk-card', '.mk-col', (id, col) => mkPatch(id, mkStatusPatch(id, col.dataset.status)));
+}
+
+/* Generiek slepen: items (sel) naar drop-zones (zoneSel) */
+function mkWireDrag(box, sel, zoneSel, onDrop) {
+  box.querySelectorAll(sel).forEach(el => {
+    el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', el.dataset.id); e.dataTransfer.effectAllowed = 'move'; el.classList.add('dragging'); e.stopPropagation(); });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+  });
+  box.querySelectorAll(zoneSel).forEach(z => {
+    z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('over'); });
+    z.addEventListener('dragleave', e => { if (!z.contains(e.relatedTarget)) z.classList.remove('over'); });
+    z.addEventListener('drop', e => { e.preventDefault(); z.classList.remove('over'); const id = e.dataTransfer.getData('text/plain'); if (id) onDrop(id, z); });
+  });
+}
+
+/* ── Kalender ── */
+function mkRenderCal(rows) {
+  if (!_mkCal) { const n = new Date(); _mkCal = { y: n.getFullYear(), m: n.getMonth() }; }
+  const { y, m } = _mkCal;
+  const first = new Date(y, m, 1), start = new Date(y, m, 1 - ((first.getDay() + 6) % 7));
+  const today = mkYmd(new Date());
+  const byDate = {};
+  rows.forEach(r => { if (r.publish_date) (byDate[r.publish_date] = byDate[r.publish_date] || []).push(r); });
+  const noDate = rows.filter(r => !r.publish_date && r.status !== 'gepost').length;
+  let cells = ['ma','di','wo','do','vr','za','zo'].map(d => '<div class="mk-dow">' + d + '</div>').join('');
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(start); d.setDate(start.getDate() + i);
+    if (i === 35 && d.getMonth() !== m) break; // 6e week alleen als nodig
+    const key = mkYmd(d);
+    cells += '<div class="mk-day' + (d.getMonth() !== m ? ' out' : '') + (key === today ? ' today' : '') + '" data-date="' + key + '" title="Klik om op deze dag iets toe te voegen">' +
+      '<div class="n">' + d.getDate() + '</div>' +
+      (byDate[key] || []).map(r => '<span class="mk-ev' + (r.status === 'gepost' ? ' done' : '') + '" draggable="true" data-id="' + esc(r.id) + '" data-edit="' + esc(r.id) + '" style="background:' + mkCh(r.channel)[2] + '" title="' + esc(r.title) + '">' + esc(r.title) + '</span>').join('') +
+      '</div>';
+  }
+  const box = $('mk-list');
+  box.innerHTML = '<div class="mk-calnav"><button class="mk-btn" id="mk-cprev">‹</button><b>' + MK_MONTHS_FULL[m] + ' ' + y + '</b><button class="mk-btn" id="mk-cnext">›</button><button class="mk-btn" id="mk-ctoday">Vandaag</button></div>' +
+    '<div class="mk-cal">' + cells + '</div>' +
+    (noDate ? '<div class="note">' + noDate + ' item' + (noDate === 1 ? '' : 's') + ' zonder datum staan niet in de kalender. Klik ze aan in de Lijst-weergave om een datum te geven.</div>' : '');
+  $('mk-cprev').addEventListener('click', () => { _mkCal.m--; if (_mkCal.m < 0) { _mkCal.m = 11; _mkCal.y--; } renderMarketing(); });
+  $('mk-cnext').addEventListener('click', () => { _mkCal.m++; if (_mkCal.m > 11) { _mkCal.m = 0; _mkCal.y++; } renderMarketing(); });
+  $('mk-ctoday').addEventListener('click', () => { _mkCal = null; renderMarketing(); });
+  box.querySelectorAll('.mk-day').forEach(day => day.addEventListener('click', e => {
+    if (e.target.closest('.mk-ev')) return;
+    mkResetForm(); $('mk-date').value = day.dataset.date;
+    if ($('mk-statussel').value === 'idee') $('mk-statussel').value = 'ingepland';
+    mkFocusForm();
+  }));
+  mkWireCommon(box);
+  mkWireDrag(box, '.mk-ev', '.mk-day', (id, day) => { const r = _mkRows.find(x => x.id === id); if (r && r.publish_date !== day.dataset.date) mkPatch(id, { publish_date: day.dataset.date }); });
+}
+
+/* ── Opslaan / bewerken ── */
 function mkStartEdit(id) {
   const r = _mkRows.find(x => x.id === id); if (!r) return;
   _mkEdit = id;
@@ -2085,8 +2355,8 @@ function mkStartEdit(id) {
   $('mk-date').value = r.publish_date || ''; $('mk-link').value = r.link || ''; $('mk-notes').value = r.notes || '';
   $('mk-save').textContent = 'Opslaan'; $('mk-cancel').style.display = '';
   $('mk-form-title').lastChild.textContent = 'Item bewerken';
-  const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
-  $('mk-title').focus();
+  renderMarketing();
+  mkFocusForm();
 }
 
 async function mkSave() {
@@ -2096,33 +2366,177 @@ async function mkSave() {
     title, channel: $('mk-channel').value, format: $('mk-format').value, status: $('mk-statussel').value,
     publish_date: $('mk-date').value || null, link: $('mk-link').value.trim() || null, notes: $('mk-notes').value.trim() || null,
   };
-  const btn = $('mk-save'); btn.disabled = true;
+  if (row.status === 'gepost' && !row.publish_date) row.publish_date = mkYmd(new Date());
+  const btn = $('mk-save'); if (btn.disabled) return; btn.disabled = true;
   try {
-    const q = _mkEdit ? getSB().from('marketing_content').update(row).eq('id', _mkEdit)
-                      : getSB().from('marketing_content').insert(row);
-    const { error } = await q;
-    if (error) throw error;
-    toast(_mkEdit ? 'Opgeslagen' : 'Toegevoegd', 'ok');
-    mkResetForm(); await loadMarketing();
+    if (_mkEdit) {
+      const id = _mkEdit;
+      const { data, error } = await getSB().from('marketing_content').update(row).eq('id', id).select().single();
+      if (error) throw error;
+      _mkRows = _mkRows.map(x => x.id === id ? data : x);
+      toast('Opgeslagen', 'ok');
+      mkResetForm();
+    } else {
+      const { data, error } = await getSB().from('marketing_content').insert(row).select().single();
+      if (error) throw error;
+      _mkRows.push(data); _mkFlashId = data.id;
+      toast('Toegevoegd', 'ok');
+      // Kanaal/format/status laten staan → snel meerdere ideeën achter elkaar invoeren
+      ['mk-title', 'mk-link', 'mk-notes'].forEach(id => { $(id).value = ''; });
+      renderMarketing();
+      $('mk-title').focus();
+    }
   } catch (e) { toast('Fout: ' + (e.message || e), 'err'); }
   btn.disabled = false;
 }
 
-async function mkSetStatus(id, status) {
-  const { error } = await getSB().from('marketing_content').update({ status }).eq('id', id);
-  if (error) { toast('Fout: ' + error.message, 'err'); return; }
-  const r = _mkRows.find(x => x.id === id); if (r) r.status = status;
-  renderMarketing();
+/* Optimistische update van één item */
+async function mkPatch(id, patch) {
+  const r = _mkRows.find(x => x.id === id); if (!r) return;
+  Object.assign(r, patch); renderMarketing();
+  const { error } = await getSB().from('marketing_content').update(patch).eq('id', id);
+  if (error) { toast('Opslaan mislukt: ' + error.message, 'err'); loadMarketing().catch(console.error); }
 }
 
-async function mkDelete(id) {
-  const r = _mkRows.find(x => x.id === id);
-  if (!confirmish('"' + (r ? r.title : 'Dit item') + '" verwijderen?')) return;
-  const { error } = await getSB().from('marketing_content').delete().eq('id', id);
+async function mkDuplicate(id) {
+  const r = _mkRows.find(x => x.id === id); if (!r) return;
+  const copy = { title: r.title + ' (kopie)', channel: r.channel, format: r.format, status: 'idee', publish_date: null, link: null, notes: r.notes };
+  const { data, error } = await getSB().from('marketing_content').insert(copy).select().single();
   if (error) { toast('Fout: ' + error.message, 'err'); return; }
-  if (_mkEdit === id) mkResetForm();
-  toast('Verwijderd', 'ok'); await loadMarketing();
+  _mkRows.push(data); _mkFlashId = data.id; renderMarketing();
+  toast('Kopie gemaakt (als idee, zonder datum)', 'ok');
 }
+
+/* Verwijderen met 'ongedaan maken' i.p.v. bevestigingsdialoog */
+async function mkDelete(id) {
+  const r = _mkRows.find(x => x.id === id); if (!r) return;
+  _mkRows = _mkRows.filter(x => x.id !== id);
+  if (_mkEdit === id) mkResetForm(); else renderMarketing();
+  const { error } = await getSB().from('marketing_content').delete().eq('id', id);
+  if (error) { toast('Fout: ' + error.message, 'err'); loadMarketing().catch(console.error); return; }
+  _mkUndoRow = r;
+  $('mk-undo-txt').textContent = '"' + (r.title.length > 40 ? r.title.slice(0, 40) + '…' : r.title) + '" verwijderd';
+  $('mk-undo').classList.add('show');
+  clearTimeout(_mkUndoTimer);
+  _mkUndoTimer = setTimeout(() => { $('mk-undo').classList.remove('show'); _mkUndoRow = null; }, 6000);
+}
+async function mkUndo() {
+  const r = _mkUndoRow; if (!r) return;
+  _mkUndoRow = null; clearTimeout(_mkUndoTimer); $('mk-undo').classList.remove('show');
+  const { id, title, channel, format, status, publish_date, link, notes, created_by, created_at } = r;
+  const { data, error } = await getSB().from('marketing_content').insert({ id, title, channel, format, status, publish_date, link, notes, created_by, created_at }).select().single();
+  if (error) { toast('Terugzetten mislukt: ' + error.message, 'err'); return; }
+  _mkRows.push(data); _mkFlashId = data.id; renderMarketing();
+  toast('Teruggezet', 'ok');
+}
+
+/* CSV voor Excel/Sheets (puntkomma + BOM → Nederlandse Excel opent het netjes) */
+function mkExportCSV() {
+  const rows = mkFiltered(false);
+  if (!rows.length) { toast('Niks om te exporteren', 'err'); return; }
+  const stLabel = Object.fromEntries(MK_STATUS);
+  const cell = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const lines = [['Datum', 'Titel', 'Kanaal', 'Format', 'Status', 'Link', 'Notities'].map(cell).join(';')]
+    .concat(rows.map(r => [r.publish_date || '', r.title, mkCh(r.channel)[1], r.format || '', stLabel[r.status] || r.status, r.link || '', r.notes || ''].map(cell).join(';')));
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'vumed-marketing-' + mkYmd(new Date()) + '.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+/* ══════════════ Notitieblok (tabel marketing_notes) ══════════════
+   Elke notitie slaat zichzelf op (debounce 600 ms) terwijl je typt.
+   We her-renderen NIET tijdens het typen, anders verlies je de cursor. */
+const MKN_COLORS = [['yellow', '#FFE066'], ['blue', '#7CCBF2'], ['green', '#8FD36A'], ['pink', '#F28DB2'], ['grey', '#C4C8CE']];
+let _mknRows = [], _mknQ = '', _mknTimers = {};
+
+function mknSort(a, b) {
+  if (a.pinned !== b.pinned) return a.pinned ? -1 : 1;
+  return (b.updated_at || '') < (a.updated_at || '') ? -1 : 1;
+}
+function mknAgo(ts) {
+  if (!ts) return '';
+  const s = Math.round((Date.now() - new Date(ts)) / 1000);
+  if (s < 60) return 'zojuist';
+  if (s < 3600) return Math.round(s / 60) + ' min geleden';
+  if (s < 86400) return Math.round(s / 3600) + ' uur geleden';
+  const d = new Date(ts); return d.getDate() + ' ' + MK_MONTHS[d.getMonth()];
+}
+function mknAutoGrow(ta) { ta.style.height = 'auto'; ta.style.height = Math.max(90, ta.scrollHeight) + 'px'; }
+
+async function loadNotes() {
+  const { data, error } = await getSB().from('marketing_notes').select('*');
+  if (error) { $('mkn-grid').innerHTML = '<div class="note">Kon notities niet laden: ' + esc(error.message) + '</div>'; return; }
+  _mknRows = data || [];
+  renderNotes();
+}
+
+function renderNotes(focusId) {
+  const rows = _mknRows.filter(n => !_mknQ || (n.title + ' ' + n.body).toLowerCase().includes(_mknQ)).sort(mknSort);
+  const grid = $('mkn-grid');
+  if (!rows.length) { grid.innerHTML = '<div class="card-sub">' + (_mknRows.length ? 'Geen notities gevonden.' : 'Nog geen notities. Klik op "+ Nieuwe notitie".') + '</div>'; return; }
+  grid.innerHTML = rows.map(n =>
+    '<div class="mkn c-' + esc(n.color || 'yellow') + '" data-id="' + esc(n.id) + '">' +
+      '<input class="mkn-t" placeholder="Titel" value="' + esc(n.title) + '" maxlength="200">' +
+      '<textarea class="mkn-b" placeholder="Schrijf hier…">' + esc(n.body) + '</textarea>' +
+      '<div class="mkn-foot">' +
+        MKN_COLORS.map(c => '<button class="mkn-dot' + ((n.color || 'yellow') === c[0] ? ' on' : '') + '" data-c="' + c[0] + '" style="background:' + c[1] + '" title="Kleur"></button>').join('') +
+        '<span class="sp"></span><span class="mkn-st">' + mknAgo(n.updated_at) + '</span>' +
+        '<button class="mkn-ib pin' + (n.pinned ? ' on' : '') + '" title="' + (n.pinned ? 'Losmaken' : 'Vastpinnen bovenaan') + '">📌</button>' +
+        '<button class="mkn-ib del" title="Verwijderen">🗑</button>' +
+      '</div></div>').join('');
+  grid.querySelectorAll('.mkn').forEach(el => {
+    const id = el.dataset.id, ta = el.querySelector('.mkn-b'), ti = el.querySelector('.mkn-t'), st = el.querySelector('.mkn-st');
+    mknAutoGrow(ta);
+    const onEdit = () => {
+      const n = _mknRows.find(x => x.id === id); if (!n) return;
+      n.title = ti.value; n.body = ta.value; st.textContent = 'Opslaan…';
+      clearTimeout(_mknTimers[id]);
+      _mknTimers[id] = setTimeout(async () => {
+        const { data, error } = await getSB().from('marketing_notes').update({ title: n.title, body: n.body }).eq('id', id).select('updated_at').single();
+        if (error) { st.textContent = 'Niet opgeslagen!'; st.style.color = '#FF3B30'; return; }
+        n.updated_at = data.updated_at; st.textContent = 'Opgeslagen'; st.style.color = '';
+      }, 600);
+    };
+    ti.addEventListener('input', onEdit);
+    ta.addEventListener('input', () => { mknAutoGrow(ta); onEdit(); });
+    ti.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); ta.focus(); } });
+    el.querySelectorAll('.mkn-dot').forEach(d => d.addEventListener('click', () => mknPatch(id, { color: d.dataset.c })));
+    el.querySelector('.pin').addEventListener('click', () => { const n = _mknRows.find(x => x.id === id); if (n) mknPatch(id, { pinned: !n.pinned }); });
+    el.querySelector('.del').addEventListener('click', () => mknDelete(id));
+  });
+  if (focusId) { const t = grid.querySelector('.mkn[data-id="' + focusId + '"] .mkn-t'); if (t) t.focus(); }
+}
+
+async function mknPatch(id, patch) {
+  const n = _mknRows.find(x => x.id === id); if (!n) return;
+  Object.assign(n, patch); renderNotes();
+  const { error } = await getSB().from('marketing_notes').update(patch).eq('id', id);
+  if (error) { toast('Opslaan mislukt: ' + error.message, 'err'); loadNotes().catch(console.error); }
+}
+
+async function mknAdd() {
+  const { data, error } = await getSB().from('marketing_notes').insert({ title: '', body: '' }).select().single();
+  if (error) { toast('Fout: ' + error.message, 'err'); return; }
+  _mknRows.push(data); _mknQ = ''; $('mkn-q').value = '';
+  // nieuwe notitie bovenaan (na vastgepinde) door updated_at = nu
+  renderNotes(data.id);
+}
+
+async function mknDelete(id) {
+  const n = _mknRows.find(x => x.id === id); if (!n) return;
+  if ((n.title || n.body) && !confirmish('Notitie "' + (n.title || n.body.slice(0, 30)) + '" verwijderen?')) return;
+  clearTimeout(_mknTimers[id]);
+  _mknRows = _mknRows.filter(x => x.id !== id); renderNotes();
+  const { error } = await getSB().from('marketing_notes').delete().eq('id', id);
+  if (error) { toast('Fout: ' + error.message, 'err'); loadNotes().catch(console.error); }
+}
+
+$('mkn-add').addEventListener('click', mknAdd);
+$('mkn-q').addEventListener('input', () => { _mknQ = $('mkn-q').value.trim().toLowerCase(); renderNotes(); });
+// Openstaande wijzigingen niet kwijtraken bij wegklikken
+window.addEventListener('beforeunload', e => { if (Object.keys(_mknTimers).some(k => _mknTimers[k] && document.querySelector('.mkn[data-id="' + k + '"] .mkn-st')?.textContent === 'Opslaan…')) { e.preventDefault(); e.returnValue = ''; } });
 
 /* ══════════════ Team-beheer ══════════════ */
 async function loadTeam() {

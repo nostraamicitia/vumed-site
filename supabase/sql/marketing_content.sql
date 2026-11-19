@@ -35,3 +35,24 @@ create trigger marketing_content_touch before update on public.marketing_content
 
 revoke all on public.marketing_content from anon;
 grant select, insert, update, delete on public.marketing_content to authenticated;
+
+-- Notitieblok in de Marketing-sectie
+create table if not exists public.marketing_notes (
+  id         uuid primary key default gen_random_uuid(),
+  title      text not null default '',
+  body       text not null default '',
+  pinned     boolean not null default false,
+  color      text not null default 'yellow',
+  created_by uuid default auth.uid() references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.marketing_notes enable row level security;
+drop policy if exists "admins manage marketing notes" on public.marketing_notes;
+create policy "admins manage marketing notes" on public.marketing_notes
+  for all to authenticated using (public.is_admin()) with check (public.is_admin());
+drop trigger if exists marketing_notes_touch on public.marketing_notes;
+create trigger marketing_notes_touch before update on public.marketing_notes
+  for each row execute function public.marketing_content_touch();
+revoke all on public.marketing_notes from anon;
+grant select, insert, update, delete on public.marketing_notes to authenticated;
