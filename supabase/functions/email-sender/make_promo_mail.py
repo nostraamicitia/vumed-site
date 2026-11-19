@@ -11,11 +11,11 @@ IMGS=("file://"+ROOT) if PREVIEW else SITE; APP="https://apps.apple.com/nl/app/v
 INK="#1C3144"; SUB="#5C7A92"; BLUE="#1CB0F6"
 
 BTN={"blue":("#45C6FF","#1CB0F6","#0B8FD0","28,176,246"),"orange":("#FF9A3C","#FF7A00","#D45F00","255,122,0"),
-     "black":("#3A3A3C","#111111","#000000","0,0,0")}
+     "black":("#3A3A3C","#111111","#000000","17,17,17")}
 def btn(label,href,color="blue",margin="28px auto 4px",fs=20):
     top,bot,edge,glow=BTN[color]
     return f'''<table role="presentation" cellpadding="0" cellspacing="0" style="margin:{margin};"><tr>
-<td class="cta" bgcolor="{bot}" style="background:{bot};background-image:linear-gradient(180deg,{top} 0%,{bot} 100%);border-radius:16px;border-bottom:4px solid {edge};box-shadow:0 10px 22px rgba({glow},.30);">
+<td{' class="cta"' if color=="blue" else ""} bgcolor="{bot}" style="background:{bot};background-image:linear-gradient(180deg,{top} 0%,{bot} 100%);border-radius:16px;border-bottom:4px solid {edge};box-shadow:0 10px 22px rgba({glow},.30);">
 <a href="{href}" style="display:inline-block;padding:18px 24px 18px 36px;font:800 {fs}px {F};color:#ffffff;text-decoration:none;letter-spacing:.4px;">{label}&nbsp;&nbsp;<span style="display:inline-block;width:32px;height:32px;line-height:32px;border-radius:16px;background:rgba(255,255,255,.25);text-align:center;font:800 18px Arial,sans-serif;vertical-align:middle;">&rarr;</span></a>
 </td></tr></table>'''
 
@@ -53,22 +53,21 @@ ai = f'<img src="{IMGS}/images/email_promo_chat.gif" width="380" height="360" al
 
 # 5 — app én web
 def platform(tag,tagcol,title,text,visual,button):
-    return f'''<td class="plat" width="50%" style="padding:0 6px;vertical-align:top;">
-<table role="presentation" cellpadding="0" cellspacing="0" width="100%"><tr>
-<td align="center" style="background:#ffffff;border:2px solid #E6EDF3;border-bottom-width:5px;border-radius:20px;padding:22px 14px 20px;">
+    return f'''<td class="plat" width="48%" align="center" valign="top" style="background:#ffffff;border:2px solid #E6EDF3;border-bottom-width:5px;border-radius:20px;padding:22px 14px 22px;vertical-align:top;">
 <div style="display:inline-block;background:{tagcol};border-radius:8px;padding:4px 10px;font:800 11px {F};color:#ffffff;letter-spacing:1px;">{tag}</div>
 <div style="font:900 22px {F};color:{INK};margin-top:10px;">{title}</div>
-<div style="font:500 15px {F};color:{SUB};line-height:1.5;margin-top:4px;">{text}</div>
-<div style="margin-top:16px;">{visual}</div>
+<div style="font:500 15px {F};color:{SUB};line-height:1.5;margin-top:4px;height:68px;">{text}</div>
+<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin-top:12px;"><tr><td align="center" valign="middle" height="160" style="height:160px;vertical-align:middle;">{visual}</td></tr></table>
 {button}
-</td></tr></table></td>'''
+</td>'''
 app_visual = f'<img src="{IMGS}/qr_appstore.png" width="118" height="118" alt="QR-code App Store" style="display:block;margin:0 auto;border:0;border-radius:12px;"><div style="font:700 13px {F};color:#8FA8BC;margin-top:6px;">Scan met je iPhone</div>'
 web_visual = f'''<table role="presentation" cellpadding="0" cellspacing="0" width="150" style="margin:0 auto;"><tr><td style="border:2px solid #E6EDF3;border-radius:12px;overflow:hidden;">
 <div style="background:#F3F8FC;padding:6px 8px;text-align:left;"><span style="display:inline-block;width:7px;height:7px;border-radius:4px;background:#FF5F57;"></span> <span style="display:inline-block;width:7px;height:7px;border-radius:4px;background:#FEBC2E;"></span> <span style="display:inline-block;width:7px;height:7px;border-radius:4px;background:#28C840;"></span></div>
-<div style="padding:16px 8px 14px;text-align:center;"><img src="{IMGS}/icon-192.png" width="44" height="44" alt="" style="display:block;margin:0 auto;border:0;border-radius:11px;"><div style="font:800 14px {F};color:{BLUE};margin-top:8px;">vumed.nl</div></div>
+<div style="padding:16px 8px 14px;text-align:center;"><img src="{IMGS}/images/email_promo_icon_sm.png" width="62" height="65" alt="" style="display:block;margin:-6px auto -10px;border:0;"><div style="font:800 14px {F};color:{BLUE};margin-top:8px;">vumed.nl</div></div>
 </td></tr></table><div style="font:700 13px {F};color:#8FA8BC;margin-top:6px;">Niets installeren</div>'''
 app = f'''<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;margin:0 auto;"><tr>
 {platform("APP","#111111","iPhone-app","Gratis in de App Store. Oefen in de trein of tussen colleges door.",app_visual,btn("App Store",APP,"black","16px auto 0",15))}
+<td class="gap" width="4%" style="font-size:0;line-height:0;">&nbsp;</td>
 {platform("WEB",BLUE,"Webversie","Op je laptop, tablet of Android-telefoon. Gewoon in je browser.",web_visual,btn("vumed.nl",L,"blue","16px auto 0",15))}
 </tr></table>
 <table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px auto 0;max-width:460px;width:100%;"><tr>
@@ -123,7 +122,8 @@ html=f'''<!doctype html>
     .h1{{font-size:28px !important}}
     .h2{{font-size:27px !important}}
     .p{{font-size:16px !important}}
-    .plat{{display:block !important;width:100% !important;padding:0 0 14px !important}}
+    .plat{{display:block !important;width:auto !important}}
+    .gap{{display:block !important;width:auto !important;height:14px !important}}
     .num{{font-size:19px !important}}
     .lbl{{font-size:10px !important;letter-spacing:.2px !important}}
   }}
@@ -134,21 +134,13 @@ html=f'''<!doctype html>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EDF4FA;"><tr><td align="center" style="padding:28px 10px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:24px;overflow:hidden;">
 
-<!-- haak -->
-<tr><td class="hero" align="center" style="padding:44px 36px 8px;">
-  <img src="{IMGS}/images/email_promo_pdfs.gif" width="300" height="158" alt="Een stapel losse pdf'jes" style="display:block;margin:0 auto;border:0;max-width:100%;height:auto;">
-  <div class="h1" style="font:900 34px {F};color:{INK};letter-spacing:-.4px;line-height:1.2;margin:16px auto 0;max-width:470px;">Klaar met zoeken in verouderde pdf'jes?</div>
-  <div class="p" style="font:500 18px {F};color:{SUB};line-height:1.6;margin:14px auto 0;max-width:440px;">Losse bestanden, antwoorden die ergens anders staan en nooit weten of je het nou echt snapt. Daar is nu een oplossing voor.</div>
-  <div style="font:900 30px {F};color:#B5C7D6;line-height:1;margin-top:26px;">&darr;</div>
-</td></tr>
-
 <!-- introductie -->
-<tr><td class="hero" align="center" style="padding:10px 36px 48px;">
-  <img src="{IMGS}/images/email_promo_icon.gif" width="150" height="150" alt="VUmed" style="display:block;margin:0 auto;border:0;">
+<tr><td class="hero" align="center" style="padding:40px 36px 48px;">
+  <img src="{IMGS}/images/email_promo_icon.gif" width="150" height="157" alt="VUmed" style="display:block;margin:0 auto;border:0;">
   <div style="font:800 14px {F};color:#8FA8BC;letter-spacing:1.5px;margin-top:4px;">MAAK KENNIS MET</div>
   <div style="font:900 52px {F};color:{BLUE};letter-spacing:-1px;line-height:1.05;margin-top:4px;">VUmed</div>
   <div style="font:900 26px {F};color:{INK};line-height:1.25;margin-top:8px;">Alle oude CAT's op één plek.</div>
-  <div class="p" style="font:500 18px {F};color:{SUB};line-height:1.6;margin:14px auto 0;max-width:430px;">Ruim 260 oude VU-tentamens van jaar 1 t/m 3, interactief en met uitleg. Gratis, als app én in je browser.</div>
+  <div class="p" style="font:500 18px {F};color:{SUB};line-height:1.6;margin:14px auto 0;max-width:430px;">Elk oud VU-tentamen van jaar 1 t/m 3, interactief en met uitleg. Gratis, als app én in je browser.</div>
   {btn("Aan de slag",L)}
 </td></tr>
 
@@ -167,18 +159,18 @@ html=f'''<!doctype html>
 <!-- drie kaarten -->
 <tr><td class="sec" style="background:#F7FBFE;padding:44px 28px 30px;">
 <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
-{feat("email_badge.gif","Tentamens","Ruim 260 oude VU-tentamens, per vak en toetsmoment, met uitleg en begrippenlijst.",L,"Bekijk de tentamens")}
+{feat("email_badge.gif","Tentamens","Alle oude VU-tentamens, per vak en toetsmoment, met uitleg en begrippenlijst.",L,"Bekijk de tentamens")}
 {feat("email_flame.gif","Missies","Eén vraag tegelijk per onderwerp. Je fouten komen terug tot je álles beheerst.",L,"Start een missie")}
 {feat("email_trophy.gif","Klassement","Verdien XP, verzamel badges en neem het elke week op tegen je jaargenoten.",L,"Bekijk het klassement")}
 </table></td></tr>
 
 <!-- slot -->
 <tr><td class="sec" align="center" style="padding:56px 36px 54px;">
-  <img src="{IMGS}/images/email_trophy.gif" width="130" height="130" alt="" style="display:block;margin:0 auto;border:0;">
+  <img src="{IMGS}/images/email_promo_trophy.gif" width="230" height="203" alt="" style="display:block;margin:0 auto;border:0;">
   <div class="h2" style="font:900 34px {F};color:{INK};letter-spacing:-.4px;line-height:1.2;margin-top:14px;">Klaar voor je<br><span style="color:{BLUE};">volgende tentamen?</span></div>
   <div class="p" style="font:500 18px {F};color:{SUB};line-height:1.6;margin:14px auto 0;max-width:440px;">Maak gratis een account en oefen vandaag nog je eerste oude CAT. Je ziet meteen welke onderwerpen je al beheerst en waar je nog punten laat liggen.</div>
   <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:28px auto 0;max-width:460px;"><tr>
-    {stat("260+","TENTAMENS","#45C6FF","#1CB0F6","#0B8FD0","28,176,246","#D9F1FF")}
+    {stat("Alle","OUDE VU-TENTAMENS","#45C6FF","#1CB0F6","#0B8FD0","28,176,246","#D9F1FF")}
     {stat("€0","ALTIJD GRATIS","#FFD84D","#FFC200","#D99A00","255,194,0","#FFF3CC")}
     {stat("App + web","JIJ KIEST","#FF9A3C","#FF7A00","#D45F00","255,122,0","#FFE3CC")}
   </tr></table>

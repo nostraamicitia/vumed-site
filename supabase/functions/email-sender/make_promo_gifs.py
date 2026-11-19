@@ -1,6 +1,6 @@
 """Geanimeerde GIF's voor de promo-mail (promo_mail.html), op wit en op 2x resolutie.
 Het EERSTE frame is steeds een goed stilstaand eindbeeld (Outlook toont alleen dat).
-Gebruik: venv/bin/python make_promo_gifs.py <repo-root> <Nunito.ttf>"""
+Gebruik: venv/bin/python make_promo_gifs.py <repo-root> <Nunito.ttf> [icon trophy quiz drag streak chat]"""
 import math, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
 
@@ -37,13 +37,25 @@ def card(d, box, fill=WHITE, border=LINE, r=36, bottom=10, w=4):
     d.rounded_rectangle((x0 + w, y0 + w, x1 - w, y1 - bottom), r - w, fill=fill)
 
 
-def save(frames, durations, name, scale=0.5, colors=96):
-    out = []
+def save(frames, durations, name, scale=0.5, colors=96, extra=None):
+    rgb = []
     for f in frames:
         f = f.convert("RGB")
         if scale != 1:
             f = f.resize((int(f.width * scale), int(f.height * scale)), Image.LANCZOS)
-        out.append(f.quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE))
+        rgb.append(f)
+    if extra:  # vast palet: kleuren van frame 0 + de opgegeven felle kleuren (confetti)
+        base = rgb[0].quantize(colors=colors - len(extra), method=Image.MEDIANCUT, dither=Image.NONE).getpalette()[: 3 * (colors - len(extra))]
+        pal = Image.new("P", (1, 1)); pal.putpalette(base + [c for col in extra for c in col] + [0] * (768 - 3 * colors))
+        out = [f.quantize(palette=pal, dither=Image.NONE) for f in rgb]
+        for o in out:  # bijna-wit -> exact wit, anders zie je een randje op de witte mail
+            pl = o.getpalette()
+            for i in range(0, len(pl), 3):
+                if min(pl[i:i + 3]) >= 244:
+                    pl[i:i + 3] = [255, 255, 255]
+            o.putpalette(pl)
+    else:
+        out = [f.quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE) for f in rgb]
     out[0].save(f"{IMG}/{name}", save_all=True, append_images=out[1:], duration=durations, loop=0, optimize=True, disposal=1)
     print(name, out[0].size, len(out), "frames")
 
@@ -58,72 +70,96 @@ def shine(img, mask, pos, width=90, strength=0.5):
     return out
 
 
-# ---------------------------------------------------------------- 1) app-icoon: pop + glans + gloed
+# ---------------------------------------------------------------- 1) app-icoon in 3D (knop-stijl): indrukken + glans
+def icon3d(S, press=0.0, sh=None, depth=None):
+    """VUmed-icoon als 3D-knop: verloop, witte V met schaduw, donkere onderrand en gloed. press 0..1 = ingedrukt."""
+    depth = depth or int(S * 0.07)
+    src = Image.open(f"{ROOT}/icon-512.png").convert("RGB").resize((S, S), Image.LANCZOS)
+    v = src.getchannel("R").point(lambda x: max(0, min(255, int((x - 40) * 255 / 200))))  # wit = de V
+    m = Image.new("L", (S, S), 0)
+    ImageDraw.Draw(m).rounded_rectangle((0, 0, S - 1, S - 1), int(S * 0.235), fill=255)
+    grad = Image.new("RGB", (1, S))
+    for y in range(S):
+        t = y / (S - 1)
+        grad.putpixel((0, y), tuple(int(a + (b - a) * t) for a, b in zip((0x5E, 0xD2, 0xFF), (0x14, 0xA6, 0xEE))))
+    body = grad.resize((S, S))
+    vs = Image.new("L", (S, S), 0); vs.paste(v, (0, int(S * 0.025)))  # schaduw onder de V
+    body.paste((0x0B, 0x8F, 0xD0), (0, 0), vs.filter(ImageFilter.GaussianBlur(S * 0.012)).point(lambda x: int(x * 0.55)))
+    body.paste(WHITE, (0, 0), v)
+    gloss = Image.new("L", (S, S), 0)  # zachte glans bovenaan
+    ImageDraw.Draw(gloss).ellipse((-S * 0.2, -S * 0.75, S * 1.2, S * 0.42), fill=44)
+    body.paste(WHITE, (0, 0), ImageChops.multiply(gloss.filter(ImageFilter.GaussianBlur(S * 0.04)), m))
+    if sh is not None:
+        body = shine(body, m, sh)
+    pad = int(S * 0.28)
+    W, H = S + 2 * pad, S + depth + 2 * pad
+    f = Image.new("RGB", (W, H), WHITE)
+    off = int(depth * press)
+    gl = Image.new("L", (W, H), 0); gl.paste(m.point(lambda x: int(x * (0.5 - 0.2 * press))), (pad, pad + depth + int(S * 0.08)))
+    f.paste((0x8F, 0xD9, 0xFC), (0, 0), gl.filter(ImageFilter.GaussianBlur(S * 0.09)))
+    f.paste((0x0B, 0x8F, 0xD0), (pad, pad + depth), m)  # 3D-rand
+    f.paste(body, (pad, pad + off), m)
+    return f
+
+
 def app_icon():
     S = 300
-    icon = Image.open(f"{ROOT}/icon-512.png").convert("RGB").resize((S, S), Image.LANCZOS)
-    m = Image.new("L", (S, S), 0)
-    ImageDraw.Draw(m).rounded_rectangle((0, 0, S - 1, S - 1), int(S * 0.225), fill=255)
-    C = 440
-    frames, dur = [], []
-
-    def frame(scale, sh=None):
-        f = Image.new("RGB", (C, C), WHITE)
-        sz = int(S * scale)
-        ic = icon if sh is None else shine(icon, m, sh)
-        ic, mm = ic.resize((sz, sz), Image.LANCZOS), m.resize((sz, sz), Image.LANCZOS)
-        glow = Image.new("L", (C, C), 0)
-        glow.paste(mm.point(lambda v: v * 0.55), ((C - sz) // 2, (C - sz) // 2 + 26))
-        f.paste(Image.new("RGB", (C, C), (0xA8, 0xE2, 0xFC)), (0, 0), glow.filter(ImageFilter.GaussianBlur(26)))
-        f.paste(ic, ((C - sz) // 2, (C - sz) // 2), mm)
-        return f
-
-    frames.append(frame(1.0)); dur.append(1400)
-    N = 18
-    for i in range(N):
-        p = i / (N - 1)
-        frames.append(frame(1 + 0.07 * math.sin(math.pi * min(1, p * 1.5)), int(-160 + p * (S + 360))))
-        dur.append(45)
-    save(frames, dur, "email_promo_icon.gif", scale=1, colors=96)
+    frames, dur = [icon3d(S)], [1500]
+    for p in (0.4, 0.8, 1.0, 1.0):  # indrukken
+        frames.append(icon3d(S, press=p)); dur.append(45)
+    for p in (0.5, -0.15, 0.05, 0.0):  # loslaten met veer
+        frames.append(icon3d(S, press=p)); dur.append(50)
+    N = 12
+    for i in range(N):  # glans-streep
+        frames.append(icon3d(S, sh=int(-160 + i / (N - 1) * (S + 360)))); dur.append(45)
+    save(frames, dur, "email_promo_icon.gif", scale=300 / frames[0].width, colors=96)
+    icon3d(120, depth=8).save(f"{IMG}/email_promo_icon_sm.png")  # klein, stilstaand (webversie-kaart)
+    print("email_promo_icon_sm.png")
 
 
-# ---------------------------------------------------------------- 2) haak: stapel pdf'jes die rommelig schuiven
-def pdfs():
-    W, H = 760, 400
-    f_tag, f_name = font(26, "Black"), font(19, "Bold")
-    names = ["CAT_2019_def(2).pdf", "antwoorden_ECHT.pdf", "scan_tentamen3.pdf", "oud_PAK_v4.pdf", "CAT 2017 (1).pdf"]
+# ---------------------------------------------------------------- 1b) trofee met confetti, gloed en glans
+def trophy():
+    import random
+    random.seed(7)
+    W, H = 520, 460
+    tr = Image.open(f"{IMG}/email_trophy.png").convert("RGBA").resize((330, 330), Image.LANCZOS)
+    cols = [BLUE, GREEN, ORANGE, PURPLE, RED, (0xFF, 0xC2, 0x00), (0x16, 0xC7, 0xB5)]
+    N = 22
+    conf = [(random.uniform(0, W), random.uniform(0, H), random.choice([1, 2]), random.uniform(0, 6.28),
+             random.choice(cols), random.uniform(18, 28), random.choice([1, -1])) for _ in range(34)]
 
-    def sheet(name, tag_col):
-        sw, sh = 230, 290
-        s = Image.new("RGBA", (sw + 30, sh + 30), (0, 0, 0, 0))
-        d = ImageDraw.Draw(s)
-        d.rounded_rectangle((15, 21, sw + 15, sh + 21), 22, fill=(0xD5, 0xDF, 0xE8, 255))
-        d.rounded_rectangle((15, 15, sw + 15, sh + 15), 22, fill=(255, 255, 255, 255), outline=LINE + (255,), width=4)
-        d.rounded_rectangle((35, 37, 125, 77), 10, fill=tag_col + (255,))
-        d.text((80, 57), "PDF", font=f_tag, fill=WHITE, anchor="mm")
-        for k in range(6):
-            ww = [170, 150, 175, 120, 160, 95][k]
-            d.rounded_rectangle((35, 100 + k * 28, 35 + ww, 112 + k * 28), 6, fill=(0xE6, 0xED, 0xF3, 255))
-        d.text((sw / 2 + 15, sh - 10), name, font=f_name, fill=MUTED + (255,), anchor="mm")
-        return s
-
-    sheets = [sheet(n, c) for n, c in zip(names, [RED, RED, (0xE0, 0x3E, 0x3E), RED, (0xE0, 0x3E, 0x3E)])]
-    base = [(-24, -210), (14, -105), (-6, 0), (20, 105), (-16, 210)]  # (hoek, x-offset)
-
-    def frame(t):
+    def frame(t, sh=None):
         f = Image.new("RGBA", (W, H), WHITE + (255,))
-        for k, (s, (a0, x0)) in enumerate(zip(sheets, base)):
-            ph = t * 2 * math.pi + k * 1.3
-            a = a0 + 7 * math.sin(ph)
-            dx = 14 * math.sin(ph * 0.5 + k)
-            dy = 10 * math.cos(ph + k)
-            r = s.rotate(a, resample=Image.BICUBIC, expand=True)
-            f.alpha_composite(r, (int(W / 2 + x0 + dx - r.width / 2), int(H / 2 + dy - r.height / 2 + 8)))
+        g = Image.new("L", (W, H), 0)  # gouden gloed
+        ImageDraw.Draw(g).ellipse((W / 2 - 115, 130, W / 2 + 115, 360), fill=120)
+        f.paste((0xFF, 0xE7, 0x8A, 255), (0, 0), g.filter(ImageFilter.GaussianBlur(36)))
+        d = ImageDraw.Draw(f)
+        for x0, y0, sp, ph, c, sz, dirn in conf:  # confetti valt naadloos rond
+            y = (y0 + t * H * sp) % (H + 40) - 20
+            x = x0 + 14 * math.sin(t * 2 * math.pi * sp + ph)
+            a = ph + dirn * t * 2 * math.pi * 2
+            w, h = sz, sz * 0.55 * abs(math.cos(a)) + 5
+            pc = Image.new("RGBA", (int(sz) + 4, int(sz) + 4), (0, 0, 0, 0))
+            ImageDraw.Draw(pc).rectangle(((sz + 4 - w) / 2, (sz + 4 - h) / 2, (sz + 4 + w) / 2, (sz + 4 + h) / 2), fill=c + (255,))
+            pc = pc.rotate(math.degrees(a), expand=True)
+            f.alpha_composite(pc, (int(x), int(y)))
+        bob = 6 * math.sin(t * 2 * math.pi)
+        s = 1 + 0.03 * math.sin(t * 2 * math.pi)
+        tt = tr.resize((int(330 * s), int(330 * s)), Image.LANCZOS)
+        if sh is not None:  # glans alleen binnen de trofee
+            band = Image.new("L", tt.size, 0)
+            ImageDraw.Draw(band).polygon([(sh, 0), (sh + 80, 0), (sh + 80 - tt.height * 0.5, tt.height), (sh - tt.height * 0.5, tt.height)], fill=150)
+            ov = Image.new("RGBA", tt.size, WHITE + (0,))
+            ov.putalpha(ImageChops.multiply(band.filter(ImageFilter.GaussianBlur(10)), tt.getchannel("A")))
+            tt = tt.copy(); tt.alpha_composite(ov)
+        f.alpha_composite(tt, (int((W - tt.width) / 2), int(H - 40 - tt.height + bob)))
         return f
 
-    N = 16
-    frames = [frame(i / N) for i in range(N)]
-    save(frames, [110] * N, "email_promo_pdfs.gif", scale=0.5, colors=40)
+    frames, dur = [], []
+    for i in range(N):
+        sh = int(-160 + (i - 6) / 8 * 560) if 6 <= i < 14 else None
+        frames.append(frame(i / N, sh)); dur.append(80)
+    save(frames, dur, "email_promo_trophy.gif", scale=0.6, colors=72, extra=cols + [WHITE])
 
 
 # ---------------------------------------------------------------- 3) mini-vraag: B kiezen -> groen -> Goed! +10 XP
@@ -331,4 +367,6 @@ def chat():
     save(frames, dur, "email_promo_chat.gif", scale=1, colors=40)
 
 
-app_icon(); pdfs(); quiz(); drag(); streak(); chat()
+ALL = {"icon": app_icon, "trophy": trophy, "quiz": quiz, "drag": drag, "streak": streak, "chat": chat}
+for name in (sys.argv[3:] or ALL):
+    ALL[name]()
