@@ -12,11 +12,12 @@ INK="#1C3144"; SUB="#5C7A92"; BLUE="#1CB0F6"
 
 BTN={"blue":("#45C6FF","#1CB0F6","#0B8FD0","28,176,246"),"orange":("#FF9A3C","#FF7A00","#D45F00","255,122,0"),
      "black":("#3A3A3C","#111111","#000000","17,17,17")}
-def btn(label,href,color="blue",margin="28px auto 4px",fs=20):
+def btn(label,href,color="blue",margin="28px auto 4px",fs=23):
+    a=round(fs*1.7)
     top,bot,edge,glow=BTN[color]
     return f'''<table role="presentation" cellpadding="0" cellspacing="0" style="margin:{margin};"><tr>
 <td{' class="cta"' if color=="blue" else ""} bgcolor="{bot}" style="background:{bot};background-image:linear-gradient(180deg,{top} 0%,{bot} 100%);border-radius:16px;border-bottom:4px solid {edge};box-shadow:0 10px 22px rgba({glow},.30);">
-<a href="{href}" style="display:inline-block;padding:18px 24px 18px 36px;font:800 {fs}px {F};color:#ffffff;text-decoration:none;letter-spacing:.4px;">{label}&nbsp;&nbsp;<span style="display:inline-block;width:32px;height:32px;line-height:32px;border-radius:16px;background:rgba(255,255,255,.25);text-align:center;font:800 18px Arial,sans-serif;vertical-align:middle;">&rarr;</span></a>
+<a href="{href}" style="display:inline-block;padding:19px 24px 19px 38px;font:800 {fs}px {F};color:#ffffff;text-decoration:none;letter-spacing:.4px;">{label}&nbsp;&nbsp;<span style="display:inline-block;width:{a}px;height:{a}px;line-height:{a}px;border-radius:{a//2}px;background:rgba(255,255,255,.25);text-align:center;font:800 {round(fs*1.05)}px Arial,sans-serif;vertical-align:middle;">&rarr;</span></a>
 </td></tr></table>'''
 
 def chip(text,bg,sh,fs=13):
@@ -70,8 +71,7 @@ app = f'''<table role="presentation" cellpadding="0" cellspacing="0" width="100%
 <td class="gap" width="4%" style="font-size:0;line-height:0;">&nbsp;</td>
 {platform("WEB",BLUE,"Webversie","Op je laptop, tablet of Android-telefoon. Gewoon in je browser.",web_visual,btn("vumed.nl",L,"blue","16px auto 0",15))}
 </tr></table>
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin:22px auto 0;max-width:460px;width:100%;"><tr>
-<td style="background:#F3F8FC;border-radius:14px;padding:14px 18px;text-align:center;font:700 15px {F};color:#3C5A73;line-height:1.5;">Eén account voor allebei: je voortgang, reeks en XP lopen gewoon door tussen app en web.</td></tr></table>'''
+'''
 
 def stat(num,lbl,top,bot,edge,glow,lc):
     return f'''<td class="stat" width="33%" style="padding:0 5px;">
@@ -136,10 +136,8 @@ html=f'''<!doctype html>
 
 <!-- introductie -->
 <tr><td class="hero" align="center" style="padding:40px 36px 48px;">
-  <img src="{IMGS}/images/email_promo_icon.gif" width="150" height="157" alt="VUmed" style="display:block;margin:0 auto;border:0;">
-  <div style="font:800 14px {F};color:#8FA8BC;letter-spacing:1.5px;margin-top:4px;">MAAK KENNIS MET</div>
-  <div style="font:900 52px {F};color:{BLUE};letter-spacing:-1px;line-height:1.05;margin-top:4px;">VUmed</div>
-  <div style="font:900 26px {F};color:{INK};line-height:1.25;margin-top:8px;">Alle oude CAT's op één plek.</div>
+  <img src="{IMGS}/images/email_promo_icon.gif" width="190" height="198" alt="VUmed" style="display:block;margin:0 auto;border:0;">
+  <div class="h1" style="font:900 36px {F};color:{INK};letter-spacing:-.5px;line-height:1.2;margin-top:10px;">Maak kennis met <span style="color:{BLUE};">VUmed</span>.<br>Alle oude CAT's op één plek.</div>
   <div class="p" style="font:500 18px {F};color:{SUB};line-height:1.6;margin:14px auto 0;max-width:430px;">Elk oud VU-tentamen van jaar 1 t/m 3, interactief en met uitleg. Gratis, als app én in je browser.</div>
   {btn("Aan de slag",L)}
 </td></tr>

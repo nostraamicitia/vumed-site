@@ -112,7 +112,7 @@ def app_icon():
     N = 12
     for i in range(N):  # glans-streep
         frames.append(icon3d(S, sh=int(-160 + i / (N - 1) * (S + 360)))); dur.append(45)
-    save(frames, dur, "email_promo_icon.gif", scale=300 / frames[0].width, colors=96)
+    save(frames, dur, "email_promo_icon.gif", scale=380 / frames[0].width, colors=96)
     icon3d(120, depth=8).save(f"{IMG}/email_promo_icon_sm.png")  # klein, stilstaand (webversie-kaart)
     print("email_promo_icon_sm.png")
 
