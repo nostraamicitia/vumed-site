@@ -174,7 +174,8 @@ html=f'''<!doctype html>
   </tr></table>
   {btn("Begin met oefenen",L,"blue","32px auto 4px",18)}
   <div style="font:700 15px {F};color:#8FA8BC;margin-top:14px;">of <a href="{APP}" style="color:{BLUE};text-decoration:none;">download de iPhone-app</a></div>
-  <div style="font:500 16px {F};color:{SUB};line-height:1.6;margin:36px auto 0;max-width:440px;border-top:2px solid #E6EDF3;padding-top:24px;">Gemaakt door een VU-geneeskundestudent, voor VU-geneeskundestudenten. Mis je iets of zie je een fout? Stuur gewoon een reply.<br><br><b style="color:{INK};">Succes met studeren!<br>Tijmen</b></div>
+  <img src="{IMGS}/images/email_promo_doctor.gif" width="440" height="100" alt="" style="display:block;margin:30px auto 0;border:0;max-width:100%;height:auto;">
+  <div style="font:500 16px {F};color:{SUB};line-height:1.6;margin:22px auto 0;max-width:440px;">Gemaakt door een VU-geneeskundestudent, voor VU-geneeskundestudenten. Mis je iets of zie je een fout? Stuur gewoon een reply.<br><br><b style="color:{INK};">Succes met studeren!<br>Tijmen</b></div>
 </td></tr>
 
 </table>

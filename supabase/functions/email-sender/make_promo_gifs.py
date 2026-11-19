@@ -1,6 +1,6 @@
 """Geanimeerde GIF's voor de promo-mail (promo_mail.html), op wit en op 2x resolutie.
 Het EERSTE frame is steeds een goed stilstaand eindbeeld (Outlook toont alleen dat).
-Gebruik: venv/bin/python make_promo_gifs.py <repo-root> <Nunito.ttf> [icon trophy quiz drag streak chat]"""
+Gebruik: venv/bin/python make_promo_gifs.py <repo-root> <Nunito.ttf> [icon trophy quiz drag streak chat doctor]"""
 import math, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageChops
 
@@ -367,6 +367,56 @@ def chat():
     save(frames, dur, "email_promo_chat.gif", scale=1, colors=40)
 
 
-ALL = {"icon": app_icon, "trophy": trophy, "quiz": quiz, "drag": drag, "streak": streak, "chat": chat}
+# ---------------------------------------------------------------- 7) verstopt dokter-avatar dat over de scheidslijn gluurt
+def doctor():
+    """Bron: promo_doctor_src.png = VUmed-avatar (outfit Dokter + stethoscoop) uit avatar_render.js, 2x gerenderd."""
+    import os
+    src = Image.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "promo_doctor_src.png")).convert("RGBA")
+    av = src.resize((int(src.width * 0.2), int(src.height * 0.2)), Image.LANCZOS)  # hoofd ~120px breed (2x)
+    W, H, LINE_Y = 880, 200, 194
+    AX = 640  # avatar rechts op de lijn
+    fb = font(30, "ExtraBold")
+
+    def frame(rise, tilt=0.0, bubble=0.0):
+        f = Image.new("RGBA", (W, H), WHITE + (255,))
+        a = av.rotate(tilt, resample=Image.BICUBIC, center=(av.width / 2, av.height * 0.5))
+        y = int(LINE_Y - 4 - 150 * rise)  # 150px van het hoofd boven de lijn bij rise=1
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        layer.alpha_composite(a, (AX - av.width // 2, y)) if y < H else None
+        clip = Image.new("L", (W, H), 0)
+        ImageDraw.Draw(clip).rectangle((0, 0, W, LINE_Y), fill=255)  # alles onder de lijn verstopt
+        layer.putalpha(ImageChops.multiply(layer.getchannel("A"), clip))
+        f.alpha_composite(layer)
+        d = ImageDraw.Draw(f)
+        d.rounded_rectangle((0, LINE_Y, W, LINE_Y + 4), 2, fill=LINE)
+        if bubble > 0:  # tekstballonnetje
+            txt = "Psst… succes!"
+            tw = d.textlength(txt, font=fb)
+            x1 = AX - 92; x0 = x1 - tw - 44; y0 = 46 + int(10 * (1 - ease(bubble))); y1 = y0 + 60
+            k = ease(bubble)
+            fill = tuple(int(255 + (c - 255) * k) for c in (0xF3, 0xF8, 0xFC))
+            tcol = tuple(int(255 + (c - 255) * k) for c in INK)
+            d.rounded_rectangle((x0, y0, x1, y1), 26, fill=fill)
+            d.polygon([(x1 - 6, y0 + 22), (x1 + 16, y0 + 34), (x1 - 6, y0 + 44)], fill=fill)
+            d.text(((x0 + x1) / 2, (y0 + y1) / 2), txt, font=fb, fill=tcol, anchor="mm")
+        return f
+
+    frames, dur = [frame(1, 0, 1)], [2200]                     # 1e frame: gluurt + ballon
+    for i in range(1, 7):                                     # ballon weg, zakt weg
+        frames.append(frame(1 - ease(i / 6), 0, 1 - i / 6)); dur.append(45)
+    frames.append(frame(0)); dur.append(1600)                 # even helemaal weg
+    for i in range(1, 7):                                     # langzaam omhoog gluren (half)
+        frames.append(frame(0.55 * ease(i / 6))); dur.append(60)
+    frames.append(frame(0.55)); dur.append(500)
+    for i in range(1, 6):                                     # floep, helemaal omhoog met veer
+        frames.append(frame(0.55 + 0.45 * back(i / 5))); dur.append(45)
+    for t in (6, -6, 4, 0):                                   # hoofd-wiebel
+        frames.append(frame(1, t)); dur.append(90)
+    for i in range(1, 5):                                     # ballon verschijnt
+        frames.append(frame(1, 0, i / 4)); dur.append(45)
+    save(frames, dur, "email_promo_doctor.gif", scale=0.5, colors=64)
+
+
+ALL = {"icon": app_icon, "trophy": trophy, "quiz": quiz, "drag": drag, "streak": streak, "chat": chat, "doctor": doctor}
 for name in (sys.argv[3:] or ALL):
     ALL[name]()
