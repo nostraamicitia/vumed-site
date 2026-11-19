@@ -128,3 +128,28 @@ beats = [1.0, 1.06, 1.1, 1.04, 1.0, 1.05, 1.07, 1.02, 1.0]
 fr = [scaled(heart, s, s, anchor="center") for s in beats]
 du = [60] * (len(beats) - 1) + [900]
 save(fr, du, "email_welkom.gif", (heart.width * 300 // 480, heart.height * 300 // 480))
+
+# 6) Slot (wachtwoord-reset) — in knop-stijl, beugel klikt open en weer dicht
+def lock_sprite(lift):
+    sp = Image.new("RGBA", (480, 480), (0, 0, 0, 0))
+    d = ImageDraw.Draw(sp)
+    blue = (0x1C, 0xB0, 0xF6, 255)
+    # beugel: dikke U, schuift 'lift' px omhoog (rechterpoot komt los uit het slot)
+    top = 70 - lift
+    d.rounded_rectangle((150, top, 330, top + 230), radius=90, outline=blue, width=44)
+    d.rectangle((150, top + 120, 330, 260), fill=(0, 0, 0, 0))  # onderkant U weg
+    d.rectangle((150, top + 110, 194, 250), fill=blue)                # linkerpoot (blijft vast)
+    d.rectangle((286, top + 110, 330, 250 - lift), fill=blue)         # rechterpoot
+    # body
+    d.rounded_rectangle((100, 220, 380, 430), radius=42, fill=blue)
+    # sleutelgat (wit)
+    d.ellipse((215, 280, 265, 330), fill=(255, 255, 255, 255))
+    d.rectangle((228, 300, 252, 364), fill=(255, 255, 255, 255))
+    d.ellipse((228, 352, 252, 376), fill=(255, 255, 255, 255))
+    return sp
+
+lifts = [0] * 6 + [8, 20, 32, 40, 44] + [44] * 8 + [34, 16, 0, 4, 0]
+fr = [button_style(lock_sprite(l), (0x5A, 0xCF, 0xFF), (0x1C, 0xB0, 0xF6), (0x0B, 0x8F, 0xD0), (28, 176, 246)) for l in lifts]
+du = [90] * len(fr)
+du[0] = 700
+save(fr, du, "email_lock.gif", (fr[0].width * 300 // 480, fr[0].height * 300 // 480))

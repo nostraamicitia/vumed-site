@@ -50,3 +50,6 @@ Zo gebruik je het:
 ## Live zetten
 1. Nieuwe afbeeldingen eerst via `main` live op vumed.nl zetten (GitHub Pages).
 2. Pas daarna de edge function deployen, met `verify_jwt` uit, want de functie controleert zelf wie hem aanroept.
+
+## Auth-mails van Supabase (wachtwoord-reset e.d.)
+Die worden niet door email-sender verstuurd, maar door Supabase Auth. Hun templates staan in `supabase/auth-templates/`, in dezelfde stijl, en moeten met de hand in het Dashboard geplakt worden (Authentication → Emails → Templates).
