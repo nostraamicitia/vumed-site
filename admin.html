@@ -403,6 +403,32 @@
     .m-prevsub { padding: 8px 12px; font-size: 12.5px; font-weight: 800; background: rgba(28,176,246,.08); }
     #ml-frame { display: block; width: 100%; height: 560px; border: 0; background: #EDF4FA; }
     @media (max-width: 700px) { .m-grid { grid-template-columns: 1fr; } }
+    .m-grid select { border: 2px solid rgba(140,160,180,.35); border-radius: 12px; padding: 10px 12px; font: 600 14px Nunito, sans-serif; color: inherit; background: var(--card); outline: none; text-transform: none; letter-spacing: 0; }
+    .m-grid select:focus { border-color: #1CB0F6; }
+
+    /* ── Marketing-planner ── */
+    .mk-row { display: flex; align-items: center; gap: 12px; padding: 12px 4px; border-top: 1px solid var(--line); }
+    .mk-row:first-child { border-top: 0; }
+    .mk-date { flex-shrink: 0; width: 52px; text-align: center; border-radius: 12px; background: var(--soft-blue); color: var(--blue); padding: 6px 0; line-height: 1.1; }
+    .mk-date b { display: block; font-size: 18px; font-weight: 900; }
+    .mk-date span { font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: .05em; }
+    .mk-date.none { background: rgba(140,160,180,.14); color: var(--muted); font-size: 11px; font-weight: 900; padding: 12px 0; }
+    .mk-date.late { background: rgba(255,59,48,.12); color: #FF3B30; }
+    .mk-main { flex: 1; min-width: 0; }
+    .mk-title { font-size: 14.5px; font-weight: 800; overflow-wrap: anywhere; }
+    .mk-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; font-weight: 700; color: var(--muted); }
+    .mk-meta a { color: var(--blue); font-weight: 800; text-decoration: none; }
+    .mk-notes { font-size: 12.5px; font-weight: 600; color: var(--muted); margin-top: 4px; white-space: pre-line; overflow-wrap: anywhere; }
+    .mk-ch { font-size: 11px; font-weight: 900; padding: 2px 9px; border-radius: 999px; color: #fff; }
+    .mk-status { border: 2px solid rgba(140,160,180,.35); border-radius: 10px; padding: 5px 8px; font: 800 12.5px Nunito, sans-serif; color: inherit; background: var(--card); cursor: pointer; }
+    .mk-status.s-idee { border-color: rgba(140,160,180,.5); }
+    .mk-status.s-in_productie { border-color: #FF9600; color: #FF9600; }
+    .mk-status.s-ingepland { border-color: #1CB0F6; color: #1CB0F6; }
+    .mk-status.s-gepost { border-color: #58CC02; color: #58CC02; }
+    .mk-act { display: flex; gap: 6px; flex-shrink: 0; }
+    .mk-btn { border: 0; background: rgba(140,160,180,.14); color: inherit; border-radius: 10px; padding: 6px 10px; font: 800 12.5px Nunito, sans-serif; cursor: pointer; }
+    .mk-btn.del { color: #FF3B30; }
+    @media (max-width: 700px) { .mk-row { flex-wrap: wrap; } .mk-act { width: 100%; justify-content: flex-end; } }
 
     /* ═══════════ Staff console shell (2026-07-18) ═══════════ */
     body { display: flex; height: 100vh; overflow: hidden; }
@@ -614,6 +640,7 @@
       <button class="an-item" data-view="items"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.3l5-.7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Avatar-items</button>
       <button class="an-item" data-view="team"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 2.6v5.2c0 4.4-3 8-7 9.4-4-1.4-7-5-7-9.4V4.6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.2 11.8l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Team</button>
       <button class="an-item" data-view="mail"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Mail</button>
+      <button class="an-item" data-view="marketing"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M16 8.5a5 5 0 0 1 0 7M18.8 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Marketing</button>
       <button class="an-item" data-view="system"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h4l2.5 6 5-14L17 13h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Systeem</button>
       <!-- Alleen zichtbaar op localhost: de bron-PDF's staan niet op de server. -->
       <a class="an-item" id="nav-bron" href="_bron.html" target="_blank" rel="noopener" style="display:none;text-decoration:none;"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 3v5h5M8.5 13h7M8.5 17h4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Bron-PDF</a>
@@ -769,6 +796,33 @@
               <button class="m-btn m-send" id="pl-send" disabled>Versturen</button>
             </div>
             <div class="m-status" id="pl-status"></div>
+          </div>
+        </section>
+
+        <!-- ── Marketing ── -->
+        <section class="view" id="view-marketing">
+          <div class="card">
+            <h2 id="mk-form-title"><span class="h2-dot" style="background:#FF9600"></span>Nieuw content-item</h2>
+            <div class="card-sub">Ideeën, posts, reels, mails: alles wat je wilt maken of al gepost hebt.</div>
+            <div class="m-grid">
+              <label class="m-full">Titel / idee<input id="mk-title" type="text" placeholder="Bijv. Reel: 5 tips voor je eerste tentamen" autocomplete="off"></label>
+              <label>Kanaal<select id="mk-channel"></select></label>
+              <label>Format<select id="mk-format"></select></label>
+              <label>Status<select id="mk-statussel"></select></label>
+              <label>Datum (gepland / gepost)<input id="mk-date" type="date"></label>
+              <label class="m-full">Link (optioneel)<input id="mk-link" type="text" placeholder="https://instagram.com/p/… of Canva/Drive-link" autocomplete="off"></label>
+              <label class="m-full">Notities<textarea id="mk-notes" rows="3" placeholder="Caption, hook, wie maakt het, resultaten…"></textarea></label>
+            </div>
+            <div class="m-actions">
+              <button class="m-btn m-send" id="mk-save">Toevoegen</button>
+              <button class="m-btn m-ghost" id="mk-cancel" style="display:none;">Annuleren</button>
+            </div>
+          </div>
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#1CB0F6"></span>Contentplanning</h2>
+            <div class="card-sub" id="mk-sub"></div>
+            <div class="subj-chips" id="mk-chips"></div>
+            <div id="mk-list"><div class="card-sub">Laden…</div></div>
           </div>
         </section>
 
@@ -1925,6 +1979,7 @@ const NAV_META = {
   items:    { title: 'Avatar-items', sub: 'De onderdelen in de avatar-editor & shop' },
   team:     { title: 'Team',         sub: 'Wie toegang heeft tot dit beheer' },
   mail:     { title: 'Mail',         sub: 'Berichten naar gebruikers sturen' },
+  marketing:{ title: 'Marketing',    sub: 'Je marketing-content plannen & bijhouden' },
   system:   { title: 'Systeem',      sub: 'Live activiteit & hulpmiddelen' },
 };
 function showView(name) {
@@ -1938,7 +1993,135 @@ function showView(name) {
   // Items worden in admin_avatar.html bewerkt; opnieuw ophalen bij het openen
   // van de sectie, anders kijk je naar de lijst van vóór die bewerking.
   if (name === 'items') loadItems().catch(console.error);
+  if (name === 'marketing') loadMarketing().catch(console.error);
   const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
+}
+
+/* ══════════════ Marketing-planner (tabel marketing_content, RLS: is_admin) ══════════════ */
+const MK_CHANNELS = [
+  ['instagram', 'Instagram', '#E1306C'], ['tiktok', 'TikTok', '#111'], ['linkedin', 'LinkedIn', '#0A66C2'],
+  ['mail', 'Mail', '#58CC02'], ['whatsapp', 'WhatsApp', '#25D366'], ['flyer', 'Flyer / offline', '#FF9600'],
+  ['website', 'Website', '#1CB0F6'], ['overig', 'Overig', '#8E8E93'],
+];
+const MK_FORMATS = ['Post', 'Carrousel', 'Reel / video', 'Story', 'Mail', 'Samenwerking', 'Overig'];
+const MK_STATUS = [['idee', 'Idee'], ['in_productie', 'In productie'], ['ingepland', 'Ingepland'], ['gepost', 'Gepost']];
+const MK_MONTHS = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+let _mkRows = [], _mkFilter = 'all', _mkEdit = null;
+
+(function mkInit() {
+  $('mk-channel').innerHTML = MK_CHANNELS.map(c => '<option value="' + c[0] + '">' + esc(c[1]) + '</option>').join('');
+  $('mk-format').innerHTML = MK_FORMATS.map(f => '<option>' + esc(f) + '</option>').join('');
+  $('mk-statussel').innerHTML = MK_STATUS.map(s => '<option value="' + s[0] + '">' + esc(s[1]) + '</option>').join('');
+  $('mk-save').addEventListener('click', mkSave);
+  $('mk-cancel').addEventListener('click', mkResetForm);
+})();
+
+function mkResetForm() {
+  _mkEdit = null;
+  ['mk-title', 'mk-date', 'mk-link', 'mk-notes'].forEach(id => { $(id).value = ''; });
+  $('mk-channel').value = 'instagram'; $('mk-format').value = 'Post'; $('mk-statussel').value = 'idee';
+  $('mk-save').textContent = 'Toevoegen'; $('mk-cancel').style.display = 'none';
+  $('mk-form-title').lastChild.textContent = 'Nieuw content-item';
+}
+
+async function loadMarketing() {
+  const sb = getSB(); if (!sb) return;
+  const { data, error } = await sb.from('marketing_content').select('*')
+    .order('publish_date', { ascending: true, nullsFirst: false }).order('created_at', { ascending: false });
+  if (error) { $('mk-list').innerHTML = '<div class="note">Kon de planning niet laden: ' + esc(error.message) + '</div>'; return; }
+  _mkRows = data || [];
+  renderMarketing();
+}
+
+function renderMarketing() {
+  const counts = { all: _mkRows.length };
+  MK_STATUS.forEach(s => { counts[s[0]] = _mkRows.filter(r => r.status === s[0]).length; });
+  $('mk-chips').innerHTML = [['all', 'Alles']].concat(MK_STATUS).map(s =>
+    '<span class="subj-chip click' + (_mkFilter === s[0] ? ' on' : '') + '" data-f="' + s[0] + '">' + esc(s[1]) + ' · ' + counts[s[0]] + '</span>').join('');
+  $('mk-chips').querySelectorAll('.subj-chip').forEach(c => c.addEventListener('click', () => { _mkFilter = c.dataset.f; renderMarketing(); }));
+
+  const today = new Date().toISOString().slice(0, 10);
+  const in7 = new Date(Date.now() + 7 * 864e5).toISOString().slice(0, 10);
+  const upcoming = _mkRows.filter(r => r.status !== 'gepost' && r.publish_date && r.publish_date >= today && r.publish_date <= in7).length;
+  $('mk-sub').textContent = _mkRows.length
+    ? counts.gepost + ' gepost · ' + upcoming + ' gepland voor de komende 7 dagen'
+    : 'Nog niks toegevoegd. Begin met een idee hierboven.';
+
+  const rows = _mkRows.filter(r => _mkFilter === 'all' || r.status === _mkFilter);
+  if (!rows.length) { $('mk-list').innerHTML = _mkRows.length ? '<div class="card-sub">Niks in deze categorie.</div>' : ''; return; }
+  $('mk-list').innerHTML = rows.map(r => {
+    const ch = MK_CHANNELS.find(c => c[0] === r.channel) || MK_CHANNELS[MK_CHANNELS.length - 1];
+    let dateHTML = '<div class="mk-date none">—</div>';
+    if (r.publish_date) {
+      const [, m, d] = r.publish_date.split('-');
+      const late = r.status !== 'gepost' && r.publish_date < today;
+      dateHTML = '<div class="mk-date' + (late ? ' late' : '') + '" title="' + (late ? 'Datum is verstreken' : '') + '"><b>' + (+d) + '</b><span>' + MK_MONTHS[+m - 1] + '</span></div>';
+    }
+    let link = '';
+    if (r.link && /^https?:\/\//i.test(r.link)) link = '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">Link ↗</a>';
+    return '<div class="mk-row">' + dateHTML +
+      '<div class="mk-main"><div class="mk-title">' + esc(r.title) + '</div>' +
+        '<div class="mk-meta"><span class="mk-ch" style="background:' + ch[2] + '">' + esc(ch[1]) + '</span>' +
+          (r.format ? '<span>' + esc(r.format) + '</span>' : '') + link + '</div>' +
+        (r.notes ? '<div class="mk-notes">' + esc(r.notes) + '</div>' : '') + '</div>' +
+      '<div class="mk-act">' +
+        '<select class="mk-status s-' + esc(r.status) + '" data-id="' + esc(r.id) + '">' +
+          MK_STATUS.map(s => '<option value="' + s[0] + '"' + (s[0] === r.status ? ' selected' : '') + '>' + esc(s[1]) + '</option>').join('') +
+        '</select>' +
+        '<button class="mk-btn" data-edit="' + esc(r.id) + '">Bewerk</button>' +
+        '<button class="mk-btn del" data-del="' + esc(r.id) + '">Verwijder</button>' +
+      '</div></div>';
+  }).join('');
+  $('mk-list').querySelectorAll('.mk-status').forEach(s => s.addEventListener('change', () => mkSetStatus(s.dataset.id, s.value)));
+  $('mk-list').querySelectorAll('[data-edit]').forEach(b => b.addEventListener('click', () => mkStartEdit(b.dataset.edit)));
+  $('mk-list').querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', () => mkDelete(b.dataset.del)));
+}
+
+function mkStartEdit(id) {
+  const r = _mkRows.find(x => x.id === id); if (!r) return;
+  _mkEdit = id;
+  $('mk-title').value = r.title || ''; $('mk-channel').value = r.channel || 'overig';
+  $('mk-format').value = r.format || 'Overig'; $('mk-statussel').value = r.status || 'idee';
+  $('mk-date').value = r.publish_date || ''; $('mk-link').value = r.link || ''; $('mk-notes').value = r.notes || '';
+  $('mk-save').textContent = 'Opslaan'; $('mk-cancel').style.display = '';
+  $('mk-form-title').lastChild.textContent = 'Item bewerken';
+  const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
+  $('mk-title').focus();
+}
+
+async function mkSave() {
+  const title = $('mk-title').value.trim();
+  if (!title) { toast('Vul een titel in', 'err'); $('mk-title').focus(); return; }
+  const row = {
+    title, channel: $('mk-channel').value, format: $('mk-format').value, status: $('mk-statussel').value,
+    publish_date: $('mk-date').value || null, link: $('mk-link').value.trim() || null, notes: $('mk-notes').value.trim() || null,
+  };
+  const btn = $('mk-save'); btn.disabled = true;
+  try {
+    const q = _mkEdit ? getSB().from('marketing_content').update(row).eq('id', _mkEdit)
+                      : getSB().from('marketing_content').insert(row);
+    const { error } = await q;
+    if (error) throw error;
+    toast(_mkEdit ? 'Opgeslagen' : 'Toegevoegd', 'ok');
+    mkResetForm(); await loadMarketing();
+  } catch (e) { toast('Fout: ' + (e.message || e), 'err'); }
+  btn.disabled = false;
+}
+
+async function mkSetStatus(id, status) {
+  const { error } = await getSB().from('marketing_content').update({ status }).eq('id', id);
+  if (error) { toast('Fout: ' + error.message, 'err'); return; }
+  const r = _mkRows.find(x => x.id === id); if (r) r.status = status;
+  renderMarketing();
+}
+
+async function mkDelete(id) {
+  const r = _mkRows.find(x => x.id === id);
+  if (!confirmish('"' + (r ? r.title : 'Dit item') + '" verwijderen?')) return;
+  const { error } = await getSB().from('marketing_content').delete().eq('id', id);
+  if (error) { toast('Fout: ' + error.message, 'err'); return; }
+  if (_mkEdit === id) mkResetForm();
+  toast('Verwijderd', 'ok'); await loadMarketing();
 }
 
 /* ══════════════ Team-beheer ══════════════ */
