@@ -1070,16 +1070,12 @@
       groups[gi].push({ btn: b, txt: (txt || '').trim(), key: map[normTerm(txt)] || null });
     }
 
-    // Instellingen → 'Sterretjes bij antwoorden' uit: geen sterretjes bij opties.
-    var starsOff = false;
-    try { starsOff = localStorage.getItem('vumed_optstars') === 'off'; } catch (e) {}
-
     // Only options with an entry in the begrippenlijst get a star. Numbers,
     // meta-answers and whole sentences never do, even if they match a term.
     // A lone star among several term-shaped options points at one answer, so
     // then the question gets no stars at all. This only looks at HOW MANY
     // options have an entry, never at which one is right.
-    if (!starsOff) groups.forEach(function (opts) {
+    groups.forEach(function (opts) {
       var eligible = opts.filter(function (o) { return !notATerm(o.txt); });
       var known = eligible.filter(function (o) { return o.key; });
       if (known.length === 1 && eligible.length > 1) return;
