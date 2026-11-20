@@ -13,9 +13,9 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=14"></script>
-  <script src="navbar.js?v=54" data-active="trofeeenpad"></script>
+  <script src="navbar.js?v=55" data-active="trofeeenpad"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="gift_modal.js?v=29"></script>
+  <script src="gift_modal.js?v=30"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -583,41 +583,27 @@ function showToast(html) {
 
 function claimMilestone(n) {
   if (claimedMilestones.has(n) || classFromXP(totalXP) < n) return;
-  // The actual claim: persist + credit + re-render. Fired ONCE at the gift
-  // reveal (with the rolled prize) — closing the gift early leaves the chest
-  // claimable. Prize = random gems 5-20 + coins 25-200, rarity by tap count.
-  const doClaim = (prize) => {
+  // Anti-cheat (2026-11-20): logged in, the SERVER checks the class (total_xp),
+  // records the claim once and rolls + credits the chest (open_chest 'trophy').
+  // This only keeps the road's own bookkeeping in step.
+  const markClaimed = () => {
     if (claimedMilestones.has(n)) return;
     claimedMilestones.add(n);
     saveClaims();
-    // VumedStats.awardGems/awardCoins = atomic add_gems/add_coins RPC (logged
-    // in) + localStorage mirror (guest) + repaints the shared wallet.
-    if (window.VumedStats && window.VumedStats.awardGems) {
-      window.VumedStats.awardGems(prize.gems);
-      if (window.VumedStats.awardCoins) window.VumedStats.awardCoins(prize.coins);
-      // small chest bonus (gift_modal HEART_CHANCE); no add_hearts RPC exists,
-      // so the fallback below drops hearts
-      if (prize.hearts && window.VumedStats.awardHearts) window.VumedStats.awardHearts(prize.hearts);
-    } else {
-      const sb = getSB();
-      if (sb && currentUser) {
-        sb.rpc('add_gems', { p_user_id: currentUser.id, p_amount: prize.gems }).then(() => {}, () => {});
-        sb.rpc('add_coins', { p_user_id: currentUser.id, p_amount: prize.coins }).then(() => {}, () => {});
-      }
-    }
     renderBar(totalXP);
     buildClassRoad(true);
   };
-  if (window.VumedGift) {
-    window.VumedGift.open({
-      random: true, title: n === 0 ? 'Startbeloning' : 'Klasse ' + n + ' beloning',
-      onClaim: doClaim,
+  const vs = window.VumedStats;
+  if (vs && vs.claimChest && window.VumedGift) {
+    vs.claimChest({
+      source: 'trophy', ref: n,
+      title: n === 0 ? 'Startbeloning' : 'Klasse ' + n + ' beloning',
+      onDone: markClaimed,
+      onFail: (reason) => { if (reason === 'claimed') markClaimed(); },
     });
   } else {
-    // No gift modal loaded — legacy fixed reward + toast fallback
-    const amount = rewardFor(n);
-    doClaim({ gems: amount, coins: 0 });
-    showToast('<span style="color:#58D4FF;display:inline-flex">' + GEM_SVG_SM + '</span> +' + fmt(amount) + ' gems — ' + (n === 0 ? 'Startbeloning' : 'Klasse ' + n + ' beloning') + ' geclaimd!');
+    // Wallet engine / gift modal not loaded yet — nothing is credited here.
+    showToast('Even geduld — probeer het zo nog eens.');
   }
 }
 

@@ -358,6 +358,108 @@
     state.coins = Math.max(0, state.coins + n); mirrorLocal(); pop('coins', '+' + n); paint();
     if (state.uid) { var c = sb(); if (c) { try { await c.rpc('add_coins', { p_user_id: state.uid, p_amount: n }); } catch (e) {} } }
   }
+
+  /* ── Kisten server-side (anti-cheat, 2026-11-20) ─────────────────────────
+     Ingelogd bepaalt de SERVER (open_chest RPC, supabase/sql/chests_server.sql)
+     of een kist open mag, rolt de inhoud en betaalt meteen uit. De client
+     speelt die uitkomst alleen af (gift_modal opts.preset) en neemt de nieuwe
+     saldi over. Gasten houden de oude lokale rol (alleen localStorage).
+     source: daily_gift | xp | quest | goal | achievement | trophy            */
+  async function openChest(source, ref) {
+    if (_pullP) { try { await _pullP; } catch (e) {} }
+    if (!state.uid) return { ok: false, reason: 'login' };
+    var c = sb(); if (!c) return { ok: false, reason: 'offline' };
+    var d;
+    try {
+      var r = await c.rpc('open_chest', { p_source: source, p_ref: ref == null ? '' : String(ref) });
+      if (r.error || !r.data) return { ok: false, reason: 'error' };
+      d = r.data;
+    } catch (e) { return { ok: false, reason: 'error' }; }
+    if (source === 'daily_gift' && (d.ok || d.reason === 'claimed')) {
+      state.giftDay = today();
+      try { localStorage.setItem(LS.gift, state.giftDay); } catch (e) {}
+    }
+    if (source === 'goal' && (d.ok || d.reason === 'claimed')) {
+      var days = Number(ref);
+      if (state.goalRun.claimed.indexOf(days) < 0) state.goalRun.claimed.push(days);
+      if (d.ok) state.goalRun.minGoal = effGoal();   // window resets, same as the RPC
+      mirrorGoal();
+    }
+    return d;
+  }
+  /* Neem de saldi over die open_chest/answer_reward teruggaf (+ de pop-ups). */
+  function applyChest(d) {
+    if (!d) return;
+    var b = d.balances || {};
+    if (typeof b.gems === 'number') state.gems = Math.max(0, b.gems);
+    if (typeof b.coins === 'number') state.coins = Math.max(0, b.coins);
+    if (typeof b.hearts === 'number') {
+      state.hearts = clampH(b.hearts);
+      try { localStorage.setItem(LS.hearts, state.hearts); localStorage.setItem(LS.heartsDay, today()); } catch (e) {}
+    }
+    mirrorLocal();
+    if (d.gems) pop('gems', '+' + d.gems);
+    if (d.coins) pop('coins', '+' + d.coins);
+    if (d.hearts) pop('hearts', '+' + d.hearts);
+    paint();
+  }
+  /* Eén ingang voor élke kist: server-claim → animatie → saldi overnemen.
+     o = { source, ref, title, footText, forceRarity, multiplier (alleen gast),
+           onDone(prize, d), onFail(reason, d), onClose() }
+     Saldi worden overgenomen bij de onthulling (of bij vroeg sluiten — de
+     server heeft dan al uitbetaald). */
+  async function claimChest(o) {
+    o = o || {};
+    var G = window.VumedGift;
+    if (!state.uid) {
+      if (!G) { if (o.onFail) o.onFail('nogift'); return { ok: false, reason: 'nogift' }; }
+      G.open({
+        random: true, title: o.title, footText: o.footText,
+        forceRarity: o.forceRarity, multiplier: o.multiplier,
+        onClaim: function (p) {
+          awardGems(p.gems); awardCoins(p.coins); if (p.hearts) awardHearts(p.hearts);
+          if (o.onDone) o.onDone(p, null);
+        },
+        onClose: o.onClose
+      });
+      return { ok: true, local: true };
+    }
+    var d = await openChest(o.source, o.ref);
+    if (!d || !d.ok) {
+      paint();
+      if (o.onFail) o.onFail((d && d.reason) || 'error', d);
+      return d || { ok: false, reason: 'error' };
+    }
+    var applied = false;
+    var apply = function () { if (applied) return; applied = true; applyChest(d); };
+    var prize = { gems: d.gems | 0, coins: d.coins | 0, hearts: d.hearts | 0 };
+    if (G) {
+      G.open({
+        random: true, preset: d, title: o.title, footText: o.footText,
+        onClaim: function (p) { apply(); if (o.onDone) o.onDone(p || prize, d); },
+        onClose: function () { apply(); if (o.onClose) o.onClose(); }
+      });
+    } else {
+      apply(); if (o.onDone) o.onDone(prize, d);
+    }
+    return d;
+  }
+  /* Edelstenen per beantwoorde vraag (2 goed, 1 open/dnd) + de vragenteller
+     voor de quests — server-side via answer_reward. Optimistisch tonen, daarna
+     het echte saldo overnemen. */
+  async function rewardAnswers(correct, other, wrong) {
+    correct = correct | 0; other = other | 0; wrong = wrong | 0;
+    var est = 2 * correct + other;
+    if (!state.uid) { if (est) awardGems(est); return; }
+    if (est) { state.gems = Math.max(0, state.gems + est); mirrorLocal(); pop('gems', '+' + est); paint(); }
+    if (!(correct + other + wrong)) return;
+    var c = sb(); if (!c) return;
+    try {
+      var r = await c.rpc('answer_reward', { p_correct: correct, p_other: other, p_wrong: wrong });
+      var b = r && r.data && r.data.ok && r.data.balances;
+      if (b && typeof b.gems === 'number') { state.gems = Math.max(0, b.gems); mirrorLocal(); paint(); }
+    } catch (e) {}
+  }
   /* Chest loot (2026-07-20): random chests roll a small heart chance — credit
      rides the same path as the daily refill (persistHearts = local + direct
      user_profiles.hearts update; no RPC exists for hearts). May overflow past
@@ -972,6 +1074,7 @@
     HEART_MAX: HEART_MAX, GIFT_HEARTS: GIFT_HEARTS, REFILL_COST: REFILL_COST,
     GOALS: GOALS.slice(), DEFAULT_GOAL: DEFAULT_GOAL, GOAL_TIERS: GOAL_TIERS,
     awardGems: awardGems, awardCoins: awardCoins, awardHearts: awardHearts, loseHeart: loseHeart,
+    openChest: openChest, applyChest: applyChest, claimChest: claimChest, rewardAnswers: rewardAnswers,
     answerCorrect: answerCorrect, EARN_RUN: EARN_RUN,
     buyHearts: buyHearts, buyFreezes: buyFreezes, buyStreakItem: buyStreakItem,
     repairStreak: repairStreak, claimGift: claimGift, syncStreak: syncStreak,

@@ -36,9 +36,9 @@
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
   <script src="auth_gate.js?v=14"></script>
-  <script src="navbar.js?v=54" data-active="dashboard"></script>
+  <script src="navbar.js?v=55" data-active="dashboard"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="gift_modal.js?v=29"></script>
+  <script src="gift_modal.js?v=30"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -1949,41 +1949,31 @@ async function refreshAuthState() {
     if (panelEl) panelEl.innerHTML = panelHTML();
   }
 
-  function creditPrize(prize) {
-    const vs = window.VumedStats;
-    if (vs && vs.awardGems) {
-      vs.awardGems(prize.gems);
-      if (vs.awardCoins) vs.awardCoins(prize.coins);
-      if (prize.hearts && vs.awardHearts) vs.awardHearts(prize.hearts);
-      return;
-    }
-    const sb = getSB();
-    if (sb && user) {
-      // no add_hearts RPC exists — hearts only credit via VumedStats (it owns
-      // the hearts state); this belt-and-braces path drops them
-      sb.rpc('add_gems',  { p_user_id: user.id, p_amount: prize.gems  }).then(() => {}, () => {});
-      sb.rpc('add_coins', { p_user_id: user.id, p_amount: prize.coins }).then(() => {}, () => {});
-    }
-  }
-
-  // Open the random-loot chest; onClaimed runs once at reveal (guarded by
-  // gift_modal.js), so closing the chest early never grants the reward.
-  function openReward(title, onClaimed) {
-    if (window.VumedGift) {
-      window.VumedGift.open({
-        random: true, title,
-        onClaim: (prize) => { creditPrize(prize); onClaimed(prize); },
-      });
-    } else {
-      const prize = { gems: 25, coins: 0 };
-      creditPrize(prize); onClaimed(prize);
-    }
+  // Kisten (anti-cheat 2026-11-20): de SERVER beslist of de kist open mag,
+  // rolt de inhoud en betaalt uit (VumedStats.claimChest → open_chest RPC).
+  // De lokale claim-boekhouding hieronder is alleen nog voor de weergave.
+  function openReward(source, ref, title, onClaimed, extra) {
+    const vs = VS();
+    if (!vs || !vs.claimChest) return;
+    vs.claimChest(Object.assign({
+      source, ref, title,
+      onDone: (prize) => { onClaimed(prize); },
+      onFail: (reason, d) => {
+        // Server weet het beter: stem de lokale stand af en teken opnieuw.
+        if (reason === 'claimed') onClaimed(null);
+        else if (reason === 'order' && d && typeof d.next === 'number') {
+          dailyData = Object.assign({}, dailyData, { claimedCount: d.next });
+          saveDailyData(dailyData);
+        }
+        render();
+      },
+    }, extra || {}));
   }
 
   function claimXp() {
     const xs = xpState();
     if (!(xs.done && user)) return;
-    openReward('Dagelijkse XP-beloning', () => {
+    openReward('xp', dailyData.claimedCount, 'Dagelijkse XP-beloning', () => {
       dailyData = Object.assign({}, dailyData, { claimedCount: dailyData.claimedCount + 1 });
       saveDailyData(dailyData);
       render();
@@ -1992,69 +1982,39 @@ async function refreshAuthState() {
 
   function claimQuest(id) {
     if (questClaims[id] || dailyCount < (QUESTS.find(q => q.id === id) || {}).target) return;
-    openReward('Quest voltooid', () => {
+    openReward('quest', id, 'Quest voltooid', () => {
       questClaims = Object.assign({}, questClaims, { [id]: true });
       saveQuestClaims(questClaims);
       render();
     });
   }
 
-  // Dagdoel-reeks chest. Rarity comes from the dagdoel, size from the milestone —
-  // both already resolved by VumedStats (goal_min, so raising the goal on day 7
-  // can't buy a bigger chest).
-  //
-  // Order matters: the chest opens FIRST and only records the claim at the reveal,
-  // keeping gift_modal's contract that closing early leaves the reward claimable.
-  // The RPC is also the double-claim guard — if it says no (a second tab got there
-  // first), nothing is credited.
+  // Dagdoel-reeks chest. Rarity (dagdoel) and size (milestone) are decided by
+  // the server from goal_min, so raising the goal on day 7 can't buy a bigger
+  // chest; open_chest also records the claim (no double-claim across tabs).
   function claimGoal() {
     const vs = VS(); const gi = goalInfo();
     if (!vs || !gi || !gi.claimable || !user) return;
     const r = gi.claimable;
-    const finish = async (prize) => {
-      const res = await vs.claimGoalMilestone(r.days);
-      if (!res.ok) { render(); return; }   // already claimed elsewhere → credit nothing
-      creditPrize(prize);                  // credit what the user actually saw
-      render();
-    };
-    if (window.VumedGift) {
-      window.VumedGift.open({
-        random: true, forceRarity: r.rarity, multiplier: r.mult,
-        title: 'Dagdoel-reeks: ' + r.days + ' dagen',
-        footText: r.days + ' dagen op rij ' + r.goal + ' vragen',
-        onClaim: finish,
-      });
-    } else {
-      finish({ gems: 10, coins: 60 });
-    }
+    openReward('goal', r.days, 'Dagdoel-reeks: ' + r.days + ' dagen', () => render(),
+      { footText: r.days + ' dagen op rij ' + r.goal + ' vragen' });
   }
 
-  // Dagelijkse beloning — a RANDOM chest since 2026-07-20 (was fixed +3
-  // hearts). claimGift only marks the day now (its ok:false = the double-claim
-  // guard, a second tab credits nothing); the rolled prize — incl. the small
-  // hearts chance every random chest has — credits via creditPrize.
+  // Dagelijkse beloning — a random chest, once a day (server: heart_gift_day).
   function claimDailyGift() {
     const vs = VS();
-    if (!vs || !vs.claimGift || !giftReady()) return;
-    const finish = (prize) => Promise.resolve(vs.claimGift()).then((r) => {
-      if (!r || r.ok !== false) creditPrize(prize);
-      render();
+    if (!vs || !giftReady()) return;
+    openReward('daily_gift', '', 'Dagelijkse beloning', () => render(), {
+      footText: (prize) => {
+        try {
+          const st = vs.getState();
+          if (prize && prize.hearts && st && typeof st.hearts === 'number') {
+            return 'Totaal: ' + (st.hearts + prize.hearts) + ' hartjes';   // saldo wordt pas ná de onthulling overgenomen
+          }
+        } catch (e) {}
+        return '';
+      },
     });
-    if (window.VumedGift) {
-      window.VumedGift.open({
-        random: true, title: 'Dagelijkse beloning',
-        footText: (prize) => {
-          try {
-            const st = vs.getState();
-            if (prize.hearts && st && typeof st.hearts === 'number') {
-              return 'Totaal: ' + (st.hearts + prize.hearts) + ' hartjes';
-            }
-          } catch (e) {}
-          return '';
-        },
-        onClaim: finish,
-      });
-    } else { finish({ gems: 10, coins: 0 }); }
   }
 
   /* ── Dagdoel picker ──────────────────────────────────────────────────────

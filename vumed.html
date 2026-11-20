@@ -20,9 +20,9 @@
   <!-- Supabase -->
   <script src="supabase_config.js"></script>
   <script src="supabase-js.min.js"></script>
-  <script src="navbar.js?v=54" data-active="tentamens"></script>
+  <script src="navbar.js?v=55" data-active="tentamens"></script>
   <script src="bg-decor.js?v=4"></script>
-  <script src="gift_modal.js?v=29"></script>
+  <script src="gift_modal.js?v=30"></script>
   <script src="auth_gate.js?v=14"></script><!-- gedeelde login/signup-popup (gebruikt window._sbInstance) -->
   <script src="email_verify.js?v=1"></script><!-- zachte e-mailverificatie: popup tot adres bevestigd is -->
 
@@ -3514,8 +3514,14 @@ function GiftSvg({ taps, needed, open, tier = 1 }) {
   );
 }
 
-function ChestModal({ onClose, onClaim }) {
-  const prize = React.useRef(rollChestPrize()).current;
+/* preset = server-rolled chest (open_chest RPC, anti-cheat 2026-11-20): the
+   server already credited it — this modal only plays the plan back. */
+function presetChestPrize(pre) {
+  const plan = (pre.plan || [0]).map(x => Math.max(0, Math.min(CHEST_RARITIES.length - 1, x | 0)));
+  return { ...CHEST_RARITIES[plan[plan.length - 1]], plan, gems: pre.gems | 0, coins: pre.coins | 0, hearts: pre.hearts | 0 };
+}
+function ChestModal({ onClose, onClaim, preset }) {
+  const prize = React.useRef(preset ? presetChestPrize(preset) : rollChestPrize()).current;
   const [taps, setTaps]         = React.useState(0);
   const [phase, setPhase]       = React.useState('tap'); // tap | burst | revealed
   const [sparks, setSparks]     = React.useState([]);
@@ -4029,32 +4035,27 @@ function App() {
     document.addEventListener('vumed-stats', upd);
     return () => document.removeEventListener('vumed-stats', upd);
   }, []);
-  // Dagelijkse beloning — a RANDOM chest since 2026-07-20 (was fixed +3
-  // hearts). claimGift only marks the day now (its ok:false = the double-claim
-  // guard, a second tab credits nothing); the rolled prize — incl. the small
-  // hearts chance every random chest has — credits via creditPrize.
+  // Dagelijkse beloning — a random chest, once a day; rolled + credited by
+  // the server (open_chest 'daily_gift'), played back by gift_modal.
   function claimDailyGift() {
     const vs = window.VumedStats;
-    if (!vs || !vs.claimGift || giftDay === getDayKey()) return;
-    const finish = (prize) => Promise.resolve(vs.claimGift()).then((r) => {
-      try { setGiftDay(vs.getState().giftDay); } catch (e) {}
-      if (!r || r.ok !== false) creditPrize(prize);
+    if (!vs || !vs.claimChest || giftDay === getDayKey()) return;
+    const sync = () => { try { setGiftDay(vs.getState().giftDay); } catch (e) {} };
+    // Server: 1× per dag, rolt + betaalt uit (open_chest 'daily_gift').
+    vs.claimChest({
+      source: 'daily_gift', ref: '', title: 'Dagelijkse beloning',
+      footText: (prize) => {
+        try {
+          const st = vs.getState();
+          if (prize.hearts && st && typeof st.hearts === 'number') {
+            return 'Totaal: ' + (st.hearts + prize.hearts) + ' hartjes';
+          }
+        } catch (e) {}
+        return '';
+      },
+      onDone: () => { sync(); syncGemsFromStats(); },
+      onFail: sync,
     });
-    if (window.VumedGift) {
-      window.VumedGift.open({
-        random: true, title: 'Dagelijkse beloning',
-        footText: (prize) => {
-          try {
-            const st = vs.getState();
-            if (prize.hearts && st && typeof st.hearts === 'number') {
-              return 'Totaal: ' + (st.hearts + prize.hearts) + ' hartjes';
-            }
-          } catch (e) {}
-          return '';
-        },
-        onClaim: finish,
-      });
-    } else { finish({ gems: 10, coins: 0 }); }
   }
 
   // DEV PREVIEW (Tijmen, 2026-07-13): Shift+R rolls a throwaway chest to
@@ -4326,41 +4327,42 @@ function App() {
     if (sb) await sb.auth.signOut();
   }
 
-  // Credit a rolled chest prize ({gems, coins, ...}) — VumedStats = atomic
-  // add_gems/add_coins RPCs (logged in) + localStorage mirror (guest) +
-  // repaints the shared wallet; direct-RPC fallback if the engine isn't up.
-  function creditPrize(prize) {
+  // Kisten (anti-cheat 2026-11-20): de server beslist, rolt en betaalt uit via
+  // open_chest; deze component speelt de uitkomst af (ChestModal preset) en
+  // neemt bij de onthulling de saldi over (VumedStats.applyChest).
+  function syncGemsFromStats() {
+    try { const st = window.VumedStats.getState(); if (typeof st.gems === 'number') setGems(st.gems); } catch (e) {}
+  }
+  const [chestBusy, setChestBusy] = React.useState(false);
+  async function openServerChest(source, ref, onOpen, onClaimedLocal) {
     const vs = window.VumedStats;
-    if (vs && vs.awardGems) {
-      vs.awardGems(prize.gems);
-      if (vs.awardCoins) vs.awardCoins(prize.coins);
-      if (prize.hearts && vs.awardHearts) vs.awardHearts(prize.hearts);
-      return;
-    }
-    const sb = getSB();
-    if (sb && user) {
-      // no add_hearts RPC exists — hearts only credit via VumedStats (it owns
-      // the hearts state); this belt-and-braces path drops them
-      sb.rpc('add_gems',  { p_user_id: user.id, p_amount: prize.gems  }).then(() => {}, () => {});
-      sb.rpc('add_coins', { p_user_id: user.id, p_amount: prize.coins }).then(() => {}, () => {});
-    }
+    if (!vs || !vs.openChest || chestBusy) return;
+    setChestBusy(true);
+    try {
+      const d = await vs.openChest(source, ref);
+      if (d && d.ok) { onOpen(d); return; }
+      if (d && d.reason === 'claimed') onClaimedLocal();
+      else if (source === 'xp' && d && d.reason === 'order' && typeof d.next === 'number') {
+        const nd = { ...dailyData, claimedCount: d.next };
+        setDailyData(nd); saveDailyData(nd);
+      }
+    } finally { setChestBusy(false); }
   }
-
-  function claimChestPrize(prize) {
-    const newData = { ...dailyData, claimedCount: dailyData.claimedCount + 1 };
-    setDailyData(newData);
-    saveDailyData(newData);
-    setGems(prev => (prev || 0) + prize.gems);
-    creditPrize(prize);
+  function markXpClaimed() {
+    setDailyData(prev => { const nd = { ...prev, claimedCount: prev.claimedCount + 1 }; saveDailyData(nd); return nd; });
   }
-
-  function claimQuest(id, prize) {
-    if (questClaims[id]) return;
-    const claimed = { ...questClaims, [id]: true };
-    setQuestClaims(claimed);
-    saveQuestClaims(claimed);
-    setGems(prev => (prev || 0) + prize.gems);
-    creditPrize(prize);
+  function markQuestClaimed(id) {
+    setQuestClaims(prev => { if (prev[id]) return prev; const c = { ...prev, [id]: true }; saveQuestClaims(c); return c; });
+  }
+  function claimChestPrize(d) {
+    markXpClaimed();
+    try { window.VumedStats.applyChest(d); } catch (e) {}
+    syncGemsFromStats();
+  }
+  function claimQuest(id, d) {
+    markQuestClaimed(id);
+    try { window.VumedStats.applyChest(d); } catch (e) {}
+    syncGemsFromStats();
   }
 
   async function startExam(popup) {
@@ -4596,7 +4598,7 @@ function App() {
                                opacity: (xpDone && user) ? 1 : 0.5,
                                animation: (xpDone && user) ? 'qpGiftPulse 1.3s ease-in-out infinite' : 'none' }}
                       title={!user ? 'Log in om je beloning te claimen' : (xpDone ? 'Klik om je beloning te claimen!' : 'Verdien XP om je beloning te ontgrendelen')}
-                      onClick={() => { if (!user) setAuthModal(true); else if (xpDone) setChestModal(true); else bumpChest(); }}
+                      onClick={() => { if (!user) setAuthModal(true); else if (xpDone) openServerChest('xp', dailyData.claimedCount, (d) => setChestModal(d), markXpClaimed); else bumpChest(); }}
                     >
                       <Gift size={42} />
                     </div>
@@ -4623,7 +4625,7 @@ function App() {
                             </span>
                           ) : done ? (
                             <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', animation: 'qpGiftPulse 1.3s ease-in-out infinite' }}
-                                 title="Klik om je beloning te claimen!" onClick={() => setQuestChest({ id: q.id })}>
+                                 title="Klik om je beloning te claimen!" onClick={() => openServerChest('quest', q.id, (d) => setQuestChest({ id: q.id, d }), () => markQuestClaimed(q.id))}>
                               <Gift size={42} />
                             </div>
                           ) : (
@@ -4647,16 +4649,18 @@ function App() {
           closing early leaves the chest claimable. */}
       {chestModal && (
         <ChestModal
-          onClose={() => setChestModal(false)}
-          onClaim={claimChestPrize}
+          preset={chestModal}
+          onClose={() => { if (!chestModal._claimed) claimChestPrize(chestModal); setChestModal(false); }}
+          onClaim={() => { chestModal._claimed = true; claimChestPrize(chestModal); }}
         />
       )}
 
       {/* Question-quest reward — same random loot roll. */}
       {questChest && (
         <ChestModal
-          onClose={() => setQuestChest(null)}
-          onClaim={(prize) => claimQuest(questChest.id, prize)}
+          preset={questChest.d}
+          onClose={() => { if (!questChest.d._claimed) claimQuest(questChest.id, questChest.d); setQuestChest(null); }}
+          onClaim={() => { questChest.d._claimed = true; claimQuest(questChest.id, questChest.d); }}
         />
       )}
 

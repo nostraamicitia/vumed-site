@@ -63,7 +63,7 @@
       if (window.VUMED_STATS_OFF || window.VumedStats) return;
       if (document.querySelector('script[data-vumed-stats]')) return;
       var s = document.createElement('script');
-      s.src = 'vumed_stats.js?v=28'; s.async = true; s.setAttribute('data-vumed-stats', '1');
+      s.src = 'vumed_stats.js?v=29'; s.async = true; s.setAttribute('data-vumed-stats', '1');
       (document.head || document.documentElement).appendChild(s);
     } catch (e) {}
   })();
@@ -1902,17 +1902,25 @@
       if (window._restoring || !window.VumedStats) return;
       var cur = _answeredMap();
       if (_pdStatus === null) { _pdStatus = Object.assign({}, cur); return; }
-      var gems = 0;
+      var nC = 0, nO = 0, nW = 0;
       for (var q in cur) {
         if (!cur.hasOwnProperty(q)) continue;
         if (_pdStatus[q] === cur[q]) continue;      // unchanged
         var v = cur[q];
-        if (v === 'correct') { gems += 2; try { if (window.VumedStats.answerCorrect) window.VumedStats.answerCorrect(); } catch (e) {} }
-        else if (v === 'answered') gems += 1;       // dnd/open participation
-        else if (v === 'wrong') { try { window.VumedStats.loseHeart(); } catch (e) {} }
+        if (v === 'correct') { nC++; try { if (window.VumedStats.answerCorrect) window.VumedStats.answerCorrect(); } catch (e) {} }
+        else if (v === 'answered') nO++;            // dnd/open participation
+        else if (v === 'wrong') { nW++; try { window.VumedStats.loseHeart(); } catch (e) {} }
       }
       _pdStatus = Object.assign({}, cur);
-      if (gems > 0) { try { window.VumedStats.awardGems(gems); } catch (e) {} }
+      // Gems (2 per goed, 1 per open/dnd) + de vragenteller voor de quests:
+      // server-side via answer_reward (anti-cheat 2026-11-20). Oude engine
+      // uit de cache → val terug op awardGems.
+      if (nC + nO + nW > 0) {
+        try {
+          if (window.VumedStats.rewardAnswers) window.VumedStats.rewardAnswers(nC, nO, nW);
+          else if (2 * nC + nO > 0) window.VumedStats.awardGems(2 * nC + nO);
+        } catch (e) {}
+      }
     } catch (e) {}
     try { Ach.onBump(); } catch (e) {}   // re-check Prestaties after each answer
   }
@@ -2039,21 +2047,13 @@
       if (sb && uid) { try { sb.from('exam_progress').upsert({ user_id: uid, exam_key: 'achievement_claims', progress: { claimed: claimed }, updated_at: new Date().toISOString() }, { onConflict: 'user_id,exam_key' }).then(function () {}, function () {}); } catch (e) {} }
     }
 
-    function creditPrize(p) {
-      if (!p) return;
-      // hearts (small chest bonus) only credit via VumedStats — no add_hearts
-      // RPC exists, the belt-and-braces path below drops them
-      if (window.VumedStats) { try { window.VumedStats.awardGems(p.gems); window.VumedStats.awardCoins(p.coins); if (p.hearts && window.VumedStats.awardHearts) window.VumedStats.awardHearts(p.hearts); return; } catch (e) {} }
-      if (sb && uid) { try { sb.rpc('add_gems', { p_user_id: uid, p_amount: p.gems }); sb.rpc('add_coins', { p_user_id: uid, p_amount: p.coins }); } catch (e) {} }
-    }
-
     /* Lazy-load gift_modal.js (not on exam pages by default) on first claim. */
     function ensureGift(cb) {
       if (window.VumedGift) return cb();
       var ex = document.querySelector('script[data-vg]');
       if (ex) { ex.addEventListener('load', cb); return; }
       var s = document.createElement('script');
-      s.src = 'gift_modal.js?v=29'; s.setAttribute('data-vg', '1');
+      s.src = 'gift_modal.js?v=30'; s.setAttribute('data-vg', '1');
       s.onload = cb; s.onerror = function () {};
       document.head.appendChild(s);
     }
@@ -2109,17 +2109,22 @@
     function claim(bd, tier, card) {
       if (card.dataset.busy) return; card.dataset.busy = '1';
       ensureGift(function () {
-        if (!window.VumedGift) { card.dataset.busy = ''; return; }
-        window.VumedGift.open({
-          random: true, forceRarity: 'legendarisch',
+        var VS = window.VumedStats;
+        if (!window.VumedGift || !VS || !VS.claimChest) { card.dataset.busy = ''; return; }
+        var done = function () {
+          claimed[bd.key] = Math.max((claimed[bd.key] != null ? claimed[bd.key] : -1), tier);
+          persist();
+          if (card && card.parentNode) { card.classList.add('pd-ach-out'); setTimeout(function () { if (card.parentNode) card.parentNode.removeChild(card); }, 320); }
+        };
+        // Anti-cheat (2026-11-20): de server registreert de prestatie één keer
+        // en rolt + betaalt de (legendarische) kist — open_chest 'achievement'.
+        VS.claimChest({
+          source: 'achievement', ref: bd.key + ':' + tier,
+          forceRarity: 'legendarisch',
           title: 'Prestatie: ' + bd.name,
           footText: 'Niveau ' + (tier + 1) + ' behaald',
-          onClaim: function (prize) {
-            creditPrize(prize);
-            claimed[bd.key] = Math.max((claimed[bd.key] != null ? claimed[bd.key] : -1), tier);
-            persist();
-            if (card && card.parentNode) { card.classList.add('pd-ach-out'); setTimeout(function () { if (card.parentNode) card.parentNode.removeChild(card); }, 320); }
-          },
+          onDone: function () { done(); },
+          onFail: function (reason) { card.dataset.busy = ''; if (reason === 'claimed') done(); },
           onClose: function () { card.dataset.busy = ''; },
         });
       });
