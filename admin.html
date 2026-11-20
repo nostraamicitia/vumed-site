@@ -438,6 +438,8 @@
     .mk-tabs button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
     .mk-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 12px; }
     .mk-tools .rev-search { flex: 1; min-width: 180px; }
+    .pr-in { font: inherit; font-size: 13px; width: 100%; min-width: 110px; padding: 5px 8px; border: 1.5px solid var(--line, #e5e5e5); border-radius: 8px; background: transparent; color: inherit; }
+    .pr-in:focus { outline: none; border-color: #1CB0F6; }
     .mk-datewrap { display: flex; flex-direction: column; gap: 6px; }
     .mk-quick { display: flex; gap: 5px; flex-wrap: wrap; }
     .mk-quick button { border: 0; background: rgba(28,176,246,.12); color: #1CB0F6; border-radius: 8px; padding: 4px 9px; font: 800 11.5px Nunito, sans-serif; cursor: pointer; text-transform: none; letter-spacing: 0; }
@@ -712,6 +714,7 @@
       <button class="an-item" data-view="team"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 2.6v5.2c0 4.4-3 8-7 9.4-4-1.4-7-5-7-9.4V4.6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9.2 11.8l1.9 1.9 3.6-3.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Team</button>
       <button class="an-item" data-view="mail"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Mail</button>
       <button class="an-item" data-view="marketing"><svg viewBox="0 0 24 24" fill="none"><path d="M4 10v4a1 1 0 0 0 1 1h2l5 4V5L7 9H5a1 1 0 0 0-1 1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M16 8.5a5 5 0 0 1 0 7M18.8 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Marketing</button>
+      <button class="an-item" data-view="prospects"><svg viewBox="0 0 24 24" fill="none"><circle cx="10" cy="8" r="3.4" stroke="currentColor" stroke-width="2"/><path d="M4 20c0-3.3 2.7-5.5 6-5.5 1.2 0 2.3.3 3.2.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 15h6v5h-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M15 15l3 2.5 3-2.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>Studenten</button>
       <button class="an-item" data-view="system"><svg viewBox="0 0 24 24" fill="none"><path d="M3 13h4l2.5 6 5-14L17 13h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Systeem</button>
       <!-- Alleen zichtbaar op localhost: de bron-PDF's staan niet op de server. -->
       <a class="an-item" id="nav-bron" href="_bron.html" target="_blank" rel="noopener" style="display:none;text-decoration:none;"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h7l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 3v5h5M8.5 13h7M8.5 17h4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Bron-PDF</a>
@@ -919,6 +922,25 @@
             <div class="mkn-grid" id="mkn-grid"><div class="card-sub">Laden…</div></div>
           </div>
           <div class="mk-undo" id="mk-undo"><span id="mk-undo-txt"></span><button id="mk-undo-btn">Ongedaan maken</button></div>
+        </section>
+
+        <!-- ── Studenten (email_prospects) ── -->
+        <section class="view" id="view-prospects">
+          <div class="card">
+            <h2><span class="h2-dot" style="background:#CE82FF"></span>Mailkandidaten</h2>
+            <div class="card-sub" id="pr-sub">Laden…</div>
+            <div class="mk-tools">
+              <input id="pr-q" class="rev-search" type="search" placeholder="Zoek op naam, e-mail, insta of nummer…" autocomplete="off">
+              <select id="pr-filter" class="mk-status">
+                <option value="all">Iedereen</option>
+                <option value="noacc">Nog geen account</option>
+                <option value="acc">Heeft account</option>
+                <option value="noinsta">Insta nog onbekend</option>
+              </select>
+              <button class="mk-btn" id="pr-csv">Exporteer CSV</button>
+            </div>
+            <div class="tbl-scroll"><table class="adm" id="pr-table"></table></div>
+          </div>
         </section>
 
         <!-- ── Systeem ── -->
@@ -2075,6 +2097,7 @@ const NAV_META = {
   team:     { title: 'Team',         sub: 'Wie toegang heeft tot dit beheer' },
   mail:     { title: 'Mail',         sub: 'Berichten naar gebruikers sturen' },
   marketing:{ title: 'Marketing',    sub: 'Je marketing-content plannen & bijhouden' },
+  prospects:{ title: 'Studenten',    sub: 'Mailkandidaten: wie, account, insta & nummer' },
   system:   { title: 'Systeem',      sub: 'Live activiteit & hulpmiddelen' },
 };
 function showView(name) {
@@ -2088,9 +2111,72 @@ function showView(name) {
   // Items worden in admin_avatar.html bewerkt; opnieuw ophalen bij het openen
   // van de sectie, anders kijk je naar de lijst van vóór die bewerking.
   if (name === 'items') loadItems().catch(console.error);
+  if (name === 'prospects') loadProspects().catch(console.error);
   if (name === 'marketing') { loadMarketing().catch(console.error); loadNotes().catch(console.error); }
   const sc = document.querySelector('.admin-scroll'); if (sc) sc.scrollTop = 0;
 }
+
+/* ══════════════ Studenten / mailkandidaten (tabel email_prospects, RLS: is_admin) ══════════════
+   Data via rpc admin_email_prospects() (koppelt aan auth.users voor "heeft account").
+   Insta, nummer en notitie zijn inline te bewerken; opslaan bij verlaten van het veld. */
+let _pr = [];
+async function loadProspects() {
+  const { data, error } = await getSB().rpc('admin_email_prospects');
+  if (error) { $('pr-sub').textContent = 'Fout bij laden: ' + error.message; return; }
+  _pr = data || [];
+  renderProspects();
+}
+function prIgUrl(v) {
+  v = String(v || '').trim(); if (!v) return '';
+  if (/^https?:\/\//i.test(v)) return v;
+  return 'https://instagram.com/' + encodeURIComponent(v.replace(/^@/, ''));
+}
+function renderProspects() {
+  const q = ($('pr-q').value || '').trim().toLowerCase();
+  const f = $('pr-filter').value;
+  const rows = _pr.filter(r => {
+    if (f === 'acc' && !r.has_account) return false;
+    if (f === 'noacc' && r.has_account) return false;
+    if (f === 'noinsta' && r.instagram) return false;
+    if (!q) return true;
+    return [r.full_name, r.first_name, r.email, r.instagram, r.phone, r.notes].some(x => String(x || '').toLowerCase().includes(q));
+  });
+  const nAcc = _pr.filter(r => r.has_account).length;
+  const nIg = _pr.filter(r => r.instagram).length;
+  $('pr-sub').textContent = _pr.length + ' studenten · ' + nAcc + ' met account · ' + nIg + ' met insta' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
+  const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
+  $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
+    rows.map(r => '<tr>' +
+      '<td><b>' + esc(r.first_name || '') + '</b><div class="card-sub" style="margin:0">' + esc(r.full_name || '') + '</div></td>' +
+      '<td><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></td>' +
+      '<td>' + (r.has_account ? '<span style="color:#58CC02;font-weight:700">✓ ja</span>' : '<span style="opacity:.5">nee</span>') + '</td>' +
+      '<td style="white-space:nowrap">' + inp(r, 'instagram', '@…') + (r.instagram ? ' <a href="' + esc(prIgUrl(r.instagram)) + '" target="_blank" rel="noopener">↗</a>' : '') + '</td>' +
+      '<td>' + inp(r, 'phone', '06…') + '</td>' +
+      '<td>' + inp(r, 'notes', '') + '</td>' +
+    '</tr>').join('') + '</tbody>';
+}
+(() => {
+  if (!$('pr-q')) return;
+  $('pr-q').addEventListener('input', renderProspects);
+  $('pr-filter').addEventListener('change', renderProspects);
+  $('pr-table').addEventListener('change', async e => {
+    const el = e.target; if (!el.classList || !el.classList.contains('pr-in')) return;
+    const id = el.dataset.id, k = el.dataset.k, v = el.value.trim() || null;
+    const row = _pr.find(r => r.id === id); if (!row) return;
+    const { error } = await getSB().from('email_prospects').update({ [k]: v }).eq('id', id);
+    if (error) { toast('Opslaan mislukt: ' + error.message, 'err'); el.value = row[k] || ''; return; }
+    row[k] = v; toast('Opgeslagen');
+    if (k === 'instagram') renderProspects();
+  });
+  $('pr-csv').addEventListener('click', () => {
+    const cols = ['first_name', 'full_name', 'email', 'has_account', 'instagram', 'phone', 'notes'];
+    const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const csv = [cols.join(',')].concat(_pr.map(r => cols.map(c => q(r[c])).join(','))).join('\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' }));
+    a.download = 'vumed-studenten.csv'; a.click();
+  });
+})();
 
 /* ══════════════ Marketing-planner (tabel marketing_content, RLS: is_admin) ══════════════
    Weergaves: lijst (gegroepeerd per periode), bord (slepen tussen statussen),
