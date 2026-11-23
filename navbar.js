@@ -400,7 +400,7 @@
     try {
       if (!window.VUMED_STATS_OFF && !window.VumedStats && !document.querySelector('script[data-vumed-stats]')) {
         var ss = document.createElement('script');
-        ss.src = 'vumed_stats.js?v=28'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
+        ss.src = 'vumed_stats.js?v=29'; ss.async = true; ss.setAttribute('data-vumed-stats', '1');
         (document.head || document.documentElement).appendChild(ss);
       }
     } catch (e) {}

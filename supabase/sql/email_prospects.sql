@@ -39,3 +39,27 @@ end $$;
 revoke all on function public.admin_email_prospects() from public, anon;
 grant execute on function public.admin_email_prospects() to authenticated;
 
+
+-- 2026-11-24: loting-inschrijvingen (naam + nummer + groep, vaak zonder e-mail).
+alter table public.email_prospects alter column email drop not null;
+alter table public.email_prospects add column if not exists lot_group text;
+create unique index if not exists email_prospects_phone_key on public.email_prospects (phone) where phone is not null;
+
+drop function if exists public.admin_email_prospects();
+create function public.admin_email_prospects()
+returns table(id uuid, email text, full_name text, first_name text, instagram text, phone text,
+              status text, sent_at timestamptz, notes text, source text, lot_group text,
+              has_account boolean, account_created timestamptz)
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then raise exception 'not allowed'; end if;
+  return query
+  select p.id, p.email, p.full_name, p.first_name, p.instagram, p.phone, p.status, p.sent_at, p.notes,
+         p.source, p.lot_group,
+         (u.id is not null), u.created_at
+  from public.email_prospects p
+  left join auth.users u on p.email is not null and lower(u.email) = p.email
+  order by p.full_name nulls last;
+end $$;
+revoke all on function public.admin_email_prospects() from public, anon;
+grant execute on function public.admin_email_prospects() to authenticated;

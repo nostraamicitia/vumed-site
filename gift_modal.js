@@ -46,6 +46,10 @@
  * legendary chest can still climb (the tier is a floor, never less). Prestatie
  * (achievement) rewards pass 'legendarisch' — always a legendary chest (1 tap).
  *
+ * opts.preset (random mode) = {plan:[tierIdx…], gems, coins, hearts} from the
+ * open_chest RPC: the server rolled AND credited it, the modal only animates.
+ * Logged-in callers should go through VumedStats.claimChest(), which does this.
+ *
  * opts.multiplier (random mode only) scales the rolled gems/coins while keeping
  * the tier — a bigger chest of the same rarity. Dagdoel-reeks chests pass it
  * (see vumed_stats.js GOAL_TIERS × GOAL_MILESTONES).
@@ -447,11 +451,19 @@
           if (RARITIES[_fi].key === opts.forceRarity) { _startIdx = _fi; break; }
         }
       }
-      plan = rollTapPlan(_startIdx >= 0 ? _startIdx : rollStartTier());
-      var _finalTier = RARITIES[plan[plan.length - 1]];
-      var _fa = amountsFor(_finalTier);
-      prize  = { rarity: _finalTier, gems: _fa.gems, coins: _fa.coins, hearts: _fa.hearts };
-      scaleAmounts(prize, opts.multiplier);
+      // opts.preset (2026-11-20, anti-cheat): the SERVER rolled and already
+      // credited this chest (open_chest RPC) — just play its plan back.
+      var _pre = opts.preset;
+      if (_pre && Array.isArray(_pre.plan) && _pre.plan.length) {
+        plan = _pre.plan.map(function (x) { return Math.max(0, Math.min(RARITIES.length - 1, x | 0)); });
+        prize = { rarity: RARITIES[plan[plan.length - 1]], gems: _pre.gems | 0, coins: _pre.coins | 0, hearts: _pre.hearts | 0 };
+      } else {
+        plan = rollTapPlan(_startIdx >= 0 ? _startIdx : rollStartTier());
+        var _finalTier = RARITIES[plan[plan.length - 1]];
+        var _fa = amountsFor(_finalTier);
+        prize  = { rarity: _finalTier, gems: _fa.gems, coins: _fa.coins, hearts: _fa.hearts };
+        scaleAmounts(prize, opts.multiplier);
+      }
       needed = plan.length;
     } else {
       prize  = { amount: opts.amount || 0 };
