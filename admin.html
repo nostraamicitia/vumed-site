@@ -937,6 +937,11 @@
                 <option value="acc">Heeft account</option>
                 <option value="noinsta">Insta nog onbekend</option>
               </select>
+              <select id="pr-src" class="mk-status">
+                <option value="all">Alle bronnen</option>
+                <option value="loting">Loting</option>
+                <option value="vumed_emailkandidaten">Mailkandidaten</option>
+              </select>
               <button class="mk-btn" id="pr-csv">Exporteer CSV</button>
             </div>
             <div class="tbl-scroll"><table class="adm" id="pr-table"></table></div>
@@ -2134,21 +2139,25 @@ function prIgUrl(v) {
 function renderProspects() {
   const q = ($('pr-q').value || '').trim().toLowerCase();
   const f = $('pr-filter').value;
+  const src = $('pr-src').value;
   const rows = _pr.filter(r => {
+    if (src !== 'all' && r.source !== src) return false;
     if (f === 'acc' && !r.has_account) return false;
     if (f === 'noacc' && r.has_account) return false;
     if (f === 'noinsta' && r.instagram) return false;
     if (!q) return true;
-    return [r.full_name, r.first_name, r.email, r.instagram, r.phone, r.notes].some(x => String(x || '').toLowerCase().includes(q));
+    return [r.full_name, r.first_name, r.email, r.instagram, r.phone, r.notes, r.lot_group].some(x => String(x || '').toLowerCase().includes(q));
   });
   const nAcc = _pr.filter(r => r.has_account).length;
   const nIg = _pr.filter(r => r.instagram).length;
-  $('pr-sub').textContent = _pr.length + ' studenten · ' + nAcc + ' met account · ' + nIg + ' met insta' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
+  const nLot = _pr.filter(r => r.source === 'loting').length;
+  $('pr-sub').textContent = _pr.length + ' studenten (' + nLot + ' via loting) · ' + nAcc + ' met account · ' + nIg + ' met insta' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
   const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
-  $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
+  $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
     rows.map(r => '<tr>' +
-      '<td><b>' + esc(r.first_name || '') + '</b><div class="card-sub" style="margin:0">' + esc(r.full_name || '') + '</div></td>' +
-      '<td><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></td>' +
+      '<td><b>' + (r.first_name || r.full_name ? esc(r.first_name || '') : '<span style="opacity:.4">(geen naam)</span>') + '</b><div class="card-sub" style="margin:0">' + esc(r.full_name || '') + '</div></td>' +
+      '<td>' + (r.email ? '<a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span style="opacity:.4">—</span>') + '</td>' +
+      '<td>' + (r.lot_group ? '<b>' + esc(r.lot_group) + '</b>' : '') + '</td>' +
       '<td>' + (r.has_account ? '<span style="color:#58CC02;font-weight:700">✓ ja</span>' : '<span style="opacity:.5">nee</span>') + '</td>' +
       '<td style="white-space:nowrap">' + inp(r, 'instagram', '@…') + (r.instagram ? ' <a href="' + esc(prIgUrl(r.instagram)) + '" target="_blank" rel="noopener">↗</a>' : '') + '</td>' +
       '<td>' + inp(r, 'phone', '06…') + '</td>' +
@@ -2159,6 +2168,7 @@ function renderProspects() {
   if (!$('pr-q')) return;
   $('pr-q').addEventListener('input', renderProspects);
   $('pr-filter').addEventListener('change', renderProspects);
+  $('pr-src').addEventListener('change', renderProspects);
   $('pr-table').addEventListener('change', async e => {
     const el = e.target; if (!el.classList || !el.classList.contains('pr-in')) return;
     const id = el.dataset.id, k = el.dataset.k, v = el.value.trim() || null;
@@ -2169,7 +2179,7 @@ function renderProspects() {
     if (k === 'instagram') renderProspects();
   });
   $('pr-csv').addEventListener('click', () => {
-    const cols = ['first_name', 'full_name', 'email', 'has_account', 'instagram', 'phone', 'notes'];
+    const cols = ['first_name', 'full_name', 'email', 'phone', 'lot_group', 'source', 'has_account', 'instagram', 'notes'];
     const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
     const csv = [cols.join(',')].concat(_pr.map(r => cols.map(c => q(r[c])).join(','))).join('\n');
     const a = document.createElement('a');
