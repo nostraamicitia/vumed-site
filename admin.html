@@ -440,6 +440,8 @@
     .mk-tools .rev-search { flex: 1; min-width: 180px; }
     .pr-in { font: inherit; font-size: 13px; width: 100%; min-width: 110px; padding: 5px 8px; border: 1.5px solid var(--line, #e5e5e5); border-radius: 8px; background: transparent; color: inherit; }
     .pr-in:focus { outline: none; border-color: #1CB0F6; }
+    .pr-in-first { font-weight: 800; }
+    .pr-in-full { margin-top: 4px; font-size: 12px; opacity: .8; }
     .pr-ig-acts { margin-top: 5px; display: flex; gap: 4px; align-items: center; }
     .pr-ig-btn { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-decoration: none; color: #fff; background: #E1306C; box-shadow: 0 2px 0 #b3204f; }
     .pr-ig-btn:hover { filter: brightness(1.08); }
@@ -2181,7 +2183,7 @@ function renderProspects() {
   const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
   $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
     rows.map(r => '<tr>' +
-      '<td><b>' + (r.first_name || r.full_name ? esc(r.first_name || '') : '<span style="opacity:.4">(geen naam)</span>') + '</b><div class="card-sub" style="margin:0">' + esc(r.full_name || '') + '</div></td>' +
+      '<td style="min-width:170px">' + inp(r, 'first_name', 'Voornaam').replace('class="pr-in"', 'class="pr-in pr-in-first"') + inp(r, 'full_name', 'Volledige naam').replace('class="pr-in"', 'class="pr-in pr-in-full"') + '</td>' +
       '<td>' + (r.email ? '<a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span style="opacity:.4">—</span>') + '</td>' +
       '<td>' + (r.lot_group ? '<b>' + esc(r.lot_group) + '</b>' : '') + '</td>' +
       '<td>' + (r.has_account ? '<span style="color:#58CC02;font-weight:700">✓ ja</span>' : '<span style="opacity:.5">nee</span>') + '</td>' +
@@ -2203,6 +2205,11 @@ function renderProspects() {
     if (error) { toast('Opslaan mislukt: ' + error.message, 'err'); el.value = row[k] || ''; return; }
     row[k] = v; toast('Opgeslagen');
     if (k === 'instagram') renderProspects();
+    else if (k === 'first_name' || k === 'full_name') {
+      // Alleen de insta-knoppen van deze rij verversen (zoekt op de naam), zodat de focus bij tabben blijft.
+      const acts = el.closest('tr') && el.closest('tr').querySelector('.pr-ig-acts');
+      if (acts) acts.innerHTML = prIgButtons(row);
+    }
   });
   $('pr-table').addEventListener('click', e => {
     const f = e.target.closest('[data-follow]'), u = e.target.closest('[data-unfollow]');
