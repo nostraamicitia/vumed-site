@@ -176,11 +176,6 @@
     }
     .year-btn:hover  { box-shadow: 0 4px 16px rgba(0,0,0,0.18); filter: brightness(1.09); }
     .year-btn:active { transform: translateY(2px) scale(0.97); outline: none; }
-    /* Anatomie-knop onder de toetsen van een vak (anatomie.html) */
-    .anat-btn { transition: transform 0.15s ease, box-shadow 0.2s ease; }
-    .anat-btn:hover  { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
-    .anat-btn:active { transform: translateY(2px); border-bottom-width: 2px !important; }
-    html.dark .anat-btn { background: #2C2C2E !important; color: #fff !important; }
     /* Click → springy pop + a white flash that blooms out of the tap point.
        --rx comes from the click handler; the classes are CSS-only extras on a
        React element whose className prop never changes, so React leaves them. */
@@ -3139,27 +3134,24 @@ function SubjectCard({ subject, completedExams, onExamSelect, meta, custom, subj
           })}
         </div>
         {slug && ANATOMIE_VAKKEN.has(slug) && (
-          <button className="anat-btn"
+          <button className="year-btn"
             onClick={() => {
               try { sessionStorage.setItem("vumed_return", "vumed.html"); } catch (x) {}
               window.location.href = "anatomie.html?vak=" + slug;
             }}
             style={{
-              display: "flex", alignItems: "center", gap: 12, width: "100%", marginTop: 18,
-              padding: "13px 16px", borderRadius: 14, boxSizing: "border-box", cursor: "pointer",
-              background: "#fff", border: `2px solid ${col.bg}`, borderBottom: `4px solid ${col.dark}`,
-              fontFamily: "inherit", textAlign: "left", color: "#1C1C1E",
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              width: "100%", padding: "11px 14px", marginTop: 12, marginBottom: 8,
+              borderRadius: 12, fontSize: 14, fontWeight: 600,
+              fontFamily: "inherit", boxSizing: "border-box", cursor: "pointer",
+              border: "none", background: col.bg, color: "#fff", borderBottom: `3px solid ${col.dark}`,
             }}>
-            <span style={{ width: 36, height: 36, borderRadius: 10, background: col.bg, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="5" r="2.6"/><path d="M12 7.6v5.4M12 13l-3.4 7M12 13l3.4 7M6 10.5h12"/>
+            <span>Anatomie</span>
+            <span className="yb-play" aria-hidden="true">
+              <svg width="12.6" height="14" viewBox="0 0 9 10">
+                <path d="M8.42 4.13a1 1 0 0 1 0 1.74L1.5 9.6A1 1 0 0 1 0 8.73V1.27A1 1 0 0 1 1.5.4z" fill="#fff"/>
               </svg>
             </span>
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: "block", fontWeight: 900, fontSize: 15 }}>Anatomie</span>
-              <span style={{ display: "block", fontWeight: 700, fontSize: 12.5, color: "#8E8E93" }}>Oefen met platen: benoemen, aanwijzen, toets of snelronde</span>
-            </span>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style={{ flexShrink: 0 }}><path d="M6.5 4L11.5 9L6.5 14" stroke={col.dark} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </button>
         )}
       </div>
