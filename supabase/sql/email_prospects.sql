@@ -63,3 +63,32 @@ begin
 end $$;
 revoke all on function public.admin_email_prospects() from public, anon;
 grant execute on function public.admin_email_prospects() to authenticated;
+
+
+-- 2026-11-26: iedereen met een account hoort ook in de lijst. De admin-RPC voegt
+-- accounthouders die nog ontbreken toe (bron 'account', status 'registered').
+create or replace function public.admin_email_prospects()
+returns table(id uuid, email text, full_name text, first_name text, instagram text, phone text,
+              status text, sent_at timestamptz, notes text, source text, lot_group text,
+              has_account boolean, account_created timestamptz)
+language plpgsql security definer set search_path = public as $$
+#variable_conflict use_column
+begin
+  if not public.is_admin() then raise exception 'not allowed'; end if;
+  insert into public.email_prospects (email, full_name, first_name, source, status)
+  select lower(trim(u.email)), n.nm, nullif(split_part(n.nm, ' ', 1), ''), 'account', 'registered'
+  from auth.users u
+  cross join lateral (select nullif(trim(coalesce(u.raw_user_meta_data->>'full_name', u.raw_user_meta_data->>'name',
+                                                  u.raw_user_meta_data->>'display_name', '')), '') as nm) n
+  where u.email is not null and u.email like '%@%'
+  on conflict (email) do nothing;
+  return query
+  select p.id, p.email, p.full_name, p.first_name, p.instagram, p.phone, p.status, p.sent_at, p.notes,
+         p.source, p.lot_group,
+         (u.id is not null), u.created_at
+  from public.email_prospects p
+  left join auth.users u on p.email is not null and lower(u.email) = p.email
+  order by p.full_name nulls last;
+end $$;
+revoke all on function public.admin_email_prospects() from public, anon;
+grant execute on function public.admin_email_prospects() to authenticated;

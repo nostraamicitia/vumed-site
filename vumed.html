@@ -2219,7 +2219,12 @@ function loadAnatomiePlaten() {
   if (!_anatPlatenPromise) _anatPlatenPromise = new Promise((res, rej) => {
     const sc = document.createElement("script");
     sc.src = "anatomie_platen.js?v=" + Date.now().toString(36).slice(0, 6);
-    sc.onload = () => res(window.ANATOMIE_PLATEN || []);
+    sc.onload = () => {
+      const lf = document.createElement("script");
+      lf.src = "anatomie_leerdoelen.js?v=1";
+      lf.onload = lf.onerror = () => res(window.ANATOMIE_PLATEN || []);
+      document.head.appendChild(lf);
+    };
     sc.onerror = () => { _anatPlatenPromise = null; rej(); };
     document.head.appendChild(sc);
   });
