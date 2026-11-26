@@ -72,6 +72,7 @@ returns table(id uuid, email text, full_name text, first_name text, instagram te
               status text, sent_at timestamptz, notes text, source text, lot_group text,
               has_account boolean, account_created timestamptz)
 language plpgsql security definer set search_path = public as $$
+#variable_conflict use_column
 begin
   if not public.is_admin() then raise exception 'not allowed'; end if;
   insert into public.email_prospects (email, full_name, first_name, source, status)
