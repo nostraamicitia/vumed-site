@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomie – VUmed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';})()</script>
+<script src="openai_config.js"></script>
+<script src="anatomie_platen.js?v=1"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: #fff; color: #1C1C1E; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── Header (zoals toetspagina) ── */
+.site-header { background: rgba(255,255,255,0.90); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50; }
+.header-inner { padding: 0 24px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 48px; gap: 8px; }
+.hbtn { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; color: #6E6E73; text-decoration: none;
+  background: none; border: none; cursor: pointer; padding: 6px 10px; border-radius: 8px; transition: background .15s; white-space: nowrap; }
+.hbtn:hover { background: rgba(60,60,67,0.08); }
+.hbtn.l { justify-self: start; padding-left: 6px; } .hbtn.r { justify-self: end; grid-column: 3; padding-right: 6px; }
+.streak-wrap { position: fixed; top: 0; left: 0; right: 0; z-index: 51; height: 48px; display: flex; align-items: center; padding: 0 132px; pointer-events: none; }
+.streak-inner { max-width: 560px; width: 100%; margin: 0 auto; }
+.streak-bar-wrap { position: relative; }
+.streak-label { position: absolute; top: calc(100% + 4px); left: 0%; transform: translateX(-50%); font-size: 11px; font-weight: 800; color: #58CC02;
+  letter-spacing: .05em; white-space: nowrap; opacity: 0; transition: left .5s cubic-bezier(.25,.46,.45,.94), opacity .4s ease; }
+.streak-bar-bg { width: 100%; height: 14px; background: #E5E5EA; border-radius: 999px; overflow: hidden; }
+.streak-bar-fill { height: 100%; width: 0%; border-radius: 999px; background: #58CC02; transition: width .5s cubic-bezier(.25,.46,.45,.94); position: relative; overflow: hidden; }
+.streak-bar-fill::after { content: ''; position: absolute; top: 15%; left: 6%; right: 6%; height: 35%; border-radius: 999px; background: rgba(255,255,255,.30); }
+@keyframes barPop { 0% { transform: scaleY(1); } 40% { transform: scaleY(1.35); } 70% { transform: scaleY(.92); } 100% { transform: scaleY(1); } }
+.bar-pop { animation: barPop .38s cubic-bezier(.25,.46,.45,.94); }
+.fly-dot { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: #58CC02; box-shadow: 0 2px 12px rgba(88,204,2,.5);
+  pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+  transition: left .55s cubic-bezier(.25,.46,.45,.94), top .55s cubic-bezier(.25,.46,.45,.94), width .2s ease .38s, height .2s ease .38s, opacity .18s ease .46s; }
+.xp-pop { position: fixed; pointer-events: none; z-index: 9999; font-size: 17px; font-weight: 900; color: #FFC800; text-shadow: 0 1px 6px rgba(0,0,0,.18);
+  transform: translateX(-50%); animation: xpFloat 1.3s ease-out forwards; }
+@keyframes xpFloat { 0% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); } 30% { opacity: 1; transform: translateX(-50%) translateY(-18px) scale(1.15); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-56px) scale(.85); } }
+.bar-sparkle { position: fixed; width: 7px; height: 7px; border-radius: 50%; pointer-events: none; z-index: 200; animation: sparkle-pop .65s cubic-bezier(.25,.46,.45,.94) forwards; }
+@keyframes sparkle-pop { 0% { transform: translate(-50%,-50%) scale(0); opacity: 1; } 60% { transform: translate(var(--sx), var(--sy)) scale(1.2); opacity: 1; }
+  100% { transform: translate(calc(var(--sx)*1.6), calc(var(--sy)*1.6)) scale(0); opacity: 0; } }
+
+/* ── Vraag ── */
+.exam-main { max-width: 640px; margin: 48px auto 0; padding: 28px 20px 110px; }
+.banner { background: #FFF4D6; color: #8A5E00; border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 700; line-height: 1.45; margin-bottom: 8px; }
+.q-block { padding: 22px 4px 28px; animation: fadeInUp .3s cubic-bezier(.25,.46,.45,.94) both;
+  display: flex; flex-direction: column; gap: 22px; }
+@media (max-width: 820px) { .streak-wrap { padding: 0 110px; } }
+.q-num { font-size: 11px; font-weight: 700; color: #8E8E93; letter-spacing: .09em; text-transform: uppercase; margin-bottom: 10px; display: flex; gap: 8px; align-items: center; }
+.q-type { background: #F2F2F7; color: #6E6E73; border-radius: 6px; padding: 2px 7px; letter-spacing: .04em; }
+.q-question { font-size: 17px; line-height: 1.55; color: #1C1C1E; margin-bottom: 16px; font-weight: 700; }
+.q-question b { font-weight: 900; }
+.q-sub { font-size: 14px; color: #6E6E73; margin: -10px 0 16px; line-height: 1.5; }
+
+.plate { border: 1px solid rgba(60,60,67,0.1); border-radius: 14px; padding: 10px; background: #fff; }
+.plate-cap { font-size: 12px; font-weight: 700; color: #8E8E93; margin: 2px 4px 6px; display: flex; justify-content: space-between; }
+.imgbox { position: relative; width: 100%; aspect-ratio: 695 / 711; }
+.imgbox img { width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+.num { position: absolute; width: 5.4%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  border: 2.5px solid #1C1C1E; background: #fff; box-shadow: 0 0 0 3px #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: clamp(9px, 1.5vw, 12.5px); color: #1C1C1E; cursor: default; transition: background .15s, border-color .15s, color .15s, transform .12s; }
+.num.dim { color: #C7C7CC; border-color: #D8D8DC; }
+
+.num.pick { cursor: pointer; }
+.num.pick:hover { background: #EBF7FF; border-color: #1CB0F6; transform: translate(-50%, -50%) scale(1.12); }
+.num.selected, .num.ask { background: #1CB0F6; border-color: #1CB0F6; color: #fff; }
+.num.correct { background: #58CC02; border-color: #3A9200; color: #fff; }
+.num.wrong { background: #FF3B30; border-color: #C0392B; color: #fff; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 3px #fff, 0 0 0 3px rgba(28,176,246,.45); } 50% { box-shadow: 0 0 0 3px #fff, 0 0 0 9px rgba(28,176,246,0); } }
+.plate-note { font-size: 11.5px; font-weight: 600; color: #AEAEB2; line-height: 1.45; margin: 8px 4px 2px; }
+.layer { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; transition: opacity .3s, filter .3s; }
+.layer.on { opacity: 1; }
+.layer.on.ask { animation: breathe 1.6s ease-in-out infinite; }
+.layer.good { filter: hue-rotate(50deg) saturate(1.5); }
+.layer.bad { filter: hue-rotate(-48deg) saturate(2.2) brightness(.95); }
+@keyframes breathe { 50% { opacity: .55; } }
+.spot { position: absolute; transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .25s;
+  background: radial-gradient(circle, rgba(255,200,0,.55) 0%, rgba(255,200,0,.25) 45%, rgba(255,200,0,0) 70%); }
+.spot.on { opacity: 1; }
+.spot.green { background: radial-gradient(circle, rgba(88,204,2,.5) 0%, rgba(88,204,2,.2) 45%, rgba(88,204,2,0) 70%); }
+
+.options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.opt-btn { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border: 1.5px solid #D1D1D6; border-radius: 12px; background: #fff;
+  cursor: pointer; font-size: 14px; text-align: left; line-height: 1.5; color: #1C1C1E; transition: background .18s ease, border-color .18s ease, transform .12s ease; }
+.opt-btn:hover:not(:disabled) { background: #EBF7FF; border-color: #1CB0F6; transform: translateY(-1px); }
+.opt-btn.selected { border-color: #1CB0F6; background: #EBF7FF; }
+.opt-btn.correct { border-color: #58CC02; background: #F0FFF4; color: #1C6B2E; }
+.opt-btn.wrong { border-color: #FF3B30; background: #FFF2F2; color: #C0392B; }
+.opt-btn:disabled { cursor: default; }
+.opt-btn em { font-style: normal; color: #8E8E93; font-weight: 600; }
+.opt-btn.correct em, .opt-btn.wrong em { color: inherit; opacity: .75; }
+.opt-letter { min-width: 22px; height: 22px; border-radius: 6px; background: #E5E5EA; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+.opt-btn.selected .opt-letter { background: #1CB0F6; color: #fff; }
+.opt-btn.correct .opt-letter { background: #58CC02; color: #fff; }
+.opt-btn.wrong .opt-letter { background: #FF3B30; color: #fff; }
+
+
+.q-btn-row { display: flex; gap: 10px; align-items: center; }
+.check-btn { padding: 10px 22px; background: #E5E5EA; color: #3C3C43; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background .18s, color .18s, transform .14s; }
+.check-btn:hover:not(:disabled) { background: #1CB0F6; color: #fff; }
+.check-btn:disabled { opacity: .4; cursor: default; }
+.check-btn.cb-correct { background: #58CC02; color: #fff; opacity: 1; animation: cb-pop .34s cubic-bezier(.34,1.56,.64,1); }
+@keyframes cb-pop { 0% { transform: scale(1); } 45% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.next-btn { padding: 10px 22px; background: #58CC02; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.next-btn:hover { opacity: .88; }
+.skip-btn { background: none; border: none; color: #8E8E93; font-size: 13px; font-weight: 700; cursor: pointer; }
+.kbd { font-size: 11.5px; color: #AEAEB2; font-weight: 600; margin-left: auto; }
+
+.result { margin-top: 14px; display: none; animation: fadeInUp .25s ease both; }
+.result.show { display: block; }
+.result-note { font-size: 13.5px; color: #636366; line-height: 1.55; padding: 12px 14px; background: #F9F9F9; border-radius: 10px; border-left: 3px solid #D1D1D6; }
+.result-note.ok { border-left-color: #58CC02; } .result-note.no { border-left-color: #FF3B30; }
+.result-note .rn-term { font-size: 15px; font-weight: 800; color: #1C1C1E; }
+.result-note .rn-nl { font-weight: 700; color: #6E6E73; }
+.result-note ul { margin: 8px 0 0 16px; display: flex; flex-direction: column; gap: 4px; }
+.asked { display: inline-flex; align-items: center; gap: 5px; background: #FFF4D6; color: #B07800; border-radius: 8px; padding: 3px 8px; font-weight: 800; font-size: 12px; margin-top: 10px; }
+
+/* ── Onderbalk ── */
+.summary { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,.88); backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px);
+  border-top: 1px solid rgba(60,60,67,.12); padding: 12px 20px; display: flex; align-items: center; justify-content: center; gap: 16px; font-size: 13px; z-index: 40; }
+.summary-stat { display: flex; align-items: center; gap: 6px; color: #636366; }
+.summary-stat .n { font-weight: 700; color: #1C1C1E; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.dot-correct { background: #58CC02; } .dot-wrong { background: #FF3B30; } .dot-pending { background: #D1D1D6; }
+
+/* ── Modals / resultaat ── */
+.modal-backdrop { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.40); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
+.modal-backdrop.show { display: flex; }
+.modal-box { background: #fff; border-radius: 20px; padding: 28px 28px 22px; max-width: 340px; width: calc(100% - 40px); box-shadow: 0 12px 40px rgba(0,0,0,.18); text-align: center; animation: modal-in .18s ease; }
+@keyframes modal-in { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.modal-box h2 { font-size: 17px; font-weight: 800; margin: 0 0 8px; }
+.modal-box p { font-size: 14px; color: #6E6E73; margin: 0 0 22px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 10px; }
+.modal-actions button { flex: 1; padding: 12px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; }
+.btn-cancel { background: #F2F2F7; color: #1C1C1E; } .btn-confirm { background: #58CC02; color: #fff; }
+#results-overlay { display: none; position: fixed; inset: 0; z-index: 300; background: #fff; overflow-y: auto; animation: modal-in .2s ease; }
+#results-overlay.show { display: block; }
+.results-inner { max-width: 560px; margin: 0 auto; padding: 48px 24px 60px; display: flex; flex-direction: column; align-items: center; }
+.results-title { font-size: 24px; font-weight: 800; margin: 0 0 6px; }
+.results-sub { font-size: 14px; color: #6E6E73; margin: 0 0 36px; }
+.score-ring { width: 150px; height: 150px; border-radius: 50%; background: conic-gradient(#58CC02 0%, #58CC02 var(--pct), #E5E5EA var(--pct), #E5E5EA 100%);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
+.score-ring-inner { width: 110px; height: 110px; border-radius: 50%; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.score-num { font-size: 30px; font-weight: 800; line-height: 1; } .score-den { font-size: 13px; color: #6E6E73; font-weight: 600; margin-top: 2px; }
+.results-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; width: 100%; margin-bottom: 28px; }
+.stat-card { background: #F2F2F7; border-radius: 14px; padding: 16px 12px; text-align: center; }
+.stat-card .stat-n { font-size: 26px; font-weight: 800; } .stat-card .stat-lbl { font-size: 12px; font-weight: 600; color: #6E6E73; margin-top: 2px; }
+.stat-correct .stat-n { color: #58CC02; } .stat-wrong .stat-n { color: #FF3B30; } .stat-xp .stat-n { color: #FFC800; }
+.review { width: 100%; margin-bottom: 28px; }
+.review h3 { font-size: 13px; font-weight: 800; color: #8E8E93; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.review li { list-style: none; display: flex; gap: 10px; align-items: center; padding: 9px 12px; border-radius: 10px; background: #FFF2F2; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
+.review li span { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #FF3B30; color: #FF3B30; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; }
+.review li em { font-style: normal; color: #8E8E93; font-weight: 600; margin-left: auto; font-size: 12.5px; }
+.results-actions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.results-actions button { padding: 15px; border-radius: 14px; font-size: 16px; font-weight: 700; border: none; cursor: pointer; }
+.btn-retry-wrong { background: #58CC02; color: #fff; } .btn-back-exam { background: #F2F2F7; color: #1C1C1E; }
+
+/* ── Actuele VUmed-toetsstijl (overgenomen uit progressdots.js → injectLandingCss) ── */
+@keyframes pdIn { from { opacity: 0; transform: translateY(13px); } to { opacity: 1; transform: none; } }
+.q-block { animation: none; }
+.q-block > * { animation: none; }
+#qside .result.show { animation: none; }
+#qside .result.show.fresh { animation: pdIn .4s cubic-bezier(.22,1,.36,1) both; }
+
+.opt-btn { color: #3C3C43; background: #fff; border-width: 2px; border-color: #E3E3E8; box-shadow: 0 3px 0 #E6E6EC; font-weight: 600; }
+.opt-btn:hover:not(:disabled) { box-shadow: 0 4px 0 #CDE9FB; }
+.opt-btn:active:not(:disabled) { box-shadow: 0 1px 0 #E6E6EC; transform: translateY(2px) scale(0.997); }
+.opt-btn.selected { box-shadow: 0 3px 0 #B7E2FA; }
+.opt-btn.correct { box-shadow: 0 3px 0 #BDE8A8; } .opt-btn.wrong { box-shadow: 0 3px 0 #F5C0BB; }
+.check-btn { background: #fff; border: 2px solid #E3E3E8; box-shadow: 0 3px 0 #E6E6EC;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, box-shadow .15s ease, transform .14s ease, opacity .32s ease; }
+.check-btn:hover:not(:disabled) { border-color: #1CB0F6; box-shadow: 0 3px 0 #0E85B5; }
+.check-btn:active:not(:disabled) { box-shadow: 0 1px 0 #0E85B5; transform: translateY(2px) scale(0.98); }
+.check-btn.cb-correct { border-color: #58CC02; box-shadow: 0 3px 0 #46A302; }
+/* eigen elementen in dezelfde taal: wit, 2px rand, 3D-lip */
+.next-btn { padding: 10px 22px; background: #58CC02; color: #fff; border: 2px solid #58CC02; border-radius: 12px; font-size: 14px; font-weight: 700;
+  box-shadow: 0 3px 0 #46A302; cursor: pointer; transition: transform .14s, box-shadow .15s; }
+.next-btn:hover { opacity: 1; filter: brightness(1.04); }
+.next-btn:active { box-shadow: 0 1px 0 #46A302; transform: translateY(2px) scale(.98); }
+.plate { border: 1px solid rgba(60,60,67,0.10); border-radius: 14px; }
+.skip-btn { color: #8E8E93; font-weight: 700; border-radius: 10px; padding: 8px 10px; transition: background .15s, color .15s; }
+.skip-btn:hover { background: rgba(60,60,67,0.08); color: #3C3C43; }
+.q-num { font-weight: 800; }
+/* donkere modus, zoals dark-theme.css + progressdots */
+html.dark body { background: #1C1C1E; color: #fff; }
+html.dark .site-header, html.dark .summary { background: rgba(28,28,30,0.88); border-color: #2C2C2E; }
+html.dark .q-question, html.dark .result-note .rn-term, html.dark .score-num, html.dark .results-title, html.dark .modal-box h2 { color: #fff; }
+html.dark .q-sub, html.dark .result-note, html.dark .summary-stat { color: #C7C7CC; }
+html.dark .summary-stat .n { color: #fff; }
+html.dark .opt-btn { color: #E6E6EA; background: #2C2C2E; border-color: #48484A; box-shadow: 0 3px 0 #1C1C1E; }
+html.dark .opt-btn.selected { background: rgba(28,176,246,.14); border-color: #1CB0F6; }
+html.dark .opt-btn.correct { background: rgba(88,204,2,.14); border-color: #58CC02; color: #7BD84E; }
+html.dark .opt-btn.wrong { background: rgba(255,59,48,.14); border-color: #FF3B30; color: #FF6B60; }
+html.dark .check-btn:not(.cb-correct) { background: #2C2C2E; color: #EBEBF0; border-color: #48484A; box-shadow: 0 3px 0 #1C1C1E; }
+html.dark .check-btn:hover:not(:disabled):not(.cb-correct) { background: #1CB0F6; color: #fff; border-color: #1CB0F6; box-shadow: 0 3px 0 #0E85B5; }
+html.dark .result-note { background: #2C2C2E; }
+html.dark .streak-bar-bg, html.dark .q-type, html.dark .stat-card, html.dark .btn-back-exam, html.dark .btn-cancel { background: #3A3A3C; color: #EBEBF0; }
+html.dark .plate { border-color: rgba(255,255,255,0.10); }
+html.dark #results-overlay, html.dark .modal-box, html.dark .score-ring-inner { background: #1C1C1E; }
+html.dark .opt-letter { background: #48484A; color: #EBEBF0; }
+/* hoekknop: thema-schakelaar linksonder, zoals op de toetspagina's */
+.pd-corner { position: fixed; bottom: 16px; width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 1px solid #D1D1D6; color: #8E8E93;
+  cursor: pointer; z-index: 420; padding: 0; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.05); transition: color .15s ease, border-color .15s ease, transform .25s cubic-bezier(.22,1,.36,1); }
+.pd-corner:hover { color: #1CB0F6; border-color: #1CB0F6; transform: translateY(-2px); }
+.pd-theme-btn { left: 16px; }
+html.dark .pd-corner { background: #2C2C2E; border-color: #48484A; }
+@media (max-width:768px) { .pd-corner { bottom: calc(64px + env(safe-area-inset-bottom)); } }
+
+/* Volgende-knop als timer: groen loopt in 5 s van links naar rechts vol */
+.next-btn.auto { position: relative; overflow: hidden; min-width: 170px; background: #fff; color: #58CC02; border: 2px solid #58CC02; box-shadow: 0 3px 0 #46A302; }
+.next-btn.auto .nb-txt { position: relative; display: block; }
+.nb-fill { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #fff;
+  background: linear-gradient(90deg, #58CC02, #61D80A); clip-path: inset(0 100% 0 0); animation: nbFill 5s linear forwards; }
+.nb-fill::after { content: ''; position: absolute; top: 15%; left: 6%; right: 6%; height: 30%; border-radius: 999px; background: rgba(255,255,255,.22); }
+@keyframes nbFill { to { clip-path: inset(0 0 0 0); } }
+html.dark .next-btn.auto { background: #2C2C2E; }
+
+/* Uitlegkaart na Controleer: wit, 2px rand + 3D-lip in de kleur van de uitkomst (geen grijs) */
+.result-note { background: #fff; border: 2px solid #E3E3E8; border-left-width: 2px; border-radius: 16px; padding: 16px 18px;
+  box-shadow: 0 3px 0 #E6E6EC; color: #3C3C43; font-size: 14px; line-height: 1.55; }
+.result-note.ok { border-color: #58CC02; box-shadow: 0 3px 0 #BDE8A8; }
+.result-note.no { border-color: #FF3B30; box-shadow: 0 3px 0 #F5C0BB; }
+.rn-head { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+.result-note.ok .rn-head { color: #58CC02; } .result-note.no .rn-head { color: #FF3B30; }
+.result-note .rn-term { font-size: 18px; font-weight: 900; color: #1C1C1E; letter-spacing: -0.2px; line-height: 1.3; }
+.result-note .rn-nl { display: block; font-size: 14px; font-weight: 700; color: #8E8E93; letter-spacing: 0; margin-top: 1px; }
+.result-note ul { list-style: none; margin: 12px 0 0; padding: 12px 0 0; border-top: 1.5px solid #F0F0F3; display: flex; flex-direction: column; gap: 7px; }
+.result-note li { position: relative; padding-left: 16px; font-weight: 600; }
+.result-note li::before { content: ''; position: absolute; left: 2px; top: 8px; width: 6px; height: 6px; border-radius: 50%; background: #1CB0F6; }
+.result-note .asked { margin-top: 12px; background: #FFF7DB; color: #B07800; border-radius: 999px; padding: 4px 11px; font-size: 12px; font-weight: 800; }
+html.dark .result-note { background: #2C2C2E; color: #EBEBF0; box-shadow: 0 3px 0 #1C1C1E; }
+html.dark .result-note.ok { border-color: #58CC02; } html.dark .result-note.no { border-color: #FF3B30; }
+html.dark .result-note .rn-term { color: #fff; }
+html.dark .result-note ul { border-top-color: #3A3A3C; }
+html.dark .result-note .asked { background: rgba(255,200,0,.14); color: #FFC800; }
+
+/* ── AI-chat (Intentamus): toets-CSS + progressdots-overrides (zwevende kaart, alleen icoon) ── */
+.chat-tab { position: fixed; left: 6px; top: 50%; transform: translateY(-50%); z-index: 150; background: transparent; border: none; box-shadow: none;
+  color: #8E8E93; padding: 12px; cursor: pointer; display: flex; transition: color .15s, transform .15s; }
+.chat-tab:hover { color: #1CB0F6; transform: translateY(-50%) scale(1.1); }
+.chat-tab svg { width: 22px; height: 22px; display: block; }
+.q-num-ai { display: inline-flex; vertical-align: middle; align-items: center; justify-content: center; background: none; border: none; padding: 0; margin-left: 2px;
+  color: #8E8E93; cursor: pointer; line-height: 0; transition: color .15s; }
+.q-num-ai:hover { color: #1CB0F6; }
+.chat-panel { position: fixed; top: 60px; bottom: 12px; left: 12px; z-index: 201; width: 360px; max-width: 45vw; background: #fff;
+  border: 1.5px solid #D1D1D6; border-radius: 20px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); overflow: hidden;
+  transform: translateX(-120%); transition: transform .28s cubic-bezier(.25,.46,.45,.94); display: flex; flex-direction: column; }
+.chat-panel.open { transform: translateX(0); }
+.exam-main { transition: margin-left .28s cubic-bezier(.25,.46,.45,.94); }
+body.chat-open .exam-main { margin-left: max(384px, calc((100vw - 640px) / 2)); }
+.chat-panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 16px 12px; border-bottom: 1px solid rgba(60,60,67,0.10); flex-shrink: 0; }
+.chat-panel-title { font-size: 15px; font-weight: 800; color: #1C1C1E; display: flex; align-items: center; gap: 7px; }
+.chat-panel-title small { font-size: 11px; font-weight: 800; color: #1CB0F6; background: #EBF7FF; border-radius: 6px; padding: 2px 7px; }
+.chat-close { background: #fff; border: 1.5px solid #D1D1D6; border-radius: 50%; width: 30px; height: 30px; font-size: 13px; cursor: pointer; color: #636366;
+  display: flex; align-items: center; justify-content: center; }
+.chat-context-pill { margin: 10px 12px 0; padding: 7px 12px; background: #fff; border-radius: 10px; font-size: 12px; color: #636366; font-style: italic;
+  border: 1px solid rgba(60,60,67,0.10); flex-shrink: 0; line-height: 1.4; }
+.chat-context-pill strong { color: #1C1C1E; font-style: normal; }
+.chat-messages { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.chat-msg { max-width: 88%; padding: 9px 13px; border-radius: 18px; font-size: 13.5px; line-height: 1.5; word-break: break-word; }
+.chat-msg.user { align-self: flex-end; background: #1CB0F6; color: #fff; border-bottom-right-radius: 5px; }
+.chat-msg.ai { align-self: flex-start; background: #fff; color: #1C1C1E; border: 1.5px solid #E5E5EA; border-bottom-left-radius: 5px; }
+.chat-msg.ai h3 { font-size: 13px; font-weight: 800; margin: 10px 0 3px; } .chat-msg.ai h4 { font-size: 12.5px; font-weight: 700; margin: 8px 0 2px; color: #3A3A3C; }
+.chat-msg.ai p { margin: 0 0 7px; } .chat-msg.ai p:last-child { margin-bottom: 0; }
+.chat-msg.ai ul, .chat-msg.ai ol { margin: 4px 0 8px 16px; padding: 0; } .chat-msg.ai li { margin-bottom: 4px; }
+.chat-msg.ai strong { font-weight: 800; } .chat-msg.ai em { color: #3A3A3C; }
+.chat-msg.streaming::after { content: '◍'; display: inline-block; color: #1CB0F6; animation: cur-blink .6s step-end infinite; margin-left: 1px; }
+@keyframes cur-blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+.chat-suggest { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 8px; }
+.chat-suggest button { background: #fff; border: 1.5px solid #E3E3E8; border-radius: 999px; padding: 6px 11px; font-size: 12.5px; font-weight: 700; color: #3C3C43;
+  cursor: pointer; box-shadow: 0 2px 0 #E6E6EC; transition: border-color .15s, color .15s; }
+.chat-suggest button:hover { border-color: #1CB0F6; color: #1CB0F6; }
+.chat-input-area { display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px 14px; border-top: 1px solid rgba(60,60,67,0.10); flex-shrink: 0; }
+.chat-input { flex: 1; border: 1.5px solid #D1D1D6; border-radius: 20px; padding: 8px 14px; font-size: 13.5px; font-family: inherit; resize: none; outline: none;
+  line-height: 1.4; max-height: 100px; overflow-y: auto; transition: border-color .15s; background: #fff; color: #1C1C1E; }
+.chat-input:focus { border-color: #1CB0F6; }
+.chat-send { width: 36px; height: 36px; border-radius: 50%; border: none; background: #1CB0F6; color: #fff; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; transition: background .15s; }
+.chat-send:hover { background: #0A9EDC; } .chat-send:disabled { background: #D1D1D6; cursor: default; }
+@media (max-width:768px) {
+  .chat-tab { display: none; }
+  .chat-panel { top: calc(8px + env(safe-area-inset-top)); bottom: calc(8px + env(safe-area-inset-bottom)); left: 8px; right: 8px; width: auto; max-width: none;
+    border-radius: 24px; box-shadow: 0 12px 34px rgba(0,0,0,0.16); transform: translateX(calc(-100% - 12px)); }
+  body.chat-open .exam-main { margin-left: auto; }
+}
+html.dark .chat-panel { background: #1C1C1E; border-color: #48484A; }
+html.dark .chat-panel-title { color: #fff; }
+html.dark .chat-msg.ai { background: #2C2C2E; color: #EBEBF0; border-color: #48484A; }
+html.dark .chat-close, html.dark .chat-context-pill, html.dark .chat-suggest button, html.dark .chat-input { background: #2C2C2E; border-color: #48484A; color: #EBEBF0; }
+html.dark .chat-context-pill strong { color: #fff; }
+/* timer pauzeert zolang de chat open is */
+body.chat-open .nb-fill { animation-play-state: paused; }
+
+/* morph: foute opties klappen in, goede wordt de kaart */
+.opt-btn.opt-vanish { opacity: 0 !important; height: 0 !important; padding-top: 0; padding-bottom: 0; margin-bottom: -8px; border-width: 0; box-shadow: none !important;
+  transform: scale(.96); overflow: hidden; transition: opacity .22s ease, height .32s cubic-bezier(.65,0,.35,1), padding .32s cubic-bezier(.65,0,.35,1),
+  margin .32s cubic-bezier(.65,0,.35,1), border-width .32s, transform .22s ease; }
+.opt-card.morph { overflow: hidden; transition: height .45s cubic-bezier(.22,1,.36,1); }
+.opt-card.morph > * { animation: pdIn .45s cubic-bezier(.22,1,.36,1) both; }
+.opt-card.morph > *:nth-child(2) { animation-delay: .05s; } .opt-card.morph > *:nth-child(3) { animation-delay: .1s; } .opt-card.morph > *:nth-child(4) { animation-delay: .15s; }
+.opt-card { margin-bottom: 4px; }
+
+/* overgang tussen vragen: wegschuiven + gestaffeld landen */
+@keyframes pdLand { from { opacity: 0; transform: translateY(16px) scale(.985); } to { opacity: 1; transform: none; } }
+.q-block.leave .plate { opacity: .35; transform: scale(.985); transition: opacity .2s ease, transform .22s ease; }
+.q-block.leave #qside > * { opacity: 0; transform: translateY(-10px); transition: opacity .18s ease, transform .22s ease; }
+
+/* plaatkiezer boven de vraag */
+.plate-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 4px 0 6px; }
+.plate-tab { display: inline-flex; align-items: center; gap: 7px; background: #fff; border: 2px solid #E3E3E8; box-shadow: 0 3px 0 #E6E6EC; border-radius: 12px;
+  padding: 7px 12px; font-size: 13.5px; font-weight: 800; color: #3C3C43; cursor: pointer; transition: border-color .15s, box-shadow .15s, color .15s, transform .12s; }
+.plate-tab small { font-size: 11px; font-weight: 800; color: #8E8E93; background: #F2F2F7; border-radius: 6px; padding: 1px 6px; }
+.plate-tab:hover { border-color: #1CB0F6; box-shadow: 0 3px 0 #CDE9FB; }
+.plate-tab:active { transform: translateY(2px); box-shadow: 0 1px 0 #E6E6EC; }
+.plate-tab.on { border-color: #1CB0F6; background: #EBF7FF; color: #1CB0F6; box-shadow: 0 3px 0 #B7E2FA; }
+.plate-tab.on small { background: #fff; color: #1CB0F6; }
+html.dark .plate-tab { background: #2C2C2E; border-color: #48484A; color: #EBEBF0; box-shadow: 0 3px 0 #1C1C1E; }
+html.dark .plate-tab.on { background: rgba(28,176,246,.14); border-color: #1CB0F6; color: #1CB0F6; }
+html.dark .plate-tab small { background: #3A3A3C; }
+
+/* ── Anatomiemenu ── */
+body.on-menu #quiz, body.on-menu .summary, body.on-menu .streak-wrap, body.on-menu #hdr-right, body.on-menu .chat-tab { display: none !important; }
+body:not(.on-menu) #menu { display: none; }
+body.mode-snel .summary .summary-stat:last-child { display: none; }
+body.mode-snel #hdr-right { pointer-events: none; color: #1C1C1E; font-weight: 800; font-variant-numeric: tabular-nums; }
+body.mode-snel #hdr-right svg { display: none; }
+body.mode-snel .q-num-ai, body.mode-snel .chat-tab { display: none; }
+.menu-main { max-width: 760px; margin: 48px auto 0; padding: 26px 20px 120px; animation: pdIn .5s cubic-bezier(.22,1,.36,1) both; }
+.m-hero { background: linear-gradient(135deg, var(--vak, #58CC02), var(--vakd, #3A9200)); color: #fff; border-radius: 24px; padding: 26px 28px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; box-shadow: 0 4px 0 var(--vakd, #3A9200); }
+.m-eyebrow { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; opacity: .9; }
+.m-hero h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.15; margin-top: 2px; text-shadow: 0 1px 2px rgba(0,0,0,.12); }
+.m-sub { margin-top: 6px; font-size: 14px; font-weight: 800; opacity: .92; }
+.m-ring-in { width: 96px; height: 96px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(circle, var(--vak, #58CC02) 0 58%, transparent 59%), conic-gradient(#fff var(--pct), rgba(255,255,255,.28) 0); }
+.m-ring-in b { font-size: 22px; font-weight: 900; line-height: 1; } .m-ring-in small { font-size: 11px; font-weight: 800; opacity: .92; margin-top: 3px; }
+.m-sec { font-size: 12.5px; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; color: #8E8E93; margin: 28px 2px 12px; display: flex; justify-content: space-between; align-items: center; }
+.m-sec button { background: none; border: none; color: #1CB0F6; font-weight: 800; font-size: 13px; cursor: pointer; text-transform: none; letter-spacing: 0; }
+.m-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 640px) { .m-modes { grid-template-columns: 1fr; } .m-hero { padding: 22px; } .m-ring-in { width: 80px; height: 80px; } }
+.m-mode { background: #fff; border: 2px solid #E3E3E8; box-shadow: 0 3px 0 #E6E6EC; border-radius: 16px; padding: 14px; text-align: left; cursor: pointer;
+  display: grid; grid-template-columns: auto 1fr; column-gap: 10px; row-gap: 4px; color: #1C1C1E; transition: border-color .15s, box-shadow .15s, transform .12s; }
+.m-mode:hover { border-color: #1CB0F6; box-shadow: 0 3px 0 #CDE9FB; }
+.m-mode:active { transform: translateY(2px); box-shadow: 0 1px 0 #E6E6EC; }
+.m-mode.on { border-color: #1CB0F6; background: #EBF7FF; box-shadow: 0 3px 0 #B7E2FA; }
+.m-mode-ic { grid-row: span 2; width: 38px; height: 38px; border-radius: 12px; background: #F2F2F7; color: #8E8E93; display: flex; align-items: center; justify-content: center; }
+.m-mode.on .m-mode-ic { background: #1CB0F6; color: #fff; }
+.m-mode-t { font-weight: 900; font-size: 15px; display: flex; align-items: center; gap: 7px; }
+.m-mode-t small { font-size: 11px; font-weight: 800; color: #B07800; background: #FFF4D6; border-radius: 6px; padding: 1px 6px; }
+.m-mode-d { font-size: 12.5px; font-weight: 600; color: #6E6E73; line-height: 1.4; }
+.m-seg { display: inline-flex; background: #F2F2F7; border-radius: 12px; padding: 4px; gap: 4px; }
+.m-seg button { border: none; background: none; border-radius: 9px; padding: 8px 14px; font-size: 13.5px; font-weight: 800; color: #6E6E73; cursor: pointer; }
+.m-seg button.on { background: #fff; color: #1C1C1E; box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+.m-plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+.m-plate { position: relative; background: #fff; border: 2px solid #E3E3E8; box-shadow: 0 3px 0 #E6E6EC; border-radius: 16px; padding: 10px 10px 12px; text-align: left;
+  cursor: pointer; display: flex; flex-direction: column; gap: 4px; color: #1C1C1E; transition: border-color .15s, box-shadow .15s, transform .12s, opacity .15s; }
+.m-plate:hover { border-color: #1CB0F6; }
+.m-plate:active { transform: translateY(2px); box-shadow: 0 1px 0 #E6E6EC; }
+.m-plate:not(.on) { opacity: .55; }
+.m-plate.on { border-color: #1CB0F6; box-shadow: 0 3px 0 #B7E2FA; }
+.m-check { position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%; background: #E5E5EA; display: flex; align-items: center; justify-content: center; z-index: 1; }
+.m-plate.on .m-check { background: #1CB0F6; }
+.m-thumb { display: block; height: 110px; border-radius: 10px; background: #fff; overflow: hidden; margin-bottom: 4px; }
+.m-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.m-pt { font-weight: 900; font-size: 14px; line-height: 1.25; }
+.m-pm { font-size: 12px; font-weight: 700; color: #8E8E93; }
+.m-bar { height: 5px; border-radius: 3px; background: #F2F2F7; overflow: hidden; margin-top: 4px; }
+.m-bar i { display: block; height: 100%; background: #58CC02; border-radius: 3px; }
+.m-start { position: sticky; bottom: 0; padding: 18px 0 10px; margin-top: 10px; background: linear-gradient(transparent, #fff 30%); }
+.m-btn { width: 100%; border: none; border-radius: 16px; padding: 15px 18px; font-size: 16px; font-weight: 900; letter-spacing: .02em; text-transform: uppercase;
+  cursor: pointer; color: #fff; background: #58CC02; box-shadow: 0 4px 0 #46A302; transition: transform .1s, box-shadow .1s; }
+.m-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #46A302; }
+.m-btn:disabled { opacity: .45; cursor: default; transform: none; }
+.m-note { font-size: 12.5px; font-weight: 700; color: #8E8E93; text-align: center; margin-top: 8px; min-height: 1em; }
+html.dark .m-mode, html.dark .m-plate { background: #2C2C2E; border-color: #48484A; color: #EBEBF0; box-shadow: 0 3px 0 #1C1C1E; }
+html.dark .m-mode.on, html.dark .m-plate.on { border-color: #1CB0F6; background: rgba(28,176,246,.12); }
+html.dark .m-mode-ic, html.dark .m-seg, html.dark .m-bar { background: #3A3A3C; }
+html.dark .m-seg button.on { background: #2C2C2E; color: #fff; }
+html.dark .m-mode-d { color: #C7C7CC; }
+html.dark .m-start { background: linear-gradient(transparent, #1C1C1E 30%); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="vumed.html" class="hbtn l" id="hdr-back"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11.5 14L6.5 9L11.5 4" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menu</a>
+    <span></span>
+    <button class="hbtn r" id="hdr-right" onclick="openModal()"><span id="hdr-right-txt">Inleveren</span><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6.5 4L11.5 9L6.5 14" stroke="#6E6E73" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
+</header>
+<div class="streak-wrap" id="streak-wrap">
+  <div class="streak-inner"><div class="streak-bar-wrap">
+    <span id="streak-label" class="streak-label"></span>
+    <div class="streak-bar-bg" id="bar-bg"><div class="streak-bar-fill" id="streak-fill"></div></div>
+  </div></div>
+</div>
+
+<main class="menu-main" id="menu">
+  <div class="m-hero" id="m-hero">
+    <div>
+      <div class="m-eyebrow">Anatomie</div>
+      <h1 id="m-title"></h1>
+      <div class="m-sub" id="m-sub"></div>
+    </div>
+    <div class="m-ring" id="m-ring"></div>
+  </div>
+  <div class="m-sec">Kies een spelvorm</div>
+  <div class="m-modes" id="m-modes"></div>
+  <div id="m-type-wrap">
+    <div class="m-sec">Soort vragen</div>
+    <div class="m-seg" id="m-type"></div>
+  </div>
+  <div class="m-sec"><span>Platen</span><button id="m-all"></button></div>
+  <div class="m-plates" id="m-plates"></div>
+  <div class="m-start"><button class="m-btn" id="m-start">Start</button><div class="m-note" id="m-note"></div></div>
+</main>
+<main class="exam-main" id="quiz">
+  <div id="qhost"></div>
+</main>
+
+<div class="summary">
+  <div class="summary-stat"><span class="dot dot-correct"></span><span class="n" id="s-c">0</span> goed</div>
+  <div class="summary-stat"><span class="dot dot-wrong"></span><span class="n" id="s-w">0</span> fout</div>
+  <div class="summary-stat"><span class="dot dot-pending"></span><span class="n" id="s-p">0</span> open</div>
+</div>
+
+<div id="modal" class="modal-backdrop">
+  <div class="modal-box"><h2>Plaat inleveren</h2><p>Weet je zeker dat je deze oefening afsluit? Open vragen tellen als niet beantwoord.</p>
+    <div class="modal-actions"><button class="btn-cancel" onclick="closeModal()">Nee</button><button class="btn-confirm" onclick="closeModal();showResults()">Ja, inleveren</button></div></div>
+</div>
+
+<button class="pd-corner pd-theme-btn" id="theme-btn" aria-label="Thema wisselen"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+<button class="chat-tab" id="chat-tab" title="Vraag de AI"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
+<div id="chat-panel" class="chat-panel">
+  <div class="chat-panel-header">
+    <div class="chat-panel-title">Intentamus <small>AI</small></div>
+    <button class="chat-close" id="chat-close">&#x2715;</button>
+  </div>
+  <div id="chat-context-pill" class="chat-context-pill" style="display:none"></div>
+  <div class="chat-messages" id="chat-messages"></div>
+  <div class="chat-suggest" id="chat-suggest"></div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chat-input" placeholder="Stel een vraag..." rows="1"></textarea>
+    <button class="chat-send" id="chat-send"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg></button>
+  </div>
+</div>
+<div id="results-overlay"><div class="results-inner" id="results"></div></div>
+
+<script>
+const PARAMS = new URLSearchParams(location.search);
+const VAK = (PARAMS.get('vak') || '').replace(/[^a-z0-9_]/gi, '');
+const VAK_NAMES = { metabole_systemen: 'Metabole systemen', bouw_en_bewegen: 'Bouw en Bewegen' };
+const VAK_COLORS = { metabole_systemen: ['#FFC800', '#C49800'], bouw_en_bewegen: ['#58CC02', '#3A9200'] };
+const PLATES = (window.ANATOMIE_PLATEN || []).filter(p => !VAK || p.vak === VAK);
+let PLATE = PLATES[0], ITEMS = PLATE.items, W = PLATE.W, H = PLATE.H;
+function setPlate(id) { PLATE = PLATES.find(p => p.id === id) || PLATES[0]; ITEMS = PLATE.items; W = PLATE.W; H = PLATE.H; }
+// Zelfde naam = zelfde structuur (bv. links en rechts aangewezen): telt allebei als goed
+const same = (a, b) => a.lat === b.lat;
+const byNo = n => ITEMS.find(i => i.no === n);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+// Vragen: om en om "Wat is nummer X?" (meerkeuze) en "Wijs aan" (klik op de plaat)
+let MODE = 'oefen', QTYPE = 'mix', renderedQ = -1, autoQ = -1, AUTO_MS = 10000, advanceTimer = null, Q = [], cur = 0, state = {}, streak = 0, xp = 0, lastPct = 0, streakTimer = null;
+// entries = [{ plate, it }]; type = 'mix' | 'mc' | 'pick'. Afleiders altijd van dezelfde plaat.
+function buildQuestions(entries, type) {
+  return entries.map(({ plate, it }, i) => {
+    const t = type === 'mix' ? (i % 2 === 0 ? 'mc' : 'pick') : type;
+    if (t === 'mc') {
+      const distract = shuffle(plate.items.filter(o => !same(o, it))).filter((o, j, arr) => arr.findIndex(x => same(x, o)) === j).slice(0, 3);
+      return { type: 'mc', plate, it, opts: shuffle([it, ...distract]) };
+    }
+    return { type: 'pick', plate, it };
+  });
+}
+const AUTO = { oefen: 10000, toets: 1600, snel: 450 };
+let runEntries = [], snelEnd = 0, snelTimer = null;
+function startRun(entries, mode, type) {
+  MODE = mode || MODE; QTYPE = MODE === 'snel' ? 'mc' : (type || QTYPE); AUTO_MS = AUTO[MODE];
+  runEntries = entries;
+  // oefenen: plaat voor plaat (binnen een plaat door elkaar); toets en snelronde: alles door elkaar
+  let list = MODE === 'oefen'
+    ? [...new Set(entries.map(e => e.plate))].flatMap(pl => shuffle(entries.filter(e => e.plate === pl)))
+    : shuffle(entries);
+  if (MODE === 'toets') list = list.slice(0, 20);
+  if (MODE === 'snel') { list = []; for (let r = 0; r < 6; r++) list = list.concat(shuffle(entries)); }
+  document.body.classList.remove('on-menu'); document.body.classList.toggle('mode-snel', MODE === 'snel');
+  document.getElementById('qhost').innerHTML = ''; delete document.getElementById('qhost').dataset.plate;
+  Q = buildQuestions(list, QTYPE); cur = 0; renderedQ = -1; sideLock = 0; state = {}; streak = 0; xp = 0; lastPct = 0;
+  document.getElementById('results-overlay').classList.remove('show');
+  document.getElementById('streak-fill').style.width = MODE === 'snel' ? '100%' : '0%';
+  document.getElementById('hdr-right-txt').textContent = 'Inleveren';
+  clearInterval(snelTimer);
+  render();
+  if (MODE === 'snel') startSnelTimer(); else pdBuild();
+  window.scrollTo(0, 0);
+}
+function startSnelTimer() {
+  const barWrap = document.querySelector('.streak-bar-wrap'); barWrap.classList.remove('pd-active');
+  if (pdRow) { pdRow.remove(); pdRow = null; pdDots = []; }
+  snelEnd = Date.now() + 60000;
+  const tick = () => {
+    const left = Math.max(0, snelEnd - Date.now());
+    document.getElementById('streak-fill').style.width = (left / 600) + '%';
+    const sec = Math.ceil(left / 1000); document.getElementById('hdr-right-txt').textContent = Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+    if (!left) { clearInterval(snelTimer); clearTimeout(advanceTimer); showResults(); }
+  };
+  tick(); snelTimer = setInterval(tick, 100);
+}
+
+function plateHTML() {
+  return `<div class="plate"><div class="plate-cap"><span>${PLATE.title}</span><span>${PLATE.view}</span></div>
+    <div class="imgbox" id="imgbox" style="aspect-ratio:${W} / ${H}"><img src="anatomie/platen/${PLATE.id}/basis.webp" alt="${PLATE.title}">
+    ${ITEMS.map(it => `<img class="layer" data-layer="${it.no}" src="anatomie/platen/${PLATE.id}/s${it.no}.webp" alt="">`).join('')}
+    ${ITEMS.map(it => `<button class="num" data-no="${it.no}" style="left:${it.n[0]}%;top:${it.n[1]}%">${it.no}</button>`).join('')}
+    </div></div>`;
+}
+
+function noteInner(it, st) {
+  return `<div class="rn-head">${st.ok
+        ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Goed!'
+        : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Helaas, het juiste antwoord is'}</div>
+      <div class="rn-term">${it.no}. ${it.lat} <span class="rn-nl">${it.nl[0].toUpperCase() + it.nl.slice(1)}</span></div>
+      <ul>${it.facts.map(f => `<li>${f}</li>`).join('')}</ul>
+      ${it.asked ? `<div class="asked">★ ${it.asked}× gevraagd op oude tentamens</div>` : ''}`;
+}
+// Meet de hoogste vraagkant (open, met kaart, met uitleg) en zet #qside op die hoogte,
+// zodat de pagina niet langer/korter wordt bij antwoorden, morph of overgang.
+let sideLock = 0;
+function lockSideHeight() {
+  const side = document.getElementById('qside'); if (!side) return;
+  const probe = document.createElement('div');
+  probe.style.cssText = `position:absolute;left:-9999px;top:0;visibility:hidden;width:${side.getBoundingClientRect().width}px`;
+  document.body.appendChild(probe);
+  let max = 0;
+  Q.forEach((q, k) => {
+    const other = q.opts ? q.opts.find(o => o.no !== q.it.no).no : q.plate.items.find(o => !same(o, q.it)).no;
+    [{}, { done: true, ok: true, sel: q.it.no }, { done: true, ok: false, sel: other }].forEach(st => {
+      probe.innerHTML = sideHTML(k, st).replace('class="result ', 'class="result show ');
+      max = Math.max(max, probe.scrollHeight);
+    });
+  });
+  probe.remove();
+  sideLock = Math.ceil(max) + 8;
+  side.style.minHeight = sideLock + 'px';
+}
+window.addEventListener('resize', () => { sideLock = 0; lockSideHeight(); });
+if (document.fonts) document.fonts.ready.then(() => { sideLock = 0; lockSideHeight(); });   // opnieuw meten zodra Nunito geladen is
+function sideHTML(k, st) {
+  const q = Q[k], it = q.it, done = st.done;
+  const letters = 'ABCD';
+  let right;
+  if (q.type === 'mc') {
+    right = `<div class="q-num">${MODE === 'snel' ? 'Snelronde' : `Vraag ${k + 1} van ${Q.length}`} <span class="q-type">Benoem</span><button class="q-num-ai" id="q-ai" title="Vraag de AI over deze vraag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+      <div class="q-question">Welke structuur is aangegeven met nummer <b>${it.no}</b>?</div>
+      <div class="options">${done && !st.morphing && MODE === 'oefen' ? `<div class="opt-card result-note ${st.ok ? 'ok' : 'no'}">${noteInner(it, st)}</div>` : q.opts.map((o, i) => {
+        let cls = '';
+        if (done) cls = o.no === it.no ? 'correct' : (st.sel === o.no ? 'wrong' : '');
+        else if (st.sel === o.no) cls = 'selected';
+        return `<button class="opt-btn ${cls}" data-opt="${o.no}" ${done ? 'disabled' : ''}><span class="opt-letter">${letters[i]}</span><span>${o.lat} <em>· ${o.nl}</em></span></button>`;
+      }).join('')}</div>`;
+  } else {
+    right = `<div class="q-num">Vraag ${k + 1} van ${Q.length} <span class="q-type">Wijs aan</span><button class="q-num-ai" id="q-ai" title="Vraag de AI over deze vraag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button></div>
+      <div class="q-question">Wijs de <b>${it.lat}</b> aan.</div>
+      <div class="q-sub">${it.nl[0].toUpperCase() + it.nl.slice(1)}. Klik op het juiste nummer in de plaat.</div>`;
+  }
+  if (MODE === 'snel') return right;
+  right += `<div class="q-btn-row">
+      ${done ? (() => { const lbl = k === Q.length - 1 && Object.values(state).filter(x => x.done).length === Q.length ? 'Bekijk resultaat' : 'Volgende';
+               return autoQ === k
+                 ? `<button class="next-btn auto" id="next"><span class="nb-txt">${lbl}</span><span class="nb-fill" id="nb-fill"><span class="nb-txt">${lbl}</span></span></button>`
+                 : `<button class="next-btn" id="next">${lbl}</button>`; })()
+             : `<button class="check-btn" id="check" ${st.sel ? '' : 'disabled'}>Controleer</button><button class="skip-btn" id="skip">Sla over</button>`}</div>
+    ${q.type === 'pick' && MODE === 'oefen' ? `<div class="result ${done ? 'show' : ''}"><div class="result-note ${st.ok ? 'ok' : 'no'}">${noteInner(it, st)}</div></div>` : ''}`;
+
+  return right;
+}
+function render() {
+  setPlate(Q[cur].plate.id);
+  const st = state[cur] || {};
+  const right = sideHTML(cur, st);
+  // Plaat wordt maar één keer gebouwd en blijft staan; alleen de vraagkant wordt ververst.
+  const host = document.getElementById('qhost');
+  if (!document.getElementById('qside') || host.dataset.plate !== PLATE.id) {
+    host.innerHTML = `<div class="q-block" id="qblock"><div>${plateHTML()}</div><div id="qside"></div></div>`;
+    host.dataset.plate = PLATE.id; renderedQ = -1;
+  }
+  const side = document.getElementById('qside');
+  if (!sideLock) lockSideHeight(); else side.style.minHeight = sideLock + 'px';
+  side.innerHTML = right;
+  if (renderedQ !== cur) {            // nieuwe vraag: vraagkant zacht laten binnenkomen
+    land();
+    renderedQ = cur;
+  }
+  paintPlate();
+  wire();
+  updateSummary();
+}
+
+function paintPlate() {
+  const q = Q[cur], st = state[cur] || {}, it = q.it;
+  // bij Wijs aan telt een tweede nummer met dezelfde naam ook als goed: dan dát nummer groen tonen
+  const tgt = (q.type === 'pick' && st.done && st.ok) ? st.sel : it.no;
+  document.querySelectorAll('.num').forEach(b => {
+    const no = +b.dataset.no;
+    b.className = 'num';
+    if (q.type === 'mc') { b.classList.add(no === it.no ? (st.done ? (st.ok ? 'correct' : 'wrong') : 'ask') : 'dim'); }
+    else if (!st.done) { b.classList.add('pick'); if (st.sel === no) b.classList.add('selected'); }
+    else { if (no === tgt) b.classList.add('correct'); else if (st.sel === no) b.classList.add('wrong'); }
+  });
+  // kleurlaag: bij Benoem staat de structuur meteen in kleur, bij Wijs aan pas na controleren
+  document.querySelectorAll('.layer').forEach(l => {
+    const no = +l.dataset.layer;
+    l.className = 'layer';
+    if (no === tgt && (q.type === 'mc' || st.done)) {
+      l.classList.add('on');
+      if (st.done) l.classList.add(st.ok ? 'good' : (q.type === 'mc' ? 'bad' : 'good'));
+      else l.classList.add('ask');
+    }
+    if (q.type === 'pick' && st.done && !st.ok && no === st.sel) l.classList.add('on', 'bad');
+  });
+}
+
+function wire() {
+  const q = Q[cur];
+  document.querySelectorAll('.opt-btn').forEach(b => b.onclick = () => choose(+b.dataset.opt));
+  document.querySelectorAll('.num').forEach(b => b.onclick = q.type === 'pick' ? () => choose(+b.dataset.no) : null);
+  const c = document.getElementById('check'); if (c) c.onclick = check;
+  const ai = document.getElementById('q-ai'); if (ai) ai.onclick = ev => { ev.stopPropagation(); openChat(true); };
+  const s = document.getElementById('skip'); if (s) s.onclick = () => go(cur + 1);
+  const n = document.getElementById('next'); if (n) n.onclick = () => { clearTimeout(advanceTimer); go(cur + 1); };
+}
+
+function choose(no) { const st = state[cur] = state[cur] || {}; if (st.done) return; st.sel = no; if (MODE === 'snel') return check(); render(); }
+
+// Meerkeuze na Controleer: foute opties klappen weg, het goede antwoord groeit uit tot de uitlegkaart
+function morphToCard(k, it, st) {
+  st.morphing = false;
+  if (cur !== k) return;
+  const box = document.querySelector('#qside .options'); if (!box) return;
+  const opts = [...box.querySelectorAll('.opt-btn')], good = opts.find(b => b.classList.contains('correct'));
+  opts.filter(b => b !== good).forEach(b => {
+    b.style.height = b.offsetHeight + 'px'; void b.offsetWidth; b.classList.add('opt-vanish');
+  });
+  setTimeout(() => {
+    if (cur !== k || !good.isConnected) return;
+    const h0 = good.offsetHeight;
+    opts.filter(b => b !== good).forEach(b => b.remove());
+    const card = document.createElement('div');
+    card.className = 'opt-card result-note morph ' + (st.ok ? 'ok' : 'no');
+    card.innerHTML = noteInner(it, st);
+    card.style.height = h0 + 'px';
+    good.replaceWith(card);
+    void card.offsetWidth;
+    card.style.height = card.scrollHeight + 'px';
+    card.addEventListener('transitionend', e => { if (e.propertyName === 'height') { card.style.height = ''; card.classList.remove('morph'); } });
+  }, 330);
+}
+function check() {
+  const st = state[cur]; if (!st || !st.sel || st.done) return;
+  const q = Q[cur]; st.done = true; st.ok = same(byNo(st.sel), q.it);
+  streak = st.ok ? streak + 1 : 0;
+  autoQ = cur;
+  if (q.type === 'mc' && MODE === 'oefen') st.morphing = true;
+  render();
+  if (st.morphing) setTimeout(() => morphToCard(cur, q.it, st), 650);
+  const res = document.querySelector('#qside .result'); if (res) res.classList.add('fresh');
+  const btnRow = document.querySelector('.q-btn-row');
+  if (MODE === 'snel') { if (st.ok) xp += 10; updateSummary(); }
+  else if (st.ok) {
+    const gained = 10; xp += gained;
+    const src = document.querySelector(q.type === 'mc' ? '.opt-btn.correct' : '.num.correct');
+    flyDot(src); xpPop(gained, btnRow);
+  } else updateBar();
+  // timer-balkje in de Volgende-knop: als hij vol is, door naar de volgende vraag
+  const here = cur, fillEl = document.getElementById('nb-fill');
+  if (fillEl) {
+    fillEl.style.animationDuration = AUTO_MS + 'ms';
+    fillEl.addEventListener('animationend', () => { if (cur === here && autoQ === here) go(cur + 1); }, { once: true });
+  } else {
+    clearTimeout(advanceTimer);
+    advanceTimer = setTimeout(() => { if (cur === here && autoQ === here) go(cur + 1); }, MODE === 'snel' && !st.ok ? 1000 : AUTO_MS);
+  }
+}
+
+function go(i, jump) {
+  if (MODE === 'snel' && i >= Q.length) return showResults();
+  if (!jump && i >= Q.length) {
+    const firstOpen = Q.findIndex((_, k) => !(state[k] && state[k].done));
+    if (firstOpen === -1) return showResults();
+    i = firstOpen;
+  }
+  if (i === cur && renderedQ === cur) return;
+  autoQ = -1;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // oude vraag zacht laten wegschuiven, daarna de nieuwe laten landen
+  const parts = landParts();
+  if (!parts.length || leaving || MODE === 'snel') { cur = i; render(); if (document.body.classList.contains('chat-open')) openChat(); return; }
+  leaving = true;
+  parts.forEach(el => { el.style.animation = 'none'; });
+  void document.body.offsetWidth;
+  document.getElementById('qblock').classList.add('leave');
+  setTimeout(() => {
+    leaving = false;
+    document.getElementById('qblock').classList.remove('leave');
+    cur = i; render();
+    if (document.body.classList.contains('chat-open')) openChat();
+  }, 220);
+}
+// Elementen die bij een nieuwe vraag één voor één op de pagina landen
+function landParts() {
+  const plate = document.querySelector('#qblock .plate'), side = document.getElementById('qside');
+  return plate && side ? [plate, ...side.children] : [];
+}
+function land() {
+  landParts().forEach((el, i) => {
+    el.style.animation = 'none'; void el.offsetWidth;
+    el.style.animation = MODE === 'snel' ? `pdLand .25s cubic-bezier(.22,1,.36,1) ${i * 0.03}s both` : `pdLand .6s cubic-bezier(.22,1,.36,1) ${i === 0 ? 0 : 0.08 + i * 0.06}s both`;
+  });
+}
+let leaving = false;
+
+/* ── animaties, overgenomen van de toetspagina ── */
+function flyDot(srcEl) {
+  const fill = document.getElementById('streak-fill'), wrap = document.getElementById('streak-wrap');
+  if (!srcEl) return updateBar();
+  const s = srcEl.getBoundingClientRect(), d = wrap.getBoundingClientRect();
+  const dot = document.createElement('div'); dot.className = 'fly-dot';
+  dot.style.left = (s.left + s.width / 2) + 'px'; dot.style.top = (s.top + s.height / 2) + 'px';
+  document.body.appendChild(dot);
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dot.style.left = (d.left + d.width * 0.15) + 'px'; dot.style.top = (d.top + d.height / 2) + 'px';
+    dot.style.width = '8px'; dot.style.height = '8px'; dot.style.opacity = '0';
+  }));
+  setTimeout(() => { dot.remove(); updateBar(); fill.classList.remove('bar-pop'); void fill.offsetWidth; fill.classList.add('bar-pop'); }, 600);
+}
+function xpPop(n, anchor) {
+  const el = document.createElement('div'); el.className = 'xp-pop'; el.textContent = '+' + n + ' XP';
+  const r = anchor.getBoundingClientRect(); el.style.left = (r.left + 60) + 'px'; el.style.top = (r.top - 8) + 'px';
+  document.body.appendChild(el); setTimeout(() => el.remove(), 1400);
+}
+function sparkles(pct) {
+  const bg = document.getElementById('bar-bg').getBoundingClientRect();
+  const x = bg.left + bg.width * pct / 100, y = bg.top + bg.height / 2;
+  const cols = ['#58CC02', '#FFC800', '#1CB0F6', '#89E219'];
+  for (let i = 0; i < 8; i++) {
+    const el = document.createElement('div'); el.className = 'bar-sparkle';
+    const a = Math.PI * 2 * i / 8;
+    el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.background = cols[i % 4];
+    el.style.setProperty('--sx', Math.cos(a) * 14 + 'px'); el.style.setProperty('--sy', Math.sin(a) * 14 + 'px');
+    document.body.appendChild(el); setTimeout(() => el.remove(), 800);
+  }
+}
+function updateBar(quiet) {
+  if (quiet || MODE === 'snel') return;
+  const fill = document.getElementById('streak-fill'), label = document.getElementById('streak-label');
+  const answered = Object.values(state).filter(s => s.done).length;
+  const pct = Q.length ? answered / Q.length * 100 : 0;
+  if (pct > lastPct) setTimeout(() => sparkles(pct), 480);
+  lastPct = pct; fill.style.width = pct + '%'; label.style.left = (pct / 2) + '%';
+  pdRefresh();
+  clearTimeout(streakTimer);
+  if (streak >= 2) { label.textContent = streak + ' achter elkaar'; requestAnimationFrame(() => label.style.opacity = '1'); streakTimer = setTimeout(() => label.style.opacity = '0', 2000); }
+  else { label.style.opacity = '0'; }
+}
+/* ── Bolletjes-balk: 1-op-1 overgenomen uit progressdots.js (toetspagina's) ──
+   Bij laden: per vraag een bolletje, groene golf, samensmelten tot de balk.
+   Hover (of tik op telefoon): balk valt uiteen in bolletjes, klik = naar die vraag. */
+const COLORS = { correct: '#58CC02', wrong: '#FF3B30', answered: '#1CB0F6', empty: '#E5E5EA' };
+let pdDots = [], pdRow = null;
+function pdInjectCss() {
+  if (document.getElementById('pd-style')) return;
+  const css =
+    '.streak-bar-wrap.pd-active { pointer-events: auto; }' +
+    '.pd-dots { position: absolute; inset: 0; display: flex; align-items: center; opacity: 0; pointer-events: none; z-index: 3; transition: opacity .30s ease; }' +
+    '.pd-dot { flex: 1 1 0; height: 100%; position: relative; background: none; border: none; padding: 0; margin: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }' +
+    '.pd-dot::before { content: ""; position: absolute; top: 50%; left: 50%; width: var(--pd-sz, 12px); height: var(--pd-sz, 12px);' +
+    '  border-radius: 50%; background: var(--dc, ' + COLORS.empty + '); transform: translate(-50%, -50%) scale(0);' +
+    '  transition: transform .34s cubic-bezier(.34,1.56,.64,1), background .30s ease, width .46s cubic-bezier(.65,0,.35,1), height .46s cubic-bezier(.65,0,.35,1), border-radius .46s cubic-bezier(.65,0,.35,1); }' +
+    '.streak-bar-wrap.pd-split .pd-dots, .streak-bar-wrap.pd-active:hover .pd-dots { opacity: 1; pointer-events: auto; }' +
+    '.streak-bar-wrap.pd-split .pd-dot::before, .streak-bar-wrap.pd-active:hover .pd-dot::before { transform: translate(-50%, -50%) scale(1); }' +
+    '.streak-bar-wrap.pd-split .streak-bar-bg, .streak-bar-wrap.pd-active:hover .streak-bar-bg { opacity: 0; }' +
+    '.streak-bar-wrap.pd-active .streak-bar-bg { transition: opacity .40s ease; }' +
+    '.streak-bar-wrap.pd-stagger .pd-dot::before { transition-delay: var(--pd-d, 0s); }' +
+    '.streak-bar-wrap.pd-green .pd-dot::before { background: ' + COLORS.correct + '; }' +
+    '.streak-bar-wrap.pd-merge .pd-dots { opacity: 0; transition: opacity .42s ease .16s; }' +
+    '.streak-bar-wrap.pd-merge .pd-dot::before { width: 100%; height: 14px; border-radius: 6px; }' +
+    '.streak-bar-wrap.pd-merge .streak-bar-bg { opacity: 1; }' +
+    '.pd-dot:hover::before { filter: brightness(1.08); }' +
+    '.streak-bar-wrap.pd-tap .pd-dots { opacity: 1; pointer-events: auto; }' +
+    '.streak-bar-wrap.pd-tap .pd-dot::before { transform: translate(-50%, -50%) scale(1); }' +
+    '.streak-bar-wrap.pd-tap .streak-bar-bg { opacity: 0; }';
+  const el = document.createElement('style'); el.id = 'pd-style'; el.textContent = css; document.head.appendChild(el);
+}
+function pdRefresh() {
+  if (!pdDots.length) return;
+  pdDots.forEach((d, i) => {
+    const st = state[i] || {};
+    d.style.setProperty('--dc', st.done ? (st.ok ? COLORS.correct : COLORS.wrong) : (document.documentElement.classList.contains('dark') ? '#48484A' : COLORS.empty));
+  });
+}
+function pdSize() {
+  const w = document.getElementById('bar-bg').getBoundingClientRect().width || 560;
+  const sz = Math.max(5, Math.min(w / Q.length - 2, 18));
+  pdRow.style.setProperty('--pd-sz', sz.toFixed(1) + 'px');
+}
+function pdBuild() {
+  pdInjectCss();
+  const barWrap = document.querySelector('.streak-bar-wrap');
+  if (pdRow) pdRow.remove();
+  pdRow = document.createElement('div'); pdRow.className = 'pd-dots'; pdDots = [];
+  for (let i = 0; i < Q.length; i++) {
+    const d = document.createElement('button');
+    d.type = 'button'; d.className = 'pd-dot'; d.setAttribute('aria-label', 'Ga naar vraag ' + (i + 1));
+    d.style.setProperty('--pd-d', (i * 0.014).toFixed(3) + 's');
+    d.addEventListener('click', ev => { ev.stopPropagation(); ev.preventDefault(); clearTimeout(advanceTimer); barWrap.classList.remove('pd-tap'); go(i, true); });
+    pdRow.appendChild(d); pdDots.push(d);
+  }
+  barWrap.appendChild(pdRow);
+  barWrap.classList.add('pd-active');
+  pdSize(); pdRefresh();
+  pdIntro(barWrap);
+}
+function pdIntro(barWrap) {
+  const STAG = 14, sweep = Q.length * STAG, tGreen = 650, tGray = tGreen + sweep + 300, tMerge = tGray + 360, tEnd = tMerge + 560;
+  barWrap.classList.remove('pd-split', 'pd-stagger', 'pd-green', 'pd-merge');
+  void pdRow.offsetWidth;
+  barWrap.classList.add('pd-split', 'pd-stagger');
+  setTimeout(() => barWrap.classList.add('pd-green'), tGreen);
+  setTimeout(() => barWrap.classList.remove('pd-stagger', 'pd-green'), tGray);
+  setTimeout(() => barWrap.classList.add('pd-merge'), tMerge);
+  setTimeout(() => barWrap.classList.remove('pd-split', 'pd-merge'), tEnd);
+}
+window.addEventListener('resize', () => pdRow && pdSize());
+(function pdTouch() {
+  let touch = false;
+  try { touch = !!(window.matchMedia && matchMedia('(hover: none), (pointer: coarse)').matches); } catch (e) {}
+  if (!touch) return;
+  const barWrap = document.querySelector('.streak-bar-wrap');
+  barWrap.addEventListener('click', ev => { if (ev.target.closest('.pd-dot')) return; ev.stopPropagation(); barWrap.classList.toggle('pd-tap'); });
+  document.addEventListener('click', ev => { if (barWrap.classList.contains('pd-tap') && !barWrap.contains(ev.target)) barWrap.classList.remove('pd-tap'); }, true);
+})();
+
+function updateSummary() {
+  const vals = Q.map((_, k) => state[k] || {});
+  const c = vals.filter(s => s.done && s.ok).length, w = vals.filter(s => s.done && !s.ok).length;
+  document.getElementById('s-c').textContent = c; document.getElementById('s-w').textContent = w;
+  document.getElementById('s-p').textContent = Q.length - c - w;
+  updateBar(true);
+}
+
+/* ── inleveren / resultaat ── */
+function openModal() { if (MODE === 'snel') return; document.getElementById('modal').classList.add('show'); }
+function closeModal() { document.getElementById('modal').classList.remove('show'); }
+/* ── voortgang (lokaal): beste score per plaat + record snelronde ── */
+const BEST_KEY = 'vumed_anat_best_v1', SNEL_KEY = 'vumed_anat_snel_v1_' + (VAK || 'alle'), MENU_KEY = 'vumed_anat_menu_v1_' + (VAK || 'alle');
+const loadJ = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch (e) { return d; } };
+const saveJ = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+
+function showResults() {
+  clearInterval(snelTimer); clearTimeout(advanceTimer); closeChat();
+  const vals = Q.map((q, k) => ({ q, s: state[k] || {} }));
+  const answered = vals.filter(v => v.s.done);
+  const c = answered.filter(v => v.s.ok).length, w = answered.length - c;
+  const total = MODE === 'snel' ? answered.length : Q.length;
+  const pct = total ? Math.round(c / total * 100) : 0;
+  // fouten (uniek per structuur) om gericht te herhalen
+  const seen = {}, wrongEntries = [];
+  vals.filter(v => !(v.s.done && v.s.ok) && (MODE !== 'snel' || v.s.done)).forEach(v => {
+    const key = v.q.plate.id + '#' + v.q.it.no; if (!seen[key]) { seen[key] = 1; wrongEntries.push({ plate: v.q.plate, it: v.q.it }); }
+  });
+  // beste score per plaat bijwerken (oefenen en toets)
+  if (MODE !== 'snel') {
+    const best = loadJ(BEST_KEY, {}), per = {};
+    vals.forEach(v => { const id = v.q.plate.id; per[id] = per[id] || [0, 0]; per[id][1]++; if (v.s.done && v.s.ok) per[id][0]++; });
+    Object.entries(per).forEach(([id, [g, n]]) => { const pp = Math.round(g / n * 100); if (!(best[id] >= pp)) best[id] = pp; });
+    saveJ(BEST_KEY, best);
+  }
+  let title, sub, ring;
+  if (MODE === 'snel') {
+    const rec = loadJ(SNEL_KEY, 0), isRec = c > rec;
+    if (isRec) saveJ(SNEL_KEY, c);
+    title = isRec && c ? 'Nieuw record!' : c >= 15 ? 'Lekker snel!' : 'Tijd is om';
+    sub = `Snelronde · 60 seconden · record ${Math.max(rec, c)}`;
+    ring = `<div class="score-ring" style="--pct:${pct}%"><div class="score-ring-inner"><div class="score-num">${c}</div><div class="score-den">goed</div></div></div>`;
+  } else {
+    title = pct >= 80 ? 'Sterk gedaan!' : pct >= 55 ? 'Goed bezig' : 'Nog even oefenen';
+    const plates = [...new Set(Q.map(q => q.plate.title))];
+    sub = `${MODE === 'toets' ? 'Toets' : 'Oefenen'} · ${plates.length === 1 ? plates[0] : plates.length + ' platen'} · ${Q.length} vragen`;
+    ring = `<div class="score-ring" style="--pct:${pct}%"><div class="score-ring-inner"><div class="score-num">${c}</div><div class="score-den">van ${Q.length}</div></div></div>`;
+  }
+  document.getElementById('results').innerHTML = `
+    <div class="results-title">${title}</div>
+    <div class="results-sub">${sub}</div>
+    ${ring}
+    <div class="results-stats">
+      <div class="stat-card stat-correct"><div class="stat-n">${c}</div><div class="stat-lbl">Goed</div></div>
+      <div class="stat-card stat-wrong"><div class="stat-n">${w}</div><div class="stat-lbl">Fout</div></div>
+      <div class="stat-card stat-xp"><div class="stat-n">${xp}</div><div class="stat-lbl">XP</div></div>
+    </div>
+    ${wrongEntries.length ? `<div class="review"><h3>Deze nog oefenen</h3><ul>${wrongEntries.map(({ it, plate }) => `<li><span>${it.no}</span>${it.lat}<em>${plate.short}</em></li>`).join('')}</ul></div>` : ''}
+    <div class="results-actions">
+      ${wrongEntries.length ? `<button class="btn-retry-wrong" id="retry-wrong">Oefen deze ${wrongEntries.length} ${wrongEntries.length === 1 ? 'structuur' : 'structuren'}</button>` : ''}
+      <button class="btn-back-exam" id="retry-all">${MODE === 'snel' ? 'Nog een snelronde' : 'Opnieuw'}</button>
+      <button class="btn-back-exam" id="to-menu">Terug naar het menu</button>
+    </div>`;
+  document.getElementById('results-overlay').classList.add('show');
+  const rw = document.getElementById('retry-wrong'); if (rw) rw.onclick = () => startRun(wrongEntries, 'oefen', QTYPE === 'mc' || QTYPE === 'pick' ? QTYPE : 'mix');
+  document.getElementById('retry-all').onclick = () => startRun(runEntries, MODE, QTYPE);
+  document.getElementById('to-menu').onclick = showMenu;
+}
+
+/* ── menu: spelvorm, soort vragen en platen kiezen ── */
+const MODES = [
+  { id: 'oefen', name: 'Oefenen', desc: 'Alle nummers van de gekozen platen, met uitleg na elke vraag.',
+    icon: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/>' },
+  { id: 'toets', name: 'Toets', desc: '20 vragen door elkaar, zonder uitleg tussendoor. Score aan het eind.',
+    icon: '<path d="M9 4h6v3H9z"/><path d="M15 5h3v16H6V5h3"/><path d="M9 13l2 2 4-4"/>' },
+  { id: 'snel', name: 'Snelronde', desc: '60 seconden: zoveel mogelijk nummers goed benoemen.',
+    icon: '<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>' },
+];
+const TYPES = [{ id: 'mix', name: 'Door elkaar' }, { id: 'mc', name: 'Benoem' }, { id: 'pick', name: 'Wijs aan' }];
+let menu = Object.assign({ mode: 'oefen', type: 'mix', sel: PLATES.map(p => p.id) }, loadJ(MENU_KEY, {}));
+menu.sel = menu.sel.filter(id => PLATES.some(p => p.id === id));
+if (!menu.sel.length) menu.sel = PLATES.map(p => p.id);
+
+function showMenu() {
+  clearInterval(snelTimer); clearTimeout(advanceTimer); closeChat();
+  document.getElementById('results-overlay').classList.remove('show');
+  document.body.classList.add('on-menu'); document.body.classList.remove('mode-snel');
+  const col = VAK_COLORS[VAK] || ['#58CC02', '#3A9200'];
+  document.documentElement.style.setProperty('--vak', col[0]); document.documentElement.style.setProperty('--vakd', col[1]);
+  const best = loadJ(BEST_KEY, {});
+  const nItems = PLATES.reduce((a, p) => a + p.items.length, 0);
+  const mastery = Math.round(PLATES.reduce((a, p) => a + (best[p.id] || 0) * p.items.length, 0) / nItems);
+  document.getElementById('m-title').textContent = VAK_NAMES[VAK] || 'Alle platen';
+  document.getElementById('m-sub').textContent = `${PLATES.length} ${PLATES.length === 1 ? 'plaat' : 'platen'} · ${nItems} structuren`;
+  document.getElementById('m-ring').innerHTML = `<div class="m-ring-in" style="--pct:${mastery}%"><b>${mastery}%</b><small>beheerst</small></div>`;
+  const rec = loadJ(SNEL_KEY, 0);
+  document.getElementById('m-modes').innerHTML = MODES.map(m => `<button class="m-mode ${menu.mode === m.id ? 'on' : ''}" data-id="${m.id}">
+      <span class="m-mode-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${m.icon}</svg></span>
+      <span class="m-mode-t">${m.name}${m.id === 'snel' && rec ? `<small>record ${rec}</small>` : ''}</span><span class="m-mode-d">${m.desc}</span></button>`).join('');
+  document.getElementById('m-type-wrap').style.display = menu.mode === 'snel' ? 'none' : '';
+  document.getElementById('m-type').innerHTML = TYPES.map(t => `<button class="${menu.type === t.id ? 'on' : ''}" data-id="${t.id}">${t.name}</button>`).join('');
+  const allOn = menu.sel.length === PLATES.length;
+  document.getElementById('m-all').textContent = allOn ? 'Niets selecteren' : 'Alles selecteren';
+  document.getElementById('m-plates').innerHTML = PLATES.map(p => {
+    const on = menu.sel.includes(p.id), b = best[p.id];
+    return `<button class="m-plate ${on ? 'on' : ''}" data-id="${p.id}">
+      <span class="m-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+      <span class="m-thumb"><img src="anatomie/platen/${p.id}/basis.webp" alt="" loading="lazy"></span>
+      <span class="m-pt">${p.short}</span>
+      <span class="m-pm">${p.items.length} structuren${b != null ? ` · beste ${b}%` : ''}</span>
+      <span class="m-bar"><i style="width:${b || 0}%"></i></span></button>`;
+  }).join('');
+  const n = PLATES.filter(p => menu.sel.includes(p.id)).reduce((a, p) => a + p.items.length, 0);
+  const btn = document.getElementById('m-start');
+  btn.disabled = !n;
+  btn.textContent = !n ? 'Kies minstens één plaat' : menu.mode === 'snel' ? 'Start snelronde' : menu.mode === 'toets' ? `Start toets (${Math.min(20, n)} vragen)` : `Start (${n} vragen)`;
+  document.getElementById('m-note').textContent = menu.mode === 'snel' ? 'Klik op een antwoord en hij telt meteen. Je ziet alleen of het goed was.' : '';
+  // events
+  document.querySelectorAll('.m-mode').forEach(b => b.onclick = () => { menu.mode = b.dataset.id; saveJ(MENU_KEY, menu); showMenu(); });
+  document.querySelectorAll('#m-type button').forEach(b => b.onclick = () => { menu.type = b.dataset.id; saveJ(MENU_KEY, menu); showMenu(); });
+  document.querySelectorAll('.m-plate').forEach(b => b.onclick = () => {
+    const id = b.dataset.id; menu.sel = menu.sel.includes(id) ? menu.sel.filter(x => x !== id) : menu.sel.concat(id); saveJ(MENU_KEY, menu); showMenu();
+  });
+  document.getElementById('m-all').onclick = () => { menu.sel = allOn ? [] : PLATES.map(p => p.id); saveJ(MENU_KEY, menu); showMenu(); };
+  btn.onclick = () => {
+    const entries = [];
+    PLATES.filter(p => menu.sel.includes(p.id)).forEach(p => p.items.forEach(it => entries.push({ plate: p, it })));
+    startRun(entries, menu.mode, menu.type);
+  };
+  window.scrollTo(0, 0);
+}
+// "Menu" linksboven: in de quiz terug naar het anatomiemenu, in het menu terug naar de tentamenpagina
+document.getElementById('hdr-back').addEventListener('click', e => {
+  if (document.body.classList.contains('on-menu')) {
+    let ret = null; try { ret = sessionStorage.getItem('vumed_return'); } catch (x) {}
+    if (ret) { e.preventDefault(); location.href = ret; }
+    return;
+  }
+  e.preventDefault(); showMenu();
+});
+
+document.addEventListener('keydown', e => {
+  if (document.body.classList.contains('on-menu')) return;
+  if (document.getElementById('results-overlay').classList.contains('show')) return;
+  const q = Q[cur], st = state[cur] || {};
+  if (e.key === 'Enter') { e.preventDefault(); if (st.done) { clearTimeout(advanceTimer); go(cur + 1); } else check(); }
+  if (q.type === 'mc' && !st.done) { const i = 'abcd'.indexOf(e.key.toLowerCase()); if (i >= 0) choose(q.opts[i].no); }
+});
+
+/* ── Intentamus-chat: zelfde aanroep als de toetspagina's (via openai_config.js-proxy) ── */
+const CHAT_MODEL = 'gpt-4o-mini';
+const CHAT_SYSTEM = 'Je bent Intentamus, de studieassistent van VUmed voor geneeskundestudenten aan Amsterdam UMC/VUmc. ' +
+  'De student oefent anatomie (Bouw en Bewegen) met genummerde platen. Antwoord kort, in het Nederlands, met Latijnse termen en hun Nederlandse naam. ' +
+  'Gebruik geen onnodige inleidingen. Als de student de vraag nog NIET heeft beantwoord: noem het antwoord niet, maar geef hints ' +
+  '(ligging, oriëntatie, waar het aan vastzit, ezelsbruggetjes). Als de vraag al beantwoord is: leg uit, ook waarom het gekozen foute antwoord niet klopt.';
+let _chatHistory = [], _chatContext = '', _chatQ = -1;
+function mdToHtml(md) {
+  let s = md.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  s = s.replace(/^### (.+)$/gm, '<h4>$1</h4>').replace(/^## (.+)$/gm, '<h3>$1</h3>').replace(/^---$/gm, '<hr>');
+  s = s.replace(/^[\-\*] (.+)$/gm, '<li>$1</li>').replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+  s = s.replace(/(<li>[\s\S]*?<\/li>)(\n(?!<li>)|$)/g, m => '<ul>' + m.replace(/\n/g, '') + '</ul>');
+  s = s.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>').replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+  return s.split(/\n{2,}/).map(b => { b = b.trim(); if (!b) return ''; return /^<(h[3-4]|ul|ol|hr|li)/.test(b) ? b : '<p>' + b.replace(/\n/g, '<br>') + '</p>'; }).join('\n');
+}
+function questionContext() {
+  const q = Q[cur], st = state[cur] || {}, it = q.it;
+  const lines = [`Plaat: ${PLATE.ctx}. Genummerde structuren 1–${ITEMS.length}.` + (ITEMS.some(a => ITEMS.some(b => a !== b && same(a, b))) ? ' Sommige structuren zijn twee keer genummerd (links en rechts).' : '')];
+  if (q.type === 'mc') {
+    lines.push(`Vraag ${cur + 1} (Benoem): Welke structuur is aangegeven met nummer ${it.no}?`);
+    q.opts.forEach((o, i) => lines.push(`${'ABCD'[i]}. ${o.lat} (${o.nl})`));
+  } else {
+    lines.push(`Vraag ${cur + 1} (Wijs aan): Wijs de ${it.lat} (${it.nl}) aan op de plaat.`);
+  }
+  if (st.done) {
+    const chosen = q.type === 'mc' ? byNo(st.sel) : byNo(st.sel);
+    lines.push(`Status: beantwoord, ${st.ok ? 'GOED' : 'FOUT'}. Juist: nummer ${it.no} = ${it.lat}.` + (st.ok ? '' : ` Gekozen: nummer ${chosen.no} = ${chosen.lat}.`));
+  } else lines.push('Status: nog niet beantwoord (geef geen antwoord weg).');
+  return lines.join('\n');
+}
+// plaat + gekleurde laag als één afbeelding, zodat het model mee kan kijken (werkt alleen same-origin, dus op vumed.nl)
+function plateDataUrl() {
+  try {
+    const base = document.querySelector('#imgbox > img'); if (!base || !base.naturalWidth) return null;
+    const c = document.createElement('canvas'); c.width = base.naturalWidth; c.height = base.naturalHeight;
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(base, 0, 0);
+    document.querySelectorAll('.layer.on').forEach(l => g.drawImage(l, 0, 0));
+    g.font = 'bold 15px Nunito, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    ITEMS.forEach(it => { const x = it.n[0] / 100 * c.width, y = it.n[1] / 100 * c.height;
+      g.fillStyle = '#fff'; g.beginPath(); g.arc(x, y, 13, 0, 7); g.fill(); g.lineWidth = 2.5; g.strokeStyle = '#1C1C1E'; g.stroke();
+      g.fillStyle = '#1C1C1E'; g.fillText(it.no, x, y + 1); });
+    return c.toDataURL('image/jpeg', 0.85);
+  } catch (e) { return null; }
+}
+function setSuggestions() {
+  const st = state[cur] || {}, box = document.getElementById('chat-suggest');
+  const sug = st.done ? ['Waarom is dit het antwoord?', 'Wat hecht hier aan?', 'Geef een ezelsbruggetje'] : ['Geef me een hint', 'Hoe oriënteer ik me op deze plaat?'];
+  box.innerHTML = sug.map(t => `<button>${t}</button>`).join('');
+  box.querySelectorAll('button').forEach(b => b.onclick = () => { box.innerHTML = ''; sendMsg(b.textContent); });
+}
+function openChat(fromQuestion) {
+  if (_chatQ !== cur) { _chatHistory = []; document.getElementById('chat-messages').innerHTML = ''; }
+  _chatQ = cur; _chatContext = questionContext();
+  const pill = document.getElementById('chat-context-pill');
+  pill.style.display = 'block'; pill.innerHTML = 'Over: <strong>Vraag ' + (cur + 1) + '</strong>';
+  if (!_chatHistory.length) setSuggestions();
+  document.body.classList.add('chat-open');
+  document.getElementById('chat-panel').classList.add('open');
+  document.getElementById('chat-input').focus();
+}
+function closeChat() { document.body.classList.remove('chat-open'); document.getElementById('chat-panel').classList.remove('open'); }
+function appendMsg(role, text) {
+  const box = document.getElementById('chat-messages'), div = document.createElement('div');
+  div.className = 'chat-msg ' + role; div.textContent = text; box.appendChild(div); box.scrollTop = box.scrollHeight; return div;
+}
+async function sendMsg(text) {
+  const sendBtn = document.getElementById('chat-send'), box = document.getElementById('chat-messages');
+  sendBtn.disabled = true; document.getElementById('chat-suggest').innerHTML = '';
+  appendMsg('user', text);
+  const first = _chatHistory.length === 0;
+  const apiText = first ? 'Vraagcontext:\n' + _chatContext + '\n\nMijn vraag: ' + text : text;
+  let content = apiText;
+  if (first) { const img = plateDataUrl(); if (img) content = [{ type: 'text', text: apiText }, { type: 'image_url', image_url: { url: img, detail: 'auto' } }]; }
+  _chatHistory.push({ role: 'user', content });
+  const aiDiv = document.createElement('div'); aiDiv.className = 'chat-msg ai streaming'; box.appendChild(aiDiv); box.scrollTop = box.scrollHeight;
+  let full = '';
+  try {
+    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + (window.OPENAI_API_KEY || '') },
+      body: JSON.stringify({ model: CHAT_MODEL, messages: [{ role: 'system', content: CHAT_SYSTEM }, ..._chatHistory], max_tokens: 500, temperature: 0.4, stream: true })
+    });
+    if (!res.ok || !res.body) throw new Error('Stream niet beschikbaar');
+    const reader = res.body.getReader(), dec = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read(); if (done) break;
+      for (const line of dec.decode(value, { stream: true }).split('\n')) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim(); if (raw === '[DONE]') break;
+        try { const t = JSON.parse(raw).choices?.[0]?.delta?.content || ''; if (t) { full += t; aiDiv.innerHTML = mdToHtml(full); box.scrollTop = box.scrollHeight; } } catch (_) {}
+      }
+    }
+    aiDiv.classList.remove('streaming');
+    if (full) _chatHistory.push({ role: 'assistant', content: full }); else aiDiv.innerHTML = '<p>⚠️ Geen antwoord ontvangen.</p>';
+  } catch (err) {
+    aiDiv.classList.remove('streaming'); _chatHistory.pop();
+    aiDiv.innerHTML = location.protocol === 'file:'
+      ? '<p>⚠️ De AI werkt alleen op vumed.nl. De server laat deze lokale preview niet toe.</p>'
+      : '<p>⚠️ Kan geen verbinding maken met de AI. Controleer je internetverbinding.</p>';
+  }
+  sendBtn.disabled = false; document.getElementById('chat-input').focus();
+}
+function sendFromInput() { const i = document.getElementById('chat-input'), t = i.value.trim(); if (!t) return; i.value = ''; i.style.height = ''; sendMsg(t); }
+document.getElementById('chat-tab').onclick = ev => { ev.stopPropagation(); document.body.classList.contains('chat-open') ? closeChat() : openChat(); };
+document.getElementById('chat-close').onclick = closeChat;
+document.getElementById('chat-send').onclick = sendFromInput;
+document.getElementById('chat-input').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendFromInput(); } });
+document.getElementById('chat-input').addEventListener('input', function () { this.style.height = ''; this.style.height = Math.min(this.scrollHeight, 100) + 'px'; });
+document.addEventListener('click', e => {
+  if (!document.body.classList.contains('chat-open')) return;
+  if (e.target.closest('#chat-panel') || e.target.closest('#chat-tab') || e.target.closest('#q-ai')) return;
+  if (e.target.closest('.exam-main') || e.target.closest('.streak-wrap')) return;   // oefenen mag gewoon doorgaan met chat open
+  closeChat();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('chat-open')) closeChat(); });
+
+document.getElementById('theme-btn').onclick = () => {
+  const d = !document.documentElement.classList.contains('dark');
+  document.documentElement.classList.toggle('dark', d); document.documentElement.style.colorScheme = d ? 'dark' : 'light';
+  localStorage.setItem('vumed_theme', d ? 'dark' : 'light'); pdRefresh();
+};
+showMenu();
+</script>
+</body>
+</html>
