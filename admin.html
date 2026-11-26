@@ -438,14 +438,34 @@
     .mk-tabs button.on { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
     .mk-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 4px 0 12px; }
     .mk-tools .rev-search { flex: 1; min-width: 180px; }
-    .pr-in { font: inherit; font-size: 13px; width: 100%; min-width: 110px; padding: 5px 8px; border: 1.5px solid var(--line, #e5e5e5); border-radius: 8px; background: transparent; color: inherit; }
-    .pr-in:focus { outline: none; border-color: #1CB0F6; }
-    .pr-in-first { font-weight: 800; }
-    .pr-in-full { margin-top: 4px; font-size: 12px; opacity: .8; }
-    .pr-ig-acts { margin-top: 5px; display: flex; gap: 4px; align-items: center; }
-    .pr-ig-btn { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-decoration: none; color: #fff; background: #E1306C; box-shadow: 0 2px 0 #b3204f; }
+    /* ── Studenten-tabel ── */
+    #view-prospects .mk-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 12px 0 14px; }
+    #view-prospects .mk-tools .rev-search { max-width: 340px; }
+    #view-prospects .mk-tools #pr-csv { margin-left: auto; }
+    #view-prospects .tbl-scroll { max-height: calc(100vh - 230px); overflow: auto; border: 1px solid var(--line); border-radius: 12px; }
+    #pr-table { min-width: 1080px; table-layout: fixed; }
+    #pr-table th { position: sticky; top: 0; z-index: 1; background: var(--card); cursor: default; padding: 10px 12px; }
+    #pr-table td { padding: 8px 12px; vertical-align: top; white-space: normal; font-weight: 600; }
+    #pr-table tbody tr:hover td { background: var(--soft-blue, rgba(28,176,246,.08)); }
+    #pr-table col.c-name { width: 230px; } #pr-table col.c-mail { width: 250px; } #pr-table col.c-grp { width: 70px; }
+    #pr-table col.c-acc { width: 90px; } #pr-table col.c-ig { width: 190px; } #pr-table col.c-tel { width: 130px; }
+    .pr-in { display: block; box-sizing: border-box; font: inherit; font-size: 13px; font-weight: 600; width: 100%; padding: 4px 7px; margin-left: -7px;
+      border: 1.5px solid transparent; border-radius: 8px; background: transparent; color: inherit; text-overflow: ellipsis; }
+    .pr-in:hover { border-color: var(--line); }
+    .pr-in:focus { outline: none; border-color: #1CB0F6; background: var(--card); }
+    .pr-in::placeholder { color: var(--muted); opacity: .6; font-weight: 600; }
+    .pr-in-first { font-weight: 800; font-size: 14px; }
+    .pr-in-full { font-size: 12.5px; color: var(--muted); }
+    .pr-mail { display: block; padding-top: 5px; font-size: 13px; overflow-wrap: anywhere; color: inherit; text-decoration: none; }
+    .pr-mail:hover { color: #1CB0F6; text-decoration: underline; }
+    .pr-badge { display: inline-block; margin-top: 4px; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .pr-badge.yes { background: rgba(88,204,2,.15); color: #46a302; }
+    .pr-badge.no { background: rgba(140,160,180,.14); color: var(--muted); }
+    .pr-badge.grp { background: rgba(206,130,255,.16); color: #a15ad6; }
+    .pr-ig-acts { margin-top: 4px; display: flex; gap: 4px; align-items: center; }
+    .pr-ig-btn { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-decoration: none; color: #fff; background: #E1306C; box-shadow: 0 2px 0 #b3204f; white-space: nowrap; }
     .pr-ig-btn:hover { filter: brightness(1.08); }
-    .pr-ig-btn.search { background: transparent; color: #E1306C; border: 1.5px solid #E1306C; box-shadow: none; }
+    .pr-ig-btn.search { background: transparent; color: #E1306C; border: 1.5px solid #E1306C; box-shadow: none; padding: 3px 9px; }
     .pr-ig-btn.done { background: #58CC02; box-shadow: 0 2px 0 #46a302; }
     .pr-ig-undo { font: inherit; font-size: 12px; border: 0; background: transparent; color: inherit; opacity: .5; cursor: pointer; padding: 2px 4px; }
     .mk-datewrap { display: flex; flex-direction: column; gap: 6px; }
@@ -2180,16 +2200,17 @@ function renderProspects() {
   const nIg = _pr.filter(r => r.instagram).length;
   const nLot = _pr.filter(r => r.source === 'loting').length;
   $('pr-sub').textContent = _pr.length + ' studenten (' + nLot + ' via loting) · ' + nAcc + ' met account · ' + nIg + ' met insta (' + _pr.filter(r => r.instagram && followed[r.id]).length + ' gevolgd)' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
-  const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
-  $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
+  const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" title="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
+  const cols = '<colgroup><col class="c-name"><col class="c-mail"><col class="c-grp"><col class="c-acc"><col class="c-ig"><col class="c-tel"><col></colgroup>';
+  $('pr-table').innerHTML = cols + '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
     rows.map(r => '<tr>' +
-      '<td style="min-width:170px">' + inp(r, 'first_name', 'Voornaam').replace('class="pr-in"', 'class="pr-in pr-in-first"') + inp(r, 'full_name', 'Volledige naam').replace('class="pr-in"', 'class="pr-in pr-in-full"') + '</td>' +
-      '<td>' + (r.email ? '<a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span style="opacity:.4">—</span>') + '</td>' +
-      '<td>' + (r.lot_group ? '<b>' + esc(r.lot_group) + '</b>' : '') + '</td>' +
-      '<td>' + (r.has_account ? '<span style="color:#58CC02;font-weight:700">✓ ja</span>' : '<span style="opacity:.5">nee</span>') + '</td>' +
-      '<td style="white-space:nowrap">' + inp(r, 'instagram', '@…') + '<div class="pr-ig-acts">' + prIgButtons(r) + '</div></td>' +
+      '<td>' + inp(r, 'first_name', 'Voornaam').replace('class="pr-in"', 'class="pr-in pr-in-first"') + inp(r, 'full_name', 'Volledige naam').replace('class="pr-in"', 'class="pr-in pr-in-full"') + '</td>' +
+      '<td>' + (r.email ? '<a class="pr-mail" href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span class="pr-mail" style="opacity:.4">—</span>') + '</td>' +
+      '<td>' + (r.lot_group ? '<span class="pr-badge grp">' + esc(r.lot_group) + '</span>' : '') + '</td>' +
+      '<td>' + (r.has_account ? '<span class="pr-badge yes">✓ ja</span>' : '<span class="pr-badge no">nee</span>') + '</td>' +
+      '<td>' + inp(r, 'instagram', '@…') + '<div class="pr-ig-acts">' + prIgButtons(r) + '</div></td>' +
       '<td>' + inp(r, 'phone', '06…') + '</td>' +
-      '<td>' + inp(r, 'notes', '') + '</td>' +
+      '<td>' + inp(r, 'notes', 'Notitie…') + '</td>' +
     '</tr>').join('') + '</tbody>';
 }
 (() => {
