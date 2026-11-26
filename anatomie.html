@@ -10,7 +10,7 @@
 <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';})()</script>
 <script src="openai_config.js"></script>
 <script src="anatomie_platen.js?v=4"></script>
-<script src="anatomie_leerdoelen.js?v=1"></script>
+<script src="anatomie_leerdoelen.js?v=2"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -532,7 +532,7 @@ function noteInner(it, st) {
         : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Helaas, het juiste antwoord is'}</div>
       <div class="rn-term">${it.no}. ${it.lat} <span class="rn-nl">${it.nl[0].toUpperCase() + it.nl.slice(1)}</span></div>
       <ul>${it.facts.map(f => `<li>${f}</li>`).join('')}</ul>
-      ${it.asked ? `<div class="asked">★ ${it.asked}× gevraagd op oude tentamens</div>` : ''}`;
+      ${it.asked ? `<div class="asked">★ in ${it.asked} ${it.asked === 1 ? "oude tentamenvraag" : "oude tentamenvragen"}</div>` : ''}`;
 }
 // Meet de hoogste vraagkant (open, met kaart, met uitleg) en zet #qside op die hoogte,
 // zodat de pagina niet langer/korter wordt bij antwoorden, morph of overgang.
