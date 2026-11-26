@@ -458,6 +458,11 @@
     .pr-in::placeholder { color: var(--muted); opacity: .55; }
     .pr-name { display: flex; align-items: baseline; gap: 6px; }
     .pr-in-first { font-weight: 800; font-size: 14px; }
+    .pr-name { align-items: center; }
+    .pr-copy { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; margin-left: 4px; padding: 0;
+      border: 1.5px solid var(--line); border-radius: 7px; background: var(--card); color: var(--muted); cursor: pointer; }
+    .pr-copy:hover { color: #1CB0F6; border-color: #1CB0F6; }
+    .pr-copy.ok { color: #fff; background: #58CC02; border-color: #58CC02; }
     .pr-in-full { font-size: 12px; color: var(--muted); }
     .pr-mail { font-size: 13px; color: inherit; text-decoration: none; }
     .pr-mail:hover { color: #1CB0F6; text-decoration: underline; }
@@ -2218,7 +2223,7 @@ function renderProspects() {
     return '<input class="pr-in' + (cls ? ' ' + cls : '') + '" size="' + n + '" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(v) + '" title="' + esc(v) + '" placeholder="' + ph + '">'; };
   $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
     rows.map(r => '<tr>' +
-      '<td class="pr-c-name"><div class="pr-name">' + inp(r, 'full_name', 'Volledige naam', 'pr-in-first') + inp(r, 'first_name', 'Voornaam', 'pr-in-full') + '</div></td>' +
+      '<td class="pr-c-name"><div class="pr-name">' + inp(r, 'full_name', 'Volledige naam', 'pr-in-first') + '<button class="pr-copy" data-copy="' + esc(r.id) + '" title="Kopieer volledige naam" aria-label="Kopieer volledige naam"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"><rect x="9" y="9" width="11" height="11" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>' + inp(r, 'first_name', 'Voornaam', 'pr-in-full') + '</div></td>' +
       '<td>' + (r.email ? '<a class="pr-mail" href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span class="pr-none">—</span>') + '</td>' +
       '<td>' + (r.lot_group ? '<span class="pr-badge grp">' + esc(r.lot_group) + '</span>' : '') + '</td>' +
       '<td>' + (r.has_account ? '<span class="pr-badge yes">✓ ja</span>' : '<span class="pr-badge no">nee</span>') + '</td>' +
@@ -2250,6 +2255,17 @@ function renderProspects() {
       const acts = el.closest('tr') && el.closest('tr').querySelector('.pr-ig-acts');
       if (acts) acts.innerHTML = prIgButtons(row);
     }
+  });
+  $('pr-table').addEventListener('click', async e => {
+    const b = e.target.closest && e.target.closest('.pr-copy'); if (!b) return;
+    const inpEl = b.closest('tr').querySelector('input[data-k="full_name"]');
+    const row = _pr.find(r => r.id === b.dataset.copy);
+    const name = ((inpEl && inpEl.value) || (row && (row.full_name || row.first_name)) || '').trim();
+    if (!name) { toast('Geen naam om te kopiëren', 'err'); return; }
+    try { await navigator.clipboard.writeText(name); }
+    catch { inpEl.select(); document.execCommand('copy'); }
+    b.classList.add('ok'); setTimeout(() => b.classList.remove('ok'), 1200);
+    toast('Gekopieerd: ' + name);
   });
   $('pr-table').addEventListener('click', e => {
     const f = e.target.closest('[data-follow]'), u = e.target.closest('[data-unfollow]');
