@@ -1120,6 +1120,11 @@ document.getElementById('theme-btn').onclick = () => {
   localStorage.setItem('vumed_theme', d ? 'dark' : 'light'); pdRefresh();
 };
 showMenu();
+// Gestart vanaf het anatomie-menu op de tentamenpagina (vumed.html): meteen de quiz in
+if (PARAMS.get('start') === '1') {
+  history.replaceState(null, '', location.pathname + '?vak=' + VAK);
+  const sb = document.getElementById('m-start'); if (!sb.disabled) sb.click();
+}
 </script>
 </body>
 </html>
