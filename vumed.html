@@ -582,6 +582,12 @@
     .subj-pill { transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
     .subj-pill:not(.on) { background: transparent !important; }
     .subj-pill.on { box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+    /* Subtiele hover op de inactieve pills, net als de tabbalk op het dashboard */
+    .subj-pill > svg { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    @media (hover: hover) {
+      .subj-pill:not(.on):hover { background: rgba(255,255,255,0.16) !important; }
+      .subj-pill:not(.on):hover > svg { transform: scale(1.12); }
+    }
     .insights-btn { transition: background 0.15s; }
     .insights-btn:hover { filter: brightness(1.08); }
     .review-btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.10); background: #FAFAFC; }
