@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';})()</script>
 <script src="openai_config.js"></script>
-<script src="anatomie_platen.js?v=3"></script>
+<script src="anatomie_platen.js?v=4"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
@@ -459,8 +459,8 @@ html.dark .m-start { background: linear-gradient(transparent, #1C1C1E 30%); }
 <script>
 const PARAMS = new URLSearchParams(location.search);
 const VAK = (PARAMS.get('vak') || '').replace(/[^a-z0-9_]/gi, '');
-const VAK_NAMES = { metabole_systemen: 'Metabole systemen', bouw_en_bewegen: 'Bouw en Bewegen', circulatie_en_volumeregulatie: 'Circulatie en volumeregulatie' };
-const VAK_COLORS = { metabole_systemen: ['#FFC800', '#C49800'], bouw_en_bewegen: ['#58CC02', '#3A9200'], circulatie_en_volumeregulatie: ['#FF6B35', '#C44A1A'] };
+const VAK_NAMES = { metabole_systemen: 'Metabole systemen', bouw_en_bewegen: 'Bouw en Bewegen', circulatie_en_volumeregulatie: 'Circulatie en volumeregulatie', homeostase: 'Homeostase' };
+const VAK_COLORS = { metabole_systemen: ['#FFC800', '#C49800'], bouw_en_bewegen: ['#58CC02', '#3A9200'], circulatie_en_volumeregulatie: ['#FF6B35', '#C44A1A'], homeostase: ['#00CD9C', '#009970'] };
 const PLATES = (window.ANATOMIE_PLATEN || []).filter(p => !VAK || p.vak === VAK);
 let PLATE = PLATES[0], ITEMS = PLATE.items, W = PLATE.W, H = PLATE.H;
 function setPlate(id) { PLATE = PLATES.find(p => p.id === id) || PLATES[0]; ITEMS = PLATE.items; W = PLATE.W; H = PLATE.H; }
