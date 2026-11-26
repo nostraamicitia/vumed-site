@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="favicon-32.png">
+<script src="pwa.js?v=11"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>(function(){var d=localStorage.getItem('vumed_theme')==='dark',e=document.documentElement;if(d)e.classList.add('dark');e.style.colorScheme=d?'dark':'light';if(d)e.style.background='#1C1C1E';})()</script>
+<title>Anatomie flashcards – VUmed</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="dark-theme.css?v=4">
+<script src="supabase_config.js"></script>
+<script src="supabase-js.min.js"></script>
+<script src="navbar.js?v=55" data-active="tentamens"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f5f7f9; --surface: #fff; --text: #1C1C1E; --sub: #8E8E93; --body: #6E6E73;
+  --border: #ececec; --chip: #f2f4f7; --shadow: 0 2px 14px rgba(0,0,0,0.055), 0 1px 3px rgba(0,0,0,0.04);
+  --c: #58CC02; --cd: #3A9200; --tint: #EEFAE3;
+  --good: #58CC02; --goodd: #3A9200; --bad: #FF4B4B; --badd: #C42B2B;
+}
+html.dark {
+  --bg: #1C1C1E; --surface: #2C2C2E; --text: #fff; --sub: #8E8E93; --body: #C7C7CC;
+  --border: #3A3A3C; --chip: #3A3A3C; --shadow: 0 2px 14px rgba(0,0,0,0.35);
+  --tint: rgba(88,204,2,0.16);
+}
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased;
+  display: flex; height: 100vh; overflow: hidden;
+}
+#page-root { flex: 1; overflow-y: auto; height: 100vh; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 72px 32px 120px; } /* ruimte onder de vaste stats-balk */
+.crumb { display: inline-flex; align-items: center; gap: 6px; color: var(--sub); font-weight: 800;
+  font-size: 14px; text-decoration: none; margin-bottom: 18px; }
+.crumb:hover { color: var(--c); }
+button { font-family: inherit; }
+
+/* ── Hero ── */
+.hero { background: linear-gradient(135deg, var(--c), var(--cd)); color: #fff; border-radius: 24px;
+  padding: 28px 30px; display: flex; gap: 24px; align-items: center; justify-content: space-between; }
+.hero h1 { font-size: 27px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.15; }
+.hero p { margin-top: 6px; font-size: 14px; font-weight: 700; opacity: 0.92; line-height: 1.45; }
+.hero-stats { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.hstat { background: rgba(255,255,255,0.18); border-radius: 12px; padding: 7px 12px; font-size: 13px; font-weight: 800; }
+.hstat b { font-size: 16px; font-weight: 900; margin-right: 3px; }
+.ring { flex-shrink: 0; width: 104px; height: 104px; position: relative; }
+.ring svg { display: block; transform: rotate(-90deg); }
+.ring-lbl { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; font-weight: 900; font-size: 24px; line-height: 1; }
+.ring-lbl small { font-size: 11px; font-weight: 800; opacity: 0.9; margin-top: 3px; }
+
+/* ── Sections ── */
+.sec-title { font-size: 13px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--sub); margin: 30px 2px 12px; display: flex; justify-content: space-between; align-items: center; }
+.sec-title button { background: none; border: none; color: var(--c); font-weight: 800; font-size: 13px;
+  cursor: pointer; text-transform: none; letter-spacing: 0; }
+.modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mode { background: var(--surface); border: 2px solid var(--border); border-bottom-width: 4px; border-radius: 16px;
+  padding: 14px; text-align: left; cursor: pointer; color: var(--text); transition: border-color .15s, transform .1s; }
+.mode:active { transform: translateY(1px); }
+.mode.on { border-color: var(--c); background: var(--tint); }
+.mode .mt { font-weight: 900; font-size: 15px; display: flex; align-items: center; gap: 7px; }
+.mode .md { font-size: 12.5px; font-weight: 700; color: var(--body); margin-top: 4px; line-height: 1.35; }
+.mode svg { flex-shrink: 0; }
+
+.region { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow); padding: 16px 18px; margin-bottom: 12px; }
+.region-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; cursor: pointer; }
+.region-name { font-weight: 900; font-size: 16px; }
+.region-meta { font-size: 12.5px; font-weight: 800; color: var(--sub); white-space: nowrap; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.chip { border: 2px solid var(--border); background: var(--surface); border-radius: 12px; padding: 7px 11px 8px;
+  font-size: 13px; font-weight: 800; color: var(--body); cursor: pointer; display: flex; flex-direction: column;
+  gap: 5px; min-width: 112px; text-align: left; transition: border-color .15s, background .15s; }
+.chip.on { border-color: var(--c); background: var(--tint); color: var(--text); }
+.chip .cn { display: flex; justify-content: space-between; gap: 10px; }
+.chip .cn span:last-child { color: var(--sub); }
+.bar { height: 5px; border-radius: 3px; background: var(--chip); overflow: hidden; display: flex; }
+.bar i { display: block; height: 100%; }
+.bar .k { background: var(--good); } .bar .l { background: #FFC800; }
+
+.start-row { position: sticky; bottom: 0; padding: 16px 0 6px; margin-top: 8px;
+  background: linear-gradient(transparent, var(--bg) 30%); }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: none;
+  border-radius: 16px; padding: 15px 18px; font-size: 16px; font-weight: 900; letter-spacing: 0.02em;
+  text-transform: uppercase; cursor: pointer; color: #fff; background: var(--c); border-bottom: 4px solid var(--cd); }
+.btn:active { transform: translateY(2px); border-bottom-width: 2px; }
+.btn:disabled { opacity: .45; cursor: default; transform: none; border-bottom-width: 4px; }
+.btn.ghost { background: var(--surface); color: var(--text); border: 2px solid var(--border); border-bottom-width: 4px; }
+.note { font-size: 12.5px; font-weight: 700; color: var(--sub); text-align: center; margin-top: 10px; line-height: 1.4; }
+
+/* ── Study ── */
+#study { display: none; }
+.st-top { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.x { background: none; border: none; cursor: pointer; color: var(--sub); padding: 4px; display: flex; }
+.x:hover { color: var(--text); }
+.prog { flex: 1; height: 14px; border-radius: 8px; background: var(--chip); overflow: hidden; }
+.prog i { display: block; height: 100%; width: 0; background: var(--c); border-radius: 8px; transition: width .3s; }
+.st-count { font-weight: 900; font-size: 14px; color: var(--sub); min-width: 54px; text-align: right; white-space: nowrap; }
+.scene { perspective: 1400px; }
+.card { position: relative; min-height: 360px; transform-style: preserve-3d; transition: transform .45s cubic-bezier(.3,.7,.3,1);
+  cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.card.flip { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: var(--surface); border-radius: 24px; border: 2px solid var(--border); border-bottom-width: 5px;
+  padding: 26px 28px; display: flex; flex-direction: column; }
+.back { transform: rotateY(180deg); overflow-y: auto; }
+.f-label { font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--c); }
+.f-term { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center;
+  font-size: 32px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.2; padding: 18px 4px; }
+.f-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; color: var(--sub); }
+.asked { display: inline-flex; align-items: center; gap: 5px; background: #FFF4D6; color: #B07800; border-radius: 10px; padding: 4px 9px; font-weight: 900; }
+html.dark .asked { background: rgba(255,200,0,0.16); color: #FFC800; }
+.b-term { font-size: 20px; font-weight: 900; margin: 6px 0 14px; line-height: 1.25; }
+.b-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.b-list li { font-size: 15.5px; font-weight: 600; line-height: 1.5; color: var(--text); padding-left: 16px; position: relative; }
+.b-list li::before { content: ''; position: absolute; left: 0; top: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--c); }
+.b-list li b { font-weight: 900; }
+.answer { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 18px; }
+.answer .btn.bad { background: var(--bad); border-bottom-color: var(--badd); }
+.answer .btn.good { background: var(--good); border-bottom-color: var(--goodd); }
+.hint { text-align: center; font-size: 12.5px; font-weight: 800; color: var(--sub); margin-top: 12px; }
+kbd { font-family: inherit; background: var(--chip); border-radius: 5px; padding: 1px 6px; font-size: 11.5px; }
+
+/* ── Done ── */
+#done { display: none; text-align: center; padding-top: 30px; }
+#done h2 { font-size: 28px; font-weight: 900; margin: 14px 0 6px; }
+#done p { color: var(--body); font-weight: 700; font-size: 15px; }
+.done-stats { display: flex; justify-content: center; gap: 12px; margin: 22px 0 26px; }
+.dstat { background: var(--surface); box-shadow: var(--shadow); border-radius: 16px; padding: 14px 20px; min-width: 120px; }
+.dstat b { display: block; font-size: 28px; font-weight: 900; }
+.dstat span { font-size: 12.5px; font-weight: 800; color: var(--sub); text-transform: uppercase; letter-spacing: .05em; }
+.done-btns { display: grid; gap: 10px; max-width: 360px; margin: 0 auto; }
+.err { background: var(--surface); border-radius: 18px; padding: 26px; text-align: center; font-weight: 800; color: var(--body); }
+
+@media (max-width: 768px) {
+  body { height: auto; min-height: 100vh; overflow: auto; }
+  #page-root { height: auto; overflow: visible; } /* anders werkt de sticky Start-knop niet */
+  .wrap { padding: 64px 16px 140px; }
+  .hero { padding: 22px 20px; border-radius: 20px; }
+  .hero h1 { font-size: 22px; }
+  .ring { width: 84px; height: 84px; }
+  .ring svg { width: 84px; height: 84px; }
+  .modes { grid-template-columns: 1fr; }
+  .chip { min-width: 0; flex: 1 1 calc(50% - 8px); }
+  .card { min-height: 380px; }
+  .face { padding: 22px 20px; }
+  .f-term { font-size: 26px; }
+  .start-row { bottom: 72px; }
+  .hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .card { transition: none; } }
+</style>
+<script src="ui_boot.js?v=3"></script>
+</head>
+<body>
+<div id="page-root" class="main-content">
+  <div class="wrap">
+    <section id="overview">
+      <a class="crumb" href="vumed.html" id="crumb">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Tentamens
+      </a>
+      <div id="ov-body"></div>
+    </section>
+
+    <section id="study">
+      <div class="st-top">
+        <button class="x" id="st-close" aria-label="Stoppen">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>
+        </button>
+        <div class="prog"><i id="st-prog"></i></div>
+        <div class="st-count" id="st-count"></div>
+      </div>
+      <div class="scene">
+        <div class="card" id="card" role="button" tabindex="0" aria-label="Kaart omdraaien">
+          <div class="face front">
+            <div class="f-label" id="c-label"></div>
+            <div class="f-term" id="c-term"></div>
+            <div class="f-foot"><span id="c-asked"></span><span>Tik om om te draaien</span></div>
+          </div>
+          <div class="face back">
+            <div class="f-label" id="c-label2"></div>
+            <div class="b-term" id="c-term2"></div>
+            <ul class="b-list" id="c-back"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="answer" id="answer" style="visibility:hidden">
+        <button class="btn bad" id="btn-bad">Nog niet</button>
+        <button class="btn good" id="btn-good">Ken ik</button>
+      </div>
+      <div class="hint"><kbd>spatie</kbd> omdraaien · <kbd>1</kbd> nog niet · <kbd>2</kbd> ken ik</div>
+    </section>
+
+    <section id="done">
+      <svg width="76" height="76" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="var(--c)"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h2>Ronde klaar!</h2>
+      <p id="done-sub"></p>
+      <div class="done-stats">
+        <div class="dstat"><b id="d-good" style="color:var(--good)">0</b><span>Gekend</span></div>
+        <div class="dstat"><b id="d-bad" style="color:var(--bad)">0</b><span>Nog oefenen</span></div>
+      </div>
+      <div class="done-btns">
+        <button class="btn" id="d-again">Nog een ronde</button>
+        <button class="btn ghost" id="d-back">Terug naar overzicht</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  /* Decks die bestaan (whitelist: de slug komt uit de URL en bepaalt welk script laadt). */
+  var DECKS = {
+    bouw_en_bewegen: { title: 'Anatomie', subject: 'Bouw en Bewegen', c: '#58CC02', cd: '#3A9200' }
+  };
+  var SESSION_MAX = 25;                 // kaarten per ronde in 'Slim herhalen'
+  var DAY = 864e5;
+  var INTERVAL = [0, 1, 3, 7, 16, 35];  // dagen tot volgende herhaling per Leitner-bak
+
+  var params = new URLSearchParams(location.search);
+  var slug = params.get('vak') || 'bouw_en_bewegen';
+  var meta = DECKS[slug];
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+
+  try { var ret = sessionStorage.getItem('vumed_return'); if (ret && /^[\w-]+\.html$/.test(ret)) $('crumb').href = ret; } catch (e) {}
+
+  if (!meta) { $('ov-body').innerHTML = '<div class="err">Voor dit vak zijn (nog) geen flashcards.</div>'; return; }
+  document.documentElement.style.setProperty('--c', meta.c);
+  document.documentElement.style.setProperty('--cd', meta.cd);
+
+  /* ── Voortgang: localStorage direct, Supabase (flashcard_progress) als je bent ingelogd ── */
+  var LS_KEY = 'vumed_flash_' + slug;
+  var prog = {};          // cardId -> { b: bak 0-5, d: due (ms), t: laatst gewijzigd (ms) }
+  try { prog = JSON.parse(localStorage.getItem(LS_KEY) || '{}') || {}; } catch (e) { prog = {}; }
+  var sb = null, uid = null, pushTimer = null;
+
+  function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify(prog)); } catch (e) {} }
+  function getSB() {
+    if (sb) return sb;
+    if (window._sbInstance) return (sb = window._sbInstance);
+    try { if (window.supabase && window.SUPABASE_URL) sb = window._sbInstance = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY); } catch (e) {}
+    return sb;
+  }
+  function merge(remote) {
+    var changed = false;
+    Object.keys(remote || {}).forEach(function (id) {
+      var r = remote[id], l = prog[id];
+      if (r && (!l || (r.t || 0) > (l.t || 0))) { prog[id] = r; changed = true; }
+    });
+    return changed;
+  }
+  function pushRemote() {
+    if (!uid || !getSB()) return;
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(function () {
+      sb.from('flashcard_progress').upsert(
+        { user_id: uid, deck: slug, progress: prog, updated_at: new Date().toISOString() },
+        { onConflict: 'user_id,deck' }
+      ).then(function () {}, function () {});
+    }, 1200);
+  }
+  function syncRemote() {
+    var c = getSB(); if (!c) return;
+    c.auth.getSession().then(function (r) {
+      var u = r && r.data && r.data.session && r.data.session.user; if (!u) return;
+      uid = u.id;
+      return c.from('flashcard_progress').select('progress').eq('user_id', uid).eq('deck', slug).maybeSingle()
+        .then(function (res) {
+          if (res.error) return;
+          var remote = res.data && res.data.progress;
+          if (merge(remote)) { saveLocal(); if (view === 'overview') renderOverview(); }
+          // lokale voortgang die nog niet in Supabase staat meteen meesturen
+          if (JSON.stringify(remote || {}) !== JSON.stringify(prog)) pushRemote();
+        });
+    }).catch(function () {});
+  }
+
+  /* ── Deck laden ── */
+  var deck = null, cards = [], byGroup = {}, view = 'overview';
+  var selected = {};          // groupKey -> bool
+  var mode = 'slim';
+  var s = document.createElement('script');
+  s.src = 'flashcards_' + slug + '.js?v=1';
+  s.onload = function () {
+    deck = window.FLASHDECK;
+    if (!deck) return s.onerror();
+    deck.regions.forEach(function (r, ri) {
+      r.groups.forEach(function (g, gi) {
+        var key = ri + ':' + gi;
+        byGroup[key] = [];
+        selected[key] = true;
+        g.cards.forEach(function (c) {
+          c.region = r.name; c.group = g.name; c.gk = key;
+          cards.push(c); byGroup[key].push(c);
+        });
+      });
+    });
+    try { var sel = JSON.parse(localStorage.getItem(LS_KEY + '_sel') || 'null'); if (sel) Object.keys(sel).forEach(function (k) { if (k in selected) selected[k] = !!sel[k]; }); } catch (e) {}
+    try { var m = localStorage.getItem(LS_KEY + '_mode'); if (m) mode = m; } catch (e) {}
+    renderOverview();
+    syncRemote();
+  };
+  s.onerror = function () { $('ov-body').innerHTML = '<div class="err">De kaarten konden niet geladen worden. Probeer het later opnieuw.</div>'; };
+  document.head.appendChild(s);
+
+  function status(c, now) {
+    var p = prog[c.id];
+    if (!p) return 'new';
+    if (p.b >= 3) return p.d <= now ? 'due' : 'known';
+    return p.d <= now ? 'due' : 'learning';
+  }
+  function tally(list) {
+    var now = Date.now(), t = { known: 0, learning: 0, due: 0, new: 0 };
+    list.forEach(function (c) { t[status(c, now)]++; });
+    return t;
+  }
+  function selectedCards() {
+    var out = [];
+    Object.keys(byGroup).forEach(function (k) { if (selected[k]) out = out.concat(byGroup[k]); });
+    return out;
+  }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+
+  function buildQueue() {
+    var list = selectedCards(), now = Date.now();
+    if (mode === 'gevraagd') return list.slice().sort(function (a, b) { return b.n - a.n; });
+    if (mode === 'alles') return shuffle(list.slice());
+    // slim: eerst wat herhaald moet worden (oudste eerst), dan nieuwe (meest gevraagd eerst)
+    var due = list.filter(function (c) { return prog[c.id] && prog[c.id].d <= now; })
+      .sort(function (a, b) { return prog[a.id].d - prog[b.id].d; });
+    var fresh = list.filter(function (c) { return !prog[c.id]; }).sort(function (a, b) { return b.n - a.n; });
+    return due.concat(fresh).slice(0, SESSION_MAX);
+  }
+
+  var ICON = {
+    slim: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 0 1 13.7-5.6M20 12a8 8 0 0 1-13.7 5.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M18 2.5v4h-4M6 21.5v-4h4" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    gevraagd: '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2c1 4 5 5.5 5 10.5A5 5 0 0 1 12 18a5 5 0 0 1-5-5.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-9z" fill="#FF9600"/><path d="M9 21h6" stroke="#FF9600" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    alles: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 7h3.5c4 0 7 10 11 10H21M3 17h3.5c1.6 0 3-1.5 4.3-3.5M14 9c1-1.2 2.2-2 3.5-2H21M18.5 4.5L21 7l-2.5 2.5M18.5 14.5L21 17l-2.5 2.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    flame: '<svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2c1 4 6 5.5 6 11a6 6 0 0 1-12 0c0-2.4 1.2-4.2 2.4-5.4 0 2.4 1.2 3.6 2.4 3.6 0-3.6-1.2-6 1.2-9.2z" fill="currentColor"/></svg>'
+  };
+  var MODES = [
+    ['slim', 'Slim herhalen', 'Eerst wat je moet herhalen, dan nieuwe kaarten. Max ' + SESSION_MAX + ' per ronde.'],
+    ['gevraagd', 'Meest gevraagd', 'Wat het vaakst op de tentamens terugkomt eerst.'],
+    ['alles', 'Alles door elkaar', 'Alle gekozen kaarten in willekeurige volgorde.']
+  ];
+
+  function barHTML(list) {
+    var t = tally(list), n = list.length || 1;
+    return '<div class="bar"><i class="k" style="width:' + (t.known / n * 100) + '%"></i><i class="l" style="width:' + ((t.learning + t.due) / n * 100) + '%"></i></div>';
+  }
+
+  function renderOverview() {
+    view = 'overview';
+    var t = tally(cards), pct = Math.round(t.known / cards.length * 100);
+    var C = 2 * Math.PI * 44;
+    var h = '<div class="hero"><div>' +
+      '<h1>' + esc(meta.title) + ' · ' + esc(meta.subject) + '</h1>' +
+      '<p>' + cards.length + ' structuren uit de itemlijst anatomie. Bij elke kaart zie je hoe vaak hij op oude tentamens terugkwam.</p>' +
+      '<div class="hero-stats">' +
+        '<span class="hstat"><b>' + t.known + '</b>gekend</span>' +
+        '<span class="hstat"><b>' + t.due + '</b>te herhalen</span>' +
+        '<span class="hstat"><b>' + t.new + '</b>nieuw</span>' +
+      '</div></div>' +
+      '<div class="ring"><svg width="104" height="104" viewBox="0 0 104 104"><circle cx="52" cy="52" r="44" stroke="rgba(255,255,255,0.25)" stroke-width="10" fill="none"/>' +
+      '<circle cx="52" cy="52" r="44" stroke="#fff" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="' + C + '" stroke-dashoffset="' + (C * (1 - pct / 100)) + '"/></svg>' +
+      '<div class="ring-lbl">' + pct + '%<small>gekend</small></div></div></div>';
+
+    h += '<div class="sec-title">Hoe wil je leren?</div><div class="modes">' +
+      MODES.map(function (m) {
+        return '<button class="mode' + (mode === m[0] ? ' on' : '') + '" data-mode="' + m[0] + '"><div class="mt">' + ICON[m[0]] + m[1] + '</div><div class="md">' + m[2] + '</div></button>';
+      }).join('') + '</div>';
+
+    var allOn = Object.keys(selected).every(function (k) { return selected[k]; });
+    h += '<div class="sec-title">Onderdelen<button id="sel-all">' + (allOn ? 'Niets selecteren' : 'Alles selecteren') + '</button></div>';
+    deck.regions.forEach(function (r, ri) {
+      var list = []; r.groups.forEach(function (g, gi) { list = list.concat(byGroup[ri + ':' + gi]); });
+      var rt = tally(list);
+      h += '<div class="region"><div class="region-head" data-region="' + ri + '"><span class="region-name">' + esc(r.name) + '</span>' +
+        '<span class="region-meta">' + rt.known + ' / ' + list.length + ' gekend</span></div><div class="chips">';
+      r.groups.forEach(function (g, gi) {
+        var k = ri + ':' + gi;
+        h += '<button class="chip' + (selected[k] ? ' on' : '') + '" data-g="' + k + '"><span class="cn"><span>' + esc(g.name) + '</span><span>' + byGroup[k].length + '</span></span>' + barHTML(byGroup[k]) + '</button>';
+      });
+      h += '</div></div>';
+    });
+
+    var q = buildQueue();
+    h += '<div class="start-row"><button class="btn" id="start"' + (q.length ? '' : ' disabled') + '>' +
+      (q.length ? 'Start · ' + q.length + ' kaarten' : (mode === 'slim' && selectedCards().length ? 'Alles is bij — kom later terug' : 'Kies een onderdeel')) + '</button>' +
+      '<div class="note">' + (uid ? 'Je voortgang wordt bewaard in je account.' : 'Log in om je voortgang op al je apparaten te bewaren.') + '</div></div>';
+
+    $('ov-body').innerHTML = h;
+    show('overview');
+  }
+
+  $('ov-body').addEventListener('click', function (e) {
+    var el = e.target.closest('[data-mode],[data-g],[data-region],#sel-all,#start');
+    if (!el) return;
+    if (el.dataset.mode) { mode = el.dataset.mode; try { localStorage.setItem(LS_KEY + '_mode', mode); } catch (x) {} }
+    else if (el.dataset.g) selected[el.dataset.g] = !selected[el.dataset.g];
+    else if (el.dataset.region != null) {
+      var ri = el.dataset.region, keys = Object.keys(selected).filter(function (k) { return k.split(':')[0] === ri; });
+      var on = !keys.every(function (k) { return selected[k]; });
+      keys.forEach(function (k) { selected[k] = on; });
+    } else if (el.id === 'sel-all') {
+      var all = !Object.keys(selected).every(function (k) { return selected[k]; });
+      Object.keys(selected).forEach(function (k) { selected[k] = all; });
+    } else if (el.id === 'start') return startSession();
+    try { localStorage.setItem(LS_KEY + '_sel', JSON.stringify(selected)); } catch (x) {}
+    renderOverview();
+  });
+
+  /* ── Leren ── */
+  var queue = [], pos = 0, total = 0, done = 0, nGood = 0, nBad = 0, flipped = false, retries = {};
+
+  function show(which) {
+    ['overview', 'study', 'done'].forEach(function (v) { $(v).style.display = v === which ? 'block' : 'none'; });
+    $('page-root').scrollTop = 0; window.scrollTo(0, 0);
+  }
+  function startSession() {
+    queue = buildQueue(); pos = 0; total = queue.length; done = 0; nGood = 0; nBad = 0; retries = {};
+    if (!total) return;
+    view = 'study'; show('study'); renderCard();
+  }
+  function fmtBack(line) {
+    // 'Functie: ...' → label vet
+    var m = /^([A-Za-zÀ-ÿ /()-]{3,28}):\s(.*)$/.exec(line);
+    return m ? '<b>' + esc(m[1]) + ':</b> ' + esc(m[2]) : esc(line);
+  }
+  function renderCard() {
+    var c = queue[pos];
+    flipped = false; $('card').classList.remove('flip');
+    $('answer').style.visibility = 'hidden';
+    var lbl = esc(c.region) + ' · ' + esc(c.group);
+    $('c-label').innerHTML = lbl; $('c-label2').innerHTML = lbl;
+    $('c-term').textContent = c.f; $('c-term2').textContent = c.f;
+    $('c-asked').innerHTML = c.n ? '<span class="asked">' + ICON.flame + c.n + '× gevraagd</span>' : '';
+    $('c-back').innerHTML = c.b.map(function (l) { return '<li>' + fmtBack(l) + '</li>'; }).join('');
+    $('c-back').parentNode.scrollTop = 0;
+    $('st-count').textContent = 'nog ' + (queue.length - pos);
+    $('st-prog').style.width = (done / total * 100) + '%';
+  }
+  function flip() {
+    if (view !== 'study') return;
+    flipped = !flipped; $('card').classList.toggle('flip', flipped);
+    if (flipped) $('answer').style.visibility = 'visible';
+  }
+  function answer(good) {
+    if (view !== 'study' || !flipped) return;
+    var c = queue[pos], p = prog[c.id] || { b: 0 }, now = Date.now();
+    if (good) {
+      var b = Math.min((p.b || 0) + 1, 5);
+      prog[c.id] = { b: b, d: now + INTERVAL[b] * DAY, t: now };
+      nGood++; done++; pos++;
+    } else {
+      prog[c.id] = { b: 0, d: now, t: now };
+      nBad++;
+      // later in deze ronde nog een keer (max 2× extra), anders tellen als klaar
+      retries[c.id] = (retries[c.id] || 0) + 1;
+      if (retries[c.id] <= 2) { queue.splice(Math.min(pos + 4, queue.length), 0, c); total++; }
+      done++; pos++;
+    }
+    saveLocal(); pushRemote();
+    if (pos >= queue.length) return finish();
+    renderCard();
+  }
+  function finish() {
+    view = 'done';
+    var uniq = {}; queue.forEach(function (c) { uniq[c.id] = 1; });
+    var bad = Object.keys(uniq).filter(function (id) { return prog[id] && prog[id].b === 0; }).length;
+    $('d-good').textContent = Object.keys(uniq).length - bad;
+    $('d-bad').textContent = bad;
+    var left = buildQueue().length;
+    $('done-sub').textContent = bad ? 'De kaarten die je nog niet kende komen in de volgende ronde terug.' : 'Alles gekend — sterk bezig!';
+    $('d-again').style.display = left ? '' : 'none';
+    show('done');
+  }
+
+  $('card').addEventListener('click', flip);
+  $('btn-good').addEventListener('click', function () { answer(true); });
+  $('btn-bad').addEventListener('click', function () { answer(false); });
+  $('st-close').addEventListener('click', renderOverview);
+  $('d-back').addEventListener('click', renderOverview);
+  $('d-again').addEventListener('click', startSession);
+  document.addEventListener('keydown', function (e) {
+    if (view !== 'study' || e.metaKey || e.ctrlKey) return;
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flip(); }
+    else if (e.key === '1' || e.key === 'ArrowLeft') answer(false);
+    else if (e.key === '2' || e.key === 'ArrowRight') answer(true);
+    else if (e.key === 'Escape') renderOverview();
+  });
+})();
+</script>
+</body>
+</html>

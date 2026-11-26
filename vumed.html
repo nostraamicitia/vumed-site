@@ -2145,6 +2145,10 @@ function ResetPasswordModal({ onClose }) {
   );
 }
 
+/* Vakken met een anatomie-flashcarddeck (flashcards_<slug>.js, zie tools/build_flashcards.py).
+   Moet gelijk lopen met DECKS in flashcards.html. */
+const FLASHCARD_DECKS = new Set(["bouw_en_bewegen"]);
+
 /* ─────────────────────────── SUBJECT COLORS ─────────────────────────── */
 const SUBJECT_COLORS = {
   "Hematologie en Oncologie":             { bg: "#FF4B4B", dark: "#C42B2B", icon: "blood"       },
@@ -3059,6 +3063,17 @@ function SubjectCard({ subject, completedExams, onExamSelect, meta, custom, subj
             <button className={pillClass("fouten")} onClick={e => { e.stopPropagation(); togglePanel("fouten"); }} style={pillStyle(openPanel === "fouten")}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 21V4h11l-2 4 2 4H6" stroke={openPanel === "fouten" ? col.bg : "#fff"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
               <span className="pill-long">Foutenreview</span><span className="pill-short">Fouten</span>{wrongRefs.length ? " " : ""}{wrongRefs.length ? countPill(wrongRefs.length) : null}
+            </button>
+          )}
+          {slug && FLASHCARD_DECKS.has(slug) && (
+            <button className="insights-btn subj-pill" title="Anatomie flashcards" style={pillStyle(false)}
+              onClick={e => {
+                e.stopPropagation();
+                try { sessionStorage.setItem("vumed_return", "vumed.html"); } catch (x) {}
+                window.location.href = "flashcards.html?vak=" + slug;
+              }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="14" height="15" rx="2.5" fill="#fff"/><path d="M8 3h10.5A2.5 2.5 0 0 1 21 5.5V17" stroke="#fff" strokeWidth="2.2" strokeLinecap="round"/></svg>
+              <span className="pill-long">Flashcards</span>
             </button>
           )}
         </div>
