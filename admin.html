@@ -440,6 +440,14 @@
     .mk-tools .rev-search { flex: 1; min-width: 180px; }
     .pr-in { font: inherit; font-size: 13px; width: 100%; min-width: 110px; padding: 5px 8px; border: 1.5px solid var(--line, #e5e5e5); border-radius: 8px; background: transparent; color: inherit; }
     .pr-in:focus { outline: none; border-color: #1CB0F6; }
+    .pr-in-first { font-weight: 800; }
+    .pr-in-full { margin-top: 4px; font-size: 12px; opacity: .8; }
+    .pr-ig-acts { margin-top: 5px; display: flex; gap: 4px; align-items: center; }
+    .pr-ig-btn { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 8px; text-decoration: none; color: #fff; background: #E1306C; box-shadow: 0 2px 0 #b3204f; }
+    .pr-ig-btn:hover { filter: brightness(1.08); }
+    .pr-ig-btn.search { background: transparent; color: #E1306C; border: 1.5px solid #E1306C; box-shadow: none; }
+    .pr-ig-btn.done { background: #58CC02; box-shadow: 0 2px 0 #46a302; }
+    .pr-ig-undo { font: inherit; font-size: 12px; border: 0; background: transparent; color: inherit; opacity: .5; cursor: pointer; padding: 2px 4px; }
     .mk-datewrap { display: flex; flex-direction: column; gap: 6px; }
     .mk-quick { display: flex; gap: 5px; flex-wrap: wrap; }
     .mk-quick button { border: 0; background: rgba(28,176,246,.12); color: #1CB0F6; border-radius: 8px; padding: 4px 9px; font: 800 11.5px Nunito, sans-serif; cursor: pointer; text-transform: none; letter-spacing: 0; }
@@ -936,6 +944,7 @@
                 <option value="noacc">Nog geen account</option>
                 <option value="acc">Heeft account</option>
                 <option value="noinsta">Insta nog onbekend</option>
+                <option value="notfollowed">Insta bekend, nog niet gevolgd</option>
               </select>
               <select id="pr-src" class="mk-status">
                 <option value="all">Alle bronnen</option>
@@ -2136,30 +2145,49 @@ function prIgUrl(v) {
   if (/^https?:\/\//i.test(v)) return v;
   return 'https://instagram.com/' + encodeURIComponent(v.replace(/^@/, ''));
 }
+/* Insta-knoppen: handle bekend → "Volgen" (opent profiel, daar stuur je het volgverzoek);
+   onbekend → "Zoek" (Google site:instagram.com op volledige naam), daarna handle invullen.
+   Wie je al gevolgd hebt wordt lokaal (deze browser) onthouden. */
+const PR_FOLLOWED_KEY = 'vumed_admin_ig_followed';
+const prFollowed = () => { try { return JSON.parse(localStorage.getItem(PR_FOLLOWED_KEY) || '{}'); } catch { return {}; } };
+function prIgButtons(r) {
+  if (r.instagram) {
+    const done = prFollowed()[r.id];
+    return '<a class="pr-ig-btn' + (done ? ' done' : '') + '" data-follow="' + esc(r.id) + '" href="' + esc(prIgUrl(r.instagram)) + '" target="_blank" rel="noopener">' +
+      (done ? '✓ Gevolgd' : 'Volgen') + '</a>' +
+      (done ? ' <button class="pr-ig-undo" data-unfollow="' + esc(r.id) + '" title="Markering weghalen">↺</button>' : '');
+  }
+  const name = (r.full_name || r.first_name || '').trim();
+  if (!name) return '';
+  const q = 'site:instagram.com "' + name + '"';
+  return '<a class="pr-ig-btn search" href="https://www.google.com/search?q=' + encodeURIComponent(q) + '" target="_blank" rel="noopener">Zoek op insta</a>';
+}
 function renderProspects() {
   const q = ($('pr-q').value || '').trim().toLowerCase();
   const f = $('pr-filter').value;
   const src = $('pr-src').value;
+  const followed = prFollowed();
   const rows = _pr.filter(r => {
     if (src !== 'all' && r.source !== src) return false;
     if (f === 'acc' && !r.has_account) return false;
     if (f === 'noacc' && r.has_account) return false;
     if (f === 'noinsta' && r.instagram) return false;
+    if (f === 'notfollowed' && (!r.instagram || followed[r.id])) return false;
     if (!q) return true;
     return [r.full_name, r.first_name, r.email, r.instagram, r.phone, r.notes, r.lot_group].some(x => String(x || '').toLowerCase().includes(q));
   });
   const nAcc = _pr.filter(r => r.has_account).length;
   const nIg = _pr.filter(r => r.instagram).length;
   const nLot = _pr.filter(r => r.source === 'loting').length;
-  $('pr-sub').textContent = _pr.length + ' studenten (' + nLot + ' via loting) · ' + nAcc + ' met account · ' + nIg + ' met insta' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
+  $('pr-sub').textContent = _pr.length + ' studenten (' + nLot + ' via loting) · ' + nAcc + ' met account · ' + nIg + ' met insta (' + _pr.filter(r => r.instagram && followed[r.id]).length + ' gevolgd)' + (rows.length !== _pr.length ? ' · ' + rows.length + ' getoond' : '');
   const inp = (r, k, ph) => '<input class="pr-in" data-id="' + esc(r.id) + '" data-k="' + k + '" value="' + esc(r[k] || '') + '" placeholder="' + ph + '">';
   $('pr-table').innerHTML = '<thead><tr><th>Naam</th><th>E-mail</th><th>Groep</th><th>Account</th><th>Instagram</th><th>Nummer</th><th>Notitie</th></tr></thead><tbody>' +
     rows.map(r => '<tr>' +
-      '<td><b>' + (r.first_name || r.full_name ? esc(r.first_name || '') : '<span style="opacity:.4">(geen naam)</span>') + '</b><div class="card-sub" style="margin:0">' + esc(r.full_name || '') + '</div></td>' +
+      '<td style="min-width:170px">' + inp(r, 'first_name', 'Voornaam').replace('class="pr-in"', 'class="pr-in pr-in-first"') + inp(r, 'full_name', 'Volledige naam').replace('class="pr-in"', 'class="pr-in pr-in-full"') + '</td>' +
       '<td>' + (r.email ? '<a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a>' : '<span style="opacity:.4">—</span>') + '</td>' +
       '<td>' + (r.lot_group ? '<b>' + esc(r.lot_group) + '</b>' : '') + '</td>' +
       '<td>' + (r.has_account ? '<span style="color:#58CC02;font-weight:700">✓ ja</span>' : '<span style="opacity:.5">nee</span>') + '</td>' +
-      '<td style="white-space:nowrap">' + inp(r, 'instagram', '@…') + (r.instagram ? ' <a href="' + esc(prIgUrl(r.instagram)) + '" target="_blank" rel="noopener">↗</a>' : '') + '</td>' +
+      '<td style="white-space:nowrap">' + inp(r, 'instagram', '@…') + '<div class="pr-ig-acts">' + prIgButtons(r) + '</div></td>' +
       '<td>' + inp(r, 'phone', '06…') + '</td>' +
       '<td>' + inp(r, 'notes', '') + '</td>' +
     '</tr>').join('') + '</tbody>';
@@ -2177,6 +2205,19 @@ function renderProspects() {
     if (error) { toast('Opslaan mislukt: ' + error.message, 'err'); el.value = row[k] || ''; return; }
     row[k] = v; toast('Opgeslagen');
     if (k === 'instagram') renderProspects();
+    else if (k === 'first_name' || k === 'full_name') {
+      // Alleen de insta-knoppen van deze rij verversen (zoekt op de naam), zodat de focus bij tabben blijft.
+      const acts = el.closest('tr') && el.closest('tr').querySelector('.pr-ig-acts');
+      if (acts) acts.innerHTML = prIgButtons(row);
+    }
+  });
+  $('pr-table').addEventListener('click', e => {
+    const f = e.target.closest('[data-follow]'), u = e.target.closest('[data-unfollow]');
+    if (!f && !u) return;
+    const m = prFollowed();
+    if (f) m[f.dataset.follow] = Date.now(); else delete m[u.dataset.unfollow];
+    localStorage.setItem(PR_FOLLOWED_KEY, JSON.stringify(m));
+    setTimeout(renderProspects, 0);
   });
   $('pr-csv').addEventListener('click', () => {
     const cols = ['first_name', 'full_name', 'email', 'phone', 'lot_group', 'source', 'has_account', 'instagram', 'notes'];

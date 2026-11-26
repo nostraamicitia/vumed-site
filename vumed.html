@@ -176,6 +176,50 @@
     }
     .year-btn:hover  { box-shadow: 0 4px 16px rgba(0,0,0,0.18); filter: brightness(1.09); }
     .year-btn:active { transform: translateY(2px) scale(0.97); outline: none; }
+    /* ── Anatomie-menu op de vakkaart (AnatomieMenu) ── */
+    .anat-menu { margin: 14px auto 8px; max-width: 220px; border-radius: 14px;
+      transition: max-width .38s cubic-bezier(.25,.46,.45,.94), background .3s ease, padding .3s ease; }
+    .anat-menu.open { max-width: 100%; background: var(--anat-soft); padding: 8px; }
+    .anat-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+      padding: 11px 14px; border-radius: 12px; border: none; color: #fff; font-family: inherit;
+      font-size: 14px; font-weight: 800; cursor: pointer; box-sizing: border-box; }
+    .anat-chev { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+    .anat-menu.open .anat-chev { transform: rotate(180deg); }
+    .anat-drop { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .38s cubic-bezier(.25,.46,.45,.94); }
+    .anat-menu.open .anat-drop { grid-template-rows: 1fr; }
+    .anat-drop-in { overflow: hidden; min-height: 0; }
+    .anat-body { padding: 12px 4px 4px; display: flex; flex-direction: column; gap: 12px; }
+    .anat-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .anat-mode { display: flex; align-items: center; gap: 10px; padding: 10px; transition: border-color .15s, background .15s, transform .1s; }
+    .anat-mode:active, .anat-plate:active { transform: translateY(1px); }
+    .anat-mode-ic { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s; }
+    .anat-mode-t { display: block; font-weight: 900; font-size: 14px; }
+    .anat-mode-d { display: block; font-weight: 600; font-size: 11.5px; color: #6E6E73; line-height: 1.3; }
+    .anat-seg { display: flex; background: rgba(0,0,0,0.06); border-radius: 11px; padding: 3px; gap: 3px; }
+    .anat-seg button { flex: 1; border: none; background: none; padding: 7px 4px; border-radius: 8px; font-family: inherit; font-weight: 800; font-size: 12.5px; color: #6E6E73; cursor: pointer; }
+    .anat-seg button.on { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .anat-sec { display: flex; align-items: center; justify-content: space-between; font-weight: 900; font-size: 13px; color: #1C1C1E; padding: 0 2px; margin-bottom: -4px; }
+    .anat-sec button { border: none; background: none; font-family: inherit; font-weight: 800; font-size: 12px; cursor: pointer; padding: 0; }
+    .anat-plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; max-height: 300px; overflow-y: auto; padding: 2px; }
+    .anat-plate { display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 6px; transition: border-color .15s, background .15s, transform .1s; }
+    .anat-thumb { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; background: #F2F2F7; flex-shrink: 0; }
+    .anat-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .anat-pt { display: block; font-weight: 800; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .anat-pm { display: block; font-weight: 600; font-size: 11px; color: #8E8E93; }
+    .anat-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid; flex-shrink: 0; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+    .anat-loading { font-size: 12.5px; font-weight: 700; color: #8E8E93; padding: 8px 2px; }
+    .anat-start { width: 100%; padding: 12px 14px; border: none; border-radius: 12px; color: #fff; font-family: inherit; font-size: 14.5px; font-weight: 900; cursor: pointer; box-sizing: border-box; }
+    .anat-start:disabled { cursor: default; filter: none; box-shadow: none; }
+    @media (hover: hover) {
+      .anat-mode:hover, .anat-plate:hover { border-color: var(--anat) !important; }
+    }
+    @media (max-width: 640px) { .anat-modes { grid-template-columns: 1fr; } .anat-plates { grid-template-columns: 1fr; } }
+    html.dark .anat-mode, html.dark .anat-plate { background: #2C2C2E !important; color: #fff !important; }
+    html.dark .anat-mode-d { color: #C7C7CC; }
+    html.dark .anat-sec { color: #fff; }
+    html.dark .anat-seg { background: rgba(255,255,255,0.08); }
+    html.dark .anat-seg button.on { background: #48484A; color: #fff !important; }
+    html.dark .anat-thumb, html.dark .anat-mode-ic { background-color: #3A3A3C; }
     /* Click → springy pop + a white flash that blooms out of the tap point.
        --rx comes from the click handler; the classes are CSS-only extras on a
        React element whose className prop never changes, so React leaves them. */
@@ -2151,6 +2195,141 @@ function ResetPasswordModal({ onClose }) {
   );
 }
 
+/* Vakken met anatomie-platen (anatomie_platen.js → anatomie.html?vak=<slug>). */
+const ANATOMIE_VAKKEN = new Set(["metabole_systemen", "bouw_en_bewegen", "circulatie_en_volumeregulatie", "homeostase"]);
+
+/* ── Anatomie-menu op de vakkaart ──────────────────────────────────────
+   Dicht: een smalle, gecentreerde knop in de vakkleur (zelfde 3D-stijl als een
+   toetsknop). Open: de knop groeit uit tot het menu van anatomie.html (spelvorm,
+   soort vragen, platen) en "Start" springt meteen de quiz in
+   (anatomie.html?vak=…&start=1). De keuzes delen dezelfde localStorage-sleutel
+   als het menu op anatomie.html, dus beide kanten blijven gelijk. */
+const ANAT_MODES = [
+  { id: "oefen", name: "Oefenen",   desc: "Alle nummers, met uitleg na elke vraag",
+    icon: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></> },
+  { id: "toets", name: "Toets",     desc: "20 vragen, score aan het eind",
+    icon: <><path d="M9 4h6v3H9z"/><path d="M15 5h3v16H6V5h3"/><path d="M9 13l2 2 4-4"/></> },
+  { id: "snel",  name: "Snelronde", desc: "60 seconden, zoveel mogelijk goed",
+    icon: <path d="M13 2L4 14h7l-1 8 9-12h-7z"/> },
+];
+const ANAT_TYPES = [{ id: "mix", name: "Door elkaar" }, { id: "mc", name: "Benoem" }, { id: "pick", name: "Wijs aan" }];
+let _anatPlatenPromise = null;
+function loadAnatomiePlaten() {
+  if (window.ANATOMIE_PLATEN) return Promise.resolve(window.ANATOMIE_PLATEN);
+  if (!_anatPlatenPromise) _anatPlatenPromise = new Promise((res, rej) => {
+    const sc = document.createElement("script");
+    sc.src = "anatomie_platen.js?v=" + Date.now().toString(36).slice(0, 6);
+    sc.onload = () => res(window.ANATOMIE_PLATEN || []);
+    sc.onerror = () => { _anatPlatenPromise = null; rej(); };
+    document.head.appendChild(sc);
+  });
+  return _anatPlatenPromise;
+}
+function AnatomieMenu({ slug, col }) {
+  const KEY = "vumed_anat_menu_v1_" + slug;
+  const [open, setOpen] = React.useState(false);
+  const [plates, setPlates] = React.useState(null);
+  const [menu, setMenu] = React.useState(() => {
+    let m = {}; try { m = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) {}
+    return Object.assign({ mode: "oefen", type: "mix", sel: null }, m);
+  });
+  const toggle = () => {
+    const next = !open; setOpen(next);
+    if (next && !plates) loadAnatomiePlaten().then(all => setPlates(all.filter(p => p.vak === slug))).catch(() => setPlates([]));
+  };
+  const update = (patch) => setMenu(m => {
+    const n = Object.assign({}, m, patch);
+    try { localStorage.setItem(KEY, JSON.stringify(n)); } catch (e) {}
+    return n;
+  });
+  const ids = plates ? plates.map(p => p.id) : [];
+  const sel = plates ? ((menu.sel || ids).filter(id => ids.includes(id))) : [];
+  const selN = plates ? plates.filter(p => sel.includes(p.id)).reduce((a, p) => a + p.items.length, 0) : 0;
+  let best = {}; try { best = JSON.parse(localStorage.getItem("vumed_anat_best_v1")) || {}; } catch (e) {}
+  const start = () => {
+    if (!selN) return;
+    try { localStorage.setItem(KEY, JSON.stringify(Object.assign({}, menu, { sel }))); sessionStorage.setItem("vumed_return", "vumed.html"); } catch (e) {}
+    window.location.href = "anatomie.html?vak=" + slug + "&start=1";
+  };
+  const startLabel = !selN ? "Kies minstens één plaat"
+    : menu.mode === "snel" ? "Start snelronde"
+    : menu.mode === "toets" ? `Start toets (${Math.min(20, selN)} vragen)` : `Start (${selN} vragen)`;
+  const chip = (on) => ({
+    border: `2px solid ${on ? col.bg : "rgba(0,0,0,0.08)"}`, background: on ? col.bg + "18" : "#fff",
+    color: "#1C1C1E", borderRadius: 12, cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+  });
+  return (
+    <div className={"anat-menu" + (open ? " open" : "")} style={{ "--anat": col.bg, "--anat-d": col.dark, "--anat-soft": col.bg + "14" }}>
+      <button className="year-btn anat-toggle" onClick={toggle} aria-expanded={open}
+        style={{ background: col.bg, borderBottom: `3px solid ${col.dark}` }}>
+        <span>Anatomie</span>
+        <svg className="anat-chev" width="14" height="14" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M4 6.5L9 11.5L14 6.5" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
+      <div className="anat-drop"><div className="anat-drop-in">
+        <div className="anat-body">
+          <div className="anat-modes">
+            {ANAT_MODES.map(m => {
+              const on = menu.mode === m.id;
+              return (
+                <button key={m.id} className="anat-mode" onClick={() => update({ mode: m.id })} style={chip(on)}>
+                  <span className="anat-mode-ic" style={{ background: on ? col.bg : "#F2F2F7", color: on ? "#fff" : "#8E8E93" }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">{m.icon}</svg>
+                  </span>
+                  <span style={{ minWidth: 0 }}>
+                    <span className="anat-mode-t">{m.name}</span>
+                    <span className="anat-mode-d">{m.desc}</span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          {menu.mode !== "snel" && (
+            <div className="anat-seg">
+              {ANAT_TYPES.map(t => (
+                <button key={t.id} className={menu.type === t.id ? "on" : ""} onClick={() => update({ type: t.id })}
+                  style={menu.type === t.id ? { color: col.dark } : null}>{t.name}</button>
+              ))}
+            </div>
+          )}
+          <div className="anat-sec">
+            <span>Platen</span>
+            {plates && plates.length > 0 && (
+              <button onClick={() => update({ sel: sel.length === ids.length ? [] : ids })} style={{ color: col.dark }}>
+                {sel.length === ids.length ? "Niets selecteren" : "Alles selecteren"}
+              </button>
+            )}
+          </div>
+          <div className="anat-plates">
+            {!plates && <div className="anat-loading">Platen laden…</div>}
+            {plates && plates.map(p => {
+              const on = sel.includes(p.id), b = best[p.id];
+              return (
+                <button key={p.id} className="anat-plate" style={chip(on)}
+                  onClick={() => update({ sel: on ? sel.filter(x => x !== p.id) : sel.concat(p.id) })}>
+                  <span className="anat-thumb"><img src={"anatomie/platen/" + p.id + "/basis.webp"} alt="" loading="lazy" /></span>
+                  <span style={{ minWidth: 0, flex: 1 }}>
+                    <span className="anat-pt">{p.short}</span>
+                    <span className="anat-pm">{p.items.length} structuren{b != null ? ` · beste ${b}%` : ""}</span>
+                  </span>
+                  <span className="anat-check" style={{ background: on ? col.bg : "transparent", borderColor: on ? col.bg : "#D1D1D6" }}>
+                    {on && <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+          <button className="year-btn anat-start" onClick={start} disabled={!selN}
+            style={{ background: selN ? col.bg : "#C7C7CC", borderBottom: `3px solid ${selN ? col.dark : "#AEAEB2"}` }}>
+            {startLabel}
+          </button>
+        </div>
+      </div></div>
+    </div>
+  );
+}
+
 /* ─────────────────────────── SUBJECT COLORS ─────────────────────────── */
 const SUBJECT_COLORS = {
   "Hematologie en Oncologie":             { bg: "#FF4B4B", dark: "#C42B2B", icon: "blood"       },
@@ -3130,6 +3309,7 @@ function SubjectCard({ subject, completedExams, onExamSelect, meta, custom, subj
             );
           })}
         </div>
+        {slug && ANATOMIE_VAKKEN.has(slug) && <AnatomieMenu slug={slug} col={col} />}
       </div>
     </div>
   );
